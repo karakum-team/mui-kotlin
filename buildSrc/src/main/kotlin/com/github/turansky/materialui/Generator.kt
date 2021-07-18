@@ -24,5 +24,37 @@ fun generateKotlinDeclarations(
     val targetDir = sourceDir.resolve("materialui")
         .also { it.mkdirs() }
 
-    println("TARGET DIR: $targetDir")
+    val directories = typesDir.listFiles { file -> file.isDirectory } ?: return
+
+    directories.asSequence()
+        .filter { it.name.isComponentName() }
+        .map { it.resolve("$it.d.ts") }
+        .forEach { generate(it, targetDir) }
+}
+
+private fun String.isComponentName(): Boolean {
+    if ("_" in this)
+        return false
+
+    val char = get(0)
+    return char == char.toUpperCase() && char != char.toLowerCase()
+}
+
+private fun generate(
+    definitionFile: File,
+    targetDir: File,
+) {
+    val name = definitionFile.name.substringBefore(".") + ".kt"
+
+    val annotations = MODULE_DECLARATION
+
+    val text = sequenceOf(
+        "// $GENERATOR_COMMENT",
+        annotations,
+        PACKAGE,
+    ).filter { it.isNotEmpty() }
+        .joinToString("\n\n")
+
+    targetDir.resolve(name)
+        .writeText(text)
 }
