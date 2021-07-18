@@ -29,5 +29,6 @@ private fun convertMembers(
     source: String,
 ): String {
     return source.splitToSequence(";\n")
+        .map { it.trimIndent() }
         .joinToString("\n\n")
 }
