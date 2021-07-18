@@ -28,7 +28,7 @@ fun generateKotlinDeclarations(
 
     directories.asSequence()
         .filter { it.name.isComponentName() }
-        .map { it.resolve("$it.d.ts") }
+        .map { it.resolve("${it.name}.d.ts") }
         .forEach { generate(it, targetDir) }
 }
 
