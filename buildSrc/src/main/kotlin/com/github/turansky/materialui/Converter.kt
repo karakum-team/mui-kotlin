@@ -28,7 +28,30 @@ internal fun convertDefinitions(
 private fun convertMembers(
     source: String,
 ): String {
-    return source.splitToSequence(";\n")
+    return source
+        .replace(";\n    ", "??--??")
+        .splitToSequence(";\n")
+        .map { it.replace("??--??", ";\n    ") }
         .map { it.trimIndent() }
+        .map { convertMember(it) }
         .joinToString("\n\n")
+}
+
+private fun convertMember(
+    source: String,
+): String {
+    return source.splitToSequence("*/\n")
+        .map { if (it.startsWith("/**")) "$it*/" else convertProperty(it) }
+        .joinToString("\n")
+}
+
+private fun convertProperty(
+    source: String,
+): String {
+    val name = source.substringBefore(": ")
+        .removeSuffix("?")
+
+    val type = source.substringAfter(": ")
+
+    return "var $name: $type"
 }
