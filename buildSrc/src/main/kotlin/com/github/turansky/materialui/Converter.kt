@@ -40,18 +40,26 @@ private fun convertMembers(
 private fun convertMember(
     source: String,
 ): String {
-    return source.splitToSequence("*/\n")
-        .map { if (it.startsWith("/**")) "$it*/" else convertProperty(it) }
+    val delimiter = if (source.startsWith("// ")) "\n" else "*/\n"
+
+    return source.splitToSequence(delimiter)
+        .map {
+            when {
+                it.startsWith("//") -> it
+                it.startsWith("/**") -> "$it*/"
+                else -> convertProperty(it)
+            }
+        }
         .joinToString("\n")
 }
 
 private fun convertProperty(
     source: String,
 ): String {
-    val name = source.substringBefore(": ")
+    val name = source.substringBefore(":")
         .removeSuffix("?")
 
-    val type = source.substringAfter(": ")
+    val type = kotlinType(source.substringAfter(":"))
 
     return "var $name: $type"
 }
