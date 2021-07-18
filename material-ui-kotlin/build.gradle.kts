@@ -1,5 +1,6 @@
 plugins {
     id("com.github.turansky.kfc.library")
+    `material-ui-declarations`
 }
 
 dependencies {
