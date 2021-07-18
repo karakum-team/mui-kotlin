@@ -17,7 +17,7 @@ internal fun convertDefinitions(
             .substringAfter("{\n")
             .substringBefore("\n}")
 
-        "external interface $propsType {\n" +
+        "external interface $propsType: react.RProps {\n" +
                 members +
                 "\n}"
     } else ""
