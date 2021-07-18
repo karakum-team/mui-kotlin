@@ -13,14 +13,21 @@ internal fun convertDefinitions(
     val propsType = "${name}Props"
     val propsContent = content.substringAfter("export interface $propsType", "")
     val props = if (propsContent.isNotEmpty() && propsContent[0] != '\n') {
-        val members = propsContent
+        val membersContent = propsContent
             .substringAfter("{\n")
-            .substringBefore("\n}")
+            .substringBefore(";\n}")
 
         "external interface $propsType: react.RProps {\n" +
-                members +
+                convertMembers(membersContent) +
                 "\n}"
     } else ""
 
     return props
+}
+
+private fun convertMembers(
+    source: String,
+): String {
+    return source.splitToSequence(";\n")
+        .joinToString("\n\n")
 }
