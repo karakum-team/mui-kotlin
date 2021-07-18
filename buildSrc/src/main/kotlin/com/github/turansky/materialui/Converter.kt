@@ -58,6 +58,7 @@ private fun convertProperty(
 ): String {
     val name = source.substringBefore(":")
         .removeSuffix("?")
+        .let { if (it == "in") "`$it`" else it }
 
     val type = kotlinType(source.substringAfter(":"))
 
