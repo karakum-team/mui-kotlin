@@ -45,6 +45,7 @@ private fun generate(
     targetDir: File,
 ) {
     val name = definitionFile.name.substringBefore(".") + ".kt"
+    val body = convertDefinitions(definitionFile)
 
     val annotations = MODULE_DECLARATION
 
@@ -52,6 +53,7 @@ private fun generate(
         "// $GENERATOR_COMMENT",
         annotations,
         PACKAGE,
+        body,
     ).filter { it.isNotEmpty() }
         .joinToString("\n\n")
 
