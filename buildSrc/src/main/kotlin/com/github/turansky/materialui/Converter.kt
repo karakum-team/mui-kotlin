@@ -10,19 +10,31 @@ internal fun convertDefinitions(
     val content = definitionFile.readText()
         .replace("\r\n", "\n")
 
-    val propsType = "${name}Props"
-    val propsContent = content.substringAfter("export interface $propsType", "")
-    val props = if (propsContent.isNotEmpty() && propsContent[0] != '\n') {
+    val declarations = mutableListOf<String>()
+
+    val propsName = "${name}Props"
+    val propsContent = content.substringAfter("export interface $propsName", "")
+    if (propsContent.isNotEmpty() && propsContent[0] != '\n') {
         val membersContent = propsContent
             .substringAfter("{\n")
             .substringBefore(";\n}")
 
-        "external interface $propsType: react.RProps {\n" +
+        val props = "external interface $propsName: react.RProps {\n" +
                 convertMembers(membersContent) +
                 "\n}"
-    } else ""
 
-    return props
+        declarations.add(props)
+    }
+
+    val componentDeclaration = "export default function $name(props: $propsName): JSX.Element;"
+    if (componentDeclaration in content) {
+        val comment = content.substringBefore("\n$componentDeclaration")
+            .substringAfterLast("\n\n")
+
+        declarations.add("$comment\n@JsName(\"default\")\nexternal val $name: react.FC<$propsName>")
+    }
+
+    return declarations.joinToString("\n\n")
 }
 
 private fun convertMembers(
