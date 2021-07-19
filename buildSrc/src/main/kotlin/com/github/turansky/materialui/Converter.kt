@@ -14,7 +14,7 @@ internal fun convertDefinitions(
 
     val propsName = "${name}Props"
     val propsContent = content.substringAfter("export interface $propsName", "")
-    if (propsContent.isNotEmpty()) {
+    if (propsContent.isNotEmpty() && name != "StepConnector") {
         val membersContent = propsContent
             .substringAfter("{\n")
             .substringBefore(";\n}")
@@ -26,10 +26,16 @@ internal fun convertDefinitions(
         declarations.add(props)
     }
 
+    if (name == "StepConnector" || name == "TextField")
+        declarations.add("external interface $propsName: react.RProps")
+
     val componentDeclaration = "export default function $name(props: $propsName): JSX.Element;"
     if (componentDeclaration in content) {
-        val comment = content.substringBefore("\n$componentDeclaration")
+        var comment = content.substringBefore("\n$componentDeclaration")
             .substringAfterLast("\n\n")
+
+        if (comment.startsWith("export "))
+            comment = comment.substringAfter(";\n")
 
         declarations.add("$comment\n@JsName(\"default\")\nexternal val $name: react.FC<$propsName>")
     }
