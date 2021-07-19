@@ -70,9 +70,14 @@ private fun convertProperty(
 ): String {
     val name = source.substringBefore(":")
         .removeSuffix("?")
-        .let { if (it == "in") "`$it`" else it }
+        .let { kotlinName(it) }
 
     val type = kotlinType(source.substringAfter(":").removePrefix(" "))
 
     return "var $name: $type"
 }
+
+private fun kotlinName(name: String): String =
+    if (name == "in" || name.startsWith("'")) {
+        "`${name.removeSurrounding("'")}`"
+    } else name
