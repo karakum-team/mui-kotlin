@@ -5,6 +5,44 @@
 
 package materialui
 
+external interface MobileStepperProps : react.RProps {
+    /**
+     * Set the active step (zero based index).
+     * Defines which dot is highlighted when the variant is 'dots'.
+     */
+    var activeStep: Number
+
+    /**
+     * A back button element. For instance, it can be a `Button` or an `IconButton`.
+     */
+    var backButton: dynamic
+
+    /**
+     * Props applied to the `LinearProgress` element.
+     */
+    var LinearProgressProps: dynamic
+
+    /**
+     * A next button element. For instance, it can be a `Button` or an `IconButton`.
+     */
+    var nextButton: dynamic
+
+    /**
+     * Set the positioning type.
+     */
+    var position: dynamic /* 'bottom' | 'top' | 'static' */
+
+    /**
+     * The total steps.
+     */
+    var steps: Number
+
+    /**
+     * The variant to use.
+     */
+    var variant: dynamic /* 'text' | 'dots' | 'progress' */
+}
+
 /**
  *
  * Demos:

@@ -5,6 +5,8 @@
 
 package materialui
 
+external interface StepConnectorProps : react.RProps
+
 /**
  *
  * Demos:

@@ -5,6 +5,18 @@
 
 package materialui
 
+external interface ExpansionPanelActionsProps : react.RProps {
+    /**
+     * The content of the component.
+     */
+    var children: dynamic
+
+    /**
+     * If `true`, the actions do not have additional margin.
+     */
+    var disableSpacing: Boolean
+}
+
 /**
  * ⚠️ The ExpansionPanelActions component was renamed to AccordionActions to use a more common naming convention.
  *

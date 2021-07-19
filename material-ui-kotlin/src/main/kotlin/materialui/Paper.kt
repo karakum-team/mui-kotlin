@@ -5,6 +5,35 @@
 
 package materialui
 
+external interface PaperProps : react.RProps {
+    /**
+     * The content of the component.
+     */
+    var children: dynamic
+
+    /**
+     * The component used for the root node.
+     * Either a string to use a HTML element or a component.
+     */
+    var component: dynamic
+
+    /**
+     * Shadow depth, corresponds to `dp` in the spec.
+     * It accepts values between 0 and 24 inclusive.
+     */
+    var elevation: Number
+
+    /**
+     * If `true`, rounded corners are disabled.
+     */
+    var square: Boolean
+
+    /**
+     * The variant to use.
+     */
+    var variant: dynamic /* 'elevation' | 'outlined' */
+}
+
 /**
  *
  * Demos:

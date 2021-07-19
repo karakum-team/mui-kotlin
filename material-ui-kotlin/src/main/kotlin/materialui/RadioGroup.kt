@@ -5,6 +5,32 @@
 
 package materialui
 
+external interface RadioGroupProps : react.RProps {
+    /**
+     * The default `input` element value. Use when the component is not controlled.
+     */
+    var defaultValue: dynamic
+
+    /**
+     * The name used to reference the value of the control.
+     * If you don't provide this prop, it falls back to a randomly generated name.
+     */
+    var name: String
+
+    /**
+     * Callback fired when a radio button is selected.
+     *
+     * @param {object} event The event source of the callback.
+     * You can pull out the new value by accessing `event.target.value` (string).
+     */
+    var onChange: dynamic
+
+    /**
+     * Value of the selected radio button. The DOM API casts this to a string.
+     */
+    var value: Any
+}
+
 /**
  *
  * Demos:

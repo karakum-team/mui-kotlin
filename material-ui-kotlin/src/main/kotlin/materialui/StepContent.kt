@@ -5,6 +5,32 @@
 
 package materialui
 
+external interface StepContentProps : react.RProps {
+    /**
+     * Step content.
+     */
+    var children: dynamic
+
+    /**
+     * The component used for the transition.
+     * [Follow this guide](/components/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
+     */
+    var TransitionComponent: dynamic
+
+    /**
+     * Adjust the duration of the content expand transition.
+     * Passed as a prop to the transition component.
+     *
+     * Set to 'auto' to automatically calculate transition time based on height.
+     */
+    var transitionDuration: dynamic
+
+    /**
+     * Props applied to the [`Transition`](http://reactcommunity.org/react-transition-group/transition#Transition-props) element.
+     */
+    var TransitionProps: dynamic
+}
+
 /**
  *
  * Demos:

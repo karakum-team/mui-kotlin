@@ -5,6 +5,8 @@
 
 package materialui
 
+external interface TextFieldProps : react.RProps
+
 /**
  * The `TextField` is a convenience wrapper for the most common cases (80%).
  * It cannot be all things to all people, otherwise the API would grow out of control.

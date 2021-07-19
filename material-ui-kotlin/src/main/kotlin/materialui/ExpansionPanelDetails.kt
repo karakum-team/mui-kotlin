@@ -5,6 +5,13 @@
 
 package materialui
 
+external interface ExpansionPanelDetailsProps : react.RProps {
+    /**
+     * The content of the expansion panel details.
+     */
+    var children: dynamic
+}
+
 /**
  * ⚠️ The ExpansionPanelDetails component was renamed to AccordionDetails to use a more common naming convention.
  *

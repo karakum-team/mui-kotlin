@@ -5,6 +5,34 @@
 
 package materialui
 
+external interface RadioProps : react.RProps {
+    /**
+     * The icon to display when the component is checked.
+     */
+    var checkedIcon: dynamic
+
+    /**
+     * The color of the component. It supports those theme colors that make sense for this component.
+     */
+    var color: dynamic /* 'primary' | 'secondary' | 'default' */
+
+    /**
+     * If `true`, the radio will be disabled.
+     */
+    var disabled: Boolean
+
+    /**
+     * The icon to display when the component is unchecked.
+     */
+    var icon: dynamic
+
+    /**
+     * The size of the radio.
+     * `small` is equivalent to the dense radio styling.
+     */
+    var size: dynamic /* 'small' | 'medium' */
+}
+
 /**
  *
  * Demos:

@@ -5,6 +5,18 @@
 
 package materialui
 
+external interface FormGroupProps : react.RProps {
+    /**
+     * The content of the component.
+     */
+    var children: dynamic
+
+    /**
+     * Display group of elements in a compact row.
+     */
+    var row: Boolean
+}
+
 /**
  * `FormGroup` wraps controls such as `Checkbox` and `Switch`.
  * It provides compact row layout.

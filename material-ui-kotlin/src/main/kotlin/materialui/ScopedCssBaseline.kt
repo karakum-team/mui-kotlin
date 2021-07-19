@@ -5,6 +5,13 @@
 
 package materialui
 
+external interface ScopedCssBaselineProps : react.RProps {
+    /**
+     * The content of the component.
+     */
+    var children: dynamic
+}
+
 /**
  *
  * Demos:

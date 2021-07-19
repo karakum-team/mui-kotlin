@@ -5,6 +5,18 @@
 
 package materialui
 
+external interface DialogContentProps : react.RProps {
+    /**
+     * The content of the component.
+     */
+    var children: dynamic
+
+    /**
+     * Display the top and bottom dividers.
+     */
+    var dividers: Boolean
+}
+
 /**
  *
  * Demos:

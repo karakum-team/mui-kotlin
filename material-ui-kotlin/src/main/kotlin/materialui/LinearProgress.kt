@@ -5,6 +5,31 @@
 
 package materialui
 
+external interface LinearProgressProps : react.RProps {
+    /**
+     * The color of the component. It supports those theme colors that make sense for this component.
+     */
+    var color: dynamic /* 'primary' | 'secondary' */
+
+    /**
+     * The value of the progress indicator for the determinate and buffer variants.
+     * Value between 0 and 100.
+     */
+    var value: Number
+
+    /**
+     * The value for the buffer variant.
+     * Value between 0 and 100.
+     */
+    var valueBuffer: Number
+
+    /**
+     * The variant to use.
+     * Use indeterminate or query when there is no progress value.
+     */
+    var variant: dynamic /* 'determinate' | 'indeterminate' | 'buffer' | 'query' */
+}
+
 /**
  * ## ARIA
  *

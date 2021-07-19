@@ -5,6 +5,19 @@
 
 package materialui
 
+external interface DialogTitleProps : react.RProps {
+    /**
+     * The content of the component.
+     */
+    var children: dynamic
+
+    /**
+     * If `true`, the children won't be wrapped by a typography component.
+     * For instance, this can be useful to render an h4 instead of the default h2.
+     */
+    var disableTypography: Boolean
+}
+
 /**
  *
  * Demos:

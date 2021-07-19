@@ -5,6 +5,13 @@
 
 package materialui
 
+external interface AccordionDetailsProps : react.RProps {
+    /**
+     * The content of the accordion details.
+     */
+    var children: dynamic
+}
+
 /**
  *
  * Demos:

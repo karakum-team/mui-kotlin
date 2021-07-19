@@ -5,6 +5,13 @@
 
 package materialui
 
+external interface ListItemSecondaryActionProps : react.RProps {
+    /**
+     * The content of the component, normally an `IconButton` or selection control.
+     */
+    var children: dynamic
+}
+
 /**
  * Must be used as the last child of ListItem to function properly.
  * Demos:

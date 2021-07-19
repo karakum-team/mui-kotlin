@@ -5,6 +5,23 @@
 
 package materialui
 
+external interface SnackbarContentProps : react.RProps {
+    /**
+     * The action to display. It renders after the message, at the end of the snackbar.
+     */
+    var action: dynamic
+
+    /**
+     * The message to display.
+     */
+    var message: dynamic
+
+    /**
+     * The ARIA role attribute of the element.
+     */
+    var role: dynamic
+}
+
 /**
  *
  * Demos:

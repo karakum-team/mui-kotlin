@@ -5,7 +5,28 @@
 
 package materialui
 
-export type TabScrollButtonClassKey = 'root' | 'vertical' | 'disabled'
+external interface TabScrollButtonProps : react.RProps {
+    /**
+     * The content of the component.
+     */
+    var children: dynamic
+
+    /**
+     * Which direction should the button indicate?
+     */
+    var direction: dynamic /* 'left' | 'right' */
+
+    /**
+     * If `true`, the element will be disabled.
+     */
+    var disabled: Boolean
+
+    /**
+     * The tabs orientation (layout flow direction).
+     */
+    var orientation: dynamic /* 'horizontal' | 'vertical' */
+}
+
 /**
  *
  * Demos:

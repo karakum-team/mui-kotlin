@@ -5,6 +5,14 @@
 
 package materialui
 
+external interface ListItemIconProps : react.RProps {
+    /**
+     * The content of the component, normally `Icon`, `SvgIcon`,
+     * or a `@material-ui/icons` SVG icon element.
+     */
+    var children: dynamic
+}
+
 /**
  * A simple wrapper to apply `List` styles to an `Icon` or `SvgIcon`.
  * Demos:
