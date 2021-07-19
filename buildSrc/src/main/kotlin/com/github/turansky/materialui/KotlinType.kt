@@ -30,5 +30,8 @@ internal fun kotlinType(
     if (promiseResult != type)
         return "$PROMISE<${kotlinType(promiseResult)}>"
 
+    if (type.startsWith("'"))
+        return "$DYNAMIC /* $type */"
+
     return DYNAMIC
 }
