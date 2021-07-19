@@ -14,7 +14,7 @@ internal fun convertDefinitions(
 
     val propsName = "${name}Props"
     val propsContent = content.substringAfter("export interface $propsName", "")
-    if (propsContent.isNotEmpty() && propsContent[0] != '\n') {
+    if (propsContent.isNotEmpty()) {
         val membersContent = propsContent
             .substringAfter("{\n")
             .substringBefore(";\n}")
@@ -74,7 +74,11 @@ private fun convertProperty(
 
     val type = kotlinType(source.substringAfter(":").removePrefix(" "))
 
-    return "var $name: $type"
+    var declaration = "var $name: $type"
+    if ("-" in name) {
+        declaration = "// " + declaration
+    }
+    return declaration
 }
 
 private fun kotlinName(name: String): String =
