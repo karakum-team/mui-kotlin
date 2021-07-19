@@ -43,9 +43,11 @@ private fun convertMembers(
     return source
         .replace(";\n    ", "??11??")
         .replace(";\n  })", "??22??")
+        .replace(";\n  }[", "??33??")
         .splitToSequence(";\n")
         .map { it.replace("??11??", ";\n    ") }
         .map { it.replace("??22??", ";\n  })") }
+        .map { it.replace("??33??", ";\n  }[") }
         .map { it.trimIndent() }
         .map { convertMember(it) }
         .joinToString("\n\n")
