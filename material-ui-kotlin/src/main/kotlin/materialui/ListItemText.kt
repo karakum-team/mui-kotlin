@@ -17,13 +17,13 @@ external interface ListItemTextProps : react.RProps {
      * the `children` (or `primary`) text, and optional `secondary` text
      * with the Typography component.
      */
-    var disableTypography: dynamic
+    var disableTypography: Boolean
 
     /**
      * If `true`, the children will be indented.
      * This should be used if there is no left avatar or left icon.
      */
-    var inset: dynamic
+    var inset: Boolean
 
     /**
      * The main content element.

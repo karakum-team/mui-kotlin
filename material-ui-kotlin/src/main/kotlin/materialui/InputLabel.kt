@@ -16,22 +16,22 @@ external interface InputLabelProps : react.RProps {
     /**
      * If `true`, the transition animation is disabled.
      */
-    var disableAnimation: dynamic
+    var disableAnimation: Boolean
 
     /**
      * If `true`, apply disabled class.
      */
-    var disabled: dynamic
+    var disabled: Boolean
 
     /**
      * If `true`, the label will be displayed in an error state.
      */
-    var error: dynamic
+    var error: Boolean
 
     /**
      * If `true`, the input of this label is focused.
      */
-    var focused: dynamic
+    var focused: Boolean
 
     /**
      * If `dense`, will adjust vertical spacing. This is normally obtained via context from
@@ -42,12 +42,12 @@ external interface InputLabelProps : react.RProps {
     /**
      * if `true`, the label will indicate that the input is required.
      */
-    var required: dynamic
+    var required: Boolean
 
     /**
      * If `true`, the label is shrunk.
      */
-    var shrink: dynamic
+    var shrink: Boolean
 
     /**
      * The variant to use.

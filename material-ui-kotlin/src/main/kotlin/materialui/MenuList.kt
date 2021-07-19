@@ -9,13 +9,13 @@ external interface MenuListProps : react.RProps {
     /**
      * If `true`, will focus the `[role="menu"]` container and move into tab order.
      */
-    var autoFocus: dynamic
+    var autoFocus: Boolean
 
     /**
      * If `true`, will focus the first menuitem if `variant="menu"` or selected item
      * if `variant="selectedMenu"`.
      */
-    var autoFocusItem: dynamic
+    var autoFocusItem: Boolean
 
     /**
      * MenuList contents, normally `MenuItem`s.
@@ -25,12 +25,12 @@ external interface MenuListProps : react.RProps {
     /**
      * If `true`, will allow focus on disabled items.
      */
-    var disabledItemsFocusable: dynamic
+    var disabledItemsFocusable: Boolean
 
     /**
      * If `true`, the menu items will not wrap focus.
      */
-    var disableListWrap: dynamic
+    var disableListWrap: Boolean
 
     /**
      * The variant to use. Use `menu` to prevent selected items from impacting the initial focus

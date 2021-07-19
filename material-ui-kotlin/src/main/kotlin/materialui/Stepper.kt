@@ -10,13 +10,13 @@ external interface StepperProps : react.RProps {
      * Set the active step (zero based index).
      * Set to -1 to disable all the steps.
      */
-    var activeStep: dynamic
+    var activeStep: Number
 
     /**
      * If set to 'true' and orientation is horizontal,
      * then the step label will be positioned under the icon.
      */
-    var alternativeLabel: dynamic
+    var alternativeLabel: Boolean
 
     /**
      * Two or more `<Step />` components.
@@ -31,7 +31,7 @@ external interface StepperProps : react.RProps {
     /**
      * If set the `Stepper` will not assist in controlling steps for linear flow.
      */
-    var nonLinear: dynamic
+    var nonLinear: Boolean
 
     /**
      * The stepper orientation (layout flow direction).

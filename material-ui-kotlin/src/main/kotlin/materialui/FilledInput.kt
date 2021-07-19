@@ -9,5 +9,5 @@ external interface FilledInputProps : react.RProps {
     /**
      * If `true`, the input will not have an underline.
      */
-    var disableUnderline: dynamic
+    var disableUnderline: Boolean
 }

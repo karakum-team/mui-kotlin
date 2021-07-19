@@ -41,7 +41,7 @@ external interface PopperProps : react.RProps {
      * This prop can be useful in SEO situation or
      * when you want to maximize the responsiveness of the Popper.
      */
-    var keepMounted: dynamic
+    var keepMounted: Boolean
 
     /**
      * Popper.js is based on a "plugin-like" architecture,
@@ -52,12 +52,12 @@ external interface PopperProps : react.RProps {
      * For this reason, modifiers should be very performant to avoid bottlenecks.
      * To learn how to create a modifier, [read the modifiers documentation](https://popper.js.org/docs/v1/#modifiers).
      */
-    var modifiers: dynamic
+    var modifiers: Any
 
     /**
      * If `true`, the popper is visible.
      */
-    var open: dynamic
+    var open: Boolean
 
     /**
      * Popper placement.
@@ -67,7 +67,7 @@ external interface PopperProps : react.RProps {
     /**
      * Options provided to the [`popper.js`](https://popper.js.org/docs/v1/) instance.
      */
-    var popperOptions: dynamic
+    var popperOptions: Any
 
     /**
      * A ref that points to the used popper instance.
@@ -77,5 +77,5 @@ external interface PopperProps : react.RProps {
     /**
      * Help supporting a react-transition-group/Transition component.
      */
-    var transition: dynamic
+    var transition: Boolean
 }

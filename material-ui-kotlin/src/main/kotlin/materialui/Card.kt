@@ -9,5 +9,5 @@ external interface CardProps : react.RProps {
     /**
      * If `true`, the card will use raised styling.
      */
-    var raised: dynamic
+    var raised: Boolean
 }

@@ -24,7 +24,7 @@ external interface PortalProps : react.RProps {
      * Disable the portal behavior.
      * The children stay within it's parent DOM hierarchy.
      */
-    var disablePortal: dynamic
+    var disablePortal: Boolean
 
     /**
      * Callback fired once the children has been mounted into the `container`.

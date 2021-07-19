@@ -16,10 +16,10 @@ external interface OutlinedInputProps : react.RProps {
      * The width of the label. Is ignored if `label` is provided. Prefer `label`
      * if the input label appears with a strike through.
      */
-    var labelWidth: dynamic
+    var labelWidth: Number
 
     /**
      * If `true`, the outline is notched to accommodate the label.
      */
-    var notched: dynamic
+    var notched: Boolean
 }

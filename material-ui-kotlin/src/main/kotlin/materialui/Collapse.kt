@@ -33,12 +33,12 @@ external interface CollapseProps : react.RProps {
      * use `unstable_createStrictModeTheme`,
      * and can't forward the ref in the passed `Component`.
      */
-    var disableStrictModeCompat: dynamic
+    var disableStrictModeCompat: Boolean
 
     /**
      * If `true`, the component will transition in.
      */
-    var `in`: dynamic
+    var `in`: Boolean
 
     /**
      * The duration for the transition, in milliseconds.

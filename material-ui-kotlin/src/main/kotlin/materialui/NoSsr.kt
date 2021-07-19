@@ -15,7 +15,7 @@ external interface NoSsrProps : react.RProps {
      * If `true`, the component will not only prevent server-side rendering.
      * It will also defer the rendering of the children into a different screen frame.
      */
-    var defer: dynamic
+    var defer: Boolean
 
     /**
      * The fallback content to display.

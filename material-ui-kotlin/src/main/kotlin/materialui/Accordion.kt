@@ -14,18 +14,18 @@ external interface AccordionProps : react.RProps {
     /**
      * If `true`, expands the accordion by default.
      */
-    var defaultExpanded: dynamic
+    var defaultExpanded: Boolean
 
     /**
      * If `true`, the accordion will be displayed in a disabled state.
      */
-    var disabled: dynamic
+    var disabled: Boolean
 
     /**
      * If `true`, expands the accordion, otherwise collapse it.
      * Setting this prop enables control over the accordion.
      */
-    var expanded: dynamic
+    var expanded: Boolean
 
     /**
      * Callback fired when the expand/collapse state is changed.

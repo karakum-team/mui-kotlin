@@ -28,22 +28,22 @@ external interface HiddenProps : react.RProps {
     /**
      * If `true`, screens this size and down will be hidden.
      */
-    var lgDown: dynamic
+    var lgDown: Boolean
 
     /**
      * If `true`, screens this size and up will be hidden.
      */
-    var lgUp: dynamic
+    var lgUp: Boolean
 
     /**
      * If `true`, screens this size and down will be hidden.
      */
-    var mdDown: dynamic
+    var mdDown: Boolean
 
     /**
      * If `true`, screens this size and up will be hidden.
      */
-    var mdUp: dynamic
+    var mdUp: Boolean
 
     /**
      * Hide the given breakpoint(s).
@@ -53,30 +53,30 @@ external interface HiddenProps : react.RProps {
     /**
      * If `true`, screens this size and down will be hidden.
      */
-    var smDown: dynamic
+    var smDown: Boolean
 
     /**
      * If `true`, screens this size and up will be hidden.
      */
-    var smUp: dynamic
+    var smUp: Boolean
 
     /**
      * If `true`, screens this size and down will be hidden.
      */
-    var xlDown: dynamic
+    var xlDown: Boolean
 
     /**
      * If `true`, screens this size and up will be hidden.
      */
-    var xlUp: dynamic
+    var xlUp: Boolean
 
     /**
      * If `true`, screens this size and down will be hidden.
      */
-    var xsDown: dynamic
+    var xsDown: Boolean
 
     /**
      * If `true`, screens this size and up will be hidden.
      */
-    var xsUp: dynamic
+    var xsUp: Boolean
 }

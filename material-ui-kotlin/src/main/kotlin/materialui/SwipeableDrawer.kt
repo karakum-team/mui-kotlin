@@ -6,23 +6,23 @@
 package materialui
 
 external interface SwipeableDrawerProps : react.RProps {
-    var disableBackdropTransition: dynamic
+    var disableBackdropTransition: Boolean
 
-    var disableDiscovery: dynamic
+    var disableDiscovery: Boolean
 
-    var disableSwipeToOpen: dynamic
+    var disableSwipeToOpen: Boolean
 
-    var hysteresis: dynamic
+    var hysteresis: Number
 
-    var minFlingVelocity: dynamic
+    var minFlingVelocity: Number
 
     var onClose: dynamic
 
     var onOpen: dynamic
 
-    var open: dynamic
+    var open: Boolean
 
-    var SwipeAreaProps: dynamic
+    var SwipeAreaProps: Any
 
-    var swipeAreaWidth: dynamic
+    var swipeAreaWidth: Number
 }

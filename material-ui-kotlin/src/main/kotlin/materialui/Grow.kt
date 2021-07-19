@@ -16,12 +16,12 @@ external interface GrowProps : react.RProps {
      * use `unstable_createStrictModeTheme`,
      * and can't forward the ref in the child component.
      */
-    var disableStrictModeCompat: dynamic
+    var disableStrictModeCompat: Boolean
 
     /**
      * If `true`, show the component; triggers the enter or exit animation.
      */
-    var `in`: dynamic
+    var `in`: Boolean
 
     var ref: dynamic
 

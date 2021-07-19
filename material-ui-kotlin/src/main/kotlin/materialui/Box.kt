@@ -9,7 +9,7 @@ external interface BoxProps : react.RProps {
     // styled API
     var component: dynamic
 
-    var clone: dynamic
+    var clone: Boolean
 
     /**
      * @deprecated
