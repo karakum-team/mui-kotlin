@@ -4,3 +4,37 @@
 @file:JsNonModule
 
 package materialui
+
+external interface ImageListItemBarProps : react.RProps {
+    /**
+     * An IconButton element to be used as secondary action target
+     * (primary action target is the item itself).
+     */
+    var actionIcon: dynamic
+
+    /**
+     * Position of secondary action IconButton.
+     */
+    var actionPosition: dynamic
+
+    /**
+     * Position of the title bar.
+     */
+    var position: dynamic
+
+    /**
+     * String or element serving as subtitle (support text).
+     */
+    var subtitle: dynamic
+
+    /**
+     * Title to be displayed on item.
+     */
+    var title: dynamic
+
+    /**
+     * Position of the title bar.
+     * @deprecated Use position instead.
+     */
+    var titlePosition: dynamic
+}

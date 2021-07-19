@@ -4,3 +4,10 @@
 @file:JsNonModule
 
 package materialui
+
+external interface CssBaselineProps : react.RProps {
+    /**
+     * You can wrap a node.
+     */
+    var children: dynamic
+}

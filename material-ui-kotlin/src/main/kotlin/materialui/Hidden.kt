@@ -4,3 +4,79 @@
 @file:JsNonModule
 
 package materialui
+
+external interface HiddenProps : react.RProps {
+    /**
+     * Specify which implementation to use.  'js' is the default, 'css' works better for
+     * server-side rendering.
+     */
+    var implementation: dynamic
+
+    /**
+     * You can use this prop when choosing the `js` implementation with server-side rendering.
+     *
+     * As `window.innerWidth` is unavailable on the server,
+     * we default to rendering an empty component during the first mount.
+     * You might want to use an heuristic to approximate
+     * the screen width of the client browser screen width.
+     *
+     * For instance, you could be using the user-agent or the client-hints.
+     * https://caniuse.com/#search=client%20hint
+     */
+    var initialWidth: dynamic
+
+    /**
+     * If `true`, screens this size and down will be hidden.
+     */
+    var lgDown: dynamic
+
+    /**
+     * If `true`, screens this size and up will be hidden.
+     */
+    var lgUp: dynamic
+
+    /**
+     * If `true`, screens this size and down will be hidden.
+     */
+    var mdDown: dynamic
+
+    /**
+     * If `true`, screens this size and up will be hidden.
+     */
+    var mdUp: dynamic
+
+    /**
+     * Hide the given breakpoint(s).
+     */
+    var only: dynamic
+
+    /**
+     * If `true`, screens this size and down will be hidden.
+     */
+    var smDown: dynamic
+
+    /**
+     * If `true`, screens this size and up will be hidden.
+     */
+    var smUp: dynamic
+
+    /**
+     * If `true`, screens this size and down will be hidden.
+     */
+    var xlDown: dynamic
+
+    /**
+     * If `true`, screens this size and up will be hidden.
+     */
+    var xlUp: dynamic
+
+    /**
+     * If `true`, screens this size and down will be hidden.
+     */
+    var xsDown: dynamic
+
+    /**
+     * If `true`, screens this size and up will be hidden.
+     */
+    var xsUp: dynamic
+}

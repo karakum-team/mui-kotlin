@@ -4,3 +4,7 @@
 @file:JsNonModule
 
 package materialui
+
+external interface RootRefProps : react.RProps {
+    var rootRef: dynamic
+}

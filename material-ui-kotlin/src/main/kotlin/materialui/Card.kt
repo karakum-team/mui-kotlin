@@ -4,3 +4,10 @@
 @file:JsNonModule
 
 package materialui
+
+external interface CardProps : react.RProps {
+    /**
+     * If `true`, the card will use raised styling.
+     */
+    var raised: dynamic
+}

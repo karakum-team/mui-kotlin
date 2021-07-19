@@ -4,3 +4,10 @@
 @file:JsNonModule
 
 package materialui
+
+external interface ListItemAvatarProps : react.RProps {
+    /**
+     * The content of the component – normally `Avatar`.
+     */
+    var children: dynamic
+}
