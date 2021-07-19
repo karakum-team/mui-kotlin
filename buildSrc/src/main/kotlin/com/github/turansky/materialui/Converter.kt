@@ -60,7 +60,7 @@ private fun convertProperty(
         .removeSuffix("?")
         .let { if (it == "in") "`$it`" else it }
 
-    val type = kotlinType(source.substringAfter(":"))
+    val type = kotlinType(source.substringAfter(":").removePrefix(" "))
 
     return "var $name: $type"
 }
