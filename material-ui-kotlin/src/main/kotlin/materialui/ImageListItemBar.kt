@@ -38,3 +38,16 @@ external interface ImageListItemBarProps : react.RProps {
      */
     var titlePosition: dynamic /* 'top' | 'bottom' */
 }
+
+/**
+ *
+ * Demos:
+ *
+ * - [Image List](https://material-ui.com/components/image-list/)
+ *
+ * API:
+ *
+ * - [ImageListItemBar API](https://material-ui.com/api/image-list-item-bar/)
+ */
+@JsName("default")
+external val ImageListItemBar: react.FC<ImageListItemBarProps>

@@ -11,3 +11,17 @@ external interface CardProps : react.RProps {
      */
     var raised: Boolean
 }
+
+/**
+ *
+ * Demos:
+ *
+ * - [Cards](https://material-ui.com/components/cards/)
+ *
+ * API:
+ *
+ * - [Card API](https://material-ui.com/api/card/)
+ * - inherits [Paper API](https://material-ui.com/api/paper/)
+ */
+@JsName("default")
+external val Card: react.FC<CardProps>

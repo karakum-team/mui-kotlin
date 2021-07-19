@@ -79,3 +79,18 @@ external interface PopperProps : react.RProps {
      */
     var transition: Boolean
 }
+
+/**
+ * Poppers rely on the 3rd party library [Popper.js](https://popper.js.org/docs/v1/) for positioning.
+ * Demos:
+ *
+ * - [Autocomplete](https://material-ui.com/components/autocomplete/)
+ * - [Menus](https://material-ui.com/components/menus/)
+ * - [Popper](https://material-ui.com/components/popper/)
+ *
+ * API:
+ *
+ * - [Popper API](https://material-ui.com/api/popper/)
+ */
+@JsName("default")
+external val Popper: react.FC<PopperProps>

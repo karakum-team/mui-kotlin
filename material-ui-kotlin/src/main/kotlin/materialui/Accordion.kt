@@ -46,3 +46,17 @@ external interface AccordionProps : react.RProps {
      */
     var TransitionProps: dynamic
 }
+
+/**
+ *
+ * Demos:
+ *
+ * - [Accordion](https://material-ui.com/components/accordion/)
+ *
+ * API:
+ *
+ * - [Accordion API](https://material-ui.com/api/accordion/)
+ * - inherits [Paper API](https://material-ui.com/api/paper/)
+ */
+@JsName("default")
+external val Accordion: react.FC<AccordionProps>

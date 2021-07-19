@@ -11,3 +11,17 @@ external interface FilledInputProps : react.RProps {
      */
     var disableUnderline: Boolean
 }
+
+/**
+ *
+ * Demos:
+ *
+ * - [Text Fields](https://material-ui.com/components/text-fields/)
+ *
+ * API:
+ *
+ * - [FilledInput API](https://material-ui.com/api/filled-input/)
+ * - inherits [InputBase API](https://material-ui.com/api/input-base/)
+ */
+@JsName("default")
+external val FilledInput: react.FC<FilledInputProps>

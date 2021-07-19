@@ -18,3 +18,17 @@ external interface AppBarProps : react.RProps {
      */
     var position: dynamic /* 'fixed' | 'absolute' | 'sticky' | 'static' | 'relative' */
 }
+
+/**
+ *
+ * Demos:
+ *
+ * - [App Bar](https://material-ui.com/components/app-bar/)
+ *
+ * API:
+ *
+ * - [AppBar API](https://material-ui.com/api/app-bar/)
+ * - inherits [Paper API](https://material-ui.com/api/paper/)
+ */
+@JsName("default")
+external val AppBar: react.FC<AppBarProps>

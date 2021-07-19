@@ -38,3 +38,17 @@ external interface StepperProps : react.RProps {
      */
     var orientation: dynamic
 }
+
+/**
+ *
+ * Demos:
+ *
+ * - [Steppers](https://material-ui.com/components/steppers/)
+ *
+ * API:
+ *
+ * - [Stepper API](https://material-ui.com/api/stepper/)
+ * - inherits [Paper API](https://material-ui.com/api/paper/)
+ */
+@JsName("default")
+external val Stepper: react.FC<StepperProps>

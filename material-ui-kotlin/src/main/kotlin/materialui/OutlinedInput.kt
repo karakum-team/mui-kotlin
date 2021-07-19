@@ -23,3 +23,17 @@ external interface OutlinedInputProps : react.RProps {
      */
     var notched: Boolean
 }
+
+/**
+ *
+ * Demos:
+ *
+ * - [Text Fields](https://material-ui.com/components/text-fields/)
+ *
+ * API:
+ *
+ * - [OutlinedInput API](https://material-ui.com/api/outlined-input/)
+ * - inherits [InputBase API](https://material-ui.com/api/input-base/)
+ */
+@JsName("default")
+external val OutlinedInput: react.FC<OutlinedInputProps>

@@ -48,3 +48,22 @@ external interface CollapseProps : react.RProps {
      */
     var timeout: dynamic
 }
+
+/**
+ * The Collapse transition is used by the
+ * [Vertical Stepper](https://material-ui.com/components/steppers/#vertical-stepper) StepContent component.
+ * It uses [react-transition-group](https://github.com/reactjs/react-transition-group) internally.
+ * Demos:
+ *
+ * - [Cards](https://material-ui.com/components/cards/)
+ * - [Lists](https://material-ui.com/components/lists/)
+ * - [Transitions](https://material-ui.com/components/transitions/)
+ *
+ * API:
+ *
+ * - [Collapse API](https://material-ui.com/api/collapse/)
+ * - inherits [Transition API](https://reactcommunity.org/react-transition-group/transition#Transition-props)
+ */
+
+@JsName("default")
+external val Collapse: react.FC<CollapseProps>

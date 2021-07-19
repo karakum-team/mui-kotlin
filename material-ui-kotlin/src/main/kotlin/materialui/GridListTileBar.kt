@@ -32,3 +32,15 @@ external interface GridListTileBarProps : react.RProps {
      */
     var titlePosition: dynamic /* 'top' | 'bottom' */
 }
+
+/**
+ * ⚠️ The GridListTileBar component was renamed to ImageListTileBar to align with the current Material Design naming.
+ *
+ * You should use `import { ImageListTileBar } from '@material-ui/core'`
+ * or `import ImageListTileBar from '@material-ui/core/ImageListTileBar'`.
+ * API:
+ *
+ * - [GridListTileBar API](https://material-ui.com/api/grid-list-tile-bar/)
+ */
+@JsName("default")
+external val GridListTileBar: react.FC<GridListTileBarProps>
