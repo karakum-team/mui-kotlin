@@ -9,7 +9,7 @@ external interface StepLabelProps : react.RProps {
     /**
      * In most cases will simply be a string containing a title for the label.
      */
-    var children: dynamic
+    var children: react.ReactNode
 
     /**
      * Mark the step as disabled, will also disable the button if
@@ -25,12 +25,12 @@ external interface StepLabelProps : react.RProps {
     /**
      * Override the default label of the step icon.
      */
-    var icon: dynamic
+    var icon: react.ReactNode
 
     /**
      * The optional node to display.
      */
-    var optional: dynamic
+    var optional: react.ReactNode
 
     /**
      * The component to render in place of the [`StepIcon`](/api/step-icon/).

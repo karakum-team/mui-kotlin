@@ -14,7 +14,7 @@ external interface CheckboxProps : react.RProps {
     /**
      * The icon to display when the component is checked.
      */
-    var checkedIcon: dynamic
+    var checkedIcon: react.ReactNode
 
     /**
      * The color of the component. It supports those theme colors that make sense for this component.
@@ -34,7 +34,7 @@ external interface CheckboxProps : react.RProps {
     /**
      * The icon to display when the component is unchecked.
      */
-    var icon: dynamic
+    var icon: react.ReactNode
 
     /**
      * The id of the `input` element.
@@ -52,7 +52,7 @@ external interface CheckboxProps : react.RProps {
     /**
      * The icon to display when the component is indeterminate.
      */
-    var indeterminateIcon: dynamic
+    var indeterminateIcon: react.ReactNode
 
     /**
      * [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.

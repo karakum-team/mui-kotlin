@@ -10,7 +10,7 @@ external interface GridListTileBarProps : react.RProps {
      * An IconButton element to be used as secondary action target
      * (primary action target is the tile itself).
      */
-    var actionIcon: dynamic
+    var actionIcon: react.ReactNode
 
     /**
      * Position of secondary action IconButton.
@@ -20,12 +20,12 @@ external interface GridListTileBarProps : react.RProps {
     /**
      * String or element serving as subtitle (support text).
      */
-    var subtitle: dynamic
+    var subtitle: react.ReactNode
 
     /**
      * Title to be displayed on tile.
      */
-    var title: dynamic
+    var title: react.ReactNode
 
     /**
      * Position of the title bar.

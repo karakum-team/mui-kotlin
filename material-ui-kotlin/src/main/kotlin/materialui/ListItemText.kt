@@ -9,7 +9,7 @@ external interface ListItemTextProps : react.RProps {
     /**
      * Alias for the `primary` prop.
      */
-    var children: dynamic
+    var children: react.ReactNode
 
     /**
      * If `true`, the children won't be wrapped by a Typography component.
@@ -28,7 +28,7 @@ external interface ListItemTextProps : react.RProps {
     /**
      * The main content element.
      */
-    var primary: dynamic
+    var primary: react.ReactNode
 
     /**
      * These props will be forwarded to the primary typography component
@@ -39,7 +39,7 @@ external interface ListItemTextProps : react.RProps {
     /**
      * The secondary content element.
      */
-    var secondary: dynamic
+    var secondary: react.ReactNode
 
     /**
      * These props will be forwarded to the secondary typography component

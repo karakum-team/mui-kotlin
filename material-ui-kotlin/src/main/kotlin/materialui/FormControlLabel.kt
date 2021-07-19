@@ -29,7 +29,7 @@ external interface FormControlLabelProps : react.RProps {
     /**
      * The text to be used in an enclosing label element.
      */
-    var label: dynamic
+    var label: react.ReactNode
 
     /**
      * The position of the label.

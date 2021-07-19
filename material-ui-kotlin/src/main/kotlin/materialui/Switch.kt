@@ -9,7 +9,7 @@ external interface SwitchProps : react.RProps {
     /**
      * The icon to display when the component is checked.
      */
-    var checkedIcon: dynamic
+    var checkedIcon: react.ReactNode
 
     /**
      * The color of the component. It supports those theme colors that make sense for this component.
@@ -24,7 +24,7 @@ external interface SwitchProps : react.RProps {
     /**
      * The icon to display when the component is unchecked.
      */
-    var icon: dynamic
+    var icon: react.ReactNode
 
     /**
      * The size of the switch.

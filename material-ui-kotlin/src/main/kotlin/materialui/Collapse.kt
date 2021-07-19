@@ -9,7 +9,7 @@ external interface CollapseProps : react.RProps {
     /**
      * The content node to be collapsed.
      */
-    var children: dynamic
+    var children: react.ReactNode
 
     /**
      * The height of the container when collapsed.

@@ -9,7 +9,7 @@ external interface BackdropProps : react.RProps {
     /**
      * The content of the component.
      */
-    var children: dynamic
+    var children: react.ReactNode
 
     /**
      * If `true`, the backdrop is invisible.

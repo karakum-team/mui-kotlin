@@ -9,7 +9,7 @@ external interface ListItemSecondaryActionProps : react.RProps {
     /**
      * The content of the component, normally an `IconButton` or selection control.
      */
-    var children: dynamic
+    var children: react.ReactNode
 }
 
 /**

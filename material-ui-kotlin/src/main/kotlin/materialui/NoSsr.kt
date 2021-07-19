@@ -9,7 +9,7 @@ external interface NoSsrProps : react.RProps {
     /**
      * You can wrap a node.
      */
-    var children: dynamic
+    var children: react.ReactNode
 
     /**
      * If `true`, the component will not only prevent server-side rendering.
@@ -20,7 +20,7 @@ external interface NoSsrProps : react.RProps {
     /**
      * The fallback content to display.
      */
-    var fallback: dynamic
+    var fallback: react.ReactNode
 }
 
 /**

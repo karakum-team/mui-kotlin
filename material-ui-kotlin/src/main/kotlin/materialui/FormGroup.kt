@@ -9,7 +9,7 @@ external interface FormGroupProps : react.RProps {
     /**
      * The content of the component.
      */
-    var children: dynamic
+    var children: react.ReactNode
 
     /**
      * Display group of elements in a compact row.

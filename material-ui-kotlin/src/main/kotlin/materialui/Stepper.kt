@@ -21,7 +21,7 @@ external interface StepperProps : react.RProps {
     /**
      * Two or more `<Step />` components.
      */
-    var children: dynamic
+    var children: react.ReactNode
 
     /**
      * An element to be placed between each step.

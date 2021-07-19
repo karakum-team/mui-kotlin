@@ -20,7 +20,7 @@ external interface MenuListProps : react.RProps {
     /**
      * MenuList contents, normally `MenuItem`s.
      */
-    var children: dynamic
+    var children: react.ReactNode
 
     /**
      * If `true`, will allow focus on disabled items.

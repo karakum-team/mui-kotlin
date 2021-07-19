@@ -46,7 +46,7 @@ external interface PopoverProps : react.RProps {
     /**
      * The content of the component.
      */
-    var children: dynamic
+    var children: react.ReactNode
 
     /**
      * A HTML element, component instance, or function that returns either.

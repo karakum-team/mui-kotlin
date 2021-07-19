@@ -9,12 +9,12 @@ external interface SnackbarContentProps : react.RProps {
     /**
      * The action to display. It renders after the message, at the end of the snackbar.
      */
-    var action: dynamic
+    var action: react.ReactNode
 
     /**
      * The message to display.
      */
-    var message: dynamic
+    var message: react.ReactNode
 
     /**
      * The ARIA role attribute of the element.

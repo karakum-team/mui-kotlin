@@ -38,7 +38,7 @@ external interface InputBaseProps : react.RProps {
     /**
      * End `InputAdornment` for this component.
      */
-    var endAdornment: dynamic
+    var endAdornment: react.ReactNode
 
     /**
      * If `true`, the input will indicate an error. This is normally obtained via context from
@@ -157,7 +157,7 @@ external interface InputBaseProps : react.RProps {
     /**
      * Start `InputAdornment` for this component.
      */
-    var startAdornment: dynamic
+    var startAdornment: react.ReactNode
 
     /**
      * Type of the `input` element. It should be [a valid HTML5 input type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types).

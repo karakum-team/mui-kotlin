@@ -15,7 +15,7 @@ external interface MobileStepperProps : react.RProps {
     /**
      * A back button element. For instance, it can be a `Button` or an `IconButton`.
      */
-    var backButton: dynamic
+    var backButton: react.ReactNode
 
     /**
      * Props applied to the `LinearProgress` element.
@@ -25,7 +25,7 @@ external interface MobileStepperProps : react.RProps {
     /**
      * A next button element. For instance, it can be a `Button` or an `IconButton`.
      */
-    var nextButton: dynamic
+    var nextButton: react.ReactNode
 
     /**
      * Set the positioning type.

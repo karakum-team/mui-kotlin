@@ -9,7 +9,7 @@ external interface PaperProps : react.RProps {
     /**
      * The content of the component.
      */
-    var children: dynamic
+    var children: react.ReactNode
 
     /**
      * The component used for the root node.

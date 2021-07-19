@@ -10,7 +10,7 @@ external interface ImageListItemBarProps : react.RProps {
      * An IconButton element to be used as secondary action target
      * (primary action target is the item itself).
      */
-    var actionIcon: dynamic
+    var actionIcon: react.ReactNode
 
     /**
      * Position of secondary action IconButton.
@@ -25,12 +25,12 @@ external interface ImageListItemBarProps : react.RProps {
     /**
      * String or element serving as subtitle (support text).
      */
-    var subtitle: dynamic
+    var subtitle: react.ReactNode
 
     /**
      * Title to be displayed on item.
      */
-    var title: dynamic
+    var title: react.ReactNode
 
     /**
      * Position of the title bar.

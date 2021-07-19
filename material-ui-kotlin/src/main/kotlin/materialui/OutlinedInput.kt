@@ -10,7 +10,7 @@ external interface OutlinedInputProps : react.RProps {
      * The label of the input. It is only used for layout. The actual labelling
      * is handled by `InputLabel`. If specified `labelWidth` is ignored.
      */
-    var label: dynamic
+    var label: react.ReactNode
 
     /**
      * The width of the label. Is ignored if `label` is provided. Prefer `label`

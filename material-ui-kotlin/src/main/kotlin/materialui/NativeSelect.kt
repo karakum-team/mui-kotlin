@@ -10,7 +10,7 @@ external interface NativeSelectProps : react.RProps {
      * The option elements to populate the select with.
      * Can be some `<option>` elements.
      */
-    var children: dynamic
+    var children: react.ReactNode
 
     /**
      * The icon that displays the arrow.

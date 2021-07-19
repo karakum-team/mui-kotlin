@@ -17,6 +17,8 @@ private val STANDARD_TYPE_MAP = mapOf(
     "void" to "Unit",
 
     "Date" to "kotlin.js.Date",
+
+    "React.ReactNode" to "react.ReactNode",
 )
 
 internal fun kotlinType(

@@ -14,7 +14,7 @@ external interface StepProps : react.RProps {
     /**
      * Should be `Step` sub-components such as `StepLabel`, `StepContent`.
      */
-    var children: dynamic
+    var children: react.ReactNode
 
     /**
      * Mark the step as completed. Is passed to child components.

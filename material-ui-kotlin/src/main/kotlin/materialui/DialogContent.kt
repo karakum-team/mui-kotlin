@@ -9,7 +9,7 @@ external interface DialogContentProps : react.RProps {
     /**
      * The content of the component.
      */
-    var children: dynamic
+    var children: react.ReactNode
 
     /**
      * Display the top and bottom dividers.

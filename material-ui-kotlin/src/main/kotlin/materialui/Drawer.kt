@@ -14,7 +14,7 @@ external interface DrawerProps : react.RProps {
     /**
      * The contents of the drawer.
      */
-    var children: dynamic
+    var children: react.ReactNode
 
     /**
      * The elevation of the drawer.

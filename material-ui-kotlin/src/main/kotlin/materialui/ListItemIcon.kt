@@ -10,7 +10,7 @@ external interface ListItemIconProps : react.RProps {
      * The content of the component, normally `Icon`, `SvgIcon`,
      * or a `@material-ui/icons` SVG icon element.
      */
-    var children: dynamic
+    var children: react.ReactNode
 }
 
 /**

@@ -9,7 +9,7 @@ external interface TabScrollButtonProps : react.RProps {
     /**
      * The content of the component.
      */
-    var children: dynamic
+    var children: react.ReactNode
 
     /**
      * Which direction should the button indicate?

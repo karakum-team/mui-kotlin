@@ -9,7 +9,7 @@ external interface ClickAwayListenerProps : react.RProps {
     /**
      * The wrapped element.
      */
-    var children: dynamic
+    var children: react.ReactNode
 
     /**
      * If `true`, the React tree is ignored and only the DOM tree is considered.

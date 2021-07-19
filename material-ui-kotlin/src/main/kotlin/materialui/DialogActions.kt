@@ -9,7 +9,7 @@ external interface DialogActionsProps : react.RProps {
     /**
      * The content of the component.
      */
-    var children: dynamic
+    var children: react.ReactNode
 
     /**
      * If `true`, the actions do not have additional margin.

@@ -9,7 +9,7 @@ external interface CssBaselineProps : react.RProps {
     /**
      * You can wrap a node.
      */
-    var children: dynamic
+    var children: react.ReactNode
 }
 
 /**

@@ -18,7 +18,7 @@ external interface SelectProps : react.RProps {
      *
      * ⚠️The `MenuItem` elements **must** be direct descendants when `native` is false.
      */
-    var children: dynamic
+    var children: react.ReactNode
 
     /**
      * The default element value. Use when the component is not controlled.
@@ -58,7 +58,7 @@ external interface SelectProps : react.RProps {
     /**
      * See [OutlinedInput#label](/api/outlined-input/#props)
      */
-    var label: dynamic
+    var label: react.ReactNode
 
     /**
      * The ID of an element that acts as an additional label. The Select will

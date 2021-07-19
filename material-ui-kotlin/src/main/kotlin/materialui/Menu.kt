@@ -24,7 +24,7 @@ external interface MenuProps : react.RProps {
     /**
      * Menu contents, normally `MenuItem`s.
      */
-    var children: dynamic
+    var children: react.ReactNode
 
     /**
      * When opening the menu will not focus the active item but the `[role="menu"]`

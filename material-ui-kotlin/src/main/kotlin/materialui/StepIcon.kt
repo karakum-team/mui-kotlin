@@ -24,7 +24,7 @@ external interface StepIconProps : react.RProps {
     /**
      * The label displayed in the step icon.
      */
-    var icon: dynamic
+    var icon: react.ReactNode
 }
 
 /**

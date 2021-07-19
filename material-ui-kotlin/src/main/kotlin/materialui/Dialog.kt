@@ -19,7 +19,7 @@ external interface DialogProps : react.RProps {
     /**
      * Dialog children, usually the included sub-components.
      */
-    var children: dynamic
+    var children: react.ReactNode
 
     /**
      * If `true`, clicking the backdrop will not fire the `onClose` callback.

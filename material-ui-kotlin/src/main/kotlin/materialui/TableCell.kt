@@ -17,7 +17,7 @@ external interface TableCellProps : react.RProps {
     /**
      * The table cell contents.
      */
-    var children: dynamic
+    var children: react.ReactNode
 
     /**
      * The component used for the root node.

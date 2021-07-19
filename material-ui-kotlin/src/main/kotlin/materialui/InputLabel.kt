@@ -9,7 +9,7 @@ external interface InputLabelProps : react.RProps {
     /**
      * The contents of the `InputLabel`.
      */
-    var children: dynamic
+    var children: react.ReactNode
 
     var color: dynamic
 

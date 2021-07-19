@@ -9,7 +9,7 @@ external interface StepContentProps : react.RProps {
     /**
      * Step content.
      */
-    var children: dynamic
+    var children: react.ReactNode
 
     /**
      * The component used for the transition.

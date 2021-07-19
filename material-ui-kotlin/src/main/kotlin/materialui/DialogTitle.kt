@@ -9,7 +9,7 @@ external interface DialogTitleProps : react.RProps {
     /**
      * The content of the component.
      */
-    var children: dynamic
+    var children: react.ReactNode
 
     /**
      * If `true`, the children won't be wrapped by a typography component.
