@@ -15,7 +15,7 @@ external interface GridListTileBarProps : react.RProps {
     /**
      * Position of secondary action IconButton.
      */
-    var actionPosition: dynamic
+    var actionPosition: dynamic /* 'left' | 'right' */
 
     /**
      * String or element serving as subtitle (support text).
@@ -30,5 +30,5 @@ external interface GridListTileBarProps : react.RProps {
     /**
      * Position of the title bar.
      */
-    var titlePosition: dynamic
+    var titlePosition: dynamic /* 'top' | 'bottom' */
 }

@@ -15,12 +15,12 @@ external interface ImageListItemBarProps : react.RProps {
     /**
      * Position of secondary action IconButton.
      */
-    var actionPosition: dynamic
+    var actionPosition: dynamic /* 'left' | 'right' */
 
     /**
      * Position of the title bar.
      */
-    var position: dynamic
+    var position: dynamic /* 'top' | 'bottom' */
 
     /**
      * String or element serving as subtitle (support text).
@@ -36,5 +36,5 @@ external interface ImageListItemBarProps : react.RProps {
      * Position of the title bar.
      * @deprecated Use position instead.
      */
-    var titlePosition: dynamic
+    var titlePosition: dynamic /* 'top' | 'bottom' */
 }

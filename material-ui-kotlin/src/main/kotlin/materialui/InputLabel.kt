@@ -37,7 +37,7 @@ external interface InputLabelProps : react.RProps {
      * If `dense`, will adjust vertical spacing. This is normally obtained via context from
      * FormControl.
      */
-    var margin: dynamic
+    var margin: dynamic /* 'dense' */
 
     /**
      * if `true`, the label will indicate that the input is required.
@@ -52,5 +52,5 @@ external interface InputLabelProps : react.RProps {
     /**
      * The variant to use.
      */
-    var variant: dynamic
+    var variant: dynamic /* 'standard' | 'outlined' | 'filled' */
 }

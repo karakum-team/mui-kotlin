@@ -14,7 +14,7 @@ external interface SlideProps : react.RProps {
     /**
      * Direction the child node will enter from.
      */
-    var direction: dynamic
+    var direction: dynamic /* 'left' | 'right' | 'up' | 'down' */
 
     /**
      * If `true`, show the component; triggers the enter or exit animation.

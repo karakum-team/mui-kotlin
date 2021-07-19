@@ -16,5 +16,5 @@ external interface AppBarProps : react.RProps {
      * [in the MDN web docs](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Positioning).
      * Note: `sticky` is not universally supported and will fall back to `static` when unavailable.
      */
-    var position: dynamic
+    var position: dynamic /* 'fixed' | 'absolute' | 'sticky' | 'static' | 'relative' */
 }

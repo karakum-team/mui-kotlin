@@ -36,5 +36,5 @@ external interface MenuListProps : react.RProps {
      * The variant to use. Use `menu` to prevent selected items from impacting the initial focus
      * and the vertical alignment relative to the anchor element.
      */
-    var variant: dynamic
+    var variant: dynamic /* 'menu' | 'selectedMenu' */
 }
