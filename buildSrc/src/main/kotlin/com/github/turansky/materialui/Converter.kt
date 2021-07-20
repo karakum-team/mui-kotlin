@@ -45,9 +45,15 @@ internal fun convertDefinitions(
         declarations.add("$comment\n@JsName(\"default\")\nexternal val $name: react.FC<$propsName>")
     }
 
+    val enums = content.splitToSequence("export type ")
+        .drop(1)
+        .map { it.substringBefore(";") }
+        .mapNotNull { convertUnion(it) }
+        .toList()
+
     return ConversionResult(
         main = declarations.joinToString("\n\n"),
-        extensions = "",
+        extensions = enums.joinToString("\n\n"),
     )
 }
 
@@ -101,7 +107,51 @@ private fun convertProperty(
     return declaration
 }
 
+private fun convertUnion(
+    source: String,
+): String? {
+    val name = source.substringBefore(" =")
+    val body = source.substringAfter(" =")
+        .removePrefix(" ")
+        .removePrefix("\n  | ")
+
+    if (!body.startsWith("'") || !body.endsWith("'"))
+        return null
+
+    val values = body.splitToSequence(" | ", "\n  | ")
+        .map { it.removeSurrounding("'") }
+        .toList()
+
+    val uppercase = values.any { "-" in it }
+    val jsName = values.asSequence()
+        .map { "${enumConstant(it, uppercase)}: '$it'" }
+        .joinToString(", ", "@JsName(\"\"\"({", "})\"\"\")")
+
+    val constantNames = values.asSequence()
+        .map { "${enumConstant(it, uppercase)},\n" }
+        .joinToString("")
+
+    return """
+        @Suppress("NAME_CONTAINS_ILLEGAL_CHARS")
+        // language=JavaScript
+        $jsName
+        external enum class $name {
+            $constantNames
+            ;
+        }
+    """.trimIndent()
+}
+
 private fun kotlinName(name: String): String =
     if (name == "in" || name.startsWith("'")) {
         "`${name.removeSurrounding("'")}`"
     } else name
+
+private fun enumConstant(
+    value: String,
+    uppercase: Boolean,
+): String =
+    if (uppercase) {
+        value.replace("-", "_")
+            .toUpperCase()
+    } else value.removePrefix("@")
