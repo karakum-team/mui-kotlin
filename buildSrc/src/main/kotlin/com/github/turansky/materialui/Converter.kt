@@ -2,9 +2,14 @@ package com.github.turansky.materialui
 
 import java.io.File
 
+internal data class ConversionResult(
+    val main: String,
+    val extensions: String,
+)
+
 internal fun convertDefinitions(
     definitionFile: File,
-): String {
+): ConversionResult {
     val name = definitionFile.name.substringBefore(".")
 
     val content = definitionFile.readText()
@@ -40,7 +45,10 @@ internal fun convertDefinitions(
         declarations.add("$comment\n@JsName(\"default\")\nexternal val $name: react.FC<$propsName>")
     }
 
-    return declarations.joinToString("\n\n")
+    return ConversionResult(
+        main = declarations.joinToString("\n\n"),
+        extensions = "",
+    )
 }
 
 private fun convertMembers(

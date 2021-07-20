@@ -45,7 +45,7 @@ private fun generate(
     targetDir: File,
 ) {
     val name = definitionFile.name.substringBefore(".") + ".kt"
-    val body = convertDefinitions(definitionFile)
+    val (body, extensions) = convertDefinitions(definitionFile)
 
     val annotations = MODULE_DECLARATION
 
@@ -59,4 +59,17 @@ private fun generate(
 
     targetDir.resolve(name)
         .writeText(text)
+
+    if (extensions.isEmpty())
+        return
+
+    val extensionsText = sequenceOf(
+        "// $GENERATOR_COMMENT",
+        PACKAGE,
+        extensions,
+    ).filter { it.isNotEmpty() }
+        .joinToString("\n\n")
+
+    targetDir.resolve(name.replace(".kt", ".ext.kt"))
+        .writeText(extensionsText)
 }
