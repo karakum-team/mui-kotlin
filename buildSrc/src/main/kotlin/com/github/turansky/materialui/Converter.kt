@@ -88,7 +88,7 @@ private fun convertProperty(
 
     var declaration = "var $name: $type"
     if ("-" in name) {
-        declaration = "// " + declaration
+        declaration = "    // " + declaration
     }
     return declaration
 }

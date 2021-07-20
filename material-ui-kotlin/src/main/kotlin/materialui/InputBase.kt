@@ -6,7 +6,7 @@
 package materialui
 
 external interface InputBaseProps : react.RProps {
-// var `aria-describedby`: String
+    // var `aria-describedby`: String
 
     /**
      * This prop helps users to fill forms faster, especially on mobile devices.

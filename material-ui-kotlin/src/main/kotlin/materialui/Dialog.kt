@@ -9,12 +9,12 @@ external interface DialogProps : react.RProps {
     /**
      * The id(s) of the element(s) that describe the dialog.
      */
-// var `aria-describedby`: String
+    // var `aria-describedby`: String
 
     /**
      * The id(s) of the element(s) that label the dialog.
      */
-// var `aria-labelledby`: String
+    // var `aria-labelledby`: String
 
     /**
      * Dialog children, usually the included sub-components.
