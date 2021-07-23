@@ -4,9 +4,6 @@ import java.io.File
 
 private const val GENERATOR_COMMENT = "Automatically generated - do not modify!"
 
-// language=Kotlin
-private const val MODULE_DECLARATION = "@file:JsModule(\"@material-ui/core\")\n@file:JsNonModule"
-
 private enum class Suppress {
     UNUSED_TYPEALIAS_PARAMETER,
     NON_EXTERNAL_DECLARATION_IN_INAPPROPRIATE_FILE,
@@ -40,14 +37,19 @@ private fun String.isComponentName(): Boolean {
     return char == char.toUpperCase() && char != char.toLowerCase()
 }
 
+private fun moduleDeclaration(componentName: String): String =
+    "@file:JsModule(\"@material-ui/core/$componentName\")\n@file:JsNonModule"
+
+
 private fun generate(
     definitionFile: File,
     targetDir: File,
 ) {
-    val name = definitionFile.name.substringBefore(".") + ".kt"
+    val componentName = definitionFile.name.substringBefore(".")
+    val fileName = "$componentName.kt"
     val (body, extensions) = convertDefinitions(definitionFile)
 
-    val annotations = MODULE_DECLARATION
+    val annotations = moduleDeclaration(componentName)
 
     val text = sequenceOf(
         "// $GENERATOR_COMMENT",
@@ -57,7 +59,7 @@ private fun generate(
     ).filter { it.isNotEmpty() }
         .joinToString("\n\n")
 
-    targetDir.resolve(name)
+    targetDir.resolve(fileName)
         .writeText(text)
 
     if (extensions.isEmpty())
@@ -70,6 +72,6 @@ private fun generate(
     ).filter { it.isNotEmpty() }
         .joinToString("\n\n")
 
-    targetDir.resolve(name.replace(".kt", ".ext.kt"))
+    targetDir.resolve(fileName.replace(".kt", ".ext.kt"))
         .writeText(extensionsText)
 }
