@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core")
+@file:JsModule("@material-ui/core/SnackbarContent")
 @file:JsNonModule
 
 package materialui
