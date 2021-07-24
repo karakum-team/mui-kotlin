@@ -18,21 +18,8 @@ internal fun convertDefinitions(
     val declarations = mutableListOf<String>()
 
     val propsName = "${name}Props"
-    val propsContent = content.substringAfter("export interface $propsName", "")
-    if (propsContent.isNotEmpty() && name != "StepConnector") {
-        val membersContent = propsContent
-            .substringAfter("{\n")
-            .substringBefore(";\n}")
-
-        val props = "external interface $propsName: react.RProps {\n" +
-                convertMembers(membersContent) +
-                "\n}"
-
-        declarations.add(props)
-    }
-
-    if (name == "StepConnector" || name == "TextField")
-        declarations.add("external interface $propsName: react.RProps")
+    findProps(name, propsName, content)
+        ?.also(declarations::add)
 
     val componentDeclaration = "export default function $name(props: $propsName): JSX.Element;"
     if (componentDeclaration in content) {
@@ -55,6 +42,27 @@ internal fun convertDefinitions(
         main = declarations.joinToString("\n\n"),
         extensions = enums.joinToString("\n\n"),
     )
+}
+
+private fun findProps(
+    name: String,
+    propsName: String,
+    content: String,
+): String? {
+    val propsContent = content.substringAfter("export interface $propsName", "")
+    if (propsContent.isNotEmpty() && name != "StepConnector") {
+        val membersContent = propsContent
+            .substringAfter("{\n")
+            .substringBefore(";\n}")
+
+        return "external interface $propsName: react.RProps {\n" +
+                convertMembers(membersContent) +
+                "\n}"
+    }
+
+    return if (name == "StepConnector" || name == "TextField") {
+        "external interface $propsName: react.RProps"
+    } else null
 }
 
 private fun convertMembers(
