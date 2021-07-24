@@ -115,7 +115,7 @@ private fun convertUnion(
         .removePrefix(" ")
         .removePrefix("\n  | ")
 
-    if (!body.startsWith("'") || !body.endsWith("'"))
+    if ((!body.startsWith("'") || !body.endsWith("'")) && body.substringAfterLast("| ").toIntOrNull() == null)
         return null
 
     val values = body.splitToSequence(" | ", "\n  | ")
@@ -124,7 +124,7 @@ private fun convertUnion(
 
     val uppercase = values.any { "-" in it }
     val jsName = values.asSequence()
-        .map { "${enumConstant(it, uppercase)}: '$it'" }
+        .map { "${enumConstant(it, uppercase)}: ${it.toIntOrNull() ?: "'$it'"}" }
         .joinToString(", ", "@JsName(\"\"\"({", "})\"\"\")")
 
     val constantNames = values.asSequence()
@@ -151,7 +151,13 @@ private fun enumConstant(
     value: String,
     uppercase: Boolean,
 ): String =
-    if (uppercase) {
-        value.replace("-", "_")
+    when {
+        value.toIntOrNull() != null
+        -> "s$value"
+
+        uppercase
+        -> value.replace("-", "_")
             .toUpperCase()
-    } else value.removePrefix("@")
+
+        else -> value.removePrefix("@")
+    }
