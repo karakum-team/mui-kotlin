@@ -21,16 +21,11 @@ internal fun convertDefinitions(
     findProps(name, propsName, content)
         ?.also(declarations::add)
 
-    val componentDeclaration = "export default function $name(props: $propsName): JSX.Element;"
-    if (componentDeclaration in content) {
-        var comment = content.substringBefore("\n$componentDeclaration")
-            .substringAfterLast("\n\n")
-
-        if (comment.startsWith("export "))
-            comment = comment.substringAfter(";\n")
-
-        declarations.add("$comment\n@JsName(\"default\")\nexternal val $name: react.FC<$propsName>")
-    }
+    val funDeclaration = "export default function $name(props: $propsName): JSX.Element;"
+    val constDeclaration = "declare const $name: "
+    declarations += listOfNotNull(
+        findComponent(name, propsName, funDeclaration, content),
+    )
 
     val enums = content.splitToSequence("export type ")
         .drop(1)
@@ -63,6 +58,24 @@ private fun findProps(
     return if (name == "StepConnector" || name == "TextField") {
         "external interface $propsName: react.RProps"
     } else null
+}
+
+private fun findComponent(
+    name: String,
+    propsName: String,
+    declaration: String,
+    content: String,
+): String? {
+    if (declaration !in content)
+        return null
+
+    var comment = content.substringBefore("\n$declaration")
+        .substringAfterLast("\n\n")
+
+    if (comment.startsWith("export "))
+        comment = comment.substringAfter(";\n")
+
+    return "$comment\n@JsName(\"default\")\nexternal val $name: react.FC<$propsName>"
 }
 
 private fun convertMembers(
