@@ -84,6 +84,7 @@ private fun findMapProps(
     val membersContent = propsContent
         .substringAfter("props: P & {\n", "")
         .substringBefore(";\n  };", "")
+        .replaceIndent("  ")
 
     return if (membersContent.isNotEmpty()) {
         props(propsName) + " {\n" +
