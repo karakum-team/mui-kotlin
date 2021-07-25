@@ -18,16 +18,16 @@ internal fun convertDefinitions(
     val declarations = mutableListOf<String>()
 
     val propsName = "${name}Props"
+
     findProps(name, propsName, content)
+        ?.also(declarations::add)
+
+    findMapProps(name, propsName, content)
         ?.also(declarations::add)
 
     val funDeclaration = "export default function $name(props: $propsName): JSX.Element;"
     val typeDeclaration = "declare const $name: React.ComponentType<$propsName>;"
     val constDeclaration = "declare const $name: "
-
-    // TODO: remove
-    if (constDeclaration in content && typeDeclaration !in content)
-        declarations += props(propsName)
 
     declarations += listOfNotNull(
         findComponent(name, propsName, funDeclaration, content),
@@ -58,7 +58,7 @@ private fun findProps(
             .substringAfter("{\n")
             .substringBefore(";\n}")
 
-        return "external interface $propsName: react.RProps {\n" +
+        return props(propsName) + " {\n" +
                 convertMembers(membersContent) +
                 "\n}"
     }
@@ -66,6 +66,32 @@ private fun findProps(
     return if (name == "StepConnector" || name == "TextField") {
         props(propsName)
     } else null
+}
+
+private fun findMapProps(
+    name: String,
+    propsName: String,
+    content: String,
+): String? {
+    val propsContent = sequenceOf(
+        content.substringAfter("export interface ${name}TypeMap<", "")
+            .substringBefore("\n}\n"),
+        content.substringAfter("export type ${name}TypeMap<", "")
+            .substringBefore("\n}>;\n"),
+    ).firstOrNull { it.isNotEmpty() }
+        ?: return null
+
+    val membersContent = propsContent
+        .substringAfter("props: P & {\n", "")
+        .substringBefore(";\n  };", "")
+
+    return if (membersContent.isNotEmpty()) {
+        props(propsName) + " {\n" +
+                convertMembers(membersContent) +
+                "\n}"
+    } else {
+        props(propsName)
+    }
 }
 
 private fun props(propsName: String): String =
