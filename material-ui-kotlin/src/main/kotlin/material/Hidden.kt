@@ -80,3 +80,16 @@ external interface HiddenProps : react.RProps {
      */
     var xsUp: Boolean
 }
+
+/**
+ * Responsively hides children based on the selected implementation.
+ * Demos:
+ *
+ * - [Hidden](https://material-ui.com/components/hidden/)
+ *
+ * API:
+ *
+ * - [Hidden API](https://material-ui.com/api/hidden/)
+ */
+@JsName("default")
+external val Hidden: react.ComponentType<HiddenProps>

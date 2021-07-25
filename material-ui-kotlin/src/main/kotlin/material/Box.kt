@@ -20,3 +20,7 @@ external interface BoxProps : react.RProps {
     // workaround for https://github.com/mui-org/material-ui/pull/15611
     var sx: dynamic
 }
+
+
+@JsName("default")
+external val Box: react.ComponentType<BoxProps>
