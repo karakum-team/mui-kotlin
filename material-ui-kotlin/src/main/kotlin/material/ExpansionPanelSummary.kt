@@ -5,7 +5,22 @@
 
 package material
 
-external interface ExpansionPanelSummaryProps : react.RProps
+external interface ExpansionPanelSummaryProps : react.RProps {
+    /**
+     * The content of the expansion panel summary.
+     */
+    var children: react.ReactNode
+
+    /**
+     * The icon to display as the expand indicator.
+     */
+    var expandIcon: react.ReactNode
+
+    /**
+     * Props applied to the `IconButton` element wrapping the expand icon.
+     */
+    var IconButtonProps: dynamic
+}
 
 /**
  * ⚠️ The ExpansionPanelSummary component was renamed to AccordionSummary to use a more common naming convention.

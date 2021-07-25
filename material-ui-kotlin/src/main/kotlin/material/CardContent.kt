@@ -5,7 +5,12 @@
 
 package material
 
-external interface CardContentProps : react.RProps
+external interface CardContentProps : react.RProps {
+    /**
+     * The content of the component.
+     */
+    var children: react.ReactNode
+}
 
 /**
  *

@@ -5,7 +5,23 @@
 
 package material
 
-external interface StepButtonProps : react.RProps
+external interface StepButtonProps : react.RProps {
+    var active: Boolean
+
+    var alternativeLabel: Boolean
+
+    var completed: Boolean
+
+    var disabled: Boolean
+
+    var icon: react.ReactNode
+
+    var last: Boolean
+
+    var optional: react.ReactNode
+
+    var orientation: dynamic
+}
 
 /**
  *

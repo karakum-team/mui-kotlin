@@ -5,7 +5,15 @@
 
 package material
 
-external interface ListSubheaderProps : react.RProps
+external interface ListSubheaderProps : react.RProps {
+    var color: dynamic /* 'default' | 'primary' | 'inherit' */
+
+    var disableGutters: Boolean
+
+    var disableSticky: Boolean
+
+    var inset: Boolean
+}
 
 /**
  *

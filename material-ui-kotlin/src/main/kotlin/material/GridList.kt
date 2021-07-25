@@ -5,7 +5,13 @@
 
 package material
 
-external interface GridListProps : react.RProps
+external interface GridListProps : react.RProps {
+    var cellHeight: dynamic
+
+    var cols: Number
+
+    var spacing: Number
+}
 
 /**
  * ⚠️ The GridList component was renamed to ImageList to align with the current Material Design naming.

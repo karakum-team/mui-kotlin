@@ -5,7 +5,11 @@
 
 package material
 
-external interface IconProps : react.RProps
+external interface IconProps : react.RProps {
+    var color: dynamic
+
+    var fontSize: dynamic /* 'default' | 'inherit' | 'large' | 'medium' | 'small' */
+}
 
 /**
  *

@@ -5,7 +5,11 @@
 
 package material
 
-external interface TableRowProps : react.RProps
+external interface TableRowProps : react.RProps {
+    var hover: Boolean
+
+    var selected: Boolean
+}
 
 /**
  * Will automatically set dynamic row height

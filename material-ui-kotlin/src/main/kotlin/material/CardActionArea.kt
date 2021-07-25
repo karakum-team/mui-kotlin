@@ -5,7 +5,9 @@
 
 package material
 
-external interface CardActionAreaProps : react.RProps
+external interface CardActionAreaProps : react.RProps {
+    var focusVisibleClassName: String
+}
 
 /**
  *

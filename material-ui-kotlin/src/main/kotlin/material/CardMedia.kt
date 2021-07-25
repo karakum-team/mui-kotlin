@@ -5,7 +5,26 @@
 
 package material
 
-external interface CardMediaProps : react.RProps
+external interface CardMediaProps : react.RProps {
+    /**
+     * The content of the component.
+     */
+    var children: react.ReactNode
+
+    /**
+     * Image to be displayed as a background image.
+     * Either `image` or `src` prop must be specified.
+     * Note that caller must specify height otherwise the image will not be visible.
+     */
+    var image: String
+
+    /**
+     * An alias for `image` property.
+     * Available only with media components.
+     * Media components: `video`, `audio`, `picture`, `iframe`, `img`.
+     */
+    var src: String
+}
 
 /**
  *

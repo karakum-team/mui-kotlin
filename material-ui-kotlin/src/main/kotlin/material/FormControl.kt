@@ -5,7 +5,64 @@
 
 package material
 
-external interface FormControlProps : react.RProps
+external interface FormControlProps : react.RProps {
+    /**
+     * The contents of the form control.
+     */
+    var children: react.ReactNode
+
+    /**
+     * The color of the component. It supports those theme colors that make sense for this component.
+     */
+    var color: dynamic /* 'primary' | 'secondary' */
+
+    /**
+     * If `true`, the label, input and helper text should be displayed in a disabled state.
+     */
+    var disabled: Boolean
+
+    /**
+     * If `true`, the label should be displayed in an error state.
+     */
+    var error: Boolean
+
+    /**
+     * If `true`, the component will take up the full width of its container.
+     */
+    var fullWidth: Boolean
+
+    /**
+     * If `true`, the component will be displayed in focused state.
+     */
+    var focused: Boolean
+
+    /**
+     * If `true`, the label will be hidden.
+     * This is used to increase density for a `FilledInput`.
+     * Be sure to add `aria-label` to the `input` element.
+     */
+    var hiddenLabel: Boolean
+
+    /**
+     * If `dense` or `normal`, will adjust vertical spacing of this and contained components.
+     */
+    var margin: dynamic
+
+    /**
+     * If `true`, the label will indicate that the input is required.
+     */
+    var required: Boolean
+
+    /**
+     * The size of the text field.
+     */
+    var size: dynamic /* 'small' | 'medium' */
+
+    /**
+     * The variant to use.
+     */
+    var variant: dynamic /* 'standard' | 'outlined' | 'filled' */
+}
 
 /**
  * Provides context such as filled/focused/error/required for form inputs.

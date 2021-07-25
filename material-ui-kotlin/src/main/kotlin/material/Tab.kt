@@ -5,7 +5,29 @@
 
 package material
 
-external interface TabProps : react.RProps
+external interface TabProps : react.RProps {
+    var disableFocusRipple: Boolean
+
+    var fullWidth: Boolean
+
+    var icon: dynamic
+
+    var label: react.ReactNode
+
+    var onChange: dynamic
+
+    var onClick: dynamic
+
+    var selected: Boolean
+
+    var style: dynamic
+
+    var textColor: dynamic
+
+    var value: Any
+
+    var wrapped: Boolean
+}
 
 /**
  *

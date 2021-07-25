@@ -5,7 +5,13 @@
 
 package material
 
-external interface ListProps : react.RProps
+external interface ListProps : react.RProps {
+    var dense: Boolean
+
+    var disablePadding: Boolean
+
+    var subheader: dynamic
+}
 
 /**
  *

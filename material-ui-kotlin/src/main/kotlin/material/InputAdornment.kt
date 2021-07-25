@@ -5,7 +5,15 @@
 
 package material
 
-external interface InputAdornmentProps : react.RProps
+external interface InputAdornmentProps : react.RProps {
+    var disablePointerEvents: Boolean
+
+    var disableTypography: Boolean
+
+    var position: dynamic /* 'start' | 'end' */
+
+    var variant: dynamic /* 'standard' | 'outlined' | 'filled' */
+}
 
 /**
  *

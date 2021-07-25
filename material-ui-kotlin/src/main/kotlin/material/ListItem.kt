@@ -5,7 +5,29 @@
 
 package material
 
-external interface ListItemProps : react.RProps
+external interface ListItemProps : react.RProps {
+    var alignItems: dynamic /* 'flex-start' | 'center' */
+
+    var autoFocus: Boolean
+
+    var button: Boolean
+
+    var ContainerComponent: dynamic
+
+    var ContainerProps: dynamic
+
+    var dense: Boolean
+
+    var disabled: Boolean
+
+    var disableGutters: Boolean
+
+    var divider: Boolean
+
+    var focusVisibleClassName: String
+
+    var selected: Boolean
+}
 
 /**
  * Uses an additional container component if `ListItemSecondaryAction` is the last child.

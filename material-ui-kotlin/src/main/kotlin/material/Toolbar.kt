@@ -5,7 +5,11 @@
 
 package material
 
-external interface ToolbarProps : react.RProps
+external interface ToolbarProps : react.RProps {
+    var disableGutters: Boolean
+
+    var variant: dynamic /* 'regular' | 'dense' */
+}
 
 /**
  *

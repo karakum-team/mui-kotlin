@@ -5,7 +5,13 @@
 
 package material
 
-external interface TableProps : react.RProps
+external interface TableProps : react.RProps {
+    var padding: dynamic
+
+    var size: dynamic
+
+    var stickyHeader: Boolean
+}
 
 /**
  *

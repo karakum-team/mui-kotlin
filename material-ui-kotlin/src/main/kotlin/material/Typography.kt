@@ -5,7 +5,28 @@
 
 package material
 
-external interface TypographyProps : react.RProps
+external interface TypographyProps : react.RProps {
+    var align: dynamic
+
+    /**
+     * The content of the component.
+     */
+    var children: react.ReactNode
+
+    var color: dynamic
+
+    var display: dynamic /* 'initial' | 'block' | 'inline' */
+
+    var gutterBottom: Boolean
+
+    var noWrap: Boolean
+
+    var paragraph: Boolean
+
+    var variant: dynamic
+
+    var variantMapping: dynamic
+}
 
 /**
  *

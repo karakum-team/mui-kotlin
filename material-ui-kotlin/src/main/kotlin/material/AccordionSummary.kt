@@ -5,7 +5,22 @@
 
 package material
 
-external interface AccordionSummaryProps : react.RProps
+external interface AccordionSummaryProps : react.RProps {
+    /**
+     * The content of the accordion summary.
+     */
+    var children: react.ReactNode
+
+    /**
+     * The icon to display as the expand indicator.
+     */
+    var expandIcon: react.ReactNode
+
+    /**
+     * Props applied to the `IconButton` element wrapping the expand icon.
+     */
+    var IconButtonProps: dynamic
+}
 
 /**
  *

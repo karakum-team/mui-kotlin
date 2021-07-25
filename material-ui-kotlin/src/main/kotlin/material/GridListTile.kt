@@ -5,7 +5,11 @@
 
 package material
 
-external interface GridListTileProps : react.RProps
+external interface GridListTileProps : react.RProps {
+    var cols: Number
+
+    var rows: Number
+}
 
 /**
  * ⚠️ The GridList component was renamed to ImageList to align with the current Material Design naming.

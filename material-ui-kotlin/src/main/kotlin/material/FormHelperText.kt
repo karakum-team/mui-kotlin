@@ -5,7 +5,50 @@
 
 package material
 
-external interface FormHelperTextProps : react.RProps
+external interface FormHelperTextProps : react.RProps {
+    /**
+     * The content of the component.
+     *
+     * If `' '` is provided, the component reserves one line height for displaying a future message.
+     */
+    var children: react.ReactNode
+
+    /**
+     * If `true`, the helper text should be displayed in a disabled state.
+     */
+    var disabled: Boolean
+
+    /**
+     * If `true`, helper text should be displayed in an error state.
+     */
+    var error: Boolean
+
+    /**
+     * If `true`, the helper text should use filled classes key.
+     */
+    var filled: Boolean
+
+    /**
+     * If `true`, the helper text should use focused classes key.
+     */
+    var focused: Boolean
+
+    /**
+     * If `dense`, will adjust vertical spacing. This is normally obtained via context from
+     * FormControl.
+     */
+    var margin: dynamic /* 'dense' */
+
+    /**
+     * If `true`, the helper text should use required classes key.
+     */
+    var required: Boolean
+
+    /**
+     * The variant to use.
+     */
+    var variant: dynamic /* 'standard' | 'outlined' | 'filled' */
+}
 
 /**
  *

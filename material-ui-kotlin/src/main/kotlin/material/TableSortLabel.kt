@@ -5,7 +5,15 @@
 
 package material
 
-external interface TableSortLabelProps : react.RProps
+external interface TableSortLabelProps : react.RProps {
+    var active: Boolean
+
+    var direction: dynamic /* 'asc' | 'desc' */
+
+    var hideSortIcon: Boolean
+
+    var IconComponent: dynamic
+}
 
 /**
  * A button based label for placing inside `TableCell` for column sorting.

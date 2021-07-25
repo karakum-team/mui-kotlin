@@ -5,7 +5,22 @@
 
 package material
 
-external interface ImageListItemProps : react.RProps
+external interface ImageListItemProps : react.RProps {
+    /**
+     * While you can pass any node as children, the main use case is for an img.
+     */
+    var children: react.ReactNode
+
+    /**
+     * Width of the item in number of grid columns.
+     */
+    var cols: Number
+
+    /**
+     * Height of the item in number of grid rows.
+     */
+    var rows: Number
+}
 
 /**
  *

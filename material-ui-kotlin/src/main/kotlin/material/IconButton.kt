@@ -5,7 +5,21 @@
 
 package material
 
-external interface IconButtonProps : react.RProps
+external interface IconButtonProps : react.RProps {
+    var color: dynamic
+
+    var disableFocusRipple: Boolean
+
+    /**
+     * If given, uses a negative margin to counteract the padding on one
+     * side (this is often helpful for aligning the left or right
+     * side of the icon with content above or below, without ruining the border
+     * size and shape).
+     */
+    var edge: dynamic /* 'start' | 'end' | false */
+
+    var size: dynamic /* 'small' | 'medium' */
+}
 
 /**
  * Refer to the [Icons](https://material-ui.com/components/icons/) section of the documentation
