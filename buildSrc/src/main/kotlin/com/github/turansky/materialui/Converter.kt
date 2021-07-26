@@ -52,20 +52,21 @@ private fun findProps(
     propsName: String,
     content: String,
 ): String? {
-    val propsContent = content.substringAfter("export interface $propsName", "")
-    if (propsContent.isNotEmpty()) {
-        val membersContent = propsContent
-            .substringAfter("{\n")
-            .substringBefore(";\n}")
+    if (name == "TextField")
+        return props(propsName)
 
-        return props(propsName) + " {\n" +
-                convertMembers(membersContent) +
-                "\n}"
-    }
+    val propsContent = sequenceOf(" ", "<", "\n")
+        .map { content.substringAfter("export interface $propsName$it", "") }
+        .singleOrNull { it.isNotEmpty() }
+        ?: return null
 
-    return if (name == "TextField") {
-        props(propsName)
-    } else null
+    val membersContent = propsContent
+        .substringAfter("{\n")
+        .substringBefore(";\n}")
+
+    return props(propsName) + " {\n" +
+            convertMembers(membersContent) +
+            "\n}"
 }
 
 private fun findMapProps(
