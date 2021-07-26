@@ -14,6 +14,11 @@ private enum class Suppress {
 // language=Kotlin
 private const val PACKAGE = """package material"""
 
+private val ALIASES = setOf(
+    "Portal",
+    "StyledEngineProvider",
+)
+
 fun generateKotlinDeclarations(
     typesDir: File,
     sourceDir: File,
@@ -25,6 +30,7 @@ fun generateKotlinDeclarations(
 
     directories.asSequence()
         .filter { it.name.isComponentName() }
+        .filter { it.name !in ALIASES }
         .map { it.resolve("${it.name}.d.ts") }
         .forEach { generate(it, targetDir) }
 }

@@ -82,8 +82,9 @@ private fun findMapProps(
         ?: return null
 
     val membersContent = propsContent
-        .substringAfter("props: P & {\n", "")
-        .substringBefore(";\n  };", "")
+        .substringAfter("props: P", "")
+        .substringAfter(" & {\n", "")
+        .substringBefore(";\n    };", "")
         .replaceIndent("  ")
 
     return if (membersContent.isNotEmpty()) {
@@ -126,11 +127,13 @@ private fun convertMembers(
 ): String {
     return source
         .replace(";\n    ", "??11??")
+        .replace(";\n  }", "??12??")
         .replace(";\n  })", "??22??")
         .replace(";\n  }[", "??33??")
         .replace(";\n   * ", "??44??")
         .splitToSequence(";\n")
         .map { it.replace("??11??", ";\n    ") }
+        .map { it.replace("??12??", ";\n  }") }
         .map { it.replace("??22??", ";\n  })") }
         .map { it.replace("??33??", ";\n  }[") }
         .map { it.replace("??44??", ";\n   * ") }
