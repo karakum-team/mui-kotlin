@@ -13,26 +13,34 @@ external interface CheckboxProps : react.RProps {
 
     /**
      * The icon to display when the component is checked.
+     * @default <CheckBoxIcon />
      */
     var checkedIcon: react.ReactNode
 
     /**
-     * The color of the component. It supports those theme colors that make sense for this component.
+     * Override or extend the styles applied to the component.
      */
-    var color: dynamic /* 'primary' | 'secondary' | 'default' */
+    var classes: dynamic
 
     /**
-     * If `true`, the checkbox will be disabled.
+     * The color of the component. It supports those theme colors that make sense for this component.
+     * @default 'primary'
+     */
+    var color: dynamic
+
+    /**
+     * If `true`, the component is disabled.
      */
     var disabled: dynamic
 
     /**
-     * If `true`, the ripple effect will be disabled.
+     * If `true`, the ripple effect is disabled.
      */
     var disableRipple: dynamic
 
     /**
      * The icon to display when the component is unchecked.
+     * @default <CheckBoxOutlineBlankIcon />
      */
     var icon: react.ReactNode
 
@@ -45,12 +53,14 @@ external interface CheckboxProps : react.RProps {
      * If `true`, the component appears indeterminate.
      * This does not set the native input element to indeterminate due
      * to inconsistent behavior across browsers.
-     * However, we set a `data-indeterminate` attribute on the input.
+     * However, we set a `data-indeterminate` attribute on the `input`.
+     * @default false
      */
     var indeterminate: Boolean
 
     /**
      * The icon to display when the component is indeterminate.
+     * @default <IndeterminateCheckBoxIcon />
      */
     var indeterminateIcon: react.ReactNode
 
@@ -73,15 +83,21 @@ external interface CheckboxProps : react.RProps {
     var onChange: dynamic
 
     /**
-     * If `true`, the `input` element will be required.
+     * If `true`, the `input` element is required.
      */
     var required: dynamic
 
     /**
-     * The size of the checkbox.
+     * The size of the component.
      * `small` is equivalent to the dense checkbox styling.
+     * @default 'medium'
      */
-    var size: dynamic /* 'small' | 'medium' */
+    var size: dynamic
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 
     /**
      * The value of the component. The DOM API casts this to a string.
@@ -100,7 +116,7 @@ external interface CheckboxProps : react.RProps {
  * API:
  *
  * - [Checkbox API](https://material-ui.com/api/checkbox/)
- * - inherits [IconButton API](https://material-ui.com/api/icon-button/)
+ * - inherits [ButtonBase API](https://material-ui.com/api/button-base/)
  */
 @JsName("default")
 external val Checkbox: react.FC<CheckboxProps>

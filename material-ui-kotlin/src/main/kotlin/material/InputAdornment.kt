@@ -6,12 +6,44 @@
 package material
 
 external interface InputAdornmentProps : react.RProps {
+    /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
+     * The content of the component, normally an `IconButton` or string.
+     */
+    var children: react.ReactNode
+
+    /**
+     * Disable pointer events on the root.
+     * This allows for the content of the adornment to focus the `input` on click.
+     * @default false
+     */
     var disablePointerEvents: Boolean
 
+    /**
+     * If children is a string then disable wrapping in a Typography component.
+     * @default false
+     */
     var disableTypography: Boolean
 
+    /**
+     * The position this adornment should appear relative to the `Input`.
+     */
     var position: dynamic /* 'start' | 'end' */
 
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
+
+    /**
+     * The variant to use.
+     * Note: If you are using the `TextField` component or the `FormControl` component
+     * you do not have to set this manually.
+     */
     var variant: dynamic /* 'standard' | 'outlined' | 'filled' */
 }
 

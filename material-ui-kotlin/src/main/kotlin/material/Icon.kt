@@ -6,9 +6,39 @@
 package material
 
 external interface IconProps : react.RProps {
+    /**
+     * The base class applied to the icon. Defaults to 'material-icons', but can be changed to any
+     * other base class that suits the icon font you're using (e.g. material-icons-rounded, fas, etc).
+     * @default 'material-icons'
+     */
+    var baseClassName: String
+
+    /**
+     * The name of the icon font ligature.
+     */
+    var children: react.ReactNode
+
+    /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
+     * The color of the component. It supports those theme colors that make sense for this component.
+     * @default 'inherit'
+     */
     var color: dynamic
 
-    var fontSize: dynamic /* 'default' | 'inherit' | 'large' | 'medium' | 'small' */
+    /**
+     * The fontSize applied to the icon. Defaults to 24px, but can be configure to inherit font size.
+     * @default 'medium'
+     */
+    var fontSize: dynamic
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 }
 
 /**

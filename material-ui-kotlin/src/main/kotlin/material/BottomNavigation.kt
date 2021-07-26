@@ -12,9 +12,14 @@ external interface BottomNavigationProps : react.RProps {
     var children: react.ReactNode
 
     /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
      * Callback fired when the value changes.
      *
-     * @param {object} event The event source of the callback.
+     * @param {object} event The event source of the callback. **Warning**: This is a generic event not a change event.
      * @param {any} value We default to the index of the child.
      */
     var onChange: dynamic
@@ -22,8 +27,14 @@ external interface BottomNavigationProps : react.RProps {
     /**
      * If `true`, all `BottomNavigationAction`s will show their labels.
      * By default, only the selected `BottomNavigationAction` will show its label.
+     * @default false
      */
     var showLabels: Boolean
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 
     /**
      * The value of the currently selected `BottomNavigationAction`.

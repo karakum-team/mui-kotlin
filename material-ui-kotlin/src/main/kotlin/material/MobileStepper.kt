@@ -9,6 +9,7 @@ external interface MobileStepperProps : react.RProps {
     /**
      * Set the active step (zero based index).
      * Defines which dot is highlighted when the variant is 'dots'.
+     * @default 0
      */
     var activeStep: Number
 
@@ -16,6 +17,11 @@ external interface MobileStepperProps : react.RProps {
      * A back button element. For instance, it can be a `Button` or an `IconButton`.
      */
     var backButton: react.ReactNode
+
+    /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
 
     /**
      * Props applied to the `LinearProgress` element.
@@ -29,6 +35,7 @@ external interface MobileStepperProps : react.RProps {
 
     /**
      * Set the positioning type.
+     * @default 'bottom'
      */
     var position: dynamic /* 'bottom' | 'top' | 'static' */
 
@@ -38,7 +45,13 @@ external interface MobileStepperProps : react.RProps {
     var steps: Number
 
     /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
+
+    /**
      * The variant to use.
+     * @default 'dots'
      */
     var variant: dynamic /* 'text' | 'dots' | 'progress' */
 }

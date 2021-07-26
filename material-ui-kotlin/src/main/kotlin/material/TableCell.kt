@@ -11,13 +11,19 @@ external interface TableCellProps : react.RProps {
      *
      * Monetary or generally number fields **should be right aligned** as that allows
      * you to add them up quickly in your head without having to worry about decimals.
+     * @default 'inherit'
      */
     var align: dynamic /* 'inherit' | 'left' | 'center' | 'right' | 'justify' */
 
     /**
-     * The table cell contents.
+     * The content of the component.
      */
     var children: react.ReactNode
+
+    /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
 
     /**
      * The component used for the root node.
@@ -27,10 +33,9 @@ external interface TableCellProps : react.RProps {
 
     /**
      * Sets the padding applied to the cell.
-     * By default, the Table parent component set the value (`normal`).
-     * `default` is deprecated, use `normal` instead.
+     * The prop defaults to the value (`'default'`) inherited from the parent Table component.
      */
-    var padding: dynamic
+    var padding: dynamic /* 'normal' | 'checkbox' | 'none' */
 
     /**
      * Set scope attribute.
@@ -39,9 +44,9 @@ external interface TableCellProps : react.RProps {
 
     /**
      * Specify the size of the cell.
-     * By default, the Table parent component set the value (`medium`).
+     * The prop defaults to the value (`'medium'`) inherited from the parent Table component.
      */
-    var size: dynamic
+    var size: dynamic /* 'small' | 'medium' */
 
     /**
      * Set aria-sort direction.
@@ -49,8 +54,13 @@ external interface TableCellProps : react.RProps {
     var sortDirection: dynamic
 
     /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
+
+    /**
      * Specify the cell type.
-     * By default, the TableHead, TableBody or TableFooter parent component set the value.
+     * The prop defaults to the value inherited from the parent TableHead, TableBody, or TableFooter components.
      */
     var variant: dynamic /* 'head' | 'body' | 'footer' */
 }
@@ -58,6 +68,7 @@ external interface TableCellProps : react.RProps {
 /**
  * The component renders a `<th>` element when the parent context is a header
  * or otherwise a `<td>` element.
+ *
  * Demos:
  *
  * - [Tables](https://material-ui.com/components/tables/)

@@ -12,13 +12,3 @@ external enum class PopoverReference {
 
     ;
 }
-
-@Suppress("NAME_CONTAINS_ILLEGAL_CHARS")
-// language=JavaScript
-@JsName("""({root: 'root', paper: 'paper'})""")
-external enum class PopoverClassKey {
-    root,
-    paper,
-
-    ;
-}

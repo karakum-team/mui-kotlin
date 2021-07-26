@@ -7,19 +7,31 @@ package material
 
 external interface ImageListItemProps : react.RProps {
     /**
-     * While you can pass any node as children, the main use case is for an img.
+     * The content of the component, normally an `<img>`.
      */
     var children: react.ReactNode
 
     /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
      * Width of the item in number of grid columns.
+     * @default 1
      */
     var cols: Number
 
     /**
      * Height of the item in number of grid rows.
+     * @default 1
      */
     var rows: Number
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 }
 
 /**

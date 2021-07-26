@@ -6,21 +6,30 @@
 package material
 
 external interface StepButtonProps : react.RProps {
-    var active: Boolean
+    /**
+     * Can be a `StepLabel` or a node to place inside `StepLabel` as children.
+     */
+    var children: react.ReactNode
 
-    var alternativeLabel: Boolean
+    /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
 
-    var completed: Boolean
-
-    var disabled: Boolean
-
+    /**
+     * The icon displayed by the step label.
+     */
     var icon: react.ReactNode
 
-    var last: Boolean
-
+    /**
+     * The optional node to display.
+     */
     var optional: react.ReactNode
 
-    var orientation: dynamic
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 }
 
 /**

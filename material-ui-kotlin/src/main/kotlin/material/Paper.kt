@@ -12,26 +12,33 @@ external interface PaperProps : react.RProps {
     var children: react.ReactNode
 
     /**
-     * The component used for the root node.
-     * Either a string to use a HTML element or a component.
+     * Override or extend the styles applied to the component.
      */
-    var component: dynamic
+    var classes: dynamic
 
     /**
      * Shadow depth, corresponds to `dp` in the spec.
      * It accepts values between 0 and 24 inclusive.
+     * @default 1
      */
     var elevation: Number
 
     /**
      * If `true`, rounded corners are disabled.
+     * @default false
      */
     var square: Boolean
 
     /**
-     * The variant to use.
+     * The system prop that allows defining system overrides as well as additional CSS styles.
      */
-    var variant: dynamic /* 'elevation' | 'outlined' */
+    var sx: dynamic
+
+    /**
+     * The variant to use.
+     * @default 'elevation'
+     */
+    var variant: dynamic
 }
 
 /**

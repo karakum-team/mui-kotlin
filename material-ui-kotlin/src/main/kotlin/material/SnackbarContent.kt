@@ -12,14 +12,25 @@ external interface SnackbarContentProps : react.RProps {
     var action: react.ReactNode
 
     /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
      * The message to display.
      */
     var message: react.ReactNode
 
     /**
      * The ARIA role attribute of the element.
+     * @default 'alert'
      */
     var role: dynamic
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 }
 
 /**

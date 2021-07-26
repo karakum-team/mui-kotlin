@@ -12,13 +12,20 @@ external interface StepLabelProps : react.RProps {
     var children: react.ReactNode
 
     /**
-     * Mark the step as disabled, will also disable the button if
-     * `StepLabelButton` is a child of `StepLabel`. Is passed to child components.
+     * Override or extend the styles applied to the component.
      */
-    var disabled: Boolean
+    var classes: dynamic
 
     /**
-     * Mark the step as failed.
+     * The props used for each slot inside.
+     * @default {}
+     */
+    var componentsProps: dynamic
+    var label: dynamic
+
+    /**
+     * If `true`, the step is marked as failed.
+     * @default false
      */
     var error: Boolean
 
@@ -41,6 +48,11 @@ external interface StepLabelProps : react.RProps {
      * Props applied to the [`StepIcon`](/api/step-icon/) element.
      */
     var StepIconProps: dynamic
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 }
 
 /**

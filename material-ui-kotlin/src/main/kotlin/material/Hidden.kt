@@ -7,8 +7,14 @@ package material
 
 external interface HiddenProps : react.RProps {
     /**
+     * The content of the component.
+     */
+    var children: react.ReactNode
+
+    /**
      * Specify which implementation to use.  'js' is the default, 'css' works better for
      * server-side rendering.
+     * @default 'js'
      */
     var implementation: dynamic /* 'js' | 'css' */
 
@@ -17,7 +23,7 @@ external interface HiddenProps : react.RProps {
      *
      * As `window.innerWidth` is unavailable on the server,
      * we default to rendering an empty component during the first mount.
-     * You might want to use an heuristic to approximate
+     * You might want to use a heuristic to approximate
      * the screen width of the client browser screen width.
      *
      * For instance, you could be using the user-agent or the client-hints.
@@ -26,22 +32,26 @@ external interface HiddenProps : react.RProps {
     var initialWidth: dynamic
 
     /**
-     * If `true`, screens this size and down will be hidden.
+     * If `true`, screens this size and down are hidden.
+     * @default false
      */
     var lgDown: Boolean
 
     /**
-     * If `true`, screens this size and up will be hidden.
+     * If `true`, screens this size and up are hidden.
+     * @default false
      */
     var lgUp: Boolean
 
     /**
-     * If `true`, screens this size and down will be hidden.
+     * If `true`, screens this size and down are hidden.
+     * @default false
      */
     var mdDown: Boolean
 
     /**
-     * If `true`, screens this size and up will be hidden.
+     * If `true`, screens this size and up are hidden.
+     * @default false
      */
     var mdUp: Boolean
 
@@ -51,38 +61,45 @@ external interface HiddenProps : react.RProps {
     var only: dynamic
 
     /**
-     * If `true`, screens this size and down will be hidden.
+     * If `true`, screens this size and down are hidden.
+     * @default false
      */
     var smDown: Boolean
 
     /**
-     * If `true`, screens this size and up will be hidden.
+     * If `true`, screens this size and up are hidden.
+     * @default false
      */
     var smUp: Boolean
 
     /**
-     * If `true`, screens this size and down will be hidden.
+     * If `true`, screens this size and down are hidden.
+     * @default false
      */
     var xlDown: Boolean
 
     /**
-     * If `true`, screens this size and up will be hidden.
+     * If `true`, screens this size and up are hidden.
+     * @default false
      */
     var xlUp: Boolean
 
     /**
-     * If `true`, screens this size and down will be hidden.
+     * If `true`, screens this size and down are hidden.
+     * @default false
      */
     var xsDown: Boolean
 
     /**
-     * If `true`, screens this size and up will be hidden.
+     * If `true`, screens this size and up are hidden.
+     * @default false
      */
     var xsUp: Boolean
 }
 
 /**
  * Responsively hides children based on the selected implementation.
+ *
  * Demos:
  *
  * - [Hidden](https://material-ui.com/components/hidden/)
@@ -92,4 +109,4 @@ external interface HiddenProps : react.RProps {
  * - [Hidden API](https://material-ui.com/api/hidden/)
  */
 @JsName("default")
-external val Hidden: react.ComponentType<HiddenProps>
+external val Hidden: react.FC<HiddenProps>

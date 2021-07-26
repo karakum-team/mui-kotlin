@@ -7,9 +7,20 @@ package material
 
 external interface LinearProgressProps : react.RProps {
     /**
-     * The color of the component. It supports those theme colors that make sense for this component.
+     * Override or extend the styles applied to the component.
      */
-    var color: dynamic /* 'primary' | 'secondary' */
+    var classes: dynamic
+
+    /**
+     * The color of the component. It supports those theme colors that make sense for this component.
+     * @default 'primary'
+     */
+    var color: dynamic
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 
     /**
      * The value of the progress indicator for the determinate and buffer variants.
@@ -26,6 +37,7 @@ external interface LinearProgressProps : react.RProps {
     /**
      * The variant to use.
      * Use indeterminate or query when there is no progress value.
+     * @default 'indeterminate'
      */
     var variant: dynamic /* 'determinate' | 'indeterminate' | 'buffer' | 'query' */
 }
@@ -36,6 +48,7 @@ external interface LinearProgressProps : react.RProps {
  * If the progress bar is describing the loading progress of a particular region of a page,
  * you should use `aria-describedby` to point to the progress bar, and set the `aria-busy`
  * attribute to `true` on that region until it has finished loading.
+ *
  * Demos:
  *
  * - [Progress](https://material-ui.com/components/progress/)

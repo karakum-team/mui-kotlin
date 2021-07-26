@@ -6,26 +6,54 @@
 package material
 
 external interface TabProps : react.RProps {
+    /**
+     * This prop isn't supported.
+     * Use the `component` prop if you need to change the children structure.
+     */
+    var children: dynamic
+
+    /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
+     * If `true`, the component is disabled.
+     * @default false
+     */
+    var disabled: Boolean
+
+    /**
+     * If `true`, the  keyboard focus ripple is disabled.
+     * @default false
+     */
     var disableFocusRipple: Boolean
 
-    var fullWidth: Boolean
-
+    /**
+     * The icon to display.
+     */
     var icon: dynamic
 
+    /**
+     * The label element.
+     */
     var label: react.ReactNode
 
-    var onChange: dynamic
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 
-    var onClick: dynamic
-
-    var selected: Boolean
-
-    var style: dynamic
-
-    var textColor: dynamic
-
+    /**
+     * You can provide your own value. Otherwise, we fallback to the child position index.
+     */
     var value: Any
 
+    /**
+     * Tab labels appear in a single row.
+     * They can use a second line if needed.
+     * @default false
+     */
     var wrapped: Boolean
 }
 

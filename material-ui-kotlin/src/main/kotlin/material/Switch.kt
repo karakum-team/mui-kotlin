@@ -12,12 +12,18 @@ external interface SwitchProps : react.RProps {
     var checkedIcon: react.ReactNode
 
     /**
-     * The color of the component. It supports those theme colors that make sense for this component.
+     * Override or extend the styles applied to the component.
      */
-    var color: dynamic /* 'primary' | 'secondary' | 'default' */
+    var classes: dynamic
 
     /**
-     * If `true`, the switch will be disabled.
+     * The color of the component. It supports those theme colors that make sense for this component.
+     * @default 'primary'
+     */
+    var color: dynamic
+
+    /**
+     * If `true`, the component is disabled.
      */
     var disabled: Boolean
 
@@ -27,10 +33,16 @@ external interface SwitchProps : react.RProps {
     var icon: react.ReactNode
 
     /**
-     * The size of the switch.
+     * The size of the component.
      * `small` is equivalent to the dense switch styling.
+     * @default 'medium'
      */
-    var size: dynamic /* 'small' | 'medium' */
+    var size: dynamic
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 
     /**
      * The value of the component. The DOM API casts this to a string.

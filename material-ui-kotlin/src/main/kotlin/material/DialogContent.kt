@@ -12,9 +12,20 @@ external interface DialogContentProps : react.RProps {
     var children: react.ReactNode
 
     /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
      * Display the top and bottom dividers.
+     * @default false
      */
     var dividers: Boolean
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 }
 
 /**

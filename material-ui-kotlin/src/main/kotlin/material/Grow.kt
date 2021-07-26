@@ -7,19 +7,25 @@ package material
 
 external interface GrowProps : react.RProps {
     /**
+     * Perform the enter transition when it first mounts if `in` is also `true`.
+     * Set this to `false` to disable this behavior.
+     * @default true
+     */
+    var appear: Boolean
+
+    /**
      * A single child content element.
      */
     var children: dynamic
 
     /**
-     * Enable this prop if you encounter 'Function components cannot be given refs',
-     * use `unstable_createStrictModeTheme`,
-     * and can't forward the ref in the child component.
+     * The transition timing function.
+     * You may specify a single easing or a object containing enter and exit values.
      */
-    var disableStrictModeCompat: Boolean
+    var easing: dynamic
 
     /**
-     * If `true`, show the component; triggers the enter or exit animation.
+     * If `true`, the component will transition in.
      */
     var `in`: Boolean
 
@@ -30,6 +36,7 @@ external interface GrowProps : react.RProps {
      * You may specify a single timeout for all transitions, or individually with an object.
      *
      * Set to 'auto' to automatically calculate transition time based on height.
+     * @default 'auto'
      */
     var timeout: dynamic
 }
@@ -38,6 +45,7 @@ external interface GrowProps : react.RProps {
  * The Grow transition is used by the [Tooltip](https://material-ui.com/components/tooltips/) and
  * [Popover](https://material-ui.com/components/popover/) components.
  * It uses [react-transition-group](https://github.com/reactjs/react-transition-group) internally.
+ *
  * Demos:
  *
  * - [Popover](https://material-ui.com/components/popover/)

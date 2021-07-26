@@ -7,37 +7,43 @@ package material
 
 external interface ImageListProps : react.RProps {
     /**
-     * Cell height in `px`.
-     * Set to `'auto'` to let the children determine the height.
-     * @deprecated Use rowHeight instead.
+     * The content of the component, normally `ImageListItem`s.
      */
-    var cellHeight: dynamic
+    var children: dynamic
 
     /**
-     * Items that will be in the image list.
+     * Override or extend the styles applied to the component.
      */
-    var children: react.ReactNode
+    var classes: dynamic
 
     /**
      * Number of columns.
+     * @default 2
      */
     var cols: Number
 
     /**
-     * The gap between items in `px`.
+     * The gap between items in px.
+     * @default 4
      */
     var gap: Number
 
     /**
-     * The height of one row in `px`.
+     * The height of one row in px.
+     * @default 'auto'
      */
     var rowHeight: dynamic
 
     /**
-     * The spacing between items in `px`.
-     * @deprecated Use gap instead.
+     * The system prop that allows defining system overrides as well as additional CSS styles.
      */
-    var spacing: Number
+    var sx: dynamic
+
+    /**
+     * The variant to use.
+     * @default 'standard'
+     */
+    var variant: dynamic
 }
 
 /**

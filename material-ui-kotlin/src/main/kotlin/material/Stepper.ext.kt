@@ -11,15 +11,3 @@ external enum class Orientation {
 
     ;
 }
-
-@Suppress("NAME_CONTAINS_ILLEGAL_CHARS")
-// language=JavaScript
-@JsName("""({root: 'root', horizontal: 'horizontal', vertical: 'vertical', alternativeLabel: 'alternativeLabel'})""")
-external enum class StepperClasskey {
-    root,
-    horizontal,
-    vertical,
-    alternativeLabel,
-
-    ;
-}

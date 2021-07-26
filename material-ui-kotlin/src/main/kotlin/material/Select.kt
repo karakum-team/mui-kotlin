@@ -9,6 +9,7 @@ external interface SelectProps : react.RProps {
     /**
      * If `true`, the width of the popover will automatically be set according to the items inside the
      * menu, otherwise it will be at least the width of the select input.
+     * @default false
      */
     var autoWidth: Boolean
 
@@ -21,21 +22,31 @@ external interface SelectProps : react.RProps {
     var children: react.ReactNode
 
     /**
-     * The default element value. Use when the component is not controlled.
-     * @document
+     * Override or extend the styles applied to the component.
+     * @default {}
+     */
+    var classes: dynamic
+
+    /**
+     * The default value. Use when the component is not controlled.
      */
     var defaultValue: dynamic
 
     /**
      * If `true`, a value is displayed even if no items are selected.
      *
-     * In order to display a meaningful value, a function should be passed to the `renderValue` prop which returns the value to be displayed when no items are selected.
-     * You can only use it when the `native` prop is `false` (default).
+     * In order to display a meaningful value, a function can be passed to the `renderValue` prop which
+     * returns the value to be displayed when no items are selected.
+     *
+     * ⚠️ When using this prop, make sure the label doesn't overlap with the empty displayed value.
+     * The label should either be hidden or forced to a shrunk state.
+     * @default false
      */
     var displayEmpty: Boolean
 
     /**
      * The icon that displays the arrow.
+     * @default ArrowDropDownIcon
      */
     var IconComponent: dynamic
 
@@ -67,32 +78,29 @@ external interface SelectProps : react.RProps {
     var labelId: String
 
     /**
-     * See [OutlinedInput#label](/api/outlined-input/#props)
-     */
-    var labelWidth: Number
-
-    /**
      * Props applied to the [`Menu`](/api/menu/) element.
      */
     var MenuProps: dynamic
 
     /**
      * If `true`, `value` must be an array and the menu will support multiple selections.
+     * @default false
      */
     var multiple: Boolean
 
     /**
-     * If `true`, the component will be using a native `select` element.
+     * If `true`, the component uses a native `select` element.
+     * @default false
      */
     var native: Boolean
 
     /**
-     * Callback function fired when a menu item is selected.
+     * Callback fired when a menu item is selected.
      *
      * @param {object} event The event source of the callback.
      * You can pull out the new value by accessing `event.target.value` (any).
+     * **Warning**: This is a generic event not a change event.
      * @param {object} [child] The react element that was selected when `native` is `false` (default).
-     * @document
      */
     var onChange: dynamic
 
@@ -113,7 +121,7 @@ external interface SelectProps : react.RProps {
     var onOpen: dynamic
 
     /**
-     * Control `select` open state.
+     * If `true`, the component is shown.
      * You can only use it when the `native` prop is `false` (default).
      */
     var open: Boolean
@@ -133,18 +141,22 @@ external interface SelectProps : react.RProps {
     var SelectDisplayProps: dynamic
 
     /**
-     * The input value. Providing an empty string will select no options.
-     * This prop is required when the `native` prop is `false` (default).
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
+
+    /**
+     * The `input` value. Providing an empty string will select no options.
      * Set to an empty string `''` if you don't want any of the available options to be selected.
      *
      * If the value is an object it must have reference equality with the option in order to be selected.
      * If the value is not an object, the string representation must match with the string representation of the option in order to be selected.
-     * @document
      */
     var value: dynamic
 
     /**
      * The variant to use.
+     * @default 'outlined'
      */
     var variant: dynamic /* 'standard' | 'outlined' | 'filled' */
 }
@@ -158,7 +170,7 @@ external interface SelectProps : react.RProps {
  * API:
  *
  * - [Select API](https://material-ui.com/api/select/)
- * - inherits [Input API](https://material-ui.com/api/input/)
+ * - inherits [OutlinedInput API](https://material-ui.com/api/outlined-input/)
  */
 @JsName("default")
 external val Select: react.FC<SelectProps>

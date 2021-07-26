@@ -7,13 +7,24 @@ package material
 
 external interface StepContentProps : react.RProps {
     /**
-     * Step content.
+     * The content of the component.
      */
     var children: react.ReactNode
 
     /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
+
+    /**
      * The component used for the transition.
      * [Follow this guide](/components/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
+     * @default Collapse
      */
     var TransitionComponent: dynamic
 
@@ -22,11 +33,13 @@ external interface StepContentProps : react.RProps {
      * Passed as a prop to the transition component.
      *
      * Set to 'auto' to automatically calculate transition time based on height.
+     * @default 'auto'
      */
     var transitionDuration: dynamic
 
     /**
-     * Props applied to the [`Transition`](http://reactcommunity.org/react-transition-group/transition#Transition-props) element.
+     * Props applied to the transition element.
+     * By default, the element is based on this [`Transition`](http://reactcommunity.org/react-transition-group/transition) component.
      */
     var TransitionProps: dynamic
 }

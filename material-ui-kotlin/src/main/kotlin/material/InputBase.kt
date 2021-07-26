@@ -16,22 +16,42 @@ external interface InputBaseProps : react.RProps {
     var autoComplete: String
 
     /**
-     * If `true`, the `input` element will be focused during the first mount.
+     * If `true`, the `input` element is focused during the first mount.
      */
     var autoFocus: Boolean
 
     /**
-     * The color of the component. It supports those theme colors that make sense for this component.
+     * Override or extend the styles applied to the component.
      */
-    var color: dynamic /* 'primary' | 'secondary' */
+    var classes: dynamic
 
     /**
-     * The default `input` element value. Use when the component is not controlled.
+     * The color of the component. It supports those theme colors that make sense for this component.
+     * The prop defaults to the value (`'primary'`) inherited from the parent FormControl component.
+     */
+    var color: dynamic
+
+    /**
+     * The components used for each slot inside the InputBase.
+     * Either a string to use a HTML element or a component.
+     * @default {}
+     */
+    var components: dynamic
+
+    /**
+     * The props used for each slot inside the Input.
+     * @default {}
+     */
+    var componentsProps: dynamic
+
+    /**
+     * The default value. Use when the component is not controlled.
      */
     var defaultValue: dynamic
 
     /**
-     * If `true`, the `input` element will be disabled.
+     * If `true`, the component is disabled.
+     * The prop defaults to the value (`false`) inherited from the parent FormControl component.
      */
     var disabled: Boolean
 
@@ -41,13 +61,14 @@ external interface InputBaseProps : react.RProps {
     var endAdornment: react.ReactNode
 
     /**
-     * If `true`, the input will indicate an error. This is normally obtained via context from
-     * FormControl.
+     * If `true`, the `input` will indicate an error.
+     * The prop defaults to the value (`false`) inherited from the parent FormControl component.
      */
     var error: Boolean
 
     /**
-     * If `true`, the input will take up the full width of its container.
+     * If `true`, the `input` will take up the full width of its container.
+     * @default false
      */
     var fullWidth: Boolean
 
@@ -59,11 +80,13 @@ external interface InputBaseProps : react.RProps {
     /**
      * The component used for the `input` element.
      * Either a string to use a HTML element or a component.
+     * @default 'input'
      */
     var inputComponent: dynamic
 
     /**
      * [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
+     * @default {}
      */
     var inputProps: dynamic
 
@@ -75,11 +98,13 @@ external interface InputBaseProps : react.RProps {
     /**
      * If `dense`, will adjust vertical spacing. This is normally obtained via context from
      * FormControl.
+     * The prop defaults to the value (`'none'`) inherited from the parent FormControl component.
      */
     var margin: dynamic /* 'dense' | 'none' */
 
     /**
-     * If `true`, a textarea element will be rendered.
+     * If `true`, a `textarea` element is rendered.
+     * @default false
      */
     var multiline: Boolean
 
@@ -89,7 +114,7 @@ external interface InputBaseProps : react.RProps {
     var name: String
 
     /**
-     * Callback fired when the input is blurred.
+     * Callback fired when the `input` is blurred.
      *
      * Notice that the first argument (event) might be undefined.
      */
@@ -110,7 +135,7 @@ external interface InputBaseProps : react.RProps {
     var onKeyUp: dynamic
 
     /**
-     * The short hint displayed in the input before the user enters a value.
+     * The short hint displayed in the `input` before the user enters a value.
      */
     var placeholder: String
 
@@ -121,7 +146,8 @@ external interface InputBaseProps : react.RProps {
     var readOnly: Boolean
 
     /**
-     * If `true`, the `input` element will be required.
+     * If `true`, the `input` element is required.
+     * The prop defaults to the value (`false`) inherited from the parent FormControl component.
      */
     var required: Boolean
 
@@ -131,18 +157,6 @@ external interface InputBaseProps : react.RProps {
      * Number of rows to display when multiline option is set to true.
      */
     var rows: dynamic
-
-    /**
-     * Maximum number of rows to display.
-     * @deprecated Use `maxRows` instead.
-     */
-    var rowsMax: dynamic
-
-    /**
-     * Minimum number of rows to display.
-     * @deprecated Use `minRows` instead.
-     */
-    var rowsMin: dynamic
 
     /**
      * Maximum number of rows to display when multiline option is set to true.
@@ -155,12 +169,23 @@ external interface InputBaseProps : react.RProps {
     var minRows: dynamic
 
     /**
+     * The size of the component.
+     */
+    var size: dynamic
+
+    /**
      * Start `InputAdornment` for this component.
      */
     var startAdornment: react.ReactNode
 
     /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
+
+    /**
      * Type of the `input` element. It should be [a valid HTML5 input type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types).
+     * @default 'text'
      */
     var type: String
 
@@ -174,6 +199,7 @@ external interface InputBaseProps : react.RProps {
  * `InputBase` contains as few styles as possible.
  * It aims to be a simple building block for creating an input.
  * It contains a load of style reset and some state logic.
+ *
  * Demos:
  *
  * - [Text Fields](https://material-ui.com/components/text-fields/)

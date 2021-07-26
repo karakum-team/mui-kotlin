@@ -7,9 +7,9 @@ package material
 
 external interface RadioGroupProps : react.RProps {
     /**
-     * The default `input` element value. Use when the component is not controlled.
+     * The default value. Use when the component is not controlled.
      */
-    var defaultValue: dynamic
+    var defaultValue: Any
 
     /**
      * The name used to reference the value of the control.

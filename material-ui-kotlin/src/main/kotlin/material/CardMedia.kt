@@ -12,6 +12,11 @@ external interface CardMediaProps : react.RProps {
     var children: react.ReactNode
 
     /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
      * Image to be displayed as a background image.
      * Either `image` or `src` prop must be specified.
      * Note that caller must specify height otherwise the image will not be visible.
@@ -24,6 +29,11 @@ external interface CardMediaProps : react.RProps {
      * Media components: `video`, `audio`, `picture`, `iframe`, `img`.
      */
     var src: String
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 }
 
 /**

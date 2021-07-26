@@ -6,10 +6,16 @@
 package material
 
 external interface ContainerProps : react.RProps {
-    var children: dynamic
+    var children: react.ReactNode
+
+    /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
 
     /**
      * If `true`, the left and right padding is removed.
+     * @default false
      */
     var disableGutters: Boolean
 
@@ -18,6 +24,7 @@ external interface ContainerProps : react.RProps {
      * This is useful if you'd prefer to design for a fixed set of sizes
      * instead of trying to accommodate a fully fluid viewport.
      * It's fluid by default.
+     * @default false
      */
     var fixed: Boolean
 
@@ -25,8 +32,14 @@ external interface ContainerProps : react.RProps {
      * Determine the max-width of the container.
      * The container width grows with the size of the screen.
      * Set to `false` to disable `maxWidth`.
+     * @default 'lg'
      */
-    var maxWidth: dynamic /* 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false */
+    var maxWidth: dynamic
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 }
 
 /**

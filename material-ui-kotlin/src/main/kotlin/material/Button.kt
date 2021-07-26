@@ -7,27 +7,36 @@ package material
 
 external interface ButtonProps : react.RProps {
     /**
-     * The content of the button.
+     * The content of the component.
      */
     var children: react.ReactNode
 
     /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
      * The color of the component. It supports those theme colors that make sense for this component.
+     * @default 'primary'
      */
     var color: dynamic
 
     /**
-     * If `true`, the button will be disabled.
+     * If `true`, the component is disabled.
+     * @default false
      */
     var disabled: Boolean
 
     /**
      * If `true`, no elevation is used.
+     * @default false
      */
     var disableElevation: Boolean
 
     /**
-     * If `true`, the  keyboard focus ripple will be disabled.
+     * If `true`, the  keyboard focus ripple is disabled.
+     * @default false
      */
     var disableFocusRipple: Boolean
 
@@ -38,6 +47,7 @@ external interface ButtonProps : react.RProps {
 
     /**
      * If `true`, the button will take up the full width of its container.
+     * @default false
      */
     var fullWidth: Boolean
 
@@ -48,10 +58,11 @@ external interface ButtonProps : react.RProps {
     var href: String
 
     /**
-     * The size of the button.
+     * The size of the component.
      * `small` is equivalent to the dense button styling.
+     * @default 'medium'
      */
-    var size: dynamic /* 'small' | 'medium' | 'large' */
+    var size: dynamic
 
     /**
      * Element placed before the children.
@@ -59,9 +70,15 @@ external interface ButtonProps : react.RProps {
     var startIcon: react.ReactNode
 
     /**
-     * The variant to use.
+     * The system prop that allows defining system overrides as well as additional CSS styles.
      */
-    var variant: dynamic /* 'text' | 'outlined' | 'contained' */
+    var sx: dynamic
+
+    /**
+     * The variant to use.
+     * @default 'text'
+     */
+    var variant: dynamic
 }
 
 /**

@@ -10,6 +10,11 @@ external interface ScopedCssBaselineProps : react.RProps {
      * The content of the component.
      */
     var children: react.ReactNode
+
+    /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
 }
 
 /**

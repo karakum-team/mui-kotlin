@@ -9,30 +9,13 @@ external interface TextareaAutosizeProps : react.RProps {
     var ref: dynamic
 
     /**
-     * Minimum number of rows to display.
-     * @deprecated Use `rowsMin` instead.
-     */
-    var rows: dynamic
-
-    /**
-     * Maximum number of rows to display.
-     * @deprecated Use `maxRows` instead.
-     */
-    var rowsMax: dynamic
-
-    /**
-     * Minimum number of rows to display.
-     * @deprecated Use `minRows` instead.
-     */
-    var rowsMin: dynamic
-
-    /**
      * Maximum number of rows to display.
      */
     var maxRows: dynamic
 
     /**
      * Minimum number of rows to display.
+     * @default 1
      */
     var minRows: dynamic
 }

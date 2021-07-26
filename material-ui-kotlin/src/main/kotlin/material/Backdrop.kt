@@ -7,20 +7,19 @@ package material
 
 external interface BackdropProps : react.RProps {
     /**
-     * The content of the component.
+     * Override or extend the styles applied to the component.
      */
-    var children: react.ReactNode
+    var classes: dynamic
 
     /**
-     * If `true`, the backdrop is invisible.
-     * It can be used when rendering a popover or a custom select component.
-     */
-    var invisible: Boolean
-
-    /**
-     * If `true`, the backdrop is open.
+     * If `true`, the component is shown.
      */
     var open: Boolean
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 
     /**
      * The duration for the transition, in milliseconds.
@@ -40,5 +39,6 @@ external interface BackdropProps : react.RProps {
  * - [Backdrop API](https://material-ui.com/api/backdrop/)
  * - inherits [Fade API](https://material-ui.com/api/fade/)
  */
+
 @JsName("default")
 external val Backdrop: react.FC<BackdropProps>

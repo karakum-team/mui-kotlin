@@ -6,17 +6,49 @@
 package material
 
 external interface TableSortLabelProps : react.RProps {
+    /**
+     * If `true`, the label will have the active styling (should be true for the sorted column).
+     * @default false
+     */
     var active: Boolean
 
+    /**
+     * Label contents, the arrow will be appended automatically.
+     */
+    var children: react.ReactNode
+
+    /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
+     * The current sort direction.
+     * @default 'asc'
+     */
     var direction: dynamic /* 'asc' | 'desc' */
 
+    /**
+     * Hide sort icon when active is false.
+     * @default false
+     */
     var hideSortIcon: Boolean
 
+    /**
+     * Sort icon to use.
+     * @default ArrowDownwardIcon
+     */
     var IconComponent: dynamic
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 }
 
 /**
  * A button based label for placing inside `TableCell` for column sorting.
+ *
  * Demos:
  *
  * - [Tables](https://material-ui.com/components/tables/)

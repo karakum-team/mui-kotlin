@@ -7,29 +7,35 @@ package material
 
 external interface InputLabelProps : react.RProps {
     /**
-     * The contents of the `InputLabel`.
+     * The content of the component.
      */
     var children: react.ReactNode
+
+    /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
 
     var color: dynamic
 
     /**
      * If `true`, the transition animation is disabled.
+     * @default false
      */
     var disableAnimation: Boolean
 
     /**
-     * If `true`, apply disabled class.
+     * If `true`, the component is disabled.
      */
     var disabled: Boolean
 
     /**
-     * If `true`, the label will be displayed in an error state.
+     * If `true`, the label is displayed in an error state.
      */
     var error: Boolean
 
     /**
-     * If `true`, the input of this label is focused.
+     * If `true`, the `input` of this label is focused.
      */
     var focused: Boolean
 
@@ -40,7 +46,7 @@ external interface InputLabelProps : react.RProps {
     var margin: dynamic /* 'dense' */
 
     /**
-     * if `true`, the label will indicate that the input is required.
+     * if `true`, the label will indicate that the `input` is required.
      */
     var required: Boolean
 
@@ -48,6 +54,11 @@ external interface InputLabelProps : react.RProps {
      * If `true`, the label is shrunk.
      */
     var shrink: Boolean
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 
     /**
      * The variant to use.

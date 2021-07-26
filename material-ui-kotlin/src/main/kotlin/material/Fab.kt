@@ -7,27 +7,35 @@ package material
 
 external interface FabProps : react.RProps {
     /**
-     * The content of the button.
+     * The content of the component.
      */
-    var children: dynamic
+    var children: react.ReactNode
+
+    /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
 
     /**
      * The color of the component. It supports those theme colors that make sense for this component.
+     * @default 'default'
      */
     var color: dynamic
 
     /**
-     * If `true`, the button will be disabled.
+     * If `true`, the component is disabled.
+     * @default false
      */
     var disabled: Boolean
 
     /**
-     * If `true`, the  keyboard focus ripple will be disabled.
+     * If `true`, the  keyboard focus ripple is disabled.
+     * @default false
      */
     var disableFocusRipple: Boolean
 
     /**
-     * If `true`, the ripple effect will be disabled.
+     * If `true`, the ripple effect is disabled.
      */
     var disableRipple: Boolean
 
@@ -38,16 +46,22 @@ external interface FabProps : react.RProps {
     var href: String
 
     /**
-     * The size of the button.
+     * The size of the component.
      * `small` is equivalent to the dense button styling.
+     * @default 'large'
      */
-    var size: dynamic /* 'small' | 'medium' | 'large' */
+    var size: dynamic
 
     /**
      * The variant to use.
-     * 'round' is deprecated, use 'circular' instead.
+     * @default 'circular'
      */
-    var variant: dynamic /* 'circular' | 'extended' | 'round' */
+    var variant: dynamic
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 }
 
 /**

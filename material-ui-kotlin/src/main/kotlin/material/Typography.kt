@@ -6,25 +6,73 @@
 package material
 
 external interface TypographyProps : react.RProps {
-    var align: dynamic
+    /**
+     * Set the text-align on the component.
+     * @default 'inherit'
+     */
+    var align: dynamic /* 'inherit' | 'left' | 'center' | 'right' | 'justify' */
 
     /**
      * The content of the component.
      */
     var children: react.ReactNode
 
-    var color: dynamic
+    /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
 
-    var display: dynamic /* 'initial' | 'block' | 'inline' */
-
+    /**
+     * If `true`, the text will have a bottom margin.
+     * @default false
+     */
     var gutterBottom: Boolean
 
+    /**
+     * If `true`, the text will not wrap, but instead will truncate with a text overflow ellipsis.
+     *
+     * Note that text overflow can only happen with block or inline-block level elements
+     * (the element needs to have a width in order to overflow).
+     * @default false
+     */
     var noWrap: Boolean
 
+    /**
+     * If `true`, the element will be a paragraph element.
+     * @default false
+     */
     var paragraph: Boolean
 
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
+
+    /**
+     * Applies the theme typography styles.
+     * @default 'body1'
+     */
     var variant: dynamic
 
+    /**
+     * The component maps the variant prop to a range of different HTML element types.
+     * For instance, subtitle1 to `<h6>`.
+     * If you wish to change that mapping, you can provide your own.
+     * Alternatively, you can use the `component` prop.
+     * @default {
+     *   h1: 'h1',
+     *   h2: 'h2',
+     *   h3: 'h3',
+     *   h4: 'h4',
+     *   h5: 'h5',
+     *   h6: 'h6',
+     *   subtitle1: 'h6',
+     *   subtitle2: 'h6',
+     *   body1: 'p',
+     *   body2: 'p',
+     *   inherit: 'p',
+     * }
+     */
     var variantMapping: dynamic
 }
 

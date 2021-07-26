@@ -8,16 +8,24 @@ package material
 external interface StepIconProps : react.RProps {
     /**
      * Whether this step is active.
+     * @default false
      */
     var active: Boolean
 
     /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
      * Mark the step as completed. Is passed to child components.
+     * @default false
      */
     var completed: Boolean
 
     /**
-     * Mark the step as failed.
+     * If `true`, the step is marked as failed.
+     * @default false
      */
     var error: Boolean
 
@@ -25,6 +33,11 @@ external interface StepIconProps : react.RProps {
      * The label displayed in the step icon.
      */
     var icon: react.ReactNode
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 }
 
 /**

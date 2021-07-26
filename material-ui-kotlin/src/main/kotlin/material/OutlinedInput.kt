@@ -7,21 +7,25 @@ package material
 
 external interface OutlinedInputProps : react.RProps {
     /**
-     * The label of the input. It is only used for layout. The actual labelling
-     * is handled by `InputLabel`. If specified `labelWidth` is ignored.
+     * Override or extend the styles applied to the component.
      */
-    var label: react.ReactNode
+    var classes: dynamic
 
     /**
-     * The width of the label. Is ignored if `label` is provided. Prefer `label`
-     * if the input label appears with a strike through.
+     * The label of the `input`. It is only used for layout. The actual labelling
+     * is handled by `InputLabel`.
      */
-    var labelWidth: Number
+    var label: react.ReactNode
 
     /**
      * If `true`, the outline is notched to accommodate the label.
      */
     var notched: Boolean
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 }
 
 /**

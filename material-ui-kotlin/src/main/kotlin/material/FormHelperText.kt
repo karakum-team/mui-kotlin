@@ -14,6 +14,11 @@ external interface FormHelperTextProps : react.RProps {
     var children: react.ReactNode
 
     /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
      * If `true`, the helper text should be displayed in a disabled state.
      */
     var disabled: Boolean
@@ -43,6 +48,11 @@ external interface FormHelperTextProps : react.RProps {
      * If `true`, the helper text should use required classes key.
      */
     var required: Boolean
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 
     /**
      * The variant to use.

@@ -12,14 +12,31 @@ external interface FormControlLabelProps : react.RProps {
     var checked: Boolean
 
     /**
-     * A control element. For instance, it can be be a `Radio`, a `Switch` or a `Checkbox`.
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
+     * The props used for each slot inside.
+     * @default {}
+     */
+    var componentProps: dynamic
+    var typography: dynamic
+
+    /**
+     * A control element. For instance, it can be a `Radio`, a `Switch` or a `Checkbox`.
      */
     var control: dynamic
 
     /**
-     * If `true`, the control will be disabled.
+     * If `true`, the control is disabled.
      */
     var disabled: Boolean
+
+    /**
+     * If `true`, the label is rendered as it is passed without an additional typography node.
+     */
+    var disableTypography: Boolean
 
     /**
      * Pass a ref to the `input` element.
@@ -33,6 +50,7 @@ external interface FormControlLabelProps : react.RProps {
 
     /**
      * The position of the label.
+     * @default 'end'
      */
     var labelPlacement: dynamic /* 'end' | 'start' | 'top' | 'bottom' */
 
@@ -47,14 +65,20 @@ external interface FormControlLabelProps : react.RProps {
     var onChange: dynamic
 
     /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
+
+    /**
      * The value of the component.
      */
     var value: dynamic
 }
 
 /**
- * Drop in replacement of the `Radio`, `Switch` and `Checkbox` component.
+ * Drop-in replacement of the `Radio`, `Switch` and `Checkbox` component.
  * Use this component if you want to display an extra label.
+ *
  * Demos:
  *
  * - [Checkboxes](https://material-ui.com/components/checkboxes/)

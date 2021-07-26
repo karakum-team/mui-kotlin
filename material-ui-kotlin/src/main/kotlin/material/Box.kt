@@ -6,21 +6,24 @@
 package material
 
 external interface BoxProps : react.RProps {
-    // styled API
+    var children: react.ReactNode
+
     var component: dynamic
 
-    var clone: Boolean
+    var ref: dynamic
 
-    /**
-     * @deprecated
-     * Use the `sx` prop instead
-     */
-    var css: dynamic
-
-    // workaround for https://github.com/mui-org/material-ui/pull/15611
     var sx: dynamic
 }
 
-
+/**
+ *
+ * Demos:
+ *
+ * - [Box](https://material-ui.com/components/box/)
+ *
+ * API:
+ *
+ * - [Box API](https://material-ui.com/api/box/)
+ */
 @JsName("default")
-external val Box: react.ComponentType<BoxProps>
+external val Box: react.FC<BoxProps>

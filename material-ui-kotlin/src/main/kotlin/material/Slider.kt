@@ -6,51 +6,33 @@
 package material
 
 external interface SliderProps : react.RProps {
-    // var `aria-label`: String
+    /**
+     * The color of the component. It supports those theme colors that make sense for this component.
+     * @default 'primary'
+     */
+    var color: dynamic
 
-    // var `aria-labelledby`: String
+    /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+    var colorPrimary: dynamic
+    var colorSecondary: dynamic
+    var sizeSmall: dynamic
+    var thumbColorPrimary: dynamic
+    var thumbColorSecondary: dynamic
+    var thumbSizeSmall: dynamic
 
-    // var `aria-valuetext`: String
+    /**
+     * The size of the slider.
+     * @default 'medium'
+     */
+    var size: dynamic
 
-    var color: dynamic /* 'primary' | 'secondary' */
-
-    var defaultValue: dynamic
-
-    var disabled: Boolean
-
-    var getAriaLabel: dynamic
-
-    var getAriaValueText: dynamic
-
-    var marks: dynamic
-
-    var max: Number
-
-    var min: Number
-
-    var name: String
-
-    var onChange: dynamic
-
-    var onChangeCommitted: dynamic
-
-    var orientation: dynamic /* 'horizontal' | 'vertical' */
-
-    var step: dynamic
-
-    var scale: dynamic
-
-    var ThumbComponent: dynamic
-
-    var track: dynamic /* 'normal' | false | 'inverted' */
-
-    var value: dynamic
-
-    var ValueLabelComponent: dynamic
-
-    var valueLabelDisplay: dynamic /* 'on' | 'auto' | 'off' */
-
-    var valueLabelFormat: dynamic
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 }
 
 /**
@@ -62,6 +44,7 @@ external interface SliderProps : react.RProps {
  * API:
  *
  * - [Slider API](https://material-ui.com/api/slider/)
+ * - inherits [SliderUnstyled API](https://material-ui.com/api/slider-unstyled/)
  */
 @JsName("default")
 external val Slider: react.FC<SliderProps>

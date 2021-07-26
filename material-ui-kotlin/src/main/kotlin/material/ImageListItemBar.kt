@@ -14,13 +14,20 @@ external interface ImageListItemBarProps : react.RProps {
 
     /**
      * Position of secondary action IconButton.
+     * @default 'right'
      */
     var actionPosition: dynamic /* 'left' | 'right' */
 
     /**
-     * Position of the title bar.
+     * Override or extend the styles applied to the component.
      */
-    var position: dynamic /* 'top' | 'bottom' */
+    var classes: dynamic
+
+    /**
+     * Position of the title bar.
+     * @default 'bottom'
+     */
+    var position: dynamic /* 'below' | 'top' | 'bottom' */
 
     /**
      * String or element serving as subtitle (support text).
@@ -28,15 +35,14 @@ external interface ImageListItemBarProps : react.RProps {
     var subtitle: react.ReactNode
 
     /**
-     * Title to be displayed on item.
+     * The system prop that allows defining system overrides as well as additional CSS styles.
      */
-    var title: react.ReactNode
+    var sx: dynamic
 
     /**
-     * Position of the title bar.
-     * @deprecated Use position instead.
+     * Title to be displayed.
      */
-    var titlePosition: dynamic /* 'top' | 'bottom' */
+    var title: react.ReactNode
 }
 
 /**

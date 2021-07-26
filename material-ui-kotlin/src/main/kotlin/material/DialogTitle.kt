@@ -12,10 +12,14 @@ external interface DialogTitleProps : react.RProps {
     var children: react.ReactNode
 
     /**
-     * If `true`, the children won't be wrapped by a typography component.
-     * For instance, this can be useful to render an h4 instead of the default h2.
+     * Override or extend the styles applied to the component.
      */
-    var disableTypography: Boolean
+    var classes: dynamic
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 }
 
 /**

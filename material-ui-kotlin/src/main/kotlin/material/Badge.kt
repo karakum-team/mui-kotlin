@@ -7,49 +7,32 @@ package material
 
 external interface BadgeProps : react.RProps {
     /**
-     * The anchor of the badge.
+     * Override or extend the styles applied to the component.
      */
-    var anchorOrigin: dynamic
-
-    /**
-     * Wrapped shape the badge should overlap.
-     */
-    var overlap: dynamic /* 'rectangle' | 'circle' | 'rectangular' | 'circular' */
-
-    /**
-     * The content rendered within the badge.
-     */
-    var badgeContent: react.ReactNode
-
-    /**
-     * The badge will be added relative to this node.
-     */
-    var children: react.ReactNode
+    var classes: dynamic
+    var colorPrimary: dynamic
+    var colorSecondary: dynamic
+    var colorError: dynamic
+    var colorInfo: dynamic
+    var colorSuccess: dynamic
+    var colorWarning: dynamic
 
     /**
      * The color of the component. It supports those theme colors that make sense for this component.
+     * @default 'default'
      */
-    var color: dynamic /* 'primary' | 'secondary' | 'default' | 'error' */
+    var color: dynamic
 
     /**
-     * If `true`, the badge will be invisible.
+     * The system prop that allows defining system overrides as well as additional CSS styles.
      */
-    var invisible: Boolean
-
-    /**
-     * Max count to show.
-     */
-    var max: Number
-
-    /**
-     * Controls whether the badge is hidden when `badgeContent` is zero.
-     */
-    var showZero: Boolean
+    var sx: dynamic
 
     /**
      * The variant to use.
+     * @default 'standard'
      */
-    var variant: dynamic /* 'standard' | 'dot' */
+    var variant: dynamic
 }
 
 /**
@@ -62,6 +45,7 @@ external interface BadgeProps : react.RProps {
  * API:
  *
  * - [Badge API](https://material-ui.com/api/badge/)
+ * - inherits [BadgeUnstyled API](https://material-ui.com/api/badge-unstyled/)
  */
 @JsName("default")
 external val Badge: react.FC<BadgeProps>

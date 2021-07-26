@@ -7,9 +7,14 @@ package material
 
 external interface AccordionSummaryProps : react.RProps {
     /**
-     * The content of the accordion summary.
+     * The content of the component.
      */
     var children: react.ReactNode
+
+    /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
 
     /**
      * The icon to display as the expand indicator.
@@ -17,9 +22,9 @@ external interface AccordionSummaryProps : react.RProps {
     var expandIcon: react.ReactNode
 
     /**
-     * Props applied to the `IconButton` element wrapping the expand icon.
+     * The system prop that allows defining system overrides as well as additional CSS styles.
      */
-    var IconButtonProps: dynamic
+    var sx: dynamic
 }
 
 /**

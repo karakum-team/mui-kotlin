@@ -12,19 +12,29 @@ external interface TabScrollButtonProps : react.RProps {
     var children: react.ReactNode
 
     /**
-     * Which direction should the button indicate?
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
+     * The direction the button should indicate.
      */
     var direction: dynamic /* 'left' | 'right' */
 
     /**
-     * If `true`, the element will be disabled.
+     * If `true`, the component is disabled.
      */
     var disabled: Boolean
 
     /**
-     * The tabs orientation (layout flow direction).
+     * The component orientation (layout flow direction).
      */
     var orientation: dynamic /* 'horizontal' | 'vertical' */
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 }
 
 /**

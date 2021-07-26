@@ -13,16 +13,9 @@ external interface ButtonBaseProps : react.RProps {
     var action: dynamic
 
     /**
-     * @ignore
-     *
-     * Use that prop to pass a ref to the native button component.
-     * @deprecated Use `ref` instead.
-     */
-    var buttonRef: dynamic
-
-    /**
-     * If `true`, the ripples will be centered.
+     * If `true`, the ripples are centered.
      * They won't start at the cursor interaction position.
+     * @default false
      */
     var centerRipple: Boolean
 
@@ -32,25 +25,34 @@ external interface ButtonBaseProps : react.RProps {
     var children: react.ReactNode
 
     /**
-     * If `true`, the base button will be disabled.
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
+     * If `true`, the component is disabled.
+     * @default false
      */
     var disabled: Boolean
 
     /**
-     * If `true`, the ripple effect will be disabled.
+     * If `true`, the ripple effect is disabled.
      *
      * ⚠️ Without a ripple there is no styling for :focus-visible by default. Be sure
-     * to highlight the element by applying separate styles with the `focusVisibleClassName`.
+     * to highlight the element by applying separate styles with the `.Mui-focusVisible` class.
+     * @default false
      */
     var disableRipple: Boolean
 
     /**
-     * If `true`, the touch ripple effect will be disabled.
+     * If `true`, the touch ripple effect is disabled.
+     * @default false
      */
     var disableTouchRipple: Boolean
 
     /**
      * If `true`, the base button will have a keyboard focus ripple.
+     * @default false
      */
     var focusRipple: Boolean
 
@@ -65,12 +67,26 @@ external interface ButtonBaseProps : react.RProps {
     var focusVisibleClassName: String
 
     /**
+     * The component used to render a link when the `href` prop is provided.
+     * @default 'a'
+     */
+    var LinkComponent: dynamic
+
+    /**
      * Callback fired when the component is focused with a keyboard.
      * We trigger a `onFocus` callback too.
      */
     var onFocusVisible: dynamic
 
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
+
     // @types/react is stricter
+    /**
+     * @default 0
+     */
     var tabIndex: dynamic
 
     /**
@@ -83,6 +99,7 @@ external interface ButtonBaseProps : react.RProps {
  * `ButtonBase` contains as few styles as possible.
  * It aims to be a simple building block for creating a button.
  * It contains a load of style reset and some focus/ripple logic.
+ *
  * Demos:
  *
  * - [Buttons](https://material-ui.com/components/buttons/)

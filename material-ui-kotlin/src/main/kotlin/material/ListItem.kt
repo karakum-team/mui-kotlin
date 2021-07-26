@@ -6,31 +6,23 @@
 package material
 
 external interface ListItemProps : react.RProps {
-    var alignItems: dynamic /* 'flex-start' | 'center' */
+    /**
+     * The components used for each slot inside the InputBase.
+     * Either a string to use a HTML element or a component.
+     * @default {}
+     */
+    var components: dynamic
 
-    var autoFocus: Boolean
-
-    var button: Boolean
-
-    var ContainerComponent: dynamic
-
-    var ContainerProps: dynamic
-
-    var dense: Boolean
-
-    var disabled: Boolean
-
-    var disableGutters: Boolean
-
-    var divider: Boolean
-
-    var focusVisibleClassName: String
-
-    var selected: Boolean
+    /**
+     * The props used for each slot inside the Input.
+     * @default {}
+     */
+    var componentsProps: dynamic
 }
 
 /**
  * Uses an additional container component if `ListItemSecondaryAction` is the last child.
+ *
  * Demos:
  *
  * - [Lists](https://material-ui.com/components/lists/)

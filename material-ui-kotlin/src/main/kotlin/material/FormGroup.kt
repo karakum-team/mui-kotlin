@@ -12,15 +12,27 @@ external interface FormGroupProps : react.RProps {
     var children: react.ReactNode
 
     /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
      * Display group of elements in a compact row.
+     * @default false
      */
     var row: Boolean
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 }
 
 /**
  * `FormGroup` wraps controls such as `Checkbox` and `Switch`.
  * It provides compact row layout.
  * For the `Radio`, you should be using the `RadioGroup` component instead of this one.
+ *
  * Demos:
  *
  * - [Checkboxes](https://material-ui.com/components/checkboxes/)

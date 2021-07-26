@@ -13,32 +13,43 @@ external interface NativeSelectProps : react.RProps {
     var children: react.ReactNode
 
     /**
+     * Override or extend the styles applied to the component.
+     * @default {}
+     */
+    var classes: dynamic
+
+    /**
      * The icon that displays the arrow.
+     * @default ArrowDropDownIcon
      */
     var IconComponent: dynamic
 
     /**
      * An `Input` element; does not have to be a material-ui specific `Input`.
+     * @default <Input />
      */
     var input: dynamic
 
     /**
-     * Attributes applied to the `select` element.
+     * <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes">Attributes</a> applied to the `select` element.
      */
     var inputProps: dynamic
 
     /**
-     * Callback function fired when a menu item is selected.
+     * Callback fired when a menu item is selected.
      *
      * @param {object} event The event source of the callback.
      * You can pull out the new value by accessing `event.target.value` (string).
-     * @document
      */
     var onChange: dynamic
 
     /**
-     * The input value. The DOM API casts this to a string.
-     * @document
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
+
+    /**
+     * The `input` value. The DOM API casts this to a string.
      */
     var value: dynamic
 
@@ -50,6 +61,7 @@ external interface NativeSelectProps : react.RProps {
 
 /**
  * An alternative to `<Select native />` with a much smaller bundle size footprint.
+ *
  * Demos:
  *
  * - [Selects](https://material-ui.com/components/selects/)

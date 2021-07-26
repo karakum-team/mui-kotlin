@@ -12,9 +12,20 @@ external interface AccordionActionsProps : react.RProps {
     var children: react.ReactNode
 
     /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
      * If `true`, the actions do not have additional margin.
+     * @default false
      */
     var disableSpacing: Boolean
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 }
 
 /**

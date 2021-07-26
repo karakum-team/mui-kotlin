@@ -7,9 +7,8 @@ package material
 
 external interface MenuProps : react.RProps {
     /**
-     * A HTML element, or a function that returns it.
+     * An HTML element, or a function that returns one.
      * It's used to set the position of the menu.
-     * @document
      */
     var anchorEl: dynamic
 
@@ -18,6 +17,7 @@ external interface MenuProps : react.RProps {
      * children are not focusable. If you set this prop to `false` focus will be placed
      * on the parent modal container. This has severe accessibility implications
      * and should only be considered if you manage focus otherwise.
+     * @default true
      */
     var autoFocus: Boolean
 
@@ -27,15 +27,22 @@ external interface MenuProps : react.RProps {
     var children: react.ReactNode
 
     /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
      * When opening the menu will not focus the active item but the `[role="menu"]`
      * unless `autoFocus` is also set to `false`. Not using the default means not
      * following WAI-ARIA authoring practices. Please be considerate about possible
      * accessibility implications.
+     * @default false
      */
     var disableAutoFocusItem: Boolean
 
     /**
      * Props applied to the [`MenuList`](/api/menu-list/) element.
+     * @default {}
      */
     var MenuListProps: dynamic
 
@@ -48,49 +55,7 @@ external interface MenuProps : react.RProps {
     var onClose: dynamic
 
     /**
-     * Callback fired before the Menu enters.
-     * @deprecated Use the `TransitionProps` prop instead.
-     * @document
-     */
-    var onEnter: dynamic
-
-    /**
-     * Callback fired when the Menu has entered.
-     * @deprecated Use the `TransitionProps` prop instead.
-     * @document
-     */
-    var onEntered: dynamic
-
-    /**
-     * Callback fired when the Menu is entering.
-     * @deprecated Use the `TransitionProps` prop instead.
-     * @document
-     */
-    var onEntering: dynamic
-
-    /**
-     * Callback fired before the Menu exits.
-     * @deprecated Use the `TransitionProps` prop instead.
-     * @document
-     */
-    var onExit: dynamic
-
-    /**
-     * Callback fired when the Menu has exited.
-     * @deprecated Use the `TransitionProps` prop instead.
-     * @document
-     */
-    var onExited: dynamic
-
-    /**
-     * Callback fired when the Menu is exiting.
-     * @deprecated Use the `TransitionProps` prop instead.
-     * @document
-     */
-    var onExiting: dynamic
-
-    /**
-     * If `true`, the menu is visible.
+     * If `true`, the component is shown.
      */
     var open: Boolean
 
@@ -100,19 +65,26 @@ external interface MenuProps : react.RProps {
     var PopoverClasses: dynamic
 
     /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
+
+    /**
      * The length of the transition in `ms`, or 'auto'
+     * @default 'auto'
      */
     var transitionDuration: dynamic
 
     /**
      * Props applied to the transition element.
      * By default, the element is based on this [`Transition`](http://reactcommunity.org/react-transition-group/transition) component.
+     * @default {}
      */
     var TransitionProps: dynamic
 
     /**
-     * The variant to use. Use `menu` to prevent selected items from impacting the initial focus
-     * and the vertical alignment relative to the anchor element.
+     * The variant to use. Use `menu` to prevent selected items from impacting the initial focus.
+     * @default 'selectedMenu'
      */
     var variant: dynamic /* 'menu' | 'selectedMenu' */
 }

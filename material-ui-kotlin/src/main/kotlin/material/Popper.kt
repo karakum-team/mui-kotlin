@@ -9,7 +9,7 @@ external interface PopperProps : react.RProps {
     var ref: dynamic
 
     /**
-     * A HTML element, [referenceObject](https://popper.js.org/docs/v1/#referenceObject),
+     * An HTML element, [virtualElement](https://popper.js.org/docs/v2/virtual-elements/),
      * or a function that returns either.
      * It's used to set the position of the popper.
      * The return value will passed as the reference object of the Popper instance.
@@ -22,7 +22,7 @@ external interface PopperProps : react.RProps {
     var children: dynamic
 
     /**
-     * A HTML element, component instance, or function that returns either.
+     * An HTML element or function that returns one.
      * The `container` will have the portal children appended to it.
      *
      * By default, it uses the body of the top-level document object,
@@ -31,8 +31,8 @@ external interface PopperProps : react.RProps {
     var container: dynamic
 
     /**
-     * Disable the portal behavior.
-     * The children stay within it's parent DOM hierarchy.
+     * The `children` will be under the DOM hierarchy of the parent component.
+     * @default false
      */
     var disablePortal: dynamic
 
@@ -40,6 +40,7 @@ external interface PopperProps : react.RProps {
      * Always keep the children in the DOM.
      * This prop can be useful in SEO situation or
      * when you want to maximize the responsiveness of the Popper.
+     * @default false
      */
     var keepMounted: Boolean
 
@@ -50,24 +51,26 @@ external interface PopperProps : react.RProps {
      * A modifier is a function that is called each time Popper.js needs to
      * compute the position of the popper.
      * For this reason, modifiers should be very performant to avoid bottlenecks.
-     * To learn how to create a modifier, [read the modifiers documentation](https://popper.js.org/docs/v1/#modifiers).
+     * To learn how to create a modifier, [read the modifiers documentation](https://popper.js.org/docs/v2/modifiers/).
      */
-    var modifiers: Any
+    var modifiers: dynamic
 
     /**
-     * If `true`, the popper is visible.
+     * If `true`, the component is shown.
      */
     var open: Boolean
 
     /**
      * Popper placement.
+     * @default 'bottom'
      */
     var placement: dynamic
 
     /**
-     * Options provided to the [`popper.js`](https://popper.js.org/docs/v1/) instance.
+     * Options provided to the [`Popper.js`](https://popper.js.org/docs/v2/constructors/#options) instance.
+     * @default {}
      */
-    var popperOptions: Any
+    var popperOptions: dynamic
 
     /**
      * A ref that points to the used popper instance.
@@ -76,12 +79,14 @@ external interface PopperProps : react.RProps {
 
     /**
      * Help supporting a react-transition-group/Transition component.
+     * @default false
      */
     var transition: Boolean
 }
 
 /**
- * Poppers rely on the 3rd party library [Popper.js](https://popper.js.org/docs/v1/) for positioning.
+ * Poppers rely on the 3rd party library [Popper.js](https://popper.js.org/docs/v2/) for positioning.
+ *
  * Demos:
  *
  * - [Autocomplete](https://material-ui.com/components/autocomplete/)

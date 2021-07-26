@@ -7,7 +7,7 @@ package material
 
 external interface ChipProps : react.RProps {
     /**
-     * Avatar element.
+     * The Avatar element to display.
      */
     var avatar: dynamic
 
@@ -18,16 +18,23 @@ external interface ChipProps : react.RProps {
     var children: dynamic
 
     /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
      * If `true`, the chip will appear clickable, and will raise when pressed,
      * even if the onClick prop is not defined.
-     * If false, the chip will not be clickable, even if onClick prop is defined.
+     * If `false`, the chip will not appear clickable, even if onClick prop is defined.
      * This can be used, for example,
      * along with the component prop to indicate an anchor Chip is clickable.
+     * Note: this controls the UI and does not affect the onClick event.
      */
     var clickable: Boolean
 
     /**
      * The color of the component. It supports those theme colors that make sense for this component.
+     * @default 'default'
      */
     var color: dynamic
 
@@ -37,7 +44,8 @@ external interface ChipProps : react.RProps {
     var deleteIcon: dynamic
 
     /**
-     * If `true`, the chip should be displayed in a disabled state.
+     * If `true`, the component is disabled.
+     * @default false
      */
     var disabled: Boolean
 
@@ -47,29 +55,37 @@ external interface ChipProps : react.RProps {
     var icon: dynamic
 
     /**
-     * The content of the label.
+     * The content of the component.
      */
     var label: react.ReactNode
 
     /**
-     * Callback function fired when the delete icon is clicked.
+     * Callback fired when the delete icon is clicked.
      * If set, the delete icon will be shown.
      */
     var onDelete: dynamic
 
     /**
-     * The size of the chip.
+     * The size of the component.
+     * @default 'medium'
      */
-    var size: dynamic /* 'small' | 'medium' */
+    var size: dynamic
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 
     /**
      * The variant to use.
+     * @default 'filled'
      */
-    var variant: dynamic /* 'default' | 'outlined' */
+    var variant: dynamic
 }
 
 /**
  * Chips represent complex entities in small blocks, such as a contact.
+ *
  * Demos:
  *
  * - [Chips](https://material-ui.com/components/chips/)

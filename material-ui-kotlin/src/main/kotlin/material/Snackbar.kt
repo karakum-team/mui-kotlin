@@ -13,6 +13,9 @@ external interface SnackbarProps : react.RProps {
 
     /**
      * The anchor of the `Snackbar`.
+     * On smaller screens, the component grows to occupy all the available width,
+     * the horizontal alignment is ignored.
+     * @default { vertical: 'bottom', horizontal: 'left' }
      */
     var anchorOrigin: dynamic
 
@@ -21,6 +24,7 @@ external interface SnackbarProps : react.RProps {
      * `onClose` function. `onClose` should then set the state of the `open`
      * prop to hide the Snackbar. This behavior is disabled by default with
      * the `null` value.
+     * @default null
      */
     var autoHideDuration: dynamic
 
@@ -28,6 +32,11 @@ external interface SnackbarProps : react.RProps {
      * Replace the `SnackbarContent` component.
      */
     var children: dynamic
+
+    /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
 
     /**
      * Props applied to the `ClickAwayListener` element.
@@ -41,6 +50,7 @@ external interface SnackbarProps : react.RProps {
 
     /**
      * If `true`, the `autoHideDuration` timer will expire even if the window is not focused.
+     * @default false
      */
     var disableWindowBlurListener: Boolean
 
@@ -49,7 +59,6 @@ external interface SnackbarProps : react.RProps {
      * <Snackbar/>, add the key prop to ensure independent treatment of each message.
      * e.g. <Snackbar key={message} />, otherwise, the message may update-in-place and
      * features such as autoHideDuration may be canceled.
-     * @document
      */
     var key: Any
 
@@ -71,47 +80,7 @@ external interface SnackbarProps : react.RProps {
     var onClose: dynamic
 
     /**
-     * Callback fired before the transition is entering.
-     * @deprecated Use the `TransitionProps` prop instead.
-     */
-    var onEnter: dynamic
-
-    /**
-     * Callback fired when the transition has entered.
-     * @deprecated Use the `TransitionProps` prop instead.
-     */
-    var onEntered: dynamic
-
-    /**
-     * Callback fired when the transition is entering.
-     * @deprecated Use the `TransitionProps` prop instead.
-     */
-    var onEntering: dynamic
-
-    /**
-     * Callback fired before the transition is exiting.
-     * @deprecated Use the `TransitionProps` prop instead.
-     */
-    var onExit: dynamic
-
-    /**
-     * Callback fired when the transition has exited.
-     * @deprecated Use the `TransitionProps` prop instead.
-     */
-    var onExited: dynamic
-
-    /**
-     * Callback fired when the transition is exiting.
-     * @deprecated Use the `TransitionProps` prop instead.
-     */
-    var onExiting: dynamic
-
-    var onMouseEnter: dynamic
-
-    var onMouseLeave: dynamic
-
-    /**
-     * If `true`, `Snackbar` is open.
+     * If `true`, the component is shown.
      */
     var open: Boolean
 
@@ -124,19 +93,31 @@ external interface SnackbarProps : react.RProps {
     var resumeHideDuration: Number
 
     /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
+
+    /**
      * The component used for the transition.
      * [Follow this guide](/components/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
+     * @default Grow
      */
     var TransitionComponent: dynamic
 
     /**
      * The duration for the transition, in milliseconds.
      * You may specify a single timeout for all transitions, or individually with an object.
+     * @default {
+     *   enter: duration.enteringScreen,
+     *   exit: duration.leavingScreen,
+     * }
      */
     var transitionDuration: dynamic
 
     /**
-     * Props applied to the [`Transition`](http://reactcommunity.org/react-transition-group/transition#Transition-props) element.
+     * Props applied to the transition element.
+     * By default, the element is based on this [`Transition`](http://reactcommunity.org/react-transition-group/transition) component.
+     * @default {}
      */
     var TransitionProps: dynamic
 }

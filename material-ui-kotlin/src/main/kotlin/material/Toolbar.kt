@@ -6,9 +6,33 @@
 package material
 
 external interface ToolbarProps : react.RProps {
+    /**
+     * The Toolbar children, usually a mixture of `IconButton`, `Button` and `Typography`.
+     * The Toolbar is a flex container, allowing flex item properites to be used to lay out the children.
+     */
+    var children: react.ReactNode
+
+    /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
+     * If `true`, disables gutter padding.
+     * @default false
+     */
     var disableGutters: Boolean
 
-    var variant: dynamic /* 'regular' | 'dense' */
+    /**
+     * The variant to use.
+     * @default 'regular'
+     */
+    var variant: dynamic
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 }
 
 /**

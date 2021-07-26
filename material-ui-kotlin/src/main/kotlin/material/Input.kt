@@ -7,9 +7,19 @@ package material
 
 external interface InputProps : react.RProps {
     /**
-     * If `true`, the input will not have an underline.
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
+     * If `true`, the `input` will not have an underline.
      */
     var disableUnderline: Boolean
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 }
 
 /**

@@ -12,15 +12,22 @@ external interface SvgIconProps : react.RProps {
     var children: react.ReactNode
 
     /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
      * The color of the component. It supports those theme colors that make sense for this component.
      * You can use the `htmlColor` prop to apply a color attribute to the SVG element.
+     * @default 'inherit'
      */
-    var color: dynamic /* 'inherit' | 'primary' | 'secondary' | 'action' | 'disabled' | 'error' */
+    var color: dynamic
 
     /**
      * The fontSize applied to the icon. Defaults to 24px, but can be configure to inherit font size.
+     * @default 'medium'
      */
-    var fontSize: dynamic /* 'default' | 'inherit' | 'large' | 'medium' | 'small' */
+    var fontSize: dynamic
 
     /**
      * Applies a color attribute to the SVG element.
@@ -31,9 +38,13 @@ external interface SvgIconProps : react.RProps {
      * The shape-rendering attribute. The behavior of the different options is described on the
      * [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/shape-rendering).
      * If you are having issues with blurry icons you should investigate this prop.
-     * @document
      */
     var shapeRendering: String
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 
     /**
      * Provides a human-readable title for the element that contains it.
@@ -43,9 +54,11 @@ external interface SvgIconProps : react.RProps {
 
     /**
      * Allows you to redefine what the coordinates without units mean inside an SVG element.
-     * For example, if the SVG element is 500 (width) by 200 (height), and you pass viewBox="0 0 50 20",
+     * For example, if the SVG element is 500 (width) by 200 (height),
+     * and you pass viewBox="0 0 50 20",
      * this means that the coordinates inside the SVG will go from the top left corner (0,0)
      * to bottom right (50,20) and each unit will be worth 10px.
+     * @default '0 0 24 24'
      */
     var viewBox: String
 }

@@ -14,6 +14,7 @@ external interface CssBaselineProps : react.RProps {
 
 /**
  * Kickstart an elegant, consistent, and simple baseline to build upon.
+ *
  * Demos:
  *
  * - [Css Baseline](https://material-ui.com/components/css-baseline/)

@@ -19,7 +19,12 @@ external interface AvatarProps : react.RProps {
     var children: react.ReactNode
 
     /**
-     * Attributes applied to the `img` element if the component is used to display an image.
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
+     * <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes">Attributes</a> applied to the `img` element if the component is used to display an image.
      * It can be used to listen for the loading error event.
      */
     var imgProps: dynamic
@@ -41,9 +46,15 @@ external interface AvatarProps : react.RProps {
     var srcSet: String
 
     /**
-     * The shape of the avatar.
+     * The system prop that allows defining system overrides as well as additional CSS styles.
      */
-    var variant: dynamic /* 'circle' | 'circular' | 'rounded' | 'square' */
+    var sx: dynamic
+
+    /**
+     * The shape of the avatar.
+     * @default 'circular'
+     */
+    var variant: dynamic
 }
 
 /**

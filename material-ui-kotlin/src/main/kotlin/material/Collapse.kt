@@ -11,14 +11,16 @@ external interface CollapseProps : react.RProps {
      */
     var children: react.ReactNode
 
-    /**
-     * The height of the container when collapsed.
-     * @deprecated The prop was renamed to support the addition of horizontal orientation, use `collapsedSize` instead.
-     */
-    var collapsedHeight: dynamic
+    var className: String
 
     /**
-     * The height of the container when collapsed.
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
+     * The width (horizontal) or height (vertical) of the container when collapsed.
+     * @default '0px'
      */
     var collapsedSize: dynamic
 
@@ -29,11 +31,10 @@ external interface CollapseProps : react.RProps {
     var component: dynamic
 
     /**
-     * Enable this prop if you encounter 'Function components cannot be given refs',
-     * use `unstable_createStrictModeTheme`,
-     * and can't forward the ref in the passed `Component`.
+     * The transition timing function.
+     * You may specify a single easing or a object containing enter and exit values.
      */
-    var disableStrictModeCompat: Boolean
+    var easing: dynamic
 
     /**
      * If `true`, the component will transition in.
@@ -41,18 +42,31 @@ external interface CollapseProps : react.RProps {
     var `in`: Boolean
 
     /**
+     * The transition orientation.
+     * @default 'vertical'
+     */
+    var orientation: dynamic /* 'horizontal' | 'vertical' */
+
+    /**
      * The duration for the transition, in milliseconds.
      * You may specify a single timeout for all transitions, or individually with an object.
      *
      * Set to 'auto' to automatically calculate transition time based on height.
+     * @default duration.standard
      */
     var timeout: dynamic
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 }
 
 /**
  * The Collapse transition is used by the
  * [Vertical Stepper](https://material-ui.com/components/steppers/#vertical-stepper) StepContent component.
  * It uses [react-transition-group](https://github.com/reactjs/react-transition-group) internally.
+ *
  * Demos:
  *
  * - [Cards](https://material-ui.com/components/cards/)

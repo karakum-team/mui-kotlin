@@ -7,13 +7,24 @@ package material
 
 external interface ListItemAvatarProps : react.RProps {
     /**
-     * The content of the component – normally `Avatar`.
+     * The content of the component, normally an `Avatar`.
      */
-    var children: dynamic
+    var children: react.ReactNode
+
+    /**
+     * Override or extend the styles applied to the component.
+     */
+    var classes: dynamic
+
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
+    var sx: dynamic
 }
 
 /**
  * A simple wrapper to apply `List` styles to an `Avatar`.
+ *
  * Demos:
  *
  * - [Lists](https://material-ui.com/components/lists/)
