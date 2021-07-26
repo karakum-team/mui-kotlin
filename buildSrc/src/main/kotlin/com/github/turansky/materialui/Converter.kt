@@ -158,7 +158,7 @@ private fun convertMember(
     return source.splitToSequence(delimiter)
         .map {
             when {
-                it.startsWith(REACT_IS_STRICTER) -> "$it*/"
+                it.startsWith(REACT_IS_STRICTER) -> "    $it*/"
                 it.startsWith("/**") -> "$it*/"
 
                 it.startsWith("//") -> it
