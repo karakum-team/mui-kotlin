@@ -53,7 +53,7 @@ private fun findProps(
     content: String,
 ): String? {
     val propsContent = content.substringAfter("export interface $propsName", "")
-    if (propsContent.isNotEmpty() && name != "StepConnector") {
+    if (propsContent.isNotEmpty()) {
         val membersContent = propsContent
             .substringAfter("{\n")
             .substringBefore(";\n}")
@@ -63,7 +63,7 @@ private fun findProps(
                 "\n}"
     }
 
-    return if (name == "StepConnector" || name == "TextField") {
+    return if (name == "TextField") {
         props(propsName)
     } else null
 }
@@ -84,7 +84,12 @@ private fun findMapProps(
     val membersContent = propsContent
         .substringAfter("props: P", "")
         .substringAfter(" & {\n", "")
-        .substringBefore(";\n    };", "")
+        .let { str ->
+            sequenceOf(
+                str.substringBefore(";\n    };", ""),
+                str.substringBefore(";\n  };", "")
+            ).maxByOrNull { it.length }!!
+        }
         .replaceIndent("  ")
 
     return if (membersContent.isNotEmpty()) {
