@@ -91,7 +91,6 @@ private fun findMapProps(
                 str.substringBefore(";\n  };", "")
             ).maxByOrNull { it.length }!!
         }
-        .replaceIndent("  ")
 
     return if (membersContent.isNotEmpty()) {
         props(propsName) + " {\n" +
@@ -132,6 +131,7 @@ private fun convertMembers(
     source: String,
 ): String {
     return source
+        .replaceIndent("  ")
         .replace(";\n    ", "??11??")
         .replace(";\n  }", "??12??")
         .replace(";\n  })", "??22??")
