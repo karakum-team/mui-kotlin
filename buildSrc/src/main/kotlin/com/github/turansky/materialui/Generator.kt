@@ -17,7 +17,6 @@ private const val PACKAGE = """package material"""
 private val ALIASES = setOf(
     "NoSsr",
     "Portal",
-    "StyledEngineProvider",
 )
 
 fun generateKotlinDeclarations(
@@ -31,8 +30,17 @@ fun generateKotlinDeclarations(
 
     directories.asSequence()
         .filter { it.name.isComponentName() }
-        .filter { it.name !in ALIASES }
-        .map { it.resolve("${it.name}.d.ts") }
+        .filter { it.name != "StyledEngineProvider" }
+        .map {
+            val fileName = "${it.name}.d.ts"
+            if (it.name !in ALIASES) {
+                it
+            } else {
+                it.parentFile.parentFile
+                    .resolve("unstyled")
+                    .resolve(it.name)
+            }.resolve(fileName)
+        }
         .forEach { generate(it, targetDir) }
 }
 
