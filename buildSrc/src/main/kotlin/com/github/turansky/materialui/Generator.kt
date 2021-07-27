@@ -15,6 +15,7 @@ private enum class Suppress {
 private const val PACKAGE = """package material"""
 
 private val ALIASES = setOf(
+    "NoSsr",
     "Portal",
     "StyledEngineProvider",
 )
