@@ -19,7 +19,7 @@ external interface BottomNavigationProps : react.RProps {
     /**
      * Callback fired when the value changes.
      *
-     * @param {object} event The event source of the callback. **Warning**: This is a generic event not a change event.
+     * @param {React.SyntheticEvent} event The event source of the callback. **Warning**: This is a generic event not a change event.
      * @param {any} value We default to the index of the child.
      */
     var onChange: dynamic

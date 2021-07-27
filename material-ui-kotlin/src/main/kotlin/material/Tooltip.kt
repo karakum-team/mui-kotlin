@@ -101,14 +101,14 @@ external interface TooltipProps : react.RProps {
     /**
      * Callback fired when the component requests to be closed.
      *
-     * @param {object} event The event source of the callback.
+     * @param {React.SyntheticEvent} event The event source of the callback.
      */
     var onClose: dynamic
 
     /**
      * Callback fired when the component requests to be open.
      *
-     * @param {object} event The event source of the callback.
+     * @param {React.SyntheticEvent} event The event source of the callback.
      */
     var onOpen: dynamic
 

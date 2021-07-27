@@ -20,7 +20,7 @@ external interface FormControlLabelProps : react.RProps {
      * The props used for each slot inside.
      * @default {}
      */
-    var componentProps: dynamic
+    var componentsProps: dynamic
     var typography: dynamic
 
     /**
@@ -59,7 +59,7 @@ external interface FormControlLabelProps : react.RProps {
     /**
      * Callback fired when the state is changed.
      *
-     * @param {object} event The event source of the callback.
+     * @param {React.SyntheticEvent} event The event source of the callback.
      * You can pull out the new checked state by accessing `event.target.checked` (boolean).
      */
     var onChange: dynamic

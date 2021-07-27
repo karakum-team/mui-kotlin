@@ -37,7 +37,7 @@ external interface ToggleButtonGroupProps : react.RProps {
     /**
      * Callback fired when the value changes.
      *
-     * @param {object} event The event source of the callback.
+     * @param {React.MouseEvent<HTMLElement>} event The event source of the callback.
      * @param {any} value of the selected buttons. When `exclusive` is true
      * this is a single value; when false an array of selected values. If no value
      * is selected and `exclusive` is true the value is null; when false an empty array.

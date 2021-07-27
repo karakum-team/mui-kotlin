@@ -43,7 +43,7 @@ external interface AccordionProps : react.RProps {
     /**
      * Callback fired when the expand/collapse state is changed.
      *
-     * @param {object} event The event source of the callback. **Warning**: This is a generic event not a change event.
+     * @param {React.SyntheticEvent} event The event source of the callback. **Warning**: This is a generic event not a change event.
      * @param {boolean} expanded The `expanded` state of the accordion.
      */
     var onChange: dynamic

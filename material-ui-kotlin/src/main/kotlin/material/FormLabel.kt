@@ -19,7 +19,7 @@ external interface FormLabelProps : react.RProps {
     /**
      * The color of the component. It supports those theme colors that make sense for this component.
      */
-    var color: dynamic /* 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' */
+    var color: dynamic
 
     /**
      * If `true`, the label should be displayed in a disabled state.

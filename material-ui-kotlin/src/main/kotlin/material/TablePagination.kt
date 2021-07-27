@@ -70,7 +70,7 @@ external interface TablePaginationProps : react.RProps {
     /**
      * Callback fired when the page is changed.
      *
-     * @param {object} event The event source of the callback.
+     * @param {React.MouseEvent<HTMLButtonElement> | null} event The event source of the callback.
      * @param {number} page The page selected.
      */
     var onPageChange: dynamic
@@ -78,7 +78,7 @@ external interface TablePaginationProps : react.RProps {
     /**
      * Callback fired when the number of rows per page is changed.
      *
-     * @param {object} event The event source of the callback.
+     * @param {React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>} event The event source of the callback.
      */
     var onRowsPerPageChange: dynamic
 

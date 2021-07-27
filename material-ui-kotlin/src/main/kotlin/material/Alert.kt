@@ -58,7 +58,7 @@ external interface AlertProps : react.RProps {
     /**
      * Callback fired when the component requests to be closed.
      * When provided and no `action` prop is set, a close icon button is displayed that triggers the callback when clicked.
-     * @param {object} event The event source of the callback.
+     * @param {React.SyntheticEvent} event The event source of the callback.
      */
     var onClose: dynamic
 
