@@ -25,6 +25,8 @@ internal fun convertDefinitions(
     findMapProps(name, propsName, content)
         ?.also(declarations::add)
 
+    declarations += findAdditionalProps(name, propsName, content)
+
     val funDeclaration = "export default function $name(props: $propsName): JSX.Element;"
     val typeDeclaration = "declare const $name: React.ComponentType<$propsName>;"
     val constDeclaration = "declare const $name: "
@@ -98,6 +100,40 @@ private fun findMapProps(
                 "\n}"
     } else {
         props(propsName)
+    }
+}
+
+private fun findAdditionalProps(
+    name: String,
+    propsName: String,
+    content: String,
+): List<String> {
+    if (name == "InputBase")
+        return emptyList()
+
+    val bodies = content.splitToSequence("export interface ")
+        .drop(1)
+        .toList()
+
+    if (bodies.isEmpty())
+        return emptyList()
+
+    return bodies.mapNotNull { body ->
+        val interfaceName = body
+            .substringBefore(" ")
+            .substringBefore("\n")
+            .substringBefore("<")
+
+        if (interfaceName == propsName || !interfaceName.endsWith("Props"))
+            return@mapNotNull null
+
+        val membersContent = body
+            .substringAfter("{\n")
+            .substringBefore(";\n")
+
+        props(interfaceName) + " {\n" +
+                convertMembers(membersContent) +
+                "\n}"
     }
 }
 
