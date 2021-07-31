@@ -129,7 +129,7 @@ private fun findAdditionalProps(
 
         val membersContent = body
             .substringAfter("{\n")
-            .substringBefore(";\n")
+            .substringBefore(";\n}\n")
 
         props(interfaceName) + " {\n" +
                 convertMembers(membersContent) +
