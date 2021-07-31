@@ -125,6 +125,10 @@ external interface RatingProps : react.RProps {
     var value: dynamic
 }
 
+external interface IconContainerProps : react.RProps {
+    var value: Number
+}
+
 /**
  *
  * Demos:
