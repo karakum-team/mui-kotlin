@@ -19,6 +19,8 @@ private val STANDARD_TYPE_MAP = mapOf(
     "Date" to "kotlin.js.Date",
 
     "React.ReactNode" to "react.ReactNode",
+    "React.ReactElement" to "react.ReactElement",
+    "React.ReactElement<any, any>" to "react.ReactElement",
 
     "SxProps<Theme>" to "SxProps<Theme>",
 )
