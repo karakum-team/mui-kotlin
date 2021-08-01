@@ -130,6 +130,18 @@ external interface PopoverProps : react.RProps {
     var TransitionProps: TransitionProps
 }
 
+external interface PopoverOrigin {
+    var vertical: dynamic /* 'top' | 'center' | 'bottom' | number */
+
+    var horizontal: dynamic /* 'left' | 'center' | 'right' | number */
+}
+
+external interface PopoverPosition {
+    var top: Number
+
+    var left: Number
+}
+
 /**
  *
  * Demos:

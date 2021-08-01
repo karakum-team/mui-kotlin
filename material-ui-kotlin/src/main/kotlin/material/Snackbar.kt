@@ -122,6 +122,12 @@ external interface SnackbarProps : react.RProps {
     var TransitionProps: TransitionProps
 }
 
+external interface SnackbarOrigin {
+    var vertical: dynamic /* 'top' | 'bottom' */
+
+    var horizontal: dynamic /* 'left' | 'center' | 'right' */
+}
+
 /**
  *
  * Demos:
