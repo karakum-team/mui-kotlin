@@ -80,7 +80,7 @@ external interface MenuProps : react.RProps {
      * By default, the element is based on this [`Transition`](http://reactcommunity.org/react-transition-group/transition) component.
      * @default {}
      */
-    var TransitionProps: dynamic
+    var TransitionProps: TransitionProps
 
     /**
      * The variant to use. Use `menu` to prevent selected items from impacting the initial focus.
