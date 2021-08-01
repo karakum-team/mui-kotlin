@@ -19,6 +19,8 @@ private val STANDARD_TYPE_MAP = mapOf(
     "Date" to "kotlin.js.Date",
 
     "React.ReactNode" to "react.ReactNode",
+
+    "SxProps<Theme>" to "SxProps<Theme>",
 )
 
 internal fun kotlinType(
@@ -34,6 +36,8 @@ internal fun kotlinType(
 
     if (type.startsWith("'"))
         return "$DYNAMIC /* $type */"
+
+    println(type)
 
     return DYNAMIC
 }
