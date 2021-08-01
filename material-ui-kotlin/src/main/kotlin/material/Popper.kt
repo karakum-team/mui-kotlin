@@ -6,7 +6,7 @@
 package material
 
 external interface PopperProps : react.RProps {
-    var ref: dynamic
+    var ref: react.Ref<org.w3c.dom.HTMLDivElement>
 
     /**
      * An HTML element, [virtualElement](https://popper.js.org/docs/v2/virtual-elements/),
@@ -75,7 +75,7 @@ external interface PopperProps : react.RProps {
     /**
      * A ref that points to the used popper instance.
      */
-    var popperRef: dynamic
+    var popperRef: react.Ref<dynamic>
 
     /**
      * Help supporting a react-transition-group/Transition component.

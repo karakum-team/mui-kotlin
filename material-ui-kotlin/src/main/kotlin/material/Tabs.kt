@@ -14,7 +14,7 @@ external interface TabsProps : react.RProps {
      * @param {object} actions This object contains all possible actions
      * that can be triggered programmatically.
      */
-    var action: dynamic
+    var action: react.Ref<dynamic>
 
     /**
      * If `true`, the scroll buttons aren't forced hidden on mobile.

@@ -6,7 +6,7 @@
 package material
 
 external interface StackProps : react.RProps {
-    var ref: dynamic
+    var ref: react.Ref<*>
 
     /**
      * The content of the component.

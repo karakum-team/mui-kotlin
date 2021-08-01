@@ -10,7 +10,7 @@ external interface BoxProps : react.RProps {
 
     var component: dynamic
 
-    var ref: dynamic
+    var ref: react.Ref<*>
 
     var sx: SxProps<Theme>
 }

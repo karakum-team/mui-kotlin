@@ -29,7 +29,7 @@ external interface ZoomProps : react.RProps {
      */
     var `in`: Boolean
 
-    var ref: dynamic
+    var ref: react.Ref<*>
 
     /**
      * The duration for the transition, in milliseconds.

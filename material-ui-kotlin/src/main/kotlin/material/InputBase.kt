@@ -93,7 +93,7 @@ external interface InputBaseProps : react.RProps {
     /**
      * Pass a ref to the `input` element.
      */
-    var inputRef: dynamic
+    var inputRef: react.Ref<*>
 
     /**
      * If `dense`, will adjust vertical spacing. This is normally obtained via context from

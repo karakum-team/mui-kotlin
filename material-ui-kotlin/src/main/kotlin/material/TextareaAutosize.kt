@@ -6,7 +6,7 @@
 package material
 
 external interface TextareaAutosizeProps : react.RProps {
-    var ref: dynamic
+    var ref: react.Ref<org.w3c.dom.HTMLTextAreaElement>
 
     /**
      * Maximum number of rows to display.

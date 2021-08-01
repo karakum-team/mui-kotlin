@@ -10,7 +10,7 @@ external interface ButtonBaseProps : react.RProps {
      * A ref for imperative actions.
      * It currently only supports `focusVisible()` action.
      */
-    var action: dynamic
+    var action: react.Ref<dynamic>
 
     /**
      * If `true`, the ripples are centered.

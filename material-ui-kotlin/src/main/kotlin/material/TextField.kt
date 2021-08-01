@@ -89,7 +89,7 @@ external interface BaseTextFieldProps : react.RProps {
     /**
      * Pass a ref to the `input` element.
      */
-    var inputRef: dynamic
+    var inputRef: react.Ref<*>
 
     /**
      * The label content.

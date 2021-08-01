@@ -10,7 +10,7 @@ external interface PopoverProps : react.RProps {
      * A ref for imperative actions.
      * It currently only supports updatePosition() action.
      */
-    var action: dynamic
+    var action: react.Ref<dynamic>
 
     /**
      * An HTML element, or a function that returns one.

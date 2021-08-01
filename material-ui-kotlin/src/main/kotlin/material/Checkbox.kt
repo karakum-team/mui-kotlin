@@ -72,7 +72,7 @@ external interface CheckboxProps : react.RProps {
     /**
      * Pass a ref to the `input` element.
      */
-    var inputRef: dynamic
+    var inputRef: react.Ref<org.w3c.dom.HTMLInputElement>
 
     /**
      * Callback fired when the state is changed.

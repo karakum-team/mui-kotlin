@@ -39,7 +39,7 @@ external interface SlideProps : react.RProps {
      */
     var `in`: dynamic
 
-    var ref: dynamic
+    var ref: react.Ref<*>
 
     /**
      * The duration for the transition, in milliseconds.

@@ -41,7 +41,7 @@ external interface FormControlLabelProps : react.RProps {
     /**
      * Pass a ref to the `input` element.
      */
-    var inputRef: dynamic
+    var inputRef: react.Ref<*>
 
     /**
      * The text to be used in an enclosing label element.
