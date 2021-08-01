@@ -87,11 +87,17 @@ private fun generate(
     targetDir.resolve("$componentName.kt")
         .writeText(fileContent(annotations, body))
 
-    if (extensions.isEmpty())
-        return
+    if (extensions.isNotEmpty()) {
+        targetDir.resolve("$componentName.ext.kt")
+            .writeText(fileContent(body = extensions))
+    }
 
-    targetDir.resolve("$componentName.ext.kt")
-        .writeText(fileContent(body = extensions))
+    val classesName = componentName + "Classes"
+    val classesFile = definitionFile.parentFile.resolve(classesName.decapitalize() + ".d.ts")
+    if (classesFile.exists()) {
+        targetDir.resolve("$classesName.kt")
+            .writeText(fileContent(body = "external interface $classesName"))
+    }
 }
 
 private fun fileContent(
