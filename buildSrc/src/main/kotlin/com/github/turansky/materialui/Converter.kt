@@ -124,14 +124,24 @@ private fun findAdditionalProps(
             .substringBefore("\n")
             .substringBefore("<")
 
-        if (interfaceName == propsName || !interfaceName.endsWith("Props"))
+        val propsLike = interfaceName.endsWith("Props")
+        if (propsLike && interfaceName == propsName)
+            return@mapNotNull null
+
+        if (!propsLike && !interfaceName.endsWith("Origin") && !interfaceName.endsWith("Position"))
             return@mapNotNull null
 
         val membersContent = body
             .substringAfter("{\n")
             .substringBefore(";\n}\n")
 
-        props(interfaceName) + " {\n" +
+        val declaration = if (propsLike) {
+            props(interfaceName)
+        } else {
+            "external interface $interfaceName"
+        }
+
+        declaration + " {\n" +
                 convertMembers(membersContent) +
                 "\n}"
     }
