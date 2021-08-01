@@ -16,6 +16,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "string" to "String",
 
     "void" to "Unit",
+    "null" to "Nothing?",
 
     "Date" to "kotlin.js.Date",
 
@@ -87,7 +88,7 @@ internal fun kotlinType(
     if (type.endsWith("']"))
         return "$DYNAMIC /* $type */"
 
-    // println(type)
+    println(type)
 
     return DYNAMIC
 }
