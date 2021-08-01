@@ -61,32 +61,27 @@ private fun generate(
     targetDir: File,
 ) {
     val componentName = definitionFile.name.substringBefore(".")
-    val fileName = "$componentName.kt"
     val (body, extensions) = convertDefinitions(definitionFile)
 
     val annotations = moduleDeclaration(componentName)
+    targetDir.resolve("$componentName.kt")
+        .writeText(fileContent(annotations, body))
 
-    val text = sequenceOf(
+    if (extensions.isEmpty())
+        return
+
+    targetDir.resolve("$componentName.ext.kt")
+        .writeText(fileContent(body = extensions))
+}
+
+private fun fileContent(
+    annotations: String = "",
+    body: String,
+) =
+    sequenceOf(
         "// $GENERATOR_COMMENT",
         annotations,
         PACKAGE,
         body,
     ).filter { it.isNotEmpty() }
         .joinToString("\n\n")
-
-    targetDir.resolve(fileName)
-        .writeText(text)
-
-    if (extensions.isEmpty())
-        return
-
-    val extensionsText = sequenceOf(
-        "// $GENERATOR_COMMENT",
-        PACKAGE,
-        extensions,
-    ).filter { it.isNotEmpty() }
-        .joinToString("\n\n")
-
-    targetDir.resolve(fileName.replace(".kt", ".ext.kt"))
-        .writeText(extensionsText)
-}
