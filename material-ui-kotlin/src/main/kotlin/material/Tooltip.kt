@@ -138,7 +138,7 @@ external interface TooltipProps : react.RProps {
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
      */
-    var sx: dynamic
+    var sx: SxProps<Theme>
 
     /**
      * Tooltip title. Zero-length titles string are never displayed.

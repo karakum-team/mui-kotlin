@@ -31,7 +31,7 @@ external interface SpeedDialActionProps : react.RProps {
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
      */
-    var sx: dynamic
+    var sx: SxProps<Theme>
 
     /**
      * `classes` prop applied to the [`Tooltip`](/api/tooltip/) element.

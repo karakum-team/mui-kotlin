@@ -59,7 +59,7 @@ external interface CollapseProps : react.RProps {
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
      */
-    var sx: dynamic
+    var sx: SxProps<Theme>
 }
 
 /**

@@ -157,7 +157,7 @@ external interface BaseTextFieldProps : react.RProps {
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
      */
-    var sx: dynamic
+    var sx: SxProps<Theme>
 
     /**
      * Type of the `input` element. It should be [a valid HTML5 input type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types).

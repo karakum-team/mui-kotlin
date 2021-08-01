@@ -143,7 +143,7 @@ external interface SelectProps : react.RProps {
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
      */
-    var sx: dynamic
+    var sx: SxProps<Theme>
 
     /**
      * The `input` value. Providing an empty string will select no options.

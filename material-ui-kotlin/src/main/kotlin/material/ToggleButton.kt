@@ -55,7 +55,7 @@ external interface ToggleButtonProps : react.RProps {
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
      */
-    var sx: dynamic
+    var sx: SxProps<Theme>
 
     /**
      * The value to associate with the button when selected in a

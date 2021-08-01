@@ -67,7 +67,7 @@ external interface MenuProps : react.RProps {
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
      */
-    var sx: dynamic
+    var sx: SxProps<Theme>
 
     /**
      * The length of the transition in `ms`, or 'auto'

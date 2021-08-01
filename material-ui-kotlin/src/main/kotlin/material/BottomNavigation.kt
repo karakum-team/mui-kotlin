@@ -34,7 +34,7 @@ external interface BottomNavigationProps : react.RProps {
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
      */
-    var sx: dynamic
+    var sx: SxProps<Theme>
 
     /**
      * The value of the currently selected `BottomNavigationAction`.
