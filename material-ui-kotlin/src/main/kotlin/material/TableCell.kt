@@ -40,7 +40,7 @@ external interface TableCellProps : react.RProps {
     /**
      * Set scope attribute.
      */
-    var scope: dynamic
+    var scope: dynamic /* TableCellBaseProps['scope'] */
 
     /**
      * Specify the size of the cell.

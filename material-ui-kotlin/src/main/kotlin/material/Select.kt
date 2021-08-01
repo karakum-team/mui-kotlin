@@ -64,7 +64,7 @@ external interface SelectProps : react.RProps {
      * [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
      * When `native` is `true`, the attributes are applied on the `select` element.
      */
-    var inputProps: dynamic
+    var inputProps: dynamic /* InputProps['inputProps'] */
 
     /**
      * See [OutlinedInput#label](/api/outlined-input/#props)
@@ -102,7 +102,7 @@ external interface SelectProps : react.RProps {
      * **Warning**: This is a generic event not a change event unless the change event is caused by browser autofill.
      * @param {object} [child] The react element that was selected when `native` is `false` (default).
      */
-    var onChange: dynamic
+    var onChange: dynamic /* SelectInputProps<T>['onChange'] */
 
     /**
      * Callback fired when the component requests to be closed.

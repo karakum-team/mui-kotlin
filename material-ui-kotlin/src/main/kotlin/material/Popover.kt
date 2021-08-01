@@ -63,7 +63,7 @@ external interface PopoverProps : react.RProps {
      * By default, it uses the body of the anchorEl's top-level document object,
      * so it's simply `document.body` most of the time.
      */
-    var container: dynamic
+    var container: dynamic /* ModalProps['container'] */
 
     /**
      * The elevation of the popover.
@@ -77,7 +77,7 @@ external interface PopoverProps : react.RProps {
      */
     var marginThreshold: Number
 
-    var onClose: dynamic
+    var onClose: dynamic /* ModalProps['onClose'] */
 
     /**
      * If `true`, the component is shown.

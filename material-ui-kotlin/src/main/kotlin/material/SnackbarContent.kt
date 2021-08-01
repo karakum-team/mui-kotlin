@@ -25,7 +25,7 @@ external interface SnackbarContentProps : react.RProps {
      * The ARIA role attribute of the element.
      * @default 'alert'
      */
-    var role: dynamic
+    var role: dynamic /* PaperProps['role'] */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

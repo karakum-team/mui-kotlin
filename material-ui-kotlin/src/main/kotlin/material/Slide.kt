@@ -32,12 +32,12 @@ external interface SlideProps : react.RProps {
      *   exit: easing.sharp,
      * }
      */
-    var easing: dynamic
+    var easing: dynamic /* TransitionProps['easing'] */
 
     /**
      * If `true`, the component will transition in.
      */
-    var `in`: dynamic
+    var `in`: dynamic /* TransitionProps['in'] */
 
     var ref: react.Ref<*>
 
@@ -49,7 +49,7 @@ external interface SlideProps : react.RProps {
      *   exit: duration.leavingScreen,
      * }
      */
-    var timeout: dynamic
+    var timeout: dynamic /* TransitionProps['timeout'] */
 }
 
 /**

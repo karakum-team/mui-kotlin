@@ -57,7 +57,7 @@ external interface DialogProps : react.RProps {
     /**
      * Callback fired when the backdrop is clicked.
      */
-    var onBackdropClick: dynamic
+    var onBackdropClick: dynamic /* ModalProps['onBackdropClick'] */
 
     /**
      * Callback fired when the component requests to be closed.
@@ -65,12 +65,12 @@ external interface DialogProps : react.RProps {
      * @param {object} event The event source of the callback.
      * @param {string} reason Can be: `"escapeKeyDown"`, `"backdropClick"`.
      */
-    var onClose: dynamic
+    var onClose: dynamic /* ModalProps['onClose'] */
 
     /**
      * If `true`, the component is shown.
      */
-    var open: dynamic
+    var open: dynamic /* ModalProps['open'] */
 
     /**
      * The component used to render the body of the dialog.
@@ -107,7 +107,7 @@ external interface DialogProps : react.RProps {
      * You may specify a single timeout for all transitions, or individually with an object.
      * @default { enter: duration.enteringScreen, exit: duration.leavingScreen }
      */
-    var transitionDuration: dynamic
+    var transitionDuration: dynamic /* TransitionProps['timeout'] */
 
     /**
      * Props applied to the transition element.

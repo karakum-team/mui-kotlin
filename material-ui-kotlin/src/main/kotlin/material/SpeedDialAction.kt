@@ -36,13 +36,13 @@ external interface SpeedDialActionProps : react.RProps {
     /**
      * `classes` prop applied to the [`Tooltip`](/api/tooltip/) element.
      */
-    var TooltipClasses: dynamic
+    var TooltipClasses: dynamic /* TooltipProps['classes'] */
 
     /**
      * Placement of the tooltip.
      * @default 'left'
      */
-    var tooltipPlacement: dynamic
+    var tooltipPlacement: dynamic /* TooltipProps['placement'] */
 
     /**
      * Label to display in the tooltip.

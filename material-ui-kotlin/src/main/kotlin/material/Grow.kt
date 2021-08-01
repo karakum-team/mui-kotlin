@@ -22,7 +22,7 @@ external interface GrowProps : react.RProps {
      * The transition timing function.
      * You may specify a single easing or a object containing enter and exit values.
      */
-    var easing: dynamic
+    var easing: dynamic /* TransitionProps['easing'] */
 
     /**
      * If `true`, the component will transition in.

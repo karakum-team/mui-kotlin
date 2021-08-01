@@ -9,7 +9,7 @@ external interface BackdropProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: dynamic /* BackdropUnstyledTypeMap['props']['classes'] */
 
     /**
      * If `true`, the component is shown.
@@ -25,7 +25,7 @@ external interface BackdropProps : react.RProps {
      * The duration for the transition, in milliseconds.
      * You may specify a single timeout for all transitions, or individually with an object.
      */
-    var transitionDuration: dynamic
+    var transitionDuration: dynamic /* TransitionProps['timeout'] */
 }
 
 /**

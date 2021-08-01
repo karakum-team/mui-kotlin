@@ -9,5 +9,5 @@ external interface GlobalStylesProps : react.RProps {
     /**
      * The styles you want to apply globally.
      */
-    var styles: dynamic
+    var styles: dynamic /* StyledGlobalStylesProps['styles'] */
 }

@@ -39,7 +39,7 @@ external interface DrawerProps : react.RProps {
      *
      * @param {object} event The event source of the callback.
      */
-    var onClose: dynamic
+    var onClose: dynamic /* ModalProps['onClose'] */
 
     /**
      * If `true`, the component is shown.
@@ -68,7 +68,7 @@ external interface DrawerProps : react.RProps {
      * You may specify a single timeout for all transitions, or individually with an object.
      * @default { enter: duration.enteringScreen, exit: duration.leavingScreen }
      */
-    var transitionDuration: dynamic
+    var transitionDuration: dynamic /* TransitionProps['timeout'] */
 
     /**
      * The variant to use.

@@ -16,7 +16,7 @@ external interface InputLabelProps : react.RProps {
      */
     var classes: dynamic
 
-    var color: dynamic
+    var color: dynamic /* FormLabelProps['color'] */
 
     /**
      * If `true`, the transition animation is disabled.

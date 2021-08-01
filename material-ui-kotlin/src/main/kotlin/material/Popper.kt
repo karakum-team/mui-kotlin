@@ -28,13 +28,13 @@ external interface PopperProps : react.RProps {
      * By default, it uses the body of the top-level document object,
      * so it's simply `document.body` most of the time.
      */
-    var container: dynamic
+    var container: dynamic /* PortalProps['container'] */
 
     /**
      * The `children` will be under the DOM hierarchy of the parent component.
      * @default false
      */
-    var disablePortal: dynamic
+    var disablePortal: dynamic /* PortalProps['disablePortal'] */
 
     /**
      * Always keep the children in the DOM.
@@ -53,7 +53,7 @@ external interface PopperProps : react.RProps {
      * For this reason, modifiers should be very performant to avoid bottlenecks.
      * To learn how to create a modifier, [read the modifiers documentation](https://popper.js.org/docs/v2/modifiers/).
      */
-    var modifiers: dynamic
+    var modifiers: dynamic /* Options['modifiers'] */
 
     /**
      * If `true`, the component is shown.

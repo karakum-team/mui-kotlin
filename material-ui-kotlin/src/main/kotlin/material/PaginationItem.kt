@@ -55,7 +55,7 @@ external interface PaginationItemProps : react.RProps {
      * The type of pagination item.
      * @default 'page'
      */
-    var type: dynamic
+    var type: dynamic /* UsePaginationItem['type'] */
 
     /**
      * The variant to use.

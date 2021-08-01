@@ -9,7 +9,7 @@ external interface SnackbarProps : react.RProps {
     /**
      * The action to display. It renders after the message, at the end of the snackbar.
      */
-    var action: dynamic
+    var action: dynamic /* SnackbarContentProps['action'] */
 
     /**
      * The anchor of the `Snackbar`.
@@ -65,7 +65,7 @@ external interface SnackbarProps : react.RProps {
     /**
      * The message to display.
      */
-    var message: dynamic
+    var message: dynamic /* SnackbarContentProps['message'] */
 
     /**
      * Callback fired when the component requests to be closed.
@@ -112,7 +112,7 @@ external interface SnackbarProps : react.RProps {
      *   exit: duration.leavingScreen,
      * }
      */
-    var transitionDuration: dynamic
+    var transitionDuration: dynamic /* TransitionProps['timeout'] */
 
     /**
      * Props applied to the transition element.

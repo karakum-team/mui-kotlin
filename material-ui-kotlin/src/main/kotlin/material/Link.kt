@@ -20,7 +20,7 @@ external interface LinkProps : react.RProps {
      * The color of the link.
      * @default 'primary'
      */
-    var color: dynamic
+    var color: dynamic /* TypographyProps['color'] */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
@@ -30,7 +30,7 @@ external interface LinkProps : react.RProps {
     /**
      * `classes` prop applied to the [`Typography`](/api/typography/) element.
      */
-    var TypographyClasses: dynamic
+    var TypographyClasses: dynamic /* TypographyProps['classes'] */
 
     /**
      * Controls when the link should have an underline.
@@ -42,7 +42,7 @@ external interface LinkProps : react.RProps {
      * Applies the theme typography styles.
      * @default 'inherit'
      */
-    var variant: dynamic
+    var variant: dynamic /* TypographyProps['variant'] */
 }
 
 /**

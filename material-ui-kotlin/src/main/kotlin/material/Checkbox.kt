@@ -9,7 +9,7 @@ external interface CheckboxProps : react.RProps {
     /**
      * If `true`, the component is checked.
      */
-    var checked: dynamic
+    var checked: dynamic /* SwitchBaseProps['checked'] */
 
     /**
      * The icon to display when the component is checked.
@@ -31,12 +31,12 @@ external interface CheckboxProps : react.RProps {
     /**
      * If `true`, the component is disabled.
      */
-    var disabled: dynamic
+    var disabled: dynamic /* SwitchBaseProps['disabled'] */
 
     /**
      * If `true`, the ripple effect is disabled.
      */
-    var disableRipple: dynamic
+    var disableRipple: dynamic /* SwitchBaseProps['disableRipple'] */
 
     /**
      * The icon to display when the component is unchecked.
@@ -47,7 +47,7 @@ external interface CheckboxProps : react.RProps {
     /**
      * The id of the `input` element.
      */
-    var id: dynamic
+    var id: dynamic /* SwitchBaseProps['id'] */
 
     /**
      * If `true`, the component appears indeterminate.
@@ -67,7 +67,7 @@ external interface CheckboxProps : react.RProps {
     /**
      * [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
      */
-    var inputProps: dynamic
+    var inputProps: dynamic /* SwitchBaseProps['inputProps'] */
 
     /**
      * Pass a ref to the `input` element.
@@ -80,12 +80,12 @@ external interface CheckboxProps : react.RProps {
      * @param {React.ChangeEvent<HTMLInputElement>} event The event source of the callback.
      * You can pull out the new checked state by accessing `event.target.checked` (boolean).
      */
-    var onChange: dynamic
+    var onChange: dynamic /* SwitchBaseProps['onChange'] */
 
     /**
      * If `true`, the `input` element is required.
      */
-    var required: dynamic
+    var required: dynamic /* SwitchBaseProps['required'] */
 
     /**
      * The size of the component.
@@ -103,7 +103,7 @@ external interface CheckboxProps : react.RProps {
      * The value of the component. The DOM API casts this to a string.
      * The browser uses "on" as the default value.
      */
-    var value: dynamic
+    var value: dynamic /* SwitchBaseProps['value'] */
 }
 
 /**

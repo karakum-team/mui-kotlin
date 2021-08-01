@@ -22,7 +22,7 @@ external interface FadeProps : react.RProps {
      * The transition timing function.
      * You may specify a single easing or a object containing enter and exit values.
      */
-    var easing: dynamic
+    var easing: dynamic /* TransitionProps['easing'] */
 
     /**
      * If `true`, the component will transition in.
@@ -39,7 +39,7 @@ external interface FadeProps : react.RProps {
      *   exit: duration.leavingScreen,
      * }
      */
-    var timeout: dynamic
+    var timeout: dynamic /* TransitionProps['timeout'] */
 }
 
 /**

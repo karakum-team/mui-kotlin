@@ -10,7 +10,7 @@ external interface MenuProps : react.RProps {
      * An HTML element, or a function that returns one.
      * It's used to set the position of the menu.
      */
-    var anchorEl: dynamic
+    var anchorEl: dynamic /* PopoverProps['anchorEl'] */
 
     /**
      * If `true` (Default) will focus the `[role="menu"]` if no focusable child is found. Disabled
@@ -52,7 +52,7 @@ external interface MenuProps : react.RProps {
      * @param {object} event The event source of the callback.
      * @param {string} reason Can be: `"escapeKeyDown"`, `"backdropClick"`, `"tabKeyDown"`.
      */
-    var onClose: dynamic
+    var onClose: dynamic /* PopoverProps['onClose'] */
 
     /**
      * If `true`, the component is shown.
@@ -62,7 +62,7 @@ external interface MenuProps : react.RProps {
     /**
      * `classes` prop applied to the [`Popover`](/api/popover/) element.
      */
-    var PopoverClasses: dynamic
+    var PopoverClasses: dynamic /* PopoverProps['classes'] */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

@@ -92,7 +92,7 @@ external interface SpeedDialProps : react.RProps {
      *   exit: duration.leavingScreen,
      * }
      */
-    var transitionDuration: dynamic
+    var transitionDuration: dynamic /* TransitionProps['timeout'] */
 
     /**
      * Props applied to the transition element.

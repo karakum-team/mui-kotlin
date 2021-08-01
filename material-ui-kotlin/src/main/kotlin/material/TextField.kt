@@ -84,7 +84,7 @@ external interface BaseTextFieldProps : react.RProps {
     /**
      * [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
      */
-    var inputProps: dynamic
+    var inputProps: dynamic /* InputBaseProps['inputProps'] */
 
     /**
      * Pass a ref to the `input` element.
@@ -107,9 +107,9 @@ external interface BaseTextFieldProps : react.RProps {
      */
     var name: String
 
-    var onBlur: dynamic
+    var onBlur: dynamic /* InputBaseProps['onBlur'] */
 
-    var onFocus: dynamic
+    var onFocus: dynamic /* StandardInputProps['onFocus'] */
 
     /**
      * The short hint displayed in the `input` before the user enters a value.
@@ -162,7 +162,7 @@ external interface BaseTextFieldProps : react.RProps {
     /**
      * Type of the `input` element. It should be [a valid HTML5 input type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types).
      */
-    var type: dynamic
+    var type: dynamic /* React.InputHTMLAttributes<unknown>['type'] */
 
     /**
      * The value of the `input` element, required for a controlled component.
@@ -177,7 +177,7 @@ external interface StandardTextFieldProps : react.RProps {
      * @param {object} event The event source of the callback.
      * You can pull out the new value by accessing `event.target.value` (string).
      */
-    var onChange: dynamic
+    var onChange: dynamic /* StandardInputProps['onChange'] */
 
     /**
      * The variant to use.
@@ -201,7 +201,7 @@ external interface FilledTextFieldProps : react.RProps {
      * @param {object} event The event source of the callback.
      * You can pull out the new value by accessing `event.target.value` (string).
      */
-    var onChange: dynamic
+    var onChange: dynamic /* FilledInputProps['onChange'] */
 
     /**
      * The variant to use.
@@ -225,7 +225,7 @@ external interface OutlinedTextFieldProps : react.RProps {
      * @param {object} event The event source of the callback.
      * You can pull out the new value by accessing `event.target.value` (string).
      */
-    var onChange: dynamic
+    var onChange: dynamic /* OutlinedInputProps['onChange'] */
 
     /**
      * The variant to use.
