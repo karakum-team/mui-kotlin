@@ -21,13 +21,13 @@ external interface SvgIconProps : react.RProps {
      * You can use the `htmlColor` prop to apply a color attribute to the SVG element.
      * @default 'inherit'
      */
-    var color: dynamic
+    var color: Union /* | 'inherit' | 'action' | 'disabled' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning', SvgIconPropsColorOverrides */
 
     /**
      * The fontSize applied to the icon. Defaults to 24px, but can be configure to inherit font size.
      * @default 'medium'
      */
-    var fontSize: dynamic
+    var fontSize: Union /* 'inherit' | 'large' | 'medium' | 'small', SvgIconPropsSizeOverrides */
 
     /**
      * Applies a color attribute to the SVG element.

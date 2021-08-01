@@ -26,7 +26,7 @@ external interface TableProps : react.RProps {
      * Allows TableCells to inherit size of the Table.
      * @default 'medium'
      */
-    var size: dynamic
+    var size: Union /* 'small' | 'medium', TablePropsSizeOverrides */
 
     /**
      * Set the header sticky.

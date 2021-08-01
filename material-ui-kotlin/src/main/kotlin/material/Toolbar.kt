@@ -27,7 +27,7 @@ external interface ToolbarProps : react.RProps {
      * The variant to use.
      * @default 'regular'
      */
-    var variant: dynamic
+    var variant: Union /* 'regular' | 'dense', ToolbarPropsVariantOverrides */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

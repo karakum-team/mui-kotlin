@@ -15,7 +15,7 @@ external interface CircularProgressProps : react.RProps {
      * The color of the component. It supports those theme colors that make sense for this component.
      * @default 'primary'
      */
-    var color: dynamic
+    var color: Union /* 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' | 'inherit', CircularProgressPropsColorOverrides */
 
     /**
      * If `true`, the shrink animation is disabled.

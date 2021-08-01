@@ -56,7 +56,7 @@ external interface DividerProps : react.RProps {
      * The variant to use.
      * @default 'fullWidth'
      */
-    var variant: dynamic
+    var variant: Union /* 'fullWidth' | 'inset' | 'middle', DividerPropsVariantOverrides */
 }
 
 /**

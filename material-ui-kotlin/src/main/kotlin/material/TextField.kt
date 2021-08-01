@@ -35,7 +35,7 @@ external interface BaseTextFieldProps : react.RProps {
      * The color of the component. It supports those theme colors that make sense for this component.
      * @default 'primary'
      */
-    var color: dynamic
+    var color: Union /* 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning', TextFieldPropsColorOverrides */
 
     /**
      * The default value. Use when the component is not controlled.
@@ -152,7 +152,7 @@ external interface BaseTextFieldProps : react.RProps {
     /**
      * The size of the component.
      */
-    var size: dynamic
+    var size: Union /* 'small' | 'medium', TextFieldPropsSizeOverrides */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

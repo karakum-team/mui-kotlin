@@ -15,7 +15,7 @@ external interface AppBarProps : react.RProps {
      * The color of the component. It supports those theme colors that make sense for this component.
      * @default 'primary'
      */
-    var color: dynamic
+    var color: Union /* PropTypes.Color | 'transparent', AppBarPropsColorOverrides */
 
     /**
      * If true, the `color` prop is applied in dark mode.

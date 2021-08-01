@@ -20,7 +20,7 @@ external interface ButtonProps : react.RProps {
      * The color of the component. It supports those theme colors that make sense for this component.
      * @default 'primary'
      */
-    var color: dynamic
+    var color: Union /* 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning', ButtonPropsColorOverrides */
 
     /**
      * If `true`, the component is disabled.
@@ -62,7 +62,7 @@ external interface ButtonProps : react.RProps {
      * `small` is equivalent to the dense button styling.
      * @default 'medium'
      */
-    var size: dynamic
+    var size: Union /* 'small' | 'medium' | 'large', ButtonPropsSizeOverrides */
 
     /**
      * Element placed before the children.
@@ -78,7 +78,7 @@ external interface ButtonProps : react.RProps {
      * The variant to use.
      * @default 'text'
      */
-    var variant: dynamic
+    var variant: Union /* 'text' | 'outlined' | 'contained', ButtonPropsVariantOverrides */
 }
 
 /**

@@ -27,13 +27,13 @@ external interface IconProps : react.RProps {
      * The color of the component. It supports those theme colors that make sense for this component.
      * @default 'inherit'
      */
-    var color: dynamic
+    var color: Union /* | 'inherit' | 'action' | 'disabled' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning', IconPropsColorOverrides */
 
     /**
      * The fontSize applied to the icon. Defaults to 24px, but can be configure to inherit font size.
      * @default 'medium'
      */
-    var fontSize: dynamic
+    var fontSize: Union /* 'inherit' | 'large' | 'medium' | 'small', IconPropsSizeOverrides */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

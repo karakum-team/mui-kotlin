@@ -54,7 +54,7 @@ external interface AvatarProps : react.RProps {
      * The shape of the avatar.
      * @default 'circular'
      */
-    var variant: dynamic
+    var variant: Union /* 'circular' | 'rounded' | 'square', AvatarPropsVariantOverrides */
 }
 
 /**

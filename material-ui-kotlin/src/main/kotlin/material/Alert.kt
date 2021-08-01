@@ -27,7 +27,7 @@ external interface AlertProps : react.RProps {
     /**
      * The main color for the alert. Unless provided, the value is taken from the `severity` prop.
      */
-    var color: dynamic
+    var color: Union /* AlertColor, AlertPropsColorOverrides */
 
     /**
      * The severity of the alert. This defines the color and icon used.
@@ -66,7 +66,7 @@ external interface AlertProps : react.RProps {
      * The variant to use.
      * @default 'standard'
      */
-    var variant: dynamic
+    var variant: Union /* 'standard' | 'filled' | 'outlined', AlertPropsVariantOverrides */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

@@ -29,7 +29,7 @@ external interface InputBaseProps : react.RProps {
      * The color of the component. It supports those theme colors that make sense for this component.
      * The prop defaults to the value (`'primary'`) inherited from the parent FormControl component.
      */
-    var color: dynamic
+    var color: Union /* 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning', InputBasePropsColorOverrides */
 
     /**
      * The components used for each slot inside the InputBase.
@@ -171,7 +171,7 @@ external interface InputBaseProps : react.RProps {
     /**
      * The size of the component.
      */
-    var size: dynamic
+    var size: Union /* 'small' | 'medium', InputBasePropsSizeOverrides */
 
     /**
      * Start `InputAdornment` for this component.

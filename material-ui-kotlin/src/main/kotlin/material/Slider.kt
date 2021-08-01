@@ -10,7 +10,7 @@ external interface SliderProps : react.RProps {
      * The color of the component. It supports those theme colors that make sense for this component.
      * @default 'primary'
      */
-    var color: dynamic
+    var color: Union /* 'primary' | 'secondary', SliderPropsColorOverrides */
 
     /**
      * Override or extend the styles applied to the component.
@@ -27,7 +27,7 @@ external interface SliderProps : react.RProps {
      * The size of the slider.
      * @default 'medium'
      */
-    var size: dynamic
+    var size: Union /* 'small' | 'medium', SliderPropsSizeOverrides */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

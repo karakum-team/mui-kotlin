@@ -20,7 +20,7 @@ external interface FormControlProps : react.RProps {
      * The color of the component. It supports those theme colors that make sense for this component.
      * @default 'primary'
      */
-    var color: dynamic
+    var color: Union /* 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning', FormControlPropsColorOverrides */
 
     /**
      * If `true`, the label, input and helper text should be displayed in a disabled state.
@@ -69,7 +69,7 @@ external interface FormControlProps : react.RProps {
      * The size of the component.
      * @default 'medium'
      */
-    var size: dynamic
+    var size: Union /* 'small' | 'medium', FormControlPropsSizeOverrides */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

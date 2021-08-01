@@ -50,7 +50,7 @@ external interface ToggleButtonProps : react.RProps {
      * The prop defaults to the value inherited from the parent ToggleButtonGroup component.
      * @default 'medium'
      */
-    var size: dynamic
+    var size: Union /* 'small' | 'medium' | 'large', ToggleButtonPropsSizeOverrides */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

@@ -15,7 +15,7 @@ external interface LinearProgressProps : react.RProps {
      * The color of the component. It supports those theme colors that make sense for this component.
      * @default 'primary'
      */
-    var color: dynamic
+    var color: Union /* 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' | 'inherit', LinearProgressPropsColorOverrides */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

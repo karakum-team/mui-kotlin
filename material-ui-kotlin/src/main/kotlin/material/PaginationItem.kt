@@ -15,7 +15,7 @@ external interface PaginationItemProps : react.RProps {
      * The active color.
      * @default 'standard'
      */
-    var color: dynamic
+    var color: Union /* 'standard' | 'primary' | 'secondary', PaginationItemPropsColorOverrides */
 
     /**
      * If `true`, the component is disabled.
@@ -44,7 +44,7 @@ external interface PaginationItemProps : react.RProps {
      * The size of the component.
      * @default 'medium'
      */
-    var size: dynamic
+    var size: Union /* 'small' | 'medium' | 'large', PaginationItemPropsSizeOverrides */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
@@ -61,7 +61,7 @@ external interface PaginationItemProps : react.RProps {
      * The variant to use.
      * @default 'text'
      */
-    var variant: dynamic
+    var variant: Union /* 'text' | 'outlined', PaginationItemPropsVariantOverrides */
 }
 
 /**

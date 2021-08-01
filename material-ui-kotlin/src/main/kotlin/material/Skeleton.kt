@@ -38,7 +38,7 @@ external interface SkeletonProps : react.RProps {
      * The type of content that will be rendered.
      * @default 'text'
      */
-    var variant: dynamic
+    var variant: Union /* 'text' | 'rectangular' | 'circular', SkeletonPropsVariantOverrides */
 
     /**
      * Width of the skeleton.

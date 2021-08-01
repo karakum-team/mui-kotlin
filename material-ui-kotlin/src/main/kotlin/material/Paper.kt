@@ -38,7 +38,7 @@ external interface PaperProps : react.RProps {
      * The variant to use.
      * @default 'elevation'
      */
-    var variant: dynamic
+    var variant: Union /* 'elevation' | 'outlined', PaperPropsVariantOverrides */
 }
 
 /**

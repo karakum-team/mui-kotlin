@@ -43,7 +43,7 @@ external interface ImageListProps : react.RProps {
      * The variant to use.
      * @default 'standard'
      */
-    var variant: dynamic
+    var variant: Union /* 'masonry' | 'quilted' | 'standard' | 'woven', ImageListPropsVariantOverrides */
 }
 
 /**

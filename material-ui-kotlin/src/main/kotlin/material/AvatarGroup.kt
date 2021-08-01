@@ -37,7 +37,7 @@ external interface AvatarGroupProps : react.RProps {
      * The variant to use.
      * @default 'circular'
      */
-    var variant: dynamic
+    var variant: Union /* 'circular' | 'rounded' | 'square', AvatarGroupPropsVariantOverrides */
 }
 
 /**

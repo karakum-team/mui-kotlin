@@ -20,7 +20,7 @@ external interface FabProps : react.RProps {
      * The color of the component. It supports those theme colors that make sense for this component.
      * @default 'default'
      */
-    var color: dynamic
+    var color: Union /* PropTypes.Color, FabPropsColorOverrides */
 
     /**
      * If `true`, the component is disabled.
@@ -50,13 +50,13 @@ external interface FabProps : react.RProps {
      * `small` is equivalent to the dense button styling.
      * @default 'large'
      */
-    var size: dynamic
+    var size: Union /* 'small' | 'medium' | 'large', FabPropsSizeOverrides */
 
     /**
      * The variant to use.
      * @default 'circular'
      */
-    var variant: dynamic
+    var variant: Union /* 'circular' | 'extended', FabPropsVariantOverrides */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

@@ -15,7 +15,7 @@ external interface PaginationProps : react.RProps {
      * The active color.
      * @default 'standard'
      */
-    var color: dynamic
+    var color: Union /* 'primary' | 'secondary' | 'standard', PaginationPropsColorOverrides */
 
     /**
      * Accepts a function which returns a string value that provides a user-friendly name for the current page.
@@ -47,7 +47,7 @@ external interface PaginationProps : react.RProps {
      * The size of the component.
      * @default 'medium'
      */
-    var size: dynamic
+    var size: Union /* 'small' | 'medium' | 'large', PaginationPropsSizeOverrides */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
@@ -58,7 +58,7 @@ external interface PaginationProps : react.RProps {
      * The variant to use.
      * @default 'text'
      */
-    var variant: dynamic
+    var variant: Union /* 'text' | 'outlined', PaginationPropsVariantOverrides */
 }
 
 /**

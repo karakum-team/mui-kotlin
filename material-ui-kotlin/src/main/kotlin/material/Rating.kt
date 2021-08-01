@@ -112,7 +112,7 @@ external interface RatingProps : react.RProps {
      * The size of the component.
      * @default 'medium'
      */
-    var size: dynamic
+    var size: Union /* 'small' | 'medium' | 'large', RatingPropsSizeOverrides */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

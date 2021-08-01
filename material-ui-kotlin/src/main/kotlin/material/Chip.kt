@@ -36,7 +36,7 @@ external interface ChipProps : react.RProps {
      * The color of the component. It supports those theme colors that make sense for this component.
      * @default 'default'
      */
-    var color: dynamic
+    var color: Union /* 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning', ChipPropsColorOverrides */
 
     /**
      * Override the default delete icon element. Shown only if `onDelete` is set.
@@ -69,7 +69,7 @@ external interface ChipProps : react.RProps {
      * The size of the component.
      * @default 'medium'
      */
-    var size: dynamic
+    var size: Union /* 'small' | 'medium', ChipPropsSizeOverrides */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
@@ -80,7 +80,7 @@ external interface ChipProps : react.RProps {
      * The variant to use.
      * @default 'filled'
      */
-    var variant: dynamic
+    var variant: Union /* 'filled' | 'outlined', ChipPropsVariantOverrides */
 }
 
 /**

@@ -21,7 +21,7 @@ external interface BadgeProps : react.RProps {
      * The color of the component. It supports those theme colors that make sense for this component.
      * @default 'default'
      */
-    var color: dynamic
+    var color: Union /* 'primary' | 'secondary' | 'default' | 'error' | 'info' | 'success' | 'warning', BadgePropsColorOverrides */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
@@ -32,7 +32,7 @@ external interface BadgeProps : react.RProps {
      * The variant to use.
      * @default 'standard'
      */
-    var variant: dynamic
+    var variant: Union /* 'standard' | 'dot', BadgePropsVariantOverrides */
 }
 
 /**

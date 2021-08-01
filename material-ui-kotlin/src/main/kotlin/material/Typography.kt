@@ -52,7 +52,7 @@ external interface TypographyProps : react.RProps {
      * Applies the theme typography styles.
      * @default 'body1'
      */
-    var variant: dynamic
+    var variant: Union /* Variant | 'inherit', TypographyPropsVariantOverrides */
 
     /**
      * The component maps the variant prop to a range of different HTML element types.

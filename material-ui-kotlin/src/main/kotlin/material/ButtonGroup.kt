@@ -20,7 +20,7 @@ external interface ButtonGroupProps : react.RProps {
      * The color of the component. It supports those theme colors that make sense for this component.
      * @default 'primary'
      */
-    var color: dynamic
+    var color: Union /* 'inherit' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning', ButtonGroupPropsColorOverrides */
 
     /**
      * If `true`, the component is disabled.
@@ -69,7 +69,7 @@ external interface ButtonGroupProps : react.RProps {
      * The variant to use.
      * @default 'outlined'
      */
-    var variant: dynamic
+    var variant: Union /* 'text' | 'outlined' | 'contained', ButtonGroupPropsVariantOverrides */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
