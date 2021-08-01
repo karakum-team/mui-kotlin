@@ -32,7 +32,7 @@ external interface DrawerProps : react.RProps {
      * Props applied to the [`Modal`](/api/modal/) element.
      * @default {}
      */
-    var ModalProps: dynamic
+    var ModalProps: ModalProps
 
     /**
      * Callback fired when the component requests to be closed.
@@ -51,12 +51,12 @@ external interface DrawerProps : react.RProps {
      * Props applied to the [`Paper`](/api/paper/) element.
      * @default {}
      */
-    var PaperProps: dynamic
+    var PaperProps: PaperProps
 
     /**
      * Props applied to the [`Slide`](/api/slide/) element.
      */
-    var SlideProps: dynamic
+    var SlideProps: SlideProps
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

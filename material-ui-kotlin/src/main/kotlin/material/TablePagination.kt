@@ -16,7 +16,7 @@ external interface TablePaginationProps : react.RProps {
     /**
      * Props applied to the back arrow [`IconButton`](/api/icon-button/) component.
      */
-    var backIconButtonProps: dynamic
+    var backIconButtonProps: IconButtonProps
 
     /**
      * Override or extend the styles applied to the component.
@@ -65,7 +65,7 @@ external interface TablePaginationProps : react.RProps {
     /**
      * Props applied to the next arrow [`IconButton`](/api/icon-button/) element.
      */
-    var nextIconButtonProps: dynamic
+    var nextIconButtonProps: IconButtonProps
 
     /**
      * Callback fired when the page is changed.
@@ -106,7 +106,7 @@ external interface TablePaginationProps : react.RProps {
      * Props applied to the rows per page [`Select`](/api/select/) element.
      * @default {}
      */
-    var SelectProps: dynamic
+    var SelectProps: SelectProps
 
     /**
      * If `true`, show the first-page button.

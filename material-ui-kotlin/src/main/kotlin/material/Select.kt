@@ -80,7 +80,7 @@ external interface SelectProps : react.RProps {
     /**
      * Props applied to the [`Menu`](/api/menu/) element.
      */
-    var MenuProps: dynamic
+    var MenuProps: MenuProps
 
     /**
      * If `true`, `value` must be an array and the menu will support multiple selections.

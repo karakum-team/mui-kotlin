@@ -44,7 +44,7 @@ external interface MenuProps : react.RProps {
      * Props applied to the [`MenuList`](/api/menu-list/) element.
      * @default {}
      */
-    var MenuListProps: dynamic
+    var MenuListProps: MenuListProps
 
     /**
      * Callback fired when the component requests to be closed.

@@ -133,7 +133,7 @@ external interface TooltipProps : react.RProps {
      * Props applied to the [`Popper`](/api/popper/) element.
      * @default {}
      */
-    var PopperProps: dynamic
+    var PopperProps: PopperProps
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

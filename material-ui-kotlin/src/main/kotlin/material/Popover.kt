@@ -88,7 +88,7 @@ external interface PopoverProps : react.RProps {
      * Props applied to the [`Paper`](/api/paper/) element.
      * @default {}
      */
-    var PaperProps: dynamic
+    var PaperProps: PaperProps
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

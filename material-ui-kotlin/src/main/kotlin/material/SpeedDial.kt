@@ -38,7 +38,7 @@ external interface SpeedDialProps : react.RProps {
      * Props applied to the [`Fab`](/api/fab/) element.
      * @default {}
      */
-    var FabProps: dynamic
+    var FabProps: FabProps
 
     /**
      * The icon to display in the SpeedDial Fab. The `SpeedDialIcon` component

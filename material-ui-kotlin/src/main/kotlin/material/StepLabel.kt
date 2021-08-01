@@ -47,7 +47,7 @@ external interface StepLabelProps : react.RProps {
     /**
      * Props applied to the [`StepIcon`](/api/step-icon/) element.
      */
-    var StepIconProps: dynamic
+    var StepIconProps: StepIconProps
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

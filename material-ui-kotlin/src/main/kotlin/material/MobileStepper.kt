@@ -26,7 +26,7 @@ external interface MobileStepperProps : react.RProps {
     /**
      * Props applied to the `LinearProgress` element.
      */
-    var LinearProgressProps: dynamic
+    var LinearProgressProps: LinearProgressProps
 
     /**
      * A next button element. For instance, it can be a `Button` or an `IconButton`.

@@ -15,7 +15,7 @@ external interface SpeedDialActionProps : react.RProps {
      * Props applied to the [`Fab`](/api/fab/) component.
      * @default {}
      */
-    var FabProps: dynamic
+    var FabProps: FabProps
 
     /**
      * Adds a transition delay, to allow a series of SpeedDialActions to be animated.

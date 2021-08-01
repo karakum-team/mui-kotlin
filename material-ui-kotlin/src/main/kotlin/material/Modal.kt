@@ -23,7 +23,7 @@ external interface ModalProps : react.RProps {
     /**
      * Props applied to the [`Backdrop`](/api/backdrop/) element.
      */
-    var BackdropProps: dynamic
+    var BackdropProps: BackdropProps
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

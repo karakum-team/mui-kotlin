@@ -41,12 +41,12 @@ external interface SnackbarProps : react.RProps {
     /**
      * Props applied to the `ClickAwayListener` element.
      */
-    var ClickAwayListenerProps: dynamic
+    var ClickAwayListenerProps: ClickAwayListenerProps
 
     /**
      * Props applied to the [`SnackbarContent`](/api/snackbar-content/) element.
      */
-    var ContentProps: dynamic
+    var ContentProps: SnackbarContentProps
 
     /**
      * If `true`, the `autoHideDuration` timer will expire even if the window is not focused.

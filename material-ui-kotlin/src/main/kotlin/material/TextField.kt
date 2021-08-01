@@ -57,7 +57,7 @@ external interface BaseTextFieldProps : react.RProps {
     /**
      * Props applied to the [`FormHelperText`](/api/form-helper-text/) element.
      */
-    var FormHelperTextProps: dynamic
+    var FormHelperTextProps: FormHelperTextProps
 
     /**
      * If `true`, the input will take up the full width of its container.
@@ -79,7 +79,7 @@ external interface BaseTextFieldProps : react.RProps {
     /**
      * Props applied to the [`InputLabel`](/api/input-label/) element.
      */
-    var InputLabelProps: dynamic
+    var InputLabelProps: InputLabelProps
 
     /**
      * [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
@@ -147,7 +147,7 @@ external interface BaseTextFieldProps : react.RProps {
     /**
      * Props applied to the [`Select`](/api/select/) element.
      */
-    var SelectProps: dynamic
+    var SelectProps: SelectProps
 
     /**
      * The size of the component.
@@ -191,7 +191,7 @@ external interface StandardTextFieldProps : react.RProps {
      * [`OutlinedInput`](/api/outlined-input/) or [`Input`](/api/input/)
      * component depending on the `variant` prop value.
      */
-    var InputProps: dynamic
+    var InputProps: InputProps
 }
 
 external interface FilledTextFieldProps : react.RProps {
@@ -215,7 +215,7 @@ external interface FilledTextFieldProps : react.RProps {
      * [`OutlinedInput`](/api/outlined-input/) or [`Input`](/api/input/)
      * component depending on the `variant` prop value.
      */
-    var InputProps: dynamic
+    var InputProps: FilledInputProps
 }
 
 external interface OutlinedTextFieldProps : react.RProps {
@@ -239,7 +239,7 @@ external interface OutlinedTextFieldProps : react.RProps {
      * [`OutlinedInput`](/api/outlined-input/) or [`Input`](/api/input/)
      * component depending on the `variant` prop value.
      */
-    var InputProps: dynamic
+    var InputProps: OutlinedInputProps
 }
 
 /**

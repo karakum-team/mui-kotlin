@@ -105,7 +105,7 @@ external interface TabsProps : react.RProps {
      * Props applied to the [`TabScrollButton`](/api/tab-scroll-button/) element.
      * @default {}
      */
-    var TabScrollButtonProps: dynamic
+    var TabScrollButtonProps: TabScrollButtonProps
 
     /**
      * Determines the color of the `Tab`.

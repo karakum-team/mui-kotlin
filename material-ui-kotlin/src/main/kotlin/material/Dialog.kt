@@ -82,7 +82,7 @@ external interface DialogProps : react.RProps {
      * Props applied to the [`Paper`](/api/paper/) element.
      * @default {}
      */
-    var PaperProps: dynamic
+    var PaperProps: PaperProps
 
     /**
      * Determine the container for scrolling the dialog.
