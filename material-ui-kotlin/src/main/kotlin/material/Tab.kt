@@ -10,7 +10,7 @@ external interface TabProps : react.RProps {
      * This prop isn't supported.
      * Use the `component` prop if you need to change the children structure.
      */
-    var children: dynamic
+    var children: Nothing?
 
     /**
      * Override or extend the styles applied to the component.
