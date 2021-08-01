@@ -15,6 +15,11 @@ private enum class Suppress {
 private const val PACKAGE = "package material"
 
 // language=Kotlin
+private const val ALIASES = """
+typealias Union = String
+"""
+
+// language=Kotlin
 private const val STUBS = """
 external interface Theme
 
@@ -23,7 +28,7 @@ external interface SxProps<T: Any>
 external interface TransitionProps
 """
 
-private val ALIASES = setOf(
+private val UNSTYLED_ALIASES = setOf(
     "NoSsr",
     "Portal",
 )
@@ -42,7 +47,7 @@ fun generateKotlinDeclarations(
         .filter { it.name != "StyledEngineProvider" }
         .map {
             val fileName = "${it.name}.d.ts"
-            if (it.name !in ALIASES) {
+            if (it.name !in UNSTYLED_ALIASES) {
                 it
             } else {
                 it.parentFile.parentFile
@@ -51,6 +56,9 @@ fun generateKotlinDeclarations(
             }.resolve(fileName)
         }
         .forEach { generate(it, targetDir) }
+
+    targetDir.resolve("Aliases.kt")
+        .writeText(fileContent(body = ALIASES))
 
     targetDir.resolve("Stubs.kt")
         .writeText(fileContent(body = STUBS))

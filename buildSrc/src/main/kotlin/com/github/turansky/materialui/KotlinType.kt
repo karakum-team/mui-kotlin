@@ -5,6 +5,7 @@ private const val PROMISE = "kotlin.js.Promise"
 private val CLASS_REGEX = Regex("""[\w\d]+""")
 
 internal const val DYNAMIC = "dynamic"
+internal const val UNION = "Union"
 
 private val STANDARD_TYPE_MAP = mapOf(
     "any" to "Any",
@@ -66,7 +67,7 @@ internal fun kotlinType(
         }
 
     if (type.startsWith("'"))
-        return "$DYNAMIC /* $type */"
+        return "$UNION /* $type */"
 
     // println(type)
 
