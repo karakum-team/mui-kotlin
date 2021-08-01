@@ -69,6 +69,16 @@ internal fun kotlinType(
     if (type.startsWith("'"))
         return "$UNION /* $type */"
 
+    if (type.startsWith("OverridableStringUnion<")) {
+        val comment = type.removeSurrounding("OverridableStringUnion<", ">")
+            .splitToSequence("\n")
+            .filter { it.isNotEmpty() }
+            .map { it.trimStart() }
+            .joinToString(" ")
+
+        return "$UNION /* $comment */"
+    }
+
     // println(type)
 
     return DYNAMIC
