@@ -18,9 +18,17 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "Date" to "kotlin.js.Date",
 
+    "HTMLDivElement" to "org.w3c.dom.HTMLDivElement",
+    "HTMLInputElement" to "org.w3c.dom.HTMLInputElement",
+    "HTMLTextAreaElement" to "org.w3c.dom.HTMLTextAreaElement",
+
     "React.ReactNode" to "react.ReactNode",
+
     "React.ReactElement" to "react.ReactElement",
     "React.ReactElement<any, any>" to "react.ReactElement",
+
+    "React.Ref<unknown>" to "react.Ref<*>",
+    "React.Ref<any>" to "react.Ref<*>",
 
     "SxProps<Theme>" to "SxProps<Theme>",
 )
@@ -36,10 +44,14 @@ internal fun kotlinType(
     if (promiseResult != type)
         return "$PROMISE<${kotlinType(promiseResult)}>"
 
+    val refResult = type.removeSurrounding("React.Ref<", ">")
+    if (refResult != type)
+        return "react.Ref<${kotlinType(refResult)}>"
+
     if (type.startsWith("'"))
         return "$DYNAMIC /* $type */"
 
-    println(type)
+    // println(type)
 
     return DYNAMIC
 }
