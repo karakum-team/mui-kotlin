@@ -12,7 +12,14 @@ private enum class Suppress {
 }
 
 // language=Kotlin
-private const val PACKAGE = """package material"""
+private const val PACKAGE = "package material"
+
+// language=Kotlin
+private const val STUBS = """
+external interface Theme
+
+external interface SxProps<T: Any>
+"""
 
 private val ALIASES = setOf(
     "NoSsr",
@@ -42,6 +49,9 @@ fun generateKotlinDeclarations(
             }.resolve(fileName)
         }
         .forEach { generate(it, targetDir) }
+
+    targetDir.resolve("Stubs.kt")
+        .writeText(fileContent(body = STUBS))
 }
 
 private fun String.isComponentName(): Boolean {
