@@ -17,7 +17,7 @@ external interface SnackbarProps : react.RProps {
      * the horizontal alignment is ignored.
      * @default { vertical: 'bottom', horizontal: 'left' }
      */
-    var anchorOrigin: dynamic
+    var anchorOrigin: SnackbarOrigin
 
     /**
      * The number of milliseconds to wait before automatically calling the

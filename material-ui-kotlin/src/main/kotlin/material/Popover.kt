@@ -31,13 +31,13 @@ external interface PopoverProps : react.RProps {
      *   horizontal: 'left',
      * }
      */
-    var anchorOrigin: dynamic
+    var anchorOrigin: PopoverOrigin
 
     /**
      * This is the position that may be used to set the position of the popover.
      * The coordinates are relative to the application's client area.
      */
-    var anchorPosition: dynamic
+    var anchorPosition: PopoverPosition
 
     /**
      * This determines which anchor prop to refer to when setting
@@ -107,7 +107,7 @@ external interface PopoverProps : react.RProps {
      *   horizontal: 'left',
      * }
      */
-    var transformOrigin: dynamic
+    var transformOrigin: PopoverOrigin
 
     /**
      * The component used for the transition.
