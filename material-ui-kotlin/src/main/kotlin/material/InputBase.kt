@@ -88,7 +88,7 @@ external interface InputBaseProps : react.RProps {
      * [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
      * @default {}
      */
-    var inputProps: dynamic
+    var inputProps: InputBaseComponentProps
 
     /**
      * Pass a ref to the `input` element.
@@ -194,6 +194,8 @@ external interface InputBaseProps : react.RProps {
      */
     var value: dynamic
 }
+
+external interface InputBaseComponentProps : react.RProps
 
 /**
  * `InputBase` contains as few styles as possible.
