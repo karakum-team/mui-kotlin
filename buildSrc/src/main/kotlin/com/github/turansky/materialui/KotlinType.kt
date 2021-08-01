@@ -31,6 +31,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.Ref<any>" to "react.Ref<*>",
 
     "SxProps<Theme>" to "SxProps<Theme>",
+    "TransitionProps" to "TransitionProps",
 )
 
 internal fun kotlinType(
