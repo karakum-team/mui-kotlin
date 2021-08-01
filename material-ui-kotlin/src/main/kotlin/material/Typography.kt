@@ -10,7 +10,7 @@ external interface TypographyProps : react.RProps {
      * Set the text-align on the component.
      * @default 'inherit'
      */
-    var align: dynamic /* 'inherit' | 'left' | 'center' | 'right' | 'justify' */
+    var align: Union /* 'inherit' | 'left' | 'center' | 'right' | 'justify' */
 
     /**
      * The content of the component.

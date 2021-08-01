@@ -57,7 +57,7 @@ external interface FormControlProps : react.RProps {
      * If `dense` or `normal`, will adjust vertical spacing of this and contained components.
      * @default 'none'
      */
-    var margin: dynamic /* 'dense' | 'normal' | 'none' */
+    var margin: Union /* 'dense' | 'normal' | 'none' */
 
     /**
      * If `true`, the label will indicate that the `input` is required.
@@ -80,7 +80,7 @@ external interface FormControlProps : react.RProps {
      * The variant to use.
      * @default 'outlined'
      */
-    var variant: dynamic /* 'standard' | 'outlined' | 'filled' */
+    var variant: Union /* 'standard' | 'outlined' | 'filled' */
 }
 
 /**

@@ -26,7 +26,7 @@ external interface AvatarGroupProps : react.RProps {
      * Spacing between avatars.
      * @default 'medium'
      */
-    var spacing: dynamic /* 'small' | 'medium' | number */
+    var spacing: Union /* 'small' | 'medium' | number */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

@@ -10,7 +10,7 @@ external interface DrawerProps : react.RProps {
      * Side from which the drawer will appear.
      * @default 'left'
      */
-    var anchor: dynamic /* 'left' | 'top' | 'right' | 'bottom' */
+    var anchor: Union /* 'left' | 'top' | 'right' | 'bottom' */
 
     /**
      * The content of the component.
@@ -74,7 +74,7 @@ external interface DrawerProps : react.RProps {
      * The variant to use.
      * @default 'temporary'
      */
-    var variant: dynamic /* 'permanent' | 'persistent' | 'temporary' */
+    var variant: Union /* 'permanent' | 'persistent' | 'temporary' */
 }
 
 /**

@@ -41,7 +41,7 @@ external interface IconButtonProps : react.RProps {
      * size and shape).
      * @default false
      */
-    var edge: dynamic /* 'start' | 'end' | false */
+    var edge: Union /* 'start' | 'end' | false */
 
     /**
      * The size of the component.

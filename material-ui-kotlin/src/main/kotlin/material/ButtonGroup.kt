@@ -56,14 +56,14 @@ external interface ButtonGroupProps : react.RProps {
      * The component orientation (layout flow direction).
      * @default 'horizontal'
      */
-    var orientation: dynamic /* 'vertical' | 'horizontal' */
+    var orientation: Union /* 'vertical' | 'horizontal' */
 
     /**
      * The size of the component.
      * `small` is equivalent to the dense button styling.
      * @default 'medium'
      */
-    var size: dynamic /* 'small' | 'medium' | 'large' */
+    var size: Union /* 'small' | 'medium' | 'large' */
 
     /**
      * The variant to use.

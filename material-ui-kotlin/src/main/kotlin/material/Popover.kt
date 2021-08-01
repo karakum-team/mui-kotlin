@@ -131,9 +131,9 @@ external interface PopoverProps : react.RProps {
 }
 
 external interface PopoverOrigin {
-    var vertical: dynamic /* 'top' | 'center' | 'bottom' | number */
+    var vertical: Union /* 'top' | 'center' | 'bottom' | number */
 
-    var horizontal: dynamic /* 'left' | 'center' | 'right' | number */
+    var horizontal: Union /* 'left' | 'center' | 'right' | number */
 }
 
 external interface PopoverPosition {

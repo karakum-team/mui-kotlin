@@ -32,7 +32,7 @@ external interface InputAdornmentProps : react.RProps {
     /**
      * The position this adornment should appear relative to the `Input`.
      */
-    var position: dynamic /* 'start' | 'end' */
+    var position: Union /* 'start' | 'end' */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
@@ -44,7 +44,7 @@ external interface InputAdornmentProps : react.RProps {
      * Note: If you are using the `TextField` component or the `FormControl` component
      * you do not have to set this manually.
      */
-    var variant: dynamic /* 'standard' | 'outlined' | 'filled' */
+    var variant: Union /* 'standard' | 'outlined' | 'filled' */
 }
 
 /**

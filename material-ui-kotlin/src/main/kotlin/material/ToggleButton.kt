@@ -20,7 +20,7 @@ external interface ToggleButtonProps : react.RProps {
      * The color of the button when it is in an active state.
      * @default 'standard'
      */
-    var color: dynamic /* 'standard' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' */
+    var color: Union /* 'standard' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' */
 
     /**
      * If `true`, the component is disabled.

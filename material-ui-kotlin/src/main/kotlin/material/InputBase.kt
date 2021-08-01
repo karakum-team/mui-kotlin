@@ -100,7 +100,7 @@ external interface InputBaseProps : react.RProps {
      * FormControl.
      * The prop defaults to the value (`'none'`) inherited from the parent FormControl component.
      */
-    var margin: dynamic /* 'dense' | 'none' */
+    var margin: Union /* 'dense' | 'none' */
 
     /**
      * If `true`, a `textarea` element is rendered.

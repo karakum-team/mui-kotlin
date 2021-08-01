@@ -16,7 +16,7 @@ external interface ImageListItemBarProps : react.RProps {
      * Position of secondary action IconButton.
      * @default 'right'
      */
-    var actionPosition: dynamic /* 'left' | 'right' */
+    var actionPosition: Union /* 'left' | 'right' */
 
     /**
      * Override or extend the styles applied to the component.
@@ -27,7 +27,7 @@ external interface ImageListItemBarProps : react.RProps {
      * Position of the title bar.
      * @default 'bottom'
      */
-    var position: dynamic /* 'below' | 'top' | 'bottom' */
+    var position: Union /* 'below' | 'top' | 'bottom' */
 
     /**
      * String or element serving as subtitle (support text).

@@ -11,7 +11,7 @@ external interface SkeletonProps : react.RProps {
      * If `false` the animation effect is disabled.
      * @default 'pulse'
      */
-    var animation: dynamic /* 'pulse' | 'wave' | false */
+    var animation: Union /* 'pulse' | 'wave' | false */
 
     /**
      * Optional children to infer width and height from.

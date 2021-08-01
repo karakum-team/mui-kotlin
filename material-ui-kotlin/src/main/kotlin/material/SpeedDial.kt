@@ -26,7 +26,7 @@ external interface SpeedDialProps : react.RProps {
      * The direction the actions open relative to the floating action button.
      * @default 'up'
      */
-    var direction: dynamic /* 'up' | 'down' | 'left' | 'right' */
+    var direction: Union /* 'up' | 'down' | 'left' | 'right' */
 
     /**
      * If `true`, the SpeedDial is hidden.

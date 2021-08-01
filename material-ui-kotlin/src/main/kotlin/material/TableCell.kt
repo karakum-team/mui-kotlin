@@ -13,7 +13,7 @@ external interface TableCellProps : react.RProps {
      * you to add them up quickly in your head without having to worry about decimals.
      * @default 'inherit'
      */
-    var align: dynamic /* 'inherit' | 'left' | 'center' | 'right' | 'justify' */
+    var align: Union /* 'inherit' | 'left' | 'center' | 'right' | 'justify' */
 
     /**
      * The content of the component.
@@ -35,7 +35,7 @@ external interface TableCellProps : react.RProps {
      * Sets the padding applied to the cell.
      * The prop defaults to the value (`'default'`) inherited from the parent Table component.
      */
-    var padding: dynamic /* 'normal' | 'checkbox' | 'none' */
+    var padding: Union /* 'normal' | 'checkbox' | 'none' */
 
     /**
      * Set scope attribute.
@@ -46,7 +46,7 @@ external interface TableCellProps : react.RProps {
      * Specify the size of the cell.
      * The prop defaults to the value (`'medium'`) inherited from the parent Table component.
      */
-    var size: dynamic /* 'small' | 'medium' */
+    var size: Union /* 'small' | 'medium' */
 
     /**
      * Set aria-sort direction.
@@ -62,7 +62,7 @@ external interface TableCellProps : react.RProps {
      * Specify the cell type.
      * The prop defaults to the value inherited from the parent TableHead, TableBody, or TableFooter components.
      */
-    var variant: dynamic /* 'head' | 'body' | 'footer' */
+    var variant: Union /* 'head' | 'body' | 'footer' */
 }
 
 /**

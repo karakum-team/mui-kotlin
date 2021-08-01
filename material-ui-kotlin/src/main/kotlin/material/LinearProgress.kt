@@ -39,7 +39,7 @@ external interface LinearProgressProps : react.RProps {
      * Use indeterminate or query when there is no progress value.
      * @default 'indeterminate'
      */
-    var variant: dynamic /* 'determinate' | 'indeterminate' | 'buffer' | 'query' */
+    var variant: Union /* 'determinate' | 'indeterminate' | 'buffer' | 'query' */
 }
 
 /**

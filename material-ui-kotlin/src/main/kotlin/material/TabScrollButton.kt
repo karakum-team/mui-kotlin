@@ -19,7 +19,7 @@ external interface TabScrollButtonProps : react.RProps {
     /**
      * The direction the button should indicate.
      */
-    var direction: dynamic /* 'left' | 'right' */
+    var direction: Union /* 'left' | 'right' */
 
     /**
      * If `true`, the component is disabled.
@@ -29,7 +29,7 @@ external interface TabScrollButtonProps : react.RProps {
     /**
      * The component orientation (layout flow direction).
      */
-    var orientation: dynamic /* 'horizontal' | 'vertical' */
+    var orientation: Union /* 'horizontal' | 'vertical' */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

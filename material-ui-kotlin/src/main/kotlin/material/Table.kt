@@ -20,7 +20,7 @@ external interface TableProps : react.RProps {
      * Allows TableCells to inherit padding of the Table.
      * @default 'normal'
      */
-    var padding: dynamic /* 'normal' | 'checkbox' | 'none' */
+    var padding: Union /* 'normal' | 'checkbox' | 'none' */
 
     /**
      * Allows TableCells to inherit size of the Table.

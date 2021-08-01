@@ -22,7 +22,7 @@ external interface SlideProps : react.RProps {
      * Direction the child node will enter from.
      * @default 'down'
      */
-    var direction: dynamic /* 'left' | 'right' | 'up' | 'down' */
+    var direction: Union /* 'left' | 'right' | 'up' | 'down' */
 
     /**
      * The transition timing function.

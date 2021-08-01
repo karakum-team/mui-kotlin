@@ -36,7 +36,7 @@ external interface LinkProps : react.RProps {
      * Controls when the link should have an underline.
      * @default 'always'
      */
-    var underline: dynamic /* 'none' | 'hover' | 'always' */
+    var underline: Union /* 'none' | 'hover' | 'always' */
 
     /**
      * Applies the theme typography styles.

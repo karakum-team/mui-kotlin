@@ -158,7 +158,7 @@ external interface SelectProps : react.RProps {
      * The variant to use.
      * @default 'outlined'
      */
-    var variant: dynamic /* 'standard' | 'outlined' | 'filled' */
+    var variant: Union /* 'standard' | 'outlined' | 'filled' */
 }
 
 /**

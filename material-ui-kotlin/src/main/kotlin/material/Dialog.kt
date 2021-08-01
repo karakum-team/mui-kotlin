@@ -88,7 +88,7 @@ external interface DialogProps : react.RProps {
      * Determine the container for scrolling the dialog.
      * @default 'paper'
      */
-    var scroll: dynamic /* 'body' | 'paper' */
+    var scroll: Union /* 'body' | 'paper' */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

@@ -86,7 +86,7 @@ external interface MenuProps : react.RProps {
      * The variant to use. Use `menu` to prevent selected items from impacting the initial focus.
      * @default 'selectedMenu'
      */
-    var variant: dynamic /* 'menu' | 'selectedMenu' */
+    var variant: Union /* 'menu' | 'selectedMenu' */
 }
 
 /**

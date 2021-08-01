@@ -55,7 +55,7 @@ external interface CircularProgressProps : react.RProps {
      * Use indeterminate when there is no progress value.
      * @default 'indeterminate'
      */
-    var variant: dynamic /* 'determinate' | 'indeterminate' */
+    var variant: Union /* 'determinate' | 'indeterminate' */
 }
 
 /**

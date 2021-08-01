@@ -183,7 +183,7 @@ external interface StandardTextFieldProps : react.RProps {
      * The variant to use.
      * @default 'outlined'
      */
-    var variant: dynamic /* 'standard' */
+    var variant: Union /* 'standard' */
 
     /**
      * Props applied to the Input element.
@@ -207,7 +207,7 @@ external interface FilledTextFieldProps : react.RProps {
      * The variant to use.
      * @default 'outlined'
      */
-    var variant: dynamic /* 'filled' */
+    var variant: Union /* 'filled' */
 
     /**
      * Props applied to the Input element.
@@ -231,7 +231,7 @@ external interface OutlinedTextFieldProps : react.RProps {
      * The variant to use.
      * @default 'outlined'
      */
-    var variant: dynamic /* 'outlined' */
+    var variant: Union /* 'outlined' */
 
     /**
      * Props applied to the Input element.

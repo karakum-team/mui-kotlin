@@ -26,7 +26,7 @@ external interface TableSortLabelProps : react.RProps {
      * The current sort direction.
      * @default 'asc'
      */
-    var direction: dynamic /* 'asc' | 'desc' */
+    var direction: Union /* 'asc' | 'desc' */
 
     /**
      * Hide sort icon when active is false.

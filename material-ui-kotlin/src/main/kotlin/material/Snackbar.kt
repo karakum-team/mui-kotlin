@@ -123,9 +123,9 @@ external interface SnackbarProps : react.RProps {
 }
 
 external interface SnackbarOrigin {
-    var vertical: dynamic /* 'top' | 'bottom' */
+    var vertical: Union /* 'top' | 'bottom' */
 
-    var horizontal: dynamic /* 'left' | 'center' | 'right' */
+    var horizontal: Union /* 'left' | 'center' | 'right' */
 }
 
 /**

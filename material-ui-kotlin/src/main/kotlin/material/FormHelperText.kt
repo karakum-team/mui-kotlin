@@ -42,7 +42,7 @@ external interface FormHelperTextProps : react.RProps {
      * If `dense`, will adjust vertical spacing. This is normally obtained via context from
      * FormControl.
      */
-    var margin: dynamic /* 'dense' */
+    var margin: Union /* 'dense' */
 
     /**
      * If `true`, the helper text should use required classes key.
@@ -57,7 +57,7 @@ external interface FormHelperTextProps : react.RProps {
     /**
      * The variant to use.
      */
-    var variant: dynamic /* 'standard' | 'outlined' | 'filled' */
+    var variant: Union /* 'standard' | 'outlined' | 'filled' */
 }
 
 /**

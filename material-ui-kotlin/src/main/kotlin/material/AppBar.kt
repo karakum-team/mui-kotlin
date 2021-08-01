@@ -29,7 +29,7 @@ external interface AppBarProps : react.RProps {
      * Note: `sticky` is not universally supported and will fall back to `static` when unavailable.
      * @default 'fixed'
      */
-    var position: dynamic /* 'fixed' | 'absolute' | 'sticky' | 'static' | 'relative' */
+    var position: Union /* 'fixed' | 'absolute' | 'sticky' | 'static' | 'relative' */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

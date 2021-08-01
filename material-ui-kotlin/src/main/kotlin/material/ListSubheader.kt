@@ -20,7 +20,7 @@ external interface ListSubheaderProps : react.RProps {
      * The color of the component. It supports those theme colors that make sense for this component.
      * @default 'default'
      */
-    var color: dynamic /* 'default' | 'primary' | 'inherit' */
+    var color: Union /* 'default' | 'primary' | 'inherit' */
 
     /**
      * If `true`, the List Subheader will not have gutters.

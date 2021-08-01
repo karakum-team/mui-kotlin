@@ -54,7 +54,7 @@ external interface TabsProps : react.RProps {
      * Determines the color of the indicator.
      * @default 'primary'
      */
-    var indicatorColor: dynamic /* 'secondary' | 'primary' */
+    var indicatorColor: Union /* 'secondary' | 'primary' */
 
     /**
      * Callback fired when the value changes.
@@ -68,7 +68,7 @@ external interface TabsProps : react.RProps {
      * The component orientation (layout flow direction).
      * @default 'horizontal'
      */
-    var orientation: dynamic /* 'horizontal' | 'vertical' */
+    var orientation: Union /* 'horizontal' | 'vertical' */
 
     /**
      * The component used to render the scroll buttons.
@@ -87,7 +87,7 @@ external interface TabsProps : react.RProps {
      * This behavior can be disabled with `allowScrollButtonsMobile`.
      * @default 'auto'
      */
-    var scrollButtons: dynamic /* 'auto' | true | false */
+    var scrollButtons: Union /* 'auto' | true | false */
 
     /**
      * If `true` the selected tab changes on focus. Otherwise it only
@@ -111,7 +111,7 @@ external interface TabsProps : react.RProps {
      * Determines the color of the `Tab`.
      * @default 'primary'
      */
-    var textColor: dynamic /* 'secondary' | 'primary' | 'inherit' */
+    var textColor: Union /* 'secondary' | 'primary' | 'inherit' */
 
     /**
      * The value of the currently selected `Tab`.
@@ -129,7 +129,7 @@ external interface TabsProps : react.RProps {
      *  - `standard` will render the default state.
      * @default 'standard'
      */
-    var variant: dynamic /* 'standard' | 'scrollable' | 'fullWidth' */
+    var variant: Union /* 'standard' | 'scrollable' | 'fullWidth' */
 
     /**
      * If `true`, the scrollbar is visible. It can be useful when displaying

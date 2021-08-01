@@ -16,7 +16,7 @@ external interface HiddenProps : react.RProps {
      * server-side rendering.
      * @default 'js'
      */
-    var implementation: dynamic /* 'js' | 'css' */
+    var implementation: Union /* 'js' | 'css' */
 
     /**
      * You can use this prop when choosing the `js` implementation with server-side rendering.

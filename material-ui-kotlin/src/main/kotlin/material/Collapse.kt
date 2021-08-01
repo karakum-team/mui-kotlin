@@ -45,7 +45,7 @@ external interface CollapseProps : react.RProps {
      * The transition orientation.
      * @default 'vertical'
      */
-    var orientation: dynamic /* 'horizontal' | 'vertical' */
+    var orientation: Union /* 'horizontal' | 'vertical' */
 
     /**
      * The duration for the transition, in milliseconds.

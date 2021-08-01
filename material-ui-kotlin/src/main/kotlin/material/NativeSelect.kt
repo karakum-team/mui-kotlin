@@ -56,7 +56,7 @@ external interface NativeSelectProps : react.RProps {
     /**
      * The variant to use.
      */
-    var variant: dynamic /* 'standard' | 'outlined' | 'filled' */
+    var variant: Union /* 'standard' | 'outlined' | 'filled' */
 }
 
 /**

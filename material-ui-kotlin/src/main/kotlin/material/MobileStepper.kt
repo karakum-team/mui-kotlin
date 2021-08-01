@@ -37,7 +37,7 @@ external interface MobileStepperProps : react.RProps {
      * Set the positioning type.
      * @default 'bottom'
      */
-    var position: dynamic /* 'bottom' | 'top' | 'static' */
+    var position: Union /* 'bottom' | 'top' | 'static' */
 
     /**
      * The total steps.
@@ -53,7 +53,7 @@ external interface MobileStepperProps : react.RProps {
      * The variant to use.
      * @default 'dots'
      */
-    var variant: dynamic /* 'text' | 'dots' | 'progress' */
+    var variant: Union /* 'text' | 'dots' | 'progress' */
 }
 
 /**

@@ -52,7 +52,7 @@ external interface FormControlLabelProps : react.RProps {
      * The position of the label.
      * @default 'end'
      */
-    var labelPlacement: dynamic /* 'end' | 'start' | 'top' | 'bottom' */
+    var labelPlacement: Union /* 'end' | 'start' | 'top' | 'bottom' */
 
     var name: String
 

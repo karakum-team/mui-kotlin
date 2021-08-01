@@ -39,7 +39,7 @@ external interface DividerProps : react.RProps {
      * The component orientation.
      * @default 'horizontal'
      */
-    var orientation: dynamic /* 'horizontal' | 'vertical' */
+    var orientation: Union /* 'horizontal' | 'vertical' */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
@@ -50,7 +50,7 @@ external interface DividerProps : react.RProps {
      * The text alignment.
      * @default 'center'
      */
-    var textAlign: dynamic /* 'center' | 'right' | 'left' */
+    var textAlign: Union /* 'center' | 'right' | 'left' */
 
     /**
      * The variant to use.

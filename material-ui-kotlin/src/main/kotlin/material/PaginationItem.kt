@@ -38,7 +38,7 @@ external interface PaginationItemProps : react.RProps {
      * The shape of the pagination item.
      * @default 'circular'
      */
-    var shape: dynamic /* 'circular' | 'rounded' */
+    var shape: Union /* 'circular' | 'rounded' */
 
     /**
      * The size of the component.

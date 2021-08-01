@@ -41,7 +41,7 @@ external interface MenuListProps : react.RProps {
      * and the vertical alignment relative to the anchor element.
      * @default 'selectedMenu'
      */
-    var variant: dynamic /* 'menu' | 'selectedMenu' */
+    var variant: Union /* 'menu' | 'selectedMenu' */
 }
 
 /**
