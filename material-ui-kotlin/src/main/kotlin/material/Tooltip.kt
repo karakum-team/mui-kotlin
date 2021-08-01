@@ -15,7 +15,7 @@ external interface TooltipProps : react.RProps {
     /**
      * Tooltip reference element.
      */
-    var children: dynamic
+    var children: react.ReactElement
 
     /**
      * Override or extend the styles applied to the component.

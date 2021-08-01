@@ -16,7 +16,7 @@ external interface ZoomProps : react.RProps {
     /**
      * A single child content element.
      */
-    var children: dynamic
+    var children: react.ReactElement
 
     /**
      * The transition timing function.

@@ -16,7 +16,7 @@ external interface SlideProps : react.RProps {
     /**
      * A single child content element.
      */
-    var children: dynamic
+    var children: react.ReactElement
 
     /**
      * Direction the child node will enter from.

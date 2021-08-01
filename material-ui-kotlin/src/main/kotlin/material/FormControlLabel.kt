@@ -26,7 +26,7 @@ external interface FormControlLabelProps : react.RProps {
     /**
      * A control element. For instance, it can be a `Radio`, a `Switch` or a `Checkbox`.
      */
-    var control: dynamic
+    var control: react.ReactElement
 
     /**
      * If `true`, the control is disabled.

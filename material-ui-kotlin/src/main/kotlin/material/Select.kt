@@ -58,7 +58,7 @@ external interface SelectProps : react.RProps {
     /**
      * An `Input` element; does not have to be a material-ui specific `Input`.
      */
-    var input: dynamic
+    var input: react.ReactElement
 
     /**
      * [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.

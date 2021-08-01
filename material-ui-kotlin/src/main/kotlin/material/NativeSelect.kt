@@ -28,7 +28,7 @@ external interface NativeSelectProps : react.RProps {
      * An `Input` element; does not have to be a material-ui specific `Input`.
      * @default <Input />
      */
-    var input: dynamic
+    var input: react.ReactElement
 
     /**
      * <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes">Attributes</a> applied to the `select` element.
