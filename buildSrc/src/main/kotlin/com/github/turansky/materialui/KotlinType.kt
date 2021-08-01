@@ -41,7 +41,7 @@ internal fun kotlinType(
     if (STANDARD_TYPE_MAP.containsKey(type))
         return STANDARD_TYPE_MAP.getValue(type)
 
-    if (type.endsWith("Origin") || type.endsWith("Position"))
+    if (type.endsWith("Props") || type.endsWith("Origin") || type.endsWith("Position"))
         return type
 
     val promiseResult = type.removeSurrounding("Promise<", ">")
@@ -56,7 +56,6 @@ internal fun kotlinType(
     if (partialResult.endsWith("Props"))
         return when (partialResult) {
             "TouchRippleProps",
-            "InputBaseComponentProps",
             "NativeSelectInputProps",
             -> DYNAMIC
 

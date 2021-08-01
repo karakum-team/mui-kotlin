@@ -108,9 +108,6 @@ private fun findAdditionalProps(
     propsName: String,
     content: String,
 ): List<String> {
-    if (name == "InputBase")
-        return emptyList()
-
     val bodies = content.splitToSequence("export interface ")
         .drop(1)
         .toList()
@@ -131,9 +128,11 @@ private fun findAdditionalProps(
         if (!propsLike && !interfaceName.endsWith("Origin") && !interfaceName.endsWith("Position"))
             return@mapNotNull null
 
-        val membersContent = body
-            .substringAfter("{\n")
-            .substringBefore(";\n}\n")
+        val membersContent = if (interfaceName != "InputBaseComponentProps") {
+            body
+                .substringAfter("{\n")
+                .substringBefore(";\n}\n")
+        } else ""
 
         val declaration = if (propsLike) {
             props(interfaceName)
@@ -176,6 +175,9 @@ private fun findComponent(
 private fun convertMembers(
     source: String,
 ): String {
+    if (source.isEmpty())
+        return ""
+
     return source
         .replaceIndent("  ")
         .replace(";\n    ", "??11??")
