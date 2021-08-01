@@ -41,6 +41,9 @@ internal fun kotlinType(
     if (STANDARD_TYPE_MAP.containsKey(type))
         return STANDARD_TYPE_MAP.getValue(type)
 
+    if (type.endsWith("Origin") || type.endsWith("Position"))
+        return type
+
     val promiseResult = type.removeSurrounding("Promise<", ">")
     if (promiseResult != type)
         return "$PROMISE<${kotlinType(promiseResult)}>"
