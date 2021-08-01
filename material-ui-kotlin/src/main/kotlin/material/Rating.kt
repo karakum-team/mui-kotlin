@@ -9,7 +9,7 @@ external interface RatingProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: RatingClasses
 
     /**
      * The default value. Use when the component is not controlled.

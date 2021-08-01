@@ -9,7 +9,7 @@ external interface SpeedDialActionProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: SpeedDialActionClasses
 
     /**
      * Props applied to the [`Fab`](/api/fab/) component.

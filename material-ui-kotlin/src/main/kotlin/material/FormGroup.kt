@@ -14,7 +14,7 @@ external interface FormGroupProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: FormGroupClasses
 
     /**
      * Display group of elements in a compact row.

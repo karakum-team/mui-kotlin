@@ -14,7 +14,7 @@ external interface FormControlLabelProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: FormControlLabelClasses
 
     /**
      * The props used for each slot inside.

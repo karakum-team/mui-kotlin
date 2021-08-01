@@ -11,7 +11,7 @@ external interface ContainerProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: ContainerClasses
 
     /**
      * If `true`, the left and right padding is removed.

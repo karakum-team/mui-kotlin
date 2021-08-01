@@ -9,7 +9,7 @@ external interface InputAdornmentProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: InputAdornmentClasses
 
     /**
      * The content of the component, normally an `IconButton` or string.

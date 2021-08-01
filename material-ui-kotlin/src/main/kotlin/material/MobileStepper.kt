@@ -21,7 +21,7 @@ external interface MobileStepperProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: MobileStepperClasses
 
     /**
      * Props applied to the `LinearProgress` element.

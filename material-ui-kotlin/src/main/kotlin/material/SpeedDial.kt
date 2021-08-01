@@ -14,7 +14,7 @@ external interface SpeedDialProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: SpeedDialClasses
 
     /**
      * The aria-label of the button element.

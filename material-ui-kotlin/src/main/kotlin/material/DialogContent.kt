@@ -14,7 +14,7 @@ external interface DialogContentProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: DialogContentClasses
 
     /**
      * Display the top and bottom dividers.

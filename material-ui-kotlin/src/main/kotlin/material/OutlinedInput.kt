@@ -9,7 +9,7 @@ external interface OutlinedInputProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: OutlinedInputClasses
 
     /**
      * The label of the `input`. It is only used for layout. The actual labelling

@@ -14,7 +14,7 @@ external interface AccordionActionsProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: AccordionActionsClasses
 
     /**
      * If `true`, the actions do not have additional margin.

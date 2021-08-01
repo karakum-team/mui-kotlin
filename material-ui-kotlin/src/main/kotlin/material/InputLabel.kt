@@ -14,7 +14,7 @@ external interface InputLabelProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: InputLabelClasses
 
     var color: dynamic /* FormLabelProps['color'] */
 

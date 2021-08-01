@@ -14,7 +14,7 @@ external interface AutocompleteProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: AutocompleteClasses
 
     /**
      * The icon to display in place of the default clear icon.

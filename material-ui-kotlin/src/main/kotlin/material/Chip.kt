@@ -20,7 +20,7 @@ external interface ChipProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: ChipClasses
 
     /**
      * If `true`, the chip will appear clickable, and will raise when pressed,

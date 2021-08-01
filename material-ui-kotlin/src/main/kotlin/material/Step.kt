@@ -19,7 +19,7 @@ external interface StepProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: StepClasses
 
     /**
      * Mark the step as completed. Is passed to child components.

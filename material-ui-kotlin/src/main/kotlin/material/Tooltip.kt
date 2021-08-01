@@ -20,7 +20,7 @@ external interface TooltipProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: TooltipClasses
 
     /**
      * Set to `true` if the `title` acts as an accessible description.

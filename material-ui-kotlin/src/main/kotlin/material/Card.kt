@@ -9,7 +9,7 @@ external interface CardProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: CardClasses
 
     /**
      * If `true`, the card will use raised styling.

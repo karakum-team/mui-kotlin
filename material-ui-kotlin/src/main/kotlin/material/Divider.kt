@@ -20,7 +20,7 @@ external interface DividerProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: DividerClasses
 
     /**
      * If `true`, a vertical divider will have the correct height when used in flex container.

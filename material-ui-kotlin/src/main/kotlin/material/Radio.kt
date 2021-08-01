@@ -14,7 +14,7 @@ external interface RadioProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: RadioClasses
 
     /**
      * The color of the component. It supports those theme colors that make sense for this component.

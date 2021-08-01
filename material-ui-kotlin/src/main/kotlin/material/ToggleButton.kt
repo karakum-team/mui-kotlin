@@ -14,7 +14,7 @@ external interface ToggleButtonProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: ToggleButtonClasses
 
     /**
      * The color of the button when it is in an active state.

@@ -9,7 +9,7 @@ external interface InputProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: InputClasses
 
     /**
      * If `true`, the `input` will not have an underline.

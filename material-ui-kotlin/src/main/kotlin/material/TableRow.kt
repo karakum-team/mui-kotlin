@@ -14,7 +14,7 @@ external interface TableRowProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: TableRowClasses
 
     /**
      * If `true`, the table row will shade on hover.

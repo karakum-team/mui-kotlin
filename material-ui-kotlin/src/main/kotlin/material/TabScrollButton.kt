@@ -14,7 +14,7 @@ external interface TabScrollButtonProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: TabScrollButtonClasses
 
     /**
      * The direction the button should indicate.

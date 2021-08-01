@@ -29,7 +29,7 @@ external interface MenuProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: MenuClasses
 
     /**
      * When opening the menu will not focus the active item but the `[role="menu"]`

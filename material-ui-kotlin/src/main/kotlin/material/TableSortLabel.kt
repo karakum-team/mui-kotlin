@@ -20,7 +20,7 @@ external interface TableSortLabelProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: TableSortLabelClasses
 
     /**
      * The current sort direction.

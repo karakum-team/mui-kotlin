@@ -14,7 +14,7 @@ external interface BottomNavigationProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: BottomNavigationClasses
 
     /**
      * Callback fired when the value changes.

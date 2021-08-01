@@ -54,7 +54,7 @@ external interface PopoverProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: PopoverClasses
 
     /**
      * An HTML element, component instance, or function that returns either.

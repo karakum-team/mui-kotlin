@@ -21,7 +21,7 @@ external interface ImageListItemBarProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: ImageListItemBarClasses
 
     /**
      * Position of the title bar.

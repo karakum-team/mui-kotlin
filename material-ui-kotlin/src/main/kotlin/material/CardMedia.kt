@@ -14,7 +14,7 @@ external interface CardMediaProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: CardMediaClasses
 
     /**
      * Image to be displayed as a background image.

@@ -14,7 +14,7 @@ external interface ImageListItemProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: ImageListItemClasses
 
     /**
      * Width of the item in number of grid columns.

@@ -16,7 +16,7 @@ external interface FormHelperTextProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: FormHelperTextClasses
 
     /**
      * If `true`, the helper text should be displayed in a disabled state.

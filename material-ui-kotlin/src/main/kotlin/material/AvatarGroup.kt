@@ -14,7 +14,7 @@ external interface AvatarGroupProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: AvatarGroupClasses
 
     /**
      * Max avatars to show before +x.

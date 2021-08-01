@@ -14,7 +14,7 @@ external interface AlertProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: AlertClasses
 
     /**
      * Override the default label for the *close popup* icon button.

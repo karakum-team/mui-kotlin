@@ -14,7 +14,7 @@ external interface SnackbarContentProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: SnackbarContentClasses
 
     /**
      * The message to display.

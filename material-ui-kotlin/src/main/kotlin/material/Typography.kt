@@ -20,7 +20,7 @@ external interface TypographyProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: TypographyClasses
 
     /**
      * If `true`, the text will have a bottom margin.

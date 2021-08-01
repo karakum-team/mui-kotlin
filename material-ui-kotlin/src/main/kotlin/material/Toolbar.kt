@@ -15,7 +15,7 @@ external interface ToolbarProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: ToolbarClasses
 
     /**
      * If `true`, disables gutter padding.

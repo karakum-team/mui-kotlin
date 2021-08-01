@@ -14,7 +14,7 @@ external interface TableHeadProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: TableHeadClasses
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

@@ -14,7 +14,7 @@ external interface FormLabelProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: FormLabelClasses
 
     /**
      * The color of the component. It supports those theme colors that make sense for this component.

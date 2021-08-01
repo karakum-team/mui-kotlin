@@ -14,7 +14,7 @@ external interface PaperProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: PaperClasses
 
     /**
      * Shadow depth, corresponds to `dp` in the spec.

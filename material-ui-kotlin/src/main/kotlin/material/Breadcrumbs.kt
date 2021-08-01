@@ -14,7 +14,7 @@ external interface BreadcrumbsProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: BreadcrumbsClasses
 
     /**
      * Override the default label for the expand button.

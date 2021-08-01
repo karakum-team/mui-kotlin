@@ -9,7 +9,7 @@ external interface CardActionAreaProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: CardActionAreaClasses
 
     var focusVisibleClassName: String
 

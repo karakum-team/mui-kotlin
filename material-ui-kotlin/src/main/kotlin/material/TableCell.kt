@@ -23,7 +23,7 @@ external interface TableCellProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: TableCellClasses
 
     /**
      * The component used for the root node.

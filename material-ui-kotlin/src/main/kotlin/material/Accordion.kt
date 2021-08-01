@@ -14,7 +14,7 @@ external interface AccordionProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: AccordionClasses
 
     /**
      * If `true`, expands the accordion by default.

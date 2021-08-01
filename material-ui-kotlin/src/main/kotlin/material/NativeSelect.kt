@@ -16,7 +16,7 @@ external interface NativeSelectProps : react.RProps {
      * Override or extend the styles applied to the component.
      * @default {}
      */
-    var classes: dynamic
+    var classes: NativeSelectClasses
 
     /**
      * The icon that displays the arrow.

@@ -48,7 +48,7 @@ external interface TabsProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: TabsClasses
 
     /**
      * Determines the color of the indicator.

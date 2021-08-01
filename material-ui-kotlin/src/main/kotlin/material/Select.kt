@@ -25,7 +25,7 @@ external interface SelectProps : react.RProps {
      * Override or extend the styles applied to the component.
      * @default {}
      */
-    var classes: dynamic
+    var classes: SelectClasses
 
     /**
      * The default value. Use when the component is not controlled.

@@ -28,7 +28,7 @@ external interface StepperProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: StepperClasses
 
     /**
      * An element to be placed between each step.

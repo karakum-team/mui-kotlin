@@ -14,7 +14,7 @@ external interface ListProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: ListClasses
 
     /**
      * If `true`, compact vertical padding designed for keyboard and mouse input is used for

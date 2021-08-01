@@ -9,7 +9,7 @@ external interface FilledInputProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: FilledInputClasses
 
     /**
      * If `true`, the label is hidden.

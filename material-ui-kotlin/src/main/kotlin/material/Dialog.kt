@@ -24,7 +24,7 @@ external interface DialogProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: DialogClasses
 
     /**
      * If `true`, hitting escape will not fire the `onClose` callback.

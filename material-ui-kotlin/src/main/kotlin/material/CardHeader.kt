@@ -19,7 +19,7 @@ external interface CardHeaderProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: CardHeaderClasses
 
     /**
      * If `true`, `subheader` and `title` won't be wrapped by a Typography component.

@@ -14,7 +14,7 @@ external interface StepLabelProps : react.RProps {
     /**
      * Override or extend the styles applied to the component.
      */
-    var classes: dynamic
+    var classes: StepLabelClasses
 
     /**
      * The props used for each slot inside.
