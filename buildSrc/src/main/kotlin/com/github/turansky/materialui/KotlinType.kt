@@ -52,6 +52,20 @@ internal fun kotlinType(
     if (refResult != type)
         return "react.Ref<${kotlinType(refResult)}>"
 
+    val partialResult = type.removeSurrounding("Partial<", ">")
+    if (partialResult.endsWith("Props"))
+        return when (partialResult) {
+            "TouchRippleProps",
+            "InputBaseComponentProps",
+            "NativeSelectInputProps",
+            -> DYNAMIC
+
+            "StandardInputProps",
+            -> "InputProps"
+
+            else -> partialResult
+        }
+
     if (type.startsWith("'"))
         return "$DYNAMIC /* $type */"
 
