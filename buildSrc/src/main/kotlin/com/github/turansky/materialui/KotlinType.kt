@@ -93,6 +93,11 @@ internal fun kotlinType(
         return "(event: org.w3c.dom.events.${eventType}Event) -> Unit"
     }
 
+    val propsType = type.removeSurrounding("React.JSXElementConstructor<", ">")
+    if (propsType != type) {
+        return "react.ComponentType<${propsType.takeIf { it.endsWith("Props") } ?: "*"}>"
+    }
+
     val partialResult = type.removeSurrounding("Partial<", ">")
     if (partialResult != type) {
         if (partialResult.endsWith("Props")) {
@@ -130,7 +135,7 @@ internal fun kotlinType(
     if (type.endsWith("']") || type.endsWith("'] | 'auto'"))
         return "$DYNAMIC /* $type */"
 
-    // println(type)
+    println(type)
 
     return DYNAMIC
 }
