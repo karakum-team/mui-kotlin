@@ -74,7 +74,7 @@ external interface TabsProps : react.RProps {
      * The component used to render the scroll buttons.
      * @default TabScrollButton
      */
-    var ScrollButtonComponent: react.ComponentType<*>
+    var ScrollButtonComponent: react.ElementType<*>
 
     /**
      * Determine behavior of scroll buttons when tabs are set to scroll:

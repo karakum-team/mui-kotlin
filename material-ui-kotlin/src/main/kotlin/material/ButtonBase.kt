@@ -70,7 +70,7 @@ external interface ButtonBaseProps : react.RProps {
      * The component used to render a link when the `href` prop is provided.
      * @default 'a'
      */
-    var LinkComponent: react.ComponentType<*>
+    var LinkComponent: react.ElementType<*>
 
     /**
      * Callback fired when the component is focused with a keyboard.

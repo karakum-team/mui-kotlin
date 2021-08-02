@@ -28,7 +28,7 @@ external interface CollapseProps : react.RProps {
      * The component used for the root node.
      * Either a string to use a HTML element or a component.
      */
-    var component: react.ComponentType<TransitionProps>
+    var component: react.ElementType<TransitionProps>
 
     /**
      * The transition timing function.

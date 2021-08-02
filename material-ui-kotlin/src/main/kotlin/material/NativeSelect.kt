@@ -22,7 +22,7 @@ external interface NativeSelectProps : react.RProps {
      * The icon that displays the arrow.
      * @default ArrowDropDownIcon
      */
-    var IconComponent: react.ComponentType<*>
+    var IconComponent: react.ElementType<*>
 
     /**
      * An `Input` element; does not have to be a material-ui specific `Input`.

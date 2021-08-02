@@ -8,7 +8,7 @@ package material
 external interface BoxProps : react.RProps {
     var children: react.ReactNode
 
-    var component: react.ComponentType<*>
+    var component: react.ElementType<*>
 
     var ref: react.Ref<*>
 

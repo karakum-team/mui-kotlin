@@ -48,7 +48,7 @@ external interface SelectProps : react.RProps {
      * The icon that displays the arrow.
      * @default ArrowDropDownIcon
      */
-    var IconComponent: react.ComponentType<*>
+    var IconComponent: react.ElementType<*>
 
     /**
      * The `id` of the wrapper element or the `select` element when `native`.
