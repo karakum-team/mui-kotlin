@@ -25,7 +25,10 @@ external interface Theme
 
 external interface SxProps<T: Any>
 
-external interface TransitionProps
+external interface TransitionProps: react.RProps
+
+external interface TableCellBaseProps: react.RProps
+external interface TablePaginationActionsProps: react.RProps
 """
 
 private val UNSTYLED_ALIASES = setOf(

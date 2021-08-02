@@ -7,6 +7,9 @@ private val CLASS_REGEX = Regex("""[\w\d]+""")
 internal const val DYNAMIC = "dynamic"
 internal const val UNION = "Union"
 
+// use ElementType after update
+private const val ELEMENT_TYPE = "react.ComponentType"
+
 private val STANDARD_TYPE_MAP = mapOf(
     "any" to "Any",
     "object" to "Any",
@@ -28,6 +31,8 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "React.ReactElement" to "react.ReactElement",
     "React.ReactElement<any, any>" to "react.ReactElement",
+
+    "React.ElementType" to "${ELEMENT_TYPE}<*>",
 
     "React.Ref<unknown>" to "react.Ref<*>",
     "React.Ref<any>" to "react.Ref<*>",
@@ -53,6 +58,9 @@ internal fun kotlinType(
     val refResult = type.removeSurrounding("React.Ref<", ">")
     if (refResult != type)
         return "react.Ref<${kotlinType(refResult)}>"
+
+    if (type.startsWith("React.ElementType<"))
+        return type.replace("React.ElementType", ELEMENT_TYPE)
 
     val partialResult = type.removeSurrounding("Partial<", ">")
     if (partialResult != type) {
