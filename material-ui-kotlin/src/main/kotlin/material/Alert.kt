@@ -33,7 +33,7 @@ external interface AlertProps : react.RProps {
      * The severity of the alert. This defines the color and icon used.
      * @default 'success'
      */
-    var severity: dynamic
+    var severity: AlertColor
 
     /**
      * Override the icon displayed before the children.

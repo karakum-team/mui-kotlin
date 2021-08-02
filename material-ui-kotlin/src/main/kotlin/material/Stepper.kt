@@ -46,7 +46,7 @@ external interface StepperProps : react.RProps {
      * The component orientation (layout flow direction).
      * @default 'horizontal'
      */
-    var orientation: dynamic
+    var orientation: Orientation
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

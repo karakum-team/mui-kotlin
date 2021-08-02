@@ -44,7 +44,7 @@ external interface PopoverProps : react.RProps {
      * the position of the popover.
      * @default 'anchorEl'
      */
-    var anchorReference: dynamic
+    var anchorReference: PopoverReference
 
     /**
      * The content of the component.

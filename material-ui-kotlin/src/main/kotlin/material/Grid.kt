@@ -93,7 +93,7 @@ external interface GridProps : react.RProps {
      * It's applied for all screen sizes.
      * @default 'wrap'
      */
-    var wrap: dynamic
+    var wrap: GridWrap
 
     /**
      * Defines the number of grids the component is going to use.
