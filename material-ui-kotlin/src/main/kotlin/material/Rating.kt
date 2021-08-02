@@ -122,7 +122,7 @@ external interface RatingProps : react.RProps {
     /**
      * The rating value.
      */
-    var value: dynamic
+    var value: Number?
 }
 
 external interface IconContainerProps : react.RProps {

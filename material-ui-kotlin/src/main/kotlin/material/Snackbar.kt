@@ -26,7 +26,7 @@ external interface SnackbarProps : react.RProps {
      * the `null` value.
      * @default null
      */
-    var autoHideDuration: dynamic
+    var autoHideDuration: Number?
 
     /**
      * Replace the `SnackbarContent` component.

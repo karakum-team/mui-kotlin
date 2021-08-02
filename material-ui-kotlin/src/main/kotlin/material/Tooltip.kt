@@ -143,7 +143,7 @@ external interface TooltipProps : react.RProps {
     /**
      * Tooltip title. Zero-length titles string are never displayed.
      */
-    var title: dynamic
+    var title: react.ReactNode
 
     /**
      * The component used for the transition.

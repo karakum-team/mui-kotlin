@@ -9,7 +9,7 @@ external interface AccordionProps : react.RProps {
     /**
      * The content of the component.
      */
-    var children: dynamic
+    var children: react.ReactNode
 
     /**
      * Override or extend the styles applied to the component.
