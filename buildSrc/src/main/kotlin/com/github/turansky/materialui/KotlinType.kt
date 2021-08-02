@@ -7,8 +7,7 @@ private val CLASS_REGEX = Regex("""[\w\d]+""")
 internal const val DYNAMIC = "dynamic"
 internal const val UNION = "Union"
 
-// use ElementType after update
-private const val ELEMENT_TYPE = "react.ComponentType"
+private const val ELEMENT_TYPE = "react.ElementType"
 
 private val KNOWN_TYPES = setOf(
     "AlertColor",

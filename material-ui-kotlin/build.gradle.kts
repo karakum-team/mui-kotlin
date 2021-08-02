@@ -7,5 +7,5 @@ dependencies {
     val materialVersion = property("material-ui.version") as String
     implementation(npm("@material-ui/core", materialVersion))
 
-    implementation("org.jetbrains.kotlin-wrappers:kotlin-react:17.0.2-pre.223-kotlin-1.5.21")
+    implementation("org.jetbrains.kotlin-wrappers:kotlin-react:17.0.2-pre.224-kotlin-1.5.21")
 }
