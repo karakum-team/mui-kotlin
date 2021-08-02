@@ -20,7 +20,9 @@ internal fun convertClasses(
         .splitToSequence("\n")
         .map {
             val name = it.removeSuffix(": string;")
-            if (name != it) "var $name: String" else it
+            if (name == it) return@map it
+            val line = "var $name: String"
+            if (name.startsWith("'")) "    // $line" else line
         }
         .joinToString("\n")
 
