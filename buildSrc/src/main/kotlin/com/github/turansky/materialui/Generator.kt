@@ -95,8 +95,9 @@ private fun generate(
     val classesName = componentName + "Classes"
     val classesFile = definitionFile.parentFile.resolve(classesName.decapitalize() + ".d.ts")
     if (classesFile.exists()) {
+        val classes = convertClasses(classesName, classesFile)
         targetDir.resolve("$componentName.classes.kt")
-            .writeText(fileContent(body = "external interface $classesName"))
+            .writeText(fileContent(body = classes))
     }
 }
 

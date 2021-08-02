@@ -7,6 +7,13 @@ internal data class ConversionResult(
     val extensions: String,
 )
 
+internal fun convertClasses(
+    classesName: String,
+    definitionFile: File,
+): String {
+    return "external interface $classesName"
+}
+
 internal fun convertDefinitions(
     definitionFile: File,
 ): ConversionResult {
