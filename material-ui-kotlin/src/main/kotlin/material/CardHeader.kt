@@ -39,7 +39,7 @@ external interface CardHeaderProps : react.RProps {
      * These props will be forwarded to the subheader
      * (as long as disableTypography is not `true`).
      */
-    var subheaderTypographyProps: dynamic
+    var subheaderTypographyProps: TypographyProps
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
@@ -55,7 +55,7 @@ external interface CardHeaderProps : react.RProps {
      * These props will be forwarded to the title
      * (as long as disableTypography is not `true`).
      */
-    var titleTypographyProps: dynamic
+    var titleTypographyProps: TypographyProps
 }
 
 /**

@@ -41,7 +41,7 @@ external interface ListItemTextProps : react.RProps {
      * These props will be forwarded to the primary typography component
      * (as long as disableTypography is not `true`).
      */
-    var primaryTypographyProps: dynamic
+    var primaryTypographyProps: TypographyProps
 
     /**
      * The secondary content element.
@@ -52,7 +52,7 @@ external interface ListItemTextProps : react.RProps {
      * These props will be forwarded to the secondary typography component
      * (as long as disableTypography is not `true`).
      */
-    var secondaryTypographyProps: dynamic
+    var secondaryTypographyProps: TypographyProps
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
