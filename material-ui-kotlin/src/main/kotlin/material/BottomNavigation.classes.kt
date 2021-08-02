@@ -2,4 +2,7 @@
 
 package material
 
-external interface BottomNavigationClasses
+external interface BottomNavigationClasses {
+    /** Styles applied to the root element. */
+    var root: String
+}

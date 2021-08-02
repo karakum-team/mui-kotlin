@@ -2,4 +2,7 @@
 
 package material
 
-external interface AlertTitleClasses
+external interface AlertTitleClasses {
+    /** Styles applied to the root element. */
+    var root: String
+}

@@ -2,4 +2,10 @@
 
 package material
 
-external interface TableClasses
+external interface TableClasses {
+    /** Styles applied to the root element. */
+    var root: String
+
+    /** Styles applied to the root element if `stickyHeader={true}`. */
+    var stickyHeader: String
+}

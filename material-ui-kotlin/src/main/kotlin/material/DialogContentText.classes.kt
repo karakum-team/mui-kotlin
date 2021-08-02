@@ -2,4 +2,7 @@
 
 package material
 
-external interface DialogContentTextClasses
+external interface DialogContentTextClasses {
+    /** Styles applied to the root element. */
+    var root: String
+}

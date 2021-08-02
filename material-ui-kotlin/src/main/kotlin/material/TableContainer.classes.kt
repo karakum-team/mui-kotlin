@@ -2,4 +2,7 @@
 
 package material
 
-external interface TableContainerClasses
+external interface TableContainerClasses {
+    /** Styles applied to the root element. */
+    var root: String
+}

@@ -2,4 +2,7 @@
 
 package material
 
-external interface AccordionDetailsClasses
+external interface AccordionDetailsClasses {
+    /** Styles applied to the root element. */
+    var root: String
+}

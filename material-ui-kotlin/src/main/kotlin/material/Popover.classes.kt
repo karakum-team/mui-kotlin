@@ -2,4 +2,10 @@
 
 package material
 
-external interface PopoverClasses
+external interface PopoverClasses {
+    /** Styles applied to the root element. */
+    var root: String
+
+    /** Styles applied to the Paper component. */
+    var paper: String
+}

@@ -2,4 +2,7 @@
 
 package material
 
-external interface CardContentClasses
+external interface CardContentClasses {
+    /** Styles applied to the root element. */
+    var root: String
+}

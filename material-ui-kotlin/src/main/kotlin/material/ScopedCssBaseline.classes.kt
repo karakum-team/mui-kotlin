@@ -2,4 +2,7 @@
 
 package material
 
-external interface ScopedCssBaselineClasses
+external interface ScopedCssBaselineClasses {
+    /** Styles applied to the root element. */
+    var root: String
+}

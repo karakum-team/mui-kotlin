@@ -2,4 +2,7 @@
 
 package material
 
-external interface DialogTitleClasses
+external interface DialogTitleClasses {
+    /** Styles applied to the root element. */
+    var root: String
+}

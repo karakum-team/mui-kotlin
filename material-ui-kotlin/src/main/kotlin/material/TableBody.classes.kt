@@ -2,4 +2,7 @@
 
 package material
 
-external interface TableBodyClasses
+external interface TableBodyClasses {
+    /** Styles applied to the root element. */
+    var root: String
+}
