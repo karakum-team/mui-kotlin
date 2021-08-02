@@ -73,7 +73,7 @@ external interface MenuProps : react.RProps {
      * The length of the transition in `ms`, or 'auto'
      * @default 'auto'
      */
-    var transitionDuration: dynamic
+    var transitionDuration: dynamic /* TransitionProps['timeout'] | 'auto' */
 
     /**
      * Props applied to the transition element.

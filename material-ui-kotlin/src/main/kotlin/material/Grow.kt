@@ -38,7 +38,7 @@ external interface GrowProps : react.RProps {
      * Set to 'auto' to automatically calculate transition time based on height.
      * @default 'auto'
      */
-    var timeout: dynamic
+    var timeout: dynamic /* TransitionProps['timeout'] | 'auto' */
 }
 
 /**

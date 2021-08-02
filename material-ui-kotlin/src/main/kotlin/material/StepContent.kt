@@ -35,7 +35,7 @@ external interface StepContentProps : react.RProps {
      * Set to 'auto' to automatically calculate transition time based on height.
      * @default 'auto'
      */
-    var transitionDuration: dynamic
+    var transitionDuration: dynamic /* TransitionProps['timeout'] | 'auto' */
 
     /**
      * Props applied to the transition element.

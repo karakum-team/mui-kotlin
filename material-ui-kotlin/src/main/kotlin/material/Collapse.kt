@@ -54,7 +54,7 @@ external interface CollapseProps : react.RProps {
      * Set to 'auto' to automatically calculate transition time based on height.
      * @default duration.standard
      */
-    var timeout: dynamic
+    var timeout: dynamic /* TransitionProps['timeout'] | 'auto' */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
