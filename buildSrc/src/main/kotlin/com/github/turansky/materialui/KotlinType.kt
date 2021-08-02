@@ -39,6 +39,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "HTMLTextAreaElement" to "org.w3c.dom.HTMLTextAreaElement",
 
     "React.ReactNode" to "react.ReactNode",
+    "NonNullable<React.ReactNode>" to "react.ReactNode",
 
     "React.ReactElement" to "react.ReactElement",
     "React.ReactElement<any, any>" to "react.ReactElement",
@@ -65,6 +66,11 @@ internal fun kotlinType(
 
     STANDARD_TYPE_MAP[type]
         ?.also { return it }
+
+    if (type.endsWith(" | null")) {
+        val t = kotlinType(type.removeSuffix(" | null"))
+        return if (t == DYNAMIC) t else "$t?"
+    }
 
     if (type.endsWith("Props") || type.endsWith("Origin") || type.endsWith("Position"))
         return type
