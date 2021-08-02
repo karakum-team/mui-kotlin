@@ -11,7 +11,22 @@ internal fun convertClasses(
     classesName: String,
     definitionFile: File,
 ): String {
-    return "external interface $classesName"
+    val content = definitionFile.readText()
+        .replace("\r\n", "\n")
+
+    val classes = content.substringAfter("export interface $classesName {\n")
+        .substringBefore("\n}\n")
+        .trimIndent()
+        .splitToSequence("\n")
+        .map {
+            val name = it.removeSuffix(": string;")
+            if (name != it) "var $name: String" else it
+        }
+        .joinToString("\n")
+
+    return "external interface $classesName {\n" +
+            "$classes\n" +
+            "}\n"
 }
 
 internal fun convertDefinitions(
