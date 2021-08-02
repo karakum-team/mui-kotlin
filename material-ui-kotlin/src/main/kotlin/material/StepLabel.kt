@@ -42,7 +42,7 @@ external interface StepLabelProps : react.RProps {
     /**
      * The component to render in place of the [`StepIcon`](/api/step-icon/).
      */
-    var StepIconComponent: dynamic
+    var StepIconComponent: react.ComponentType<*>
 
     /**
      * Props applied to the [`StepIcon`](/api/step-icon/) element.

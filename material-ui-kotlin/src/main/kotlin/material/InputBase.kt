@@ -82,7 +82,7 @@ external interface InputBaseProps : react.RProps {
      * Either a string to use a HTML element or a component.
      * @default 'input'
      */
-    var inputComponent: dynamic
+    var inputComponent: react.ComponentType<InputBaseComponentProps>
 
     /**
      * [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.

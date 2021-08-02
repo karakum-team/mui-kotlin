@@ -29,7 +29,7 @@ external interface TableCellProps : react.RProps {
      * The component used for the root node.
      * Either a string to use a HTML element or a component.
      */
-    var component: dynamic
+    var component: react.ComponentType<TableCellBaseProps>
 
     /**
      * Sets the padding applied to the cell.

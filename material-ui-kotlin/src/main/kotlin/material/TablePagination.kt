@@ -11,7 +11,7 @@ external interface TablePaginationProps : react.RProps {
      * Either a string to use a HTML element or a component.
      * @default TablePaginationActions
      */
-    var ActionsComponent: dynamic
+    var ActionsComponent: react.ComponentType<TablePaginationActionsProps>
 
     /**
      * Props applied to the back arrow [`IconButton`](/api/icon-button/) component.

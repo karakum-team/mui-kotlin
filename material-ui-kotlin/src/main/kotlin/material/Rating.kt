@@ -67,7 +67,7 @@ external interface RatingProps : react.RProps {
      *   return <span {...other} />;
      * }
      */
-    var IconContainerComponent: dynamic
+    var IconContainerComponent: react.ComponentType<IconContainerProps>
 
     /**
      * Maximum rating.

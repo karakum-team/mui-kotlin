@@ -18,7 +18,7 @@ external interface ModalProps : react.RProps {
      *   zIndex: -1,
      * })
      */
-    var BackdropComponent: dynamic
+    var BackdropComponent: react.ComponentType<BackdropProps>
 
     /**
      * Props applied to the [`Backdrop`](/api/backdrop/) element.
