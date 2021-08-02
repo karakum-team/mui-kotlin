@@ -121,7 +121,7 @@ external interface TooltipProps : react.RProps {
      * Tooltip placement.
      * @default 'bottom'
      */
-    var placement: dynamic
+    var placement: Union /* 'bottom-end' | 'bottom-start' | 'bottom' | 'left-end' | 'left-start' | 'left' | 'right-end' | 'right-start' | 'right' | 'top-end' | 'top-start' | 'top' */
 
     /**
      * The component used for the popper.
