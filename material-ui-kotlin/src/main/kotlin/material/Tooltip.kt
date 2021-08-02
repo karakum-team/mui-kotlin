@@ -110,7 +110,7 @@ external interface TooltipProps : react.RProps {
      *
      * @param {React.SyntheticEvent} event The event source of the callback.
      */
-    var onOpen: dynamic
+    var onOpen: (event: org.w3c.dom.events.Event) -> Unit
 
     /**
      * If `true`, the component is shown.

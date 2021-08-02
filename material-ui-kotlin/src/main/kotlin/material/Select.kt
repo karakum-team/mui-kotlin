@@ -110,7 +110,7 @@ external interface SelectProps : react.RProps {
      *
      * @param {object} event The event source of the callback.
      */
-    var onClose: dynamic
+    var onClose: (event: org.w3c.dom.events.Event) -> Unit
 
     /**
      * Callback fired when the component requests to be opened.
@@ -118,7 +118,7 @@ external interface SelectProps : react.RProps {
      *
      * @param {object} event The event source of the callback.
      */
-    var onOpen: dynamic
+    var onOpen: (event: org.w3c.dom.events.Event) -> Unit
 
     /**
      * If `true`, the component is shown.

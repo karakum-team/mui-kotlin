@@ -52,7 +52,7 @@ external interface SpeedDialProps : react.RProps {
      * @param {object} event The event source of the callback.
      * @param {string} reason Can be: `"toggle"`, `"blur"`, `"mouseLeave"`, `"escapeKeyDown"`.
      */
-    var onClose: dynamic
+    var onClose: (event: org.w3c.dom.events.Event, reason: CloseReason) -> Unit
 
     /**
      * Callback fired when the component requests to be open.
@@ -60,7 +60,7 @@ external interface SpeedDialProps : react.RProps {
      * @param {object} event The event source of the callback.
      * @param {string} reason Can be: `"toggle"`, `"focus"`, `"mouseEnter"`.
      */
-    var onOpen: dynamic
+    var onOpen: (event: org.w3c.dom.events.Event, reason: OpenReason) -> Unit
 
     /**
      * If `true`, the component is shown.
