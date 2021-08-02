@@ -108,7 +108,7 @@ internal fun kotlinType(
         return "$UNION /* $comment */"
     }
 
-    if (type.endsWith("']"))
+    if (type.endsWith("']") || type.endsWith("'] | 'auto'"))
         return "$DYNAMIC /* $type */"
 
     println(type)
