@@ -125,6 +125,15 @@ internal fun kotlinType(
     if (type.startsWith("'"))
         return "$UNION /* $type */"
 
+    if (type.startsWith("\n  | '")) {
+        val t = type.removePrefix("\n")
+            .trimIndent()
+            .replace("\n", " ")
+            .removePrefix("| ")
+
+        return "$UNION /* $t */"
+    }
+
     if (type.startsWith("OverridableStringUnion<")) {
         val comment = type.removeSurrounding("OverridableStringUnion<", ">")
             .splitToSequence("\n")
