@@ -12,6 +12,7 @@ private const val ELEMENT_TYPE = "react.ComponentType"
 
 private val KNOWN_TYPES = setOf(
     "AlertColor",
+    "GridDirection",
     "GridWrap",
     "Orientation",
     "PopoverReference",
@@ -64,6 +65,10 @@ internal fun kotlinType(
     val promiseResult = type.removeSurrounding("Promise<", ">")
     if (promiseResult != type)
         return "$PROMISE<${kotlinType(promiseResult)}>"
+
+    val styleValueResult = type.removeSurrounding("ResponsiveStyleValue<", ">")
+    if (styleValueResult != type)
+        return "ResponsiveStyleValue<${kotlinType(styleValueResult)}>"
 
     val refResult = type.removeSurrounding("React.Ref<", ">")
     if (refResult != type)
