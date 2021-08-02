@@ -10,6 +10,16 @@ internal const val UNION = "Union"
 // use ElementType after update
 private const val ELEMENT_TYPE = "react.ComponentType"
 
+private val KNOWN_TYPES = setOf(
+    "AlertColor",
+    "GridWrap",
+    "Orientation",
+    "PopoverReference",
+
+    "SxProps<Theme>",
+    "TransitionProps",
+)
+
 private val STANDARD_TYPE_MAP = mapOf(
     "any" to "Any",
     "object" to "Any",
@@ -36,17 +46,17 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "React.Ref<unknown>" to "react.Ref<*>",
     "React.Ref<any>" to "react.Ref<*>",
-
-    "SxProps<Theme>" to "SxProps<Theme>",
-    "TransitionProps" to "TransitionProps",
 )
 
 internal fun kotlinType(
     type: String,
     name: String? = null,
 ): String {
-    if (STANDARD_TYPE_MAP.containsKey(type))
-        return STANDARD_TYPE_MAP.getValue(type)
+    if (type in KNOWN_TYPES)
+        return type
+
+    STANDARD_TYPE_MAP[type]
+        ?.also { return it }
 
     if (type.endsWith("Props") || type.endsWith("Origin") || type.endsWith("Position"))
         return type
