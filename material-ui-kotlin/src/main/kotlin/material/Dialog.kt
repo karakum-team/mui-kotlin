@@ -76,7 +76,7 @@ external interface DialogProps : react.RProps {
      * The component used to render the body of the dialog.
      * @default Paper
      */
-    var PaperComponent: dynamic
+    var PaperComponent: react.ComponentType<PaperProps>
 
     /**
      * Props applied to the [`Paper`](/api/paper/) element.
@@ -100,7 +100,7 @@ external interface DialogProps : react.RProps {
      * [Follow this guide](/components/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
      * @default Fade
      */
-    var TransitionComponent: dynamic
+    var TransitionComponent: react.ComponentType<*>
 
     /**
      * The duration for the transition, in milliseconds.

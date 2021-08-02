@@ -26,7 +26,7 @@ external interface StepContentProps : react.RProps {
      * [Follow this guide](/components/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
      * @default Collapse
      */
-    var TransitionComponent: dynamic
+    var TransitionComponent: react.ComponentType<TransitionProps>
 
     /**
      * Adjust the duration of the content expand transition.

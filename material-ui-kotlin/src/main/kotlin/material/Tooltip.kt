@@ -127,7 +127,7 @@ external interface TooltipProps : react.RProps {
      * The component used for the popper.
      * @default Popper
      */
-    var PopperComponent: dynamic
+    var PopperComponent: react.ComponentType<PopperProps>
 
     /**
      * Props applied to the [`Popper`](/api/popper/) element.
@@ -150,7 +150,7 @@ external interface TooltipProps : react.RProps {
      * [Follow this guide](/components/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
      * @default Grow
      */
-    var TransitionComponent: dynamic
+    var TransitionComponent: react.ComponentType<*>
 
     /**
      * Props applied to the transition element.

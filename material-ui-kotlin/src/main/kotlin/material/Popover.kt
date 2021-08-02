@@ -114,7 +114,7 @@ external interface PopoverProps : react.RProps {
      * [Follow this guide](/components/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
      * @default Grow
      */
-    var TransitionComponent: dynamic
+    var TransitionComponent: react.ComponentType<*>
 
     /**
      * Set to 'auto' to automatically calculate transition time based on height.

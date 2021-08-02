@@ -38,7 +38,7 @@ external interface TableSortLabelProps : react.RProps {
      * Sort icon to use.
      * @default ArrowDownwardIcon
      */
-    var IconComponent: dynamic
+    var IconComponent: react.ComponentType<*>
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

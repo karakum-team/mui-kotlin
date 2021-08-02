@@ -102,7 +102,7 @@ external interface SnackbarProps : react.RProps {
      * [Follow this guide](/components/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
      * @default Grow
      */
-    var TransitionComponent: dynamic
+    var TransitionComponent: react.ComponentType<*>
 
     /**
      * The duration for the transition, in milliseconds.

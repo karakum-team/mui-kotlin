@@ -82,7 +82,7 @@ external interface SpeedDialProps : react.RProps {
      * [Follow this guide](/components/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
      * @default Zoom
      */
-    var TransitionComponent: dynamic
+    var TransitionComponent: react.ComponentType<TransitionProps>
 
     /**
      * The duration for the transition, in milliseconds.

@@ -81,7 +81,7 @@ external interface AutocompleteProps : react.RProps {
      * The component used to render the listbox.
      * @default 'ul'
      */
-    var ListboxComponent: dynamic
+    var ListboxComponent: react.ComponentType<*>
 
     /**
      * Props applied to the Listbox element.
@@ -130,13 +130,13 @@ external interface AutocompleteProps : react.RProps {
      * The component used to render the body of the popup.
      * @default Paper
      */
-    var PaperComponent: dynamic
+    var PaperComponent: react.ComponentType<*>
 
     /**
      * The component used to position the popup.
      * @default Popper
      */
-    var PopperComponent: dynamic
+    var PopperComponent: react.ComponentType<PopperProps>
 
     /**
      * The icon to display in place of the default popup icon.
