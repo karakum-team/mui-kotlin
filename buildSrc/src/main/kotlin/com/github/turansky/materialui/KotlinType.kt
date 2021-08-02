@@ -47,6 +47,12 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "React.Ref<unknown>" to "react.Ref<*>",
     "React.Ref<any>" to "react.Ref<*>",
+
+    "(event: React.SyntheticEvent) => void" to "(event: org.w3c.dom.events.Event) -> Unit",
+    "(event: React.SyntheticEvent, checked: boolean) => void" to "(event: org.w3c.dom.events.Event, checked: Boolean) -> Unit",
+
+    "(event: React.SyntheticEvent<{}>, reason: CloseReason) => void" to "(event: org.w3c.dom.events.Event, reason: CloseReason) -> Unit",
+    "(event: React.SyntheticEvent<{}>, reason: OpenReason) => void" to "(event: org.w3c.dom.events.Event, reason: OpenReason) -> Unit",
 )
 
 internal fun kotlinType(
