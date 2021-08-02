@@ -20,13 +20,13 @@ external interface GridProps : react.RProps {
      * The number of columns.
      * @default 12
      */
-    var columns: dynamic
+    var columns: ResponsiveStyleValue<Number>
 
     /**
      * Defines the horizontal space between the type `item` components.
      * It overrides the value of the `spacing` prop.
      */
-    var columnSpacing: dynamic
+    var columnSpacing: ResponsiveStyleValue<dynamic>
 
     /**
      * If `true`, the component will have the flex *container* behavior.
@@ -40,7 +40,7 @@ external interface GridProps : react.RProps {
      * It is applied for all screen sizes.
      * @default 'row'
      */
-    var direction: dynamic
+    var direction: ResponsiveStyleValue<GridDirection>
 
     /**
      * If `true`, the component will have the flex *item* behavior.
@@ -67,7 +67,7 @@ external interface GridProps : react.RProps {
      * Defines the vertical space between the type `item` components.
      * It overrides the value of the `spacing` prop.
      */
-    var rowSpacing: dynamic
+    var rowSpacing: ResponsiveStyleValue<dynamic>
 
     /**
      * Defines the number of grids the component is going to use.
@@ -81,7 +81,7 @@ external interface GridProps : react.RProps {
      * It can only be used on a type `container` component.
      * @default 0
      */
-    var spacing: dynamic
+    var spacing: ResponsiveStyleValue<dynamic>
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

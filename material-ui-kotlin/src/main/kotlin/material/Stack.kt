@@ -18,13 +18,13 @@ external interface StackProps : react.RProps {
      * It is applied for all screen sizes.
      * @default 'column'
      */
-    var direction: dynamic
+    var direction: ResponsiveStyleValue<Union /* 'row' | 'row-reverse' | 'column' | 'column-reverse' */>
 
     /**
      * Defines the space between immediate children.
      * @default 0
      */
-    var spacing: dynamic
+    var spacing: ResponsiveStyleValue<dynamic>
 
     /**
      * Add an element between each child.
