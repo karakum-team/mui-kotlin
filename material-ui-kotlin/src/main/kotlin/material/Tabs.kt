@@ -62,7 +62,7 @@ external interface TabsProps : react.RProps {
      * @param {React.SyntheticEvent} event The event source of the callback. **Warning**: This is a generic event not a change event.
      * @param {any} value We default to the index of the child (number)
      */
-    var onChange: dynamic
+    var onChange: (event: org.w3c.dom.events.Event, value: dynamic) -> Unit
 
     /**
      * The component orientation (layout flow direction).

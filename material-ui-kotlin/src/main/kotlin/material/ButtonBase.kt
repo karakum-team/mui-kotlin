@@ -76,7 +76,7 @@ external interface ButtonBaseProps : react.RProps {
      * Callback fired when the component is focused with a keyboard.
      * We trigger a `onFocus` callback too.
      */
-    var onFocusVisible: dynamic
+    var onFocusVisible: (event: org.w3c.dom.events.FocusEvent) -> Unit
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

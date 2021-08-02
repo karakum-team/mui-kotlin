@@ -47,14 +47,14 @@ external interface SwipeableDrawerProps : react.RProps {
      *
      * @param {React.SyntheticEvent<{}>} event The event source of the callback.
      */
-    var onClose: dynamic
+    var onClose: (event: org.w3c.dom.events.Event) -> Unit
 
     /**
      * Callback fired when the component requests to be opened.
      *
      * @param {React.SyntheticEvent<{}>} event The event source of the callback.
      */
-    var onOpen: dynamic
+    var onOpen: (event: org.w3c.dom.events.Event) -> Unit
 
     /**
      * If `true`, the component is shown.

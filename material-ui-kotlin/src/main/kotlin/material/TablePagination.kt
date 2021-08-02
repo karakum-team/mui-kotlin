@@ -80,7 +80,7 @@ external interface TablePaginationProps : react.RProps {
      *
      * @param {React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>} event The event source of the callback.
      */
-    var onRowsPerPageChange: dynamic
+    var onRowsPerPageChange: (event: org.w3c.dom.events.Event) -> Unit
 
     /**
      * The zero-based index of the current page.

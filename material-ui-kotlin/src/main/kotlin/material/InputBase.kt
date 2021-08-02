@@ -118,7 +118,7 @@ external interface InputBaseProps : react.RProps {
      *
      * Notice that the first argument (event) might be undefined.
      */
-    var onBlur: dynamic
+    var onBlur: (event: org.w3c.dom.events.FocusEvent) -> Unit
 
     /**
      * Callback fired when the value is changed.
@@ -126,13 +126,13 @@ external interface InputBaseProps : react.RProps {
      * @param {React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>} event The event source of the callback.
      * You can pull out the new value by accessing `event.target.value` (string).
      */
-    var onChange: dynamic
+    var onChange: (event: org.w3c.dom.events.Event) -> Unit
 
-    var onFocus: dynamic
+    var onFocus: (event: org.w3c.dom.events.FocusEvent) -> Unit
 
-    var onKeyDown: dynamic
+    var onKeyDown: (event: org.w3c.dom.events.KeyboardEvent) -> Unit
 
-    var onKeyUp: dynamic
+    var onKeyUp: (event: org.w3c.dom.events.KeyboardEvent) -> Unit
 
     /**
      * The short hint displayed in the `input` before the user enters a value.
