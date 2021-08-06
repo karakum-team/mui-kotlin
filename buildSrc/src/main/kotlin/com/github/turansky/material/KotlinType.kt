@@ -1,4 +1,4 @@
-package com.github.turansky.materialui
+package com.github.turansky.material
 
 private const val PROMISE = "kotlin.js.Promise"
 
@@ -43,7 +43,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.ReactElement" to "react.ReactElement",
     "React.ReactElement<any, any>" to "react.ReactElement",
 
-    "React.ElementType" to "${ELEMENT_TYPE}<*>",
+    "React.ElementType" to "$ELEMENT_TYPE<*>",
 
     "React.Ref<unknown>" to "react.Ref<*>",
     "React.Ref<any>" to "react.Ref<*>",

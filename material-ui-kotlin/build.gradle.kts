@@ -1,6 +1,6 @@
 plugins {
     id("com.github.turansky.kfc.library")
-    `material-ui-declarations`
+    `material-declarations`
 }
 
 val materialVersion = property("material-ui.version") as String

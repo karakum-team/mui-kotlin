@@ -1,4 +1,4 @@
-package com.github.turansky.materialui
+package com.github.turansky.material
 
 import java.io.File
 
