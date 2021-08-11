@@ -49,7 +49,7 @@ internal fun convertDefinitions(
     findMapProps(name, propsName, content)
         ?.also(declarations::add)
 
-    declarations += findAdditionalProps(name, propsName, content)
+    declarations += findAdditionalProps(propsName, content)
 
     val funDeclaration = "export default function $name(props: $propsName): JSX.Element;"
     val typeDeclaration = "declare const $name: React.ComponentType<$propsName>;"
@@ -90,8 +90,9 @@ private fun findProps(
         .substringAfter("{\n")
         .substringBefore(";\n}")
 
-    return props(propsName) + " {\n" +
-            convertMembers(membersContent) +
+    val body = convertMembers(membersContent)
+    return props(propsName, CHILDREN in body) + " {\n" +
+            body +
             "\n}"
 }
 
@@ -119,8 +120,9 @@ private fun findMapProps(
         }
 
     return if (membersContent.isNotEmpty()) {
-        props(propsName) + " {\n" +
-                convertMembers(membersContent) +
+        val body = convertMembers(membersContent)
+        props(propsName, CHILDREN in body) + " {\n" +
+                body +
                 "\n}"
     } else {
         props(propsName)
@@ -128,7 +130,6 @@ private fun findMapProps(
 }
 
 private fun findAdditionalProps(
-    name: String,
     propsName: String,
     content: String,
 ): List<String> {
@@ -153,25 +154,29 @@ private fun findAdditionalProps(
             return@mapNotNull null
 
         val membersContent = if (interfaceName != "InputBaseComponentProps") {
-            body
-                .substringAfter("{\n")
+            body.substringAfter("{\n")
                 .substringBefore(";\n}\n")
         } else ""
 
+        val propsBody = convertMembers(membersContent)
         val declaration = if (propsLike) {
-            props(interfaceName)
+            props(interfaceName, CHILDREN in propsBody)
         } else {
             "external interface $interfaceName"
         }
 
         declaration + " {\n" +
-                convertMembers(membersContent) +
+                propsBody +
                 "\n}"
     }
 }
 
-private fun props(propsName: String): String =
-    "external interface $propsName: react.Props"
+private fun props(
+    propsName: String,
+    hasChildren: Boolean = false,
+): String =
+    "external interface $propsName: " +
+            if (hasChildren) "react.PropsWithChildren" else "react.Props"
 
 private fun findComponent(
     name: String,
@@ -241,6 +246,8 @@ private fun convertMember(
         .joinToString("\n")
 }
 
+private const val CHILDREN = "override var children: Array<out react.ReactNode>?"
+
 private fun convertProperty(
     source: String,
 ): String {
@@ -250,10 +257,14 @@ private fun convertProperty(
 
     val type = kotlinType(source.substringAfter(":").removePrefix(" "))
 
+    if (name == "children" && type == "react.ReactNode")
+        return CHILDREN
+
     var declaration = "var $name: $type"
     if ("-" in name) {
         declaration = "    // " + declaration
     }
+
     return declaration
 }
 
