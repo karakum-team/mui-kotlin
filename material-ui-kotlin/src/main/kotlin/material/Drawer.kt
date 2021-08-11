@@ -5,7 +5,7 @@
 
 package material
 
-external interface DrawerProps : react.Props {
+external interface DrawerProps : react.PropsWithChildren {
     /**
      * Side from which the drawer will appear.
      * @default 'left'
@@ -15,7 +15,7 @@ external interface DrawerProps : react.Props {
     /**
      * The content of the component.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

@@ -5,13 +5,13 @@
 
 package material
 
-external interface StackProps : react.Props {
+external interface StackProps : react.PropsWithChildren {
     var ref: react.Ref<*>
 
     /**
      * The content of the component.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Defines the `flex-direction` style property.

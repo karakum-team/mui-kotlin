@@ -5,7 +5,7 @@
 
 package material
 
-external interface DialogProps : react.Props {
+external interface DialogProps : react.PropsWithChildren {
     /**
      * The id(s) of the element(s) that describe the dialog.
      */
@@ -19,7 +19,7 @@ external interface DialogProps : react.Props {
     /**
      * Dialog children, usually the included sub-components.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

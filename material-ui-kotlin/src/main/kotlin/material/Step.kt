@@ -5,7 +5,7 @@
 
 package material
 
-external interface StepProps : react.Props {
+external interface StepProps : react.PropsWithChildren {
     /**
      * Sets the step as active. Is passed to child components.
      */
@@ -14,7 +14,7 @@ external interface StepProps : react.Props {
     /**
      * Should be `Step` sub-components such as `StepLabel`, `StepContent`.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

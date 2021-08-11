@@ -5,7 +5,7 @@
 
 package material
 
-external interface StepperProps : react.Props {
+external interface StepperProps : react.PropsWithChildren {
     /**
      * Set the active step (zero based index).
      * Set to -1 to disable all the steps.
@@ -23,7 +23,7 @@ external interface StepperProps : react.Props {
     /**
      * Two or more `<Step />` components.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

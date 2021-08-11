@@ -5,7 +5,7 @@
 
 package material
 
-external interface DividerProps : react.Props {
+external interface DividerProps : react.PropsWithChildren {
     /**
      * Absolutely position the element.
      * @default false
@@ -15,7 +15,7 @@ external interface DividerProps : react.Props {
     /**
      * The content of the component.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

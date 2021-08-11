@@ -5,7 +5,7 @@
 
 package material
 
-external interface MenuListProps : react.Props {
+external interface MenuListProps : react.PropsWithChildren {
     /**
      * If `true`, will focus the `[role="menu"]` container and move into tab order.
      * @default false
@@ -22,7 +22,7 @@ external interface MenuListProps : react.Props {
     /**
      * MenuList contents, normally `MenuItem`s.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * If `true`, will allow focus on disabled items.

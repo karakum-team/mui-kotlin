@@ -5,11 +5,11 @@
 
 package material
 
-external interface PortalProps : react.Props {
+external interface PortalProps : react.PropsWithChildren {
     /**
      * The children to render into the `container`.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * An HTML element or function that returns one.

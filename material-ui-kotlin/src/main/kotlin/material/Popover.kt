@@ -5,7 +5,7 @@
 
 package material
 
-external interface PopoverProps : react.Props {
+external interface PopoverProps : react.PropsWithChildren {
     /**
      * A ref for imperative actions.
      * It currently only supports updatePosition() action.
@@ -49,7 +49,7 @@ external interface PopoverProps : react.Props {
     /**
      * The content of the component.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

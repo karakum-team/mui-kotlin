@@ -5,11 +5,11 @@
 
 package material
 
-external interface AvatarGroupProps : react.Props {
+external interface AvatarGroupProps : react.PropsWithChildren {
     /**
      * The avatars to stack.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

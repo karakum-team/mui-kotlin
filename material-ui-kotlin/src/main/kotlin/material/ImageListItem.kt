@@ -5,11 +5,11 @@
 
 package material
 
-external interface ImageListItemProps : react.Props {
+external interface ImageListItemProps : react.PropsWithChildren {
     /**
      * The content of the component, normally an `<img>`.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

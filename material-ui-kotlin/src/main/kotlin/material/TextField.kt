@@ -7,7 +7,7 @@ package material
 
 external interface TextFieldProps : react.Props
 
-external interface BaseTextFieldProps : react.Props {
+external interface BaseTextFieldProps : react.PropsWithChildren {
     /**
      * This prop helps users to fill forms faster, especially on mobile devices.
      * The name can be confusing, as it's more like an autofill.
@@ -24,7 +24,7 @@ external interface BaseTextFieldProps : react.Props {
     /**
      * @ignore
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

@@ -5,12 +5,12 @@
 
 package material
 
-external interface BottomNavigationActionProps : react.Props {
+external interface BottomNavigationActionProps : react.PropsWithChildren {
     /**
      * This prop isn't supported.
      * Use the `component` prop if you need to change the children structure.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

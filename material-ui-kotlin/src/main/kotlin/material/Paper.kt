@@ -5,11 +5,11 @@
 
 package material
 
-external interface PaperProps : react.Props {
+external interface PaperProps : react.PropsWithChildren {
     /**
      * The content of the component.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

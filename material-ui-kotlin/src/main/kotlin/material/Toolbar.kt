@@ -5,12 +5,12 @@
 
 package material
 
-external interface ToolbarProps : react.Props {
+external interface ToolbarProps : react.PropsWithChildren {
     /**
      * The Toolbar children, usually a mixture of `IconButton`, `Button` and `Typography`.
      * The Toolbar is a flex container, allowing flex item properites to be used to lay out the children.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

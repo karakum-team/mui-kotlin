@@ -5,11 +5,11 @@
 
 package material
 
-external interface GridProps : react.Props {
+external interface GridProps : react.PropsWithChildren {
     /**
      * The content of the component.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

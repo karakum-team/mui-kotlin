@@ -5,11 +5,11 @@
 
 package material
 
-external interface TableProps : react.Props {
+external interface TableProps : react.PropsWithChildren {
     /**
      * The content of the table, normally `TableHead` and `TableBody`.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

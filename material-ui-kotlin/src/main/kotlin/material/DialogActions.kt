@@ -5,11 +5,11 @@
 
 package material
 
-external interface DialogActionsProps : react.Props {
+external interface DialogActionsProps : react.PropsWithChildren {
     /**
      * The content of the component.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

@@ -5,8 +5,8 @@
 
 package material
 
-external interface BoxProps : react.Props {
-    var children: react.ReactNode
+external interface BoxProps : react.PropsWithChildren {
+    override var children: Array<out react.ReactNode>?
 
     var component: react.ElementType<*>
 

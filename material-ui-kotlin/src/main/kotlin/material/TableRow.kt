@@ -5,11 +5,11 @@
 
 package material
 
-external interface TableRowProps : react.Props {
+external interface TableRowProps : react.PropsWithChildren {
     /**
      * Should be valid <tr> children such as `TableCell`.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

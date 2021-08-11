@@ -5,11 +5,11 @@
 
 package material
 
-external interface TableFooterProps : react.Props {
+external interface TableFooterProps : react.PropsWithChildren {
     /**
      * The content of the component, normally `TableRow`.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

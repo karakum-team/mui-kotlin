@@ -5,7 +5,7 @@
 
 package material
 
-external interface SelectProps : react.Props {
+external interface SelectProps : react.PropsWithChildren {
     /**
      * If `true`, the width of the popover will automatically be set according to the items inside the
      * menu, otherwise it will be at least the width of the select input.
@@ -19,7 +19,7 @@ external interface SelectProps : react.Props {
      *
      * ⚠️The `MenuItem` elements **must** be direct descendants when `native` is false.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

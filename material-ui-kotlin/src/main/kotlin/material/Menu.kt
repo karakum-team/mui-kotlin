@@ -5,7 +5,7 @@
 
 package material
 
-external interface MenuProps : react.Props {
+external interface MenuProps : react.PropsWithChildren {
     /**
      * An HTML element, or a function that returns one.
      * It's used to set the position of the menu.
@@ -24,7 +24,7 @@ external interface MenuProps : react.Props {
     /**
      * Menu contents, normally `MenuItem`s.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

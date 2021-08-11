@@ -5,11 +5,11 @@
 
 package material
 
-external interface SvgIconProps : react.Props {
+external interface SvgIconProps : react.PropsWithChildren {
     /**
      * Node passed into the SVG element.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

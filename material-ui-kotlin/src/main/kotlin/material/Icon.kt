@@ -5,7 +5,7 @@
 
 package material
 
-external interface IconProps : react.Props {
+external interface IconProps : react.PropsWithChildren {
     /**
      * The base class applied to the icon. Defaults to 'material-icons', but can be changed to any
      * other base class that suits the icon font you're using (e.g. material-icons-rounded, fas, etc).
@@ -16,7 +16,7 @@ external interface IconProps : react.Props {
     /**
      * The name of the icon font ligature.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

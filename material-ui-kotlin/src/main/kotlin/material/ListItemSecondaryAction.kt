@@ -5,11 +5,11 @@
 
 package material
 
-external interface ListItemSecondaryActionProps : react.Props {
+external interface ListItemSecondaryActionProps : react.PropsWithChildren {
     /**
      * The content of the component, normally an `IconButton` or selection control.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

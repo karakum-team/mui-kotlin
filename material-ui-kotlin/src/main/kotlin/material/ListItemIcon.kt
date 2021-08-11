@@ -5,12 +5,12 @@
 
 package material
 
-external interface ListItemIconProps : react.Props {
+external interface ListItemIconProps : react.PropsWithChildren {
     /**
      * The content of the component, normally `Icon`, `SvgIcon`,
      * or a `@material-ui/icons` SVG icon element.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

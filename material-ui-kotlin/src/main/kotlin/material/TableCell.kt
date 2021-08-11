@@ -5,7 +5,7 @@
 
 package material
 
-external interface TableCellProps : react.Props {
+external interface TableCellProps : react.PropsWithChildren {
     /**
      * Set the text-align on the table cell content.
      *
@@ -18,7 +18,7 @@ external interface TableCellProps : react.Props {
     /**
      * The content of the component.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

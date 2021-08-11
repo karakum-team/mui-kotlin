@@ -5,13 +5,13 @@
 
 package material
 
-external interface FormHelperTextProps : react.Props {
+external interface FormHelperTextProps : react.PropsWithChildren {
     /**
      * The content of the component.
      *
      * If `' '` is provided, the component reserves one line height for displaying a future message.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

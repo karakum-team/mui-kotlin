@@ -5,12 +5,12 @@
 
 package material
 
-external interface NativeSelectProps : react.Props {
+external interface NativeSelectProps : react.PropsWithChildren {
     /**
      * The option elements to populate the select with.
      * Can be some `<option>` elements.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

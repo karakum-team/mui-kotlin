@@ -5,11 +5,11 @@
 
 package material
 
-external interface SpeedDialProps : react.Props {
+external interface SpeedDialProps : react.PropsWithChildren {
     /**
      * SpeedDialActions to display when the SpeedDial is `open`.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

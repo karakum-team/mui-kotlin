@@ -5,11 +5,11 @@
 
 package material
 
-external interface NoSsrProps : react.Props {
+external interface NoSsrProps : react.PropsWithChildren {
     /**
      * You can wrap a node.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * If `true`, the component will not only prevent server-side rendering.

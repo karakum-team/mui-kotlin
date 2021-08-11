@@ -5,11 +5,11 @@
 
 package material
 
-external interface StepLabelProps : react.Props {
+external interface StepLabelProps : react.PropsWithChildren {
     /**
      * In most cases will simply be a string containing a title for the label.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

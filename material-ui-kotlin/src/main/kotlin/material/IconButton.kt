@@ -5,11 +5,11 @@
 
 package material
 
-external interface IconButtonProps : react.Props {
+external interface IconButtonProps : react.PropsWithChildren {
     /**
      * The icon to display.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

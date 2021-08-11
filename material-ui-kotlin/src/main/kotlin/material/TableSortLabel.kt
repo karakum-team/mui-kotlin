@@ -5,7 +5,7 @@
 
 package material
 
-external interface TableSortLabelProps : react.Props {
+external interface TableSortLabelProps : react.PropsWithChildren {
     /**
      * If `true`, the label will have the active styling (should be true for the sorted column).
      * @default false
@@ -15,7 +15,7 @@ external interface TableSortLabelProps : react.Props {
     /**
      * Label contents, the arrow will be appended automatically.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

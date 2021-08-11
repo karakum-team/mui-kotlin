@@ -5,11 +5,11 @@
 
 package material
 
-external interface ListItemTextProps : react.Props {
+external interface ListItemTextProps : react.PropsWithChildren {
     /**
      * Alias for the `primary` prop.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

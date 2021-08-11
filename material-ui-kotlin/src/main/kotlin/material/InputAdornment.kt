@@ -5,7 +5,7 @@
 
 package material
 
-external interface InputAdornmentProps : react.Props {
+external interface InputAdornmentProps : react.PropsWithChildren {
     /**
      * Override or extend the styles applied to the component.
      */
@@ -14,7 +14,7 @@ external interface InputAdornmentProps : react.Props {
     /**
      * The content of the component, normally an `IconButton` or string.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Disable pointer events on the root.

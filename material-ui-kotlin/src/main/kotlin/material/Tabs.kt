@@ -5,7 +5,7 @@
 
 package material
 
-external interface TabsProps : react.Props {
+external interface TabsProps : react.PropsWithChildren {
     /**
      * Callback fired when the component mounts.
      * This is useful when you want to trigger an action programmatically.
@@ -43,7 +43,7 @@ external interface TabsProps : react.Props {
     /**
      * The content of the component.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

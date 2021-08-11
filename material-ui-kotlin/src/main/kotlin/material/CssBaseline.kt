@@ -5,11 +5,11 @@
 
 package material
 
-external interface CssBaselineProps : react.Props {
+external interface CssBaselineProps : react.PropsWithChildren {
     /**
      * You can wrap a node.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 }
 
 /**

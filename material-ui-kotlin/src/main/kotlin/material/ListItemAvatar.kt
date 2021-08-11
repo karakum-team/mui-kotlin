@@ -5,11 +5,11 @@
 
 package material
 
-external interface ListItemAvatarProps : react.Props {
+external interface ListItemAvatarProps : react.PropsWithChildren {
     /**
      * The content of the component, normally an `Avatar`.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

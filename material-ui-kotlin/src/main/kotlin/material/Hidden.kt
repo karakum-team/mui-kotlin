@@ -5,11 +5,11 @@
 
 package material
 
-external interface HiddenProps : react.Props {
+external interface HiddenProps : react.PropsWithChildren {
     /**
      * The content of the component.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Specify which implementation to use.  'js' is the default, 'css' works better for

@@ -5,8 +5,8 @@
 
 package material
 
-external interface ContainerProps : react.Props {
-    var children: react.ReactNode
+external interface ContainerProps : react.PropsWithChildren {
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

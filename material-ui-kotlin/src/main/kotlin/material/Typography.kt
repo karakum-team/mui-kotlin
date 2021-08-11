@@ -5,7 +5,7 @@
 
 package material
 
-external interface TypographyProps : react.Props {
+external interface TypographyProps : react.PropsWithChildren {
     /**
      * Set the text-align on the component.
      * @default 'inherit'
@@ -15,7 +15,7 @@ external interface TypographyProps : react.Props {
     /**
      * The content of the component.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

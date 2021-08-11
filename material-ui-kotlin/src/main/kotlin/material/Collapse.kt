@@ -5,11 +5,11 @@
 
 package material
 
-external interface CollapseProps : react.Props {
+external interface CollapseProps : react.PropsWithChildren {
     /**
      * The content node to be collapsed.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     var className: String
 

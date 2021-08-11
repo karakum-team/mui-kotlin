@@ -5,7 +5,7 @@
 
 package material
 
-external interface AvatarProps : react.Props {
+external interface AvatarProps : react.PropsWithChildren {
     /**
      * Used in combination with `src` or `srcSet` to
      * provide an alt attribute for the rendered `img` element.
@@ -16,7 +16,7 @@ external interface AvatarProps : react.Props {
      * Used to render icon or text elements inside the Avatar if `src` is not set.
      * This can be an element, or just a string.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

@@ -5,7 +5,7 @@
 
 package material
 
-external interface SkeletonProps : react.Props {
+external interface SkeletonProps : react.PropsWithChildren {
     /**
      * The animation.
      * If `false` the animation effect is disabled.
@@ -16,7 +16,7 @@ external interface SkeletonProps : react.Props {
     /**
      * Optional children to infer width and height from.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

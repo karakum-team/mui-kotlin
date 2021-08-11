@@ -5,11 +5,11 @@
 
 package material
 
-external interface StepButtonProps : react.Props {
+external interface StepButtonProps : react.PropsWithChildren {
     /**
      * Can be a `StepLabel` or a node to place inside `StepLabel` as children.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.

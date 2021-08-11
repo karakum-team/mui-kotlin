@@ -5,7 +5,7 @@
 
 package material
 
-external interface ButtonBaseProps : react.Props {
+external interface ButtonBaseProps : react.PropsWithChildren {
     /**
      * A ref for imperative actions.
      * It currently only supports `focusVisible()` action.
@@ -22,7 +22,7 @@ external interface ButtonBaseProps : react.Props {
     /**
      * The content of the component.
      */
-    var children: react.ReactNode
+    override var children: Array<out react.ReactNode>?
 
     /**
      * Override or extend the styles applied to the component.
