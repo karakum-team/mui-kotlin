@@ -5,7 +5,7 @@
 
 package material
 
-external interface TableFooterProps : react.RProps {
+external interface TableFooterProps : react.Props {
     /**
      * The content of the component, normally `TableRow`.
      */

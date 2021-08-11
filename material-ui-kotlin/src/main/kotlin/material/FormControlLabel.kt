@@ -5,7 +5,7 @@
 
 package material
 
-external interface FormControlLabelProps : react.RProps {
+external interface FormControlLabelProps : react.Props {
     /**
      * If `true`, the component appears selected.
      */

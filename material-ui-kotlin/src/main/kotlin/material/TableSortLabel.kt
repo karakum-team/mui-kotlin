@@ -5,7 +5,7 @@
 
 package material
 
-external interface TableSortLabelProps : react.RProps {
+external interface TableSortLabelProps : react.Props {
     /**
      * If `true`, the label will have the active styling (should be true for the sorted column).
      * @default false

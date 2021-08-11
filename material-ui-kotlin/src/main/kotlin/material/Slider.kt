@@ -5,7 +5,7 @@
 
 package material
 
-external interface SliderProps : react.RProps {
+external interface SliderProps : react.Props {
     /**
      * The color of the component. It supports those theme colors that make sense for this component.
      * @default 'primary'

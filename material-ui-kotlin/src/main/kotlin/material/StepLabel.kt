@@ -5,7 +5,7 @@
 
 package material
 
-external interface StepLabelProps : react.RProps {
+external interface StepLabelProps : react.Props {
     /**
      * In most cases will simply be a string containing a title for the label.
      */

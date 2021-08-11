@@ -5,7 +5,7 @@
 
 package material
 
-external interface FormHelperTextProps : react.RProps {
+external interface FormHelperTextProps : react.Props {
     /**
      * The content of the component.
      *

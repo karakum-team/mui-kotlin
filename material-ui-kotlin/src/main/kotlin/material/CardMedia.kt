@@ -5,7 +5,7 @@
 
 package material
 
-external interface CardMediaProps : react.RProps {
+external interface CardMediaProps : react.Props {
     /**
      * The content of the component.
      */

@@ -5,7 +5,7 @@
 
 package material
 
-external interface CssBaselineProps : react.RProps {
+external interface CssBaselineProps : react.Props {
     /**
      * You can wrap a node.
      */

@@ -5,7 +5,7 @@
 
 package material
 
-external interface ListItemButtonProps : react.RProps
+external interface ListItemButtonProps : react.Props
 
 /**
  *

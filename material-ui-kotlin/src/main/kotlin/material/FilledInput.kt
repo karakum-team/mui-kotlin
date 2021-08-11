@@ -5,7 +5,7 @@
 
 package material
 
-external interface FilledInputProps : react.RProps {
+external interface FilledInputProps : react.Props {
     /**
      * Override or extend the styles applied to the component.
      */

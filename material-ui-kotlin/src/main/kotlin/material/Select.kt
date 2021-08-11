@@ -5,7 +5,7 @@
 
 package material
 
-external interface SelectProps : react.RProps {
+external interface SelectProps : react.Props {
     /**
      * If `true`, the width of the popover will automatically be set according to the items inside the
      * menu, otherwise it will be at least the width of the select input.

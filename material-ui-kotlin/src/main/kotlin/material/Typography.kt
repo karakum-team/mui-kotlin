@@ -5,7 +5,7 @@
 
 package material
 
-external interface TypographyProps : react.RProps {
+external interface TypographyProps : react.Props {
     /**
      * Set the text-align on the component.
      * @default 'inherit'

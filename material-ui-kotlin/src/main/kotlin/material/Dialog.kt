@@ -5,7 +5,7 @@
 
 package material
 
-external interface DialogProps : react.RProps {
+external interface DialogProps : react.Props {
     /**
      * The id(s) of the element(s) that describe the dialog.
      */

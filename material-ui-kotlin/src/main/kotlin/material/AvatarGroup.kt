@@ -5,7 +5,7 @@
 
 package material
 
-external interface AvatarGroupProps : react.RProps {
+external interface AvatarGroupProps : react.Props {
     /**
      * The avatars to stack.
      */

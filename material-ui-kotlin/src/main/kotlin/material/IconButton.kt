@@ -5,7 +5,7 @@
 
 package material
 
-external interface IconButtonProps : react.RProps {
+external interface IconButtonProps : react.Props {
     /**
      * The icon to display.
      */

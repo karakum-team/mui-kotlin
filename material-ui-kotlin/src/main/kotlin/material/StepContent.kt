@@ -5,7 +5,7 @@
 
 package material
 
-external interface StepContentProps : react.RProps {
+external interface StepContentProps : react.Props {
     /**
      * The content of the component.
      */

@@ -5,7 +5,7 @@
 
 package material
 
-external interface TablePaginationProps : react.RProps {
+external interface TablePaginationProps : react.Props {
     /**
      * The component used for displaying the actions.
      * Either a string to use a HTML element or a component.

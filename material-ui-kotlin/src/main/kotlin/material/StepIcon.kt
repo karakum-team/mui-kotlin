@@ -5,7 +5,7 @@
 
 package material
 
-external interface StepIconProps : react.RProps {
+external interface StepIconProps : react.Props {
     /**
      * Whether this step is active.
      * @default false

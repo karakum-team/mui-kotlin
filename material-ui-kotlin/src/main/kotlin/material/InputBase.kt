@@ -5,7 +5,7 @@
 
 package material
 
-external interface InputBaseProps : react.RProps {
+external interface InputBaseProps : react.Props {
     // var `aria-describedby`: String
 
     /**
@@ -195,7 +195,7 @@ external interface InputBaseProps : react.RProps {
     var value: dynamic
 }
 
-external interface InputBaseComponentProps : react.RProps
+external interface InputBaseComponentProps : react.Props
 
 /**
  * `InputBase` contains as few styles as possible.

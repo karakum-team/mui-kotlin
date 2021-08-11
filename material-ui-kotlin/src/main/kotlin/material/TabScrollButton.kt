@@ -5,7 +5,7 @@
 
 package material
 
-external interface TabScrollButtonProps : react.RProps {
+external interface TabScrollButtonProps : react.Props {
     /**
      * The content of the component.
      */

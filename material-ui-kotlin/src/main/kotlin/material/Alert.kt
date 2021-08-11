@@ -5,7 +5,7 @@
 
 package material
 
-external interface AlertProps : react.RProps {
+external interface AlertProps : react.Props {
     /**
      * The action to display. It renders after the message, at the end of the alert.
      */

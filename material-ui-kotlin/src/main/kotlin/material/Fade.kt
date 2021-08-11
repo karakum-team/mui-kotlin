@@ -5,7 +5,7 @@
 
 package material
 
-external interface FadeProps : react.RProps {
+external interface FadeProps : react.Props {
     /**
      * Perform the enter transition when it first mounts if `in` is also `true`.
      * Set this to `false` to disable this behavior.

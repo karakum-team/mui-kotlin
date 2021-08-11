@@ -5,7 +5,7 @@
 
 package material
 
-external interface BadgeProps : react.RProps {
+external interface BadgeProps : react.Props {
     /**
      * Override or extend the styles applied to the component.
      */

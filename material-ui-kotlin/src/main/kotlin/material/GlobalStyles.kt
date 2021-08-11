@@ -5,7 +5,7 @@
 
 package material
 
-external interface GlobalStylesProps : react.RProps {
+external interface GlobalStylesProps : react.Props {
     /**
      * The styles you want to apply globally.
      */

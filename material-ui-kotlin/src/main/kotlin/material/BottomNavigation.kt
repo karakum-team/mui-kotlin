@@ -5,7 +5,7 @@
 
 package material
 
-external interface BottomNavigationProps : react.RProps {
+external interface BottomNavigationProps : react.Props {
     /**
      * The content of the component.
      */

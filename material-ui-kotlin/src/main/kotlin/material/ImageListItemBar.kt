@@ -5,7 +5,7 @@
 
 package material
 
-external interface ImageListItemBarProps : react.RProps {
+external interface ImageListItemBarProps : react.Props {
     /**
      * An IconButton element to be used as secondary action target
      * (primary action target is the item itself).

@@ -5,7 +5,7 @@
 
 package material
 
-external interface AvatarProps : react.RProps {
+external interface AvatarProps : react.Props {
     /**
      * Used in combination with `src` or `srcSet` to
      * provide an alt attribute for the rendered `img` element.

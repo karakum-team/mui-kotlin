@@ -5,7 +5,7 @@
 
 package material
 
-external interface DrawerProps : react.RProps {
+external interface DrawerProps : react.Props {
     /**
      * Side from which the drawer will appear.
      * @default 'left'

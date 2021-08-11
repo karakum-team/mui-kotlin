@@ -5,7 +5,7 @@
 
 package material
 
-external interface MobileStepperProps : react.RProps {
+external interface MobileStepperProps : react.Props {
     /**
      * Set the active step (zero based index).
      * Defines which dot is highlighted when the variant is 'dots'.

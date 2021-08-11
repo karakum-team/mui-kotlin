@@ -5,7 +5,7 @@
 
 package material
 
-external interface GridProps : react.RProps {
+external interface GridProps : react.Props {
     /**
      * The content of the component.
      */

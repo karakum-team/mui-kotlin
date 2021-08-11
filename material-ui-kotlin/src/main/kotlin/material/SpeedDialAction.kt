@@ -5,7 +5,7 @@
 
 package material
 
-external interface SpeedDialActionProps : react.RProps {
+external interface SpeedDialActionProps : react.Props {
     /**
      * Override or extend the styles applied to the component.
      */

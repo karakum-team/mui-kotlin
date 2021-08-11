@@ -5,7 +5,7 @@
 
 package material
 
-external interface InputProps : react.RProps {
+external interface InputProps : react.Props {
     /**
      * Override or extend the styles applied to the component.
      */

@@ -5,7 +5,7 @@
 
 package material
 
-external interface MenuItemProps : react.RProps {
+external interface MenuItemProps : react.Props {
     /**
      * If `true`, the list item is focused during the first mount.
      * Focus will also be triggered if the value changes from false to true.

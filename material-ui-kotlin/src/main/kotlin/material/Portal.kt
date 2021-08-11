@@ -5,7 +5,7 @@
 
 package material
 
-external interface PortalProps : react.RProps {
+external interface PortalProps : react.Props {
     /**
      * The children to render into the `container`.
      */

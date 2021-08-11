@@ -5,7 +5,7 @@
 
 package material
 
-external interface StepButtonProps : react.RProps {
+external interface StepButtonProps : react.Props {
     /**
      * Can be a `StepLabel` or a node to place inside `StepLabel` as children.
      */

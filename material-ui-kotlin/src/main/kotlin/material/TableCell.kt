@@ -5,7 +5,7 @@
 
 package material
 
-external interface TableCellProps : react.RProps {
+external interface TableCellProps : react.Props {
     /**
      * Set the text-align on the table cell content.
      *

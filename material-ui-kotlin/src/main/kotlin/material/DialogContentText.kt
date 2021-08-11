@@ -5,7 +5,7 @@
 
 package material
 
-external interface DialogContentTextProps : react.RProps
+external interface DialogContentTextProps : react.Props
 
 /**
  *

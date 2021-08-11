@@ -5,7 +5,7 @@
 
 package material
 
-external interface DividerProps : react.RProps {
+external interface DividerProps : react.Props {
     /**
      * Absolutely position the element.
      * @default false

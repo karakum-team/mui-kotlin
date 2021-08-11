@@ -5,7 +5,7 @@
 
 package material
 
-external interface AutocompleteProps : react.RProps {
+external interface AutocompleteProps : react.Props {
     /**
      * Props applied to the [`Chip`](/api/chip/) element.
      */

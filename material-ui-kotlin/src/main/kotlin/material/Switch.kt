@@ -5,7 +5,7 @@
 
 package material
 
-external interface SwitchProps : react.RProps {
+external interface SwitchProps : react.Props {
     /**
      * The icon to display when the component is checked.
      */

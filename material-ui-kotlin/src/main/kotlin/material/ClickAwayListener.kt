@@ -5,7 +5,7 @@
 
 package material
 
-external interface ClickAwayListenerProps : react.RProps {
+external interface ClickAwayListenerProps : react.Props {
     /**
      * The wrapped element.
      */

@@ -5,7 +5,7 @@
 
 package material
 
-external interface BreadcrumbsProps : react.RProps {
+external interface BreadcrumbsProps : react.Props {
     /**
      * The content of the component.
      */

@@ -5,7 +5,7 @@
 
 package material
 
-external interface SnackbarProps : react.RProps {
+external interface SnackbarProps : react.Props {
     /**
      * The action to display. It renders after the message, at the end of the snackbar.
      */

@@ -5,7 +5,7 @@
 
 package material
 
-external interface ListItemTextProps : react.RProps {
+external interface ListItemTextProps : react.Props {
     /**
      * Alias for the `primary` prop.
      */

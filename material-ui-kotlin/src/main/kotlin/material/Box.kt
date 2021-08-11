@@ -5,7 +5,7 @@
 
 package material
 
-external interface BoxProps : react.RProps {
+external interface BoxProps : react.Props {
     var children: react.ReactNode
 
     var component: react.ElementType<*>

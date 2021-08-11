@@ -5,7 +5,7 @@
 
 package material
 
-external interface DialogTitleProps : react.RProps {
+external interface DialogTitleProps : react.Props {
     /**
      * The content of the component.
      */

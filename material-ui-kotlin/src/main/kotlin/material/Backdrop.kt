@@ -5,7 +5,7 @@
 
 package material
 
-external interface BackdropProps : react.RProps {
+external interface BackdropProps : react.Props {
     /**
      * Override or extend the styles applied to the component.
      */

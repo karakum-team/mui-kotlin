@@ -5,7 +5,7 @@
 
 package material
 
-external interface ListItemIconProps : react.RProps {
+external interface ListItemIconProps : react.Props {
     /**
      * The content of the component, normally `Icon`, `SvgIcon`,
      * or a `@material-ui/icons` SVG icon element.

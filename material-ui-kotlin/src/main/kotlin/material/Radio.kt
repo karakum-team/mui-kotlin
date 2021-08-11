@@ -5,7 +5,7 @@
 
 package material
 
-external interface RadioProps : react.RProps {
+external interface RadioProps : react.Props {
     /**
      * The icon to display when the component is checked.
      */

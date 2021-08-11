@@ -5,7 +5,7 @@
 
 package material
 
-external interface ListProps : react.RProps {
+external interface ListProps : react.Props {
     /**
      * The content of the component.
      */

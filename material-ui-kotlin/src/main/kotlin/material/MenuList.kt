@@ -5,7 +5,7 @@
 
 package material
 
-external interface MenuListProps : react.RProps {
+external interface MenuListProps : react.Props {
     /**
      * If `true`, will focus the `[role="menu"]` container and move into tab order.
      * @default false

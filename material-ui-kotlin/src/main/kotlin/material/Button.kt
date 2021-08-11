@@ -5,7 +5,7 @@
 
 package material
 
-external interface ButtonProps : react.RProps {
+external interface ButtonProps : react.Props {
     /**
      * The content of the component.
      */

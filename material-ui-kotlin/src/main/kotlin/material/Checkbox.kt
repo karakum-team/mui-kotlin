@@ -5,7 +5,7 @@
 
 package material
 
-external interface CheckboxProps : react.RProps {
+external interface CheckboxProps : react.Props {
     /**
      * If `true`, the component is checked.
      */

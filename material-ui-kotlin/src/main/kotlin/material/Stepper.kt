@@ -5,7 +5,7 @@
 
 package material
 
-external interface StepperProps : react.RProps {
+external interface StepperProps : react.Props {
     /**
      * Set the active step (zero based index).
      * Set to -1 to disable all the steps.

@@ -5,7 +5,7 @@
 
 package material
 
-external interface NoSsrProps : react.RProps {
+external interface NoSsrProps : react.Props {
     /**
      * You can wrap a node.
      */

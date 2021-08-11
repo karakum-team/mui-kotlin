@@ -5,7 +5,7 @@
 
 package material
 
-external interface ImageListItemProps : react.RProps {
+external interface ImageListItemProps : react.Props {
     /**
      * The content of the component, normally an `<img>`.
      */

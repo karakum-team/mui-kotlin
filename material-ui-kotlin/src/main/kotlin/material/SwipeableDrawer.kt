@@ -5,7 +5,7 @@
 
 package material
 
-external interface SwipeableDrawerProps : react.RProps {
+external interface SwipeableDrawerProps : react.Props {
     /**
      * Disable the backdrop transition.
      * This can improve the FPS on low-end devices.

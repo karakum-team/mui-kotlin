@@ -5,7 +5,7 @@
 
 package material
 
-external interface SpeedDialProps : react.RProps {
+external interface SpeedDialProps : react.Props {
     /**
      * SpeedDialActions to display when the SpeedDial is `open`.
      */

@@ -5,7 +5,7 @@
 
 package material
 
-external interface TooltipProps : react.RProps {
+external interface TooltipProps : react.Props {
     /**
      * If `true`, adds an arrow to the tooltip.
      * @default false

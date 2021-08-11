@@ -5,7 +5,7 @@
 
 package material
 
-external interface ListItemSecondaryActionProps : react.RProps {
+external interface ListItemSecondaryActionProps : react.Props {
     /**
      * The content of the component, normally an `IconButton` or selection control.
      */

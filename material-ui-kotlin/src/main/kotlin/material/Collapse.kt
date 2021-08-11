@@ -5,7 +5,7 @@
 
 package material
 
-external interface CollapseProps : react.RProps {
+external interface CollapseProps : react.Props {
     /**
      * The content node to be collapsed.
      */

@@ -5,7 +5,7 @@
 
 package material
 
-external interface TabProps : react.RProps {
+external interface TabProps : react.Props {
     /**
      * This prop isn't supported.
      * Use the `component` prop if you need to change the children structure.

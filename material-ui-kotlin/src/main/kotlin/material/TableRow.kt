@@ -5,7 +5,7 @@
 
 package material
 
-external interface TableRowProps : react.RProps {
+external interface TableRowProps : react.Props {
     /**
      * Should be valid <tr> children such as `TableCell`.
      */

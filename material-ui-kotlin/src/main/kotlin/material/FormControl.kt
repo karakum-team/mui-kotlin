@@ -5,7 +5,7 @@
 
 package material
 
-external interface FormControlProps : react.RProps {
+external interface FormControlProps : react.Props {
     /**
      * The content of the component.
      */

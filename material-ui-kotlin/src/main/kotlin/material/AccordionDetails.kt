@@ -5,7 +5,7 @@
 
 package material
 
-external interface AccordionDetailsProps : react.RProps {
+external interface AccordionDetailsProps : react.Props {
     /**
      * The content of the component.
      */

@@ -5,7 +5,7 @@
 
 package material
 
-external interface NativeSelectProps : react.RProps {
+external interface NativeSelectProps : react.Props {
     /**
      * The option elements to populate the select with.
      * Can be some `<option>` elements.

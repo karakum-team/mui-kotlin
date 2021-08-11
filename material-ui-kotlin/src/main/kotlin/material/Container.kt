@@ -5,7 +5,7 @@
 
 package material
 
-external interface ContainerProps : react.RProps {
+external interface ContainerProps : react.Props {
     var children: react.ReactNode
 
     /**

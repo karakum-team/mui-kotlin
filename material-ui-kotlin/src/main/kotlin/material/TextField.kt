@@ -5,9 +5,9 @@
 
 package material
 
-external interface TextFieldProps : react.RProps
+external interface TextFieldProps : react.Props
 
-external interface BaseTextFieldProps : react.RProps {
+external interface BaseTextFieldProps : react.Props {
     /**
      * This prop helps users to fill forms faster, especially on mobile devices.
      * The name can be confusing, as it's more like an autofill.
@@ -170,7 +170,7 @@ external interface BaseTextFieldProps : react.RProps {
     var value: dynamic
 }
 
-external interface StandardTextFieldProps : react.RProps {
+external interface StandardTextFieldProps : react.Props {
     /**
      * Callback fired when the value is changed.
      *
@@ -194,7 +194,7 @@ external interface StandardTextFieldProps : react.RProps {
     var InputProps: InputProps
 }
 
-external interface FilledTextFieldProps : react.RProps {
+external interface FilledTextFieldProps : react.Props {
     /**
      * Callback fired when the value is changed.
      *
@@ -218,7 +218,7 @@ external interface FilledTextFieldProps : react.RProps {
     var InputProps: FilledInputProps
 }
 
-external interface OutlinedTextFieldProps : react.RProps {
+external interface OutlinedTextFieldProps : react.Props {
     /**
      * Callback fired when the value is changed.
      *

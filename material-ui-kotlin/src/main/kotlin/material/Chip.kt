@@ -5,7 +5,7 @@
 
 package material
 
-external interface ChipProps : react.RProps {
+external interface ChipProps : react.Props {
     /**
      * The Avatar element to display.
      */

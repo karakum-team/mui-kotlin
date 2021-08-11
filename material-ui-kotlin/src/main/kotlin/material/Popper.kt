@@ -5,7 +5,7 @@
 
 package material
 
-external interface PopperProps : react.RProps {
+external interface PopperProps : react.Props {
     var ref: react.Ref<org.w3c.dom.HTMLDivElement>
 
     /**

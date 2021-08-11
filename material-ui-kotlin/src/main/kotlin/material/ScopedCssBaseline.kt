@@ -5,7 +5,7 @@
 
 package material
 
-external interface ScopedCssBaselineProps : react.RProps {
+external interface ScopedCssBaselineProps : react.Props {
     /**
      * The content of the component.
      */

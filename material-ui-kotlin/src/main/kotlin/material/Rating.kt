@@ -5,7 +5,7 @@
 
 package material
 
-external interface RatingProps : react.RProps {
+external interface RatingProps : react.Props {
     /**
      * Override or extend the styles applied to the component.
      */
@@ -125,7 +125,7 @@ external interface RatingProps : react.RProps {
     var value: Number?
 }
 
-external interface IconContainerProps : react.RProps {
+external interface IconContainerProps : react.Props {
     var value: Number
 }
 

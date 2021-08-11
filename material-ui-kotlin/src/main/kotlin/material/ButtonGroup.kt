@@ -5,7 +5,7 @@
 
 package material
 
-external interface ButtonGroupProps : react.RProps {
+external interface ButtonGroupProps : react.Props {
     /**
      * The content of the component.
      */

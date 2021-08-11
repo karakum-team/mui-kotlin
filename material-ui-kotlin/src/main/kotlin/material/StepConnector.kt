@@ -5,7 +5,7 @@
 
 package material
 
-external interface StepConnectorProps : react.RProps {
+external interface StepConnectorProps : react.Props {
     /**
      * Override or extend the styles applied to the component.
      */

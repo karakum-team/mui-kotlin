@@ -5,7 +5,7 @@
 
 package material
 
-external interface ListItemAvatarProps : react.RProps {
+external interface ListItemAvatarProps : react.Props {
     /**
      * The content of the component, normally an `Avatar`.
      */

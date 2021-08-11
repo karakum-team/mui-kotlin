@@ -5,7 +5,7 @@
 
 package material
 
-external interface PaperProps : react.RProps {
+external interface PaperProps : react.Props {
     /**
      * The content of the component.
      */

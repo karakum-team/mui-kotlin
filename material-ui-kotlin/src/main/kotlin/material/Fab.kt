@@ -5,7 +5,7 @@
 
 package material
 
-external interface FabProps : react.RProps {
+external interface FabProps : react.Props {
     /**
      * The content of the component.
      */

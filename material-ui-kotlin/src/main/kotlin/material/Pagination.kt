@@ -5,7 +5,7 @@
 
 package material
 
-external interface PaginationProps : react.RProps {
+external interface PaginationProps : react.Props {
     /**
      * Override or extend the styles applied to the component.
      */

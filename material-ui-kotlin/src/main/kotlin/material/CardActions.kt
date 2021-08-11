@@ -5,7 +5,7 @@
 
 package material
 
-external interface CardActionsProps : react.RProps {
+external interface CardActionsProps : react.Props {
     /**
      * The content of the component.
      */

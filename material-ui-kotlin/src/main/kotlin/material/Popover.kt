@@ -5,7 +5,7 @@
 
 package material
 
-external interface PopoverProps : react.RProps {
+external interface PopoverProps : react.Props {
     /**
      * A ref for imperative actions.
      * It currently only supports updatePosition() action.

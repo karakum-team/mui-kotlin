@@ -5,7 +5,7 @@
 
 package material
 
-external interface MenuProps : react.RProps {
+external interface MenuProps : react.Props {
     /**
      * An HTML element, or a function that returns one.
      * It's used to set the position of the menu.

@@ -5,7 +5,7 @@
 
 package material
 
-external interface AlertTitleProps : react.RProps {
+external interface AlertTitleProps : react.Props {
     /**
      * The content of the component.
      */

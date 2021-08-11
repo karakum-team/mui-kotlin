@@ -5,7 +5,7 @@
 
 package material
 
-external interface FormLabelProps : react.RProps {
+external interface FormLabelProps : react.Props {
     /**
      * The content of the component.
      */

@@ -5,7 +5,7 @@
 
 package material
 
-external interface TableContainerProps : react.RProps {
+external interface TableContainerProps : react.Props {
     /**
      * The content of the component, normally `Table`.
      */

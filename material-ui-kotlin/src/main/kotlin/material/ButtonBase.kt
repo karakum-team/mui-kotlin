@@ -5,7 +5,7 @@
 
 package material
 
-external interface ButtonBaseProps : react.RProps {
+external interface ButtonBaseProps : react.Props {
     /**
      * A ref for imperative actions.
      * It currently only supports `focusVisible()` action.

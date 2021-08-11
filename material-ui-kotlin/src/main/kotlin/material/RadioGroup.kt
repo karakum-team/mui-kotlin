@@ -5,7 +5,7 @@
 
 package material
 
-external interface RadioGroupProps : react.RProps {
+external interface RadioGroupProps : react.Props {
     /**
      * The default value. Use when the component is not controlled.
      */

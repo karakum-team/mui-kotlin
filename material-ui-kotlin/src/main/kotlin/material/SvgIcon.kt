@@ -5,7 +5,7 @@
 
 package material
 
-external interface SvgIconProps : react.RProps {
+external interface SvgIconProps : react.Props {
     /**
      * Node passed into the SVG element.
      */

@@ -5,7 +5,7 @@
 
 package material
 
-external interface FormGroupProps : react.RProps {
+external interface FormGroupProps : react.Props {
     /**
      * The content of the component.
      */

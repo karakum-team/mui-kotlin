@@ -5,7 +5,7 @@
 
 package material
 
-external interface LinearProgressProps : react.RProps {
+external interface LinearProgressProps : react.Props {
     /**
      * Override or extend the styles applied to the component.
      */

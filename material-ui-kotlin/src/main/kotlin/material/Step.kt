@@ -5,7 +5,7 @@
 
 package material
 
-external interface StepProps : react.RProps {
+external interface StepProps : react.Props {
     /**
      * Sets the step as active. Is passed to child components.
      */

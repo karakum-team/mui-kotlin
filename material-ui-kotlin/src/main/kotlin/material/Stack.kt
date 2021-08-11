@@ -5,7 +5,7 @@
 
 package material
 
-external interface StackProps : react.RProps {
+external interface StackProps : react.Props {
     var ref: react.Ref<*>
 
     /**

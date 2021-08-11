@@ -5,7 +5,7 @@
 
 package material
 
-external interface CardActionAreaProps : react.RProps {
+external interface CardActionAreaProps : react.Props {
     /**
      * Override or extend the styles applied to the component.
      */

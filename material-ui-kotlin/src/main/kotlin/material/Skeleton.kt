@@ -5,7 +5,7 @@
 
 package material
 
-external interface SkeletonProps : react.RProps {
+external interface SkeletonProps : react.Props {
     /**
      * The animation.
      * If `false` the animation effect is disabled.

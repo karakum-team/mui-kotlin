@@ -5,7 +5,7 @@
 
 package material
 
-external interface TabsProps : react.RProps {
+external interface TabsProps : react.Props {
     /**
      * Callback fired when the component mounts.
      * This is useful when you want to trigger an action programmatically.

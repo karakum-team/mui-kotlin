@@ -5,7 +5,7 @@
 
 package material
 
-external interface OutlinedInputProps : react.RProps {
+external interface OutlinedInputProps : react.Props {
     /**
      * Override or extend the styles applied to the component.
      */

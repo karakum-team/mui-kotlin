@@ -5,7 +5,7 @@
 
 package material
 
-external interface CardHeaderProps : react.RProps {
+external interface CardHeaderProps : react.Props {
     /**
      * The action to display in the card header.
      */

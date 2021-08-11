@@ -5,7 +5,7 @@
 
 package material
 
-external interface InputAdornmentProps : react.RProps {
+external interface InputAdornmentProps : react.Props {
     /**
      * Override or extend the styles applied to the component.
      */

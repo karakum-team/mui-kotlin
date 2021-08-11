@@ -5,7 +5,7 @@
 
 package material
 
-external interface ToolbarProps : react.RProps {
+external interface ToolbarProps : react.Props {
     /**
      * The Toolbar children, usually a mixture of `IconButton`, `Button` and `Typography`.
      * The Toolbar is a flex container, allowing flex item properites to be used to lay out the children.

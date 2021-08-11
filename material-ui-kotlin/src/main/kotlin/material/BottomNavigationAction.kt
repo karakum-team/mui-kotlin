@@ -5,7 +5,7 @@
 
 package material
 
-external interface BottomNavigationActionProps : react.RProps {
+external interface BottomNavigationActionProps : react.Props {
     /**
      * This prop isn't supported.
      * Use the `component` prop if you need to change the children structure.

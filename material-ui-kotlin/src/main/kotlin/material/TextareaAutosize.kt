@@ -5,7 +5,7 @@
 
 package material
 
-external interface TextareaAutosizeProps : react.RProps {
+external interface TextareaAutosizeProps : react.Props {
     var ref: react.Ref<org.w3c.dom.HTMLTextAreaElement>
 
     /**

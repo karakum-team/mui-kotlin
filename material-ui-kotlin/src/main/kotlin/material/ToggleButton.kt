@@ -5,7 +5,7 @@
 
 package material
 
-external interface ToggleButtonProps : react.RProps {
+external interface ToggleButtonProps : react.Props {
     /**
      * The content of the component.
      */

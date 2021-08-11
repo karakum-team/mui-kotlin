@@ -5,7 +5,7 @@
 
 package material
 
-external interface ModalProps : react.RProps {
+external interface ModalProps : react.Props {
     /**
      * A backdrop component. This prop enables custom backdrop rendering.
      * @default styled(Backdrop, {

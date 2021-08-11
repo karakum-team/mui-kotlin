@@ -5,7 +5,7 @@
 
 package material
 
-external interface InputLabelProps : react.RProps {
+external interface InputLabelProps : react.Props {
     /**
      * The content of the component.
      */

@@ -5,7 +5,7 @@
 
 package material
 
-external interface HiddenProps : react.RProps {
+external interface HiddenProps : react.Props {
     /**
      * The content of the component.
      */

@@ -5,7 +5,7 @@
 
 package material
 
-external interface AppBarProps : react.RProps {
+external interface AppBarProps : react.Props {
     /**
      * Override or extend the styles applied to the component.
      */

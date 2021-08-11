@@ -5,7 +5,7 @@
 
 package material
 
-external interface CircularProgressProps : react.RProps {
+external interface CircularProgressProps : react.Props {
     /**
      * Override or extend the styles applied to the component.
      */
