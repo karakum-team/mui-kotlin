@@ -171,7 +171,7 @@ private fun findAdditionalProps(
 }
 
 private fun props(propsName: String): String =
-    "external interface $propsName: react.RProps"
+    "external interface $propsName: react.Props"
 
 private fun findComponent(
     name: String,
