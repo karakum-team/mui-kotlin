@@ -18,7 +18,7 @@ external interface SelectClasses {
     /** Styles applied to the select component if `variant="standard"`. */
     var standard: String
 
-    /** Pseudo-class applied to the select component `disabled` class. */
+    /** State class applied to the select component `disabled` class. */
     var disabled: String
 
     /** Styles applied to the icon component. */

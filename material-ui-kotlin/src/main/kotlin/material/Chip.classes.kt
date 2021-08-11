@@ -18,7 +18,7 @@ external interface ChipClasses {
     /** Styles applied to the root element if `color="secondary"`. */
     var colorSecondary: String
 
-    /** Pseudo-class applied to the root element if `disabled={true}`. */
+    /** State class applied to the root element if `disabled={true}`. */
     var disabled: String
 
     /** Styles applied to the root element if `onClick` is defined or `clickable={true}`. */
@@ -111,6 +111,6 @@ external interface ChipClasses {
     /** Styles applied to the deleteIcon element if `color="secondary"` and `variant="outlined"`. */
     var deleteIconOutlinedColorSecondary: String
 
-    /** Pseudo-class applied to the root element if keyboard focused. */
+    /** State class applied to the root element if keyboard focused. */
     var focusVisible: String
 }

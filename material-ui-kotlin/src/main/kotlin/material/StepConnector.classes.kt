@@ -15,13 +15,13 @@ external interface StepConnectorClasses {
     /** Styles applied to the root element if `alternativeLabel={true}`. */
     var alternativeLabel: String
 
-    /** Pseudo-class applied to the root element if `active={true}`. */
+    /** State class applied to the root element if `active={true}`. */
     var active: String
 
-    /** Pseudo-class applied to the root element if `completed={true}`. */
+    /** State class applied to the root element if `completed={true}`. */
     var completed: String
 
-    /** Pseudo-class applied to the root element if `disabled={true}`. */
+    /** State class applied to the root element if `disabled={true}`. */
     var disabled: String
 
     /** Styles applied to the line element. */

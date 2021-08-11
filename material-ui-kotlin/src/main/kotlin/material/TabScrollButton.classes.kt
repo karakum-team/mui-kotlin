@@ -9,6 +9,6 @@ external interface TabScrollButtonClasses {
     /** Styles applied to the root element if `orientation="vertical"`. */
     var vertical: String
 
-    /** Pseudo-class applied to the root element if `disabled={true}`. */
+    /** State class applied to the root element if `disabled={true}`. */
     var disabled: String
 }

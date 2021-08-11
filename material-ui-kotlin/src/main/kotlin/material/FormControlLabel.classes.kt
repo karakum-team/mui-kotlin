@@ -15,7 +15,7 @@ external interface FormControlLabelClasses {
     /** Styles applied to the root element if `labelPlacement="bottom"`. */
     var labelPlacementBottom: String
 
-    /** Pseudo-class applied to the root element if `disabled={true}`. */
+    /** State class applied to the root element if `disabled={true}`. */
     var disabled: String
 
     /** Styles applied to the label's Typography component. */

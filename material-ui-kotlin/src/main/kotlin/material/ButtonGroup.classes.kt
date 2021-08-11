@@ -18,7 +18,7 @@ external interface ButtonGroupClasses {
     /** Styles applied to the root element if `disableElevation={true}`. */
     var disableElevation: String
 
-    /** Pseudo-class applied to the child elements if `disabled={true}`. */
+    /** State class applied to the child elements if `disabled={true}`. */
     var disabled: String
 
     /** Styles applied to the root element if `fullWidth={true}`. */

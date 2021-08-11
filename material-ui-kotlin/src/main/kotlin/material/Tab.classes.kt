@@ -18,10 +18,10 @@ external interface TabClasses {
     /** Styles applied to the root element if the parent [`Tabs`](/api/tabs/) has `textColor="secondary"`. */
     var textColorSecondary: String
 
-    /** Pseudo-class applied to the root element if `selected={true}` (controlled by the Tabs component). */
+    /** State class applied to the root element if `selected={true}` (controlled by the Tabs component). */
     var selected: String
 
-    /** Pseudo-class applied to the root element if `disabled={true}` (controlled by the Tabs component). */
+    /** State class applied to the root element if `disabled={true}` (controlled by the Tabs component). */
     var disabled: String
 
     /** Styles applied to the root element if `fullWidth={true}` (controlled by the Tabs component). */

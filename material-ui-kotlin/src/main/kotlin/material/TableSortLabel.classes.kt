@@ -6,7 +6,7 @@ external interface TableSortLabelClasses {
     /** Styles applied to the root element. */
     var root: String
 
-    /** Pseudo-class applied to the root element if `active={true}`. */
+    /** State class applied to the root element if `active={true}`. */
     var active: String
 
     /** Styles applied to the icon component. */

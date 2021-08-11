@@ -18,6 +18,6 @@ external interface LinkClasses {
     /** Styles applied to the root element if `component="button"`. */
     var button: String
 
-    /** Pseudo-class applied to the root element if the link is keyboard focused. */
+    /** State class applied to the root element if the link is keyboard focused. */
     var focusVisible: String
 }

@@ -27,10 +27,10 @@ external interface SwitchClasses {
     /** Styles applied to the root element if `size="medium"`. */
     var sizeMedium: String
 
-    /** Pseudo-class applied to the internal `SwitchBase` component's `checked` class. */
+    /** State class applied to the internal `SwitchBase` component's `checked` class. */
     var checked: String
 
-    /** Pseudo-class applied to the internal SwitchBase component's disabled class. */
+    /** State class applied to the internal SwitchBase component's disabled class. */
     var disabled: String
 
     /** Styles applied to the internal SwitchBase component's input element. */

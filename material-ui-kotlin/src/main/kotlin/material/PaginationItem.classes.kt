@@ -45,13 +45,13 @@ external interface PaginationItemClasses {
     /** Styles applyed to the root element if `type="previous"` or type="next". */
     var previousNext: String
 
-    /** Pseudo-class applied to the root element if keyboard focused. */
+    /** State class applied to the root element if keyboard focused. */
     var focusVisible: String
 
-    /** Pseudo-class applied to the root element if `disabled={true}`. */
+    /** State class applied to the root element if `disabled={true}`. */
     var disabled: String
 
-    /** Pseudo-class applied to the root element if `selected={true}`. */
+    /** State class applied to the root element if `selected={true}`. */
     var selected: String
 
     /** Styles applied to the icon to display. */

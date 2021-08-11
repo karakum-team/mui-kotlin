@@ -18,10 +18,10 @@ external interface RatingClasses {
     /** Styles applied to the root element if `readOnly={true}`. */
     var readOnly: String
 
-    /** Pseudo-class applied to the root element if `disabled={true}`. */
+    /** State class applied to the root element if `disabled={true}`. */
     var disabled: String
 
-    /** Pseudo-class applied to the root element if keyboard focused. */
+    /** State class applied to the root element if keyboard focused. */
     var focusVisible: String
 
     /** Visually hide an element. */

@@ -9,10 +9,10 @@ external interface AccordionClasses {
     /** Styles applied to the root element unless `square={true}`. */
     var rounded: String
 
-    /** Pseudo-class applied to the root element if `expanded={true}`. */
+    /** State class applied to the root element if `expanded={true}`. */
     var expanded: String
 
-    /** Pseudo-class applied to the root element if `disabled={true}`. */
+    /** State class applied to the root element if `disabled={true}`. */
     var disabled: String
 
     /** Styles applied to the root element unless `disableGutters={true}`. */

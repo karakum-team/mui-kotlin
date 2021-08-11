@@ -15,6 +15,6 @@ external interface StepClasses {
     /** Styles applied to the root element if `alternativeLabel={true}`. */
     var alternativeLabel: String
 
-    /** Pseudo-class applied to the root element if `completed={true}`. */
+    /** State class applied to the root element if `completed={true}`. */
     var completed: String
 }

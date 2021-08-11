@@ -18,10 +18,10 @@ external interface FabClasses {
     /** Styles applied to the root element if `variant="circular"`. */
     var circular: String
 
-    /** Pseudo-class applied to the ButtonBase root element if the button is keyboard focused. */
+    /** State class applied to the ButtonBase root element if the button is keyboard focused. */
     var focusVisible: String
 
-    /** Pseudo-class applied to the root element if `disabled={true}`. */
+    /** State class applied to the root element if `disabled={true}`. */
     var disabled: String
 
     /** Styles applied to the root element if `color="inherit"`. */

@@ -45,10 +45,10 @@ external interface ButtonClasses {
     /** Styles applied to the root element if `disableElevation={true}`. */
     var disableElevation: String
 
-    /** Pseudo-class applied to the ButtonBase root element if the button is keyboard focused. */
+    /** State class applied to the ButtonBase root element if the button is keyboard focused. */
     var focusVisible: String
 
-    /** Pseudo-class applied to the root element if `disabled={true}`. */
+    /** State class applied to the root element if `disabled={true}`. */
     var disabled: String
 
     /** Styles applied to the root element if `color="inherit"`. */

@@ -6,7 +6,7 @@ external interface CollapseClasses {
     /** Styles applied to the root element. */
     var root: String
 
-    /** Pseudo-class applied to the root element if `orientation="horizontal"`. */
+    /** State class applied to the root element if `orientation="horizontal"`. */
     var horizontal: String
 
     /** Styles applied to the root element when the transition has entered. */

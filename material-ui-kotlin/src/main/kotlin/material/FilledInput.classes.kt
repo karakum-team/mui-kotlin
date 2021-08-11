@@ -12,10 +12,10 @@ external interface FilledInputClasses {
     /** Styles applied to the root element unless `disableUnderline={true}`. */
     var underline: String
 
-    /** Pseudo-class applied to the root element if the component is focused. */
+    /** State class applied to the root element if the component is focused. */
     var focused: String
 
-    /** Pseudo-class applied to the root element if `disabled={true}`. */
+    /** State class applied to the root element if `disabled={true}`. */
     var disabled: String
 
     /** Styles applied to the root element if `startAdornment` is provided. */
@@ -24,7 +24,7 @@ external interface FilledInputClasses {
     /** Styles applied to the root element if `endAdornment` is provided. */
     var adornedEnd: String
 
-    /** Pseudo-class applied to the root element if `error={true}`. */
+    /** State class applied to the root element if `error={true}`. */
     var error: String
 
     /** Styles applied to the input element if `size="small"`. */

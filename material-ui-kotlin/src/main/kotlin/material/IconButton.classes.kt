@@ -21,7 +21,7 @@ external interface IconButtonClasses {
     /** Styles applied to the root element if `color="secondary"`. */
     var colorSecondary: String
 
-    /** Pseudo-class applied to the root element if `disabled={true}`. */
+    /** State class applied to the root element if `disabled={true}`. */
     var disabled: String
 
     /** Styles applied to the root element if `size="small"`. */

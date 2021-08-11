@@ -21,7 +21,7 @@ external interface OutlinedInputClasses {
     /** Styles applied to the root element if `endAdornment` is provided. */
     var adornedEnd: String
 
-    /** Pseudo-class applied to the root element if `error={true}`. */
+    /** State class applied to the root element if `error={true}`. */
     var error: String
 
     /** Styles applied to the input element if `size="small"`. */

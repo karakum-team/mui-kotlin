@@ -9,7 +9,7 @@ external interface AutocompleteClasses {
     /** Styles applied to the root element if `fullWidth={true}`. */
     var fullWidth: String
 
-    /** Pseudo-class applied to the root element if focused. */
+    /** State class applied to the root element if focused. */
     var focused: String
 
     /** Styles applied to the tag elements, e.g. the chips. */

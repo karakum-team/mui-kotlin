@@ -9,7 +9,7 @@ external interface ListItemClasses {
     /** Styles applied to the container element if `children` includes `ListItemSecondaryAction`. */
     var container: String
 
-    /** Pseudo-class applied to the `component`'s `focusVisibleClassName` prop if `button={true}`. */
+    /** State class applied to the `component`'s `focusVisibleClassName` prop if `button={true}`. */
     var focusVisible: String
 
     /** Styles applied to the component element if dense. */
@@ -18,7 +18,7 @@ external interface ListItemClasses {
     /** Styles applied to the component element if `alignItems="flex-start"`. */
     var alignItemsFlexStart: String
 
-    /** Pseudo-class applied to the inner `component` element if `disabled={true}`. */
+    /** State class applied to the inner `component` element if `disabled={true}`. */
     var disabled: String
 
     /** Styles applied to the inner `component` element if `divider={true}`. */
@@ -36,6 +36,6 @@ external interface ListItemClasses {
     /** Styles applied to the component element if `children` includes `ListItemSecondaryAction`. */
     var secondaryAction: String
 
-    /** Pseudo-class applied to the root element if `selected={true}`. */
+    /** State class applied to the root element if `selected={true}`. */
     var selected: String
 }
