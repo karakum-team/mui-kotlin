@@ -8,6 +8,7 @@ package material
 external interface RadioProps : react.Props {
     /**
      * The icon to display when the component is checked.
+     * @default <RadioButtonIcon checked />
      */
     var checkedIcon: react.ReactNode
 
@@ -29,6 +30,7 @@ external interface RadioProps : react.Props {
 
     /**
      * The icon to display when the component is unchecked.
+     * @default <RadioButtonIcon />
      */
     var icon: react.ReactNode
 

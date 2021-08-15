@@ -20,7 +20,7 @@ external interface ToggleButtonGroupProps : react.PropsWithChildren {
      * The color of a button when it is selected.
      * @default 'standard'
      */
-    var color: Union /* 'standard' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' */
+    var color: Union /* 'standard' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning', ToggleButtonGroupPropsColorOverrides */
 
     /**
      * If `true`, only allow one of the child ToggleButton values to be selected.

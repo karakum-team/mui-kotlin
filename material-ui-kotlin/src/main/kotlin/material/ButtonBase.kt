@@ -83,7 +83,6 @@ external interface ButtonBaseProps : react.PropsWithChildren {
      */
     var sx: SxProps<Theme>
 
-    // @types/react is stricter
     /**
      * @default 0
      */
