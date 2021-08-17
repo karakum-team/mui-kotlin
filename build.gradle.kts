@@ -9,5 +9,5 @@ allprojects {
 }
 
 tasks.wrapper {
-    gradleVersion = "7.1.1"
+    gradleVersion = "7.2"
 }
