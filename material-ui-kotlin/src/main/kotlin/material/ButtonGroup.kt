@@ -63,7 +63,7 @@ external interface ButtonGroupProps : react.PropsWithChildren {
      * `small` is equivalent to the dense button styling.
      * @default 'medium'
      */
-    var size: Union /* 'small' | 'medium' | 'large' */
+    var size: Union /* 'small' | 'medium' | 'large', ButtonGroupPropsSizeOverrides */
 
     /**
      * The variant to use.

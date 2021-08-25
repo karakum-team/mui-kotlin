@@ -16,7 +16,7 @@ external interface PopoverProps : react.PropsWithChildren {
      * An HTML element, or a function that returns one.
      * It's used to set the position of the popover.
      */
-    var anchorEl: dynamic
+    var anchorEl: (element: org.w3c.dom.Element) -> org.w3c.dom.Element
 
     /**
      * This is the point on the anchor where the popover's

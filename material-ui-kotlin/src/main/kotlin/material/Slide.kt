@@ -19,6 +19,12 @@ external interface SlideProps : react.Props {
     var children: react.ReactElement
 
     /**
+     * An HTML element, or a function that returns one.
+     * It's used to set the container the Slide is transitioning from.
+     */
+    var container: (element: org.w3c.dom.Element) -> org.w3c.dom.Element
+
+    /**
      * Direction the child node will enter from.
      * @default 'down'
      */
