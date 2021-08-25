@@ -22,7 +22,7 @@ external interface BottomNavigationProps : react.PropsWithChildren {
      * @param {React.SyntheticEvent} event The event source of the callback. **Warning**: This is a generic event not a change event.
      * @param {any} value We default to the index of the child.
      */
-    var onChange: (event: org.w3c.dom.events.Event, value: dynamic) -> Unit
+    var onChange: (event: react.dom.SyntheticEvent<*, *>, value: dynamic) -> Unit
 
     /**
      * If `true`, all `BottomNavigationAction`s will show their labels.

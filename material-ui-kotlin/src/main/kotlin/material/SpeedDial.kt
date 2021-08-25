@@ -52,7 +52,7 @@ external interface SpeedDialProps : react.PropsWithChildren {
      * @param {object} event The event source of the callback.
      * @param {string} reason Can be: `"toggle"`, `"blur"`, `"mouseLeave"`, `"escapeKeyDown"`.
      */
-    var onClose: (event: org.w3c.dom.events.Event, reason: CloseReason) -> Unit
+    var onClose: (event: react.dom.SyntheticEvent<*, *>, reason: CloseReason) -> Unit
 
     /**
      * Callback fired when the component requests to be open.
@@ -60,7 +60,7 @@ external interface SpeedDialProps : react.PropsWithChildren {
      * @param {object} event The event source of the callback.
      * @param {string} reason Can be: `"toggle"`, `"focus"`, `"mouseEnter"`.
      */
-    var onOpen: (event: org.w3c.dom.events.Event, reason: OpenReason) -> Unit
+    var onOpen: (event: react.dom.SyntheticEvent<*, *>, reason: OpenReason) -> Unit
 
     /**
      * If `true`, the component is shown.
