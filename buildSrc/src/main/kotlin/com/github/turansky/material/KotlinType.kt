@@ -92,12 +92,13 @@ internal fun kotlinType(
         return type.replace("React.ElementType", ELEMENT_TYPE)
 
     if (type.startsWith("React.") && "Handler<" in type) {
-        val eventType = type.removePrefix("React.")
-            .substringBefore("EventHandler<")
-            .takeIf { it != "React" && it != "Change" }
-            ?: ""
+        val handlerType = type.removePrefix("React.")
+            .replace("<any>", "<*>")
+            .replace("<{}>", "<*>")
+            .replace("<HTMLInputElement | HTMLTextAreaElement>", "<org.w3c.dom.HTMLElement>")
+            .replace("<HTMLTextAreaElement | HTMLInputElement>", "<org.w3c.dom.HTMLElement>")
 
-        return "(event: org.w3c.dom.events.${eventType}Event) -> Unit"
+        return "react.dom.$handlerType"
     }
 
     val propsType = type.removeSurrounding("React.JSXElementConstructor<", ">")
