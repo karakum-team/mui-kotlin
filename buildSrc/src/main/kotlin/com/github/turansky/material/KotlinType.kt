@@ -50,12 +50,12 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "null | Element | ((element: Element) => Element)" to "(element: org.w3c.dom.Element) -> org.w3c.dom.Element",
 
-    "(event: React.SyntheticEvent) => void" to "(event: org.w3c.dom.events.Event) -> Unit",
-    "(event: React.SyntheticEvent, checked: boolean) => void" to "(event: org.w3c.dom.events.Event, checked: Boolean) -> Unit",
-    "(event: React.SyntheticEvent, value: any) => void" to "(event: org.w3c.dom.events.Event, value: $DYNAMIC) -> Unit",
+    "(event: React.SyntheticEvent) => void" to "(event: react.dom.SyntheticEvent<*, *>) -> Unit",
+    "(event: React.SyntheticEvent, checked: boolean) => void" to "(event: react.dom.SyntheticEvent<*, *>, checked: Boolean) -> Unit",
+    "(event: React.SyntheticEvent, value: any) => void" to "(event: react.dom.SyntheticEvent<*, *>, value: $DYNAMIC) -> Unit",
 
-    "(event: React.SyntheticEvent<{}>, reason: CloseReason) => void" to "(event: org.w3c.dom.events.Event, reason: CloseReason) -> Unit",
-    "(event: React.SyntheticEvent<{}>, reason: OpenReason) => void" to "(event: org.w3c.dom.events.Event, reason: OpenReason) -> Unit",
+    "(event: React.SyntheticEvent<{}>, reason: CloseReason) => void" to "(event: react.dom.SyntheticEvent<*, *>, reason: CloseReason) -> Unit",
+    "(event: React.SyntheticEvent<{}>, reason: OpenReason) => void" to "(event: react.dom.SyntheticEvent<*, *>, reason: OpenReason) -> Unit",
 )
 
 internal fun kotlinType(
