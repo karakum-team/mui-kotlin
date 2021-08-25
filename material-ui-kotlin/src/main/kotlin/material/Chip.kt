@@ -63,7 +63,7 @@ external interface ChipProps : react.Props {
      * Callback fired when the delete icon is clicked.
      * If set, the delete icon will be shown.
      */
-    var onDelete: (event: org.w3c.dom.events.Event) -> Unit
+    var onDelete: react.dom.EventHandler<*>
 
     /**
      * The size of the component.
