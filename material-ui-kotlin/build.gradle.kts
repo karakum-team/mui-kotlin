@@ -4,7 +4,7 @@ plugins {
 }
 
 val materialVersion = property("material-ui.version") as String
-val kotlinWrappersVersion = "0.0.1-pre.237-kotlin-1.5.30"
+val kotlinWrappersVersion = "0.0.1-pre.238-kotlin-1.5.30"
 
 dependencies {
     implementation(npm("@material-ui/core", materialVersion))
