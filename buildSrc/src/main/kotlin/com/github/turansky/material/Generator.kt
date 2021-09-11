@@ -33,7 +33,7 @@ external interface TableCellBaseProps: react.PropsWithChildren
 external interface TablePaginationActionsProps: react.Props
 """
 
-private val UNSTYLED_ALIASES = setOf(
+private val CORE_ALIASES = setOf(
     "NoSsr",
     "Portal",
 )
@@ -52,11 +52,11 @@ fun generateKotlinDeclarations(
         .filter { it.name != "StyledEngineProvider" }
         .map {
             val fileName = "${it.name}.d.ts"
-            if (it.name !in UNSTYLED_ALIASES) {
+            if (it.name !in CORE_ALIASES) {
                 it
             } else {
                 it.parentFile.parentFile
-                    .resolve("unstyled")
+                    .resolve("core")
                     .resolve(it.name)
             }.resolve(fileName)
         }
