@@ -78,7 +78,7 @@ private fun String.isComponentName(): Boolean {
 }
 
 private fun moduleDeclaration(componentName: String): String =
-    "@file:JsModule(\"@material-ui/core/$componentName\")\n@file:JsNonModule"
+    "@file:JsModule(\"@mui/material/$componentName\")\n@file:JsNonModule"
 
 
 private fun generate(
