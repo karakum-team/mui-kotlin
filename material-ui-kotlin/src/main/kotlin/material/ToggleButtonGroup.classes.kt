@@ -9,6 +9,9 @@ external interface ToggleButtonGroupClasses {
     /** Styles applied to the root element if `orientation="vertical"`. */
     var vertical: String
 
+    /** State class applied to the root element if `disabled={true}`. */
+    var disabled: String
+
     /** Styles applied to the children. */
     var grouped: String
 

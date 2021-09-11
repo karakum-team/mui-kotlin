@@ -29,6 +29,12 @@ external interface ToggleButtonGroupProps : react.PropsWithChildren {
     var exclusive: Boolean
 
     /**
+     * If `true`, the component is disabled. This implies that all ToggleButton children will be disabled.
+     * @default false
+     */
+    var disabled: Boolean
+
+    /**
      * If `true`, the button group will take up the full width of its container.
      * @default false
      */
