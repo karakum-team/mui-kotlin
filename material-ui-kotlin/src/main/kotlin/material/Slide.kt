@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Slide")
+@file:JsModule("@mui/material/Slide")
 @file:JsNonModule
 
 package material

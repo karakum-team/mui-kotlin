@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/GlobalStyles")
+@file:JsModule("@mui/material/GlobalStyles")
 @file:JsNonModule
 
 package material

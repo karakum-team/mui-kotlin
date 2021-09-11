@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/ListItemSecondaryAction")
+@file:JsModule("@mui/material/ListItemSecondaryAction")
 @file:JsNonModule
 
 package material

@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/RadioGroup")
+@file:JsModule("@mui/material/RadioGroup")
 @file:JsNonModule
 
 package material

@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/ToggleButtonGroup")
+@file:JsModule("@mui/material/ToggleButtonGroup")
 @file:JsNonModule
 
 package material

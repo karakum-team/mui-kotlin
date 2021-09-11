@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/SpeedDial")
+@file:JsModule("@mui/material/SpeedDial")
 @file:JsNonModule
 
 package material

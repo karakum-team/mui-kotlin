@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Drawer")
+@file:JsModule("@mui/material/Drawer")
 @file:JsNonModule
 
 package material

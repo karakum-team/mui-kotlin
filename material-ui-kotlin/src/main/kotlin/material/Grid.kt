@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Grid")
+@file:JsModule("@mui/material/Grid")
 @file:JsNonModule
 
 package material

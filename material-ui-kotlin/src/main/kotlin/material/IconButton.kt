@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/IconButton")
+@file:JsModule("@mui/material/IconButton")
 @file:JsNonModule
 
 package material

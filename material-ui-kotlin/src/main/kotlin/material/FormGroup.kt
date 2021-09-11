@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/FormGroup")
+@file:JsModule("@mui/material/FormGroup")
 @file:JsNonModule
 
 package material

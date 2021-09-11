@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Fade")
+@file:JsModule("@mui/material/Fade")
 @file:JsNonModule
 
 package material

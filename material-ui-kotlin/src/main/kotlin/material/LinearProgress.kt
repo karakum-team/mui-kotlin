@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/LinearProgress")
+@file:JsModule("@mui/material/LinearProgress")
 @file:JsNonModule
 
 package material

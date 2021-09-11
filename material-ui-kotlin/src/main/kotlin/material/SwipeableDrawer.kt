@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/SwipeableDrawer")
+@file:JsModule("@mui/material/SwipeableDrawer")
 @file:JsNonModule
 
 package material

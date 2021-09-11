@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Pagination")
+@file:JsModule("@mui/material/Pagination")
 @file:JsNonModule
 
 package material

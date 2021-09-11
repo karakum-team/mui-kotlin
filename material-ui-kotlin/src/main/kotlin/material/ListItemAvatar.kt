@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/ListItemAvatar")
+@file:JsModule("@mui/material/ListItemAvatar")
 @file:JsNonModule
 
 package material

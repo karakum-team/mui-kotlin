@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/OutlinedInput")
+@file:JsModule("@mui/material/OutlinedInput")
 @file:JsNonModule
 
 package material

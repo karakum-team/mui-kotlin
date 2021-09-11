@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/AppBar")
+@file:JsModule("@mui/material/AppBar")
 @file:JsNonModule
 
 package material

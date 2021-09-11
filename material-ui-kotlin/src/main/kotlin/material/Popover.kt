@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Popover")
+@file:JsModule("@mui/material/Popover")
 @file:JsNonModule
 
 package material

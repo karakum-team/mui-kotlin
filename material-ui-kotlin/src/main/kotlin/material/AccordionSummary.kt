@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/AccordionSummary")
+@file:JsModule("@mui/material/AccordionSummary")
 @file:JsNonModule
 
 package material

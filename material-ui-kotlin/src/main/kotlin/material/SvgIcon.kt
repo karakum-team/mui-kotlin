@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/SvgIcon")
+@file:JsModule("@mui/material/SvgIcon")
 @file:JsNonModule
 
 package material

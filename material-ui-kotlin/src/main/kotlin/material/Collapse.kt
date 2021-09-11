@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Collapse")
+@file:JsModule("@mui/material/Collapse")
 @file:JsNonModule
 
 package material

@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/TextField")
+@file:JsModule("@mui/material/TextField")
 @file:JsNonModule
 
 package material

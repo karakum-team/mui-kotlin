@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/FormControl")
+@file:JsModule("@mui/material/FormControl")
 @file:JsNonModule
 
 package material

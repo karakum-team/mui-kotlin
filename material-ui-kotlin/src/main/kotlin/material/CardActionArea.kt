@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/CardActionArea")
+@file:JsModule("@mui/material/CardActionArea")
 @file:JsNonModule
 
 package material

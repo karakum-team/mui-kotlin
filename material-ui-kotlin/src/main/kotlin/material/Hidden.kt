@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Hidden")
+@file:JsModule("@mui/material/Hidden")
 @file:JsNonModule
 
 package material

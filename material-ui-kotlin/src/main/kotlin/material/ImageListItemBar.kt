@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/ImageListItemBar")
+@file:JsModule("@mui/material/ImageListItemBar")
 @file:JsNonModule
 
 package material

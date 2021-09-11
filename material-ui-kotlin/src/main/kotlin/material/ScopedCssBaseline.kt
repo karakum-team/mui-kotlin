@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/ScopedCssBaseline")
+@file:JsModule("@mui/material/ScopedCssBaseline")
 @file:JsNonModule
 
 package material

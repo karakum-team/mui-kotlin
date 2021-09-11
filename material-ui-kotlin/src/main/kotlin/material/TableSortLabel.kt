@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/TableSortLabel")
+@file:JsModule("@mui/material/TableSortLabel")
 @file:JsNonModule
 
 package material

@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Table")
+@file:JsModule("@mui/material/Table")
 @file:JsNonModule
 
 package material

@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/DialogActions")
+@file:JsModule("@mui/material/DialogActions")
 @file:JsNonModule
 
 package material

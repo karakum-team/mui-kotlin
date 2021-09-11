@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/TabScrollButton")
+@file:JsModule("@mui/material/TabScrollButton")
 @file:JsNonModule
 
 package material

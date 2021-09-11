@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/ListItemButton")
+@file:JsModule("@mui/material/ListItemButton")
 @file:JsNonModule
 
 package material

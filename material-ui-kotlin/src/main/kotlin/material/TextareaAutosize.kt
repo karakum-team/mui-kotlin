@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/TextareaAutosize")
+@file:JsModule("@mui/material/TextareaAutosize")
 @file:JsNonModule
 
 package material

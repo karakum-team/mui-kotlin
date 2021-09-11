@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Typography")
+@file:JsModule("@mui/material/Typography")
 @file:JsNonModule
 
 package material

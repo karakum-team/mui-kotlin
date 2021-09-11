@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Radio")
+@file:JsModule("@mui/material/Radio")
 @file:JsNonModule
 
 package material

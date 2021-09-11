@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/FilledInput")
+@file:JsModule("@mui/material/FilledInput")
 @file:JsNonModule
 
 package material

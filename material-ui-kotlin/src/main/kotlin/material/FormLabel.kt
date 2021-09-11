@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/FormLabel")
+@file:JsModule("@mui/material/FormLabel")
 @file:JsNonModule
 
 package material

@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Chip")
+@file:JsModule("@mui/material/Chip")
 @file:JsNonModule
 
 package material

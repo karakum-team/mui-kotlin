@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Backdrop")
+@file:JsModule("@mui/material/Backdrop")
 @file:JsNonModule
 
 package material

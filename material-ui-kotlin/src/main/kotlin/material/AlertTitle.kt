@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/AlertTitle")
+@file:JsModule("@mui/material/AlertTitle")
 @file:JsNonModule
 
 package material

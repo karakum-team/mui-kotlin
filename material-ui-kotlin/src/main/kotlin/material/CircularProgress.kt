@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/CircularProgress")
+@file:JsModule("@mui/material/CircularProgress")
 @file:JsNonModule
 
 package material

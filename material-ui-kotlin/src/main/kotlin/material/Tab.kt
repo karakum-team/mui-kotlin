@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Tab")
+@file:JsModule("@mui/material/Tab")
 @file:JsNonModule
 
 package material

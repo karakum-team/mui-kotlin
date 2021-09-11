@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Input")
+@file:JsModule("@mui/material/Input")
 @file:JsNonModule
 
 package material

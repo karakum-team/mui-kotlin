@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Tooltip")
+@file:JsModule("@mui/material/Tooltip")
 @file:JsNonModule
 
 package material

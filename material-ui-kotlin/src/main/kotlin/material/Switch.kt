@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Switch")
+@file:JsModule("@mui/material/Switch")
 @file:JsNonModule
 
 package material

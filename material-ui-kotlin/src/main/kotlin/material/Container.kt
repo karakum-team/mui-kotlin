@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Container")
+@file:JsModule("@mui/material/Container")
 @file:JsNonModule
 
 package material

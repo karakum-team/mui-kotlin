@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Autocomplete")
+@file:JsModule("@mui/material/Autocomplete")
 @file:JsNonModule
 
 package material

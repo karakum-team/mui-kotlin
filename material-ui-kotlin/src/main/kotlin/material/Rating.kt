@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Rating")
+@file:JsModule("@mui/material/Rating")
 @file:JsNonModule
 
 package material

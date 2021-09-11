@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/BottomNavigationAction")
+@file:JsModule("@mui/material/BottomNavigationAction")
 @file:JsNonModule
 
 package material

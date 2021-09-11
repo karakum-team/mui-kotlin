@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Zoom")
+@file:JsModule("@mui/material/Zoom")
 @file:JsNonModule
 
 package material

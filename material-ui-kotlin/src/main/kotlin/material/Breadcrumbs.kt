@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Breadcrumbs")
+@file:JsModule("@mui/material/Breadcrumbs")
 @file:JsNonModule
 
 package material

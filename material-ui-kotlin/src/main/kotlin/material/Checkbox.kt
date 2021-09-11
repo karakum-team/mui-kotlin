@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Checkbox")
+@file:JsModule("@mui/material/Checkbox")
 @file:JsNonModule
 
 package material

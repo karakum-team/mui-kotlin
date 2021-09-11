@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/StepButton")
+@file:JsModule("@mui/material/StepButton")
 @file:JsNonModule
 
 package material

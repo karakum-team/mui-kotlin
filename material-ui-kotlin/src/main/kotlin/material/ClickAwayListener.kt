@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/ClickAwayListener")
+@file:JsModule("@mui/material/ClickAwayListener")
 @file:JsNonModule
 
 package material

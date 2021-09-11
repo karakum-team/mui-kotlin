@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Popper")
+@file:JsModule("@mui/material/Popper")
 @file:JsNonModule
 
 package material

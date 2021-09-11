@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Badge")
+@file:JsModule("@mui/material/Badge")
 @file:JsNonModule
 
 package material

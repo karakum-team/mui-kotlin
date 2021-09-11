@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/Grow")
+@file:JsModule("@mui/material/Grow")
 @file:JsNonModule
 
 package material

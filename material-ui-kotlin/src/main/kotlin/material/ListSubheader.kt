@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@material-ui/core/ListSubheader")
+@file:JsModule("@mui/material/ListSubheader")
 @file:JsNonModule
 
 package material
