@@ -1,4 +1,4 @@
-package com.github.turansky.material
+package com.github.turansky.mui
 
 private const val PROMISE = "kotlin.js.Promise"
 
