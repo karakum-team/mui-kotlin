@@ -16,4 +16,4 @@ dependencyResolutionManagement {
     }
 }
 
-include("material-ui-kotlin")
+include("mui-kotlin")
