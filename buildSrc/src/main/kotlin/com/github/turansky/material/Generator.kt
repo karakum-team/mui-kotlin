@@ -12,7 +12,7 @@ private enum class Suppress {
 }
 
 // language=Kotlin
-private const val PACKAGE = "package material"
+private const val PACKAGE = "package mui.material"
 
 // language=Kotlin
 private const val ALIASES = """
@@ -42,7 +42,7 @@ fun generateKotlinDeclarations(
     typesDir: File,
     sourceDir: File,
 ) {
-    val targetDir = sourceDir.resolve("material")
+    val targetDir = sourceDir.resolve("mui/material")
         .also { it.mkdirs() }
 
     val directories = typesDir.listFiles { file -> file.isDirectory } ?: return
