@@ -1,4 +1,4 @@
-rootProject.name = "material-ui-kotlin"
+rootProject.name = "mui-kotlin"
 
 pluginManagement {
     plugins {
