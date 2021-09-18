@@ -46,11 +46,11 @@ external interface BottomNavigationProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Bottom Navigation](https://material-ui.com/components/bottom-navigation/)
+ * - [Bottom Navigation](https://mui.com/components/bottom-navigation/)
  *
  * API:
  *
- * - [BottomNavigation API](https://material-ui.com/api/bottom-navigation/)
+ * - [BottomNavigation API](https://mui.com/api/bottom-navigation/)
  */
 @JsName("default")
 external val BottomNavigation: react.FC<BottomNavigationProps>

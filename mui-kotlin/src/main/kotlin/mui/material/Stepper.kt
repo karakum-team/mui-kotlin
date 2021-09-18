@@ -58,11 +58,11 @@ external interface StepperProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Steppers](https://material-ui.com/components/steppers/)
+ * - [Steppers](https://mui.com/components/steppers/)
  *
  * API:
  *
- * - [Stepper API](https://material-ui.com/api/stepper/)
+ * - [Stepper API](https://mui.com/api/stepper/)
  */
 @JsName("default")
 external val Stepper: react.FC<StepperProps>

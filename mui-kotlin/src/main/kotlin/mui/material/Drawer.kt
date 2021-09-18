@@ -78,16 +78,16 @@ external interface DrawerProps : react.PropsWithChildren {
 }
 
 /**
- * The props of the [Modal](https://material-ui.com/api/modal/) component are available
+ * The props of the [Modal](https://mui.com/api/modal/) component are available
  * when `variant="temporary"` is set.
  *
  * Demos:
  *
- * - [Drawers](https://material-ui.com/components/drawers/)
+ * - [Drawers](https://mui.com/components/drawers/)
  *
  * API:
  *
- * - [Drawer API](https://material-ui.com/api/drawer/)
+ * - [Drawer API](https://mui.com/api/drawer/)
  */
 @JsName("default")
 external val Drawer: react.FC<DrawerProps>

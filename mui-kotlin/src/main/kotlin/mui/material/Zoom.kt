@@ -44,16 +44,16 @@ external interface ZoomProps : react.Props {
 
 /**
  * The Zoom transition can be used for the floating variant of the
- * [Button](https://material-ui.com/components/buttons/#floating-action-buttons) component.
+ * [Button](https://mui.com/components/buttons/#floating-action-buttons) component.
  * It uses [react-transition-group](https://github.com/reactjs/react-transition-group) internally.
  *
  * Demos:
  *
- * - [Transitions](https://material-ui.com/components/transitions/)
+ * - [Transitions](https://mui.com/components/transitions/)
  *
  * API:
  *
- * - [Zoom API](https://material-ui.com/api/zoom/)
+ * - [Zoom API](https://mui.com/api/zoom/)
  * - inherits [Transition API](https://reactcommunity.org/react-transition-group/transition#Transition-props)
  */
 @JsName("default")

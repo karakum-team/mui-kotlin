@@ -51,12 +51,12 @@ external interface RadioProps : react.Props {
  *
  * Demos:
  *
- * - [Radio Buttons](https://material-ui.com/components/radio-buttons/)
+ * - [Radio Buttons](https://mui.com/components/radio-buttons/)
  *
  * API:
  *
- * - [Radio API](https://material-ui.com/api/radio/)
- * - inherits [ButtonBase API](https://material-ui.com/api/button-base/)
+ * - [Radio API](https://mui.com/api/radio/)
+ * - inherits [ButtonBase API](https://mui.com/api/button-base/)
  */
 @JsName("default")
 external val Radio: react.FC<RadioProps>

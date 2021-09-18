@@ -49,13 +49,13 @@ external interface LinkProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Breadcrumbs](https://material-ui.com/components/breadcrumbs/)
- * - [Links](https://material-ui.com/components/links/)
+ * - [Breadcrumbs](https://mui.com/components/breadcrumbs/)
+ * - [Links](https://mui.com/components/links/)
  *
  * API:
  *
- * - [Link API](https://material-ui.com/api/link/)
- * - inherits [Typography API](https://material-ui.com/api/typography/)
+ * - [Link API](https://mui.com/api/link/)
+ * - inherits [Typography API](https://mui.com/api/typography/)
  */
 @JsName("default")
 external val Link: react.FC<LinkProps>

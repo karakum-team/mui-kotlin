@@ -37,11 +37,11 @@ external interface NoSsrProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [No Ssr](https://material-ui.com/components/no-ssr/)
+ * - [No Ssr](https://mui.com/components/no-ssr/)
  *
  * API:
  *
- * - [NoSsr API](https://material-ui.com/api/no-ssr/)
+ * - [NoSsr API](https://mui.com/api/no-ssr/)
  */
 @JsName("default")
 external val NoSsr: react.FC<NoSsrProps>

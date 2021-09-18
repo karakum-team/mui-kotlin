@@ -44,11 +44,11 @@ external interface AvatarGroupProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Avatars](https://material-ui.com/components/avatars/)
+ * - [Avatars](https://mui.com/components/avatars/)
  *
  * API:
  *
- * - [AvatarGroup API](https://material-ui.com/api/avatar-group/)
+ * - [AvatarGroup API](https://mui.com/api/avatar-group/)
  */
 @JsName("default")
 external val AvatarGroup: react.FC<AvatarGroupProps>

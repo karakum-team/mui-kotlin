@@ -41,11 +41,11 @@ external interface StackProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Stack](https://material-ui.com/components/stack/)
+ * - [Stack](https://mui.com/components/stack/)
  *
  * API:
  *
- * - [Stack API](https://material-ui.com/api/stack/)
+ * - [Stack API](https://mui.com/api/stack/)
  */
 @JsName("default")
 external val Stack: react.FC<StackProps>

@@ -45,12 +45,12 @@ external interface IconProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Icons](https://material-ui.com/components/icons/)
- * - [Material Icons](https://material-ui.com/components/material-icons/)
+ * - [Icons](https://mui.com/components/icons/)
+ * - [Material Icons](https://mui.com/components/material-icons/)
  *
  * API:
  *
- * - [Icon API](https://material-ui.com/api/icon/)
+ * - [Icon API](https://mui.com/api/icon/)
  */
 @JsName("default")
 external val Icon: react.FC<IconProps>

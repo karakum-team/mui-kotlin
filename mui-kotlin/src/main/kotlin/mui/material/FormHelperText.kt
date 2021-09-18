@@ -64,11 +64,11 @@ external interface FormHelperTextProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Text Fields](https://material-ui.com/components/text-fields/)
+ * - [Text Fields](https://mui.com/components/text-fields/)
  *
  * API:
  *
- * - [FormHelperText API](https://material-ui.com/api/form-helper-text/)
+ * - [FormHelperText API](https://mui.com/api/form-helper-text/)
  */
 @JsName("default")
 external val FormHelperText: react.FC<FormHelperTextProps>

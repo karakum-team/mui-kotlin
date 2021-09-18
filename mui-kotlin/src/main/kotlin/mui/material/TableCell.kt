@@ -71,11 +71,11 @@ external interface TableCellProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Tables](https://material-ui.com/components/tables/)
+ * - [Tables](https://mui.com/components/tables/)
  *
  * API:
  *
- * - [TableCell API](https://material-ui.com/api/table-cell/)
+ * - [TableCell API](https://mui.com/api/table-cell/)
  */
 @JsName("default")
 external val TableCell: react.FC<TableCellProps>

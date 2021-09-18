@@ -19,11 +19,11 @@ external interface BoxProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Box](https://material-ui.com/components/box/)
+ * - [Box](https://mui.com/components/box/)
  *
  * API:
  *
- * - [Box API](https://material-ui.com/api/box/)
+ * - [Box API](https://mui.com/api/box/)
  */
 @JsName("default")
 external val Box: react.FC<BoxProps>

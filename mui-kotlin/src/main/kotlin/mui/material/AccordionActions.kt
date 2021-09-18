@@ -32,11 +32,11 @@ external interface AccordionActionsProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Accordion](https://material-ui.com/components/accordion/)
+ * - [Accordion](https://mui.com/components/accordion/)
  *
  * API:
  *
- * - [AccordionActions API](https://material-ui.com/api/accordion-actions/)
+ * - [AccordionActions API](https://mui.com/api/accordion-actions/)
  */
 @JsName("default")
 external val AccordionActions: react.FC<AccordionActionsProps>

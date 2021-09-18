@@ -41,11 +41,11 @@ external interface TabScrollButtonProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Tabs](https://material-ui.com/components/tabs/)
+ * - [Tabs](https://mui.com/components/tabs/)
  *
  * API:
  *
- * - [TabScrollButton API](https://material-ui.com/api/tab-scroll-button/)
+ * - [TabScrollButton API](https://mui.com/api/tab-scroll-button/)
  */
 @JsName("default")
 external val TabScrollButton: react.FC<TabScrollButtonProps>

@@ -165,12 +165,12 @@ external interface SelectProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Selects](https://material-ui.com/components/selects/)
+ * - [Selects](https://mui.com/components/selects/)
  *
  * API:
  *
- * - [Select API](https://material-ui.com/api/select/)
- * - inherits [OutlinedInput API](https://material-ui.com/api/outlined-input/)
+ * - [Select API](https://mui.com/api/select/)
+ * - inherits [OutlinedInput API](https://mui.com/api/outlined-input/)
  */
 @JsName("default")
 external val Select: react.FC<SelectProps>

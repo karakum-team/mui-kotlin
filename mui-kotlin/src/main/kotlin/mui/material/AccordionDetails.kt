@@ -26,11 +26,11 @@ external interface AccordionDetailsProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Accordion](https://material-ui.com/components/accordion/)
+ * - [Accordion](https://mui.com/components/accordion/)
  *
  * API:
  *
- * - [AccordionDetails API](https://material-ui.com/api/accordion-details/)
+ * - [AccordionDetails API](https://mui.com/api/accordion-details/)
  */
 @JsName("default")
 external val AccordionDetails: react.FC<AccordionDetailsProps>

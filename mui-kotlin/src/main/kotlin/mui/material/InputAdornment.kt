@@ -51,11 +51,11 @@ external interface InputAdornmentProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Text Fields](https://material-ui.com/components/text-fields/)
+ * - [Text Fields](https://mui.com/components/text-fields/)
  *
  * API:
  *
- * - [InputAdornment API](https://material-ui.com/api/input-adornment/)
+ * - [InputAdornment API](https://mui.com/api/input-adornment/)
  */
 @JsName("default")
 external val InputAdornment: react.FC<InputAdornmentProps>

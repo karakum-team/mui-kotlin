@@ -65,11 +65,11 @@ external interface PaginationProps : react.Props {
  *
  * Demos:
  *
- * - [Pagination](https://material-ui.com/components/pagination/)
+ * - [Pagination](https://mui.com/components/pagination/)
  *
  * API:
  *
- * - [Pagination API](https://material-ui.com/api/pagination/)
+ * - [Pagination API](https://mui.com/api/pagination/)
  */
 @JsName("default")
 external val Pagination: react.FC<PaginationProps>

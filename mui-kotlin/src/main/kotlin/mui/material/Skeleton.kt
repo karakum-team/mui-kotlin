@@ -51,11 +51,11 @@ external interface SkeletonProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Skeleton](https://material-ui.com/components/skeleton/)
+ * - [Skeleton](https://mui.com/components/skeleton/)
  *
  * API:
  *
- * - [Skeleton API](https://material-ui.com/api/skeleton/)
+ * - [Skeleton API](https://mui.com/api/skeleton/)
  */
 @JsName("default")
 external val Skeleton: react.FC<SkeletonProps>

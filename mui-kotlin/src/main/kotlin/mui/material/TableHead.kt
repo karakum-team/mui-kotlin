@@ -26,11 +26,11 @@ external interface TableHeadProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Tables](https://material-ui.com/components/tables/)
+ * - [Tables](https://mui.com/components/tables/)
  *
  * API:
  *
- * - [TableHead API](https://material-ui.com/api/table-head/)
+ * - [TableHead API](https://mui.com/api/table-head/)
  */
 @JsName("default")
 external val TableHead: react.FC<TableHeadProps>

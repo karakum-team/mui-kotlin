@@ -60,12 +60,12 @@ external interface MobileStepperProps : react.Props {
  *
  * Demos:
  *
- * - [Steppers](https://material-ui.com/components/steppers/)
+ * - [Steppers](https://mui.com/components/steppers/)
  *
  * API:
  *
- * - [MobileStepper API](https://material-ui.com/api/mobile-stepper/)
- * - inherits [Paper API](https://material-ui.com/api/paper/)
+ * - [MobileStepper API](https://mui.com/api/mobile-stepper/)
+ * - inherits [Paper API](https://mui.com/api/paper/)
  */
 @JsName("default")
 external val MobileStepper: react.FC<MobileStepperProps>

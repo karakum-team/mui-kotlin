@@ -26,12 +26,12 @@ external interface InputProps : react.Props {
  *
  * Demos:
  *
- * - [Text Fields](https://material-ui.com/components/text-fields/)
+ * - [Text Fields](https://mui.com/components/text-fields/)
  *
  * API:
  *
- * - [Input API](https://material-ui.com/api/input/)
- * - inherits [InputBase API](https://material-ui.com/api/input-base/)
+ * - [Input API](https://mui.com/api/input/)
+ * - inherits [InputBase API](https://mui.com/api/input-base/)
  */
 @JsName("default")
 external val Input: react.FC<InputProps>

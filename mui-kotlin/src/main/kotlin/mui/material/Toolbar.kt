@@ -39,11 +39,11 @@ external interface ToolbarProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [App Bar](https://material-ui.com/components/app-bar/)
+ * - [App Bar](https://mui.com/components/app-bar/)
  *
  * API:
  *
- * - [Toolbar API](https://material-ui.com/api/toolbar/)
+ * - [Toolbar API](https://mui.com/api/toolbar/)
  */
 @JsName("default")
 external val Toolbar: react.FC<ToolbarProps>

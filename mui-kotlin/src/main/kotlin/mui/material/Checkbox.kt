@@ -110,13 +110,13 @@ external interface CheckboxProps : react.Props {
  *
  * Demos:
  *
- * - [Checkboxes](https://material-ui.com/components/checkboxes/)
- * - [Transfer List](https://material-ui.com/components/transfer-list/)
+ * - [Checkboxes](https://mui.com/components/checkboxes/)
+ * - [Transfer List](https://mui.com/components/transfer-list/)
  *
  * API:
  *
- * - [Checkbox API](https://material-ui.com/api/checkbox/)
- * - inherits [ButtonBase API](https://material-ui.com/api/button-base/)
+ * - [Checkbox API](https://mui.com/api/checkbox/)
+ * - inherits [ButtonBase API](https://mui.com/api/button-base/)
  */
 @JsName("default")
 external val Checkbox: react.FC<CheckboxProps>

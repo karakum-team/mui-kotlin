@@ -45,12 +45,12 @@ external interface PaperProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Cards](https://material-ui.com/components/cards/)
- * - [Paper](https://material-ui.com/components/paper/)
+ * - [Cards](https://mui.com/components/cards/)
+ * - [Paper](https://mui.com/components/paper/)
  *
  * API:
  *
- * - [Paper API](https://material-ui.com/api/paper/)
+ * - [Paper API](https://mui.com/api/paper/)
  */
 @JsName("default")
 external val Paper: react.FC<PaperProps>

@@ -60,11 +60,11 @@ external interface BreadcrumbsProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Breadcrumbs](https://material-ui.com/components/breadcrumbs/)
+ * - [Breadcrumbs](https://mui.com/components/breadcrumbs/)
  *
  * API:
  *
- * - [Breadcrumbs API](https://material-ui.com/api/breadcrumbs/)
+ * - [Breadcrumbs API](https://mui.com/api/breadcrumbs/)
  */
 @JsName("default")
 external val Breadcrumbs: react.FC<BreadcrumbsProps>

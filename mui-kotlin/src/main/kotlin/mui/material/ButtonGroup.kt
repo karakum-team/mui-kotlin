@@ -81,11 +81,11 @@ external interface ButtonGroupProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Button Group](https://material-ui.com/components/button-group/)
+ * - [Button Group](https://mui.com/components/button-group/)
  *
  * API:
  *
- * - [ButtonGroup API](https://material-ui.com/api/button-group/)
+ * - [ButtonGroup API](https://mui.com/api/button-group/)
  */
 @JsName("default")
 external val ButtonGroup: react.FC<ButtonGroupProps>

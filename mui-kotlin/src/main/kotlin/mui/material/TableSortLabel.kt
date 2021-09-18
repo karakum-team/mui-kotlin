@@ -51,12 +51,12 @@ external interface TableSortLabelProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Tables](https://material-ui.com/components/tables/)
+ * - [Tables](https://mui.com/components/tables/)
  *
  * API:
  *
- * - [TableSortLabel API](https://material-ui.com/api/table-sort-label/)
- * - inherits [ButtonBase API](https://material-ui.com/api/button-base/)
+ * - [TableSortLabel API](https://mui.com/api/table-sort-label/)
+ * - inherits [ButtonBase API](https://mui.com/api/button-base/)
  */
 @JsName("default")
 external val TableSortLabel: react.FC<TableSortLabelProps>

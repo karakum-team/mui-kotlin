@@ -116,7 +116,7 @@ external interface SnackbarProps : react.Props {
 
     /**
      * Props applied to the transition element.
-     * By default, the element is based on this [`Transition`](http://reactcommunity.org/react-transition-group/transition) component.
+     * By default, the element is based on this [`Transition`](https://reactcommunity.org/react-transition-group/transition) component.
      * @default {}
      */
     var TransitionProps: TransitionProps
@@ -132,11 +132,11 @@ external interface SnackbarOrigin {
  *
  * Demos:
  *
- * - [Snackbars](https://material-ui.com/components/snackbars/)
+ * - [Snackbars](https://mui.com/components/snackbars/)
  *
  * API:
  *
- * - [Snackbar API](https://material-ui.com/api/snackbar/)
+ * - [Snackbar API](https://mui.com/api/snackbar/)
  */
 @JsName("default")
 external val Snackbar: react.FC<SnackbarProps>

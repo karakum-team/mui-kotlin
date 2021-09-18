@@ -154,7 +154,7 @@ external interface TooltipProps : react.Props {
 
     /**
      * Props applied to the transition element.
-     * By default, the element is based on this [`Transition`](http://reactcommunity.org/react-transition-group/transition) component.
+     * By default, the element is based on this [`Transition`](https://reactcommunity.org/react-transition-group/transition) component.
      */
     var TransitionProps: TransitionProps
 }
@@ -163,11 +163,11 @@ external interface TooltipProps : react.Props {
  *
  * Demos:
  *
- * - [Tooltips](https://material-ui.com/components/tooltips/)
+ * - [Tooltips](https://mui.com/components/tooltips/)
  *
  * API:
  *
- * - [Tooltip API](https://material-ui.com/api/tooltip/)
+ * - [Tooltip API](https://mui.com/api/tooltip/)
  */
 @JsName("default")
 external val Tooltip: react.FC<TooltipProps>

@@ -68,12 +68,12 @@ external interface ToggleButtonProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Toggle Button](https://material-ui.com/components/toggle-button/)
+ * - [Toggle Button](https://mui.com/components/toggle-button/)
  *
  * API:
  *
- * - [ToggleButton API](https://material-ui.com/api/toggle-button/)
- * - inherits [ButtonBase API](https://material-ui.com/api/button-base/)
+ * - [ToggleButton API](https://mui.com/api/toggle-button/)
+ * - inherits [ButtonBase API](https://mui.com/api/button-base/)
  */
 @JsName("default")
 external val ToggleButton: react.FC<ToggleButtonProps>

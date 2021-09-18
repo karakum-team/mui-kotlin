@@ -111,7 +111,7 @@ external interface DialogProps : react.PropsWithChildren {
 
     /**
      * Props applied to the transition element.
-     * By default, the element is based on this [`Transition`](http://reactcommunity.org/react-transition-group/transition) component.
+     * By default, the element is based on this [`Transition`](https://reactcommunity.org/react-transition-group/transition) component.
      */
     var TransitionProps: TransitionProps
 }
@@ -121,12 +121,12 @@ external interface DialogProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Dialogs](https://material-ui.com/components/dialogs/)
+ * - [Dialogs](https://mui.com/components/dialogs/)
  *
  * API:
  *
- * - [Dialog API](https://material-ui.com/api/dialog/)
- * - inherits [Modal API](https://material-ui.com/api/modal/)
+ * - [Dialog API](https://mui.com/api/dialog/)
+ * - inherits [Modal API](https://mui.com/api/modal/)
  */
 @JsName("default")
 external val Dialog: react.FC<DialogProps>

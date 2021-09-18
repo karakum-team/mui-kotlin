@@ -34,12 +34,12 @@ external interface FilledInputProps : react.Props {
  *
  * Demos:
  *
- * - [Text Fields](https://material-ui.com/components/text-fields/)
+ * - [Text Fields](https://mui.com/components/text-fields/)
  *
  * API:
  *
- * - [FilledInput API](https://material-ui.com/api/filled-input/)
- * - inherits [InputBase API](https://material-ui.com/api/input-base/)
+ * - [FilledInput API](https://mui.com/api/filled-input/)
+ * - inherits [InputBase API](https://mui.com/api/input-base/)
  */
 @JsName("default")
 external val FilledInput: react.FC<FilledInputProps>

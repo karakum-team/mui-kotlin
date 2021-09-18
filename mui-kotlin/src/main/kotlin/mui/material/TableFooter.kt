@@ -26,11 +26,11 @@ external interface TableFooterProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Tables](https://material-ui.com/components/tables/)
+ * - [Tables](https://mui.com/components/tables/)
  *
  * API:
  *
- * - [TableFooter API](https://material-ui.com/api/table-footer/)
+ * - [TableFooter API](https://mui.com/api/table-footer/)
  */
 @JsName("default")
 external val TableFooter: react.FC<TableFooterProps>

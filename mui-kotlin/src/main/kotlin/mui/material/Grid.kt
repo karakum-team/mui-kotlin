@@ -121,11 +121,11 @@ external interface GridProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Grid](https://material-ui.com/components/grid/)
+ * - [Grid](https://mui.com/components/grid/)
  *
  * API:
  *
- * - [Grid API](https://material-ui.com/api/grid/)
+ * - [Grid API](https://mui.com/api/grid/)
  */
 @JsName("default")
 external val Grid: react.FC<GridProps>

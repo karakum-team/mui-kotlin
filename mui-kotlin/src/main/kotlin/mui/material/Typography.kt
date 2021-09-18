@@ -80,12 +80,12 @@ external interface TypographyProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Breadcrumbs](https://material-ui.com/components/breadcrumbs/)
- * - [Typography](https://material-ui.com/components/typography/)
+ * - [Breadcrumbs](https://mui.com/components/breadcrumbs/)
+ * - [Typography](https://mui.com/components/typography/)
  *
  * API:
  *
- * - [Typography API](https://material-ui.com/api/typography/)
+ * - [Typography API](https://mui.com/api/typography/)
  */
 @JsName("default")
 external val Typography: react.FC<TypographyProps>

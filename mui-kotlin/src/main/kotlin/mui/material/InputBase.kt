@@ -204,11 +204,11 @@ external interface InputBaseComponentProps : react.Props
  *
  * Demos:
  *
- * - [Text Fields](https://material-ui.com/components/text-fields/)
+ * - [Text Fields](https://mui.com/components/text-fields/)
  *
  * API:
  *
- * - [InputBase API](https://material-ui.com/api/input-base/)
+ * - [InputBase API](https://mui.com/api/input-base/)
  */
 @JsName("default")
 external val InputBase: react.FC<InputBaseProps>

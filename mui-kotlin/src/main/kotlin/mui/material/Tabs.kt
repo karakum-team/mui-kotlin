@@ -148,11 +148,11 @@ external interface TabsProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Tabs](https://material-ui.com/components/tabs/)
+ * - [Tabs](https://mui.com/components/tabs/)
  *
  * API:
  *
- * - [Tabs API](https://material-ui.com/api/tabs/)
+ * - [Tabs API](https://mui.com/api/tabs/)
  */
 @JsName("default")
 external val Tabs: react.FC<TabsProps>

@@ -124,7 +124,7 @@ external interface PopoverProps : react.PropsWithChildren {
 
     /**
      * Props applied to the transition element.
-     * By default, the element is based on this [`Transition`](http://reactcommunity.org/react-transition-group/transition) component.
+     * By default, the element is based on this [`Transition`](https://reactcommunity.org/react-transition-group/transition) component.
      * @default {}
      */
     var TransitionProps: TransitionProps
@@ -146,13 +146,13 @@ external interface PopoverPosition {
  *
  * Demos:
  *
- * - [Menus](https://material-ui.com/components/menus/)
- * - [Popover](https://material-ui.com/components/popover/)
+ * - [Menus](https://mui.com/components/menus/)
+ * - [Popover](https://mui.com/components/popover/)
  *
  * API:
  *
- * - [Popover API](https://material-ui.com/api/popover/)
- * - inherits [Modal API](https://material-ui.com/api/modal/)
+ * - [Popover API](https://mui.com/api/popover/)
+ * - inherits [Modal API](https://mui.com/api/modal/)
  */
 @JsName("default")
 external val Popover: react.FC<PopoverProps>

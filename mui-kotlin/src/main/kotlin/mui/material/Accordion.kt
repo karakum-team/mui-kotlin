@@ -62,7 +62,7 @@ external interface AccordionProps : react.PropsWithChildren {
 
     /**
      * Props applied to the transition element.
-     * By default, the element is based on this [`Transition`](http://reactcommunity.org/react-transition-group/transition) component.
+     * By default, the element is based on this [`Transition`](https://reactcommunity.org/react-transition-group/transition) component.
      */
     var TransitionProps: TransitionProps
 }
@@ -71,12 +71,12 @@ external interface AccordionProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Accordion](https://material-ui.com/components/accordion/)
+ * - [Accordion](https://mui.com/components/accordion/)
  *
  * API:
  *
- * - [Accordion API](https://material-ui.com/api/accordion/)
- * - inherits [Paper API](https://material-ui.com/api/paper/)
+ * - [Accordion API](https://mui.com/api/accordion/)
+ * - inherits [Paper API](https://mui.com/api/paper/)
  */
 @JsName("default")
 external val Accordion: react.FC<AccordionProps>

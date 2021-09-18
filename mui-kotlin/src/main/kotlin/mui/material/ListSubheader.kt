@@ -50,11 +50,11 @@ external interface ListSubheaderProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Lists](https://material-ui.com/components/lists/)
+ * - [Lists](https://mui.com/components/lists/)
  *
  * API:
  *
- * - [ListSubheader API](https://material-ui.com/api/list-subheader/)
+ * - [ListSubheader API](https://mui.com/api/list-subheader/)
  */
 @JsName("default")
 external val ListSubheader: react.FC<ListSubheaderProps>

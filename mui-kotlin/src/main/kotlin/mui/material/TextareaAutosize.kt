@@ -24,11 +24,11 @@ external interface TextareaAutosizeProps : react.Props {
  *
  * Demos:
  *
- * - [Textarea Autosize](https://material-ui.com/components/textarea-autosize/)
+ * - [Textarea Autosize](https://mui.com/components/textarea-autosize/)
  *
  * API:
  *
- * - [TextareaAutosize API](https://material-ui.com/api/textarea-autosize/)
+ * - [TextareaAutosize API](https://mui.com/api/textarea-autosize/)
  */
 @JsName("default")
 external val TextareaAutosize: react.FC<TextareaAutosizeProps>

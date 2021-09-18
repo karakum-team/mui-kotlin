@@ -133,11 +133,11 @@ external interface IconContainerProps : react.Props {
  *
  * Demos:
  *
- * - [Rating](https://material-ui.com/components/rating/)
+ * - [Rating](https://mui.com/components/rating/)
  *
  * API:
  *
- * - [Rating API](https://material-ui.com/api/rating/)
+ * - [Rating API](https://mui.com/api/rating/)
  */
 @JsName("default")
 external val Rating: react.FC<RatingProps>

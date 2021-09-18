@@ -59,12 +59,12 @@ external interface MenuItemProps : react.Props {
  *
  * Demos:
  *
- * - [Menus](https://material-ui.com/components/menus/)
+ * - [Menus](https://mui.com/components/menus/)
  *
  * API:
  *
- * - [MenuItem API](https://material-ui.com/api/menu-item/)
- * - inherits [ButtonBase API](https://material-ui.com/api/button-base/)
+ * - [MenuItem API](https://mui.com/api/menu-item/)
+ * - inherits [ButtonBase API](https://mui.com/api/button-base/)
  */
 @JsName("default")
 external val MenuItem: react.FC<MenuItemProps>

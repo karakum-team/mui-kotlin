@@ -61,11 +61,11 @@ external interface AvatarProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Avatars](https://material-ui.com/components/avatars/)
+ * - [Avatars](https://mui.com/components/avatars/)
  *
  * API:
  *
- * - [Avatar API](https://material-ui.com/api/avatar/)
+ * - [Avatar API](https://mui.com/api/avatar/)
  */
 @JsName("default")
 external val Avatar: react.FC<AvatarProps>

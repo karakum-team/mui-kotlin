@@ -27,11 +27,11 @@ external interface ListItemSecondaryActionProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Lists](https://material-ui.com/components/lists/)
+ * - [Lists](https://mui.com/components/lists/)
  *
  * API:
  *
- * - [ListItemSecondaryAction API](https://material-ui.com/api/list-item-secondary-action/)
+ * - [ListItemSecondaryAction API](https://mui.com/api/list-item-secondary-action/)
  */
 @JsName("default")
 external val ListItemSecondaryAction: react.FC<ListItemSecondaryActionProps>

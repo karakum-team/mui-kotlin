@@ -96,7 +96,7 @@ external interface SpeedDialProps : react.PropsWithChildren {
 
     /**
      * Props applied to the transition element.
-     * By default, the element is based on this [`Transition`](http://reactcommunity.org/react-transition-group/transition) component.
+     * By default, the element is based on this [`Transition`](https://reactcommunity.org/react-transition-group/transition) component.
      */
     var TransitionProps: TransitionProps
 }
@@ -105,11 +105,11 @@ external interface SpeedDialProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Speed Dial](https://material-ui.com/components/speed-dial/)
+ * - [Speed Dial](https://mui.com/components/speed-dial/)
  *
  * API:
  *
- * - [SpeedDial API](https://material-ui.com/api/speed-dial/)
+ * - [SpeedDial API](https://mui.com/api/speed-dial/)
  */
 @JsName("default")
 external val SpeedDial: react.FC<SpeedDialProps>

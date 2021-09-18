@@ -67,11 +67,11 @@ external interface CircularProgressProps : react.Props {
  *
  * Demos:
  *
- * - [Progress](https://material-ui.com/components/progress/)
+ * - [Progress](https://mui.com/components/progress/)
  *
  * API:
  *
- * - [CircularProgress API](https://material-ui.com/api/circular-progress/)
+ * - [CircularProgress API](https://mui.com/api/circular-progress/)
  */
 @JsName("default")
 external val CircularProgress: react.FC<CircularProgressProps>

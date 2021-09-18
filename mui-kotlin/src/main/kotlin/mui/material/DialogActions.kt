@@ -32,11 +32,11 @@ external interface DialogActionsProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Dialogs](https://material-ui.com/components/dialogs/)
+ * - [Dialogs](https://mui.com/components/dialogs/)
  *
  * API:
  *
- * - [DialogActions API](https://material-ui.com/api/dialog-actions/)
+ * - [DialogActions API](https://mui.com/api/dialog-actions/)
  */
 @JsName("default")
 external val DialogActions: react.FC<DialogActionsProps>

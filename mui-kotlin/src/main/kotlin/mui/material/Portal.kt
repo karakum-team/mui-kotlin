@@ -33,11 +33,11 @@ external interface PortalProps : react.PropsWithChildren {
  *
  * Demos:
  *
- * - [Portal](https://material-ui.com/components/portal/)
+ * - [Portal](https://mui.com/components/portal/)
  *
  * API:
  *
- * - [Portal API](https://material-ui.com/api/portal/)
+ * - [Portal API](https://mui.com/api/portal/)
  */
 @JsName("default")
 external val Portal: react.FC<PortalProps>

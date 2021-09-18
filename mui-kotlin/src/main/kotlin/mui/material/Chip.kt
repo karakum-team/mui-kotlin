@@ -88,11 +88,11 @@ external interface ChipProps : react.Props {
  *
  * Demos:
  *
- * - [Chips](https://material-ui.com/components/chips/)
+ * - [Chips](https://mui.com/components/chips/)
  *
  * API:
  *
- * - [Chip API](https://material-ui.com/api/chip/)
+ * - [Chip API](https://mui.com/api/chip/)
  */
 @JsName("default")
 external val Chip: react.FC<ChipProps>

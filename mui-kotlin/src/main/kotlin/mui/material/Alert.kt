@@ -78,12 +78,12 @@ external interface AlertProps : react.Props {
  *
  * Demos:
  *
- * - [Alert](https://material-ui.com/components/alert/)
+ * - [Alert](https://mui.com/components/alert/)
  *
  * API:
  *
- * - [Alert API](https://material-ui.com/api/alert/)
- * - inherits [Paper API](https://material-ui.com/api/paper/)
+ * - [Alert API](https://mui.com/api/alert/)
+ * - inherits [Paper API](https://mui.com/api/paper/)
  */
 @JsName("default")
 external val Alert: react.FC<AlertProps>
