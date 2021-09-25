@@ -24,7 +24,7 @@ external interface AvatarProps : react.PropsWithChildren {
     var classes: AvatarClasses
 
     /**
-     * <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes">Attributes</a> applied to the `img` element if the component is used to display an image.
+     * [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attributes) applied to the `img` element if the component is used to display an image.
      * It can be used to listen for the loading error event.
      */
     var imgProps: dynamic
