@@ -14,6 +14,10 @@ private enum class Suppress {
 // language=Kotlin
 private const val PACKAGE = "package mui.material"
 
+private val DEFAULT_IMPORTS = """
+import kotlinext.js.ReadonlyArray
+""".trimIndent()
+
 // language=Kotlin
 private const val ALIASES = """
 typealias Union = String
@@ -114,6 +118,7 @@ private fun fileContent(
         "// $GENERATOR_COMMENT",
         annotations,
         PACKAGE,
+        DEFAULT_IMPORTS,
         body,
     ).filter { it.isNotEmpty() }
         .joinToString("\n\n")

@@ -246,7 +246,7 @@ private fun convertMember(
         .joinToString("\n")
 }
 
-private const val CHILDREN = "override var children: Array<out react.ReactNode>?"
+private const val CHILDREN = "override var children: ReadonlyArray<react.ReactNode>?"
 
 private fun convertProperty(
     source: String,
