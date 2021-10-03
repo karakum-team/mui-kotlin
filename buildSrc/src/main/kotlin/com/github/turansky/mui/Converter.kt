@@ -2,6 +2,8 @@ package com.github.turansky.mui
 
 import java.io.File
 
+private const val UNION_MARKER = """/*union*/"""
+
 internal data class ConversionResult(
     val main: String,
     val extensions: String,
@@ -285,7 +287,7 @@ private fun convertUnion(
 
     val jsName = values.asSequence()
         .map { "${enumConstant(it)}: ${it.toIntOrNull() ?: "'$it'"}" }
-        .joinToString(", ", "@JsName(\"\"\"({", "})\"\"\")")
+        .joinToString(", ", "@JsName(\"\"\"($UNION_MARKER{", "}$UNION_MARKER)\"\"\")")
 
     val constantNames = values.asSequence()
         .map { "${enumConstant(it)},\n" }
