@@ -283,13 +283,12 @@ private fun convertUnion(
         .map { it.removeSurrounding("'") }
         .toList()
 
-    val uppercase = values.any { "-" in it }
     val jsName = values.asSequence()
-        .map { "${enumConstant(it, uppercase)}: ${it.toIntOrNull() ?: "'$it'"}" }
+        .map { "${enumConstant(it)}: ${it.toIntOrNull() ?: "'$it'"}" }
         .joinToString(", ", "@JsName(\"\"\"({", "})\"\"\")")
 
     val constantNames = values.asSequence()
-        .map { "${enumConstant(it, uppercase)},\n" }
+        .map { "${enumConstant(it)},\n" }
         .joinToString("")
 
     return """
@@ -310,15 +309,11 @@ private fun kotlinName(name: String): String =
 
 private fun enumConstant(
     value: String,
-    uppercase: Boolean,
 ): String =
     when {
         value.toIntOrNull() != null
         -> "s$value"
 
-        uppercase
-        -> value.replace("-", "_")
-            .toUpperCase()
-
         else -> value.removePrefix("@")
+            .kebabToCamel()
     }
