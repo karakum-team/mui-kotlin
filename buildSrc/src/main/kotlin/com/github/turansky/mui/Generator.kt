@@ -24,10 +24,11 @@ typealias Union = String
 """
 
 // language=Kotlin
-private const val STUBS = """
+private val STUBS = """
 external interface Theme
 
-external interface SxProps<T: Any>
+@Suppress("UNUSED_TYPEALIAS_PARAMETER")
+typealias SxProps<T> = react.CSSProperties
 
 external interface ResponsiveStyleValue<T: Any>
 
@@ -35,7 +36,7 @@ external interface TransitionProps: react.Props
 
 external interface TableCellBaseProps: react.PropsWithChildren
 external interface TablePaginationActionsProps: react.Props
-"""
+""".trimIndent()
 
 private val CORE_ALIASES = setOf(
     "NoSsr",
