@@ -47,6 +47,14 @@ fun generateKotlinDeclarations(
     typesDir: File,
     sourceDir: File,
 ) {
+    generateMaterialDeclarations(typesDir.resolve("material"), sourceDir)
+    // generateLabDeclarations(typesDir.resolve("lab"), sourceDir)
+}
+
+private fun generateMaterialDeclarations(
+    typesDir: File,
+    sourceDir: File,
+) {
     val targetDir = sourceDir.resolve("mui/material")
         .also { it.mkdirs() }
 
@@ -72,6 +80,21 @@ fun generateKotlinDeclarations(
 
     targetDir.resolve("Stubs.kt")
         .writeText(fileContent(body = STUBS))
+}
+
+private fun generateLabDeclarations(
+    typesDir: File,
+    sourceDir: File,
+) {
+    val targetDir = sourceDir.resolve("mui/lab")
+        .also { it.mkdirs() }
+
+    val directories = typesDir.listFiles { file -> file.isDirectory } ?: return
+
+    directories.asSequence()
+        .filter { it.name.isComponentName() }
+        .map { it.resolve("${it.name}.d.ts") }
+        .forEach { generate(it, targetDir) }
 }
 
 private fun String.isComponentName(): Boolean {

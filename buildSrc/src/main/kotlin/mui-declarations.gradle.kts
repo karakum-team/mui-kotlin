@@ -10,7 +10,7 @@ tasks {
 
         doLast {
             val typesDir = rootProject.buildDir
-                .resolve("js/node_modules/@mui/material")
+                .resolve("js/node_modules/@mui")
             val sourceDir = projectDir.resolve("src/main/kotlin")
 
             delete(sourceDir)
