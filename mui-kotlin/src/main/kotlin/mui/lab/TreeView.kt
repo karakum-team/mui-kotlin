@@ -5,6 +5,8 @@
 
 package mui.material
 
+external interface TreeViewProps : react.Props
+
 external interface MultiSelectTreeViewProps : react.Props {
     /**
      * Selected node ids. (Uncontrolled)
