@@ -108,6 +108,14 @@ private fun generateLabDeclarations(
         .filter { it.name !in EXCLUDED_TYPES }
         .filter { it.name.isComponentName() }
         .filter { !it.resolve("${it.name}.d.ts").readText().startsWith("export { default } from ") }
+        .onEach {
+            when (it.name) {
+                "TreeItem" -> {
+                    val file = it.resolve("${it.name}Content.d.ts")
+                    generate(file, targetDir, Package.lab)
+                }
+            }
+        }
         .map { it.resolve("${it.name}.d.ts") }
         .forEach { generate(it, targetDir, Package.lab) }
 }
