@@ -41,6 +41,9 @@ private val CORE_ALIASES = setOf(
 )
 
 private val EXCLUDED_TYPES = setOf(
+    "LoadingButton",
+    "PickersDay",
+
     "Timeline",
     "YearPicker",
 )
@@ -57,7 +60,7 @@ fun generateKotlinDeclarations(
     sourceDir: File,
 ) {
     generateMaterialDeclarations(typesDir.resolve("material"), sourceDir)
-    // generateLabDeclarations(typesDir.resolve("lab"), sourceDir)
+    generateLabDeclarations(typesDir.resolve("lab"), sourceDir)
 }
 
 private fun generateMaterialDeclarations(
@@ -104,6 +107,7 @@ private fun generateLabDeclarations(
         .filter { !it.name.startsWith("Adapter") }
         .filter { it.name !in EXCLUDED_TYPES }
         .filter { it.name.isComponentName() }
+        .filter { !it.resolve("${it.name}.d.ts").readText().startsWith("export { default } from ") }
         .map { it.resolve("${it.name}.d.ts") }
         .forEach { generate(it, targetDir, Package.lab) }
 }
@@ -157,7 +161,8 @@ private fun fileContent(
     sequenceOf(
         "// $GENERATOR_COMMENT",
         annotations,
-        "package mui.${pkg.name}",
+        // "package mui.${pkg.name}",
+        "package mui.material",
         DEFAULT_IMPORTS,
         body,
     ).filter { it.isNotEmpty() }
