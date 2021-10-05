@@ -15,7 +15,6 @@ external interface MonthPickerProps : react.Props {
      * Override or extend the styles applied to the component.
      */
     var classes: dynamic
-    var root: dynamic
 
     /** Date value for the MonthPicker */
     var date: dynamic
