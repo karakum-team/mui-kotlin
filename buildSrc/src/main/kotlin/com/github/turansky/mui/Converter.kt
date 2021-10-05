@@ -156,7 +156,7 @@ private fun findAdditionalProps(
         if (propsLike && interfaceName == propsName)
             return@mapNotNull null
 
-        if (!propsLike && !interfaceName.endsWith("Origin") && !interfaceName.endsWith("Position"))
+        if (!propsLike && !interfaceName.endsWith("Origin") && !interfaceName.endsWith("Position") && !interfaceName.endsWith("Classes"))
             return@mapNotNull null
 
         val membersContent = if (interfaceName != "InputBaseComponentProps") {
