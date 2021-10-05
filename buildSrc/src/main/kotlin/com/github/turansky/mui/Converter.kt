@@ -40,6 +40,7 @@ internal fun convertDefinitions(
 
     val content = definitionFile.readText()
         .replace("\r\n", "\n")
+        .removeInlineClasses()
 
     val declarations = mutableListOf<String>()
 
@@ -73,6 +74,27 @@ internal fun convertDefinitions(
         main = declarations.joinToString("\n\n"),
         extensions = enums.joinToString("\n\n"),
     )
+}
+
+private fun String.removeInlineClasses(): String =
+    removeInlineClasses("  classes: ")
+        .removeInlineClasses("  classes?: ")
+
+private fun String.removeInlineClasses(
+    trigger: String,
+): String {
+    if (trigger !in this)
+        return this
+
+    val parts = split(trigger)
+    if (parts.size != 2)
+        return this
+
+    val (s, e) = parts
+    if (!e.startsWith("{"))
+        return this
+
+    return s + "  classes?: unknown;" + e.substringAfter("};")
 }
 
 private fun findProps(
