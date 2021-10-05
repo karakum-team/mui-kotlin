@@ -88,9 +88,13 @@ private fun findProps(
         .singleOrNull { it.isNotEmpty() }
         ?: return null
 
-    val membersContent = propsContent
+    val source = propsContent
         .substringAfter("{\n")
-        .substringBefore(";\n}")
+
+    val membersContent = source
+        .takeIf { !it.startsWith("}\n") }
+        ?.substringBefore(";\n}")
+        ?: ""
 
     val body = convertMembers(membersContent)
     return props(propsName, CHILDREN in body) + " {\n" +
@@ -191,7 +195,11 @@ private fun findComponent(
         return null
 
     var comment = content.substringBefore("\n$declaration")
-        .substringAfterLast("\n\n")
+    comment = if ("\n\n" in comment) {
+        comment.substringAfterLast("\n\n")
+    } else {
+        comment.substringAfterLast("};\n")
+    }
 
     if (comment.startsWith("export "))
         comment = comment

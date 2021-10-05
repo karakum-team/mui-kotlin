@@ -11,9 +11,6 @@ private enum class Suppress {
     ;
 }
 
-// language=Kotlin
-private const val PACKAGE = "package mui.material"
-
 private val DEFAULT_IMPORTS = """
 import kotlinext.js.ReadonlyArray
 """.trimIndent()
@@ -42,6 +39,18 @@ private val CORE_ALIASES = setOf(
     "NoSsr",
     "Portal",
 )
+
+private val EXCLUDED_TYPES = setOf(
+    "Timeline",
+    "YearPicker",
+)
+
+private enum class Package {
+    material,
+    lab,
+
+    ;
+}
 
 fun generateKotlinDeclarations(
     typesDir: File,
@@ -73,13 +82,13 @@ private fun generateMaterialDeclarations(
                     .resolve(it.name)
             }.resolve(fileName)
         }
-        .forEach { generate(it, targetDir) }
+        .forEach { generate(it, targetDir, Package.material) }
 
     targetDir.resolve("Aliases.kt")
-        .writeText(fileContent(body = ALIASES))
+        .writeText(fileContent(body = ALIASES, pkg = Package.material))
 
     targetDir.resolve("Stubs.kt")
-        .writeText(fileContent(body = STUBS))
+        .writeText(fileContent(body = STUBS, pkg = Package.material))
 }
 
 private fun generateLabDeclarations(
@@ -92,9 +101,11 @@ private fun generateLabDeclarations(
     val directories = typesDir.listFiles { file -> file.isDirectory } ?: return
 
     directories.asSequence()
+        .filter { !it.name.startsWith("Adapter") }
+        .filter { it.name !in EXCLUDED_TYPES }
         .filter { it.name.isComponentName() }
         .map { it.resolve("${it.name}.d.ts") }
-        .forEach { generate(it, targetDir) }
+        .forEach { generate(it, targetDir, Package.lab) }
 }
 
 private fun String.isComponentName(): Boolean {
@@ -105,24 +116,28 @@ private fun String.isComponentName(): Boolean {
     return char == char.toUpperCase() && char != char.toLowerCase()
 }
 
-private fun moduleDeclaration(componentName: String): String =
-    "@file:JsModule(\"@mui/material/$componentName\")\n@file:JsNonModule"
+private fun moduleDeclaration(
+    pkg: Package,
+    componentName: String,
+): String =
+    "@file:JsModule(\"@mui/${pkg.name}/$componentName\")\n@file:JsNonModule"
 
 
 private fun generate(
     definitionFile: File,
     targetDir: File,
+    pkg: Package,
 ) {
     val componentName = definitionFile.name.substringBefore(".")
     val (body, extensions) = convertDefinitions(definitionFile)
 
-    val annotations = moduleDeclaration(componentName)
+    val annotations = moduleDeclaration(pkg, componentName)
     targetDir.resolve("$componentName.kt")
-        .writeText(fileContent(annotations, body))
+        .writeText(fileContent(annotations, body, pkg))
 
     if (extensions.isNotEmpty()) {
         targetDir.resolve("$componentName.ext.kt")
-            .writeText(fileContent(body = extensions))
+            .writeText(fileContent(body = extensions, pkg = pkg))
     }
 
     val classesName = componentName + "Classes"
@@ -130,18 +145,19 @@ private fun generate(
     if (classesFile.exists()) {
         val classes = convertClasses(classesName, classesFile)
         targetDir.resolve("$componentName.classes.kt")
-            .writeText(fileContent(body = classes))
+            .writeText(fileContent(body = classes, pkg = pkg))
     }
 }
 
 private fun fileContent(
     annotations: String = "",
     body: String,
+    pkg: Package,
 ) =
     sequenceOf(
         "// $GENERATOR_COMMENT",
         annotations,
-        PACKAGE,
+        "package mui.${pkg.name}",
         DEFAULT_IMPORTS,
         body,
     ).filter { it.isNotEmpty() }
