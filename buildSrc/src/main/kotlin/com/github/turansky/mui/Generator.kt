@@ -41,9 +41,6 @@ private val CORE_ALIASES = setOf(
 )
 
 private val EXCLUDED_TYPES = setOf(
-    "LoadingButton",
-    "PickersDay",
-
     "Timeline",
     "YearPicker",
 )

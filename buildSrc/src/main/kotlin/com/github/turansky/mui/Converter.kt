@@ -91,10 +91,18 @@ private fun String.removeInlineClasses(
         return this
 
     val (s, e) = parts
-    if (!e.startsWith("{"))
-        return this
 
-    return s + "  classes?: unknown;" + e.substringAfter("};")
+    val type = when {
+        e.startsWith("Partial<ButtonClasses> & {")
+        -> "mui.material.ButtonClasses"
+
+        e.startsWith("{")
+        -> "unknown"
+
+        else -> return this
+    }
+
+    return s + "  classes?: $type;" + e.substringAfter("};")
 }
 
 private fun findProps(
