@@ -80,8 +80,11 @@ private fun findProps(
     propsName: String,
     content: String,
 ): String? {
-    if (name == "TextField")
-        return props(propsName)
+    when (name) {
+        "TextField",
+        "TreeView",
+        -> return props(propsName)
+    }
 
     val propsContent = sequenceOf(" ", "<", "\n")
         .map { content.substringAfter("export interface $propsName$it", "") }
