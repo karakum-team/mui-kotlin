@@ -84,3 +84,11 @@ external interface CalendarPickerProps : react.Props {
      */
     var views: dynamic
 }
+
+external interface CalendarPickerClasses {
+    /** Styles applied to the root element. */
+    var root: String
+
+    /** Styles applied to the transition group element. */
+    var viewTransitionContainer: String
+}

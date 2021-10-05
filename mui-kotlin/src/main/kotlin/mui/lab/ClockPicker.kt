@@ -80,6 +80,11 @@ external interface ClockPickerProps : react.Props {
     var view: dynamic
 }
 
+external interface ClockPickerClasses {
+    /** Styles applied to the arrowSwticher element. */
+    var arrowSwitcher: String
+}
+
 external interface ExportedClockPickerProps : react.Props {
     /**
      * 12h/24h view for hour selection clock.

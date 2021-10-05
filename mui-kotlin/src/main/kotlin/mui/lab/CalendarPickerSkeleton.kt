@@ -16,3 +16,14 @@ external interface CalendarPickerSkeletonProps : react.Props {
      */
     var sx: SxProps<Theme>
 }
+
+external interface CalendarPickerSkeletonClasses {
+    /** Styles applied to the root element. */
+    var root: String
+
+    /** Styles applied to the week element. */
+    var week: String
+
+    /** Styles applied to the day element. */
+    var daySkeleton: String
+}
