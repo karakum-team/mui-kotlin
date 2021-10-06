@@ -84,7 +84,7 @@ external interface SpeedDialProps : react.PropsWithChildren {
      * [Follow this guide](/components/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
      * @default Zoom
      */
-    var TransitionComponent: react.ComponentType<TransitionProps>
+    var TransitionComponent: react.ComponentType<mui.material.transitions.TransitionProps>
 
     /**
      * The duration for the transition, in milliseconds.

@@ -75,7 +75,7 @@ external interface TreeItemProps : react.PropsWithChildren {
      * [Follow this guide](/components/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
      * @default Collapse
      */
-    var TransitionComponent: react.ComponentType<TransitionProps>
+    var TransitionComponent: react.ComponentType<mui.material.transitions.TransitionProps>
 
     /**
      * Props applied to the transition element.
