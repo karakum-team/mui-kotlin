@@ -3,7 +3,7 @@
 @file:JsModule("@mui/lab/DateTimePicker")
 @file:JsNonModule
 
-package mui.material
+package mui.lab
 
 external interface DateTimePickerProps : react.Props {
     /**

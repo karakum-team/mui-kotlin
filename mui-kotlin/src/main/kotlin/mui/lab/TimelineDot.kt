@@ -3,7 +3,7 @@
 @file:JsModule("@mui/lab/TimelineDot")
 @file:JsNonModule
 
-package mui.material
+package mui.lab
 
 import kotlinext.js.ReadonlyArray
 
@@ -22,18 +22,18 @@ external interface TimelineDotProps : react.PropsWithChildren {
      * The dot can have a different colors.
      * @default 'grey'
      */
-    var color: Union /* 'inherit' | 'grey' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' */
+    var color: mui.system.Union /* 'inherit' | 'grey' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
      */
-    var sx: SxProps<Theme>
+    var sx: mui.system.SxProps<mui.system.Theme>
 
     /**
      * The dot can appear filled or outlined.
      * @default 'filled'
      */
-    var variant: Union /* 'filled' | 'outlined', TimelineDotPropsVariantOverrides */
+    var variant: mui.system.Union /* 'filled' | 'outlined', TimelineDotPropsVariantOverrides */
 }
 
 /**

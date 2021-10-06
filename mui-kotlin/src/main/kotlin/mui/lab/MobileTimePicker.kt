@@ -3,7 +3,7 @@
 @file:JsModule("@mui/lab/MobileTimePicker")
 @file:JsNonModule
 
-package mui.material
+package mui.lab
 
 external interface MobileTimePickerProps : react.Props
 

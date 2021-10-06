@@ -3,7 +3,7 @@
 @file:JsModule("@mui/lab/MasonryItem")
 @file:JsNonModule
 
-package mui.material
+package mui.lab
 
 external interface MasonryItemProps : react.Props {
     /**
@@ -30,7 +30,7 @@ external interface MasonryItemProps : react.Props {
     /**
      * Allows defining system overrides as well as additional CSS styles.
      */
-    var sx: SxProps<Theme>
+    var sx: mui.system.SxProps<mui.system.Theme>
 }
 
 /**

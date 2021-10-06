@@ -3,7 +3,7 @@
 @file:JsModule("@mui/lab/MonthPicker")
 @file:JsNonModule
 
-package mui.material
+package mui.lab
 
 external interface MonthPickerProps : react.Props {
     /**
@@ -39,5 +39,5 @@ external interface MonthPickerProps : react.Props {
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
      */
-    var sx: SxProps<Theme>
+    var sx: mui.system.SxProps<mui.system.Theme>
 }

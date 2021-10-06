@@ -3,7 +3,7 @@
 @file:JsModule("@mui/lab/DesktopDateRangePicker")
 @file:JsNonModule
 
-package mui.material
+package mui.lab
 
 external interface DesktopDateRangePickerProps : react.Props
 

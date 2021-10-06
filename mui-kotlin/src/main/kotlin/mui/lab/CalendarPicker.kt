@@ -3,7 +3,7 @@
 @file:JsModule("@mui/lab/CalendarPicker")
 @file:JsNonModule
 
-package mui.material
+package mui.lab
 
 external interface CalendarPickerProps : react.Props {
     var className: String

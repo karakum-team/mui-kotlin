@@ -3,7 +3,7 @@
 @file:JsModule("@mui/lab/CalendarPickerSkeleton")
 @file:JsNonModule
 
-package mui.material
+package mui.lab
 
 external interface CalendarPickerSkeletonProps : react.Props {
     /**
@@ -14,7 +14,7 @@ external interface CalendarPickerSkeletonProps : react.Props {
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
      */
-    var sx: SxProps<Theme>
+    var sx: mui.system.SxProps<mui.system.Theme>
 }
 
 external interface CalendarPickerSkeletonClasses {

@@ -28,7 +28,7 @@ external interface SpeedDialProps : react.PropsWithChildren {
      * The direction the actions open relative to the floating action button.
      * @default 'up'
      */
-    var direction: Union /* 'up' | 'down' | 'left' | 'right' */
+    var direction: mui.system.Union /* 'up' | 'down' | 'left' | 'right' */
 
     /**
      * If `true`, the SpeedDial is hidden.
@@ -77,7 +77,7 @@ external interface SpeedDialProps : react.PropsWithChildren {
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
      */
-    var sx: SxProps<Theme>
+    var sx: mui.system.SxProps<mui.system.Theme>
 
     /**
      * The component used for the transition.
@@ -100,7 +100,7 @@ external interface SpeedDialProps : react.PropsWithChildren {
      * Props applied to the transition element.
      * By default, the element is based on this [`Transition`](https://reactcommunity.org/react-transition-group/transition) component.
      */
-    var TransitionProps: TransitionProps
+    var TransitionProps: mui.material.transitions.TransitionProps
 }
 
 /**

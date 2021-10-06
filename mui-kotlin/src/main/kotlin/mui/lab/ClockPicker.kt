@@ -3,7 +3,7 @@
 @file:JsModule("@mui/lab/ClockPicker")
 @file:JsNonModule
 
-package mui.material
+package mui.lab
 
 external interface ClockPickerProps : react.Props {
     /**

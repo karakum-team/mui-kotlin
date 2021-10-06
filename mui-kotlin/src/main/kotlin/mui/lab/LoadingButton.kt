@@ -3,7 +3,7 @@
 @file:JsModule("@mui/lab/LoadingButton")
 @file:JsNonModule
 
-package mui.material
+package mui.lab
 
 external interface LoadingButtonProps : react.Props {
     /**
@@ -27,12 +27,12 @@ external interface LoadingButtonProps : react.Props {
      * The loading indicator can be positioned on the start, end, or the center of the button.
      * @default 'center'
      */
-    var loadingPosition: Union /* 'start' | 'end' | 'center' */
+    var loadingPosition: mui.system.Union /* 'start' | 'end' | 'center' */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
      */
-    var sx: SxProps<Theme>
+    var sx: mui.system.SxProps<mui.system.Theme>
 }
 
 /**

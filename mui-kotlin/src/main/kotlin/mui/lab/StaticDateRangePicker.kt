@@ -3,7 +3,7 @@
 @file:JsModule("@mui/lab/StaticDateRangePicker")
 @file:JsNonModule
 
-package mui.material
+package mui.lab
 
 external interface StaticDateRangePickerProps : react.Props {
     /**

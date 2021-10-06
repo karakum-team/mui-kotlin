@@ -3,7 +3,7 @@
 @file:JsModule("@mui/lab/TimelineItem")
 @file:JsNonModule
 
-package mui.material
+package mui.lab
 
 import kotlinext.js.ReadonlyArray
 
@@ -11,7 +11,7 @@ external interface TimelineItemProps : react.PropsWithChildren {
     /**
      * The position where the timeline's item should appear.
      */
-    var position: Union /* 'left' | 'right' */
+    var position: mui.system.Union /* 'left' | 'right' */
 
     /**
      * The content of the component.
@@ -26,7 +26,7 @@ external interface TimelineItemProps : react.PropsWithChildren {
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
      */
-    var sx: SxProps<Theme>
+    var sx: mui.system.SxProps<mui.system.Theme>
 }
 
 /**

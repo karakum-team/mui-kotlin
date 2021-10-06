@@ -3,7 +3,7 @@
 @file:JsModule("@mui/lab/TreeView")
 @file:JsNonModule
 
-package mui.material
+package mui.lab
 
 external interface TreeViewProps : react.Props
 

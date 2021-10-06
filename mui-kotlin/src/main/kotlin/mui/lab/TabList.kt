@@ -3,7 +3,7 @@
 @file:JsModule("@mui/lab/TabList")
 @file:JsNonModule
 
-package mui.material
+package mui.lab
 
 external interface TabListProps : react.Props
 

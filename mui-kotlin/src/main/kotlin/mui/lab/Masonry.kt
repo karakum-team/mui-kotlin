@@ -3,7 +3,7 @@
 @file:JsModule("@mui/lab/Masonry")
 @file:JsNonModule
 
-package mui.material
+package mui.lab
 
 import kotlinext.js.ReadonlyArray
 
@@ -22,18 +22,18 @@ external interface MasonryProps : react.PropsWithChildren {
      * Number of columns.
      * @default 4
      */
-    var columns: ResponsiveStyleValue<dynamic>
+    var columns: mui.system.ResponsiveStyleValue<dynamic>
 
     /**
      * Defines the space between children. It is a factor of the theme's spacing.
      * @default 1
      */
-    var spacing: ResponsiveStyleValue<dynamic>
+    var spacing: mui.system.ResponsiveStyleValue<dynamic>
 
     /**
      * Allows defining system overrides as well as additional CSS styles.
      */
-    var sx: SxProps<Theme>
+    var sx: mui.system.SxProps<mui.system.Theme>
 }
 
 /**

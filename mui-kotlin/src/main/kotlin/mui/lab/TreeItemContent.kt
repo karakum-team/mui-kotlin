@@ -3,7 +3,7 @@
 @file:JsModule("@mui/lab/TreeItemContent")
 @file:JsNonModule
 
-package mui.material
+package mui.lab
 
 external interface TreeItemContentProps : react.Props {
     /**

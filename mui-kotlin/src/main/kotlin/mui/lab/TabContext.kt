@@ -3,7 +3,7 @@
 @file:JsModule("@mui/lab/TabContext")
 @file:JsNonModule
 
-package mui.material
+package mui.lab
 
 import kotlinext.js.ReadonlyArray
 

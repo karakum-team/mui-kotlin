@@ -1,6 +1,6 @@
 // Automatically generated - do not modify!
 
-package mui.material
+package mui.lab
 
 external interface MasonryClasses {
     /** Styles applied to the root element. */
