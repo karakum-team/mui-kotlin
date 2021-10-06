@@ -168,6 +168,12 @@ private fun findMapProps(
     }
 }
 
+private val ADDITIONAL_PREFIXES = setOf(
+    "Origin",
+    "Position",
+    "Classes",
+)
+
 private fun findAdditionalProps(
     propsName: String,
     content: String,
@@ -189,7 +195,7 @@ private fun findAdditionalProps(
         if (propsLike && interfaceName == propsName)
             return@mapNotNull null
 
-        if (!propsLike && !interfaceName.endsWith("Origin") && !interfaceName.endsWith("Position") && !interfaceName.endsWith("Classes"))
+        if (!propsLike && ADDITIONAL_PREFIXES.all { !interfaceName.endsWith(it) })
             return@mapNotNull null
 
         val membersContent = if (interfaceName != "InputBaseComponentProps") {
