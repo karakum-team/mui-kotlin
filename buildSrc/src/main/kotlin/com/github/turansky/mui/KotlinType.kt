@@ -2,10 +2,8 @@ package com.github.turansky.mui
 
 private const val PROMISE = "kotlin.js.Promise"
 
-private val CLASS_REGEX = Regex("""[\w\d]+""")
-
 internal const val DYNAMIC = "dynamic"
-internal const val UNION = "Union"
+internal const val UNION = "mui.system.Union"
 
 private const val ELEMENT_TYPE = "react.ElementType"
 
@@ -15,9 +13,6 @@ private val KNOWN_TYPES = setOf(
     "GridWrap",
     "Orientation",
     "PopoverReference",
-
-    "SxProps<Theme>",
-    "TransitionProps",
 )
 
 private val STANDARD_TYPE_MAP = mapOf(
@@ -47,6 +42,9 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "React.Ref<unknown>" to "react.Ref<*>",
     "React.Ref<any>" to "react.Ref<*>",
+
+    "SxProps<Theme>" to "mui.system.SxProps<mui.system.Theme>",
+    "TransitionProps" to "mui.material.transitions.TransitionProps",
 
     "null | Element | ((element: Element) => Element)" to "(element: org.w3c.dom.Element) -> org.w3c.dom.Element",
 
@@ -82,7 +80,7 @@ internal fun kotlinType(
 
     val styleValueResult = type.removeSurrounding("ResponsiveStyleValue<", ">")
     if (styleValueResult != type)
-        return "ResponsiveStyleValue<${kotlinType(styleValueResult)}>"
+        return "mui.system.ResponsiveStyleValue<${kotlinType(styleValueResult)}>"
 
     val refResult = type.removeSurrounding("React.Ref<", ">")
     if (refResult != type)

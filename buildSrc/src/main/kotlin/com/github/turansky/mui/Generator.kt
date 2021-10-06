@@ -16,23 +16,32 @@ import kotlinext.js.ReadonlyArray
 """.trimIndent()
 
 // language=Kotlin
-private const val ALIASES = """
+private val SYSTEM_ALIASES = """
 typealias Union = String
-"""
+""".trimIndent()
 
 // language=Kotlin
-private val STUBS = """
+private val SYSTEM_STUBS = """
 external interface Theme
 
 @Suppress("UNUSED_TYPEALIAS_PARAMETER")
 typealias SxProps<T> = react.CSSProperties
 
 external interface ResponsiveStyleValue<T: Any>
+""".trimIndent()
 
+
+// language=Kotlin
+private val MATERIAL_STUBS = """
 external interface TransitionProps: react.Props
 
 external interface TableCellBaseProps: react.PropsWithChildren
 external interface TablePaginationActionsProps: react.Props
+""".trimIndent()
+
+// language=Kotlin
+private val TRANSITIONS_STUBS = """
+external interface TransitionProps: react.Props
 """.trimIndent()
 
 private val CORE_ALIASES = setOf(
@@ -47,18 +56,42 @@ private val EXCLUDED_TYPES = setOf(
 
 private enum class Package {
     material,
+    materialTransitions,
     lab,
+    system,
 
     ;
+
+    val pkg: String
+        get() = name.replace(Regex("""[A-Z]""")) { "." + it.value.toLowerCase() }
+
+    val path: String
+        get() = name.replace(Regex("""[A-Z]""")) { "/" + it.value.toLowerCase() }
 }
 
 fun generateKotlinDeclarations(
     typesDir: File,
     sourceDir: File,
 ) {
+    generateSystemDeclarations(sourceDir)
     generateMaterialDeclarations(typesDir.resolve("material"), sourceDir)
+    generateTransitionsDeclarations(sourceDir)
     generateLabDeclarations(typesDir.resolve("lab"), sourceDir)
 }
+
+private fun generateSystemDeclarations(
+    sourceDir: File,
+) {
+    val targetDir = sourceDir.resolve("mui/system")
+        .also { it.mkdirs() }
+
+    targetDir.resolve("Aliases.kt")
+        .writeText(fileContent(body = SYSTEM_ALIASES, pkg = Package.system))
+
+    targetDir.resolve("Stubs.kt")
+        .writeText(fileContent(body = SYSTEM_STUBS, pkg = Package.system))
+}
+
 
 private fun generateMaterialDeclarations(
     typesDir: File,
@@ -84,12 +117,21 @@ private fun generateMaterialDeclarations(
         }
         .forEach { generate(it, targetDir, Package.material) }
 
-    targetDir.resolve("Aliases.kt")
-        .writeText(fileContent(body = ALIASES, pkg = Package.material))
+    targetDir.resolve("Stubs.kt")
+        .writeText(fileContent(body = MATERIAL_STUBS, pkg = Package.material))
+}
+
+
+private fun generateTransitionsDeclarations(
+    sourceDir: File,
+) {
+    val targetDir = sourceDir.resolve("mui/material/transitions")
+        .also { it.mkdirs() }
 
     targetDir.resolve("Stubs.kt")
-        .writeText(fileContent(body = STUBS, pkg = Package.material))
+        .writeText(fileContent(body = TRANSITIONS_STUBS, pkg = Package.materialTransitions))
 }
+
 
 private fun generateLabDeclarations(
     typesDir: File,
@@ -166,8 +208,7 @@ private fun fileContent(
     sequenceOf(
         "// $GENERATOR_COMMENT",
         annotations,
-        // "package mui.${pkg.name}",
-        "package mui.material",
+        "package mui.${pkg.pkg}",
         DEFAULT_IMPORTS,
         body,
     ).filter { it.isNotEmpty() }
