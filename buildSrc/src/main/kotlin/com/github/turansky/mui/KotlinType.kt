@@ -101,7 +101,12 @@ internal fun kotlinType(
 
     val propsType = type.removeSurrounding("React.JSXElementConstructor<", ">")
     if (propsType != type) {
-        return "react.ComponentType<${propsType.takeIf { it.endsWith("Props") } ?: "*"}>"
+        val typeParameter = propsType
+            .takeIf { it.endsWith("Props") }
+            ?.let { STANDARD_TYPE_MAP[it] ?: it }
+            ?: "*"
+
+        return "react.ComponentType<$typeParameter>"
     }
 
     val partialResult = type.removeSurrounding("Partial<", ">")
