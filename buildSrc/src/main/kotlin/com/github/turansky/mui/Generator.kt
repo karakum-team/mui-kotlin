@@ -28,6 +28,10 @@ external interface Theme
 typealias SxProps<T> = react.CSSProperties
 
 external interface ResponsiveStyleValue<T: Any>
+
+external interface StandardProps: react.PropsWithClassName{
+    var style: react.CSSProperties?
+}
 """.trimIndent()
 
 
@@ -101,10 +105,13 @@ private fun generateMaterialDeclarations(
     val directories = typesDir.listFiles { file -> file.isDirectory } ?: return
 
     directories.asSequence()
-        .filter { it.name.isComponentName() }
+        .filter { it.name.isComponentName() || it.name == "internal" }
         .filter { it.name != "StyledEngineProvider" }
         .map {
-            val fileName = "${it.name}.d.ts"
+            val fileName = when (it.name) {
+                "internal" -> "SwitchBase.d.ts"
+                else -> "${it.name}.d.ts"
+            }
             if (it.name !in CORE_ALIASES) {
                 it
             } else {

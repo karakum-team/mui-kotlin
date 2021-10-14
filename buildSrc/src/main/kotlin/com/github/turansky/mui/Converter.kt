@@ -121,6 +121,36 @@ private fun findProps(
         .singleOrNull { it.isNotEmpty() }
         ?: return null
 
+    var parentType: String? = null
+    var annotations = ""
+    if (" extends " in content) {
+        val parentSource = content
+            .substringAfter(" extends ")
+            .substringBefore(" {\n")
+
+        if (parentSource.startsWith("StandardProps<")) {
+            parentType = sequenceOf(
+                "mui.system.StandardProps",
+                parentSource
+                    .removeSurrounding("StandardProps<", ">")
+                    .substringBefore(",")
+                    .removeSurrounding("Partial<", ">")
+                    .replace("React.HTMLAttributes<", "react.dom.html.HTMLAttributes<")
+                    .replace("React.LabelHTMLAttributes<", "react.dom.html.LabelHTMLAttributes<")
+                    .replace("<HTMLElement>", "<org.w3c.dom.HTMLElement>")
+                    .replace("<HTMLDivElement>", "<org.w3c.dom.HTMLDivElement>")
+                    .replace("<HTMLSpanElement>", "<org.w3c.dom.HTMLSpanElement>")
+                    .replace("<HTMLLIElement>", "<org.w3c.dom.HTMLLIElement>")
+                    .replace("<HTMLHeadingElement>", "<org.w3c.dom.HTMLHeadingElement>")
+                    .replace("<HTMLLabelElement>", "<org.w3c.dom.HTMLLabelElement>")
+                    .replace("TypographyProps", "mui.material.TypographyProps")
+                    .replace("TransitionProps", "mui.material.transitions.TransitionProps")
+            ).joinToString(",\n", "\n")
+
+            annotations = "@Suppress(\"VIRTUAL_MEMBER_HIDDEN\")\n"
+        }
+    }
+
     val source = propsContent
         .substringAfter("{\n")
 
@@ -130,7 +160,8 @@ private fun findProps(
         ?: ""
 
     val body = convertMembers(membersContent)
-    return props(propsName, CHILDREN in body) + " {\n" +
+    return annotations +
+            props(propsName, parentType, CHILDREN in body) + " {\n" +
             body +
             "\n}"
 }
@@ -160,7 +191,7 @@ private fun findMapProps(
 
     return if (membersContent.isNotEmpty()) {
         val body = convertMembers(membersContent)
-        props(propsName, CHILDREN in body) + " {\n" +
+        props(propsName, hasChildren = CHILDREN in body) + " {\n" +
                 body +
                 "\n}"
     } else {
@@ -205,7 +236,7 @@ private fun findAdditionalProps(
 
         val propsBody = convertMembers(membersContent)
         val declaration = if (propsLike) {
-            props(interfaceName, CHILDREN in propsBody)
+            props(interfaceName, hasChildren = CHILDREN in propsBody)
         } else {
             "external interface $interfaceName"
         }
@@ -218,10 +249,22 @@ private fun findAdditionalProps(
 
 private fun props(
     propsName: String,
+    parentType: String? = null,
     hasChildren: Boolean = false,
-): String =
-    "external interface $propsName: " +
-            if (hasChildren) "react.PropsWithChildren" else "react.Props"
+): String {
+    val parentTypes = when {
+        parentType != null && hasChildren
+        -> sequenceOf(parentType, "react.PropsWithChildren")
+            .joinToString(",\n")
+
+        parentType != null
+        -> parentType
+
+        else -> if (hasChildren) "react.PropsWithChildren" else "react.Props"
+    }
+
+    return "external interface $propsName: $parentTypes"
+}
 
 private fun findComponent(
     name: String,
