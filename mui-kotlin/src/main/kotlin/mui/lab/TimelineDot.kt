@@ -7,7 +7,11 @@ package mui.lab
 
 import kotlinext.js.ReadonlyArray
 
-external interface TimelineDotProps : react.PropsWithChildren {
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
+external interface TimelineDotProps :
+    mui.system.StandardProps,
+    react.dom.html.HTMLAttributes<org.w3c.dom.HTMLSpanElement>,
+    react.PropsWithChildren {
     /**
      * The content of the component.
      */

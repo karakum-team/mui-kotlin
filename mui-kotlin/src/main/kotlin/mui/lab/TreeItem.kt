@@ -7,7 +7,11 @@ package mui.lab
 
 import kotlinext.js.ReadonlyArray
 
-external interface TreeItemProps : react.PropsWithChildren {
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
+external interface TreeItemProps :
+    mui.system.StandardProps,
+    react.dom.html.HTMLAttributes<org.w3c.dom.HTMLLIElement>,
+    react.PropsWithChildren {
     /**
      * The content of the component.
      */

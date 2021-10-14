@@ -5,7 +5,10 @@
 
 package mui.lab
 
-external interface TreeItemContentProps : react.Props {
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
+external interface TreeItemContentProps :
+    mui.system.StandardProps,
+    react.dom.html.HTMLAttributes<org.w3c.dom.HTMLElement> {
     /**
      * className applied to the root element.
      */

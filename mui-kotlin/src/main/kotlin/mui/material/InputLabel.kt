@@ -7,7 +7,11 @@ package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-external interface InputLabelProps : react.PropsWithChildren {
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
+external interface InputLabelProps :
+    mui.system.StandardProps,
+    FormLabelProps,
+    react.PropsWithChildren {
     /**
      * The content of the component.
      */

@@ -5,7 +5,10 @@
 
 package mui.material
 
-external interface RadioProps : react.Props {
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
+external interface RadioProps :
+    mui.system.StandardProps,
+    SwitchBaseProps {
     /**
      * The icon to display when the component is checked.
      * @default <RadioButtonIcon checked />

@@ -5,7 +5,10 @@
 
 package mui.material
 
-external interface SwitchProps : react.Props {
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
+external interface SwitchProps :
+    mui.system.StandardProps,
+    SwitchBaseProps {
     /**
      * The icon to display when the component is checked.
      */

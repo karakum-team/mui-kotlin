@@ -7,7 +7,11 @@ package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-external interface ToggleButtonGroupProps : react.PropsWithChildren {
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
+external interface ToggleButtonGroupProps :
+    mui.system.StandardProps,
+    react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>,
+    react.PropsWithChildren {
     /**
      * The content of the component.
      */

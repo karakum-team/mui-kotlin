@@ -7,7 +7,11 @@ package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-external interface AvatarGroupProps : react.PropsWithChildren {
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
+external interface AvatarGroupProps :
+    mui.system.StandardProps,
+    react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>,
+    react.PropsWithChildren {
     /**
      * The avatars to stack.
      */

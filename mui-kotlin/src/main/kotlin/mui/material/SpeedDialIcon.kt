@@ -5,7 +5,10 @@
 
 package mui.material
 
-external interface SpeedDialIconProps : react.Props {
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
+external interface SpeedDialIconProps :
+    mui.system.StandardProps,
+    react.dom.html.HTMLAttributes<org.w3c.dom.HTMLSpanElement> {
     /**
      * Override or extend the styles applied to the component.
      */

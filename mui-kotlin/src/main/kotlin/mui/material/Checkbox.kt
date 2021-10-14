@@ -5,7 +5,10 @@
 
 package mui.material
 
-external interface CheckboxProps : react.Props {
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
+external interface CheckboxProps :
+    mui.system.StandardProps,
+    SwitchBaseProps {
     /**
      * If `true`, the component is checked.
      */

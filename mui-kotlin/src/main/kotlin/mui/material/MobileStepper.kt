@@ -5,7 +5,10 @@
 
 package mui.material
 
-external interface MobileStepperProps : react.Props {
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
+external interface MobileStepperProps :
+    mui.system.StandardProps,
+    PaperProps {
     /**
      * Set the active step (zero based index).
      * Defines which dot is highlighted when the variant is 'dots'.

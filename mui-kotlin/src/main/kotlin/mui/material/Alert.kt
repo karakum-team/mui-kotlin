@@ -5,7 +5,10 @@
 
 package mui.material
 
-external interface AlertProps : react.Props {
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
+external interface AlertProps :
+    mui.system.StandardProps,
+    PaperProps {
     /**
      * The action to display. It renders after the message, at the end of the alert.
      */

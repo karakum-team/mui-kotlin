@@ -5,7 +5,11 @@
 
 package mui.material
 
-external interface InputBaseProps : react.Props {
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
+external interface InputBaseProps :
+    mui.system.StandardProps,
+
+    react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement> {
     // var `aria-describedby`: String
 
     /**

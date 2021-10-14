@@ -7,7 +7,11 @@ package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-external interface AccordionProps : react.PropsWithChildren {
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
+external interface AccordionProps :
+    mui.system.StandardProps,
+    PaperProps,
+    react.PropsWithChildren {
     /**
      * The content of the component.
      */

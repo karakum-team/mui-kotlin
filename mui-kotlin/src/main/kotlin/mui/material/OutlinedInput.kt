@@ -5,7 +5,10 @@
 
 package mui.material
 
-external interface OutlinedInputProps : react.Props {
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
+external interface OutlinedInputProps :
+    mui.system.StandardProps,
+    InputBaseProps {
     /**
      * Override or extend the styles applied to the component.
      */

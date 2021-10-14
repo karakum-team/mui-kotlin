@@ -5,7 +5,10 @@
 
 package mui.material
 
-external interface StepIconProps : react.Props {
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
+external interface StepIconProps :
+    mui.system.StandardProps,
+    react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement> {
     /**
      * Whether this step is active.
      * @default false

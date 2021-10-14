@@ -7,7 +7,11 @@ package mui.lab
 
 import kotlinext.js.ReadonlyArray
 
-external interface TimelineContentProps : react.PropsWithChildren {
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
+external interface TimelineContentProps :
+    mui.system.StandardProps,
+    mui.material.TypographyProps,
+    react.PropsWithChildren {
     /**
      * The content of the component.
      */

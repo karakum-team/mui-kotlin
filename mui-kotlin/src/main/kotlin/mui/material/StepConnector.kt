@@ -5,7 +5,10 @@
 
 package mui.material
 
-external interface StepConnectorProps : react.Props {
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
+external interface StepConnectorProps :
+    mui.system.StandardProps,
+    react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement> {
     /**
      * Override or extend the styles applied to the component.
      */

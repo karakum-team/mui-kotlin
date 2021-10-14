@@ -7,7 +7,11 @@ package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-external interface TableCellProps : react.PropsWithChildren {
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
+external interface TableCellProps :
+    mui.system.StandardProps,
+    TableCellBaseProps,
+    react.PropsWithChildren {
     /**
      * Set the text-align on the table cell content.
      *

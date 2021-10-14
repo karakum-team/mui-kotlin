@@ -7,7 +7,11 @@ package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-external interface DrawerProps : react.PropsWithChildren {
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
+external interface DrawerProps :
+    mui.system.StandardProps,
+    ModalProps,
+    react.PropsWithChildren {
     /**
      * Side from which the drawer will appear.
      * @default 'left'

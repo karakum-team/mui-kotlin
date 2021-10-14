@@ -7,7 +7,11 @@ package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-external interface StepperProps : react.PropsWithChildren {
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
+external interface StepperProps :
+    mui.system.StandardProps,
+    PaperProps,
+    react.PropsWithChildren {
     /**
      * Set the active step (zero based index).
      * Set to -1 to disable all the steps.

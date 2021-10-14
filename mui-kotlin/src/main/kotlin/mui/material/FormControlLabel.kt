@@ -5,7 +5,10 @@
 
 package mui.material
 
-external interface FormControlLabelProps : react.Props {
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
+external interface FormControlLabelProps :
+    mui.system.StandardProps,
+    react.dom.html.LabelHTMLAttributes<org.w3c.dom.HTMLLabelElement> {
     /**
      * If `true`, the component appears selected.
      */

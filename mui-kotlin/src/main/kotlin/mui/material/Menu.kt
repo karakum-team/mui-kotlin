@@ -7,7 +7,11 @@ package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-external interface MenuProps : react.PropsWithChildren {
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
+external interface MenuProps :
+    mui.system.StandardProps,
+    PopoverProps,
+    react.PropsWithChildren {
     /**
      * An HTML element, or a function that returns one.
      * It's used to set the position of the menu.

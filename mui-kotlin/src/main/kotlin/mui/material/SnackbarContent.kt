@@ -5,7 +5,10 @@
 
 package mui.material
 
-external interface SnackbarContentProps : react.Props {
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
+external interface SnackbarContentProps :
+    mui.system.StandardProps,
+    PaperProps {
     /**
      * The action to display. It renders after the message, at the end of the snackbar.
      */

@@ -7,7 +7,11 @@ package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-external interface NativeSelectProps : react.PropsWithChildren {
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
+external interface NativeSelectProps :
+    mui.system.StandardProps,
+    InputProps,
+    react.PropsWithChildren {
     /**
      * The option elements to populate the select with.
      * Can be some `<option>` elements.
