@@ -3,9 +3,12 @@
 @file:JsModule("@mui/material/MobileStepper")
 @file:JsNonModule
 
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
+
 package mui.material
 
-@Suppress("VIRTUAL_MEMBER_HIDDEN")
 external interface MobileStepperProps :
     mui.system.StandardProps,
     PaperProps {

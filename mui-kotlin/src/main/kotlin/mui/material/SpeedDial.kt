@@ -3,11 +3,14 @@
 @file:JsModule("@mui/material/SpeedDial")
 @file:JsNonModule
 
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
+
 package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-@Suppress("VIRTUAL_MEMBER_HIDDEN")
 external interface SpeedDialProps :
     mui.system.StandardProps,
     react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>,

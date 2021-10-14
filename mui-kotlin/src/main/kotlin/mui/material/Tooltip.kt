@@ -3,9 +3,12 @@
 @file:JsModule("@mui/material/Tooltip")
 @file:JsNonModule
 
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
+
 package mui.material
 
-@Suppress("VIRTUAL_MEMBER_HIDDEN")
 external interface TooltipProps :
     mui.system.StandardProps,
     react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement> {

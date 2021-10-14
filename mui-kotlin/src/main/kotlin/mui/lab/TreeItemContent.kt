@@ -3,9 +3,12 @@
 @file:JsModule("@mui/lab/TreeItemContent")
 @file:JsNonModule
 
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
+
 package mui.lab
 
-@Suppress("VIRTUAL_MEMBER_HIDDEN")
 external interface TreeItemContentProps :
     mui.system.StandardProps,
     react.dom.html.HTMLAttributes<org.w3c.dom.HTMLElement> {

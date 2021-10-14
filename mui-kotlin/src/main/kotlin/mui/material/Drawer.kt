@@ -3,11 +3,14 @@
 @file:JsModule("@mui/material/Drawer")
 @file:JsNonModule
 
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
+
 package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-@Suppress("VIRTUAL_MEMBER_HIDDEN")
 external interface DrawerProps :
     mui.system.StandardProps,
     ModalProps,

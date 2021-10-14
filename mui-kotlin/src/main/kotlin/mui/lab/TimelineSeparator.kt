@@ -3,11 +3,14 @@
 @file:JsModule("@mui/lab/TimelineSeparator")
 @file:JsNonModule
 
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
+
 package mui.lab
 
 import kotlinext.js.ReadonlyArray
 
-@Suppress("VIRTUAL_MEMBER_HIDDEN")
 external interface TimelineSeparatorProps :
     mui.system.StandardProps,
     react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>,

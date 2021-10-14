@@ -3,11 +3,14 @@
 @file:JsModule("@mui/material/Stepper")
 @file:JsNonModule
 
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
+
 package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-@Suppress("VIRTUAL_MEMBER_HIDDEN")
 external interface StepperProps :
     mui.system.StandardProps,
     PaperProps,

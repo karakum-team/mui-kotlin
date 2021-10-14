@@ -3,11 +3,14 @@
 @file:JsModule("@mui/material/Collapse")
 @file:JsNonModule
 
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
+
 package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-@Suppress("VIRTUAL_MEMBER_HIDDEN")
 external interface CollapseProps :
     mui.system.StandardProps,
     mui.material.transitions.TransitionProps,

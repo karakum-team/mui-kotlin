@@ -3,11 +3,14 @@
 @file:JsModule("@mui/material/NativeSelect")
 @file:JsNonModule
 
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
+
 package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-@Suppress("VIRTUAL_MEMBER_HIDDEN")
 external interface NativeSelectProps :
     mui.system.StandardProps,
     InputProps,

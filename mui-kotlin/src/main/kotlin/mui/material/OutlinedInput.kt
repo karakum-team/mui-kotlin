@@ -3,9 +3,12 @@
 @file:JsModule("@mui/material/OutlinedInput")
 @file:JsNonModule
 
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
+
 package mui.material
 
-@Suppress("VIRTUAL_MEMBER_HIDDEN")
 external interface OutlinedInputProps :
     mui.system.StandardProps,
     InputBaseProps {

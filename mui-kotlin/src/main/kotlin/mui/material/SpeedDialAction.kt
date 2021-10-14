@@ -3,9 +3,12 @@
 @file:JsModule("@mui/material/SpeedDialAction")
 @file:JsNonModule
 
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
+
 package mui.material
 
-@Suppress("VIRTUAL_MEMBER_HIDDEN")
 external interface SpeedDialActionProps :
     mui.system.StandardProps,
     TooltipProps {

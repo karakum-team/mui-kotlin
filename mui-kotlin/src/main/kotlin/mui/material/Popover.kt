@@ -3,11 +3,14 @@
 @file:JsModule("@mui/material/Popover")
 @file:JsNonModule
 
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
+
 package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-@Suppress("VIRTUAL_MEMBER_HIDDEN")
 external interface PopoverProps :
     mui.system.StandardProps,
     ModalProps,

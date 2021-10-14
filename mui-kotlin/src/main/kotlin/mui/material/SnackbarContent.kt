@@ -3,9 +3,12 @@
 @file:JsModule("@mui/material/SnackbarContent")
 @file:JsNonModule
 
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
+
 package mui.material
 
-@Suppress("VIRTUAL_MEMBER_HIDDEN")
 external interface SnackbarContentProps :
     mui.system.StandardProps,
     PaperProps {

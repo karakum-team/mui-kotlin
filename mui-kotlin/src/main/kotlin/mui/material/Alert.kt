@@ -3,9 +3,12 @@
 @file:JsModule("@mui/material/Alert")
 @file:JsNonModule
 
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
+
 package mui.material
 
-@Suppress("VIRTUAL_MEMBER_HIDDEN")
 external interface AlertProps :
     mui.system.StandardProps,
     PaperProps {
