@@ -122,7 +122,6 @@ private fun findProps(
         ?: return null
 
     var parentType: String? = null
-    var annotations = ""
     if (" extends " in content) {
         val parentSource = content
             .substringAfter(" extends ")
@@ -146,8 +145,6 @@ private fun findProps(
                     .replace("TypographyProps", "mui.material.TypographyProps")
                     .replace("TransitionProps", "mui.material.transitions.TransitionProps")
             ).joinToString(",\n", "\n")
-
-            annotations = "@Suppress(\"VIRTUAL_MEMBER_HIDDEN\")\n"
         }
     }
 
@@ -160,8 +157,7 @@ private fun findProps(
         ?: ""
 
     val body = convertMembers(membersContent)
-    return annotations +
-            props(propsName, parentType, CHILDREN in body) + " {\n" +
+    return props(propsName, parentType, CHILDREN in body) + " {\n" +
             body +
             "\n}"
 }

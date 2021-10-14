@@ -187,7 +187,10 @@ private fun generate(
     val componentName = definitionFile.name.substringBefore(".")
     val (body, extensions) = convertDefinitions(definitionFile)
 
-    val annotations = moduleDeclaration(pkg, componentName)
+    var annotations = moduleDeclaration(pkg, componentName)
+    if ("mui.system.StandardProps" in body)
+        annotations += "\n\n@file:Suppress(\n\"VIRTUAL_MEMBER_HIDDEN\",\n)"
+
     targetDir.resolve("$componentName.kt")
         .writeText(fileContent(annotations, body, pkg))
 
