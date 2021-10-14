@@ -191,6 +191,7 @@ private fun generate(
     when (true) {
         componentName == "Popper",
         componentName == "RadioGroup",
+        componentName == "Rating",
         componentName == "SwipeableDrawer",
         "mui.system.StandardProps" in body,
         -> annotations += "\n\n@file:Suppress(\n\"VIRTUAL_MEMBER_HIDDEN\",\n)"

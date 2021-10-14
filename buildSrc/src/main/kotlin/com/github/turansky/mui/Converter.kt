@@ -146,6 +146,20 @@ private fun findProps(
                     .substringBefore(",")
                     .toTypeParameter()
             }
+
+            parentSource == "ListProps"
+            -> parentType = parentSource
+
+            parentSource == "HTMLDivProps"
+            -> parentType = "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>"
+
+            parentSource == "TransitionProps"
+            -> parentType = parentSource.toTypeParameter()
+
+            parentSource == "React.HTMLAttributes<HTMLSpanElement>"
+            -> parentType = parentSource.toTypeParameter()
+
+            else -> println(parentSource)
         }
     }
 
