@@ -127,24 +127,25 @@ private fun findProps(
             .substringAfter(" extends ")
             .substringBefore(" {\n")
 
-        if (parentSource.startsWith("StandardProps<")) {
-            parentType = sequenceOf(
-                "mui.system.StandardProps",
-                parentSource
-                    .removeSurrounding("StandardProps<", ">")
+        when {
+            "<TDate>" in parentSource -> Unit
+
+            parentSource.startsWith("StandardProps<") -> {
+                parentType = sequenceOf(
+                    "mui.system.StandardProps",
+                    parentSource
+                        .removeSurrounding("StandardProps<", ">")
+                        .substringBefore(",")
+                        .toTypeParameter()
+                ).joinToString(",\n", "\n")
+            }
+
+            parentSource.startsWith("Omit<") -> {
+                parentType = parentSource
+                    .removeSurrounding("Omit<", ">")
                     .substringBefore(",")
-                    .removeSurrounding("Partial<", ">")
-                    .replace("React.HTMLAttributes<", "react.dom.html.HTMLAttributes<")
-                    .replace("React.LabelHTMLAttributes<", "react.dom.html.LabelHTMLAttributes<")
-                    .replace("<HTMLElement>", "<org.w3c.dom.HTMLElement>")
-                    .replace("<HTMLDivElement>", "<org.w3c.dom.HTMLDivElement>")
-                    .replace("<HTMLSpanElement>", "<org.w3c.dom.HTMLSpanElement>")
-                    .replace("<HTMLLIElement>", "<org.w3c.dom.HTMLLIElement>")
-                    .replace("<HTMLHeadingElement>", "<org.w3c.dom.HTMLHeadingElement>")
-                    .replace("<HTMLLabelElement>", "<org.w3c.dom.HTMLLabelElement>")
-                    .replace("TypographyProps", "mui.material.TypographyProps")
-                    .replace("TransitionProps", "mui.material.transitions.TransitionProps")
-            ).joinToString(",\n", "\n")
+                    .toTypeParameter()
+            }
         }
     }
 

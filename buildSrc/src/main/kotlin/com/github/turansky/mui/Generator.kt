@@ -188,8 +188,13 @@ private fun generate(
     val (body, extensions) = convertDefinitions(definitionFile)
 
     var annotations = moduleDeclaration(pkg, componentName)
-    if ("mui.system.StandardProps" in body)
-        annotations += "\n\n@file:Suppress(\n\"VIRTUAL_MEMBER_HIDDEN\",\n)"
+    when (true) {
+        componentName == "Popper",
+        componentName == "RadioGroup",
+        componentName == "SwipeableDrawer",
+        "mui.system.StandardProps" in body,
+        -> annotations += "\n\n@file:Suppress(\n\"VIRTUAL_MEMBER_HIDDEN\",\n)"
+    }
 
     targetDir.resolve("$componentName.kt")
         .writeText(fileContent(annotations, body, pkg))
