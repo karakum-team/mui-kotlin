@@ -7,7 +7,8 @@ package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-external interface FabProps : react.PropsWithChildren {
+external interface FabProps : react.dom.html.ButtonHTMLAttributes<org.w3c.dom.HTMLButtonElement>,
+    react.PropsWithChildren {
     /**
      * The content of the component.
      */

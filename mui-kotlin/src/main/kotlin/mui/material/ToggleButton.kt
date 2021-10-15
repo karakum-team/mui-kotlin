@@ -7,7 +7,8 @@ package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-external interface ToggleButtonProps : react.PropsWithChildren {
+external interface ToggleButtonProps : react.dom.html.ButtonHTMLAttributes<org.w3c.dom.HTMLButtonElement>,
+    react.PropsWithChildren {
     /**
      * The content of the component.
      */

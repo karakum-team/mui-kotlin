@@ -7,7 +7,8 @@ package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-external interface SvgIconProps : react.PropsWithChildren {
+external interface SvgIconProps : react.dom.svg.SVGAttributes<org.w3c.dom.svg.SVGSVGElement>,
+    react.PropsWithChildren {
     /**
      * Node passed into the SVG element.
      */

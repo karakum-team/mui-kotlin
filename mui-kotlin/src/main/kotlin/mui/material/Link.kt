@@ -7,7 +7,8 @@ package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-external interface LinkProps : react.PropsWithChildren {
+external interface LinkProps : react.dom.html.AnchorHTMLAttributes<org.w3c.dom.HTMLAnchorElement>,
+    react.PropsWithChildren {
     /**
      * The content of the component.
      */
