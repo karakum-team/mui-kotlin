@@ -193,6 +193,13 @@ private fun generate(
         componentName == "RadioGroup",
         componentName == "Rating",
         componentName == "SwipeableDrawer",
+
+        componentName == "MasonryItem",
+        componentName == "BottomNavigation",
+        componentName == "ButtonBase",
+        componentName == "Link",
+        componentName == "Tab",
+
         "mui.system.StandardProps" in body,
         "var color: mui.system.Union" in body && componentName != "Pagination" && componentName != "TextField",
         -> annotations += "\n\n@file:Suppress(\n\"VIRTUAL_MEMBER_HIDDEN\",\n)"
