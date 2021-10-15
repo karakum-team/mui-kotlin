@@ -158,8 +158,6 @@ private fun findProps(
 
             parentSource == "React.HTMLAttributes<HTMLSpanElement>"
             -> parentType = parentSource.toTypeParameter()
-
-            else -> println(parentSource)
         }
     }
 
@@ -190,6 +188,13 @@ private fun findMapProps(
     ).firstOrNull { it.isNotEmpty() }
         ?: return null
 
+    val intrinsicType = propsContent
+        .substringBefore(" {\n")
+        .substringAfter(" D extends React.ElementType = '", "")
+        .substringBefore("'", "")
+
+    val parentType: String? = INTRINSIC_TYPE_MAP[intrinsicType]
+
     val membersContent = propsContent
         .substringAfter("props: P", "")
         .substringAfter(" & {\n", "")
@@ -202,11 +207,11 @@ private fun findMapProps(
 
     return if (membersContent.isNotEmpty()) {
         val body = convertMembers(membersContent)
-        props(propsName, hasChildren = CHILDREN in body) + " {\n" +
+        props(propsName, parentType, CHILDREN in body) + " {\n" +
                 body +
                 "\n}"
     } else {
-        props(propsName)
+        props(propsName, parentType)
     }
 }
 
