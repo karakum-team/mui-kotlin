@@ -11,7 +11,8 @@ package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-external interface FormControlProps : react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>,
+external interface FormControlProps :
+    react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>,
     react.PropsWithChildren {
     /**
      * The content of the component.

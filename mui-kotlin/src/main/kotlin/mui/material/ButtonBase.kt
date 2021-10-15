@@ -11,7 +11,8 @@ package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-external interface ButtonBaseProps : react.dom.html.ButtonHTMLAttributes<org.w3c.dom.HTMLButtonElement>,
+external interface ButtonBaseProps :
+    react.dom.html.ButtonHTMLAttributes<org.w3c.dom.HTMLButtonElement>,
     react.PropsWithChildren {
     /**
      * A ref for imperative actions.

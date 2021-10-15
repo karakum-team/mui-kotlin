@@ -11,7 +11,8 @@ package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-external interface ListSubheaderProps : react.dom.html.LiHTMLAttributes<org.w3c.dom.HTMLLIElement>,
+external interface ListSubheaderProps :
+    react.dom.html.LiHTMLAttributes<org.w3c.dom.HTMLLIElement>,
     react.PropsWithChildren {
     /**
      * The content of the component.

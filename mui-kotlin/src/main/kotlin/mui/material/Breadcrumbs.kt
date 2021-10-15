@@ -7,7 +7,8 @@ package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-external interface BreadcrumbsProps : react.dom.html.HTMLAttributes<org.w3c.dom.HTMLElement>,
+external interface BreadcrumbsProps :
+    react.dom.html.HTMLAttributes<org.w3c.dom.HTMLElement>,
     react.PropsWithChildren {
     /**
      * The content of the component.

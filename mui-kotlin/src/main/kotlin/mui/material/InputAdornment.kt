@@ -7,7 +7,8 @@ package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-external interface InputAdornmentProps : react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>,
+external interface InputAdornmentProps :
+    react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>,
     react.PropsWithChildren {
     /**
      * Override or extend the styles applied to the component.

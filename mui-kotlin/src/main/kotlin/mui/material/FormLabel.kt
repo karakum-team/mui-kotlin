@@ -11,7 +11,8 @@ package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-external interface FormLabelProps : react.dom.html.LabelHTMLAttributes<org.w3c.dom.HTMLLabelElement>,
+external interface FormLabelProps :
+    react.dom.html.LabelHTMLAttributes<org.w3c.dom.HTMLLabelElement>,
     react.PropsWithChildren {
     /**
      * The content of the component.

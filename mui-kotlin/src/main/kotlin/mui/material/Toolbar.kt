@@ -7,7 +7,8 @@ package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-external interface ToolbarProps : react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>,
+external interface ToolbarProps :
+    react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>,
     react.PropsWithChildren {
     /**
      * The Toolbar children, usually a mixture of `IconButton`, `Button` and `Typography`.

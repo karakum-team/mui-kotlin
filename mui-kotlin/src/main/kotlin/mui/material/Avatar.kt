@@ -7,7 +7,8 @@ package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-external interface AvatarProps : react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>,
+external interface AvatarProps :
+    react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>,
     react.PropsWithChildren {
     /**
      * Used in combination with `src` or `srcSet` to

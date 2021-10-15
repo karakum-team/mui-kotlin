@@ -11,7 +11,8 @@ package mui.material
 
 import kotlinext.js.ReadonlyArray
 
-external interface IconProps : react.dom.html.HTMLAttributes<org.w3c.dom.HTMLSpanElement>,
+external interface IconProps :
+    react.dom.html.HTMLAttributes<org.w3c.dom.HTMLSpanElement>,
     react.PropsWithChildren {
     /**
      * The base class applied to the icon. Defaults to 'material-icons', but can be changed to any
