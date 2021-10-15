@@ -273,8 +273,8 @@ private fun props(
         -> if (hasChildren) "react.PropsWithChildren" else "react.Props"
 
         hasChildren
-        -> sequenceOf(parentType, "react.PropsWithChildren")
-            .joinToString(",\n")
+        -> sequenceOf(parentType.removePrefix("\n"), "react.PropsWithChildren")
+            .joinToString(",\n", "\n")
 
         "\n" in parentType
         -> parentType
