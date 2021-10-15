@@ -3,6 +3,10 @@
 @file:JsModule("@mui/material/Tab")
 @file:JsNonModule
 
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
+
 package mui.material
 
 external interface TabProps :

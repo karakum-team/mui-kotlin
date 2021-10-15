@@ -3,6 +3,10 @@
 @file:JsModule("@mui/lab/MasonryItem")
 @file:JsNonModule
 
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
+
 package mui.lab
 
 external interface MasonryItemProps :
