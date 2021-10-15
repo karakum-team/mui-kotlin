@@ -194,6 +194,7 @@ private fun generate(
         componentName == "Rating",
         componentName == "SwipeableDrawer",
         "mui.system.StandardProps" in body,
+        "var color: mui.system.Union" in body && componentName != "Pagination" && componentName != "TextField",
         -> annotations += "\n\n@file:Suppress(\n\"VIRTUAL_MEMBER_HIDDEN\",\n)"
     }
 
