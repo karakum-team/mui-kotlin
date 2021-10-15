@@ -3,6 +3,10 @@
 @file:JsModule("@mui/material/AppBar")
 @file:JsNonModule
 
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
+
 package mui.material
 
 external interface AppBarProps :

@@ -3,6 +3,10 @@
 @file:JsModule("@mui/material/FormControl")
 @file:JsNonModule
 
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
+
 package mui.material
 
 import kotlinext.js.ReadonlyArray
