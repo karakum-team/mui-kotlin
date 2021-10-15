@@ -5,7 +5,8 @@
 
 package mui.lab
 
-external interface MasonryItemProps : react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement> {
+external interface MasonryItemProps :
+    react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement> {
     /**
      * The content of the component, normally an `<img />` or a `<div />`. It should be only one element.
      */

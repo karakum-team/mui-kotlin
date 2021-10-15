@@ -5,7 +5,8 @@
 
 package mui.material
 
-external interface AppBarProps : react.dom.html.HTMLAttributes<org.w3c.dom.HTMLElement> {
+external interface AppBarProps :
+    react.dom.html.HTMLAttributes<org.w3c.dom.HTMLElement> {
     /**
      * Override or extend the styles applied to the component.
      */

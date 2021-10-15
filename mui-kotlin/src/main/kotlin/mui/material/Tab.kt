@@ -5,7 +5,8 @@
 
 package mui.material
 
-external interface TabProps : react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement> {
+external interface TabProps :
+    react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement> {
     /**
      * This prop isn't supported.
      * Use the `component` prop if you need to change the children structure.

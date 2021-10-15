@@ -5,7 +5,8 @@
 
 package mui.material
 
-external interface SliderProps : react.dom.html.HTMLAttributes<org.w3c.dom.HTMLSpanElement> {
+external interface SliderProps :
+    react.dom.html.HTMLAttributes<org.w3c.dom.HTMLSpanElement> {
     /**
      * The color of the component. It supports those theme colors that make sense for this component.
      * @default 'primary'
