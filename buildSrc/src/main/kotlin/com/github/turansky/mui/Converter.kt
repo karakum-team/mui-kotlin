@@ -269,14 +269,17 @@ private fun props(
     hasChildren: Boolean = false,
 ): String {
     val parentTypes = when {
-        parentType != null && hasChildren
+        parentType == null
+        -> if (hasChildren) "react.PropsWithChildren" else "react.Props"
+
+        hasChildren
         -> sequenceOf(parentType, "react.PropsWithChildren")
             .joinToString(",\n")
 
-        parentType != null
+        "\n" in parentType
         -> parentType
 
-        else -> if (hasChildren) "react.PropsWithChildren" else "react.Props"
+        else -> "\n" + parentType
     }
 
     return "external interface $propsName: $parentTypes"
