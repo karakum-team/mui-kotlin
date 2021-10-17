@@ -46,6 +46,9 @@ private val STANDARD_TYPE_MAP = mapOf(
     "SxProps<Theme>" to "mui.system.SxProps<mui.system.Theme>",
     "TransitionProps" to "mui.material.transitions.TransitionProps",
 
+    "NonNullable<React.HTMLAttributes<any>['tabIndex']>" to "Int",
+    "React.InputHTMLAttributes<HTMLInputElement>['type']" to "react.dom.html.InputType",
+
     "null | Element | ((element: Element) => Element)" to "(element: org.w3c.dom.Element) -> org.w3c.dom.Element",
 
     "(event: React.SyntheticEvent) => void" to "(event: react.dom.events.SyntheticEvent<*, *>) -> Unit",

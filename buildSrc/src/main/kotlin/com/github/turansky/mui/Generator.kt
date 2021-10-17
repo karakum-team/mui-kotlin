@@ -189,19 +189,16 @@ private fun generate(
 
     var annotations = moduleDeclaration(pkg, componentName)
     when (true) {
-        componentName == "Popper",
-        componentName == "RadioGroup",
-        componentName == "Rating",
-        componentName == "SwipeableDrawer",
-
-        componentName == "MasonryItem",
-        componentName == "BottomNavigation",
-        componentName == "ButtonBase",
-        componentName == "Link",
-        componentName == "Tab",
+        componentName == "Chip", // children
+        componentName == "Popper", // children
+        componentName == "RadioGroup", // defaultValue, onChange
+        componentName == "Rating", // defaultValue, onChange
+        componentName == "SvgIcon",
+        componentName == "MasonryItem", // children
+        componentName == "BottomNavigation", // onChange
+        componentName == "Tab", // children
 
         "mui.system.StandardProps" in body,
-        "var color: mui.system.Union" in body && componentName != "Pagination" && componentName != "TextField",
         -> annotations += "\n\n@file:Suppress(\n\"VIRTUAL_MEMBER_HIDDEN\",\n)"
     }
 

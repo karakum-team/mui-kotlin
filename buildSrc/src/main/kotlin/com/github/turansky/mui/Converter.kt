@@ -70,8 +70,13 @@ internal fun convertDefinitions(
         .mapNotNull { convertUnion(it) }
         .toList()
 
+    val mainContent = fixOverrides(
+        name = name,
+        content = declarations.joinToString("\n\n")
+    )
+
     return ConversionResult(
-        main = declarations.joinToString("\n\n"),
+        main = mainContent,
         extensions = enums.joinToString("\n\n"),
     )
 }
