@@ -132,12 +132,12 @@ external interface BaseTextFieldProps : react.PropsWithChildren {
     /**
      * Maximum number of rows to display when multiline option is set to true.
      */
-    var maxRows: dynamic
+    var maxRows: Int
 
     /**
      * Minimum number of rows to display when multiline option is set to true.
      */
-    var minRows: dynamic
+    var minRows: Int
 
     /**
      * Render a [`Select`](/api/select/) element while passing the Input element to `Select` as `input` parameter.
