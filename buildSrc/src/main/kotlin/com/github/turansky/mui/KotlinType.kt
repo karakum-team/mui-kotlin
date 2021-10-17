@@ -46,7 +46,13 @@ private val STANDARD_TYPE_MAP = mapOf(
     "SxProps<Theme>" to "mui.system.SxProps<mui.system.Theme>",
     "TransitionProps" to "mui.material.transitions.TransitionProps",
 
+    "React.InputHTMLAttributes<HTMLInputElement>" to "react.dom.html.InputHTMLAttributes<org.w3c.dom.HTMLInputElement>",
+    "React.ImgHTMLAttributes<HTMLImageElement>" to "react.dom.html.ImgHTMLAttributes<org.w3c.dom.HTMLImageElement>",
+    "React.HTMLAttributes<HTMLDivElement>" to "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>",
+    "React.HTMLAttributes<HTMLElement>" to "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLElement>",
+
     "NonNullable<React.HTMLAttributes<any>['tabIndex']>" to "Int",
+    "React.InputHTMLAttributes<unknown>['type']" to "react.dom.html.InputType",
     "React.InputHTMLAttributes<HTMLInputElement>['type']" to "react.dom.html.InputType",
 
     "null | Element | ((element: Element) => Element)" to "(element: org.w3c.dom.Element) -> org.w3c.dom.Element",
