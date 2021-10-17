@@ -341,17 +341,14 @@ private fun convertMembers(
         .joinToString("\n\n")
 }
 
-private const val REACT_IS_STRICTER = "// @types/react is stricter"
-
 private fun convertMember(
     source: String,
 ): String {
-    val delimiter = if (source.startsWith(REACT_IS_STRICTER) || !source.startsWith("// ")) "*/\n" else "\n"
+    val delimiter = if (!source.startsWith("// ")) "*/\n" else "\n"
 
     return source.splitToSequence(delimiter)
         .map {
             when {
-                it.startsWith(REACT_IS_STRICTER) -> "    $it*/"
                 it.startsWith("/**") -> "$it*/"
 
                 it.startsWith("//") -> it
