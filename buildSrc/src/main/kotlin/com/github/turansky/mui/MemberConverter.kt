@@ -49,7 +49,10 @@ private fun convertProperty(
         .removeSuffix("?")
         .let { kotlinName(it) }
 
-    val type = kotlinType(source.substringAfter(":").removePrefix(" "))
+    val type = kotlinType(
+        source.substringAfter(":").removePrefix(" "),
+        name,
+    )
 
     if (name == "children" && type == "react.ReactNode")
         return CHILDREN

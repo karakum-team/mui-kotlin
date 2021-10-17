@@ -75,6 +75,9 @@ internal fun kotlinType(
     STANDARD_TYPE_MAP[type]
         ?.also { return it }
 
+    if ((name == "minRows" || name == "maxRows") && type == "string | number")
+        return "Int"
+
     if (type.endsWith(" | null")) {
         val t = kotlinType(type.removeSuffix(" | null"))
         return if (t == DYNAMIC) t else "$t?"
