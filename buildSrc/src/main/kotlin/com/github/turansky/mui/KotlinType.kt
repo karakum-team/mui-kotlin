@@ -26,6 +26,8 @@ private val STANDARD_TYPE_MAP = mapOf(
     "void" to "Unit",
     "null" to "Nothing?",
 
+    "string[]" to "ReadonlyArray<String>",
+
     "Date" to "kotlin.js.Date",
 
     "HTMLDivElement" to "org.w3c.dom.HTMLDivElement",
@@ -34,9 +36,11 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "React.ReactNode" to "react.ReactNode",
     "NonNullable<React.ReactNode>" to "react.ReactNode",
+    "string | React.ReactElement" to "react.ReactNode",
 
     "React.ReactElement" to "react.ReactElement",
     "React.ReactElement<any, any>" to "react.ReactElement",
+    "NonNullable<React.ReactElement>" to "react.ReactElement",
 
     "React.ElementType" to "$ELEMENT_TYPE<*>",
 
@@ -49,11 +53,15 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.InputHTMLAttributes<HTMLInputElement>" to "react.dom.html.InputHTMLAttributes<org.w3c.dom.HTMLInputElement>",
     "React.ImgHTMLAttributes<HTMLImageElement>" to "react.dom.html.ImgHTMLAttributes<org.w3c.dom.HTMLImageElement>",
     "React.HTMLAttributes<HTMLDivElement>" to "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>",
+    "Partial<React.HTMLAttributes<HTMLDivElement>>" to "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>",
     "React.HTMLAttributes<HTMLElement>" to "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLElement>",
 
     "NonNullable<React.HTMLAttributes<any>['tabIndex']>" to "Int",
     "React.InputHTMLAttributes<unknown>['type']" to "react.dom.html.InputType",
     "React.InputHTMLAttributes<HTMLInputElement>['type']" to "react.dom.html.InputType",
+
+    "() => void" to "() -> Unit",
+    "() => React.ReactNode" to "() -> react.ReactNode",
 
     "null | Element | ((element: Element) => Element)" to "(element: org.w3c.dom.Element) -> org.w3c.dom.Element",
 
@@ -167,6 +175,15 @@ internal fun kotlinType(
 
     if (type.endsWith("']") || type.endsWith("'] | 'auto'"))
         return "$DYNAMIC /* $type */"
+
+    when (type) {
+        "(hours: string) => string",
+        "(minutes: string) => string",
+        "(seconds: string) => string",
+        -> return type
+            .replace("=>", "->")
+            .replace("string", "String")
+    }
 
     return DYNAMIC
 }
