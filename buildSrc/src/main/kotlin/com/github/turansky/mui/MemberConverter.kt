@@ -57,7 +57,21 @@ private fun convertProperty(
     if (name == "children" && type == "react.ReactNode")
         return CHILDREN
 
-    var declaration = "var $name: $type"
+    val optional = source.substringBefore(":")
+        .endsWith("?")
+
+    val fullType = when {
+        !optional -> type
+        type == DYNAMIC -> type
+        type.startsWith("$DYNAMIC ") -> type
+        type.startsWith("(") -> "($type)?"
+        type.endsWith("*/") -> type.replace(" /*", "? /*")
+        " //" in type -> type.replace(" //", "? //")
+        type.endsWith("?") -> type
+        else -> "$type?"
+    }
+
+    var declaration = "var $name: $fullType"
     if ("-" in name) {
         declaration = "    // " + declaration
     }
