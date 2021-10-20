@@ -20,6 +20,7 @@ internal fun findParentType(
             parentSource
                 .removeSurrounding("StandardProps<", ">")
                 .substringBefore(",")
+                .trim()
                 .toTypeParameter()
         ).joinToString(",\n", "\n")
 
