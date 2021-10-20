@@ -126,45 +126,7 @@ private fun findProps(
         .singleOrNull { it.isNotEmpty() }
         ?: return null
 
-    var parentType: String? = null
-    if (" extends " in content) {
-        val parentSource = content
-            .substringAfter(" extends ")
-            .substringBefore(" {\n")
-
-        when {
-            "<TDate>" in parentSource -> Unit
-
-            parentSource.startsWith("StandardProps<") -> {
-                parentType = sequenceOf(
-                    "mui.system.StandardProps",
-                    parentSource
-                        .removeSurrounding("StandardProps<", ">")
-                        .substringBefore(",")
-                        .toTypeParameter()
-                ).joinToString(",\n", "\n")
-            }
-
-            parentSource.startsWith("Omit<") -> {
-                parentType = parentSource
-                    .removeSurrounding("Omit<", ">")
-                    .substringBefore(",")
-                    .toTypeParameter()
-            }
-
-            parentSource == "ListProps"
-            -> parentType = parentSource
-
-            parentSource == "HTMLDivProps"
-            -> parentType = "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>"
-
-            parentSource == "TransitionProps"
-            -> parentType = parentSource.toTypeParameter()
-
-            parentSource == "React.HTMLAttributes<HTMLSpanElement>"
-            -> parentType = parentSource.toTypeParameter()
-        }
-    }
+    val parentType = findParentType(content)
 
     val source = propsContent
         .substringAfter("{\n")
@@ -250,6 +212,8 @@ private fun findAdditionalProps(
         if (!propsLike && ADDITIONAL_PREFIXES.all { !interfaceName.endsWith(it) })
             return@mapNotNull null
 
+        val parentType = findParentType(body)
+
         val membersContent = if (interfaceName != "InputBaseComponentProps") {
             body.substringAfter("{\n")
                 .substringBefore(";\n}\n")
@@ -257,7 +221,7 @@ private fun findAdditionalProps(
 
         val propsBody = convertMembers(membersContent)
         val declaration = if (propsLike) {
-            props(interfaceName, hasChildren = CHILDREN in propsBody)
+            props(interfaceName, parentType, hasChildren = CHILDREN in propsBody)
         } else {
             "external interface $interfaceName"
         }
