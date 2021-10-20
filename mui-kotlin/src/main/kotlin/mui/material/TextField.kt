@@ -3,13 +3,21 @@
 @file:JsModule("@mui/material/TextField")
 @file:JsNonModule
 
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
+
 package mui.material
 
 import kotlinext.js.ReadonlyArray
 
 external interface TextFieldProps : react.Props
 
-external interface BaseTextFieldProps : react.PropsWithChildren {
+external interface BaseTextFieldProps :
+    mui.system.StandardProps,
+
+    FormControlProps,
+    react.PropsWithChildren {
     /**
      * This prop helps users to fill forms faster, especially on mobile devices.
      * The name can be confusing, as it's more like an autofill.
