@@ -15,7 +15,6 @@ external interface TextFieldProps : react.Props
 
 external interface BaseTextFieldProps :
     mui.system.StandardProps,
-
     FormControlProps,
     react.PropsWithChildren {
     /**
