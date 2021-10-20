@@ -12,5 +12,6 @@ internal fun String.toTypeParameter(): String =
         .replace("<HTMLLIElement>", "<org.w3c.dom.HTMLLIElement>")
         .replace("<HTMLHeadingElement>", "<org.w3c.dom.HTMLHeadingElement>")
         .replace("<HTMLLabelElement>", "<org.w3c.dom.HTMLLabelElement>")
+        .replace("<HTMLInputElement | HTMLTextAreaElement>", "<org.w3c.dom.HTMLElement>")
         .replace("TypographyProps", "mui.material.TypographyProps")
         .replace("TransitionProps", "mui.material.transitions.TransitionProps")

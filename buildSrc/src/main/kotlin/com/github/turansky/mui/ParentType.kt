@@ -10,36 +10,36 @@ internal fun findParentType(
         .substringAfter(" extends ")
         .substringBefore(" {\n")
 
-    return when {
-        "<TDate>" in parentSource -> null
 
-        parentSource.startsWith("StandardProps<") -> {
-            sequenceOf(
-                "mui.system.StandardProps",
-                parentSource
-                    .removeSurrounding("StandardProps<", ">")
-                    .substringBefore(",")
-                    .toTypeParameter()
-            ).joinToString(",\n", "\n")
-        }
+    if ("<TDate>" in parentSource)
+        return null
 
-        parentSource.startsWith("Omit<") -> {
+    if (parentSource.startsWith("StandardProps<"))
+        return sequenceOf(
+            "mui.system.StandardProps",
             parentSource
-                .removeSurrounding("Omit<", ">")
+                .removeSurrounding("StandardProps<", ">")
                 .substringBefore(",")
                 .toTypeParameter()
-        }
+        ).joinToString(",\n", "\n")
 
-        parentSource == "ListProps"
+    if (parentSource.startsWith("Omit<"))
+        return parentSource
+            .removeSurrounding("Omit<", ">")
+            .substringBefore(",")
+            .toTypeParameter()
+
+    return when (parentSource) {
+        "ListProps",
+        "BaseTextFieldProps",
         -> parentSource
 
-        parentSource == "HTMLDivProps"
+        "HTMLDivProps",
         -> "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>"
 
-        parentSource == "TransitionProps"
-        -> parentSource.toTypeParameter()
-
-        parentSource == "React.HTMLAttributes<HTMLSpanElement>"
+        "TransitionProps",
+        "React.HTMLAttributes<HTMLSpanElement>",
+        "React.HTMLAttributes<HTMLInputElement | HTMLTextAreaElement>",
         -> parentSource.toTypeParameter()
 
         else -> null
