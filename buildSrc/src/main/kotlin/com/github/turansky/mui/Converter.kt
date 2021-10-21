@@ -52,12 +52,14 @@ internal fun convertDefinitions(
 
     declarations += findAdditionalProps(propsName, content)
 
+    val fun0Declaration = "export default function $name<"
     val fun1Declaration = "export default function $name(props: $propsName): JSX.Element;"
     val fun2Declaration = "declare function $name(props: $propsName): JSX.Element;"
     val typeDeclaration = "declare const $name: React.ComponentType<$propsName>;"
     val constDeclaration = "declare const $name: "
 
     declarations += listOfNotNull(
+        findComponent(name, propsName, fun0Declaration, content),
         findComponent(name, propsName, fun1Declaration, content),
         findComponent(name, propsName, fun2Declaration, content),
         findComponent(name, propsName, typeDeclaration, content, "ComponentType"),
