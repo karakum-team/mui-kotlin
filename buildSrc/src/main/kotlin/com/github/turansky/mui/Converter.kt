@@ -52,12 +52,14 @@ internal fun convertDefinitions(
 
     declarations += findAdditionalProps(propsName, content)
 
-    val funDeclaration = "export default function $name(props: $propsName): JSX.Element;"
+    val fun1Declaration = "export default function $name(props: $propsName): JSX.Element;"
+    val fun2Declaration = "declare function $name(props: $propsName): JSX.Element;"
     val typeDeclaration = "declare const $name: React.ComponentType<$propsName>;"
     val constDeclaration = "declare const $name: "
 
     declarations += listOfNotNull(
-        findComponent(name, propsName, funDeclaration, content),
+        findComponent(name, propsName, fun1Declaration, content),
+        findComponent(name, propsName, fun2Declaration, content),
         findComponent(name, propsName, typeDeclaration, content, "ComponentType"),
         findComponent(name, propsName, constDeclaration, content),
     ).take(1)
@@ -263,10 +265,17 @@ private fun findComponent(
         return null
 
     var comment = content.substringBefore("\n$declaration")
-    comment = if ("\n\n" in comment) {
-        comment.substringAfterLast("\n\n")
-    } else {
-        comment.substringAfterLast("};\n")
+    comment = when {
+        "\n\n" in comment
+        -> comment.substringAfterLast("\n\n")
+
+        ";\n/**" in comment
+        -> comment.substringAfterLast(";\n")
+
+        "}\n/**" in comment
+        -> comment.substringAfterLast("}\n")
+
+        else -> comment.substringAfterLast("};\n")
     }
 
     if (comment.startsWith("export "))
