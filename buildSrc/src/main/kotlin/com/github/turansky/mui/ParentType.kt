@@ -9,7 +9,7 @@ internal fun findParentType(
     val parentSource = content
         .substringAfter(" extends ")
         .substringBefore(" {\n")
-
+        .substringAfter("\n> extends ")
 
     if ("<TDate>" in parentSource)
         return null
@@ -45,6 +45,10 @@ internal fun findParentType(
         "React.HTMLAttributes<HTMLInputElement | HTMLTextAreaElement>",
         -> parentSource.toTypeParameter()
 
-        else -> null
+        else -> {
+            println("------------")
+            println(parentSource)
+            null
+        }
     }
 }
