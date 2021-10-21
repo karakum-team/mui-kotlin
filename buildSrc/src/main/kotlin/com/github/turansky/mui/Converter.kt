@@ -2,8 +2,6 @@ package com.github.turansky.mui
 
 import java.io.File
 
-private const val UNION_MARKER = """/*union*/"""
-
 internal data class ConversionResult(
     val main: String,
     val extensions: String,
