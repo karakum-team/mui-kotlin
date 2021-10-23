@@ -174,6 +174,9 @@ internal fun kotlinType(
     if (type.startsWith("TypographyProps<"))
         return "TypographyProps"
 
+    type.toAlias()
+        ?.also { return it }
+
     if (type.endsWith("']") || type.endsWith("'] | 'auto'"))
         return "$DYNAMIC /* $type */"
 
