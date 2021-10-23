@@ -45,10 +45,6 @@ internal fun findParentType(
         "React.HTMLAttributes<HTMLInputElement | HTMLTextAreaElement>",
         -> parentSource.toTypeParameter()
 
-        else -> {
-            println("------------")
-            println(parentSource)
-            null
-        }
+        else -> null
     }
 }
