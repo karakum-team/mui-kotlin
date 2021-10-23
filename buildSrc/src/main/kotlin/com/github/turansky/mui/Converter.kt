@@ -66,7 +66,7 @@ internal fun convertDefinitions(
         findComponent(name, propsName, constDeclaration, content),
     ).take(1)
 
-    val enums = content.splitToSequence("export type ")
+    val enums = content.splitToSequence("export type ", "export declare type ")
         .drop(1)
         .map { it.substringBefore(";") }
         .mapNotNull { convertUnion(it) }

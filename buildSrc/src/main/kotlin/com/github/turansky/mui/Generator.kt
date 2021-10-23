@@ -158,6 +158,11 @@ private fun generateLabDeclarations(
                     val file = it.resolve("${it.name}Content.d.ts")
                     generate(file, targetDir, Package.lab)
                 }
+
+                "CalendarPicker" -> {
+                    val file = it.resolve("shared.d.ts")
+                    generate(file, targetDir, Package.lab)
+                }
             }
         }
         .map { it.resolve("${it.name}.d.ts") }
