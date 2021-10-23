@@ -9,6 +9,7 @@ private const val ELEMENT_TYPE = "react.ElementType"
 
 private val KNOWN_TYPES = setOf(
     "TDate",
+    "CalendarPickerView",
 
     "AlertColor",
     "GridDirection",
@@ -31,6 +32,8 @@ private val STANDARD_TYPE_MAP = mapOf(
     "string[]" to "ReadonlyArray<String>",
 
     "Date" to "kotlin.js.Date",
+
+    "readonly CalendarPickerView[]" to "ReadonlyArray<CalendarPickerView>",
 
     "HTMLDivElement" to "org.w3c.dom.HTMLDivElement",
     "HTMLInputElement" to "org.w3c.dom.HTMLInputElement",
