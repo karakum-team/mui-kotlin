@@ -289,7 +289,12 @@ private fun findComponent(
             .substringAfterLast(";\n")
             .substringAfterLast("}\n")
 
+    val typeParameter = when (propsName) {
+        "DateRangePickerProps" -> "$propsName<*>"
+        else -> propsName
+    }
+
     return "$comment\n" +
             "@JsName(\"default\")\n" +
-            "external val $name: react.$type<$propsName>"
+            "external val $name: react.$type<$typeParameter>"
 }
