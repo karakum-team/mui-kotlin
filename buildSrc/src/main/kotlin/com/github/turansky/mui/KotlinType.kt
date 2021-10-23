@@ -69,13 +69,6 @@ private val STANDARD_TYPE_MAP = mapOf(
     "() => React.ReactNode" to "() -> react.ReactNode",
 
     "null | Element | ((element: Element) => Element)" to "(element: org.w3c.dom.Element) -> org.w3c.dom.Element",
-
-    "(event: React.SyntheticEvent) => void" to "(event: react.dom.events.SyntheticEvent<*, *>) -> Unit",
-    "(event: React.SyntheticEvent, checked: boolean) => void" to "(event: react.dom.events.SyntheticEvent<*, *>, checked: Boolean) -> Unit",
-    "(event: React.SyntheticEvent, value: any) => void" to "(event: react.dom.events.SyntheticEvent<*, *>, value: $DYNAMIC) -> Unit",
-
-    "(event: React.SyntheticEvent<{}>, reason: CloseReason) => void" to "(event: react.dom.events.SyntheticEvent<*, *>, reason: CloseReason) -> Unit",
-    "(event: React.SyntheticEvent<{}>, reason: OpenReason) => void" to "(event: react.dom.events.SyntheticEvent<*, *>, reason: OpenReason) -> Unit",
 )
 
 internal fun kotlinType(
@@ -86,6 +79,9 @@ internal fun kotlinType(
         return type
 
     STANDARD_TYPE_MAP[type]
+        ?.also { return it }
+
+    type.toFunctionType()
         ?.also { return it }
 
     if ((name == "minRows" || name == "maxRows") && type == "string | number")
