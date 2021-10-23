@@ -46,6 +46,11 @@ private val TRANSITIONS_STUBS = """
 external interface TransitionProps: react.Props
 """.trimIndent()
 
+// language=Kotlin
+private val LAB_STUBS = """
+typealias PickerSelectionState = String
+""".trimIndent()
+
 private val CORE_ALIASES = setOf(
     "NoSsr",
     "Portal",
@@ -167,6 +172,9 @@ private fun generateLabDeclarations(
         }
         .map { it.resolve("${it.name}.d.ts") }
         .forEach { generate(it, targetDir, Package.lab) }
+
+    targetDir.resolve("Stubs.kt")
+        .writeText(fileContent(body = LAB_STUBS, pkg = Package.lab))
 }
 
 private fun String.isComponentName(): Boolean {
