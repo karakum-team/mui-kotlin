@@ -128,6 +128,10 @@ private fun findProps(
         .singleOrNull { it.isNotEmpty() }
         ?: return null
 
+    val propsDeclaration = if (propsContent.startsWith("TDate>")) {
+        "$propsName<TDate>"
+    } else propsName
+
     val parentType = findParentType(content)
 
     val source = propsContent
@@ -139,7 +143,7 @@ private fun findProps(
         ?: ""
 
     val body = convertMembers(membersContent)
-    return props(propsName, parentType, CHILDREN in body) + " {\n" +
+    return props(propsDeclaration, parentType, CHILDREN in body) + " {\n" +
             body +
             "\n}"
 }

@@ -8,6 +8,8 @@ internal const val UNION = "mui.system.Union"
 private const val ELEMENT_TYPE = "react.ElementType"
 
 private val KNOWN_TYPES = setOf(
+    "TDate",
+
     "AlertColor",
     "GridDirection",
     "GridWrap",
