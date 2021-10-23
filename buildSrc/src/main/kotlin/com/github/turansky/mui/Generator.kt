@@ -189,15 +189,20 @@ private fun generate(
     targetDir: File,
     pkg: Package,
 ) {
-    val componentName = definitionFile.name.substringBefore(".")
+    val componentName = when {
+        definitionFile.name == "shared.d.ts" -> "CalendarPickerView"
+        else -> definitionFile.name.substringBefore(".")
+    }
     val (body, extensions) = convertDefinitions(definitionFile)
 
     var annotations = moduleDeclaration(pkg, componentName)
     if (componentName in OVERRIDE_FIX_REQUIRED)
         annotations += "\n\n@file:Suppress(\n\"VIRTUAL_MEMBER_HIDDEN\",\n)"
 
-    targetDir.resolve("$componentName.kt")
-        .writeText(fileContent(annotations, body, pkg))
+    if (componentName != "CalendarPickerView") {
+        targetDir.resolve("$componentName.kt")
+            .writeText(fileContent(annotations, body, pkg))
+    }
 
     if (extensions.isNotEmpty()) {
         targetDir.resolve("$componentName.ext.kt")

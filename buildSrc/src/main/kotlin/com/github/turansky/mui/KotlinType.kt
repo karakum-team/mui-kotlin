@@ -187,7 +187,5 @@ internal fun kotlinType(
             .replace("string", "String")
     }
 
-    println(type)
-
     return DYNAMIC
 }
