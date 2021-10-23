@@ -5,7 +5,7 @@
 
 package mui.lab
 
-external interface DateRangePickerProps : react.Props
+external interface DateRangePickerProps<TDate> : react.Props
 
 /**
  *
