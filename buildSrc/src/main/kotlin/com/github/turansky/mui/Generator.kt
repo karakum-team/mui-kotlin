@@ -188,19 +188,8 @@ private fun generate(
     val (body, extensions) = convertDefinitions(definitionFile)
 
     var annotations = moduleDeclaration(pkg, componentName)
-    when (true) {
-        componentName == "Chip", // children
-        componentName == "Popper", // children
-        componentName == "RadioGroup", // defaultValue, onChange
-        componentName == "Rating", // defaultValue, onChange
-        componentName == "SvgIcon",
-        componentName == "MasonryItem", // children
-        componentName == "BottomNavigation", // onChange
-        componentName == "Tab", // children
-
-        "mui.system.StandardProps" in body,
-        -> annotations += "\n\n@file:Suppress(\n\"VIRTUAL_MEMBER_HIDDEN\",\n)"
-    }
+    if (componentName in OVERRIDE_FIX_REQUIRED)
+        annotations += "\n\n@file:Suppress(\n\"VIRTUAL_MEMBER_HIDDEN\",\n)"
 
     targetDir.resolve("$componentName.kt")
         .writeText(fileContent(annotations, body, pkg))
