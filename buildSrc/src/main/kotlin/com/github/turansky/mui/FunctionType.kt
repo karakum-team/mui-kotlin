@@ -1,12 +1,8 @@
 package com.github.turansky.mui
 
-/*
-T
-(value: T) => React.ReactNode
-PickerOnChangeFn<TDate>
-*/
-
 private val KNOWN_TYPES = setOf(
+    "(value: T) => React.ReactNode",
+
     "(event: React.SyntheticEvent) => void",
     "(event: React.SyntheticEvent, checked: boolean) => void",
     "(event: React.SyntheticEvent, value: any) => void",
@@ -33,6 +29,9 @@ private val KNOWN_TYPES = setOf(
     "(day: TDate) => void",
     "(date: TDate) => void",
     "(day: TDate) => boolean",
+    "(hours: string) => string",
+    "(minutes: string) => string",
+    "(seconds: string) => string",
 )
 
 internal fun String.toFunctionType(): String? {

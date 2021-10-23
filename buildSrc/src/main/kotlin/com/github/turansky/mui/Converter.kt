@@ -128,9 +128,15 @@ private fun findProps(
         .singleOrNull { it.isNotEmpty() }
         ?: return null
 
-    val propsDeclaration = if (propsContent.startsWith("TDate>")) {
-        "$propsName<TDate>"
-    } else propsName
+    val propsDeclaration = when {
+        propsContent.startsWith("TDate>")
+        -> "$propsName<TDate>"
+
+        propsContent.startsWith("T = unknown>")
+        -> "$propsName<T>"
+
+        else -> propsName
+    }
 
     val parentType = findParentType(content)
 
@@ -290,7 +296,10 @@ private fun findComponent(
             .substringAfterLast("}\n")
 
     val typeParameter = when (propsName) {
-        "DateRangePickerProps" -> "$propsName<*>"
+        "DateRangePickerProps",
+        "SelectProps",
+        -> "$propsName<*>"
+
         else -> propsName
     }
 

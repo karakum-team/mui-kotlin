@@ -49,6 +49,11 @@ external interface TransitionProps: react.Props
 // language=Kotlin
 private val LAB_STUBS = """
 typealias PickerSelectionState = String
+
+typealias PickerOnChangeFn<TDate> = (
+    date: TDate?, 
+    selectionState: PickerSelectionState?,
+) -> Unit
 """.trimIndent()
 
 private val CORE_ALIASES = setOf(

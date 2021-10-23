@@ -8,7 +8,9 @@ internal const val UNION = "mui.system.Union"
 private const val ELEMENT_TYPE = "react.ElementType"
 
 private val KNOWN_TYPES = setOf(
+    "T",
     "TDate",
+    "PickerOnChangeFn<TDate>",
     "CalendarPickerView",
 
     "AlertColor",
@@ -142,6 +144,9 @@ internal fun kotlinType(
                 "StandardInputProps",
                 -> "InputProps"
 
+                "SelectProps",
+                -> "SelectProps<*>"
+
                 else -> partialResult
             }
         } else if (partialResult.endsWith("Classes")) {
@@ -179,15 +184,6 @@ internal fun kotlinType(
 
     if (type.endsWith("']") || type.endsWith("'] | 'auto'"))
         return "$DYNAMIC /* $type */"
-
-    when (type) {
-        "(hours: string) => string",
-        "(minutes: string) => string",
-        "(seconds: string) => string",
-        -> return type
-            .replace("=>", "->")
-            .replace("string", "String")
-    }
 
     return DYNAMIC
 }
