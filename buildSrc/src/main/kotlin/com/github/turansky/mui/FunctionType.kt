@@ -23,6 +23,7 @@ private val KNOWN_TYPES = setOf(
     "(event: React.MouseEvent<HTMLButtonElement> | null, page: number) => void",
     "(event: React.SyntheticEvent, nodeIds: string[]) => void",
     "(event: React.SyntheticEvent, nodeIds: string) => void",
+    "(event: React.SyntheticEvent, nodeId: string) => void",
     "(day: TDate, isFinish: PickerSelectionState) => void",
     "(date: TDate) => void | Promise<void>",
     "(view: CalendarPickerView) => void",
@@ -32,6 +33,9 @@ private val KNOWN_TYPES = setOf(
     "(hours: string) => string",
     "(minutes: string) => string",
     "(seconds: string) => string",
+
+    "(params: PaginationRenderItemParams) => React.ReactNode",
+    "(params: AutocompleteRenderGroupParams) => React.ReactNode",
 )
 
 internal fun String.toFunctionType(): String? {
