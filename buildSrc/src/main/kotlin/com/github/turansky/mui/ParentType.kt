@@ -32,6 +32,7 @@ internal fun findParentType(
 
     return when (parentSource) {
         "ListProps",
+        "TreeViewPropsBase",
         -> parentSource
 
         "BaseTextFieldProps",
