@@ -72,7 +72,7 @@ external interface TreeViewPropsBase :
      * This prop is used to help implement the accessibility logic.
      * If you don't provide this prop. It falls back to a randomly generated id.
      */
-    var id: String?
+    override var id: String?
 
     /**
      * Callback fired when tree items are focused.
