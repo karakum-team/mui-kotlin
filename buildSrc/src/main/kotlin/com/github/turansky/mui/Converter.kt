@@ -135,6 +135,9 @@ private fun findProps(
         propsContent.startsWith("T = unknown>")
         -> "$propsName<T>"
 
+        propsName == "AutocompleteProps"
+        -> "$propsName<T>"
+
         else -> propsName
     }
 
@@ -304,6 +307,7 @@ private fun findComponent(
 
     val typeParameter = when (propsName) {
         "DateRangePickerProps",
+        "AutocompleteProps",
         "SelectProps",
         -> "$propsName<*>"
 

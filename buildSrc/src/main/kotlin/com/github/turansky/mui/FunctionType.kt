@@ -36,6 +36,17 @@ private val KNOWN_TYPES = setOf(
 
     "(params: PaginationRenderItemParams) => React.ReactNode",
     "(params: AutocompleteRenderGroupParams) => React.ReactNode",
+    "(params: AutocompleteRenderInputParams) => React.ReactNode",
+
+    """
+        (
+          props: React.HTMLAttributes<HTMLLIElement>,
+          option: T,
+          state: AutocompleteRenderOptionState,
+        ) => React.ReactNode
+    """.trimIndent(),
+
+    "(paginationInfo: LabelDisplayedRowsArgs) => React.ReactNode",
 )
 
 internal fun String.toFunctionType(): String? {
@@ -50,6 +61,7 @@ internal fun String.toFunctionType(): String? {
         .replace("React.ChangeEvent<HTMLInputElement>", "react.dom.events.ChangeEvent<org.w3c.dom.HTMLInputElement>")
         .replace("React.MouseEvent<HTMLButtonElement>", "react.dom.events.MouseEvent<org.w3c.dom.HTMLButtonElement, *>")
         .replace("React.MouseEvent<HTMLElement>", "react.dom.events.MouseEvent<org.w3c.dom.HTMLElement, *>")
+        .replace("React.HTMLAttributes<HTMLLIElement>", "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLLIElement>")
         .replace("React.ReactNode", "react.ReactNode")
         .replace(" | null", "?")
         .replace("void | Promise<void>", "kotlin.js.Promise<Nothing?>?")
