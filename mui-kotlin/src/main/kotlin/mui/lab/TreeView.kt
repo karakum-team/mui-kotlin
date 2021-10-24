@@ -96,7 +96,8 @@ external interface TreeViewPropsBase :
     var sx: mui.system.SxProps<mui.system.Theme>?
 }
 
-external interface MultiSelectTreeViewProps : react.Props {
+external interface MultiSelectTreeViewProps :
+    TreeViewPropsBase {
     /**
      * Selected node ids. (Uncontrolled)
      * When `multiSelect` is true this takes an array of strings; when false (default) a string.
@@ -126,7 +127,8 @@ external interface MultiSelectTreeViewProps : react.Props {
     var onNodeSelect: ((event: react.dom.events.SyntheticEvent<*, *>, nodeIds: ReadonlyArray<String>) -> Unit)?
 }
 
-external interface SingleSelectTreeViewProps : react.Props {
+external interface SingleSelectTreeViewProps :
+    TreeViewPropsBase {
     /**
      * Selected node ids. (Uncontrolled)
      * When `multiSelect` is true this takes an array of strings; when false (default) a string.
