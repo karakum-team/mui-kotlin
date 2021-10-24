@@ -80,7 +80,7 @@ external interface TreeViewPropsBase :
      * @param {React.SyntheticEvent} event The event source of the callback **Warning**: This is a generic event not a focus event.
      * @param {string} value of the focused node.
      */
-    var onNodeFocus: dynamic
+    var onNodeFocus: ((event: react.dom.events.SyntheticEvent<*, *>, nodeId: String) -> Unit)?
 
     /**
      * Callback fired when tree items are expanded/collapsed.

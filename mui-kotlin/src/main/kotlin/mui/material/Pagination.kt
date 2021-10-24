@@ -35,7 +35,7 @@ external interface PaginationProps : react.Props {
      * @returns {ReactNode}
      * @default (item) => <PaginationItem {...item} />
      */
-    var renderItem: dynamic
+    var renderItem: ((params: PaginationRenderItemParams) -> react.ReactNode)?
 
     /**
      * The shape of the pagination items.
