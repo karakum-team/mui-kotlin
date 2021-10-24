@@ -234,7 +234,10 @@ private fun findAdditionalProps(
                 .substringBefore(";\n}\n")
         } else ""
 
-        val propsBody = convertMembers(membersContent)
+        var propsBody = convertMembers(membersContent)
+        if (interfaceName == "TreeViewPropsBase")
+            propsBody = propsBody.replace("var id:", "override var id:")
+
         val hasChildren = CHILDREN in propsBody
         val declaration = if (propsLike || hasChildren) {
             props(interfaceName, parentType, hasChildren = hasChildren)
