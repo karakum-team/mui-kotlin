@@ -5,6 +5,8 @@
 
 package mui.material
 
+import kotlinext.js.ReadonlyArray
+
 external interface AutocompleteProps : react.Props {
     /**
      * Props applied to the [`Chip`](/api/chip/) element.
@@ -189,6 +191,36 @@ external interface AutocompleteProps : react.Props {
      * The system prop that allows defining system overrides as well as additional CSS styles.
      */
     var sx: mui.system.SxProps<mui.system.Theme>?
+}
+
+external interface AutocompleteRenderOptionState {
+    var inputValue: String
+
+    var selected: Boolean
+}
+
+external interface AutocompleteRenderGroupParams : react.PropsWithChildren {
+    var key: String
+
+    var group: String
+
+    override var children: ReadonlyArray<react.ReactNode>?
+}
+
+external interface AutocompleteRenderInputParams {
+    var id: String
+
+    var disabled: Boolean
+
+    var fullWidth: Boolean
+
+    var size: mui.system.Union /* 'small' | undefined */
+
+    var InputLabelProps: dynamic
+
+    var InputProps: dynamic
+
+    var inputProps: dynamic
 }
 
 /**

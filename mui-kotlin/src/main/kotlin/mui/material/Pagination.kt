@@ -61,6 +61,16 @@ external interface PaginationProps : react.Props {
     var variant: mui.system.Union? /* 'text' | 'outlined', PaginationPropsVariantOverrides */
 }
 
+external interface PaginationRenderItemParams {
+    var color: dynamic /* PaginationProps['color'] */
+
+    var shape: dynamic /* PaginationProps['shape'] */
+
+    var size: dynamic /* PaginationProps['size'] */
+
+    var variant: dynamic /* PaginationProps['variant'] */
+}
+
 /**
  *
  * Demos:
