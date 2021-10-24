@@ -9,6 +9,7 @@ internal fun String.toTypeParameter(): String =
         .replace("<HTMLDivElement>", "<org.w3c.dom.HTMLDivElement>")
         .replace("<HTMLTextAreaElement>", "<org.w3c.dom.HTMLTextAreaElement>")
         .replace("<HTMLSpanElement>", "<org.w3c.dom.HTMLSpanElement>")
+        .replace("<HTMLUListElement>", "<org.w3c.dom.HTMLUListElement>")
         .replace("<HTMLLIElement>", "<org.w3c.dom.HTMLLIElement>")
         .replace("<HTMLHeadingElement>", "<org.w3c.dom.HTMLHeadingElement>")
         .replace("<HTMLLabelElement>", "<org.w3c.dom.HTMLLabelElement>")

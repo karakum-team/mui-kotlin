@@ -194,10 +194,13 @@ private fun findMapProps(
     }
 }
 
-private val ADDITIONAL_PREFIXES = setOf(
-    "Origin",
-    "Position",
-    "Classes",
+private val EXCLUDED_PREFIXES = setOf(
+    "Map",
+    "Overrides",
+
+    // TEMP
+    "Actions",
+    "Header",
 )
 
 private fun findAdditionalProps(
@@ -221,7 +224,7 @@ private fun findAdditionalProps(
         if (propsLike && interfaceName == propsName)
             return@mapNotNull null
 
-        if (!propsLike && ADDITIONAL_PREFIXES.all { !interfaceName.endsWith(it) })
+        if (!propsLike && EXCLUDED_PREFIXES.any { interfaceName.endsWith(it) })
             return@mapNotNull null
 
         val parentType = findParentType(body)
@@ -232,8 +235,9 @@ private fun findAdditionalProps(
         } else ""
 
         val propsBody = convertMembers(membersContent)
-        val declaration = if (propsLike) {
-            props(interfaceName, parentType, hasChildren = CHILDREN in propsBody)
+        val hasChildren = CHILDREN in propsBody
+        val declaration = if (propsLike || hasChildren) {
+            props(interfaceName, parentType, hasChildren = hasChildren)
         } else {
             "external interface $interfaceName"
         }
