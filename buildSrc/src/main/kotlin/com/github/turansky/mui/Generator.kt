@@ -56,7 +56,7 @@ typealias PickerOnChangeFn<TDate> = (
 ) -> Unit
 """.trimIndent()
 
-private val CORE_ALIASES = setOf(
+private val CORE_TYPES = setOf(
     "NoSsr",
     "Portal",
 )
@@ -67,6 +67,7 @@ private val EXCLUDED_TYPES = setOf(
 )
 
 private enum class Package {
+    core,
     material,
     materialTransitions,
     lab,
@@ -76,19 +77,32 @@ private enum class Package {
 
     val pkg: String
         get() = name.replace(Regex("""[A-Z]""")) { "." + it.value.toLowerCase() }
-
-    val path: String
-        get() = name.replace(Regex("""[A-Z]""")) { "/" + it.value.toLowerCase() }
 }
 
 fun generateKotlinDeclarations(
     typesDir: File,
     sourceDir: File,
 ) {
+    generateCoreDeclarations(typesDir.resolve("core"), sourceDir)
     generateSystemDeclarations(sourceDir)
     generateMaterialDeclarations(typesDir.resolve("material"), sourceDir)
     generateTransitionsDeclarations(sourceDir)
     generateLabDeclarations(typesDir.resolve("lab"), sourceDir)
+}
+
+private fun generateCoreDeclarations(
+    typesDir: File,
+    sourceDir: File,
+) {
+    val targetDir = sourceDir.resolve("mui/core")
+        .also { it.mkdirs() }
+
+    val directories = typesDir.listFiles { file -> file.isDirectory } ?: return
+
+    directories.asSequence()
+        .filter { it.name in CORE_TYPES }
+        .map { it.resolve("${it.name}.d.ts") }
+        .forEach { generate(it, targetDir, Package.core) }
 }
 
 private fun generateSystemDeclarations(
@@ -104,7 +118,6 @@ private fun generateSystemDeclarations(
         .writeText(fileContent(body = SYSTEM_STUBS, pkg = Package.system))
 }
 
-
 private fun generateMaterialDeclarations(
     typesDir: File,
     sourceDir: File,
@@ -116,19 +129,14 @@ private fun generateMaterialDeclarations(
 
     directories.asSequence()
         .filter { it.name.isComponentName() || it.name == "internal" }
+        .filter { it.name !in CORE_TYPES }
         .filter { it.name != "StyledEngineProvider" }
         .map {
             val fileName = when (it.name) {
                 "internal" -> "SwitchBase.d.ts"
                 else -> "${it.name}.d.ts"
             }
-            if (it.name !in CORE_ALIASES) {
-                it
-            } else {
-                it.parentFile.parentFile
-                    .resolve("core")
-                    .resolve(it.name)
-            }.resolve(fileName)
+            it.resolve(fileName)
         }
         .forEach { generate(it, targetDir, Package.material) }
 
