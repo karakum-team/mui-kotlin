@@ -193,8 +193,14 @@ private fun String.isComponentName(): Boolean {
 private fun moduleDeclaration(
     pkg: Package,
     componentName: String,
-): String =
-    "@file:JsModule(\"@mui/${pkg.name}/$componentName\")\n@file:JsNonModule"
+): String {
+    val subpackage = when (componentName) {
+        "SwitchBase" -> "internal/$componentName"
+        else -> componentName
+    }
+
+    return "@file:JsModule(\"@mui/${pkg.name}/$subpackage\")\n@file:JsNonModule"
+}
 
 
 private fun generate(
