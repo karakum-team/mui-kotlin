@@ -56,6 +56,8 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "SxProps<Theme>" to "mui.system.SxProps<mui.system.Theme>",
     "TransitionProps" to "mui.material.transitions.TransitionProps",
+    "ClickAwayListenerProps" to "mui.core.ClickAwayListenerProps",
+    "PopperProps" to "mui.core.PopperProps",
 
     "React.InputHTMLAttributes<HTMLInputElement>" to "react.dom.html.InputHTMLAttributes<org.w3c.dom.HTMLInputElement>",
     "React.ImgHTMLAttributes<HTMLImageElement>" to "react.dom.html.ImgHTMLAttributes<org.w3c.dom.HTMLImageElement>",
@@ -147,7 +149,7 @@ internal fun kotlinType(
                 "SelectProps",
                 -> "SelectProps<*>"
 
-                else -> partialResult
+                else -> STANDARD_TYPE_MAP[partialResult] ?: partialResult
             }
         } else if (partialResult.endsWith("Classes")) {
             return partialResult

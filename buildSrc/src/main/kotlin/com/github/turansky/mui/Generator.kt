@@ -57,8 +57,11 @@ typealias PickerOnChangeFn<TDate> = (
 """.trimIndent()
 
 private val CORE_TYPES = setOf(
+    "ClickAwayListener",
     "NoSsr",
+    "Popper",
     "Portal",
+    "TextareaAutosize",
 )
 
 private val EXCLUDED_TYPES = setOf(
