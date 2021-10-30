@@ -232,10 +232,15 @@ private fun findAdditionalProps(
 
         val parentType = findParentType(body)
 
-        val membersContent = if (interfaceName != "InputBaseComponentProps") {
-            body.substringAfter("{\n")
+        val membersContent = when (interfaceName) {
+            "InputBaseComponentProps",
+            "CustomSystemProps",
+            -> ""
+
+            else
+            -> body.substringAfter("{\n")
                 .substringBefore(";\n}\n")
-        } else ""
+        }
 
         var propsBody = convertMembers(membersContent)
         if (interfaceName == "TreeViewPropsBase")

@@ -87,7 +87,7 @@ fun generateKotlinDeclarations(
     sourceDir: File,
 ) {
     generateCoreDeclarations(typesDir.resolve("core"), sourceDir)
-    generateSystemDeclarations(sourceDir)
+    generateSystemDeclarations(typesDir.resolve("system"), sourceDir)
     generateMaterialDeclarations(typesDir.resolve("material"), sourceDir)
     generateTransitionsDeclarations(sourceDir)
     generateLabDeclarations(typesDir.resolve("lab"), sourceDir)
@@ -109,10 +109,18 @@ private fun generateCoreDeclarations(
 }
 
 private fun generateSystemDeclarations(
+    typesDir: File,
     sourceDir: File,
 ) {
     val targetDir = sourceDir.resolve("mui/system")
         .also { it.mkdirs() }
+
+    val directories = typesDir.listFiles { file -> file.isDirectory } ?: return
+
+    directories.asSequence()
+        .filter { it.name.isComponentName() }
+        .map { it.resolve("${it.name}.d.ts") }
+        .forEach { generate(it, targetDir, Package.system) }
 
     targetDir.resolve("Aliases.kt")
         .writeText(fileContent(body = SYSTEM_ALIASES, pkg = Package.system))
