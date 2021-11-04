@@ -38,7 +38,6 @@ external interface StandardProps: react.PropsWithClassName{
 // language=Kotlin
 private val MATERIAL_STUBS = """
 external interface TableCellBaseProps: react.PropsWithChildren
-external interface TablePaginationActionsProps: react.Props
 """.trimIndent()
 
 // language=Kotlin
@@ -142,6 +141,14 @@ private fun generateMaterialDeclarations(
         .filter { it.name.isComponentName() || it.name == "internal" }
         .filter { it.name !in CORE_TYPES }
         .filter { it.name != "StyledEngineProvider" }
+        .onEach {
+            when (it.name) {
+                "TablePagination" -> {
+                    val file = it.resolve("${it.name}Actions.d.ts")
+                    generate(file, targetDir, Package.material, true)
+                }
+            }
+        }
         .map {
             val fileName = when (it.name) {
                 "internal" -> "SwitchBase.d.ts"
@@ -211,14 +218,18 @@ private fun String.isComponentName(): Boolean {
 
 private fun moduleDeclaration(
     pkg: Package,
+    subpackage: String?,
     componentName: String,
 ): String {
-    val subpackage = when (componentName) {
-        "SwitchBase" -> "internal/$componentName"
-        else -> componentName
-    }
+    val moduleName = sequenceOf(
+        "@mui",
+        pkg.name,
+        subpackage,
+        componentName,
+    ).filterNotNull()
+        .joinToString("/")
 
-    return "@file:JsModule(\"@mui/${pkg.name}/$subpackage\")\n@file:JsNonModule"
+    return "@file:JsModule(\"$moduleName\")\n@file:JsNonModule"
 }
 
 
@@ -226,6 +237,7 @@ private fun generate(
     definitionFile: File,
     targetDir: File,
     pkg: Package,
+    fullPath: Boolean = false,
 ) {
     val componentName = when {
         definitionFile.name == "shared.d.ts" -> "CalendarPickerView"
@@ -233,7 +245,12 @@ private fun generate(
     }
     val (body, extensions) = convertDefinitions(definitionFile)
 
-    var annotations = moduleDeclaration(pkg, componentName)
+    val subpackage = if (fullPath || componentName == "SwitchBase") {
+        definitionFile.parentFile.name
+    } else null
+
+    var annotations = moduleDeclaration(pkg, subpackage, componentName)
+
     if (componentName in OVERRIDE_FIX_REQUIRED)
         annotations += "\n\n@file:Suppress(\n\"VIRTUAL_MEMBER_HIDDEN\",\n)"
 
