@@ -239,8 +239,8 @@ private fun generate(
     pkg: Package,
     fullPath: Boolean = false,
 ) {
-    val componentName = when {
-        definitionFile.name == "shared.d.ts" -> "CalendarPickerView"
+    val componentName = when (definitionFile.name) {
+        "shared.d.ts" -> "CalendarPickerView"
         else -> definitionFile.name.substringBefore(".")
     }
     val (body, extensions) = convertDefinitions(definitionFile)
