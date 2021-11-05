@@ -37,7 +37,10 @@ external interface StandardProps: react.PropsWithClassName{
 
 // language=Kotlin
 private val MATERIAL_STUBS = """
-external interface TableCellBaseProps: react.PropsWithChildren
+import org.w3c.dom.HTMLTableCellElement
+import react.dom.html.HTMLAttributes
+
+typealias TableCellBaseProps = HTMLAttributes<HTMLTableCellElement>
 """.trimIndent()
 
 // language=Kotlin
