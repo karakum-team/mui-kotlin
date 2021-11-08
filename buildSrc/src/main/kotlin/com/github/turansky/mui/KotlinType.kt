@@ -114,6 +114,7 @@ internal fun kotlinType(
     if (type.startsWith("React.ElementType<"))
         return type.replace("React.ElementType", ELEMENT_TYPE)
             .replace("<TransitionProps>", "<mui.material.transitions.TransitionProps>")
+            .replace("React.HTMLAttributes<HTMLDivElement>", "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>")
 
     if (type.startsWith("React.") && "Handler<" in type) {
         val handlerType = type.removePrefix("React.")
