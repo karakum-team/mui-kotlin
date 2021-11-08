@@ -44,6 +44,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.ReactNode" to "react.ReactNode",
     "NonNullable<React.ReactNode>" to "react.ReactNode",
     "string | React.ReactElement" to "react.ReactNode",
+    "string | number | React.ReactElement" to "react.ReactNode",
 
     "React.ReactElement" to "react.ReactElement",
     "React.ReactElement<any, any>" to "react.ReactElement",
