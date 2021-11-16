@@ -120,6 +120,7 @@ private fun findProps(
     when (name) {
         "TextField",
         "TreeView",
+        "Popper",
         -> return props(propsName)
     }
 

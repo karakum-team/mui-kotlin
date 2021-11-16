@@ -58,10 +58,9 @@ typealias PickerOnChangeFn<TDate> = (
 ) -> Unit
 """.trimIndent()
 
-private val CORE_TYPES = setOf(
+private val BASE_TYPES = setOf(
     "ClickAwayListener",
     "NoSsr",
-    "Popper",
     "Portal",
     "TextareaAutosize",
 )
@@ -72,7 +71,7 @@ private val EXCLUDED_TYPES = setOf(
 )
 
 private enum class Package {
-    core,
+    base,
     material,
     materialTransitions,
     lab,
@@ -88,7 +87,7 @@ fun generateKotlinDeclarations(
     typesDir: File,
     sourceDir: File,
 ) {
-    generateCoreDeclarations(typesDir.resolve("core"), sourceDir)
+    generateCoreDeclarations(typesDir.resolve("base"), sourceDir)
     generateSystemDeclarations(typesDir.resolve("system"), sourceDir)
     generateMaterialDeclarations(typesDir.resolve("material"), sourceDir)
     generateTransitionsDeclarations(sourceDir)
@@ -99,15 +98,15 @@ private fun generateCoreDeclarations(
     typesDir: File,
     sourceDir: File,
 ) {
-    val targetDir = sourceDir.resolve("mui/core")
+    val targetDir = sourceDir.resolve("mui/base")
         .also { it.mkdirs() }
 
     val directories = typesDir.listFiles { file -> file.isDirectory } ?: return
 
     directories.asSequence()
-        .filter { it.name in CORE_TYPES }
+        .filter { it.name in BASE_TYPES }
         .map { it.resolve("${it.name}.d.ts") }
-        .forEach { generate(it, targetDir, Package.core) }
+        .forEach { generate(it, targetDir, Package.base) }
 }
 
 private fun generateSystemDeclarations(
@@ -142,7 +141,7 @@ private fun generateMaterialDeclarations(
 
     directories.asSequence()
         .filter { it.name.isComponentName() || it.name == "internal" }
-        .filter { it.name !in CORE_TYPES }
+        .filter { it.name !in BASE_TYPES }
         .filter { it.name != "StyledEngineProvider" }
         .onEach {
             when (it.name) {

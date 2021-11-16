@@ -18,6 +18,7 @@ private val KNOWN_TYPES = setOf(
     "GridWrap",
     "Orientation",
     "PopoverReference",
+    "PopperProps",
 )
 
 private val STANDARD_TYPE_MAP = mapOf(
@@ -57,8 +58,7 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "SxProps<Theme>" to "mui.system.SxProps<mui.system.Theme>",
     "TransitionProps" to "mui.material.transitions.TransitionProps",
-    "ClickAwayListenerProps" to "mui.core.ClickAwayListenerProps",
-    "PopperProps" to "mui.core.PopperProps",
+    "ClickAwayListenerProps" to "mui.base.ClickAwayListenerProps",
 
     "React.InputHTMLAttributes<HTMLInputElement>" to "react.dom.html.InputHTMLAttributes<org.w3c.dom.HTMLInputElement>",
     "React.ImgHTMLAttributes<HTMLImageElement>" to "react.dom.html.ImgHTMLAttributes<org.w3c.dom.HTMLImageElement>",
