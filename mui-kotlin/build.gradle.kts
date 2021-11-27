@@ -11,6 +11,6 @@ dependencies {
     implementation(npm("@mui/material", muiVersion))
     implementation(npm("@mui/lab", muiLabVersion))
 
-    implementation(enforcedPlatform("org.jetbrains.kotlin-wrappers:kotlin-wrappers-bom:$kotlinWrappersVersion"))
-    implementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom")
+    api(enforcedPlatform("org.jetbrains.kotlin-wrappers:kotlin-wrappers-bom:$kotlinWrappersVersion"))
+    api("org.jetbrains.kotlin-wrappers:kotlin-react-dom")
 }
