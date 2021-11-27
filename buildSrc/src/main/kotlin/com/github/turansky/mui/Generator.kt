@@ -96,8 +96,14 @@ fun generateKotlinDeclarations(
     generateSystemDeclarations(typesDir.resolve("system"), sourceDir)
     generateMaterialDeclarations(typesDir.resolve("material"), sourceDir)
     generateTransitionsDeclarations(sourceDir)
-    generateIconsMaterialDeclarations(typesDir.resolve("icons-material"), sourceDir)
     generateLabDeclarations(typesDir.resolve("lab"), sourceDir)
+}
+
+fun generateKotlinIconsDeclarations(
+    typesDir: File,
+    sourceDir: File,
+) {
+    generateIconsMaterialDeclarations(typesDir.resolve("icons-material"), sourceDir)
 }
 
 private fun generateCoreDeclarations(
