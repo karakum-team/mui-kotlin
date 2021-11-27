@@ -70,15 +70,19 @@ private val EXCLUDED_TYPES = setOf(
     "YearPicker",
 )
 
-private enum class Package {
+private enum class Package(
+    id: String? = null,
+) {
     base,
     material,
     materialTransitions,
-    iconsMaterial,
+    iconsMaterial("icons-material"),
     lab,
     system,
 
     ;
+
+    val id = id ?: name
 
     val pkg: String
         get() = name.replace(Regex("""[A-Z]""")) { "." + it.value.toLowerCase() }
@@ -242,7 +246,7 @@ private fun moduleDeclaration(
 ): String {
     val moduleName = sequenceOf(
         "@mui",
-        pkg.name,
+        pkg.id,
         subpackage,
         componentName,
     ).filterNotNull()

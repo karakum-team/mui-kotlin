@@ -9,12 +9,24 @@ internal data class IconConversionResult(
 
 internal fun convertIcons(
     definitionFile: File,
-): Sequence<IconConversionResult> {
-    val content = definitionFile.readText()
-    println(content)
-    return sequenceOf<IconConversionResult>() +
+): Sequence<IconConversionResult> =
+    definitionFile.readText()
+        .removeSuffix("\n")
+        .splitToSequence("\nexport const ")
+        .drop(1)
+        .map { it.removeSuffix(": SvgIconComponent;") }
+        .map { name ->
+            IconConversionResult(
+                name = name,
+                body = """
+                    @JsName("default")
+                    external val $name: SvgIconComponent
+                """.trimIndent(),
+            )
+        }
+        .plus(
             IconConversionResult(
                 name = "SvgIconComponent",
                 body = "typealias SvgIconComponent = react.FC<mui.material.SvgIconProps>",
             )
-}
+        )
