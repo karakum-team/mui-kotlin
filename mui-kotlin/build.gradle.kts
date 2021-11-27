@@ -3,13 +3,12 @@ plugins {
     `mui-declarations`
 }
 
-val muiVersion = property("mui.version") as String
-val muiLabVersion = property("mui-lab.version") as String
 val kotlinWrappersVersion = property("kotlin-wrappers.version") as String
 
 dependencies {
-    implementation(npm("@mui/material", muiVersion))
-    implementation(npm("@mui/lab", muiLabVersion))
+    implementation(npmv("@mui/material"))
+    implementation(npmv("@mui/icons-material"))
+    implementation(npmv("@mui/lab"))
 
     api(enforcedPlatform("org.jetbrains.kotlin-wrappers:kotlin-wrappers-bom:$kotlinWrappersVersion"))
     api("org.jetbrains.kotlin-wrappers:kotlin-react-dom")
