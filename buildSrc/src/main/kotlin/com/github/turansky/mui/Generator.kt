@@ -306,12 +306,17 @@ private fun fileContent(
     annotations: String = "",
     body: String,
     pkg: Package,
-) =
-    sequenceOf(
+): String {
+    val defaultImports = if ("ReadonlyArray" in body) {
+        DEFAULT_IMPORTS
+    } else ""
+
+    return sequenceOf(
         "// $GENERATOR_COMMENT",
         annotations,
         "package mui.${pkg.pkg}",
-        DEFAULT_IMPORTS,
+        defaultImports,
         body,
     ).filter { it.isNotEmpty() }
         .joinToString("\n\n")
+}
