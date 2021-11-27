@@ -12,5 +12,9 @@ internal fun convertIcons(
 ): Sequence<IconConversionResult> {
     val content = definitionFile.readText()
     println(content)
-    return emptySequence()
+    return sequenceOf<IconConversionResult>() +
+            IconConversionResult(
+                name = "SvgIconComponent",
+                body = "typealias SvgIconComponent = react.FC<mui.material.SvgIconProps>",
+            )
 }
