@@ -18,4 +18,5 @@ dependencyResolutionManagement {
 }
 
 include("mui-kotlin")
+include("mui-icons-kotlin")
 include("local-server")
