@@ -22,11 +22,10 @@ tasks {
         }
     }
 
-    named("compileKotlinJsLegacy") {
-        dependsOn(generateDeclarations)
-    }
-
-    named("compileKotlinJsIr") {
-        dependsOn(generateDeclarations)
-    }
+    sequenceOf(
+        "compileKotlinJs",
+        "compileKotlinJsLegacy",
+        "compileKotlinJsIr",
+    ).mapNotNull(::findByName)
+        .forEach { it.dependsOn(generateDeclarations) }
 }
