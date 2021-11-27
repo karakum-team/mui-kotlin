@@ -74,6 +74,7 @@ private enum class Package {
     base,
     material,
     materialTransitions,
+    iconsMaterial,
     lab,
     system,
 
@@ -91,6 +92,7 @@ fun generateKotlinDeclarations(
     generateSystemDeclarations(typesDir.resolve("system"), sourceDir)
     generateMaterialDeclarations(typesDir.resolve("material"), sourceDir)
     generateTransitionsDeclarations(sourceDir)
+    generateIconsMaterialDeclarations(typesDir.resolve("icons-material"), sourceDir)
     generateLabDeclarations(typesDir.resolve("lab"), sourceDir)
 }
 
@@ -164,7 +166,6 @@ private fun generateMaterialDeclarations(
         .writeText(fileContent(body = MATERIAL_STUBS, pkg = Package.material))
 }
 
-
 private fun generateTransitionsDeclarations(
     sourceDir: File,
 ) {
@@ -175,6 +176,22 @@ private fun generateTransitionsDeclarations(
         .writeText(fileContent(body = TRANSITIONS_STUBS, pkg = Package.materialTransitions))
 }
 
+private fun generateIconsMaterialDeclarations(
+    typesDir: File,
+    sourceDir: File,
+) {
+    val targetDir = sourceDir.resolve("mui/icons/material")
+        .also { it.mkdirs() }
+
+    for ((name, body) in convertIcons(typesDir.resolve("index.d.ts"))) {
+        val annotations = if (name != "SvgIconComponent") {
+            moduleDeclaration(Package.iconsMaterial, null, name)
+        } else ""
+
+        targetDir.resolve("$name.kt")
+            .writeText(fileContent(annotations, body, Package.iconsMaterial))
+    }
+}
 
 private fun generateLabDeclarations(
     typesDir: File,
