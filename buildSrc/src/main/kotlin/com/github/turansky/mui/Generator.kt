@@ -319,4 +319,5 @@ private fun fileContent(
         body,
     ).filter { it.isNotEmpty() }
         .joinToString("\n\n")
+        .removeSuffix("\n") + "\n"
 }
