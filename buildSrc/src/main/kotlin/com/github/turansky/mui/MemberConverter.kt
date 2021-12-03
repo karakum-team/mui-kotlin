@@ -21,6 +21,7 @@ internal fun convertMembers(
         .map { it.replace("??44??", ";\n   * ") }
         .map { it.trimIndent() }
         .map { convertMember(it) }
+        .filter { it.isNotEmpty() }
         .joinToString("\n\n")
 }
 
@@ -48,6 +49,9 @@ private fun convertProperty(
     val name = source.substringBefore(":")
         .removeSuffix("?")
         .let { kotlinName(it) }
+
+    if (name == "ref")
+        return ""
 
     val type = kotlinType(
         source.substringAfter(":").removePrefix(" "),
