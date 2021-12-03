@@ -40,7 +40,6 @@ internal val OVERRIDE_FIX_REQUIRED = setOf(
     "Stepper",
     "Switch",
     "SwitchBase",
-    "TextField",
     "ToggleButtonGroup",
     "Tooltip",
 )

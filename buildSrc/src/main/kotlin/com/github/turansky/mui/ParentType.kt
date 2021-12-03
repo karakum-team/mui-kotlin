@@ -31,12 +31,10 @@ internal fun findParentType(
             .toTypeParameter()
 
     return when (parentSource) {
+        "BaseTextFieldProps",
         "ListProps",
         "TreeViewPropsBase",
         -> parentSource
-
-        "BaseTextFieldProps",
-        -> "\n$parentSource,\nTextFieldProps"
 
         "HTMLDivProps",
         -> "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>"

@@ -119,6 +119,8 @@ private fun findProps(
 ): String? {
     when (name) {
         "TextField",
+        -> return "typealias $propsName = BaseTextFieldProps"
+
         "TreeView",
         "Popper",
         -> return props(propsName)

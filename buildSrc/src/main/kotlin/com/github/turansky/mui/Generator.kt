@@ -280,6 +280,12 @@ private fun generate(
 
     var annotations = moduleDeclaration(pkg, subpackage, componentName)
 
+    if (componentName == "TextField")
+        annotations += "\n\n@file:Suppress(\n" +
+                "\"VIRTUAL_MEMBER_HIDDEN\",\n" +
+                "\"NON_EXTERNAL_DECLARATION_IN_INAPPROPRIATE_FILE\",\n" +
+                ")"
+
     if (componentName in OVERRIDE_FIX_REQUIRED)
         annotations += "\n\n@file:Suppress(\n\"VIRTUAL_MEMBER_HIDDEN\",\n)"
 
