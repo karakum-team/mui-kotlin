@@ -1,7 +1,6 @@
 import kotlinext.js.Object
 import mui.material.Autocomplete
 import mui.material.AutocompleteProps
-import mui.material.BaseTextFieldProps
 import mui.material.TextField
 import react.Props
 import react.ReactNode
@@ -25,10 +24,9 @@ val MyAutocomplete = fc<Props>("MyAutocomplete") {
                 buildElement {
                     TextField {
                         attrs {
+                            // TODO: Use `unaryPlus` instead
                             Object.assign(this, params)
 
-                            @Suppress("UNCHECKED_CAST_TO_EXTERNAL_INTERFACE")
-                            this as BaseTextFieldProps
                             label = ReactNode("Choose value")
                             variant = "outlined"
                         }
