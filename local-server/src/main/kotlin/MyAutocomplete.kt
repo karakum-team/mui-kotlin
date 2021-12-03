@@ -1,4 +1,5 @@
 import kotlinext.js.Object
+import kotlinext.js.ReadonlyArray
 import mui.material.Autocomplete
 import mui.material.AutocompleteProps
 import mui.material.TextField
@@ -7,7 +8,7 @@ import react.ReactNode
 import react.buildElement
 import react.fc
 
-inline var <T : Any> AutocompleteProps<T>.options: Array<T>
+inline var <T : Any> AutocompleteProps<T>.options: ReadonlyArray<T>
     get() = asDynamic().options
     set(value) {
         asDynamic().options = value
