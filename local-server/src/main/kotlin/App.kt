@@ -20,5 +20,7 @@ fun main() {
 
         Abc()
         SouthEast()
+
+        MyAutocomplete()
     }
 }
