@@ -95,7 +95,7 @@ external interface UseAutocompleteProps<T> : react.Props {
      * If `true`, the input can't be cleared.
      * @default false
      */
-    var disableClearable: dynamic
+    var disableClearable: Boolean?
 
     /**
      * If `true`, the popup won't close when a value is selected.
@@ -122,7 +122,7 @@ external interface UseAutocompleteProps<T> : react.Props {
      * @param {object} state The state of the component.
      * @returns {T[]}
      */
-    var filterOptions: dynamic
+    var filterOptions: ((options: ReadonlyArray<T>, state: FilterOptionsState<T>) -> ReadonlyArray<T>)?
 
     /**
      * If `true`, hide the selected options from the list box.
@@ -134,7 +134,7 @@ external interface UseAutocompleteProps<T> : react.Props {
      * If `true`, the Autocomplete is free solo, meaning that the user input is not bound to provided options.
      * @default false
      */
-    var freeSolo: dynamic
+    var freeSolo: Boolean?
 
     /**
      * Used to determine the disabled state for a given option.
