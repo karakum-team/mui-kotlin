@@ -10,6 +10,7 @@ private const val ELEMENT_TYPE = "react.ElementType"
 private val KNOWN_TYPES = setOf(
     "T",
     "TDate",
+    "ReadonlyArray<T>",
     "PickerOnChangeFn<TDate>",
     "CalendarPickerView",
 
@@ -74,6 +75,11 @@ private val STANDARD_TYPE_MAP = mapOf(
     "() => React.ReactNode" to "() -> react.ReactNode",
 
     "null | Element | ((element: Element) => Element)" to "(element: org.w3c.dom.Element) -> org.w3c.dom.Element",
+
+    "(option: T) => boolean" to "(option: T) -> Boolean",
+    "(option: T) => string" to "(option: T) -> String",
+
+    "(option: T, value: T) => boolean" to "(option: T, value: T) -> Boolean",
 )
 
 internal fun kotlinType(
