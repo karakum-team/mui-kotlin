@@ -5,6 +5,8 @@
 
 package mui.base
 
+import kotlinext.js.ReadonlyArray
+
 external interface CreateFilterOptionsConfig {
     var ignoreAccents: Boolean?
 
@@ -14,7 +16,7 @@ external interface CreateFilterOptionsConfig {
 
     var matchFrom: mui.system.Union? /* 'any' | 'start' */
 
-    var stringify: dynamic
+    var stringify: ((option: T) -> String)?
 
     var trim: Boolean?
 }
@@ -22,7 +24,7 @@ external interface CreateFilterOptionsConfig {
 external interface FilterOptionsState {
     var inputValue: String
 
-    var getOptionLabel: dynamic
+    var getOptionLabel: (option: T) -> String
 }
 
 external interface AutocompleteGroupedOption {
@@ -140,7 +142,7 @@ external interface UseAutocompleteProps : react.Props {
      * @param {T} option The option to test.
      * @returns {boolean}
      */
-    var getOptionDisabled: dynamic
+    var getOptionDisabled: ((option: T) -> Boolean)?
 
     /**
      * Used to determine the string value for a given option.
@@ -150,7 +152,7 @@ external interface UseAutocompleteProps : react.Props {
      * @returns {string}
      * @default (option) => option.label ?? option
      */
-    var getOptionLabel: dynamic
+    var getOptionLabel: ((option: T) -> String)?
 
     /**
      * Used to determine if the option represents the given value.
@@ -161,7 +163,7 @@ external interface UseAutocompleteProps : react.Props {
      * @param {T} value The value to test against.
      * @returns {boolean}
      */
-    var isOptionEqualToValue: dynamic
+    var isOptionEqualToValue: ((option: T, value: T) -> Boolean)?
 
     /**
      * If provided, the options will be grouped under the returned string.
@@ -170,7 +172,7 @@ external interface UseAutocompleteProps : react.Props {
      * @param {T} options The options to group.
      * @returns {string}
      */
-    var groupBy: dynamic
+    var groupBy: ((option: T) -> String)?
 
     /**
      * If `true`, the component handles the "Home" and "End" keys when the popup is open.
@@ -245,7 +247,7 @@ external interface UseAutocompleteProps : react.Props {
     /**
      * Array of options.
      */
-    var options: dynamic
+    var options: ReadonlyArray<T>
 
     /**
      * If `true`, the input's text is selected on focus.
