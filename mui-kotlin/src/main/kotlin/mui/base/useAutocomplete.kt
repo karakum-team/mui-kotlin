@@ -7,7 +7,7 @@ package mui.base
 
 import kotlinext.js.ReadonlyArray
 
-external interface CreateFilterOptionsConfig {
+external interface CreateFilterOptionsConfig<T> {
     var ignoreAccents: Boolean?
 
     var ignoreCase: Boolean?
@@ -21,7 +21,7 @@ external interface CreateFilterOptionsConfig {
     var trim: Boolean?
 }
 
-external interface FilterOptionsState {
+external interface FilterOptionsState<T> {
     var inputValue: String
 
     var getOptionLabel: (option: T) -> String
@@ -37,7 +37,7 @@ external interface AutocompleteGroupedOption {
     var options: dynamic
 }
 
-external interface UseAutocompleteProps : react.Props {
+external interface UseAutocompleteProps<T> : react.Props {
     /**
      * If `true`, the portion of the selected suggestion that has not been typed by the user,
      * known as the completion string, appears inline after the input cursor in the textbox.
@@ -287,6 +287,6 @@ external interface UseAutocompleteProps : react.Props {
     var onChange: dynamic
 }
 
-external interface AutocompleteChangeDetails {
+external interface AutocompleteChangeDetails<T> {
     var option: T
 }
