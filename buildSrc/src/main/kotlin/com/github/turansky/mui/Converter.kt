@@ -297,6 +297,9 @@ private fun findComponent(
     if (declaration !in content)
         return null
 
+    if (name == "useAutocomplete")
+        return null
+
     var comment = content.substringBefore("\n$declaration")
     comment = when {
         "\n\n" in comment

@@ -118,6 +118,7 @@ private fun generateCoreDeclarations(
     directories.asSequence()
         .filter { it.name in BASE_TYPES }
         .map { it.resolve("${it.name}.d.ts") }
+        .plus(typesDir.resolve("AutocompleteUnstyled/useAutocomplete.d.ts"))
         .forEach { generate(it, targetDir, Package.base) }
 }
 
@@ -274,7 +275,7 @@ private fun generate(
     }
     val (body, extensions) = convertDefinitions(definitionFile)
 
-    val subpackage = if (fullPath || componentName == "SwitchBase") {
+    val subpackage = if (fullPath || componentName == "SwitchBase" || componentName == "useAutocomplete") {
         definitionFile.parentFile.name
     } else null
 
