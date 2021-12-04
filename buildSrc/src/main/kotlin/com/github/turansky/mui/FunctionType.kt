@@ -1,59 +1,14 @@
 package com.github.turansky.mui
 
-private val KNOWN_TYPES = setOf(
-    "(value: T) => React.ReactNode",
-
-    "(event: React.SyntheticEvent) => void",
-    "(event: React.SyntheticEvent, checked: boolean) => void",
-    "(event: React.SyntheticEvent, value: any) => void",
-
-    "(event: React.SyntheticEvent<{}>, reason: CloseReason) => void",
-    "(event: React.SyntheticEvent<{}>, reason: OpenReason) => void",
-
-    "(event: React.ChangeEvent<HTMLInputElement>, value: string) => void",
-    "(event: React.SyntheticEvent | Event) => void",
-    "(event: React.MouseEvent<HTMLElement>, value: any) => void",
-    "(value: number) => string",
-    "(event: React.SyntheticEvent, value: number | null) => void",
-    "(event: React.SyntheticEvent, value: number) => void",
-    "(more: number) => React.ReactNode",
-    "(event: React.SyntheticEvent, expanded: boolean) => void",
-    "(event: React.SyntheticEvent<any>, reason: SnackbarCloseReason) => void",
-    "(event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => void",
-    "(event: React.MouseEvent<HTMLButtonElement> | null, page: number) => void",
-    "(event: React.SyntheticEvent, nodeIds: string[]) => void",
-    "(event: React.SyntheticEvent, nodeIds: string) => void",
-    "(event: React.SyntheticEvent, nodeId: string) => void",
-    "(day: TDate, isFinish: PickerSelectionState) => void",
-    "(date: TDate) => void | Promise<void>",
-    "(view: CalendarPickerView) => void",
-    "(day: TDate) => void",
-    "(date: TDate) => void",
-    "(day: TDate) => boolean",
-    "(hours: string) => string",
-    "(minutes: string) => string",
-    "(seconds: string) => string",
-
-    "(params: PaginationRenderItemParams) => React.ReactNode",
-    "(params: AutocompleteRenderGroupParams) => React.ReactNode",
-    "(params: AutocompleteRenderInputParams) => React.ReactNode",
-
-    """
-        (
-          props: React.HTMLAttributes<HTMLLIElement>,
-          option: T,
-          state: AutocompleteRenderOptionState,
-        ) => React.ReactNode
-    """.trimIndent(),
-
-    "(paginationInfo: LabelDisplayedRowsArgs) => React.ReactNode",
-)
-
 internal fun String.toFunctionType(): String? {
-    if (this !in KNOWN_TYPES)
+    if (!startsWith("("))
+        return null
+
+    if (startsWith("(state: {"))
         return null
 
     return replace(" => ", "->")
+        .replace("MouseEvent | TouchEvent", "org.w3c.dom.events.UIEvent")
         .replace("React.SyntheticEvent | Event", "react.dom.events.SyntheticEvent<*, *>")
         .replace("React.SyntheticEvent<{}>", "react.dom.events.SyntheticEvent<*, *>")
         .replace("React.SyntheticEvent<any>", "react.dom.events.SyntheticEvent<*, *>")
@@ -64,7 +19,13 @@ internal fun String.toFunctionType(): String? {
         .replace("React.HTMLAttributes<HTMLLIElement>", "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLLIElement>")
         .replace("React.ReactNode", "react.ReactNode")
         .replace(" | null", "?")
+        .replace("AutocompleteValue<T, Multiple, DisableClearable, FreeSolo>", DYNAMIC)
+        .replace("details?: AutocompleteChangeDetails<T>", "details: AutocompleteChangeDetails<T>?")
+        .replace("AutocompleteRenderGetTagProps", "Function<*> /* AutocompleteRenderGetTagProps */")
+        .replace("'page' | 'first' | 'last' | 'next' | 'previous'", "mui.system.Union /* 'page' | 'first' | 'last' | 'next' | 'previous' */")
+        .replace("'first' | 'last' | 'next' | 'previous'", "mui.system.Union /* 'first' | 'last' | 'next' | 'previous' */")
         .replace("void | Promise<void>", "kotlin.js.Promise<Nothing?>?")
+        .replace("T[]", "ReadonlyArray<T>")
         .replace("string[]", "ReadonlyArray<String>")
         .replace("string", "String")
         .replace("boolean", "Boolean")
