@@ -178,7 +178,10 @@ private fun findMapProps(
         .substringAfter(" D extends React.ElementType = '", "")
         .substringBefore("'", "")
 
-    val parentType: String? = INTRINSIC_TYPE_MAP[intrinsicType]
+    val parentType: String? = when {
+        name == "LoadingButton" -> "mui.material.ButtonProps"
+        else -> INTRINSIC_TYPE_MAP[intrinsicType]
+    }
 
     val membersContent = propsContent
         .substringAfter("props: P", "")

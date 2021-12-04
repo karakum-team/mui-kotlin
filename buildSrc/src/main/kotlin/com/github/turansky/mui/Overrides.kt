@@ -21,6 +21,11 @@ internal fun fixOverrides(
             .override("disabled")
             .override("value")
 
+        "LoadingButton",
+        -> content
+            .override("classes")
+            .override("sx")
+
         "SwipeableDrawer",
         -> content
             .override("onClose")
