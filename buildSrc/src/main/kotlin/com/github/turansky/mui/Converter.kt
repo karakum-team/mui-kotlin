@@ -253,10 +253,21 @@ private fun findAdditionalProps(
             propsBody = propsBody.replace("var id:", "override var id:")
 
         val hasChildren = CHILDREN in propsBody
-        val declaration = if (propsLike || hasChildren) {
+        var declaration = if (propsLike || hasChildren) {
             props(interfaceName, parentType, hasChildren = hasChildren)
         } else {
             "external interface $interfaceName"
+        }
+
+        when (interfaceName) {
+            "UseAutocompleteProps",
+
+            -> declaration = declaration.replaceFirst(":", "<T>:")
+
+            "AutocompleteChangeDetails",
+            "CreateFilterOptionsConfig",
+            "FilterOptionsState",
+            -> declaration += "<T>"
         }
 
         declaration + " {\n" +
