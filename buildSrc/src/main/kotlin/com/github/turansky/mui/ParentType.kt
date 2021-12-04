@@ -27,7 +27,8 @@ internal fun findParentType(
         val (first, second) = parentSource.split(",\n    ")
         return sequenceOf(
             "mui.base." + first.replace(", Multiple, DisableClearable, FreeSolo", ""),
-            parseStandardProps(second),
+            parseStandardProps(second)
+                .replace(",\n", "\n    /* ") + " */",
         ).joinToString(",", "\n")
     }
 
