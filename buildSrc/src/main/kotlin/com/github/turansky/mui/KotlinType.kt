@@ -71,19 +71,10 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.InputHTMLAttributes<unknown>['type']" to "react.dom.html.InputType",
     "React.InputHTMLAttributes<HTMLInputElement>['type']" to "react.dom.html.InputType",
 
-    "() => void" to "() -> Unit",
-    "() => React.ReactNode" to "() -> react.ReactNode",
-
     "null | Element | ((element: Element) => Element)" to "(element: org.w3c.dom.Element) -> org.w3c.dom.Element",
 
     "DisableClearable" to "Boolean",
     "FreeSolo" to "Boolean",
-
-    "(option: T) => boolean" to "(option: T) -> Boolean",
-    "(option: T) => string" to "(option: T) -> String",
-
-    "(option: T, value: T) => boolean" to "(option: T, value: T) -> Boolean",
-    "(options: T[], state: FilterOptionsState<T>) => T[]" to "(options: ReadonlyArray<T>, state: FilterOptionsState<T>) -> ReadonlyArray<T>",
 )
 
 internal fun kotlinType(
