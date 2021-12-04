@@ -28,7 +28,7 @@ external interface PaginationProps : react.Props {
      * @returns {string}
      */
     var getItemAriaLabel: ((
-        type: mui.system.Union, /* 'page' | mui.system.Union /* 'first' | 'last' | 'next' | 'previous' */ */
+        type: mui.system.Union, /* 'page' | 'first' | 'last' | 'next' | 'previous' */
         page: Number,
         selected: Boolean,
     ) -> String)?
