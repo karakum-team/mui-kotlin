@@ -76,10 +76,14 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "null | Element | ((element: Element) => Element)" to "(element: org.w3c.dom.Element) -> org.w3c.dom.Element",
 
+    "DisableClearable" to "Boolean",
+    "FreeSolo" to "Boolean",
+
     "(option: T) => boolean" to "(option: T) -> Boolean",
     "(option: T) => string" to "(option: T) -> String",
 
     "(option: T, value: T) => boolean" to "(option: T, value: T) -> Boolean",
+    "(options: T[], state: FilterOptionsState<T>) => T[]" to "(options: ReadonlyArray<T>, state: FilterOptionsState<T>) -> ReadonlyArray<T>",
 )
 
 internal fun kotlinType(
