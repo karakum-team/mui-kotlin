@@ -261,13 +261,15 @@ private fun findAdditionalProps(
 
         when (interfaceName) {
             "UseAutocompleteProps",
-
             -> declaration = declaration.replaceFirst(":", "<T>:")
 
             "AutocompleteChangeDetails",
             "CreateFilterOptionsConfig",
             "FilterOptionsState",
             -> declaration += "<T>"
+
+            "ExportedClockPickerProps",
+            -> declaration = declaration.replaceFirst(":", "<TDate>:")
         }
 
         declaration + " {\n" +
