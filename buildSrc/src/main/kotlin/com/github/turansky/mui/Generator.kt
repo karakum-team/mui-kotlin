@@ -29,9 +29,9 @@ typealias SxProps<T> = react.CSSProperties
 
 external interface ResponsiveStyleValue<T: Any>
 
-external interface StandardProps: react.PropsWithClassName{
-    var style: react.CSSProperties?
-}
+external interface StandardProps: 
+    react.PropsWithStyle,
+    react.PropsWithClassName
 """.trimIndent()
 
 
