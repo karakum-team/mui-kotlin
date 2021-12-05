@@ -21,7 +21,12 @@ private val KNOWN_TYPES = setOf(
     "PopoverReference",
     "PopperProps",
 
+    "Breakpoints",
+    "BreakpointsOptions",
     "Direction",
+    "Shape",
+    "ShapeOptions",
+    "Spacing",
 )
 
 private val STANDARD_TYPE_MAP = mapOf(
@@ -80,6 +85,8 @@ private val STANDARD_TYPE_MAP = mapOf(
     "FreeSolo" to "Boolean",
 
     "{ [key in Breakpoint]: number }" to "kotlinext.js.Record<Breakpoint, Number>",
+    "Record<string, any>" to "kotlinext.js.Record<String, *>",
+    "Record<string, any> & { mode: 'light' | 'dark' }" to "kotlinext.js.Record<String, *>",
 )
 
 internal fun kotlinType(

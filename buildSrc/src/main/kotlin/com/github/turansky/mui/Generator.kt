@@ -32,6 +32,16 @@ external interface StandardProps:
     react.PropsWithClassName
 """.trimIndent()
 
+private val SYSTEM_BREAKPOINT = convertUnion("Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl'")!!
+
+// language=Kotlin
+private val SYSTEM_SHAPE = """
+external interface Shape {
+    var borderRadius: csstype.BorderRadius
+}
+
+typealias ShapeOptions = Shape
+""".trimIndent()
 
 // language=Kotlin
 private val MATERIAL_STUBS = """
@@ -135,7 +145,10 @@ private fun generateSystemDeclarations(
         .forEach { generate(it, targetDir, Package.system) }
 
     targetDir.resolve("Breakpoint.kt")
-        .writeText(fileContent(body = convertUnion("Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl'")!!, pkg = Package.system))
+        .writeText(fileContent(body = SYSTEM_BREAKPOINT, pkg = Package.system))
+
+    targetDir.resolve("shape.kt")
+        .writeText(fileContent(body = SYSTEM_SHAPE, pkg = Package.system))
 
     typesDir.resolve("createTheme")
         .listFiles { file -> file.name.startsWith("create") && file.name.endsWith(".d.ts") }!!
