@@ -32,6 +32,22 @@ internal fun fixOverrides(
             .override("open")
             .replace("open: Boolean", "open: Boolean?")
 
+        "TreeItemContent",
+        "Collapse",
+        -> content
+            .override("className")
+
+        "Dialog",
+        "Drawer",
+        "Popover",
+        -> content
+            .override("sx")
+
+        "SpeedDial",
+        -> content
+            .override("hidden")
+
+
         else -> content
     }
 
