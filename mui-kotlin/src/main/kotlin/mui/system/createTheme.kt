@@ -6,15 +6,15 @@
 package mui.system
 
 external interface ThemeOptions {
-    var shape: dynamic
+    var shape: ShapeOptions?
 
-    var breakpoints: dynamic
+    var breakpoints: BreakpointsOptions?
 
     var direction: Direction?
 
     var mixins: dynamic
 
-    var palette: dynamic
+    var palette: kotlinext.js.Record<String, *>?
 
     var shadows: dynamic
 
@@ -22,7 +22,7 @@ external interface ThemeOptions {
 
     var transitions: dynamic
 
-    var components: dynamic
+    var components: kotlinext.js.Record<String, *>?
 
     var typography: dynamic
 
@@ -30,21 +30,21 @@ external interface ThemeOptions {
 }
 
 external interface Theme {
-    var shape: dynamic
+    var shape: Shape
 
-    var breakpoints: dynamic
+    var breakpoints: Breakpoints
 
     var direction: Direction
 
-    var palette: dynamic
+    var palette: kotlinext.js.Record<String, *>
 
     var shadows: dynamic
 
-    var spacing: dynamic
+    var spacing: Spacing
 
     var transitions: dynamic
 
-    var components: dynamic
+    var components: kotlinext.js.Record<String, *>?
 
     var mixins: dynamic
 
