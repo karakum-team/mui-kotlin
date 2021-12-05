@@ -28,6 +28,7 @@ internal fun String.toFunctionType(): String? {
         .replace("ClockView", "mui.system.Union /* ClockView */")
         .replace("MuiPickersAdapter<TDate>", "$DYNAMIC /* MuiPickersAdapter<TDate> */")
         .replace("void | Promise<void>", "kotlin.js.Promise<Nothing?>?")
+        .replace("Breakpoint | number", "Breakpoint")
         .replace("T[]", "ReadonlyArray<T>")
         .replace("string[]", "ReadonlyArray<String>")
         .replace("string", "String")

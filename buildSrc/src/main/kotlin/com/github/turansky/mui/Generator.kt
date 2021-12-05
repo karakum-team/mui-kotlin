@@ -22,8 +22,6 @@ typealias Union = String
 
 // language=Kotlin
 private val SYSTEM_STUBS = """
-external interface Theme
-
 @Suppress("UNUSED_TYPEALIAS_PARAMETER")
 typealias SxProps<T> = react.CSSProperties
 
@@ -134,6 +132,13 @@ private fun generateSystemDeclarations(
     directories.asSequence()
         .filter { it.name.isComponentName() }
         .map { it.resolve("${it.name}.d.ts") }
+        .forEach { generate(it, targetDir, Package.system) }
+
+    targetDir.resolve("Breakpoint.kt")
+        .writeText(fileContent(body = convertUnion("Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl'")!!, pkg = Package.system))
+
+    typesDir.resolve("createTheme")
+        .listFiles { file -> file.name.startsWith("create") && file.name.endsWith(".d.ts") }!!
         .forEach { generate(it, targetDir, Package.system) }
 
     targetDir.resolve("Aliases.kt")
@@ -275,7 +280,7 @@ private fun generate(
     }
     val (body, extensions) = convertDefinitions(definitionFile)
 
-    val subpackage = if (fullPath || componentName == "SwitchBase" || componentName == "useAutocomplete") {
+    val subpackage = if (fullPath || componentName == "SwitchBase" || componentName == "useAutocomplete" || componentName.startsWith("create")) {
         definitionFile.parentFile.name
     } else null
 

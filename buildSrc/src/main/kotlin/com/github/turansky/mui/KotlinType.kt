@@ -20,6 +20,8 @@ private val KNOWN_TYPES = setOf(
     "Orientation",
     "PopoverReference",
     "PopperProps",
+
+    "Direction",
 )
 
 private val STANDARD_TYPE_MAP = mapOf(
@@ -38,6 +40,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "Date" to "kotlin.js.Date",
 
     "readonly CalendarPickerView[]" to "ReadonlyArray<CalendarPickerView>",
+    "Breakpoint[]" to "ReadonlyArray<Breakpoint>",
 
     "HTMLDivElement" to "org.w3c.dom.HTMLDivElement",
     "HTMLInputElement" to "org.w3c.dom.HTMLInputElement",
@@ -75,6 +78,8 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "DisableClearable" to "Boolean",
     "FreeSolo" to "Boolean",
+
+    "{ [key in Breakpoint]: number }" to "kotlinext.js.Record<Breakpoint, Number>",
 )
 
 internal fun kotlinType(

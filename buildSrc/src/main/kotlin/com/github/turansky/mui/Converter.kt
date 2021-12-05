@@ -241,6 +241,8 @@ private fun findAdditionalProps(
         val membersContent = when (interfaceName) {
             "InputBaseComponentProps",
             "CustomSystemProps",
+                // TODO: temp
+            "Spacing",
             -> ""
 
             else
@@ -310,7 +312,7 @@ private fun findComponent(
     if (declaration !in content)
         return null
 
-    if (name == "useAutocomplete")
+    if (name.startsWith("use") || name.startsWith("create"))
         return null
 
     var comment = content.substringBefore("\n$declaration")
