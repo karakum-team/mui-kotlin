@@ -83,6 +83,7 @@ private enum class Package(
 ) {
     base,
     material,
+    materialStyles,
     materialTransitions,
     iconsMaterial("icons-material"),
     lab,
@@ -103,6 +104,7 @@ fun generateKotlinDeclarations(
     generateCoreDeclarations(typesDir.resolve("base"), sourceDir)
     generateSystemDeclarations(typesDir.resolve("system"), sourceDir)
     generateMaterialDeclarations(typesDir.resolve("material"), sourceDir)
+    // generateStylesDeclarations(typesDir.resolve("material/styles"), sourceDir)
     generateTransitionsDeclarations(sourceDir)
     generateLabDeclarations(typesDir.resolve("lab"), sourceDir)
 }
@@ -194,6 +196,18 @@ private fun generateMaterialDeclarations(
     targetDir.resolve("Stubs.kt")
         .writeText(fileContent(body = MATERIAL_STUBS, pkg = Package.material))
 }
+
+private fun generateStylesDeclarations(
+    typesDir: File,
+    sourceDir: File,
+) {
+    val targetDir = sourceDir.resolve("mui/material/styles")
+        .also { it.mkdirs() }
+
+    typesDir.listFiles { file -> file.name.startsWith("create") && file.name.endsWith(".d.ts") }!!
+        .forEach { generate(it, targetDir, Package.materialStyles) }
+}
+
 
 private fun generateTransitionsDeclarations(
     sourceDir: File,
