@@ -255,10 +255,14 @@ private fun findAdditionalProps(
             propsBody = propsBody.replace("var id:", "override var id:")
 
         val hasChildren = CHILDREN in propsBody
-        var declaration = if (propsLike || hasChildren) {
-            props(interfaceName, parentType, hasChildren = hasChildren)
-        } else {
-            "external interface $interfaceName"
+        var declaration = when {
+            propsLike || hasChildren
+            -> props(interfaceName, parentType, hasChildren = hasChildren)
+
+            interfaceName.endsWith("Params")
+            -> props(interfaceName, parentType, hasChildren = false)
+
+            else -> "external interface $interfaceName"
         }
 
         when (interfaceName) {
