@@ -2,6 +2,8 @@ import kotlinx.browser.document
 import mui.icons.material.Abc
 import mui.icons.material.SouthEast
 import mui.material.SvgIcon
+import react.Fragment
+import react.create
 import react.dom.render
 import react.dom.svg.ReactSVG.path
 
@@ -11,10 +13,10 @@ fun main() {
     val container = document.createElement("div")
     document.body!!.appendChild(container)
 
-    render(container) {
+    val application = Fragment.create {
         SvgIcon {
             path {
-                attrs.d = "M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+                d = "M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
             }
         }
 
@@ -23,4 +25,6 @@ fun main() {
 
         MyAutocomplete()
     }
+
+    render(application, container)
 }
