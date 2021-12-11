@@ -83,7 +83,7 @@ private enum class Package(
 ) {
     base,
     material,
-    materialStyles,
+    materialStyles("material/styles"),
     materialTransitions,
     iconsMaterial("icons-material"),
     lab,
@@ -104,7 +104,7 @@ fun generateKotlinDeclarations(
     generateCoreDeclarations(typesDir.resolve("base"), sourceDir)
     generateSystemDeclarations(typesDir.resolve("system"), sourceDir)
     generateMaterialDeclarations(typesDir.resolve("material"), sourceDir)
-    // generateStylesDeclarations(typesDir.resolve("material/styles"), sourceDir)
+    generateStylesDeclarations(typesDir.resolve("material/styles"), sourceDir)
     generateTransitionsDeclarations(sourceDir)
     generateLabDeclarations(typesDir.resolve("lab"), sourceDir)
 }
@@ -307,9 +307,15 @@ private fun generate(
     }
     val (body, extensions) = convertDefinitions(definitionFile)
 
-    val subpackage = if (fullPath || componentName == "SwitchBase" || componentName == "useAutocomplete" || componentName.startsWith("create")) {
-        definitionFile.parentFile.name
-    } else null
+    val subpackage = when {
+        pkg == Package.materialStyles
+        -> null
+
+        fullPath || componentName == "SwitchBase" || componentName == "useAutocomplete" || componentName.startsWith("create")
+        -> definitionFile.parentFile.name
+
+        else -> null
+    }
 
     var annotations = moduleDeclaration(pkg, subpackage, componentName)
 
