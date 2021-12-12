@@ -43,9 +43,14 @@ private fun convertMember(
         .joinToString("\n")
 }
 
+private val CSS_RECORD = "[k: string]: unknown | CSSProperties"
+
 private fun convertProperty(
     source: String,
 ): String {
+    if (source == CSS_RECORD)
+        return "// $CSS_RECORD"
+
     val name = source.substringBefore(":")
         .removeSuffix("?")
         .let { kotlinName(it) }

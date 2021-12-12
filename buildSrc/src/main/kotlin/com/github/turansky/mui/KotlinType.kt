@@ -7,6 +7,13 @@ internal const val UNION = "mui.system.Union"
 
 private const val ELEMENT_TYPE = "react.ElementType"
 
+private val CREATE_TRANSITION = """
+(
+  props: string | string[],
+  options?: Partial<{ duration: number | string; easing: string; delay: number | string }>,
+) => string
+""".removePrefix("\n").removeSuffix("\n")
+
 private val KNOWN_TYPES = setOf(
     "T",
     "TDate",
@@ -27,6 +34,8 @@ private val KNOWN_TYPES = setOf(
     "Shape",
     "ShapeOptions",
     "Spacing",
+
+    "CSSProperties",
 )
 
 private val STANDARD_TYPE_MAP = mapOf(
@@ -87,6 +96,8 @@ private val STANDARD_TYPE_MAP = mapOf(
     "{ [key in Breakpoint]: number }" to "kotlinext.js.Record<Breakpoint, Number>",
     "Record<string, any>" to "kotlinext.js.Record<String, *>",
     "Record<string, any> & { mode: 'light' | 'dark' }" to "kotlinext.js.Record<String, *>",
+
+    CREATE_TRANSITION to "(props: ReadonlyArray<String>?, options: $DYNAMIC) -> String",
 )
 
 internal fun kotlinType(
