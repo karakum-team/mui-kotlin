@@ -245,6 +245,10 @@ private fun findAdditionalProps(
             "Spacing",
             -> ""
 
+            "MixinsOptions",
+            -> body.substringAfter("{\n")
+                .substringBefore("\n}\n")
+
             else
             -> body.substringAfter("{\n")
                 .substringBefore(";\n}\n")
