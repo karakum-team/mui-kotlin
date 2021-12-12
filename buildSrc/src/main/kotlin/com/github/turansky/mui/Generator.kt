@@ -205,6 +205,7 @@ private fun generateStylesDeclarations(
         .also { it.mkdirs() }
 
     typesDir.listFiles { file -> file.name.startsWith("create") && file.name.endsWith(".d.ts") }!!
+        .filter { it.name != "createTypography.d.ts" }
         .forEach { generate(it, targetDir, Package.materialStyles) }
 }
 
