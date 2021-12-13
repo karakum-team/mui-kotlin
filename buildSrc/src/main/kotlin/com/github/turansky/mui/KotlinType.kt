@@ -36,6 +36,12 @@ private val KNOWN_TYPES = setOf(
     "Spacing",
 
     "CSSProperties",
+
+    "Mixins",
+    "Palette",
+    "Transitions",
+    "ZIndex",
+
     "MixinsOptions",
     "PaletteOptions",
     "TransitionsOptions",
