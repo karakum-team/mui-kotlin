@@ -204,8 +204,24 @@ private fun generateStylesDeclarations(
     val targetDir = sourceDir.resolve("mui/material/styles")
         .also { it.mkdirs() }
 
-    typesDir.listFiles { file -> file.name.startsWith("create") && file.name.endsWith(".d.ts") }!!
-        .filter { it.name != "createTypography.d.ts" }
+    fun isStyleDefinition(fileName: String): Boolean {
+        val name = fileName.removeSuffix(".d.ts")
+            .takeIf { it != fileName }
+            ?: return false
+
+        if (name.startsWith("create"))
+            return name != "createTypography"
+
+        return when (name) {
+            "ThemeProvider",
+            "zIndex",
+            -> true
+
+            else -> false
+        }
+    }
+
+    typesDir.listFiles { file -> isStyleDefinition(file.name) }!!
         .forEach { generate(it, targetDir, Package.materialStyles) }
 }
 

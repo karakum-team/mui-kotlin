@@ -320,7 +320,7 @@ private fun findComponent(
     if (declaration !in content)
         return null
 
-    if (name.startsWith("use") || name.startsWith("create"))
+    if (name.startsWith("use") || name.startsWith("create") || name.startsWith("z"))
         return null
 
     var comment = content.substringBefore("\n$declaration")
