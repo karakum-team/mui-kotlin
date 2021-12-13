@@ -24,19 +24,19 @@ external interface ThemeOptions {
 }
 
 external interface Theme {
-    var mixins: dynamic
+    var mixins: Mixins
 
     var components: dynamic
 
-    var palette: dynamic
+    var palette: Palette
 
     var shadows: dynamic
 
-    var transitions: dynamic
+    var transitions: Transitions
 
     var typography: dynamic
 
-    var zIndex: dynamic
+    var zIndex: ZIndex
 
     var unstable_strictMode: Boolean?
 }
