@@ -7,3 +7,5 @@ build/
 *.iml
 
 webpack.config.d/
+
+yarn.lock
