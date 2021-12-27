@@ -103,6 +103,12 @@ private fun String.removeInlineClasses(
         e.startsWith("Partial<ButtonClasses> & {")
         -> "mui.material.ButtonClasses"
 
+        e.startsWith("BadgeUnstyledTypeMap['props']['classes'] & {")
+        -> "unknown"
+
+        e.startsWith("SliderUnstyledTypeMap['props']['classes'] & {")
+        -> "unknown"
+
         e.startsWith("{")
         -> "unknown"
 
