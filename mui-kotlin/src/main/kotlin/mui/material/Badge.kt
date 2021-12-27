@@ -11,22 +11,6 @@ external interface BadgeProps :
      * Override or extend the styles applied to the component.
      */
     var classes: dynamic
-    var colorPrimary: dynamic
-    var colorSecondary: dynamic
-    var colorError: dynamic
-    var colorInfo: dynamic
-    var colorSuccess: dynamic
-    var colorWarning: dynamic
-    var anchorOriginTopRightRectangular: dynamic
-    var anchorOriginBottomRightRectangular: dynamic
-    var anchorOriginTopLeftRectangular: dynamic
-    var anchorOriginBottomLeftRectangular: dynamic
-    var anchorOriginTopRightCircular: dynamic
-    var anchorOriginBottomRightCircular: dynamic
-    var anchorOriginTopLeftCircular: dynamic
-    var anchorOriginBottomLeftCircular: dynamic
-    var overlapRectangular: dynamic
-    var overlapCircular: dynamic
 
     /**
      * The color of the component. It supports those theme colors that make sense for this component.
