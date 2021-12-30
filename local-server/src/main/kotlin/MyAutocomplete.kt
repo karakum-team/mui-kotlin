@@ -1,5 +1,6 @@
 import mui.material.Autocomplete
 import mui.material.AutocompleteProps
+import mui.material.FormControlVariant
 import mui.material.TextField
 import react.FC
 import react.Props
@@ -18,7 +19,7 @@ val MyAutocomplete = FC<Props> {
                 +params
 
                 label = ReactNode("Choose value")
-                variant = "outlined"
+                variant = FormControlVariant.outlined
             }
         }
     }
