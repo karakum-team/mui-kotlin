@@ -375,10 +375,16 @@ private fun findDefaultUnions(
         .substringBefore(";\n")
 
     if (colorSource.isNotEmpty()) {
-        val source = colorSource
+        var source = colorSource
             .substringBefore(",")
             .removePrefix("OverridableStringUnion<")
             .trim()
+
+        if (source.startsWith("| '"))
+            source = source.removePrefix("| ")
+                .splitToSequence(" | ")
+                .map { it.trim() }
+                .joinToString(" | ")
 
         if (source.startsWith("'")) {
             val colorName = "${name}Color"
