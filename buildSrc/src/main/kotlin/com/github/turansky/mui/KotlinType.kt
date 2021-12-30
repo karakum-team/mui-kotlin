@@ -55,7 +55,7 @@ private val KNOWN_TYPE_SUFFIXES = setOf(
     "Variant",
     "Color",
     "Size",
-)
+) + UNION_PROPERTIES.map { it.capitalize() }
 
 private val STANDARD_TYPE_MAP = mapOf(
     "any" to "Any",
@@ -143,7 +143,7 @@ internal fun kotlinType(
         return if (t == DYNAMIC) t else "$t?"
     }
 
-    if (KNOWN_TYPE_SUFFIXES.any { type.endsWith(it) && type != "Color" } && " | " !in type)
+    if (KNOWN_TYPE_SUFFIXES.any { type.endsWith(it) } && " | " !in type && type != "Color" && type != "SortDirection" /* TEMP */)
         return type
 
     val promiseResult = type.removeSurrounding("Promise<", ">")
