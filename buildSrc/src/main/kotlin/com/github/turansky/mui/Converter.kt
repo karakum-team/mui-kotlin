@@ -390,8 +390,15 @@ private fun findDefaultUnions(
             val colorName = "${name}Color"
             newContent = newContent.replaceFirst(colorSource, colorName)
             unions += convertUnion("$colorName = $source")!!
-        } else if (source == "AlertColor") {
-            newContent = newContent.replaceFirst(colorSource, source)
+        } else {
+            when (source) {
+                "AlertColor",
+                -> newContent = newContent.replaceFirst(colorSource, source)
+
+                "PropTypes.Color",
+                "PropTypes.Color | 'transparent'",
+                -> newContent = newContent.replaceFirst(colorSource, "csstype.Color")
+            }
         }
     }
 
