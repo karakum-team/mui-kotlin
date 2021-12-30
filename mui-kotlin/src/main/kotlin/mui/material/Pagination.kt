@@ -45,7 +45,7 @@ external interface PaginationProps : react.Props {
      * The shape of the pagination items.
      * @default 'circular'
      */
-    var shape: mui.system.Union? /* 'circular' | 'rounded' */
+    var shape: PaginationShape?
 
     /**
      * The size of the component.
