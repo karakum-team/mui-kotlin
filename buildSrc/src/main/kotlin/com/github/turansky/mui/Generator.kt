@@ -52,6 +52,23 @@ typealias TableCellBaseProps = HTMLAttributes<HTMLTableCellElement>
 """.trimIndent()
 
 // language=Kotlin
+private val MATERIAL_SIZE = """
+@Suppress(
+    "NAME_CONTAINS_ILLEGAL_CHARS",
+    "NESTED_CLASS_IN_EXTERNAL_INTERFACE",
+)
+// language=JavaScript
+@JsName("(/*union*/{small: 'small', medium: 'medium', large: 'large'}/*union*/)")
+sealed external interface Size {
+    object small : Size, BaseSize
+    object medium : Size, BaseSize
+    object large : Size
+}
+
+sealed external interface BaseSize
+""".trimIndent()
+
+// language=Kotlin
 private val TRANSITIONS_STUBS = """
 external interface TransitionProps: react.Props
 """.trimIndent()
@@ -192,6 +209,9 @@ private fun generateMaterialDeclarations(
             it.resolve(fileName)
         }
         .forEach { generate(it, targetDir, Package.material) }
+
+    targetDir.resolve("Size.kt")
+        .writeText(fileContent(body = MATERIAL_SIZE, pkg = Package.material))
 
     targetDir.resolve("Stubs.kt")
         .writeText(fileContent(body = MATERIAL_STUBS, pkg = Package.material))
