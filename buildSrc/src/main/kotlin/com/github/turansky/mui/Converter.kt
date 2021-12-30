@@ -364,6 +364,32 @@ private fun findComponent(
             "external val $name: react.$type<$typeParameter>"
 }
 
+private val UNION_PROPERTIES = setOf(
+    "variant",
+
+    "indicatorColor",
+    "textColor",
+
+    "anchorPosition",
+    "iconPosition",
+    "loadingPosition",
+    "position",
+
+    "labelPlacement",
+    "placement",
+
+    "overlap",
+    "scroll",
+    "anchor",
+    "implementation",
+    // "edge",
+    "underline",
+    "shape",
+    "direction",
+
+    "align",
+)
+
 private fun findDefaultUnions(
     name: String,
     content: String,
@@ -388,11 +414,17 @@ private fun findDefaultUnions(
         }
     }
 
-    findUnionSource(newContent, "variant") { original, source ->
-        if (source.startsWith("'") && name != "TextField") {
-            val variantName = "${name}Variant"
-            newContent = newContent.replaceFirst(original, variantName)
-            unions += convertUnion("$variantName = $source")!!
+    for (property in UNION_PROPERTIES) {
+        findUnionSource(newContent, property) { original, source ->
+            if (name == "TextField" && property == "variant")
+                return@findUnionSource
+
+            if (!source.startsWith("'"))
+                return@findUnionSource
+
+            val className = name + property.capitalize()
+            newContent = newContent.replaceFirst(original, className)
+            unions += convertUnion("$className = $source")!!
         }
     }
 
