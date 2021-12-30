@@ -36,9 +36,10 @@ internal fun convertDefinitions(
 ): ConversionResult {
     val name = definitionFile.name.substringBefore(".")
 
-    val content = definitionFile.readText()
+    val (content, defaultUnions) = definitionFile.readText()
         .replace("\r\n", "\n")
         .removeInlineClasses()
+        .let { findDefaultUnions(name, it) }
 
     val declarations = mutableListOf<String>()
 
@@ -70,6 +71,7 @@ internal fun convertDefinitions(
         .drop(1)
         .map { it.substringBefore(";") }
         .mapNotNull { convertUnion(it) }
+        .plus(defaultUnions)
         .toList()
 
     val mainContent = fixOverrides(
@@ -360,4 +362,26 @@ private fun findComponent(
     return "$comment\n" +
             "@JsName(\"default\")\n" +
             "external val $name: react.$type<$typeParameter>"
+}
+
+private fun findDefaultUnions(
+    name: String,
+    content: String,
+): Pair<String, List<String>> {
+    if (name == "TextField")
+        return content to emptyList()
+
+    val variantSource = content.substringAfter("  variant?: ", "")
+        .substringBefore(";\n")
+
+    val source = variantSource
+        .substringBefore(",")
+        .removePrefix("OverridableStringUnion<")
+        .trim()
+        .takeIf { it.startsWith("'") }
+        ?: return content to emptyList()
+
+    val variantName = "${name}Variant"
+    return content.replaceFirst(variantSource, variantName) to
+            listOf(convertUnion("$variantName = $source")!!)
 }

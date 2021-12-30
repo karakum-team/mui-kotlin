@@ -48,6 +48,13 @@ private val KNOWN_TYPES = setOf(
     // "ZIndexOptions",
 )
 
+private val KNOWN_TYPE_SUFFIXES = setOf(
+    "Props",
+    "Origin",
+    "Position",
+    "Variant",
+)
+
 private val STANDARD_TYPE_MAP = mapOf(
     "any" to "Any",
     "object" to "Any",
@@ -134,7 +141,7 @@ internal fun kotlinType(
         return if (t == DYNAMIC) t else "$t?"
     }
 
-    if (type.endsWith("Props") || type.endsWith("Origin") || type.endsWith("Position"))
+    if (KNOWN_TYPE_SUFFIXES.any { type.endsWith(it) })
         return type
 
     val promiseResult = type.removeSurrounding("Promise<", ">")
