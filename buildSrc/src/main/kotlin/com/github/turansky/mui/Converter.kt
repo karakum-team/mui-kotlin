@@ -371,62 +371,55 @@ private fun findDefaultUnions(
     val unions = mutableListOf<String>()
     var newContent = content
 
-    val colorSource = newContent.substringAfter("  color?: ", "")
-        .substringBefore(";\n")
-
-    if (colorSource.isNotEmpty()) {
-        val source = getUnionSource(colorSource)
-
+    findUnionSource(newContent, "color") { original, source ->
         when (source) {
             "AlertColor",
-            -> newContent = newContent.replaceFirst(colorSource, source)
+            -> newContent = newContent.replaceFirst(original, source)
 
             "PropTypes.Color",
             "PropTypes.Color | 'transparent'",
-            -> newContent = newContent.replaceFirst(colorSource, "csstype.Color")
+            -> newContent = newContent.replaceFirst(original, "csstype.Color")
 
             else -> if (source.startsWith("'")) {
                 val colorName = "${name}Color"
-                newContent = newContent.replaceFirst(colorSource, colorName)
+                newContent = newContent.replaceFirst(original, colorName)
                 unions += convertUnion("$colorName = $source")!!
             }
         }
     }
 
-    val variantSource = newContent.substringAfter("  variant?: ", "")
-        .substringBefore(";\n")
-
-    if (variantSource.isNotEmpty() && name != "TextField") {
-        val source = getUnionSource(variantSource)
-        if (source.startsWith("'")) {
+    findUnionSource(newContent, "variant") { original, source ->
+        if (source.startsWith("'") && name != "TextField") {
             val variantName = "${name}Variant"
-            newContent = newContent.replaceFirst(variantSource, variantName)
+            newContent = newContent.replaceFirst(original, variantName)
             unions += convertUnion("$variantName = $source")!!
         }
     }
 
-    val sizeSource = newContent.substringAfter("  size?: ", "")
-        .substringBefore(";\n")
-
-    if (sizeSource.isNotEmpty()) {
-        val source = getUnionSource(sizeSource)
+    findUnionSource(newContent, "size") { original, source ->
         if (source.startsWith("'")) {
             val sizeName = when (source) {
                 "'small' | 'medium'" -> "BaseSize"
                 "'small' | 'medium' | 'large'" -> "Size"
                 else -> TODO()
             }
-            newContent = newContent.replaceFirst(sizeSource, sizeName)
+            newContent = newContent.replaceFirst(original, sizeName)
         }
     }
 
     return newContent to unions
 }
 
-private fun getUnionSource(
+private fun findUnionSource(
     content: String,
-): String {
-    var source = content
+    property: String,
+    callback: (String, String) -> Unit,
+) {
+    val original = content.substringAfter("  $property?: ", "")
+        .substringBefore(";\n")
+        .ifEmpty { return }
+
+    var source = original
         .substringBefore(",")
         .removePrefix("OverridableStringUnion<")
         .trim()
@@ -437,5 +430,5 @@ private fun getUnionSource(
             .map { it.trim() }
             .joinToString(" | ")
 
-    return source
+    callback(original, source)
 }
