@@ -368,20 +368,42 @@ private fun findDefaultUnions(
     name: String,
     content: String,
 ): Pair<String, List<String>> {
-    if (name == "TextField")
-        return content to emptyList()
+    val unions = mutableListOf<String>()
+    var newContent = content
 
-    val variantSource = content.substringAfter("  variant?: ", "")
+    val colorSource = newContent.substringAfter("  color?: ", "")
         .substringBefore(";\n")
 
-    val source = variantSource
-        .substringBefore(",")
-        .removePrefix("OverridableStringUnion<")
-        .trim()
-        .takeIf { it.startsWith("'") }
-        ?: return content to emptyList()
+    if (colorSource.isNotEmpty()) {
+        val source = colorSource
+            .substringBefore(",")
+            .removePrefix("OverridableStringUnion<")
+            .trim()
+            .takeIf { it.startsWith("'") }
 
-    val variantName = "${name}Variant"
-    return content.replaceFirst(variantSource, variantName) to
-            listOf(convertUnion("$variantName = $source")!!)
+        if (source != null) {
+            val colorName = "${name}Color"
+            newContent = newContent.replaceFirst(colorSource, colorName)
+            unions += convertUnion("$colorName = $source")!!
+        }
+    }
+
+    val variantSource = newContent.substringAfter("  variant?: ", "")
+        .substringBefore(";\n")
+
+    if (variantSource.isNotEmpty() && name != "TextField") {
+        val source = variantSource
+            .substringBefore(",")
+            .removePrefix("OverridableStringUnion<")
+            .trim()
+            .takeIf { it.startsWith("'") }
+
+        if (source != null) {
+            val variantName = "${name}Variant"
+            newContent = newContent.replaceFirst(variantSource, variantName)
+            unions += convertUnion("$variantName = $source")!!
+        }
+    }
+
+    return newContent to unions
 }
