@@ -405,5 +405,25 @@ private fun findDefaultUnions(
         }
     }
 
+    val sizeSource = newContent.substringAfter("  size?: ", "")
+        .substringBefore(";\n")
+
+    if (sizeSource.isNotEmpty()) {
+        val source = sizeSource
+            .substringBefore(",")
+            .removePrefix("OverridableStringUnion<")
+            .trim()
+            .takeIf { it.startsWith("'") }
+
+        if (source != null) {
+            val sizeName = when (source) {
+                "'small' | 'medium'" -> "BaseSize"
+                "'small' | 'medium' | 'large'" -> "Size"
+                else -> TODO()
+            }
+            newContent = newContent.replaceFirst(sizeSource, sizeName)
+        }
+    }
+
     return newContent to unions
 }
