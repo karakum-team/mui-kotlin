@@ -379,12 +379,13 @@ private fun findDefaultUnions(
             .substringBefore(",")
             .removePrefix("OverridableStringUnion<")
             .trim()
-            .takeIf { it.startsWith("'") }
 
-        if (source != null) {
+        if (source.startsWith("'")) {
             val colorName = "${name}Color"
             newContent = newContent.replaceFirst(colorSource, colorName)
             unions += convertUnion("$colorName = $source")!!
+        } else if (source == "AlertColor") {
+            newContent = newContent.replaceFirst(colorSource, source)
         }
     }
 
@@ -396,9 +397,8 @@ private fun findDefaultUnions(
             .substringBefore(",")
             .removePrefix("OverridableStringUnion<")
             .trim()
-            .takeIf { it.startsWith("'") }
 
-        if (source != null) {
+        if (source.startsWith("'")) {
             val variantName = "${name}Variant"
             newContent = newContent.replaceFirst(variantSource, variantName)
             unions += convertUnion("$variantName = $source")!!
@@ -413,9 +413,8 @@ private fun findDefaultUnions(
             .substringBefore(",")
             .removePrefix("OverridableStringUnion<")
             .trim()
-            .takeIf { it.startsWith("'") }
 
-        if (source != null) {
+        if (source.startsWith("'")) {
             val sizeName = when (source) {
                 "'small' | 'medium'" -> "BaseSize"
                 "'small' | 'medium' | 'large'" -> "Size"
