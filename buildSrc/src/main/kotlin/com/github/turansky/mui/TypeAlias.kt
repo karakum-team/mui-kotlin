@@ -3,7 +3,6 @@ package com.github.turansky.mui
 private val ALIAS_MAP = mapOf(
     "BackdropUnstyledTypeMap['props']['classes']" to "",
     "FilledInputProps['onChange']" to "react.dom.events.ChangeEventHandler<org.w3c.dom.HTMLElement>",
-    "FormLabelProps['color']" to "",
     "InputBaseProps['inputProps']" to "InputBaseComponentProps",
     "InputBaseProps['onBlur']" to "react.dom.events.FocusEventHandler<org.w3c.dom.HTMLElement>",
     "InputProps['inputProps']" to "InputBaseComponentProps",
@@ -44,6 +43,11 @@ private val ALIAS_MAP = mapOf(
     "TypographyProps['color']" to "",
     "TypographyProps['variant']" to "",
     "UsePaginationItem['type']" to "",
+
+    "FormLabelProps['color']" to "FormLabelColor",
+    "PaginationProps['color']" to "PaginationColor",
+    "PaginationProps['size']" to "Size",
+    "PaginationProps['variant']" to "PaginationVariant",
 )
 
 internal fun String.toAlias(): String? =
