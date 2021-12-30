@@ -351,7 +351,12 @@ private fun generate(
     }
 
     if (extensions.isNotEmpty()) {
-        targetDir.resolve("$componentName.ext.kt")
+        val fileName = when (componentName) {
+            "Stepper" -> "Orientation"
+            else -> "$componentName.ext"
+        }
+
+        targetDir.resolve("$fileName.kt")
             .writeText(fileContent(body = extensions, pkg = pkg))
     }
 

@@ -108,6 +108,9 @@ private val STANDARD_TYPE_MAP = mapOf(
     "Record<string, any> & { mode: 'light' | 'dark' }" to "kotlinext.js.Record<String, *>",
 
     CREATE_TRANSITION to "(props: ReadonlyArray<String>?, options: $DYNAMIC) -> String",
+
+    "'horizontal' | 'vertical'" to "Orientation",
+    "'vertical' | 'horizontal'" to "Orientation",
 )
 
 internal fun kotlinType(
