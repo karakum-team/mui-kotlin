@@ -6,6 +6,7 @@ internal val UNION_PROPERTIES = setOf(
     "indicatorColor",
     "textColor",
 
+    "actionPosition",
     "anchorPosition",
     "iconPosition",
     "loadingPosition",
@@ -86,9 +87,13 @@ private fun findUnionSource(
     property: String,
     callback: (String, String) -> Unit,
 ) {
-    val original = content.substringAfter("  $property?: ", "")
-        .substringBefore(";\n")
-        .ifEmpty { return }
+    val original = sequenceOf(
+        content.substringAfter("  $property?: ", ""),
+        content.substringAfter("  $property: ", ""),
+    ).filter { it.isNotEmpty() }
+        .map { it.substringBefore(";\n") }
+        .firstOrNull()
+        ?: return
 
     var source = original
         .substringBefore(",")
