@@ -47,6 +47,7 @@ private val ALIAS_MAP = mapOf(
     "FormLabelProps['color']" to "FormLabelColor",
     "PaginationProps['color']" to "PaginationColor",
     "PaginationProps['size']" to "Size",
+    "PaginationProps['shape']" to "PaginationShape",
     "PaginationProps['variant']" to "PaginationVariant",
 )
 

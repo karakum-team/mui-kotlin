@@ -58,7 +58,10 @@ internal fun findDefaultUnions(
             if (!source.startsWith("'"))
                 return@findUnionSource
 
-            val className = name + property.capitalize()
+            var className = property.capitalize()
+            if ("P" !in property)
+                className = name + className
+
             newContent = newContent.replaceFirst(original, className)
             unions += convertUnion("$className = $source")!!
         }
