@@ -43,7 +43,7 @@ external interface TabProps :
      * The position of the icon relative to the label.
      * @default 'top'
      */
-    var iconPosition: TabIconPosition?
+    var iconPosition: IconPosition?
 
     /**
      * The label element.
