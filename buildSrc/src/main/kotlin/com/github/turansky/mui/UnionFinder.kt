@@ -2,6 +2,7 @@ package com.github.turansky.mui
 
 internal val UNION_PROPERTIES = setOf(
     "variant",
+    "fontSize",
 
     "indicatorColor",
     "textColor",
@@ -59,7 +60,11 @@ internal fun findDefaultUnions(
             if (!source.startsWith("'"))
                 return@findUnionSource
 
-            var className = property.capitalize()
+            var className = when (property) {
+                "fontSize" -> "Size"
+                else -> property.capitalize()
+            }
+
             if ("P" !in property)
                 className = name + className
 
