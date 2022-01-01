@@ -63,7 +63,9 @@ internal fun findDefaultUnions(
             if ("P" !in property)
                 className = name + className
 
-            newContent = newContent.replaceFirst(original, className)
+            newContent = newContent
+                .replaceFirst("\n$original", " $className")
+                .replaceFirst(" $original", " $className")
             unions += convertUnion("$className = $source")!!
         }
     }
@@ -89,6 +91,7 @@ private fun findUnionSource(
 ) {
     val original = sequenceOf(
         content.substringAfter("  $property?: ", ""),
+        content.substringAfter("  $property?:\n", ""),
         content.substringAfter("  $property: ", ""),
     ).filter { it.isNotEmpty() }
         .map { it.substringBefore(";\n") }
