@@ -26,6 +26,11 @@ internal val UNION_PROPERTIES = setOf(
     "direction",
 
     "align",
+
+    "alignItems",
+    "margin",
+    "padding",
+    "textAlign",
 )
 
 internal fun findDefaultUnions(
