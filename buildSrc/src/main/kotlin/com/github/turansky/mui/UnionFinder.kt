@@ -41,19 +41,12 @@ internal fun findDefaultUnions(
     var newContent = content
 
     findUnionSource(newContent, "color") { original, source ->
-        when (source) {
-            "AlertColor",
-            -> newContent = newContent.replaceFirst(original, source)
-
-            "PropTypes.Color",
-            "PropTypes.Color | 'transparent'",
-            -> newContent = newContent.replaceFirst(original, "csstype.Color")
-
-            else -> if (source.startsWith("'")) {
-                val colorName = "${name}Color"
-                newContent = newContent.replaceFirst(original, colorName)
-                unions += convertUnion("$colorName = $source")!!
-            }
+        if (source.startsWith("'")) {
+            val colorName = "${name}Color"
+            newContent = newContent.replaceFirst(original, colorName)
+            unions += convertUnion("$colorName = $source")!!
+        } else if (source == "AlertColor") {
+            newContent = newContent.replaceFirst(original, source)
         }
     }
 
@@ -111,6 +104,8 @@ private fun findUnionSource(
     var source = original
         .substringBefore(",")
         .removePrefix("OverridableStringUnion<")
+        // TODO: remove hardcode
+        .replace("PropTypes.Color", "'inherit' | 'primary' | 'secondary' | 'default'")
         .trim()
 
     if (source.startsWith("| '"))
