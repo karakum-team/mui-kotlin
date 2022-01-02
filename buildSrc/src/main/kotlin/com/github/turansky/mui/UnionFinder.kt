@@ -27,6 +27,9 @@ internal val UNION_PROPERTIES = setOf(
     "shape",
     "direction",
 
+    "vertical",
+    "horizontal",
+
     "align",
 
     "alignItems",
@@ -60,8 +63,17 @@ internal fun findDefaultUnions(
             if (!source.startsWith("'"))
                 return@findUnionSource
 
+            if (source.endsWith(" | number"))
+                return@findUnionSource
+
             var className = when (property) {
-                "fontSize" -> "Size"
+                "fontSize",
+                -> "Size"
+
+                "vertical",
+                "horizontal",
+                -> "Origin" + property.capitalize()
+
                 else -> property.capitalize()
             }
 
