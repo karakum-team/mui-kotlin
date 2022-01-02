@@ -1,5 +1,10 @@
 package com.github.turansky.mui
 
+private val TOP_UNION_PROPERTIES = setOf(
+    "matchFrom",
+    "blurOnSelect",
+)
+
 internal val UNION_PROPERTIES = setOf(
     "animation",
     "variant",
@@ -36,7 +41,7 @@ internal val UNION_PROPERTIES = setOf(
     "margin",
     "padding",
     "textAlign",
-)
+) + TOP_UNION_PROPERTIES
 
 internal fun findDefaultUnions(
     name: String,
@@ -77,7 +82,7 @@ internal fun findDefaultUnions(
                 else -> property.capitalize()
             }
 
-            if ("P" !in property)
+            if ("P" !in property && property !in TOP_UNION_PROPERTIES)
                 className = name + className
 
             newContent = newContent
