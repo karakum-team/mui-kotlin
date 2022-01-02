@@ -1,6 +1,7 @@
 package com.github.turansky.mui
 
 internal val UNION_PROPERTIES = setOf(
+    "animation",
     "variant",
     "fontSize",
 
@@ -18,9 +19,10 @@ internal val UNION_PROPERTIES = setOf(
 
     "overlap",
     "scroll",
+    "scrollButtons",
     "anchor",
     "implementation",
-    // "edge",
+    "edge",
     "underline",
     "shape",
     "direction",
