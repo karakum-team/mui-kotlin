@@ -143,7 +143,7 @@ internal fun kotlinType(
         return if (t == DYNAMIC) t else "$t?"
     }
 
-    if (KNOWN_TYPE_SUFFIXES.any { type.endsWith(it) } && " | " !in type && type != "Color" && type != "SortDirection" /* TEMP */)
+    if (KNOWN_TYPE_SUFFIXES.any { type.endsWith(it) } && " | " !in type && type != "Color")
         return type
 
     val promiseResult = type.removeSurrounding("Promise<", ">")

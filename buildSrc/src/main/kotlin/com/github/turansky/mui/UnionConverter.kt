@@ -9,6 +9,8 @@ internal fun convertUnion(
     val body = source.substringAfter(" =")
         .removePrefix(" ")
         .removePrefix("\n  | ")
+        .replace(" | false", " | 'false'")
+        .replace(" | true", " | 'true'")
 
     if ((!body.startsWith("'") || !body.endsWith("'")) && body.substringAfterLast("| ").toIntOrNull() == null)
         return null
@@ -22,6 +24,7 @@ internal fun convertUnion(
         .joinToString(", ", "@JsName(\"\"\"($UNION_MARKER{", "}$UNION_MARKER)\"\"\")")
 
     val constantNames = values.asSequence()
+        .map { escape(it) }
         .map { "${enumConstant(it)},\n" }
         .joinToString("")
 
@@ -35,6 +38,17 @@ internal fun convertUnion(
         }
     """.trimIndent()
 }
+
+private fun escape(
+    value: String,
+): String =
+    when (value) {
+        "false",
+        "true",
+        -> "`$value`"
+
+        else -> value
+    }
 
 private fun enumConstant(
     value: String,
