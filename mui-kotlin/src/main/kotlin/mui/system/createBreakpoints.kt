@@ -82,4 +82,4 @@ external interface BreakpointsOptions {
 }
 
 @JsName("default")
-external fun createBreakpoints(options: mui.system.BreakpointsOptions): mui.system.Breakpoints
+external fun createBreakpoints(options: BreakpointsOptions): Breakpoints
