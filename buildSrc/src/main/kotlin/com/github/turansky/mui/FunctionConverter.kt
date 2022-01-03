@@ -1,5 +1,7 @@
 package com.github.turansky.mui
 
+private const val QUERY_INPUT_TYPE = "string | ((theme: Theme) => string)"
+
 internal fun findDefaultFunction(
     name: String,
     content: String,
@@ -13,6 +15,12 @@ internal fun findDefaultFunction(
     // TEMP
     if (name == "useAutocomplete")
         return null
+
+    if (QUERY_INPUT_TYPE in content)
+        return QUERY_INPUT_TYPE.splitToSequence(" | ")
+            .map { content.replace(QUERY_INPUT_TYPE, it) }
+            .mapNotNull { findDefaultFunction(name, it) }
+            .joinToString("\n\n")
 
     val (before, source) = content.split("export default function ")
 
@@ -32,7 +40,9 @@ internal fun findDefaultFunction(
         .replace("?: T)", ": T? = definedExternally)")
         .replace("useMediaQuery<Theme = unknown>", "<Theme : Any> useMediaQuery")
         .replace("?: UseMediaQueryOptions", ": UseMediaQueryOptions? = definedExternally")
-        .replace("?: boolean", "?: Boolean")
+        .replace(": boolean", ": Boolean")
+        .replace(": string", ": String")
+        .replace(": ((theme: Theme) => string)", ": (theme: Theme) -> String")
 
     if ("()" !in declaration && "(\n" !in declaration)
         declaration = declaration.replaceFirst("(", "(\n")
