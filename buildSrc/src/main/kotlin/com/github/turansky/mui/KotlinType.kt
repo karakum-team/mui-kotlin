@@ -74,6 +74,7 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "readonly CalendarPickerView[]" to "ReadonlyArray<CalendarPickerView>",
     "Breakpoint[]" to "ReadonlyArray<Breakpoint>",
+    "UsePaginationItem[]" to "ReadonlyArray<UsePaginationItem>",
 
     "HTMLDivElement" to "org.w3c.dom.HTMLDivElement",
     "HTMLInputElement" to "org.w3c.dom.HTMLInputElement",
@@ -106,6 +107,8 @@ private val STANDARD_TYPE_MAP = mapOf(
     "NonNullable<React.HTMLAttributes<any>['tabIndex']>" to "Int",
     "React.InputHTMLAttributes<unknown>['type']" to "react.dom.html.InputType",
     "React.InputHTMLAttributes<HTMLInputElement>['type']" to "react.dom.html.InputType",
+
+    "React.ReactEventHandler" to "react.dom.events.ReactEventHandler<*>",
 
     "null | Element | ((element: Element) => Element)" to "(element: org.w3c.dom.Element) -> org.w3c.dom.Element",
 

@@ -14,6 +14,7 @@ internal fun String.toFunctionType(): String? {
         .replace("React.SyntheticEvent<{}>", "react.dom.events.SyntheticEvent<*, *>")
         .replace("React.SyntheticEvent<any>", "react.dom.events.SyntheticEvent<*, *>")
         .replace("React.SyntheticEvent", "react.dom.events.SyntheticEvent<*, *>")
+        .replace("React.ChangeEvent<unknown>", "react.dom.events.ChangeEvent<*>")
         .replace("React.ChangeEvent<HTMLInputElement>", "react.dom.events.ChangeEvent<org.w3c.dom.HTMLInputElement>")
         .replace("React.MouseEvent<HTMLButtonElement>", "react.dom.events.MouseEvent<org.w3c.dom.HTMLButtonElement, *>")
         .replace("React.MouseEvent<HTMLElement>", "react.dom.events.MouseEvent<org.w3c.dom.HTMLElement, *>")
