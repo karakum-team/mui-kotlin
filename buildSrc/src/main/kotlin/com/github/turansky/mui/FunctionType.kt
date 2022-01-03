@@ -8,6 +8,7 @@ internal fun String.toFunctionType(): String? {
         return null
 
     return replace(" => ", "->")
+        .replace("{\n    matches: boolean;\n}", DYNAMIC)
         .replace("MouseEvent | TouchEvent", "org.w3c.dom.events.UIEvent")
         .replace("React.SyntheticEvent | Event", "react.dom.events.SyntheticEvent<*, *>")
         .replace("React.SyntheticEvent<any> | Event", "react.dom.events.SyntheticEvent<*, *>")
