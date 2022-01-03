@@ -24,8 +24,8 @@ internal fun findDefaultFunction(
         .substringBefore(";")
         .replace(": Breakpoints,", ": mui.system.Breakpoints,")
         .replace(": Spacing,", ": mui.system.Spacing,")
-        .replace("?: ThemeOptions", ": ThemeOptions?")
-        .replace("?: SpacingOptions", ": SpacingOptions?")
+        .replace("?: ThemeOptions", ": ThemeOptions? = definedExternally")
+        .replace("?: SpacingOptions", ": SpacingOptions? = definedExternally")
         .replace("...args: object[]", "vararg args: dynamic")
         .replace("(styles: any): never", "(styles: Any)")
 
