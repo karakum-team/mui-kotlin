@@ -12,6 +12,9 @@ internal fun convertUnion(
         .replace(" | false", " | 'false'")
         .replace(" | true", " | 'true'")
 
+    if (name == "SpacingOptions")
+        return "typealias $name = Any"
+
     if ((!body.startsWith("'") || !body.endsWith("'")) && body.substringAfterLast("| ").toIntOrNull() == null)
         return null
 

@@ -11,10 +11,6 @@ internal fun findDefaultFunction(
         return null
 
     // TEMP
-    if (name == "createSpacing")
-        return null
-
-    // TEMP
     if (name == "useAutocomplete")
         return null
 
@@ -29,6 +25,7 @@ internal fun findDefaultFunction(
         .replace(": Breakpoints,", ": mui.system.Breakpoints,")
         .replace(": Spacing,", ": mui.system.Spacing,")
         .replace("?: ThemeOptions", ": ThemeOptions?")
+        .replace("?: SpacingOptions", ": SpacingOptions?")
         .replace("...args: object[]", "vararg args: dynamic")
         .replace("(styles: any): never", "(styles: Any)")
 
