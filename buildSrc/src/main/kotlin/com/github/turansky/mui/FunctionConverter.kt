@@ -30,6 +30,9 @@ internal fun findDefaultFunction(
         .replace("(styles: any): never", "(styles: Any)")
         .replace("useTheme<T = Theme>", "<T : Theme> useTheme")
         .replace("?: T)", ": T? = definedExternally)")
+        .replace("useMediaQuery<Theme = unknown>", "<Theme : Any> useMediaQuery")
+        .replace("?: UseMediaQueryOptions", ": UseMediaQueryOptions? = definedExternally")
+        .replace("?: boolean", "?: Boolean")
 
     if ("()" !in declaration && "(\n" !in declaration)
         declaration = declaration.replaceFirst("(", "(\n")
