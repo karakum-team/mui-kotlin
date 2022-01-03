@@ -26,8 +26,8 @@ internal fun findDefaultFunction(
 
     val declaration = source
         .substringBefore(";")
-        .replace(": Breakpoints", ": mui.system.Breakpoints")
-        .replace(": Spacing", ": mui.system.Spacing")
+        .replace(": Breakpoints,", ": mui.system.Breakpoints,")
+        .replace(": Spacing,", ": mui.system.Spacing,")
         .replace("?: ThemeOptions", ": ThemeOptions?")
         .replace("...args: object[]", "vararg args: dynamic")
         .replace("(styles: any): never", "(styles: Any)")
