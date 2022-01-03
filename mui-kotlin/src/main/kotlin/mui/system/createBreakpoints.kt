@@ -80,3 +80,6 @@ external interface BreakpointsOptions {
      */
     var unit: dynamic
 }
+
+@JsName("default")
+external fun createBreakpoints(options: mui.system.BreakpointsOptions): mui.system.Breakpoints
