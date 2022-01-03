@@ -99,6 +99,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "ClickAwayListenerProps" to "mui.base.ClickAwayListenerProps",
 
     "React.InputHTMLAttributes<HTMLInputElement>" to "react.dom.html.InputHTMLAttributes<org.w3c.dom.HTMLInputElement>",
+    "React.ImgHTMLAttributes<HTMLImageElement> & {\n  sx?: SxProps<Theme>;\n}" to "react.dom.html.ImgHTMLAttributes<org.w3c.dom.HTMLImageElement>",
     "React.ImgHTMLAttributes<HTMLImageElement>" to "react.dom.html.ImgHTMLAttributes<org.w3c.dom.HTMLImageElement>",
     "React.HTMLAttributes<HTMLDivElement>" to "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>",
     "Partial<React.HTMLAttributes<HTMLDivElement>>" to "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>",
