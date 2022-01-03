@@ -11,6 +11,10 @@ internal fun findDefaultFunction(
         return null
 
     // TEMP
+    if (name == "createSpacing")
+        return null
+
+    // TEMP
     if (name == "useAutocomplete")
         return null
 
@@ -20,7 +24,15 @@ internal fun findDefaultFunction(
         before.substringAfterLast("\n\n")
     } else ""
 
+    val declaration = source
+        .substringBefore(";")
+        .replace(": Breakpoints", ": mui.system.Breakpoints")
+        .replace(": Spacing", ": mui.system.Spacing")
+        .replace("?: ThemeOptions", ": ThemeOptions?")
+        .replace("...args: object[]", "vararg args: dynamic")
+        .replace("(styles: any): never", "(styles: Any)")
+
     return comment +
             "@JsName(\"default\")\n" +
-            "external fun $source"
+            "external fun $declaration"
 }
