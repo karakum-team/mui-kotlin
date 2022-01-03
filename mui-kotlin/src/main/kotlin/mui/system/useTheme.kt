@@ -6,4 +6,6 @@
 package mui.system
 
 @JsName("default")
-external fun <T : Theme> useTheme(defaultTheme: T? = definedExternally): T
+external fun <T : Theme> useTheme(
+    defaultTheme: T? = definedExternally,
+): T
