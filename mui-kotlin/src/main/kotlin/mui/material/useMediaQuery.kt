@@ -8,7 +8,7 @@ package mui.material
 external interface UseMediaQueryOptions {
     var defaultMatches: Boolean?
 
-    var matchMedia: dynamic
+    var matchMedia: ((query: String) -> org.w3c.dom.MediaQueryList)?
 
     var noSsr: Boolean?
 
@@ -16,7 +16,7 @@ external interface UseMediaQueryOptions {
 }
 
 @JsName("default")
-external fun <Theme : Any> useMediaQuery(
+external fun useMediaQuery(
     queryInput: String,
     options: UseMediaQueryOptions? = definedExternally,
 ): Boolean
