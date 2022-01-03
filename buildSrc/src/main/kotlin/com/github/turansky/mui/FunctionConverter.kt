@@ -20,7 +20,7 @@ internal fun findDefaultFunction(
         before.substringAfterLast("\n\n")
     } else ""
 
-    val declaration = source
+    var declaration = source
         .substringBefore(";")
         .replace(": Breakpoints,", ": mui.system.Breakpoints,")
         .replace(": Spacing,", ": mui.system.Spacing,")
@@ -30,6 +30,10 @@ internal fun findDefaultFunction(
         .replace("(styles: any): never", "(styles: Any)")
         .replace("useTheme<T = Theme>", "<T : Theme> useTheme")
         .replace("?: T)", ": T? = definedExternally)")
+
+    if ("()" !in declaration && "(\n" !in declaration)
+        declaration = declaration.replaceFirst("(", "(\n")
+            .replace(", ", ",\n")
 
     return comment +
             "@JsName(\"default\")\n" +
