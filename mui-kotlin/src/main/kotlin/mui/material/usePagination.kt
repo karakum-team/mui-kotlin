@@ -84,7 +84,7 @@ external interface UsePaginationProps : react.Props {
 external interface UsePaginationItem {
     var onClick: react.dom.events.ReactEventHandler<*>
 
-    var type: mui.system.Union /* 'page' | 'first' | 'last' | 'next' | 'previous' | 'start-ellipsis' | 'end-ellipsis' */
+    var type: UsePaginationItemType
 
     var page: Number
 
