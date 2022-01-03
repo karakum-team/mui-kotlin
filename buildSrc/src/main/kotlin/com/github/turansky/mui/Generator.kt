@@ -173,6 +173,8 @@ private fun generateSystemDeclarations(
         .listFiles { file -> file.name.startsWith("create") && file.name.endsWith(".d.ts") }!!
         .forEach { generate(it, targetDir, Package.system) }
 
+    generate(typesDir.resolve("useTheme.d.ts"), targetDir, Package.system)
+
     targetDir.resolve("Aliases.kt")
         .writeText(fileContent(body = SYSTEM_ALIASES, pkg = Package.system))
 
@@ -234,6 +236,7 @@ private fun generateStylesDeclarations(
 
         return when (name) {
             "ThemeProvider",
+            "useTheme",
             "zIndex",
             -> true
 

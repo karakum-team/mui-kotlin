@@ -28,6 +28,8 @@ internal fun findDefaultFunction(
         .replace("?: SpacingOptions", ": SpacingOptions? = definedExternally")
         .replace("...args: object[]", "vararg args: dynamic")
         .replace("(styles: any): never", "(styles: Any)")
+        .replace("useTheme<T = Theme>", "<T : Theme> useTheme")
+        .replace("?: T)", ": T? = definedExternally)")
 
     return comment +
             "@JsName(\"default\")\n" +
