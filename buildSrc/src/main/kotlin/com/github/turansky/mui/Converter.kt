@@ -39,6 +39,7 @@ internal fun convertDefinitions(
     val (content, defaultUnions) = definitionFile.readText()
         .replace("\r\n", "\n")
         .removeInlineClasses()
+        .removeDeprecated()
         .let { findDefaultUnions(name, it) }
 
     val declarations = mutableListOf<String>()
@@ -92,6 +93,14 @@ internal fun convertDefinitions(
 private fun String.removeInlineClasses(): String =
     removeInlineClasses("  classes: ")
         .removeInlineClasses("  classes?: ")
+
+private fun String.removeDeprecated(): String {
+    if ("interface MuiMediaQuery" !in this)
+        return this
+
+    return substringAfter(substringBefore("export interface Options {"))
+        .replace("Options", "UseMediaQueryOptions")
+}
 
 private fun String.removeInlineClasses(
     trigger: String,
