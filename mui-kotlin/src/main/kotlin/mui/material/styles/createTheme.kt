@@ -42,4 +42,4 @@ external interface Theme {
 }
 
 @JsName("default")
-external fun createTheme(options: ThemeOptions?, vararg args: dynamic): Theme
+external fun createTheme(options: ThemeOptions? = definedExternally, vararg args: dynamic): Theme
