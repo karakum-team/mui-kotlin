@@ -13,6 +13,8 @@ internal val UNION_PROPERTIES = setOf(
     "indicatorColor",
     "textColor",
 
+    "type",
+
     "actionPosition",
     "anchorPosition",
     "iconPosition",
@@ -65,6 +67,9 @@ internal fun findDefaultUnions(
             if (name == "TextField" && property == "variant")
                 return@findUnionSource
 
+            if (property == "type" && name != "usePagination")
+                return@findUnionSource
+
             if (!source.startsWith("'"))
                 return@findUnionSource
 
@@ -84,6 +89,9 @@ internal fun findDefaultUnions(
 
             if ("P" !in property && property !in TOP_UNION_PROPERTIES)
                 className = name + className
+
+            if (property == "type" && name == "usePagination")
+                className = "UsePaginationItemType"
 
             newContent = newContent
                 .replaceFirst("\n$original", " $className")
