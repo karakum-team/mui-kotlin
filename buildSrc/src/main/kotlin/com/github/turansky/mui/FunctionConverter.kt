@@ -18,7 +18,12 @@ internal fun findDefaultFunction(
 
     if (QUERY_INPUT_TYPE in content)
         return QUERY_INPUT_TYPE.splitToSequence(" | ")
-            .map { content.replace(QUERY_INPUT_TYPE, it) }
+            .map {
+                val newContent = content.replace(QUERY_INPUT_TYPE, it)
+                if ("Theme" !in it) {
+                    newContent.replace("<Theme = unknown>", "")
+                } else newContent
+            }
             .mapNotNull { findDefaultFunction(name, it) }
             .joinToString("\n\n")
 

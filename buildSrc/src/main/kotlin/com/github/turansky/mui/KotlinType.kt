@@ -123,6 +123,8 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "'horizontal' | 'vertical'" to "Orientation",
     "'vertical' | 'horizontal'" to "Orientation",
+
+    "typeof window.matchMedia" to "(query: String) -> org.w3c.dom.MediaQueryList"
 )
 
 internal fun kotlinType(
