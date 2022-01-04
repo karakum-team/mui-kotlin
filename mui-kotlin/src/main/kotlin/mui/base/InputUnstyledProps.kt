@@ -32,13 +32,13 @@ external interface UseInputProps : react.Props {
      */
     var error: Boolean?
 
-    var onBlur: dynamic
+    var onBlur: react.dom.events.FocusEventHandler<*>?
 
-    var onClick: dynamic
+    var onClick: react.dom.events.MouseEventHandler<*>?
 
     var onChange: react.dom.events.ChangeEventHandler<org.w3c.dom.HTMLInputElement>?
 
-    var onFocus: dynamic
+    var onFocus: react.dom.events.FocusEventHandler<*>?
 
     /**
      * If `true`, the `input` element is required.
