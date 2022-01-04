@@ -162,12 +162,13 @@ private fun generateBaseDeclarations(
 
             it.resolve("$name.d.ts")
         }
-        .onEach {
-            val props = it.parentFile
-                .resolve(it.name.replace(".d.ts", "Props.d.ts"))
-
-            if (props.exists())
-                generate(props, targetDir, Package.base)
+        .flatMap { component ->
+            val dir = component.parentFile
+            sequenceOf(
+                dir.resolve(dir.name + "Props.d.ts"),
+                dir.resolve("Use" + dir.name.removeSuffix("Unstyled") + "Props.d.ts"),
+            ).filter { it.exists() }
+                .plus(component)
         }
         .forEach { generate(it, targetDir, Package.base) }
 }

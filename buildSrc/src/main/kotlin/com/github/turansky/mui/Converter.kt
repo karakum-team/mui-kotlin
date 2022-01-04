@@ -238,7 +238,7 @@ private fun findAdditionalProps(
     propsName: String,
     content: String,
 ): List<String> {
-    val bodies = content.splitToSequence("export interface ")
+    val bodies = content.splitToSequence("export interface ", "export default interface ")
         .drop(1)
         .toList()
 
