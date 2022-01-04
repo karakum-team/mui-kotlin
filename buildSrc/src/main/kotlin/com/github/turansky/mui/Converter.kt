@@ -35,6 +35,7 @@ internal fun convertDefinitions(
     definitionFile: File,
 ): ConversionResult {
     val name = definitionFile.name.substringBefore(".")
+        .removeSuffix("Props")
 
     val (content, defaultUnions) = definitionFile.readText()
         .replace("\r\n", "\n")

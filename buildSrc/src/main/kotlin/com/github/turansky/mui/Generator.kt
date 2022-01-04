@@ -133,6 +133,17 @@ fun generateKotlinIconsDeclarations(
     generateIconsMaterialDeclarations(typesDir.resolve("icons-material"), sourceDir)
 }
 
+private val TEMP_BASE_EXCLUDED = setOf(
+    "ButtonUnstyled",
+    "FormControlUnstyled",
+    "InputUnstyled",
+    "ModalUnstyled",
+    "PopperUnstyled",
+    "SliderUnstyled",
+    "TabUnstyled",
+    "TabsUnstyled",
+)
+
 private fun generateCoreDeclarations(
     typesDir: File,
     sourceDir: File,
@@ -143,9 +154,22 @@ private fun generateCoreDeclarations(
     val directories = typesDir.listFiles { file -> file.isDirectory } ?: return
 
     directories.asSequence()
-        .filter { it.name in BASE_TYPES }
-        .map { it.resolve("${it.name}.d.ts") }
-        .plus(typesDir.resolve("AutocompleteUnstyled/useAutocomplete.d.ts"))
+        .filter { it.name.isComponentName() }
+        .filter { it.name !in TEMP_BASE_EXCLUDED }
+        .map {
+            var name = it.name
+            if (name == "AutocompleteUnstyled")
+                name = "useAutocomplete"
+
+            it.resolve("$name.d.ts")
+        }
+        .onEach {
+            val props = it.parentFile
+                .resolve(it.name.replace(".d.ts", "Props.d.ts"))
+
+            if (props.exists())
+                generate(props, targetDir, Package.base)
+        }
         .forEach { generate(it, targetDir, Package.base) }
 }
 
