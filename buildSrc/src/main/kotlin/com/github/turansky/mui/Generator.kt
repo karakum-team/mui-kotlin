@@ -118,7 +118,7 @@ fun generateKotlinDeclarations(
     typesDir: File,
     sourceDir: File,
 ) {
-    generateCoreDeclarations(typesDir.resolve("base"), sourceDir)
+    generateBaseDeclarations(typesDir.resolve("base"), sourceDir)
     generateSystemDeclarations(typesDir.resolve("system"), sourceDir)
     generateMaterialDeclarations(typesDir.resolve("material"), sourceDir)
     generateStylesDeclarations(typesDir.resolve("material/styles"), sourceDir)
@@ -144,7 +144,7 @@ private val TEMP_BASE_EXCLUDED = setOf(
     "TabsUnstyled",
 )
 
-private fun generateCoreDeclarations(
+private fun generateBaseDeclarations(
     typesDir: File,
     sourceDir: File,
 ) {
