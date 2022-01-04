@@ -110,6 +110,8 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.InputHTMLAttributes<HTMLInputElement>['type']" to "react.dom.html.InputType",
 
     "React.ReactEventHandler" to "react.dom.events.ReactEventHandler<*>",
+    "React.FocusEventHandler" to "react.dom.events.FocusEventHandler<*>",
+    "React.MouseEventHandler" to "react.dom.events.MouseEventHandler<*>",
 
     "null | Element | ((element: Element) => Element)" to "(element: org.w3c.dom.Element) -> org.w3c.dom.Element",
 
