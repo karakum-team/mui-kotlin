@@ -175,6 +175,7 @@ internal fun kotlinType(
             .replace("<{}>", "<*>")
             .replace("<HTMLInputElement | HTMLTextAreaElement>", "<org.w3c.dom.HTMLElement>")
             .replace("<HTMLTextAreaElement | HTMLInputElement>", "<org.w3c.dom.HTMLElement>")
+            .replace("<HTMLInputElement>", "<org.w3c.dom.HTMLInputElement>")
 
         return "react.dom.events.$handlerType"
     }
