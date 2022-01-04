@@ -134,7 +134,6 @@ fun generateKotlinIconsDeclarations(
 }
 
 private val TEMP_BASE_EXCLUDED = setOf(
-    "ButtonUnstyled",
     "FormControlUnstyled",
     "ModalUnstyled",
     "PopperUnstyled",

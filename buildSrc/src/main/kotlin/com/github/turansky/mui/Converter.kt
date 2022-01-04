@@ -252,7 +252,7 @@ private fun findAdditionalProps(
             .substringBefore("<")
 
         val propsLike = interfaceName.endsWith("Props")
-        if (propsLike && interfaceName == propsName)
+        if (propsLike && interfaceName == propsName && interfaceName != "UseButtonProps")
             return@mapNotNull null
 
         if (!propsLike && EXCLUDED_PREFIXES.any { interfaceName.endsWith(it) })
