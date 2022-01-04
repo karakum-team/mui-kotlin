@@ -380,20 +380,22 @@ private fun generate(
         else -> null
     }
 
-    var annotations = moduleDeclaration(pkg, subpackage, componentName)
+    val annotations = mutableListOf<String>()
+    if ("external val " in body || "external fun " in body)
+        annotations += moduleDeclaration(pkg, subpackage, componentName)
 
     if (componentName == "TextField")
-        annotations += "\n\n@file:Suppress(\n" +
+        annotations += "@file:Suppress(\n" +
                 "\"VIRTUAL_MEMBER_HIDDEN\",\n" +
                 "\"NON_EXTERNAL_DECLARATION_IN_INAPPROPRIATE_FILE\",\n" +
                 ")"
 
     if (componentName in OVERRIDE_FIX_REQUIRED)
-        annotations += "\n\n@file:Suppress(\n\"VIRTUAL_MEMBER_HIDDEN\",\n)"
+        annotations += "@file:Suppress(\n\"VIRTUAL_MEMBER_HIDDEN\",\n)"
 
     if (componentName != "CalendarPickerView") {
         targetDir.resolve("$componentName.kt")
-            .writeText(fileContent(annotations, body, pkg))
+            .writeText(fileContent(annotations.joinToString("\n\n"), body, pkg))
     }
 
     if (extensions.isNotEmpty()) {
