@@ -4,13 +4,6 @@ import java.io.File
 
 private const val GENERATOR_COMMENT = "Automatically generated - do not modify!"
 
-private enum class Suppress {
-    UNUSED_TYPEALIAS_PARAMETER,
-    NON_EXTERNAL_DECLARATION_IN_INAPPROPRIATE_FILE,
-
-    ;
-}
-
 private val DEFAULT_IMPORTS = """
 import kotlinext.js.ReadonlyArray
 """.trimIndent()
@@ -21,12 +14,24 @@ typealias Union = String
 """.trimIndent()
 
 // language=Kotlin
-private val SYSTEM_STUBS = """
+private val SYSTEM_SX_PROPS = """
 @Suppress("UNUSED_TYPEALIAS_PARAMETER")
 typealias SxProps<T> = react.CSSProperties
+""".trimIndent()
 
-external interface ResponsiveStyleValue<T: Any>
+// language=Kotlin
+private val SYSTEM_RESPONSIVE_STYLE_VALUE = """
+external interface ResponsiveStyleValue<T : Any>
 
+@Suppress("NOTHING_TO_INLINE")
+inline fun <T: Any> ResponsiveStyleValue(
+    value: T
+): ResponsiveStyleValue<T> =
+    value.unsafeCast<ResponsiveStyleValue<T>>()
+""".trimIndent()
+
+// language=Kotlin
+private val SYSTEM_STANDARD_PROPS = """
 external interface StandardProps: 
     react.PropsWithStyle,
     react.PropsWithClassName
@@ -190,8 +195,14 @@ private fun generateSystemDeclarations(
     targetDir.resolve("Aliases.kt")
         .writeText(fileContent(body = SYSTEM_ALIASES, pkg = Package.system))
 
-    targetDir.resolve("Stubs.kt")
-        .writeText(fileContent(body = SYSTEM_STUBS, pkg = Package.system))
+    targetDir.resolve("SxProps.kt")
+        .writeText(fileContent(body = SYSTEM_SX_PROPS, pkg = Package.system))
+
+    targetDir.resolve("ResponsiveStyleValue.kt")
+        .writeText(fileContent(body = SYSTEM_RESPONSIVE_STYLE_VALUE, pkg = Package.system))
+
+    targetDir.resolve("StandardProps.kt")
+        .writeText(fileContent(body = SYSTEM_STANDARD_PROPS, pkg = Package.system))
 }
 
 private fun generateMaterialDeclarations(
