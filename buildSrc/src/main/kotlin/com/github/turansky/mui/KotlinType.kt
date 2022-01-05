@@ -84,6 +84,9 @@ private val STANDARD_TYPE_MAP = mapOf(
     "Partial<OptionsGeneric<any>>" to "popper.core.Options",
     "React.Ref<Instance>" to "react.Ref<popper.core.Instance>",
 
+    "{\n  bivarianceHack(event: {}, reason: 'backdropClick' | 'escapeKeyDown'): void;\n}['bivarianceHack']" to
+            "(event: $DYNAMIC, reason: String) -> Unit",
+
     "React.ReactNode" to "react.ReactNode",
     "NonNullable<React.ReactNode>" to "react.ReactNode",
     "string | React.ReactElement" to "react.ReactNode",
