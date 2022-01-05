@@ -203,7 +203,12 @@ private fun findMapProps(
         .substringBefore("'", "")
 
     val parentType: String? = when {
-        name == "LoadingButton" -> "mui.material.ButtonProps"
+        name == "LoadingButton"
+        -> "mui.material.ButtonProps"
+
+        "${name}BaseProps & {" in propsContent && name == "ListItem"
+        -> "${name}BaseProps"
+
         else -> INTRINSIC_TYPE_MAP[intrinsicType]
     }
 
