@@ -44,14 +44,6 @@ typealias ShapeOptions = Shape
 """.trimIndent()
 
 // language=Kotlin
-private val MATERIAL_STUBS = """
-import org.w3c.dom.HTMLTableCellElement
-import react.dom.html.HTMLAttributes
-
-typealias TableCellBaseProps = react.dom.html.TdHTMLAttributes<org.w3c.dom.HTMLTableCellElement>
-""".trimIndent()
-
-// language=Kotlin
 private val MATERIAL_SIZE = """
 @Suppress(
     "NAME_CONTAINS_ILLEGAL_CHARS",
@@ -234,9 +226,6 @@ private fun generateMaterialDeclarations(
 
     targetDir.resolve("Size.kt")
         .writeText(fileContent(body = MATERIAL_SIZE, pkg = Package.material))
-
-    targetDir.resolve("Stubs.kt")
-        .writeText(fileContent(body = MATERIAL_STUBS, pkg = Package.material))
 }
 
 private fun generateStylesDeclarations(

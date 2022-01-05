@@ -15,6 +15,7 @@ internal fun convertUnion(
     when (name) {
         "SpacingOptions" -> return "typealias $name = Any"
         "TableCellAlign" -> return "typealias $name = react.dom.html.TdAlign /* $body */"
+        "TableCellBaseProps" -> return "typealias TableCellBaseProps = react.dom.html.TdHTMLAttributes<org.w3c.dom.HTMLTableCellElement>"
     }
 
     if ((!body.startsWith("'") || !body.endsWith("'")) && body.substringAfterLast("| ").toIntOrNull() == null)
