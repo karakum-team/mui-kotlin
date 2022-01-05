@@ -52,6 +52,10 @@ internal fun fixOverrides(
         -> content
             .override("hidden")
 
+        "PopperUnstyled",
+        -> content
+            .override("children")
+
         "SliderUnstyled",
         -> content
             .override("defaultValue")

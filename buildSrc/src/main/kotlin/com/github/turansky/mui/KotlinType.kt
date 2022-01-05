@@ -127,7 +127,9 @@ private val STANDARD_TYPE_MAP = mapOf(
     "'horizontal' | 'vertical'" to "mui.material.Orientation",
     "'vertical' | 'horizontal'" to "mui.material.Orientation",
 
-    "typeof window.matchMedia" to "(query: String) -> org.w3c.dom.MediaQueryList"
+    "typeof window.matchMedia" to "(query: String) -> org.w3c.dom.MediaQueryList",
+
+    "PopperPlacementType" to "popper.core.Placement",
 )
 
 internal fun kotlinType(

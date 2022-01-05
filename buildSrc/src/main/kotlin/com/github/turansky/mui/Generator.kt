@@ -132,7 +132,6 @@ fun generateKotlinIconsDeclarations(
 
 private val TEMP_BASE_EXCLUDED = setOf(
     "ModalUnstyled",
-    "PopperUnstyled",
 )
 
 private fun generateBaseDeclarations(
