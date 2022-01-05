@@ -130,9 +130,7 @@ external interface ModalUnstyledProps :
      * @param {object} event The event source of the callback.
      * @param {string} reason Can be: `"escapeKeyDown"`, `"backdropClick"`.
      */
-    var onClose: dynamic /* {
-  bivarianceHack(event: {}, reason: 'backdropClick' | 'escapeKeyDown'): void;
-}['bivarianceHack'] */
+    var onClose: ((event: dynamic, reason: String) -> Unit)?
 
     /**
      * If `true`, the component is shown.
