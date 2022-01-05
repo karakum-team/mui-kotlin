@@ -12,4 +12,5 @@ dependencies {
 
     api(enforcedPlatform("org.jetbrains.kotlin-wrappers:kotlin-wrappers-bom:$kotlinWrappersVersion"))
     api("org.jetbrains.kotlin-wrappers:kotlin-react-dom")
+    api("org.jetbrains.kotlin-wrappers:kotlin-popper")
 }
