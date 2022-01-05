@@ -255,6 +255,9 @@ private fun findAdditionalProps(
         if (propsLike && interfaceName == propsName && interfaceName != "UseButtonProps")
             return@mapNotNull null
 
+        if (interfaceName == "ValueLabelProps")
+            return@mapNotNull null
+
         if (!propsLike && EXCLUDED_PREFIXES.any { interfaceName.endsWith(it) })
             return@mapNotNull null
 

@@ -137,7 +137,6 @@ private val TEMP_BASE_EXCLUDED = setOf(
     "FormControlUnstyled",
     "ModalUnstyled",
     "PopperUnstyled",
-    "SliderUnstyled",
 )
 
 private fun generateBaseDeclarations(
