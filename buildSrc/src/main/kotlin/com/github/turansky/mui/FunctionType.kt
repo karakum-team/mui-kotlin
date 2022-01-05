@@ -33,6 +33,7 @@ internal fun String.toFunctionType(): String? {
         .replace("Breakpoint | number", "Breakpoint")
         .replace("T[]", "ReadonlyArray<T>")
         .replace("string[]", "ReadonlyArray<String>")
+        .replace("number | string", DYNAMIC)
         .replace("string", "String")
         .replace("boolean", "Boolean")
         .replace("number", "Number")

@@ -47,6 +47,10 @@ internal fun fixOverrides(
         -> content
             .override("hidden")
 
+        "TabUnstyled",
+        -> content
+            .override("components")
+            .override("componentsProps")
 
         else -> content
     }

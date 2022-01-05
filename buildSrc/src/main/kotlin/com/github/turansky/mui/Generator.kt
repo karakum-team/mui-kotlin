@@ -138,8 +138,6 @@ private val TEMP_BASE_EXCLUDED = setOf(
     "ModalUnstyled",
     "PopperUnstyled",
     "SliderUnstyled",
-    "TabUnstyled",
-    "TabsUnstyled",
 )
 
 private fun generateBaseDeclarations(
