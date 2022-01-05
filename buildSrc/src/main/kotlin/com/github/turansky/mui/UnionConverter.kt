@@ -13,6 +13,7 @@ internal fun convertUnion(
         .replace(" | true", " | 'true'")
 
     when (name) {
+        "NativeFormControlElement" -> return "typealias $name = org.w3c.dom.HTMLElement /* $body */"
         "SpacingOptions" -> return "typealias $name = Any"
         "TableCellAlign" -> return "typealias $name = react.dom.html.TdAlign /* $body */"
         "TableCellBaseProps" -> return "typealias TableCellBaseProps = react.dom.html.TdHTMLAttributes<org.w3c.dom.HTMLTableCellElement>"
