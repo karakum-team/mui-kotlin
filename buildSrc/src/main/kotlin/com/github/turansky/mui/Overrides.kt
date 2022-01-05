@@ -32,6 +32,11 @@ internal fun fixOverrides(
             .override("open")
             .replace("open: Boolean", "open: Boolean?")
 
+        "TableCell",
+        -> content
+            .override("align")
+            .override("scope")
+
         "TreeItemContent",
         "Collapse",
         -> content

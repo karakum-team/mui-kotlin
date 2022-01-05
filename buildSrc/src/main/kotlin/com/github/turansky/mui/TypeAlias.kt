@@ -33,7 +33,7 @@ private val ALIAS_MAP = mapOf(
     "SwitchBaseProps['onChange']" to "(event: react.dom.events.ChangeEvent<org.w3c.dom.HTMLInputElement>, checked: Boolean) -> Unit",
     "SwitchBaseProps['required']" to "Boolean",
     "SwitchBaseProps['value']" to "",
-    "TableCellBaseProps['scope']" to "",
+    "TableCellBaseProps['scope']" to "String",
     "TooltipProps['classes']" to "TooltipClasses",
     "TooltipProps['placement']" to "",
     "TransitionProps['easing']" to "",

@@ -48,7 +48,7 @@ private val MATERIAL_STUBS = """
 import org.w3c.dom.HTMLTableCellElement
 import react.dom.html.HTMLAttributes
 
-typealias TableCellBaseProps = HTMLAttributes<HTMLTableCellElement>
+typealias TableCellBaseProps = react.dom.html.TdHTMLAttributes<org.w3c.dom.HTMLTableCellElement>
 """.trimIndent()
 
 // language=Kotlin

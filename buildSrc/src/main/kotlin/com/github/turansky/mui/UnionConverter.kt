@@ -12,8 +12,10 @@ internal fun convertUnion(
         .replace(" | false", " | 'false'")
         .replace(" | true", " | 'true'")
 
-    if (name == "SpacingOptions")
-        return "typealias $name = Any"
+    when (name) {
+        "SpacingOptions" -> return "typealias $name = Any"
+        "TableCellAlign" -> return "typealias $name = react.dom.html.TdAlign /* $body */"
+    }
 
     if ((!body.startsWith("'") || !body.endsWith("'")) && body.substringAfterLast("| ").toIntOrNull() == null)
         return null
