@@ -59,14 +59,16 @@ internal fun convertDefinitions(
     val fun1Declaration = "export default function $name(props: $propsName): JSX.Element;"
     val fun2Declaration = "declare function $name(props: $propsName): JSX.Element;"
     val typeDeclaration = "declare const $name: React.ComponentType<$propsName>;"
-    val constDeclaration = "declare const $name: "
+    val const1Declaration = "declare const $name: "
+    val const2Declaration = "export default _default"
 
     declarations += listOfNotNull(
         findComponent(name, propsName, fun0Declaration, content),
         findComponent(name, propsName, fun1Declaration, content),
         findComponent(name, propsName, fun2Declaration, content),
         findComponent(name, propsName, typeDeclaration, content, "ComponentType"),
-        findComponent(name, propsName, constDeclaration, content),
+        findComponent(name, propsName, const1Declaration, content),
+        findComponent(name, propsName, const2Declaration, content),
     ).take(1)
 
     declarations += listOfNotNull(
@@ -368,7 +370,13 @@ private fun findComponent(
             .substringAfterLast("}\n")
 
     val typeParameter = when (propsName) {
+        "CalendarPickerProps",
+        "ClockPickerProps",
         "DateRangePickerProps",
+        "DateRangePickerDayProps",
+        "MonthPickerProps",
+        "PickersDayProps",
+
         "AutocompleteProps",
         "SelectProps",
         -> "$propsName<*>"
