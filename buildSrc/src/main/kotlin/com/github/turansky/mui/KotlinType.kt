@@ -124,8 +124,8 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     CREATE_TRANSITION to "(props: ReadonlyArray<String>?, options: $DYNAMIC) -> String",
 
-    "'horizontal' | 'vertical'" to "Orientation",
-    "'vertical' | 'horizontal'" to "Orientation",
+    "'horizontal' | 'vertical'" to "mui.material.Orientation",
+    "'vertical' | 'horizontal'" to "mui.material.Orientation",
 
     "typeof window.matchMedia" to "(query: String) -> org.w3c.dom.MediaQueryList"
 )
