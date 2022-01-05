@@ -49,6 +49,8 @@ private val ALIAS_MAP = mapOf(
     "PaginationProps['size']" to "Size",
     "PaginationProps['shape']" to "PaginationShape",
     "PaginationProps['variant']" to "PaginationVariant",
+
+    "Options['modifiers']" to "ReadonlyArray<popper.core.Modifier<*>>",
 )
 
 internal fun String.toAlias(): String? =

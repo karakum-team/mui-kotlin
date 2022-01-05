@@ -81,6 +81,8 @@ private val STANDARD_TYPE_MAP = mapOf(
     "HTMLTextAreaElement" to "org.w3c.dom.HTMLTextAreaElement",
 
     "Element | (() => Element | null) | null" to "org.w3c.dom.Element",
+    "Partial<OptionsGeneric<any>>" to "popper.core.Options",
+    "React.Ref<Instance>" to "react.Ref<popper.core.Instance>",
 
     "React.ReactNode" to "react.ReactNode",
     "NonNullable<React.ReactNode>" to "react.ReactNode",
