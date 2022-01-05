@@ -80,6 +80,8 @@ private val STANDARD_TYPE_MAP = mapOf(
     "HTMLInputElement" to "org.w3c.dom.HTMLInputElement",
     "HTMLTextAreaElement" to "org.w3c.dom.HTMLTextAreaElement",
 
+    "Element | (() => Element | null) | null" to "org.w3c.dom.Element",
+
     "React.ReactNode" to "react.ReactNode",
     "NonNullable<React.ReactNode>" to "react.ReactNode",
     "string | React.ReactElement" to "react.ReactNode",
