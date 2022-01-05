@@ -130,10 +130,6 @@ fun generateKotlinIconsDeclarations(
     generateIconsMaterialDeclarations(typesDir.resolve("icons-material"), sourceDir)
 }
 
-private val TEMP_BASE_EXCLUDED = setOf(
-    "ModalUnstyled",
-)
-
 private fun generateBaseDeclarations(
     typesDir: File,
     sourceDir: File,
@@ -145,7 +141,6 @@ private fun generateBaseDeclarations(
 
     directories.asSequence()
         .filter { it.name.isComponentName() }
-        .filter { it.name !in TEMP_BASE_EXCLUDED }
         .map {
             var name = it.name
             if (name == "AutocompleteUnstyled")

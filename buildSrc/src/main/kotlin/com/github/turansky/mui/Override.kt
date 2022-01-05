@@ -1,6 +1,8 @@
 package com.github.turansky.mui
 
 internal val OVERRIDE_FIX_REQUIRED = setOf(
+    "ModalUnstyled", // children
+
     "Chip", // children
     "RadioGroup", // defaultValue, onChange
     "Rating", // defaultValue, onChange
