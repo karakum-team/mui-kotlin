@@ -137,6 +137,9 @@ internal fun kotlinType(
     if (type in KNOWN_TYPES)
         return type
 
+    if (type == "number" && name == "tabIndex")
+        return "Int"
+
     STANDARD_TYPE_MAP[type]
         ?.also { return it }
 

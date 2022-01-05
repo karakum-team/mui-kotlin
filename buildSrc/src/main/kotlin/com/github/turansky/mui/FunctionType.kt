@@ -9,6 +9,7 @@ internal fun String.toFunctionType(): String? {
 
     return replace(" => ", "->")
         .replace("{\n    matches: boolean;\n}", DYNAMIC)
+        .replace(": Event,", ": org.w3c.dom.events.Event,")
         .replace("MouseEvent | TouchEvent", "org.w3c.dom.events.UIEvent")
         .replace("React.SyntheticEvent | Event", "react.dom.events.SyntheticEvent<*, *>")
         .replace("React.SyntheticEvent<any> | Event", "react.dom.events.SyntheticEvent<*, *>")
@@ -34,6 +35,7 @@ internal fun String.toFunctionType(): String? {
         .replace("T[]", "ReadonlyArray<T>")
         .replace("string[]", "ReadonlyArray<String>")
         .replace("number | string", DYNAMIC)
+        .replace("number | number[]", DYNAMIC)
         .replace("string", "String")
         .replace("boolean", "Boolean")
         .replace("number", "Number")

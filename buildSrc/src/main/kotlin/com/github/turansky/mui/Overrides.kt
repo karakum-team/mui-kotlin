@@ -47,6 +47,11 @@ internal fun fixOverrides(
         -> content
             .override("hidden")
 
+        "SliderUnstyled",
+        -> content
+            .override("defaultValue")
+            .override("tabIndex")
+
         "TabUnstyled",
         -> content
             .override("components")
