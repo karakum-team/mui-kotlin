@@ -5,6 +5,10 @@ internal fun fixOverrides(
     content: String,
 ): String =
     when (name) {
+        "Box",
+        -> content
+            .override("component")
+
         "ButtonBase",
         -> content
             .override("disabled")

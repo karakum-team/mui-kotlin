@@ -228,7 +228,7 @@ private fun findMapProps(
             propsName = propsName,
             parentType = parentType,
             hasChildren = CHILDREN in body,
-            // hasComponent = ": OverridableComponent<" in content,
+            hasComponent = ": OverridableComponent<" in content,
         ) + " {\n$body\n}"
     } else {
         props(propsName, parentType)
@@ -333,7 +333,7 @@ private fun props(
     if (hasChildren)
         baseInterfaces += "react.PropsWithChildren"
     if (hasComponent)
-        baseInterfaces += "PropsWithComponent"
+        baseInterfaces += "mui.types.PropsWithComponent"
 
     val parentTypes = when {
         parentType == null
