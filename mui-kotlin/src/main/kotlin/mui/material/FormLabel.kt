@@ -6,7 +6,7 @@
 package mui.material
 
 external interface FormLabelProps :
-    react.dom.html.LabelHTMLAttributes<org.w3c.dom.HTMLLabelElement>,
+    FormLabelBaseProps,
     react.PropsWithChildren,
     mui.types.PropsWithComponent {
     /**
