@@ -49,6 +49,13 @@ typealias ShapeOptions = Shape
 """.trimIndent()
 
 // language=Kotlin
+private val MATERIAL_PROPS_WITH_COMPONENT = """
+external interface PropsWithComponent {
+    var component: react.ElementType<*>
+}
+""".trimIndent()
+
+// language=Kotlin
 private val MATERIAL_SIZE = """
 @Suppress(
     "NAME_CONTAINS_ILLEGAL_CHARS",
@@ -227,6 +234,9 @@ private fun generateMaterialDeclarations(
             it.resolve(fileName)
         }
         .forEach { generate(it, targetDir, Package.material) }
+
+    targetDir.resolve("PropsWithComponent.kt")
+        .writeText(fileContent(body = MATERIAL_PROPS_WITH_COMPONENT, pkg = Package.material))
 
     targetDir.resolve("Size.kt")
         .writeText(fileContent(body = MATERIAL_SIZE, pkg = Package.material))
