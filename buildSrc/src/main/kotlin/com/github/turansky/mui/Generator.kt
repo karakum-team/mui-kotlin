@@ -10,8 +10,8 @@ import kotlinext.js.ReadonlyArray
 
 // language=Kotlin
 private val TYPES_PROPS_WITH_COMPONENT = """
-external interface PropsWithComponent {
-    var component: react.ElementType<*>
+external interface PropsWithComponent : react.Props {
+    var component: react.ElementType<*>?
 }
 """.trimIndent()
 
