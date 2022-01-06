@@ -2,6 +2,6 @@
 
 package mui.types
 
-external interface PropsWithComponent {
-    var component: react.ElementType<*>
+external interface PropsWithComponent : react.Props {
+    var component: react.ElementType<*>?
 }
