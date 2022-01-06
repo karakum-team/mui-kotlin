@@ -83,6 +83,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "Element | (() => Element | null) | null" to "org.w3c.dom.Element",
     "Partial<OptionsGeneric<any>>" to "popper.core.Options",
     "React.Ref<Instance>" to "react.Ref<popper.core.Instance>",
+    "React.ElementType<TableCellBaseProps>" to "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLTableCellElement>",
 
     "{\n  bivarianceHack(event: {}, reason: 'backdropClick' | 'escapeKeyDown'): void;\n}['bivarianceHack']" to
             "(event: $DYNAMIC, reason: String) -> Unit",
