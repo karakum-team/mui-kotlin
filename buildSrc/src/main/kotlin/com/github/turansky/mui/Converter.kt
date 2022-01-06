@@ -337,7 +337,9 @@ private fun props(
 
     val parentTypes = when {
         parentType == null
-        -> if (baseInterfaces.isNotEmpty()) baseInterfaces.joinToString(",\n") else "react.Props"
+        -> if (baseInterfaces.size > 1) {
+            baseInterfaces.joinToString(",\n", "\n")
+        } else baseInterfaces.firstOrNull() ?: "react.Props"
 
         baseInterfaces.isNotEmpty()
         -> sequenceOf(parentType.removePrefix("\n"))
