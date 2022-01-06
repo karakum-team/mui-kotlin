@@ -208,6 +208,9 @@ private fun findMapProps(
         "${name}BaseProps & {" in propsContent
         -> "${name}BaseProps"
 
+        "props: P & ${name}BaseProps;" in propsContent
+        -> "${name}BaseProps"
+
         "${name}UnstyledTypeMap<{" in propsContent
         -> "mui.base.${name}UnstyledProps"
 
