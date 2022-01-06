@@ -206,7 +206,7 @@ private fun findMapProps(
         name == "LoadingButton"
         -> "mui.material.ButtonProps"
 
-        "${name}BaseProps & {" in propsContent && name == "ListItem"
+        "${name}BaseProps & {" in propsContent
         -> "${name}BaseProps"
 
         else -> INTRINSIC_TYPE_MAP[intrinsicType]

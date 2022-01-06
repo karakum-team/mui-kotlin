@@ -19,6 +19,12 @@ internal fun convertUnion(
         "TableCellBaseProps" -> return "typealias TableCellBaseProps = react.dom.html.TdHTMLAttributes<org.w3c.dom.HTMLTableCellElement>"
     }
 
+    if (body == "React.LabelHTMLAttributes<HTMLLabelElement>")
+        return "typealias $name = react.dom.html.LabelHTMLAttributes<org.w3c.dom.HTMLLabelElement>"
+
+    if (body.startsWith("Omit<TableCellProps,"))
+        return "typealias $name = TableCellBaseProps /* $body */"
+
     if ((!body.startsWith("'") || !body.endsWith("'")) && body.substringAfterLast("| ").toIntOrNull() == null)
         return null
 
