@@ -6,10 +6,6 @@ private val ALIAS_MAP = mapOf(
     "InputBaseProps['inputProps']" to "InputBaseComponentProps",
     "InputBaseProps['onBlur']" to "react.dom.events.FocusEventHandler<org.w3c.dom.HTMLElement>",
     "InputProps['inputProps']" to "InputBaseComponentProps",
-    "ModalProps['container']" to "",
-    "ModalProps['onBackdropClick']" to "",
-    "ModalProps['onClose']" to "",
-    "ModalProps['open']" to "",
     "NativeSelectInputProps['onChange']" to "",
     "OutlinedInputProps['onChange']" to "react.dom.events.ChangeEventHandler<org.w3c.dom.HTMLElement>",
     "PaperProps['role']" to "react.dom.aria.AriaRole",
@@ -51,6 +47,13 @@ private val ALIAS_MAP = mapOf(
     "PaginationProps['variant']" to "PaginationVariant",
 
     "Options['modifiers']" to "ReadonlyArray<popper.core.Modifier<*>>",
+
+    "BackdropUnstyledTypeMap['props']['classes']" to "mui.base.BackdropUnstyledClasses",
+
+    "ModalProps['onBackdropClick']" to "react.dom.events.ReactEventHandler<*>",
+    "ModalProps['open']" to "Boolean",
+    "ModalProps['container']" to "org.w3c.dom.Element",
+    "ModalProps['onClose']" to "(event: dynamic, reason: String) -> Unit",
 )
 
 internal fun String.toAlias(): String? =

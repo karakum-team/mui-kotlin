@@ -5,6 +5,12 @@ internal fun fixOverrides(
     content: String,
 ): String =
     when (name) {
+        "Backdrop",
+        "Badge",
+        "Slider",
+        -> content
+            .override("classes")
+
         "Box",
         -> content
             .override("component")
@@ -13,6 +19,26 @@ internal fun fixOverrides(
         -> content
             .override("disabled")
             .override("tabIndex")
+
+        "Dialog",
+        -> content
+            .override("disableEscapeKeyDown")
+            .override("onBackdropClick")
+            .override("onClose")
+            .override("open")
+            .override("sx")
+
+        "Drawer",
+        -> content
+            .override("onClose")
+            .override("sx")
+
+        "Popover",
+        -> content
+            .override("container")
+            .override("onClose")
+            .override("open")
+            .override("sx")
 
         "Button",
         "Fab",
@@ -32,7 +58,6 @@ internal fun fixOverrides(
 
         "SwipeableDrawer",
         -> content
-            .override("onClose")
             .override("open")
             .replace("open: Boolean", "open: Boolean?")
 
@@ -45,12 +70,6 @@ internal fun fixOverrides(
         "Collapse",
         -> content
             .override("className")
-
-        "Dialog",
-        "Drawer",
-        "Popover",
-        -> content
-            .override("sx")
 
         "SpeedDial",
         -> content

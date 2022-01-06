@@ -34,4 +34,11 @@ internal val OVERRIDE_FIX_REQUIRED = setOf(
     "Switch",
     "SwitchBase",
     "Tooltip",
+
+    "Badge",
+    "Dialog",
+    "Drawer",
+    "Modal",
+    "Popover",
+    "SwipeableDrawer",
 )

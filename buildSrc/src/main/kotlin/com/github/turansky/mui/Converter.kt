@@ -209,6 +209,9 @@ private fun findMapProps(
         "${name}BaseProps & {" in propsContent
         -> "${name}BaseProps"
 
+        "${name}UnstyledTypeMap<{" in propsContent
+        -> "mui.base.${name}UnstyledProps"
+
         else -> INTRINSIC_TYPE_MAP[intrinsicType]
     }
 
