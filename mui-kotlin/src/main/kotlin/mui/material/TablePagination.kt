@@ -5,7 +5,7 @@
 
 package mui.material
 
-external interface TablePaginationProps : react.Props {
+external interface TablePaginationProps : mui.types.PropsWithComponent {
     /**
      * The component used for displaying the actions.
      * Either a string to use a HTML element or a component.
