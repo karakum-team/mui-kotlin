@@ -9,6 +9,13 @@ import kotlinext.js.ReadonlyArray
 """.trimIndent()
 
 // language=Kotlin
+private val TYPES_PROPS_WITH_COMPONENT = """
+external interface PropsWithComponent {
+    var component: react.ElementType<*>
+}
+""".trimIndent()
+
+// language=Kotlin
 private val SYSTEM_ALIASES = """
 typealias Union = String
 """.trimIndent()
@@ -46,13 +53,6 @@ external interface Shape {
 }
 
 typealias ShapeOptions = Shape
-""".trimIndent()
-
-// language=Kotlin
-private val MATERIAL_PROPS_WITH_COMPONENT = """
-external interface PropsWithComponent {
-    var component: react.ElementType<*>
-}
 """.trimIndent()
 
 // language=Kotlin
@@ -102,6 +102,7 @@ private val EXCLUDED_TYPES = setOf(
 private enum class Package(
     id: String? = null,
 ) {
+    types,
     base,
     material,
     materialStyles("material/styles"),
@@ -122,6 +123,7 @@ fun generateKotlinDeclarations(
     typesDir: File,
     sourceDir: File,
 ) {
+    generateTypesDeclarations(sourceDir)
     generateBaseDeclarations(typesDir.resolve("base"), sourceDir)
     generateSystemDeclarations(typesDir.resolve("system"), sourceDir)
     generateMaterialDeclarations(typesDir.resolve("material"), sourceDir)
@@ -135,6 +137,16 @@ fun generateKotlinIconsDeclarations(
     sourceDir: File,
 ) {
     generateIconsMaterialDeclarations(typesDir.resolve("icons-material"), sourceDir)
+}
+
+private fun generateTypesDeclarations(
+    sourceDir: File,
+) {
+    val targetDir = sourceDir.resolve("mui/types")
+        .also { it.mkdirs() }
+
+    targetDir.resolve("PropsWithComponent.kt")
+        .writeText(fileContent(body = TYPES_PROPS_WITH_COMPONENT, pkg = Package.types))
 }
 
 private fun generateBaseDeclarations(
@@ -234,9 +246,6 @@ private fun generateMaterialDeclarations(
             it.resolve(fileName)
         }
         .forEach { generate(it, targetDir, Package.material) }
-
-    targetDir.resolve("PropsWithComponent.kt")
-        .writeText(fileContent(body = MATERIAL_PROPS_WITH_COMPONENT, pkg = Package.material))
 
     targetDir.resolve("Size.kt")
         .writeText(fileContent(body = MATERIAL_SIZE, pkg = Package.material))
