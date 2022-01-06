@@ -146,7 +146,6 @@ private fun findProps(
         -> return "typealias $propsName = BaseTextFieldProps"
 
         "TreeView",
-        "Popper",
         -> return props(propsName)
     }
 

@@ -22,6 +22,9 @@ internal fun convertUnion(
     if (body == "React.LabelHTMLAttributes<HTMLLabelElement>")
         return "typealias $name = react.dom.html.LabelHTMLAttributes<org.w3c.dom.HTMLLabelElement>"
 
+    if (body == "Omit<PopperUnstyledProps, 'direction'>")
+        return "typealias $name = mui.base.PopperUnstyledProps /* $body */"
+
     if (body.startsWith("Omit<TableCellProps,"))
         return "typealias $name = TableCellBaseProps /* $body */"
 
