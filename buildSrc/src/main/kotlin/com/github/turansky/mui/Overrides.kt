@@ -27,11 +27,13 @@ internal fun fixOverrides(
             .override("onClose")
             .override("open")
             .override("sx")
+            .replaceFirst("override var children:", "    /* override */ var children:")
 
         "Drawer",
         -> content
             .override("onClose")
             .override("sx")
+            .replaceFirst("override var children:", "    /* override */ var children:")
 
         "Popover",
         -> content
@@ -39,6 +41,7 @@ internal fun fixOverrides(
             .override("onClose")
             .override("open")
             .override("sx")
+            .replaceFirst("override var children:", "    /* override */ var children:")
 
         "Button",
         "Fab",
