@@ -224,9 +224,12 @@ private fun findMapProps(
 
     return if (membersContent.isNotEmpty()) {
         val body = convertMembers(membersContent)
-        props(propsName, parentType, CHILDREN in body) + " {\n" +
-                body +
-                "\n}"
+        props(
+            propsName = propsName,
+            parentType = parentType,
+            hasChildren = CHILDREN in body,
+            // hasComponent = ": OverridableComponent<" in content,
+        ) + " {\n$body\n}"
     } else {
         props(propsName, parentType)
     }
@@ -324,13 +327,21 @@ private fun props(
     propsName: String,
     parentType: String? = null,
     hasChildren: Boolean = false,
+    hasComponent: Boolean = false,
 ): String {
+    val baseInterfaces = mutableListOf<String>()
+    if (hasChildren)
+        baseInterfaces += "react.PropsWithChildren"
+    if (hasComponent)
+        baseInterfaces += "PropsWithComponent"
+
     val parentTypes = when {
         parentType == null
-        -> if (hasChildren) "react.PropsWithChildren" else "react.Props"
+        -> if (baseInterfaces.isNotEmpty()) baseInterfaces.joinToString(",\n") else "react.Props"
 
-        hasChildren
-        -> sequenceOf(parentType.removePrefix("\n"), "react.PropsWithChildren")
+        baseInterfaces.isNotEmpty()
+        -> sequenceOf(parentType.removePrefix("\n"))
+            .plus(baseInterfaces)
             .joinToString(",\n", "\n")
 
         "\n" in parentType
