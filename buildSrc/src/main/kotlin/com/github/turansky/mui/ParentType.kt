@@ -31,6 +31,14 @@ internal fun findParentType(
         ).joinToString(",", "\n")
     }
 
+    if (parentSource.startsWith("UsePaginationProps")) {
+        val (first, second) = parentSource.split(",\n    ")
+        return sequenceOf(
+            first,
+            parseStandardProps(second),
+        ).joinToString(",", "\n")
+    }
+
     return when (parentSource) {
         "BaseTextFieldProps",
         "ListProps",
