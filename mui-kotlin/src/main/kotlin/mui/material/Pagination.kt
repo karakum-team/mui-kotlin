@@ -5,7 +5,10 @@
 
 package mui.material
 
-external interface PaginationProps : react.Props {
+external interface PaginationProps :
+    UsePaginationProps,
+    mui.system.StandardProps,
+    react.dom.html.HTMLAttributes<org.w3c.dom.HTMLElement> {
     /**
      * Override or extend the styles applied to the component.
      */
