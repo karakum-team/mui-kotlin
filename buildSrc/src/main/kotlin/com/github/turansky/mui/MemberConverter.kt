@@ -80,7 +80,8 @@ private fun convertProperty(
         else -> "$type?"
     }
 
-    var declaration = "var $name: $fullType"
+    val modifier = if (": Readonly<" in source) "val" else "var"
+    var declaration = "$modifier $name: $fullType"
     if ("-" in name) {
         declaration = "    // " + declaration
     }
