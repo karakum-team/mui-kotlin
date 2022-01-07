@@ -43,10 +43,6 @@ internal fun findParentType(
         "ButtonUnstyledOwnProps",
         -> "mui.base.$parentSource"
 
-        "Partial<Breakpoints>",
-        "Partial<Mixins>",
-        -> parentSource.removeSurrounding("Partial<", ">")
-
         "HTMLDivProps",
         -> "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>"
 
