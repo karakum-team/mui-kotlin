@@ -21,6 +21,7 @@ internal fun String.toFunctionType(): String? {
         .replace("React.MouseEvent<HTMLButtonElement>", "react.dom.events.MouseEvent<org.w3c.dom.HTMLButtonElement, *>")
         .replace("React.MouseEvent<HTMLElement>", "react.dom.events.MouseEvent<org.w3c.dom.HTMLElement, *>")
         .replace("React.HTMLAttributes<HTMLLIElement>", "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLLIElement>")
+        .replace("?: React.HTMLAttributes<HTMLInputElement>", ": react.dom.html.HTMLAttributes<org.w3c.dom.HTMLInputElement>?")
         .replace("React.ReactNode", "react.ReactNode")
         .replace(" | null", "?")
         .replace("AutocompleteValue<T, Multiple, DisableClearable, FreeSolo>", DYNAMIC)

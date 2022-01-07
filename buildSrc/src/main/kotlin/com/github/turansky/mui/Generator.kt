@@ -169,10 +169,16 @@ private fun generateBaseDeclarations(
         }
         .flatMap { component ->
             val dir = component.parentFile
+
+            val hooks = if (dir.name == "SwitchUnstyled") {
+                sequenceOf(dir.resolve("use" + dir.name.removeSuffix("Unstyled") + ".d.ts"))
+            } else emptySequence()
+
             sequenceOf(
                 dir.resolve(dir.name + "Props.d.ts"),
                 dir.resolve("Use" + dir.name.removeSuffix("Unstyled") + "Props.d.ts"),
             ).filter { it.exists() }
+                .plus(hooks)
                 .plus(component)
         }
         .forEach { generate(it, targetDir, Package.base) }

@@ -35,12 +35,23 @@ internal fun findParentType(
         "BaseTextFieldProps",
         "ListProps",
         "TreeViewPropsBase",
+        "UseInputProps",
+        "UseSwitchProps",
+        "UsePaginationItem",
         -> parentSource
+
+        "ButtonUnstyledOwnProps",
+        -> "mui.base.$parentSource"
+
+        "Partial<Breakpoints>",
+        "Partial<Mixins>",
+        -> parentSource.removeSurrounding("Partial<", ">")
 
         "HTMLDivProps",
         -> "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>"
 
         "TransitionProps",
+        "React.HTMLAttributes<HTMLDivElement>",
         "React.HTMLAttributes<HTMLSpanElement>",
         "React.HTMLAttributes<HTMLInputElement | HTMLTextAreaElement>",
         -> parentSource.toTypeParameter()
