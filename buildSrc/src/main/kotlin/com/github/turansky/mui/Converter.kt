@@ -167,7 +167,9 @@ private fun findProps(
         else -> propsName
     }
 
-    val parentType = findParentType(content)
+    val parentType = findParentType(
+        content.substringBefore(propsContent).substringAfterLast("\n") + propsContent,
+    )
 
     val source = propsContent
         .substringAfter("{\n")
