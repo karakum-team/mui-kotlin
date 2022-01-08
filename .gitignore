@@ -1,5 +1,7 @@
 .gradle/
 build/
+node_modules/
+dist/
 
 # IDEA ignore list
 .idea/*
@@ -7,7 +9,3 @@ build/
 *.iml
 
 webpack.config.d/
-
-# mui-playground
-mui-playground/node_modules
-mui-playground/dist
