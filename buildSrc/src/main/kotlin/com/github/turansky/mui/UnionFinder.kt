@@ -96,6 +96,7 @@ internal fun findDefaultUnions(
             newContent = newContent
                 .replaceFirst("\n$original", " $className")
                 .replaceFirst(" $original", " $className")
+                .replaceFirst("<$original", "<$className")
             unions += convertUnion("$className = $source")!!
         }
     }
@@ -125,6 +126,7 @@ private fun findUnionSource(
         content.substringAfter("  $property: ", ""),
     ).filter { it.isNotEmpty() }
         .map { it.substringBefore(";\n") }
+        .map { it.removeSurrounding("ResponsiveStyleValue<", ">") }
         .firstOrNull()
         ?: return
 
