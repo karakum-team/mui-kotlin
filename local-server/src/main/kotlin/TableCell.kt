@@ -4,7 +4,7 @@ import react.create
 import react.dom.html.ReactHTML
 
 fun cell() {
-    val application = Fragment.create {
+    Fragment.create {
         TableCell {
             component = ReactHTML.td
             component = ReactHTML.th
