@@ -7,3 +7,7 @@ build/
 *.iml
 
 webpack.config.d/
+
+# mui-playground
+mui-playground/node_modules
+mui-playground/dist
