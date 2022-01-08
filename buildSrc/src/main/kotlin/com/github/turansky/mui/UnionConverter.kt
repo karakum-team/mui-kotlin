@@ -36,7 +36,7 @@ internal fun convertUnion(
         .toList()
 
     val jsName = values.asSequence()
-        .map { "${enumConstant(it)}: ${it.toIntOrNull() ?: "'$it'"}" }
+        .map { "${enumConstant(it)}: ${enumValue(it)}" }
         .joinToString(", ", "@JsName(\"\"\"($UNION_MARKER{", "}$UNION_MARKER)\"\"\")")
 
     val constantNames = values.asSequence()
@@ -75,4 +75,15 @@ private fun enumConstant(
 
         else -> value.removePrefix("@")
             .kebabToCamel()
+    }
+
+private fun enumValue(
+    value: String,
+): String =
+    when {
+        value == "false" -> value
+        value == "true" -> value
+        value.toIntOrNull() != null -> value
+
+        else -> "'$value'"
     }
