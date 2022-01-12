@@ -4,7 +4,7 @@ node_modules/
 dist/
 
 # IDEA ignore list
-.idea/*
+**/.idea/*
 !.idea/icon.png
 *.iml
 
