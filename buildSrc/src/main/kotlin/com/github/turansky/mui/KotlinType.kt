@@ -50,6 +50,7 @@ private val KNOWN_TYPES = setOf(
 
 private val KNOWN_TYPE_SUFFIXES = setOf(
     "Props",
+    "Actions",
     "Origin",
     "Position",
     "Variant",

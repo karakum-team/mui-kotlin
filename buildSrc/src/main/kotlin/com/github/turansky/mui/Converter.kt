@@ -247,7 +247,6 @@ private val EXCLUDED_PREFIXES = setOf(
     "Overrides",
 
     // TEMP
-    "Actions",
     "Header",
 )
 
@@ -296,7 +295,13 @@ private fun findAdditionalProps(
                 .substringBefore(";\n}\n")
         }
 
-        var propsBody = convertMembers(membersContent)
+        var propsBody = if (interfaceName.endsWith("Actions")) {
+            membersContent.splitToSequence(";\n")
+                .map { it.trim() }
+                .map { it.removeSuffix(": void") }
+                .joinToString("\n") { "fun $it" }
+        } else convertMembers(membersContent)
+
         if (interfaceName == "TreeViewPropsBase")
             propsBody = propsBody.replace("var id:", "override var id:")
 
