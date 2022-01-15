@@ -1,4 +1,4 @@
-package com.github.turansky.mui
+package karakum.mui
 
 internal val INTRINSIC_TYPE_MAP = mapOf(
     "a" to "react.dom.html.AnchorHTMLAttributes<org.w3c.dom.HTMLAnchorElement>",

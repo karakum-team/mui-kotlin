@@ -1,4 +1,4 @@
-package com.github.turansky.mui
+package karakum.mui
 
 internal val OVERRIDE_FIX_REQUIRED = setOf(
     "ModalUnstyled", // children

@@ -1,4 +1,4 @@
-package com.github.turansky.mui
+package karakum.mui
 
 private val TOP_UNION_PROPERTIES = setOf(
     "matchFrom",

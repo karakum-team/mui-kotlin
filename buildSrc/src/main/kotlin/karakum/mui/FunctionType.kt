@@ -1,4 +1,4 @@
-package com.github.turansky.mui
+package karakum.mui
 
 internal fun String.toFunctionType(): String? {
     if (!startsWith("("))

@@ -1,4 +1,4 @@
-package com.github.turansky.mui
+package karakum.mui
 
 import java.io.File
 

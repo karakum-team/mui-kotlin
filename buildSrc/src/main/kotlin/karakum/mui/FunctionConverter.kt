@@ -1,4 +1,4 @@
-package com.github.turansky.mui
+package karakum.mui
 
 private const val QUERY_INPUT_TYPE = "string | ((theme: Theme) => string)"
 

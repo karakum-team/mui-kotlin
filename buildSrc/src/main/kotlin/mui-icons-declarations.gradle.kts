@@ -1,4 +1,4 @@
-import com.github.turansky.mui.generateKotlinIconsDeclarations
+import karakum.mui.generateKotlinIconsDeclarations
 
 tasks {
     named<Delete>("clean") {

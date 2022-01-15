@@ -1,4 +1,4 @@
-package com.github.turansky.mui
+package karakum.mui
 
 private val ALIAS_MAP = mapOf(
     "BackdropUnstyledTypeMap['props']['classes']" to "",
