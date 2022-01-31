@@ -39,7 +39,7 @@ external interface BaseTheme {
     var unstable_strictMode: Boolean?
 }
 
-external interface Theme {
+external interface Theme : BaseTheme {
     var components: dynamic
 }
 
