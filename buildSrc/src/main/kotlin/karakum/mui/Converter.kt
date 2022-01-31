@@ -254,7 +254,11 @@ private fun findAdditionalProps(
     propsName: String,
     content: String,
 ): List<String> {
-    val bodies = content.splitToSequence("export interface ", "export default interface ")
+    var delimiters = arrayOf("export interface ", "export default interface ")
+    if ("interface BaseTheme" in content)
+        delimiters += "interface "
+
+    val bodies = content.splitToSequence(*delimiters)
         .drop(1)
         .toList()
 
@@ -326,6 +330,7 @@ private fun findAdditionalProps(
             -> declaration += "<T>"
 
             "ExportedClockPickerProps",
+            "BaseDateRangePickerProps",
             -> declaration = declaration.replaceFirst(":", "<TDate>:")
         }
 

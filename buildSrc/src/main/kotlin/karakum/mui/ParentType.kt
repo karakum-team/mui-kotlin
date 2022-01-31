@@ -46,6 +46,8 @@ internal fun findParentType(
         "UseInputProps",
         "UseSwitchProps",
         "UsePaginationItem",
+
+        "BaseTheme",
         -> parentSource
 
         "ButtonUnstyledOwnProps",
