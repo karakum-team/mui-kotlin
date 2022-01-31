@@ -317,7 +317,8 @@ private fun findAdditionalProps(
             interfaceName.endsWith("Params") || interfaceName == "UsePaginationItem"
             -> props(interfaceName, parentType, hasChildren = false)
 
-            else -> "external interface $interfaceName"
+            else -> "external interface $interfaceName" +
+                    if (parentType != null) ": $parentType" else ""
         }
 
         when (interfaceName) {

@@ -22,6 +22,7 @@ internal fun findParentType(
             .removeSurrounding("Omit<", ">")
             .substringBefore(",")
             .toTypeParameter()
+            .takeIf { it != "SystemThemeOptions" }
 
     if (parentSource.startsWith("UseAutocompleteProps<")) {
         val (first, second) = parentSource.split(",\n    ")
