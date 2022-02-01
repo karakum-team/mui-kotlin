@@ -1,0 +1,39 @@
+// Automatically generated - do not modify!
+
+package mui.base
+
+external interface SelectOption {
+    var value: dynamic
+
+    var label: react.ReactNode
+
+    var disabled: Boolean?
+}
+
+external interface SelectOptionGroup {
+    var options: dynamic
+
+    var label: react.ReactNode
+
+    var disabled: Boolean?
+}
+
+external interface UseSelectSingleProps : react.Props {
+    var defaultValue: dynamic
+
+    var multiple: dynamic
+
+    var onChange: ((value: TValue?) -> Unit)?
+
+    var value: dynamic
+}
+
+external interface UseSelectMultiProps : react.Props {
+    var defaultValue: dynamic
+
+    var multiple: dynamic
+
+    var onChange: ((value: TValue[])->Unit)?
+
+    var value: dynamic
+}
