@@ -160,6 +160,7 @@ private fun generateBaseDeclarations(
 
     directories.asSequence()
         .filter { it.name.isComponentName() }
+        .filter { it.name != "ListboxUnstyled" }
         .map {
             var name = it.name
             if (name == "AutocompleteUnstyled")

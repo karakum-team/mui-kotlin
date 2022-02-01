@@ -150,7 +150,12 @@ private fun findProps(
     }
 
     val propsContent = sequenceOf(" ", "<", "\n")
-        .map { content.substringAfter("export interface $propsName$it", "") }
+        .flatMap {
+            sequenceOf(
+                content.substringAfter("export default interface $propsName$it", ""),
+                content.substringAfter("export interface $propsName$it", ""),
+            )
+        }
         .singleOrNull { it.isNotEmpty() }
         ?: return null
 

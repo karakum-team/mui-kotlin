@@ -196,10 +196,10 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz#8eed982e2ee6f7f4e44c253e12962980791efd46"
   integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
 
-"@mui/base@5.0.0-alpha.66":
-  version "5.0.0-alpha.66"
-  resolved "https://registry.yarnpkg.com/@mui/base/-/base-5.0.0-alpha.66.tgz#5f03e641daecbc54a7b03d6368e625fef45cb7e4"
-  integrity sha512-LARfVx0HmGV5YwU2pdIqEApQwz/CtEnYtKkV856hlY0cgi5NQL2htzZ/9ujKz0j3LFUaMYiYuJ2AOwrNtGFGrw==
+"@mui/base@5.0.0-alpha.67":
+  version "5.0.0-alpha.67"
+  resolved "https://registry.yarnpkg.com/@mui/base/-/base-5.0.0-alpha.67.tgz#da2423b96204f71cf37bcfcf3054667f38361eb8"
+  integrity sha512-yK2++NivZUitAVpheMc5QVuwrVCphrTw85L6qjKcvnSpB8wmVYne58CY2vzMCNEuHkuHG2jccq9/JlRZFGAanw==
   dependencies:
     "@babel/runtime" "^7.16.7"
     "@emotion/is-prop-valid" "^1.1.1"
@@ -216,18 +216,18 @@
   dependencies:
     "@babel/runtime" "^7.16.7"
 
-"@mui/lab@5.0.0-alpha.66":
-  version "5.0.0-alpha.66"
-  resolved "https://registry.yarnpkg.com/@mui/lab/-/lab-5.0.0-alpha.66.tgz#ca50eaf3e6b5b1e264cecd5f31b5b8b7581dc919"
-  integrity sha512-C/WB5vo+arkdbx3r1gRRKh4BcZJ763+ePcPHYj3pShDA1vG0jecp1RWO8MJ07SnsdfDHiKWtlUDJh+DpieR0Og==
+"@mui/lab@5.0.0-alpha.67":
+  version "5.0.0-alpha.67"
+  resolved "https://registry.yarnpkg.com/@mui/lab/-/lab-5.0.0-alpha.67.tgz#2b906cabf15351429c9967199e093cc510506826"
+  integrity sha512-pL6O2teso3tpAv38FXiFNWGcXjakgO66/Os5p2KX4QbkPKvzzeSxNU7hI02Ye8BIEYqTR5Oaz8njcdQgcNI7Cg==
   dependencies:
     "@babel/runtime" "^7.16.7"
     "@date-io/date-fns" "^2.11.0"
     "@date-io/dayjs" "^2.11.0"
     "@date-io/luxon" "^2.11.1"
     "@date-io/moment" "^2.11.0"
-    "@mui/base" "5.0.0-alpha.66"
-    "@mui/system" "^5.3.0"
+    "@mui/base" "5.0.0-alpha.67"
+    "@mui/system" "^5.4.0"
     "@mui/utils" "^5.3.0"
     clsx "^1.1.1"
     prop-types "^15.7.2"
@@ -235,14 +235,14 @@
     react-transition-group "^4.4.2"
     rifm "^0.12.1"
 
-"@mui/material@5.3.1":
-  version "5.3.1"
-  resolved "https://registry.yarnpkg.com/@mui/material/-/material-5.3.1.tgz#23c1e71b9cf995837ff5fdca34ac5052496861f5"
-  integrity sha512-XWPsJ2jet2zfnKojth5d2IaHIJPpJnHq1ACCSlNf898BjYh1j50gRWsPpIHiptQ0oc0pdWmMcmrXbdANKR1ybw==
+"@mui/material@5.4.0":
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/@mui/material/-/material-5.4.0.tgz#b54d9fbcad5c4036b95c53906f0fc9c16c980f6e"
+  integrity sha512-vfBIAMsRNWI/A4p/eP01MjqhSACwxRGYp/2Yi7WAU64PpI/TXR4b9SRl+XJMMJXVC7+abu4E3hTdF3oqwMCSYA==
   dependencies:
     "@babel/runtime" "^7.16.7"
-    "@mui/base" "5.0.0-alpha.66"
-    "@mui/system" "^5.3.0"
+    "@mui/base" "5.0.0-alpha.67"
+    "@mui/system" "^5.4.0"
     "@mui/types" "^7.1.0"
     "@mui/utils" "^5.3.0"
     "@types/react-transition-group" "^4.4.4"
@@ -271,10 +271,10 @@
     "@emotion/cache" "^11.7.1"
     prop-types "^15.7.2"
 
-"@mui/system@^5.3.0":
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/@mui/system/-/system-5.3.0.tgz#cd2c5fd7631f2c90f0072c866015bb24e319b66e"
-  integrity sha512-mblz3EObrhhIMPwSEe2Az7MbMaXOFgrvItPOzZwcY5O9qERB7Rr8KQgbU8VouWLUqyV2i8BaFpLrkKPA6eX2Aw==
+"@mui/system@^5.4.0":
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/@mui/system/-/system-5.4.0.tgz#ff79c4922b8cea8c6e05946587fa9a3b938ab729"
+  integrity sha512-LX7g5gK5yCwiueSUVG73uVNc0yeHjsWUIFLrnPjP3m+J7O38RkPqyao5nZahhaSL1PGNbR9+zfkxljXthO9QqA==
   dependencies:
     "@babel/runtime" "^7.16.7"
     "@mui/private-theming" "^5.3.0"
