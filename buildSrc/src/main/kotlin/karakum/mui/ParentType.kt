@@ -49,6 +49,9 @@ internal fun findParentType(
         "UsePaginationItem",
 
         "BaseTheme",
+
+        "SelectUnstyledCommonProps",
+        "MultiSelectUnstyledProps<TValue>",
         -> parentSource
 
         "ButtonUnstyledOwnProps",

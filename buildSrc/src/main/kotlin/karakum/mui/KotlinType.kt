@@ -17,6 +17,7 @@ private val CREATE_TRANSITION = """
 private val KNOWN_TYPES = setOf(
     "T",
     "TDate",
+    "TValue",
     "ReadonlyArray<T>",
     "PickerOnChangeFn<TDate>",
     "CalendarPickerView",

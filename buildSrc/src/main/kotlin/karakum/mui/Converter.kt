@@ -163,6 +163,9 @@ private fun findProps(
         propsContent.startsWith("TDate>")
         -> "$propsName<TDate>"
 
+        propsContent.startsWith("TValue>") || propsContent.startsWith("TValue extends ")
+        -> "$propsName<TValue>"
+
         propsContent.startsWith("T = unknown>")
         -> "$propsName<T>"
 
