@@ -72,6 +72,7 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "Readonly<boolean>" to "Boolean",
     "string[]" to "ReadonlyArray<String>",
+    "TValue[]" to "ReadonlyArray<TValue>",
 
     "Date" to "kotlin.js.Date",
 
