@@ -70,6 +70,9 @@ private val STANDARD_TYPE_MAP = mapOf(
     "void" to "Unit",
     "null" to "Nothing?",
 
+    "false" to "Boolean /* false */",
+    "true" to "Boolean /* true */",
+
     "Readonly<boolean>" to "Boolean",
     "string[]" to "ReadonlyArray<String>",
     "TValue[]" to "ReadonlyArray<TValue>",
