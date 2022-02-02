@@ -3,7 +3,7 @@
 package mui.base
 
 external interface SelectOption {
-    var value: dynamic
+    var value: TValue
 
     var label: react.ReactNode
 
@@ -19,13 +19,13 @@ external interface SelectOptionGroup {
 }
 
 external interface UseSelectSingleProps : react.Props {
-    var defaultValue: dynamic
+    var defaultValue: TValue?
 
     var multiple: dynamic
 
     var onChange: ((value: TValue?) -> Unit)?
 
-    var value: dynamic
+    var value: TValue?
 }
 
 external interface UseSelectMultiProps : react.Props {

@@ -2,7 +2,7 @@
 
 package mui.base
 
-external interface MultiSelectUnstyledProps : react.Props {
+external interface MultiSelectUnstyledProps<TValue> : react.Props {
     /**
      * The default selected values. Use when the component is not controlled.
      * @default []
@@ -26,7 +26,7 @@ external interface MultiSelectUnstyledProps : react.Props {
     var value: dynamic
 }
 
-external interface MultiSelectUnstyledOwnerState {
+external interface MultiSelectUnstyledOwnerState : MultiSelectUnstyledProps<TValue> {
     var active: Boolean
 
     var disabled: Boolean

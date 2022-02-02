@@ -2,11 +2,11 @@
 
 package mui.base
 
-external interface SelectUnstyledProps : react.Props {
+external interface SelectUnstyledProps<TValue> : react.Props {
     /**
      * The default selected value. Use when the component is not controlled.
      */
-    var defaultValue: dynamic
+    var defaultValue: TValue?
 
     /**
      * Callback fired when an option is selected.
@@ -22,7 +22,7 @@ external interface SelectUnstyledProps : react.Props {
      * The selected value.
      * Set to `null` to deselect all options.
      */
-    var value: dynamic
+    var value: TValue?
 }
 
 external interface SelectUnstyledCommonProps : react.PropsWithChildren {

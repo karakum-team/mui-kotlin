@@ -2,11 +2,11 @@
 
 package mui.base
 
-external interface OptionUnstyledProps : react.PropsWithChildren {
+external interface OptionUnstyledProps<TValue> : react.PropsWithChildren {
     /**
      * The value of the option.
      */
-    var value: dynamic
+    var value: TValue
 
     override var children: react.ReactNode?
 
