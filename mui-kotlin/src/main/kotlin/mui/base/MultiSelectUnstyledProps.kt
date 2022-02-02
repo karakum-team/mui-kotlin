@@ -9,7 +9,7 @@ external interface MultiSelectUnstyledProps<TValue> : react.Props {
      * The default selected values. Use when the component is not controlled.
      * @default []
      */
-    var defaultValue: dynamic
+    var defaultValue: ReadonlyArray<TValue>?
 
     /**
      * Callback fired when an option is selected.
@@ -25,7 +25,7 @@ external interface MultiSelectUnstyledProps<TValue> : react.Props {
      * The selected values.
      * Set to an empty array to deselect all options.
      */
-    var value: dynamic
+    var value: ReadonlyArray<TValue>?
 }
 
 external interface MultiSelectUnstyledOwnerState<TValue> : MultiSelectUnstyledProps<TValue> {

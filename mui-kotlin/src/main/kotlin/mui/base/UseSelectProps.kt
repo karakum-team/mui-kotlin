@@ -31,11 +31,11 @@ external interface UseSelectSingleProps<TValue> : react.Props {
 }
 
 external interface UseSelectMultiProps<TValue> : react.Props {
-    var defaultValue: dynamic
+    var defaultValue: ReadonlyArray<TValue>?
 
     var multiple: dynamic
 
     var onChange: ((value: ReadonlyArray<TValue>) -> Unit)?
 
-    var value: dynamic
+    var value: ReadonlyArray<TValue>?
 }
