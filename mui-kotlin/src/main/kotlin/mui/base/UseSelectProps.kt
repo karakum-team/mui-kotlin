@@ -23,7 +23,7 @@ external interface SelectOptionGroup {
 external interface UseSelectSingleProps<TValue> : react.Props {
     var defaultValue: TValue?
 
-    var multiple: dynamic
+    var multiple: Boolean? /* false */
 
     var onChange: ((value: TValue?) -> Unit)?
 
@@ -33,7 +33,7 @@ external interface UseSelectSingleProps<TValue> : react.Props {
 external interface UseSelectMultiProps<TValue> : react.Props {
     var defaultValue: ReadonlyArray<TValue>?
 
-    var multiple: dynamic
+    var multiple: Boolean /* true */
 
     var onChange: ((value: ReadonlyArray<TValue>) -> Unit)?
 
