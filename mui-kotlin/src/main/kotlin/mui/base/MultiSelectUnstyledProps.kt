@@ -28,7 +28,7 @@ external interface MultiSelectUnstyledProps<TValue> : react.Props {
     var value: dynamic
 }
 
-external interface MultiSelectUnstyledOwnerState : MultiSelectUnstyledProps<TValue> {
+external interface MultiSelectUnstyledOwnerState<TValue> : MultiSelectUnstyledProps<TValue> {
     var active: Boolean
 
     var disabled: Boolean

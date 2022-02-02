@@ -4,7 +4,7 @@ package mui.base
 
 import kotlinext.js.ReadonlyArray
 
-external interface SelectOption {
+external interface SelectOption<TValue> {
     var value: TValue
 
     var label: react.ReactNode
@@ -20,7 +20,7 @@ external interface SelectOptionGroup {
     var disabled: Boolean?
 }
 
-external interface UseSelectSingleProps : react.Props {
+external interface UseSelectSingleProps<TValue> : react.Props {
     var defaultValue: TValue?
 
     var multiple: dynamic
@@ -30,7 +30,7 @@ external interface UseSelectSingleProps : react.Props {
     var value: TValue?
 }
 
-external interface UseSelectMultiProps : react.Props {
+external interface UseSelectMultiProps<TValue> : react.Props {
     var defaultValue: dynamic
 
     var multiple: dynamic
