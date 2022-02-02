@@ -17,4 +17,4 @@ package mui.base
  * - [OptionUnstyled API](https://mui.com/api/option-unstyled/)
  */
 @JsName("default")
-external val OptionUnstyled: react.FC<OptionUnstyledProps>
+external val OptionUnstyled: react.FC<OptionUnstyledProps<*>>

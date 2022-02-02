@@ -2,6 +2,8 @@
 
 package mui.base
 
+import kotlinext.js.ReadonlyArray
+
 external interface MultiSelectUnstyledProps<TValue> : react.Props {
     /**
      * The default selected values. Use when the component is not controlled.
@@ -12,12 +14,12 @@ external interface MultiSelectUnstyledProps<TValue> : react.Props {
     /**
      * Callback fired when an option is selected.
      */
-    var onChange: ((value: TValue[])->Unit)?
+    var onChange: ((value: ReadonlyArray<TValue>) -> Unit)?
 
     /**
      * Function that customizes the rendering of the selected values.
      */
-    var renderValue: ((option: SelectOption<TValue>[])->react.ReactNode)?
+    var renderValue: ((option: ReadonlyArray<SelectOption<TValue>>) -> react.ReactNode)?
 
     /**
      * The selected values.

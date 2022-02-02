@@ -17,4 +17,4 @@ package mui.base
  * - [SelectUnstyled API](https://mui.com/api/select-unstyled/)
  */
 @JsName("default")
-external val SelectUnstyled: react.FC<SelectUnstyledProps>
+external val SelectUnstyled: react.FC<SelectUnstyledProps<*>>

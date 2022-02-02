@@ -2,6 +2,8 @@
 
 package mui.base
 
+import kotlinext.js.ReadonlyArray
+
 external interface SelectOption {
     var value: TValue
 
@@ -33,7 +35,7 @@ external interface UseSelectMultiProps : react.Props {
 
     var multiple: dynamic
 
-    var onChange: ((value: TValue[])->Unit)?
+    var onChange: ((value: ReadonlyArray<TValue>) -> Unit)?
 
     var value: dynamic
 }
