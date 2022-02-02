@@ -339,6 +339,14 @@ private fun findAdditionalProps(
             "FilterOptionsState",
             -> declaration += "<T>"
 
+            "SelectOption",
+            -> declaration += "<TValue>"
+
+            "MultiSelectUnstyledOwnerState",
+            "UseSelectSingleProps",
+            "UseSelectMultiProps",
+            -> declaration = declaration.replaceFirst(":", "<TValue>:")
+
             "ExportedClockPickerProps",
             "BaseDateRangePickerProps",
             -> declaration = declaration.replaceFirst(":", "<TDate>:")
