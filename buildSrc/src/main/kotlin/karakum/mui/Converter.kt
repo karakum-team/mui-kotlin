@@ -280,10 +280,11 @@ private fun findAdditionalProps(
             .substringBefore("<")
 
         val propsLike = interfaceName.endsWith("Props")
+        // TODO: check
         if (propsLike && interfaceName == propsName && interfaceName != "UseButtonProps")
             return@mapNotNull null
 
-        if (interfaceName == "ValueLabelProps")
+        if (interfaceName == "ValueLabelProps" || interfaceName == "UseButtonProps")
             return@mapNotNull null
 
         if (!propsLike && EXCLUDED_PREFIXES.any { interfaceName.endsWith(it) })
@@ -423,6 +424,10 @@ private fun findComponent(
 
         "AutocompleteProps",
         "SelectProps",
+
+        "MultiSelectUnstyledProps",
+        "OptionUnstyledProps",
+        "SelectUnstyledProps",
         -> "$propsName<*>"
 
         else -> propsName

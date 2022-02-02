@@ -33,6 +33,8 @@ internal fun String.toFunctionType(): String? {
         .replace("MuiPickersAdapter<TDate>", "$DYNAMIC /* MuiPickersAdapter<TDate> */")
         .replace("void | Promise<void>", "kotlin.js.Promise<Nothing?>?")
         .replace("Breakpoint | number", "Breakpoint")
+        .replace("SelectOption<TValue>[]", "ReadonlyArray<SelectOption<TValue>>")
+        .replace("TValue[]", "ReadonlyArray<TValue>")
         .replace("T[]", "ReadonlyArray<T>")
         .replace("string[]", "ReadonlyArray<String>")
         .replace("number | string", DYNAMIC)
