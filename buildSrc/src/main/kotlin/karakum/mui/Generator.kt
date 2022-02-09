@@ -239,6 +239,11 @@ private fun generateMaterialDeclarations(
         .filter { it.name != "StyledEngineProvider" }
         .onEach {
             when (it.name) {
+                "ButtonBase" -> {
+                    val file = it.resolve("TouchRipple.d.ts")
+                    generate(file, targetDir, Package.material, true)
+                }
+
                 "TablePagination" -> {
                     val file = it.resolve("${it.name}Actions.d.ts")
                     generate(file, targetDir, Package.material, true)
