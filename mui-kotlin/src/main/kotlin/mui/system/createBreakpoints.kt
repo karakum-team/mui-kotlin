@@ -5,7 +5,7 @@
 
 package mui.system
 
-import kotlinext.js.ReadonlyArray
+import kotlinx.js.ReadonlyArray
 
 external interface Breakpoints {
     var keys: ReadonlyArray<Breakpoint>
@@ -25,7 +25,7 @@ external interface Breakpoints {
      *    xl: 1536,
      * }
      */
-    var values: kotlinext.js.Record<Breakpoint, Number>
+    var values: kotlinx.js.Record<Breakpoint, Number>
 
     /**
      * @param key - A breakpoint key (`xs`, `sm`, etc.) or a screen width number in px.
