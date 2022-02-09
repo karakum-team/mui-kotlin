@@ -309,10 +309,7 @@ private fun findAdditionalProps(
         }
 
         var propsBody = if (interfaceName.endsWith("Actions")) {
-            membersContent.splitToSequence(";\n")
-                .map { it.trim() }
-                .map { it.removeSuffix(": void") }
-                .joinToString("\n") { "fun $it" }
+            convertMethods(membersContent)
         } else convertMembers(membersContent)
 
         if (interfaceName == "TreeViewPropsBase")
