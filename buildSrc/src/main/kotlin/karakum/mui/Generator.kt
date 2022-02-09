@@ -175,12 +175,11 @@ private fun generateBaseDeclarations(
                 sequenceOf(dir.resolve("use" + dir.name.removeSuffix("Unstyled") + ".d.ts"))
             } else emptySequence()
 
-            sequenceOf(
-                dir.resolve(dir.name + "Props.d.ts"),
-                dir.resolve("Use" + dir.name.removeSuffix("Unstyled") + "Props.d.ts"),
-            ).filter { it.exists() }
-                .plus(hooks)
-                .plus(component)
+            dir.existed(
+                dir.name + "Props.d.ts",
+                "use" + dir.name.removeSuffix("Unstyled") + "Props.d.ts",
+                "Use" + dir.name.removeSuffix("Unstyled") + "Props.d.ts",
+            ) + hooks + component
         }
         .forEach { generate(it, targetDir, Package.base) }
 }

@@ -12,6 +12,9 @@ internal fun findDefaultFunction(
     if (name == "createTransitions")
         return null
 
+    if (name == "useSelect")
+        return null
+
     // TEMP
     if (name == "useAutocomplete")
         return null
