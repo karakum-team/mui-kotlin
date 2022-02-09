@@ -5,7 +5,7 @@ import java.io.File
 private const val GENERATOR_COMMENT = "Automatically generated - do not modify!"
 
 private val DEFAULT_IMPORTS = """
-import kotlinext.js.ReadonlyArray
+import kotlinx.js.ReadonlyArray
 """.trimIndent()
 
 // language=Kotlin

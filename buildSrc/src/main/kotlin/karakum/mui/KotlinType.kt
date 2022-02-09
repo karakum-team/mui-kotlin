@@ -133,9 +133,9 @@ private val STANDARD_TYPE_MAP = mapOf(
     "DisableClearable" to "Boolean",
     "FreeSolo" to "Boolean",
 
-    "{ [key in Breakpoint]: number }" to "kotlinext.js.Record<Breakpoint, Number>",
-    "Record<string, any>" to "kotlinext.js.Record<String, *>",
-    "Record<string, any> & { mode: 'light' | 'dark' }" to "kotlinext.js.Record<String, *>",
+    "{ [key in Breakpoint]: number }" to "kotlinx.js.Record<Breakpoint, Number>",
+    "Record<string, any>" to "kotlinx.js.Record<String, *>",
+    "Record<string, any> & { mode: 'light' | 'dark' }" to "kotlinx.js.Record<String, *>",
 
     CREATE_TRANSITION to "(props: ReadonlyArray<String>?, options: $DYNAMIC) -> String",
 
