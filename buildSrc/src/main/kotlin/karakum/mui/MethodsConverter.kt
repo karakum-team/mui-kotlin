@@ -4,7 +4,19 @@ internal fun convertMethods(
     source: String,
 ): String {
     return source.splitToSequence(";\n")
-        .map { it.trim() }
-        .map { it.removeSuffix(": void") }
-        .joinToString("\n") { "fun $it" }
+        .joinToString("\n") {
+            val name = it.trim()
+                .substringBefore("(")
+                .removeSuffix(": ")
+
+            val declaration = it.trim()
+                .removeSuffix(": void")
+                .removeSuffix(" => void")
+                .replace("$name: ", "$name ")
+                .replace("?: React.SyntheticEvent", ": react.dom.events.SyntheticEvent<*, *> = definedExternally")
+                .replace("?: StartActionOptions", ": StartActionOptions = definedExternally")
+                .replace("?: () => void", ": () -> Unit  = definedExternally")
+
+            "fun $declaration"
+        }
 }
