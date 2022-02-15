@@ -43,6 +43,22 @@ external interface ToggleButtonProps :
     var fullWidth: Boolean?
 
     /**
+     * Callback fired when the state changes.
+     *
+     * @param {React.MouseEvent<HTMLElement>} event The event source of the callback.
+     * @param {any} value of the selected button.
+     */
+    var onChange: ((event: react.dom.events.MouseEvent<org.w3c.dom.HTMLElement, *>, value: dynamic) -> Unit)?
+
+    /**
+     * Callback fired when the button is clicked.
+     *
+     * @param {React.MouseEvent<HTMLElement>} event The event source of the callback.
+     * @param {any} value of the selected button.
+     */
+    var onClick: ((event: react.dom.events.MouseEvent<org.w3c.dom.HTMLElement, *>, value: dynamic) -> Unit)?
+
+    /**
      * If `true`, the button is rendered in an active state.
      */
     var selected: Boolean?
