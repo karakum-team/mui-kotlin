@@ -9,6 +9,7 @@ internal val OVERRIDE_FIX_REQUIRED = setOf(
     "SvgIcon",
     "MasonryItem", // children
     "Tab", // children
+    "ToggleButton", // onClick
 
     "TimelineContent",
     "TimelineOppositeContent",
