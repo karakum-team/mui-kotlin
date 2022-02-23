@@ -1,6 +1,6 @@
 package karakum.mui
 
-private const val PROMISE = "kotlin.js.Promise"
+private const val PROMISE = "Promise"
 
 internal const val DYNAMIC = "dynamic"
 internal const val UNION = "mui.system.Union"
@@ -133,9 +133,9 @@ private val STANDARD_TYPE_MAP = mapOf(
     "DisableClearable" to "Boolean",
     "FreeSolo" to "Boolean",
 
-    "{ [key in Breakpoint]: number }" to "kotlinx.js.Record<Breakpoint, Number>",
-    "Record<string, any>" to "kotlinx.js.Record<String, *>",
-    "Record<string, any> & { mode: 'light' | 'dark' }" to "kotlinx.js.Record<String, *>",
+    "{ [key in Breakpoint]: number }" to "Record<Breakpoint, Number>",
+    "Record<string, any>" to "Record<String, *>",
+    "Record<string, any> & { mode: 'light' | 'dark' }" to "Record<String, *>",
 
     CREATE_TRANSITION to "(props: ReadonlyArray<String>?, options: $DYNAMIC) -> String",
 

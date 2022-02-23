@@ -31,7 +31,7 @@ internal fun String.toFunctionType(): String? {
         .replace(": 'first' | 'last' | 'next' | 'previous'", ": mui.system.Union /* 'first' | 'last' | 'next' | 'previous' */")
         .replace("ClockView", "mui.system.Union /* ClockView */")
         .replace("MuiPickersAdapter<TDate>", "$DYNAMIC /* MuiPickersAdapter<TDate> */")
-        .replace("void | Promise<void>", "kotlin.js.Promise<Nothing?>?")
+        .replace("void | Promise<void>", "Promise<Void>?")
         .replace("Breakpoint | number", "Breakpoint")
         .replace("SelectOption<TValue>[]", "ReadonlyArray<SelectOption<TValue>>")
         .replace("TValue[]", "ReadonlyArray<TValue>")

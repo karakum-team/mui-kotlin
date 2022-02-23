@@ -4,9 +4,13 @@ import java.io.File
 
 private const val GENERATOR_COMMENT = "Automatically generated - do not modify!"
 
-private val DEFAULT_IMPORTS = """
-import kotlinx.js.ReadonlyArray
-""".trimIndent()
+private val DEFAULT_IMPORTS = listOf(
+    "Promise" to "kotlin.js.Promise",
+
+    "ReadonlyArray" to "kotlinx.js.ReadonlyArray",
+    "Record" to "kotlinx.js.Record",
+    "Void" to "kotlinx.js.Void",
+)
 
 // language=Kotlin
 private val TYPES_PROPS_WITH_COMPONENT = """
@@ -442,9 +446,10 @@ private fun fileContent(
     body: String,
     pkg: Package,
 ): String {
-    val defaultImports = if ("ReadonlyArray" in body) {
-        DEFAULT_IMPORTS
-    } else ""
+    val defaultImports = DEFAULT_IMPORTS
+        .filter { it.first in body }
+        .map { "import ${it.second}" }
+        .joinToString("\n")
 
     return sequenceOf(
         "// $GENERATOR_COMMENT",
