@@ -7,5 +7,5 @@
 | Library      | NPM version                                              | Version |
 |--------------|----------------------------------------------------------|---------| 
 | MUI Material | ![npm](https://img.shields.io/npm/v/@mui/material)       | [![Maven Central](https://img.shields.io/maven-central/v/org.jetbrains.kotlin-wrappers/kotlin-mui)](https://mvnrepository.com/artifact/org.jetbrains.kotlin-wrappers/kotlin-mui) |
-| MUI Lab      | ![npm](https://img.shields.io/npm/v/@mui/lab)            | [![Maven Central](https://img.shields.io/maven-central/v/org.jetbrains.kotlin-wrappers/kotlin-mui)](https://mvnrepository.com/artifact/org.jetbrains.kotlin-wrappers/kotlin-mui) |
 | MUI Icons    | ![npm](https://img.shields.io/npm/v/@mui/icons-material) | [![Maven Central](https://img.shields.io/maven-central/v/org.jetbrains.kotlin-wrappers/kotlin-mui-icons)](https://mvnrepository.com/artifact/org.jetbrains.kotlin-wrappers/kotlin-mui-icons) |
+| MUI Lab      | ![npm](https://img.shields.io/npm/v/@mui/lab)            | [![Maven Central](https://img.shields.io/maven-central/v/org.jetbrains.kotlin-wrappers/kotlin-mui)](https://mvnrepository.com/artifact/org.jetbrains.kotlin-wrappers/kotlin-mui) |
