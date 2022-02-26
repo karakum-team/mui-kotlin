@@ -90,7 +90,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "Element | (() => Element | null) | null" to "org.w3c.dom.Element",
     "Partial<OptionsGeneric<any>>" to "popper.core.Options",
     "React.Ref<Instance>" to "react.Ref<popper.core.Instance>",
-    "React.ElementType<TableCellBaseProps>" to "react.ElementType<*>",
+    "React.ElementType<TableCellBaseProps>" to "react.ElementType<TableCellBaseProps>",
 
     "{\n  bivarianceHack(event: {}, reason: 'backdropClick' | 'escapeKeyDown'): void;\n}['bivarianceHack']" to
             "(event: $DYNAMIC, reason: String) -> Unit",
@@ -100,9 +100,9 @@ private val STANDARD_TYPE_MAP = mapOf(
     "string | React.ReactElement" to "react.ReactNode",
     "string | number | React.ReactElement" to "react.ReactNode",
 
-    "React.ReactElement" to "react.ReactElement",
-    "React.ReactElement<any, any>" to "react.ReactElement",
-    "NonNullable<React.ReactElement>" to "react.ReactElement",
+    "React.ReactElement" to "react.ReactElement<*>",
+    "React.ReactElement<any, any>" to "react.ReactElement<*>",
+    "NonNullable<React.ReactElement>" to "react.ReactElement<*>",
 
     "React.ElementType" to "$ELEMENT_TYPE<*>",
 
