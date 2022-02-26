@@ -32,7 +32,7 @@ external interface TableCellProps :
      * The component used for the root node.
      * Either a string to use a HTML element or a component.
      */
-    var component: react.ElementType<*>?
+    var component: react.ElementType<TableCellBaseProps>?
 
     /**
      * Sets the padding applied to the cell.
