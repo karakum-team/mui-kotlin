@@ -337,6 +337,10 @@ private fun findAdditionalProps(
             -> declaration += "<T>"
 
             "SelectOption",
+            "UseSelectSingleParameters",
+            "UseSelectMultiParameters",
+            "UseSelectSingleResult",
+            "UseSelectMultiResult",
             -> declaration += "<TValue>"
 
             "MultiSelectUnstyledOwnerState",
