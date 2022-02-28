@@ -181,7 +181,9 @@ private fun generateBaseDeclarations(
 
             dir.existed(
                 dir.name + "Props.d.ts",
+                dir.name + ".types.d.ts",
                 "use" + dir.name.removeSuffix("Unstyled") + "Props.d.ts",
+                "use" + dir.name.removeSuffix("Unstyled") + ".types.d.ts",
                 "Use" + dir.name.removeSuffix("Unstyled") + "Props.d.ts",
             ) + hooks + component
         }
@@ -390,7 +392,7 @@ private fun generate(
 ) {
     val componentName = when (definitionFile.name) {
         "shared.d.ts" -> "CalendarPickerView"
-        else -> definitionFile.name.substringBefore(".")
+        else -> definitionFile.name.removeSuffix(".d.ts")
     }
     val (body, extensions) = convertDefinitions(definitionFile)
 
