@@ -215,11 +215,13 @@ private fun findMapProps(
         name == "LoadingButton"
         -> "mui.material.ButtonProps"
 
-        "${name}BaseProps & {" in propsContent
-        -> "${name}BaseProps"
-
-        "props: P & ${name}BaseProps;" in propsContent
-        -> "${name}BaseProps"
+        "${name}BaseProps & {" in propsContent || "props: P & ${name}BaseProps;" in propsContent
+        -> {
+            val baseType = "${name}BaseProps"
+            if (name.startsWith("List")) {
+                "\n$baseType,\nreact.dom.html.HTMLAttributes<org.w3c.dom.HTMLElement>"
+            } else baseType
+        }
 
         "${name}UnstyledTypeMap<{" in propsContent
         -> "mui.base.${name}UnstyledProps"
