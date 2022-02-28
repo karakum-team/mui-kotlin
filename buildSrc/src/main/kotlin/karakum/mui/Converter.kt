@@ -344,8 +344,6 @@ private fun findAdditionalProps(
             -> declaration += "<TValue>"
 
             "MultiSelectUnstyledOwnerState",
-            "UseSelectSingleProps",
-            "UseSelectMultiProps",
             -> declaration = declaration.replaceFirst(":", "<TValue>:")
 
             "ExportedClockPickerProps",
