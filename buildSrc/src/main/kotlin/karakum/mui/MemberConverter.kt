@@ -66,6 +66,9 @@ private fun convertProperty(
     if (name == "children" && type == "react.ReactNode")
         return CHILDREN
 
+    if (name == "className" && type == "String")
+        return CLASS_NAME
+
     val optional = source.substringBefore(":")
         .endsWith("?")
 

@@ -188,9 +188,12 @@ private fun findProps(
         ?: ""
 
     val body = convertMembers(membersContent)
-    return props(propsDeclaration, parentType, CHILDREN in body) + " {\n" +
-            body +
-            "\n}"
+    return props(
+        propsName = propsDeclaration,
+        parentType = parentType,
+        hasChildren = CHILDREN in body,
+        hasClassName = CLASS_NAME in body,
+    ) + " {\n$body\n}"
 }
 
 private fun findMapProps(
@@ -245,6 +248,7 @@ private fun findMapProps(
             propsName = propsName,
             parentType = parentType,
             hasChildren = CHILDREN in body,
+            hasClassName = CLASS_NAME in body,
             hasComponent = ": OverridableComponent<" in content,
         ) + " {\n$body\n}"
     } else {
@@ -320,7 +324,12 @@ private fun findAdditionalProps(
         val hasChildren = CHILDREN in propsBody
         var declaration = when {
             propsLike || hasChildren
-            -> props(interfaceName, parentType, hasChildren = hasChildren)
+            -> props(
+                propsName = interfaceName,
+                parentType = parentType,
+                hasChildren = hasChildren,
+                hasClassName = CLASS_NAME in propsBody,
+            )
 
             interfaceName.endsWith("Params") || interfaceName == "UsePaginationItem"
             -> props(interfaceName, parentType, hasChildren = false)
@@ -363,11 +372,14 @@ private fun props(
     propsName: String,
     parentType: String? = null,
     hasChildren: Boolean = false,
+    hasClassName: Boolean = false,
     hasComponent: Boolean = false,
 ): String {
     val baseInterfaces = mutableListOf<String>()
     if (hasChildren)
         baseInterfaces += "react.PropsWithChildren"
+    if (hasClassName)
+        baseInterfaces += "react.PropsWithClassName"
     if (hasComponent)
         baseInterfaces += "mui.types.PropsWithComponent"
 

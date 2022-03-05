@@ -69,11 +69,6 @@ internal fun fixOverrides(
             .override("align")
             .override("scope")
 
-        "TreeItemContent",
-        "Collapse",
-        -> content
-            .override("className")
-
         "SpeedDial",
         -> content
             .override("hidden")
