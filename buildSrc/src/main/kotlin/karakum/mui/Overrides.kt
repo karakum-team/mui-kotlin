@@ -26,13 +26,11 @@ internal fun fixOverrides(
             .override("onBackdropClick")
             .override("onClose")
             .override("open")
-            .override("sx")
             .replaceFirst("override var children:", "    /* override */ var children:")
 
         "Drawer",
         -> content
             .override("onClose")
-            .override("sx")
             .replaceFirst("override var children:", "    /* override */ var children:")
 
         "Popover",
@@ -40,7 +38,6 @@ internal fun fixOverrides(
             .override("container")
             .override("onClose")
             .override("open")
-            .override("sx")
             .replaceFirst("override var children:", "    /* override */ var children:")
 
         "Button",
@@ -57,7 +54,6 @@ internal fun fixOverrides(
         "LoadingButton",
         -> content
             .override("classes")
-            .override("sx")
 
         "SwipeableDrawer",
         -> content

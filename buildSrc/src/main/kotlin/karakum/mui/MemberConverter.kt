@@ -69,6 +69,9 @@ private fun convertProperty(
     if (name == "className" && type == "String")
         return CLASS_NAME
 
+    if (name == "sx" && type == "SxProps<Theme>")
+        return SX
+
     val optional = source.substringBefore(":")
         .endsWith("?")
 

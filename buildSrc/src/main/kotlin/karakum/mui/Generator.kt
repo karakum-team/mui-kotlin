@@ -31,6 +31,15 @@ typealias SxProps<T> = react.CSSProperties
 """.trimIndent()
 
 // language=Kotlin
+private val SYSTEM_PROPS_WITH_SX = """
+import react.Props    
+    
+external interface PropsWithSx : Props {
+    var sx: SxProps<Theme>?
+}
+""".trimIndent()
+
+// language=Kotlin
 private val SYSTEM_RESPONSIVE_STYLE_VALUE = """
 external interface ResponsiveStyleValue<T : Any>
 
@@ -221,6 +230,9 @@ private fun generateSystemDeclarations(
 
     targetDir.resolve("SxProps.kt")
         .writeText(fileContent(body = SYSTEM_SX_PROPS, pkg = Package.system))
+
+    targetDir.resolve("PropsWithSx.kt")
+        .writeText(fileContent(body = SYSTEM_PROPS_WITH_SX, pkg = Package.system))
 
     targetDir.resolve("ResponsiveStyleValue.kt")
         .writeText(fileContent(body = SYSTEM_RESPONSIVE_STYLE_VALUE, pkg = Package.system))

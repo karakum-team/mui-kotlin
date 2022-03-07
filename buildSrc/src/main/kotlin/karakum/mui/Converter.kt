@@ -193,6 +193,7 @@ private fun findProps(
         parentType = parentType,
         hasChildren = CHILDREN in body,
         hasClassName = CLASS_NAME in body,
+        hasSx = SX in body,
     ) + " {\n$body\n}"
 }
 
@@ -249,6 +250,7 @@ private fun findMapProps(
             parentType = parentType,
             hasChildren = CHILDREN in body,
             hasClassName = CLASS_NAME in body,
+            hasSx = SX in body,
             hasComponent = ": OverridableComponent<" in content,
         ) + " {\n$body\n}"
     } else {
@@ -373,6 +375,7 @@ private fun props(
     parentType: String? = null,
     hasChildren: Boolean = false,
     hasClassName: Boolean = false,
+    hasSx: Boolean = false,
     hasComponent: Boolean = false,
 ): String {
     val baseInterfaces = mutableListOf<String>()
@@ -380,6 +383,8 @@ private fun props(
         baseInterfaces += "react.PropsWithChildren"
     if (hasClassName)
         baseInterfaces += "react.PropsWithClassName"
+    if (hasSx)
+        baseInterfaces += "mui.system.PropsWithSx"
     if (hasComponent)
         baseInterfaces += "mui.types.PropsWithComponent"
 
