@@ -9,18 +9,15 @@ internal fun findDefaultFunction(
     if (!name.startsWith("use") && !name.startsWith("create"))
         return null
 
-    if (name == "createTransitions")
-        return null
-
-    if (name == "useButton")
-        return null
-
-    if (name == "useSelect")
-        return null
-
-    // TEMP
-    if (name == "useAutocomplete")
-        return null
+    when (name) {
+        "createTransitions",
+        "useButton",
+        "useMenu",
+        "useMenuItem",
+        "useSelect",
+        "useAutocomplete",
+        -> return null
+    }
 
     if (QUERY_INPUT_TYPE in content)
         return QUERY_INPUT_TYPE.splitToSequence(" | ")
