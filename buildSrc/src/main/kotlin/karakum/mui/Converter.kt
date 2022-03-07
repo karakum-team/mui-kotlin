@@ -331,6 +331,7 @@ private fun findAdditionalProps(
                 parentType = parentType,
                 hasChildren = hasChildren,
                 hasClassName = CLASS_NAME in propsBody,
+                hasSx = SX in propsBody,
             )
 
             interfaceName.endsWith("Params") || interfaceName == "UsePaginationItem"
