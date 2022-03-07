@@ -18,7 +18,8 @@ typealias TextFieldProps = BaseTextFieldProps
 external interface BaseTextFieldProps :
     mui.system.StandardProps,
     FormControlProps,
-    react.PropsWithChildren {
+    react.PropsWithChildren,
+    mui.system.PropsWithSx {
     /**
      * This prop helps users to fill forms faster, especially on mobile devices.
      * The name can be confusing, as it's more like an autofill.
