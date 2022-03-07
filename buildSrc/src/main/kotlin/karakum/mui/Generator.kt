@@ -40,6 +40,18 @@ external interface PropsWithSx : Props {
 """.trimIndent()
 
 // language=Kotlin
+private val SYSTEM_SX = """
+import csstype.PropertiesBuilder
+import kotlinx.js.jso
+
+inline fun PropsWithSx.sx(
+    crossinline block: PropertiesBuilder.() -> Unit,
+) {
+    sx = jso(block)
+}
+""".trimIndent()
+
+// language=Kotlin
 private val SYSTEM_RESPONSIVE_STYLE_VALUE = """
 external interface ResponsiveStyleValue<T : Any>
 
@@ -213,32 +225,28 @@ private fun generateSystemDeclarations(
         .map { it.resolve("${it.name}.d.ts") }
         .forEach { generate(it, targetDir, Package.system) }
 
-    targetDir.resolve("Breakpoint.kt")
-        .writeText(fileContent(body = SYSTEM_BREAKPOINT, pkg = Package.system))
-
-    targetDir.resolve("shape.kt")
-        .writeText(fileContent(body = SYSTEM_SHAPE, pkg = Package.system))
-
     typesDir.resolve("createTheme")
         .listFiles { file -> file.name.startsWith("create") && file.name.endsWith(".d.ts") }!!
         .forEach { generate(it, targetDir, Package.system) }
 
     generate(typesDir.resolve("useTheme.d.ts"), targetDir, Package.system)
 
-    targetDir.resolve("Aliases.kt")
-        .writeText(fileContent(body = SYSTEM_ALIASES, pkg = Package.system))
+    sequenceOf(
+        "Breakpoint" to SYSTEM_BREAKPOINT,
+        "shape" to SYSTEM_SHAPE,
 
-    targetDir.resolve("SxProps.kt")
-        .writeText(fileContent(body = SYSTEM_SX_PROPS, pkg = Package.system))
+        "Aliases" to SYSTEM_ALIASES,
 
-    targetDir.resolve("PropsWithSx.kt")
-        .writeText(fileContent(body = SYSTEM_PROPS_WITH_SX, pkg = Package.system))
+        "SxProps" to SYSTEM_SX_PROPS,
+        "PropsWithSx" to SYSTEM_PROPS_WITH_SX,
+        "sx" to SYSTEM_SX,
 
-    targetDir.resolve("ResponsiveStyleValue.kt")
-        .writeText(fileContent(body = SYSTEM_RESPONSIVE_STYLE_VALUE, pkg = Package.system))
-
-    targetDir.resolve("StandardProps.kt")
-        .writeText(fileContent(body = SYSTEM_STANDARD_PROPS, pkg = Package.system))
+        "ResponsiveStyleValue" to SYSTEM_RESPONSIVE_STYLE_VALUE,
+        "StandardProps" to SYSTEM_STANDARD_PROPS,
+    ).forEach { (name, body) ->
+        targetDir.resolve("$name.kt")
+            .writeText(fileContent(body = body, pkg = Package.system))
+    }
 }
 
 private fun generateMaterialDeclarations(
