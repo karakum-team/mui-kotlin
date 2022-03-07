@@ -112,7 +112,7 @@ external interface ListItemBaseProps : react.PropsWithChildren {
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
      */
-    var sx: SxProps<Theme>?
+    override var sx: SxProps<Theme>?
 }
 
 /**
