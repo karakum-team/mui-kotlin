@@ -47,6 +47,8 @@ private val KNOWN_TYPES = setOf(
     "PaletteOptions",
     "TransitionsOptions",
     // "ZIndexOptions",
+
+    "SxProps<Theme>",
 )
 
 private val KNOWN_TYPE_SUFFIXES = setOf(
@@ -109,7 +111,6 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.Ref<unknown>" to "react.Ref<*>",
     "React.Ref<any>" to "react.Ref<*>",
 
-    "SxProps<Theme>" to "mui.system.SxProps<mui.system.Theme>",
     "TransitionProps" to "mui.material.transitions.TransitionProps",
     "ClickAwayListenerProps" to "mui.base.ClickAwayListenerProps",
 

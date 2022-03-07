@@ -450,7 +450,9 @@ private fun fileContent(
 ): String {
     val defaultImports = DEFAULT_IMPORTS
         .filter { it.first in body }
-        .map { "import ${it.second}" }
+        .map { it.second }
+        .plus(systemImports(body, pkg))
+        .map { "import $it" }
         .joinToString("\n")
 
     return sequenceOf(
@@ -463,3 +465,14 @@ private fun fileContent(
         .joinToString("\n\n")
         .removeSuffix("\n") + "\n"
 }
+
+private fun systemImports(
+    body: String,
+    pkg: Package,
+): Sequence<String> =
+    if ("SxProps<Theme>" in body && pkg != Package.system) {
+        sequenceOf(
+            "mui.material.styles.Theme",
+            "mui.system.SxProps",
+        )
+    } else emptySequence()
