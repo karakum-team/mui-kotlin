@@ -8,7 +8,7 @@ private val DEFAULT_IMPORTS = listOf(
     "Promise" to "kotlin.js.Promise",
 
     "ReadonlyArray" to "kotlinx.js.ReadonlyArray",
-    "Record" to "kotlinx.js.Record",
+    "Record<" to "kotlinx.js.Record",
     "Void" to "kotlinx.js.Void",
 )
 
