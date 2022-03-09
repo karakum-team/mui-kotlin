@@ -159,6 +159,10 @@ internal fun kotlinType(
     if (type == "number" && name == "tabIndex")
         return "Int"
 
+    // For system theme interfaces
+    if (name == "palette" && type.startsWith("Record<"))
+        return "$DYNAMIC /* ${STANDARD_TYPE_MAP.getValue(type)} */"
+
     STANDARD_TYPE_MAP[type]
         ?.also { return it }
 
