@@ -17,12 +17,17 @@ internal fun findParentType(
     if (parentSource.startsWith("StandardProps<"))
         return parseStandardProps(parentSource)
 
-    if (parentSource.startsWith("Omit<"))
-        return parentSource
+    if (parentSource.startsWith("Omit<")) {
+        var result = parentSource
             .removeSurrounding("Omit<", ">")
             .substringBefore(",")
             .toTypeParameter()
-            .takeIf { it != "SystemThemeOptions" }
+
+        if (result == "SystemThemeOptions")
+            result = "mui.system.ThemeOptions"
+
+        return result
+    }
 
     if (parentSource.startsWith("UseAutocompleteProps<")) {
         val (first, second) = parentSource.split(",\n    ")
@@ -53,6 +58,9 @@ internal fun findParentType(
         "SelectUnstyledCommonProps",
         "MultiSelectUnstyledProps<TValue>",
         -> parentSource
+
+        "SystemTheme",
+        -> "mui.system.Theme"
 
         "ButtonUnstyledOwnProps",
         -> "mui.base.$parentSource"

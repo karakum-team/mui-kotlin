@@ -323,6 +323,23 @@ private fun findAdditionalProps(
         if (interfaceName == "TreeViewPropsBase")
             propsBody = propsBody.replace("var id:", "override var id:")
 
+        when (parentType) {
+            "mui.system.ThemeOptions",
+            "mui.system.Theme",
+            "BaseTheme",
+            -> propsBody = sequenceOf(
+                "mixins",
+                "components",
+                "palette",
+                "shadows",
+                "transitions",
+                "typography",
+                "zIndex",
+            ).fold(propsBody) { acc, propName ->
+                acc.replace("var $propName:", "override var $propName:")
+            }
+        }
+
         val hasChildren = CHILDREN in propsBody
         var declaration = when {
             propsLike || hasChildren
