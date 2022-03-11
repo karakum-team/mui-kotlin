@@ -227,6 +227,9 @@ private fun findMapProps(
             } else baseType
         }
 
+        "props: P &\n    DistributiveOmit<PaperProps, " in propsContent
+        -> "PaperProps"
+
         "${name}UnstyledTypeMap<{" in propsContent
         -> "mui.base.${name}UnstyledProps"
 
