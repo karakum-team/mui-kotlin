@@ -10,6 +10,8 @@ private val DEFAULT_IMPORTS = listOf(
     "ReadonlyArray" to "kotlinx.js.ReadonlyArray",
     "Record<" to "kotlinx.js.Record",
     "Void" to "kotlinx.js.Void",
+
+    " ClassName" to "csstype.ClassName",
 )
 
 // language=Kotlin
@@ -420,7 +422,8 @@ private fun generate(
         pkg == Package.materialStyles
         -> null
 
-        fullPath || componentName == "SwitchBase" || componentName == "useAutocomplete" || componentName == "useSwitch" || componentName.startsWith("create")
+        fullPath || componentName == "SwitchBase" || componentName == "useAutocomplete" || componentName == "useSwitch" || componentName.startsWith(
+            "create")
         -> definitionFile.parentFile.name
 
         else -> null
