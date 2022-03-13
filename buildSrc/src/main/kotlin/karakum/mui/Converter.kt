@@ -21,7 +21,7 @@ internal fun convertClasses(
         .map {
             val name = it.removeSuffix(": string;")
             if (name == it) return@map it
-            val line = "var $name: String"
+            val line = "var $name: ClassName"
             if (name.startsWith("'")) "    // $line" else line
         }
         .joinToString("\n")
