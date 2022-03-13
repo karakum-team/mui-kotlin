@@ -2,6 +2,8 @@
 
 package mui.base
 
+import csstype.ClassName
+
 external interface MenuUnstyledProps :
     react.PropsWithChildren,
     react.PropsWithClassName {
@@ -20,7 +22,7 @@ external interface MenuUnstyledProps :
 
     override var children: react.ReactNode?
 
-    override var className: String?
+    override var className: ClassName?
 
     var component: react.ElementType<*>?
 

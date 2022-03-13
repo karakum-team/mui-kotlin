@@ -2,12 +2,14 @@
 
 package mui.base
 
+import csstype.ClassName
+
 external interface MenuItemUnstyledProps :
     react.PropsWithChildren,
     react.PropsWithClassName {
     override var children: react.ReactNode?
 
-    override var className: String?
+    override var className: ClassName?
 
     var onClick: react.dom.events.MouseEventHandler<org.w3c.dom.HTMLElement>?
 
