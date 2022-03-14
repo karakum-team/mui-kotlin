@@ -58,6 +58,32 @@ internal fun convertUnion(
     """.trimIndent()
 }
 
+internal fun convertSealed(
+    name: String,
+    keys: List<String>,
+    getValue: (String) -> String,
+    type: String,
+): String {
+    val jsName = keys.asSequence()
+        .map { "$it: '${getValue(it)}'" }
+        .joinToString(", ", "@JsName(\"\"\"($UNION_MARKER{", "}$UNION_MARKER)\"\"\")")
+
+    val companionContent = keys.asSequence()
+        .map { "val $it: $type" }
+        .joinToString("\n")
+
+    return """
+        @Suppress("NAME_CONTAINS_ILLEGAL_CHARS")
+        // language=JavaScript
+        $jsName
+        sealed external interface $name {
+            companion object {
+                $companionContent
+            }
+        }
+    """.trimIndent()
+}
+
 private fun escape(
     value: String,
 ): String =

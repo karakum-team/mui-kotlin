@@ -8,12 +8,15 @@ internal data class ConversionResult(
 )
 
 internal fun convertClasses(
-    classesName: String,
+    componentName: String,
     definitionFile: File,
-): String {
+): Pair<String, String?> {
     val content = definitionFile.readText()
         .replace("\r\n", "\n")
 
+    val slots = mutableListOf<String>()
+
+    val classesName = componentName + "Classes"
     val classes = content.substringAfter("export interface $classesName {\n")
         .substringBefore("\n}\n")
         .trimIndent()
@@ -21,14 +24,32 @@ internal fun convertClasses(
         .map {
             val name = it.removeSuffix(": string;")
             if (name == it) return@map it
+
+            if (!name.startsWith("'"))
+                slots += name
+
             val line = "var $name: ClassName"
             if (name.startsWith("'")) "    // $line" else line
         }
         .joinToString("\n")
 
-    return "external interface $classesName {\n" +
+    val classesContent = "external interface $classesName {\n" +
             "$classes\n" +
             "}\n"
+
+    if ("Unstyled" in componentName)
+        return classesContent to null
+
+    val muiName = "Mui$componentName"
+
+    val muiContent = convertSealed(
+        name = muiName,
+        keys = slots,
+        getValue = { "$muiName-$it" },
+        type = "ClassName",
+    )
+
+    return classesContent to muiContent
 }
 
 internal fun convertDefinitions(
