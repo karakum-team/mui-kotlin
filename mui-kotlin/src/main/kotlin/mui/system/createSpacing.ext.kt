@@ -35,4 +35,4 @@ inline fun SpacingOptions(
 ): SpacingOptions =
     value.unsafeCast<SpacingOptions>()
 
-typealias SpacingArgument = csstype.Length /* csstype.Auto */
+typealias SpacingArgument = Int /* csstype.Auto */
