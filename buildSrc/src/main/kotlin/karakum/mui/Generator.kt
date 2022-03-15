@@ -453,8 +453,12 @@ private fun generate(
             else -> "$componentName.ext"
         }
 
+        val extensionsAnnotations = if ("inline fun " in extensions) {
+            "@file:Suppress(\n\"NOTHING_TO_INLINE\",\n)"
+        } else ""
+
         targetDir.resolve("$fileName.kt")
-            .writeText(fileContent(body = extensions, pkg = pkg))
+            .writeText(fileContent(annotations = extensionsAnnotations, body = extensions, pkg = pkg))
     }
 
     val classesName = componentName + "Classes"

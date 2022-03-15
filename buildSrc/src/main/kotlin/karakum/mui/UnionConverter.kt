@@ -14,7 +14,7 @@ internal fun convertUnion(
 
     when (name) {
         "NativeFormControlElement" -> return "typealias $name = org.w3c.dom.HTMLElement /* $body */"
-        "SpacingOptions" -> return "typealias $name = Any"
+        "SpacingOptions" -> return convertSpacingOptions(name, body)
         "TableCellAlign" -> return "typealias $name = react.dom.html.TdAlign /* $body */"
         "TableCellBaseProps" -> return "typealias TableCellBaseProps = react.dom.html.TdHTMLAttributes<org.w3c.dom.HTMLTableCellElement>"
     }
