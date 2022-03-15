@@ -34,3 +34,5 @@ inline fun SpacingOptions(
     value: ReadonlyArray<Int>,
 ): SpacingOptions =
     value.unsafeCast<SpacingOptions>()
+
+typealias SpacingArgument = csstype.Length /* csstype.Auto */
