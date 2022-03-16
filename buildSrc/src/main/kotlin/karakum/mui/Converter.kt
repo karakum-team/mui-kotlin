@@ -74,7 +74,11 @@ internal fun convertDefinitions(
     findMapProps(name, propsName, content)
         ?.also(declarations::add)
 
-    declarations += findAdditionalProps(propsName, content)
+    val additionalInterfaces = findAdditionalProps(propsName, content)
+    val functionInterfaces = additionalInterfaces
+        .filter { "interface Spacing {" in it }
+
+    declarations += (additionalInterfaces - functionInterfaces)
 
     val fun0Declaration = "export default function $name<"
     val fun1Declaration = "export default function $name(props: $propsName): JSX.Element;"
@@ -110,7 +114,7 @@ internal fun convertDefinitions(
 
     return ConversionResult(
         main = mainContent,
-        extensions = enums.joinToString("\n\n"),
+        extensions = (enums + functionInterfaces).joinToString("\n\n"),
     )
 }
 
