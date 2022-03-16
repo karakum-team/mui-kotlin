@@ -24,3 +24,30 @@ internal fun convertSpacingOptions(
             "\n\n" +
             factories
 }
+
+internal fun convertSpacing(
+    name: String,
+    body: String,
+): String {
+    val members = body
+        .splitToSequence("\n")
+        .joinToString("\n") { source ->
+            val declaration = source
+                .removeSuffix(";")
+                .replace(": number", ": Int")
+                .replace(": string", ": csstype.Length")
+
+            val parameters = declaration
+                .substringAfter("(")
+                .substringBefore(")")
+                .splitToSequence(",")
+                .joinToString(",") { it.substringBefore(":") }
+
+            "inline operator fun invoke$declaration =\n" +
+                    "asDynamic()($parameters)"
+        }
+
+    return "sealed interface $name {\n" +
+            members +
+            "\n}"
+}

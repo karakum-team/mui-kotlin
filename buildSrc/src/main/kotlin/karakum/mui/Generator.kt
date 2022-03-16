@@ -454,7 +454,10 @@ private fun generate(
         }
 
         val extensionsAnnotations = if ("inline fun " in extensions) {
-            "@file:Suppress(\n\"NOTHING_TO_INLINE\",\n)"
+            "@file:Suppress(\n" +
+                    "\"DECLARATION_CANT_BE_INLINED\",\n" +
+                    "\"NOTHING_TO_INLINE\",\n" +
+                    ")"
         } else ""
 
         targetDir.resolve("$fileName.kt")

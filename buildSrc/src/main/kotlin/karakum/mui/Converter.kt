@@ -331,9 +331,15 @@ private fun findAdditionalProps(
         val membersContent = when (interfaceName) {
             "InputBaseComponentProps",
             "CustomSystemProps",
-                // TODO: temp
-            "Spacing",
             -> ""
+
+            "Spacing",
+            -> return@mapNotNull convertSpacing(
+                name = interfaceName,
+                body = body.substringAfter("{\n")
+                    .substringBefore("\n}\n")
+                    .trimIndent()
+            )
 
             "MixinsOptions",
             -> body.substringAfter("{\n")
