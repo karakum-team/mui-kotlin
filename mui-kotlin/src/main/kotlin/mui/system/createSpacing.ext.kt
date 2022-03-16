@@ -36,3 +36,5 @@ inline fun SpacingOptions(
     value.unsafeCast<SpacingOptions>()
 
 typealias SpacingArgument = Int /* csstype.Auto */
+
+external interface Spacing
