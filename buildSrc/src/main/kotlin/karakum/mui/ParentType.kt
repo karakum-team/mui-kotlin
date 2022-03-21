@@ -63,6 +63,7 @@ internal fun findParentType(
         -> "mui.system.Theme"
 
         "ButtonUnstyledOwnProps",
+        "PopperUnstyledProps",
         -> "mui.base.$parentSource"
 
         "HTMLDivProps",
