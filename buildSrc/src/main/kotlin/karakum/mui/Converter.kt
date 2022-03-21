@@ -62,6 +62,10 @@ internal fun convertDefinitions(
         .replace("\r\n", "\n")
         .removeInlineClasses()
         .removeDeprecated()
+        .replace(
+            "declare type PopperProps = Omit<PopperUnstyledProps, 'direction'> &",
+            "interface PopperProps extends PopperUnstyledProps",
+        )
         .let { findDefaultUnions(name, it) }
 
     val declarations = mutableListOf<String>()
