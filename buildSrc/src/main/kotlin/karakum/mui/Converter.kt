@@ -358,8 +358,14 @@ private fun findAdditionalProps(
             convertMethods(membersContent)
         } else convertMembers(membersContent)
 
-        if (interfaceName == "TreeViewPropsBase")
-            propsBody = propsBody.replace("var id:", "override var id:")
+        when (interfaceName) {
+            "TreeViewPropsBase",
+            -> propsBody = propsBody.replace("var id:", "override var id:")
+
+            "CommonColors",
+            "PaletteColor",
+            -> propsBody = propsBody.replace(": String", ": csstype.Color")
+        }
 
         when (parentType) {
             "mui.system.ThemeOptions",
