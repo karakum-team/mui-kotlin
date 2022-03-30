@@ -82,6 +82,8 @@ external interface Shape {
 typealias ShapeOptions = Shape
 """.trimIndent()
 
+private val MATERIAL_PALETTE_MODE = convertUnion("PaletteMode = 'light' | 'dark'")!!
+
 // language=Kotlin
 private val MATERIAL_SIZE = """
 @Suppress(
@@ -285,6 +287,9 @@ private fun generateMaterialDeclarations(
             it.resolve(fileName)
         }
         .forEach { generate(it, targetDir, Package.material) }
+
+    targetDir.resolve("PaletteMode.kt")
+        .writeText(fileContent(body = MATERIAL_PALETTE_MODE, pkg = Package.material))
 
     targetDir.resolve("Size.kt")
         .writeText(fileContent(body = MATERIAL_SIZE, pkg = Package.material))
