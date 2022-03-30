@@ -70,13 +70,13 @@ external interface PaletteColor {
 }
 
 external interface TypeObject {
-    var text: dynamic
+    var text: TypeText
 
-    var action: dynamic
+    var action: TypeAction
 
     var divider: dynamic
 
-    var background: dynamic
+    var background: TypeBackground
 }
 
 external interface PaletteAugmentColorOptions {
@@ -92,9 +92,9 @@ external interface PaletteAugmentColorOptions {
 }
 
 external interface Palette {
-    var common: dynamic
+    var common: CommonColors
 
-    var mode: dynamic
+    var mode: mui.material.PaletteMode
 
     var contrastThreshold: Number
 
@@ -114,13 +114,13 @@ external interface Palette {
 
     var grey: dynamic
 
-    var text: dynamic
+    var text: TypeText
 
     var divider: dynamic
 
-    var action: dynamic
+    var action: TypeAction
 
-    var background: dynamic
+    var background: TypeBackground
 
     var getContrastText: (background: String) -> String
 
@@ -140,7 +140,7 @@ external interface PaletteOptions {
 
     var success: dynamic
 
-    var mode: dynamic
+    var mode: mui.material.PaletteMode?
 
     var tonalOffset: dynamic
 
