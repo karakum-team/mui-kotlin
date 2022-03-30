@@ -364,6 +364,10 @@ private fun findAdditionalProps(
 
             "CommonColors",
             "PaletteColor",
+            "TypeText",
+            "TypeAction",
+            "SimplePaletteColorOptions",
+            "PaletteAugmentColorOptions",
             -> propsBody = propsBody.replace(": String", ": csstype.Color")
         }
 
