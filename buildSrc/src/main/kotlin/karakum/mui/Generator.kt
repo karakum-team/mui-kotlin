@@ -288,11 +288,18 @@ private fun generateMaterialDeclarations(
         }
         .forEach { generate(it, targetDir, Package.material) }
 
-    targetDir.resolve("PaletteMode.kt")
-        .writeText(fileContent(body = MATERIAL_PALETTE_MODE, pkg = Package.material))
+    sequenceOf(
+        MUI to MUI_BODY,
+        "PaletteMode" to MATERIAL_PALETTE_MODE,
+        "Size" to MATERIAL_SIZE,
+    ).forEach { (name, body) ->
+        val annotations = if (name == MUI) {
+            "@file:Suppress(\n\"NESTED_CLASS_IN_EXTERNAL_INTERFACE\",\n)"
+        } else ""
 
-    targetDir.resolve("Size.kt")
-        .writeText(fileContent(body = MATERIAL_SIZE, pkg = Package.material))
+        targetDir.resolve("$name.kt")
+            .writeText(fileContent(annotations, body, Package.material))
+    }
 }
 
 private fun generateStylesDeclarations(

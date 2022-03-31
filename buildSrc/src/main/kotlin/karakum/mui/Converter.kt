@@ -40,7 +40,7 @@ internal fun convertClasses(
     if ("Unstyled" in componentName)
         return classesContent to null
 
-    val muiName = "Mui$componentName"
+    val muiName = MUI + componentName
 
     val muiContent = convertSealed(
         name = muiName,
