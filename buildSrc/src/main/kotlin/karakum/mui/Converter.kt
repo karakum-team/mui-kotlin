@@ -44,7 +44,7 @@ internal fun convertClasses(
 
     val muiContent = convertSealed(
         name = muiName,
-        keys = slots,
+        keys = slots.filter { it !in MUI_CLASSES },
         getValue = { "$muiName-$it" },
         type = "ClassName",
     )

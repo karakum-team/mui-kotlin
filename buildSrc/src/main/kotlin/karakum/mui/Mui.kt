@@ -2,7 +2,7 @@ package karakum.mui
 
 internal const val MUI = "Mui"
 
-private val MUI_CLASSES = listOf(
+internal val MUI_CLASSES = listOf(
     "active",
     "checked",
     "completed",
