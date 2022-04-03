@@ -31,9 +31,9 @@ external interface Duration {
 }
 
 external interface TransitionsOptions {
-    var easing: dynamic
+    var easing: Easing?
 
-    var duration: dynamic
+    var duration: Duration?
 
     var create: ((props: ReadonlyArray<String>?, options: dynamic) -> String)?
 
@@ -41,9 +41,9 @@ external interface TransitionsOptions {
 }
 
 external interface Transitions {
-    var easing: dynamic
+    var easing: Easing
 
-    var duration: dynamic
+    var duration: Duration
 
     var create: dynamic
 
