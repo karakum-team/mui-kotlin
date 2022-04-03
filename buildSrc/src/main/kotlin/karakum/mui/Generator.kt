@@ -85,6 +85,15 @@ typealias ShapeOptions = Shape
 private val MATERIAL_PALETTE_MODE = convertUnion("PaletteMode = 'light' | 'dark'")!!
 
 // language=Kotlin
+private val STYLE_TRANSITION_CREATE_OPTIONS = """
+external interface TransitionCreateOptions {
+    var duration: Number?
+    var easing: String?
+    var delay: Number?    
+}
+""".trimIndent()
+
+// language=Kotlin
 private val MATERIAL_SIZE = """
 @Suppress(
     "NAME_CONTAINS_ILLEGAL_CHARS",
@@ -455,8 +464,13 @@ private fun generate(
         annotations += "@file:Suppress(\n\"VIRTUAL_MEMBER_HIDDEN\",\n)"
 
     if (componentName != "CalendarPickerView") {
+        val finalBody = when (componentName) {
+            "createTransitions" -> body + "\n\n" + STYLE_TRANSITION_CREATE_OPTIONS
+            else -> body
+        }
+
         targetDir.resolve("$componentName.kt")
-            .writeText(fileContent(annotations.joinToString("\n\n"), body, pkg))
+            .writeText(fileContent(annotations.joinToString("\n\n"), finalBody, pkg))
     }
 
     if (extensions.isNotEmpty()) {
