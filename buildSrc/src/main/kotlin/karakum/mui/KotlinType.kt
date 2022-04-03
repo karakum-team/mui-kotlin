@@ -56,6 +56,9 @@ private val KNOWN_TYPES = setOf(
     "SimplePaletteColorOptions",
     "CommonColorsOptions",
 
+    "Easing",
+    "Duration",
+
     "SxProps<Theme>",
 )
 
@@ -248,6 +251,8 @@ internal fun kotlinType(
                 else -> STANDARD_TYPE_MAP[partialResult] ?: partialResult
             }
         } else if (partialResult.endsWith("Classes")) {
+            return partialResult
+        } else if (partialResult in KNOWN_TYPES) {
             return partialResult
         }
     }
