@@ -49,3 +49,9 @@ external interface Transitions {
 
     var getAutoHeightDuration: (height: Number) -> Number
 }
+
+external interface TransitionCreateOptions {
+    var duration: Number?
+    var easing: String?
+    var delay: Number?
+}
