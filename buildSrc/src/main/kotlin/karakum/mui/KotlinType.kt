@@ -159,6 +159,10 @@ private val STANDARD_TYPE_MAP = mapOf(
     "typeof window.matchMedia" to "(query: String) -> org.w3c.dom.MediaQueryList",
 
     "PopperPlacementType" to "popper.core.Placement",
+
+    "Partial<{ duration: number | string; easing: string; delay: number | string }>" to "TransitionCreateOptions",
+    "typeof create" to "(props: ReadonlyArray<String>, options: TransitionCreateOptions?) -> String",
+    "typeof getAutoHeightDuration" to "(height: Number) -> Number",
 )
 
 internal fun kotlinType(
