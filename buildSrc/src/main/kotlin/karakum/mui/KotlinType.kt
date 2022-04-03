@@ -151,7 +151,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "Record<string, any>" to "Record<String, *>",
     "Record<string, any> & { mode: 'light' | 'dark' }" to "Record<String, *>",
 
-    CREATE_TRANSITION to "(props: ReadonlyArray<String>?, options: $DYNAMIC) -> String",
+    CREATE_TRANSITION to "(props: ReadonlyArray<String>, options: TransitionCreateOptions?) -> String",
 
     "'horizontal' | 'vertical'" to "mui.material.Orientation",
     "'vertical' | 'horizontal'" to "mui.material.Orientation",
@@ -160,7 +160,6 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "PopperPlacementType" to "popper.core.Placement",
 
-    "Partial<{ duration: number | string; easing: string; delay: number | string }>" to "TransitionCreateOptions",
     "typeof create" to "(props: ReadonlyArray<String>, options: TransitionCreateOptions?) -> String",
     "typeof getAutoHeightDuration" to "(height: Number) -> Number",
 )
