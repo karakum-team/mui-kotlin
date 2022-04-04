@@ -13,7 +13,7 @@ private val ALIAS_MAP = mapOf(
     "PopoverProps['onClose']" to "",
     "PortalProps['container']" to "org.w3c.dom.Element",
     "PortalProps['disablePortal']" to "Boolean",
-    "SelectInputProps<T>['onChange']" to "react.dom.events.ChangeEvent<org.w3c.dom.HTMLInputElement>",
+    "SelectInputProps<T>['onChange']" to "(event: react.dom.events.ChangeEvent<org.w3c.dom.HTMLInputElement>, child: react.ReactNode) -> Unit",
     "SnackbarContentProps['action']" to "react.ReactNode",
     "SnackbarContentProps['message']" to "react.ReactNode",
     "StandardInputProps['onChange']" to "react.dom.events.ChangeEventHandler<org.w3c.dom.HTMLElement>",
