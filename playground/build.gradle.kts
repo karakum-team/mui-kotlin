@@ -16,6 +16,6 @@ dependencies {
     implementation(project(":mui-kotlin"))
     implementation(project(":mui-icons-kotlin"))
 
-    implementation(npm("@emotion/react", "11.7.1"))
-    implementation(npm("@emotion/styled", "11.6.0"))
+    implementation(npm("@emotion/react", "11.9.0"))
+    implementation(npm("@emotion/styled", "11.8.1"))
 }
