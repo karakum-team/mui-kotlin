@@ -4,7 +4,7 @@ import mui.icons.material.SouthEast
 import mui.material.SvgIcon
 import react.Fragment
 import react.create
-import react.dom.render
+import react.dom.client.createRoot
 import react.dom.svg.ReactSVG.path
 
 fun App() {}
@@ -26,5 +26,6 @@ fun main() {
         MyAutocomplete()
     }
 
-    render(application, container)
+    createRoot(container)
+        .render(application)
 }
