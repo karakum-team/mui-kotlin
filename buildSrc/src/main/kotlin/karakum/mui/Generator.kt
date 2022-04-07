@@ -165,22 +165,23 @@ private val EXCLUDED_TYPES = setOf(
 
 private enum class Package(
     id: String? = null,
+    pkg: String? = null,
 ) {
     types,
     base,
     material,
-    materialStyles("material/styles"),
+    materialStyles(id = "material/styles"),
     materialTransitions,
-    iconsMaterial("icons-material"),
+    iconsMaterial(id = "icons-material"),
     lab,
+    pickers("x-date-pickers", "muix.pickers"),
     system,
 
     ;
 
     val id = id ?: name
 
-    val pkg: String
-        get() = name.replace(Regex("""[A-Z]""")) { "." + it.value.toLowerCase() }
+    val pkg: String = pkg ?: ("mui." + name.replace(Regex("""[A-Z]""")) { "." + it.value.toLowerCase() })
 }
 
 fun generateKotlinDeclarations(
@@ -194,6 +195,7 @@ fun generateKotlinDeclarations(
     generateStylesDeclarations(typesDir.resolve("material/styles"), sourceDir)
     generateTransitionsDeclarations(sourceDir)
     generateLabDeclarations(typesDir.resolve("lab"), sourceDir)
+    generatePickersDeclarations(typesDir.resolve("x-date-pickers"), sourceDir)
 }
 
 fun generateKotlinIconsDeclarations(
@@ -414,11 +416,6 @@ private fun generateLabDeclarations(
                     val file = it.resolve("${it.name}Content.d.ts")
                     generate(file, targetDir, Package.lab)
                 }
-
-                "CalendarPicker" -> {
-                    val file = it.resolve("shared.d.ts")
-                    generate(file, targetDir, Package.lab)
-                }
             }
         }
         .map { it.resolve("${it.name}.d.ts") }
@@ -426,6 +423,22 @@ private fun generateLabDeclarations(
 
     targetDir.resolve("Stubs.kt")
         .writeText(fileContent(body = LAB_STUBS, pkg = Package.lab))
+}
+
+private fun generatePickersDeclarations(
+    typesDir: File,
+    sourceDir: File,
+) {
+    val targetDir = sourceDir.resolve("muix/pickers")
+        .also { it.mkdirs() }
+
+    val directories = typesDir.listFiles { file -> file.isDirectory } ?: return
+
+    directories.asSequence()
+        .filter { !it.name.startsWith("Adapter") }
+        .filter { it.name.isComponentName() }
+        .map { it.resolve("${it.name}.d.ts") }
+        .forEach { generate(it, targetDir, Package.pickers) }
 }
 
 private fun String.isComponentName(): Boolean {
@@ -547,7 +560,7 @@ private fun fileContent(
     return sequenceOf(
         "// $GENERATOR_COMMENT",
         annotations,
-        "package mui.${pkg.pkg}",
+        "package ${pkg.pkg}",
         defaultImports,
         body,
     ).filter { it.isNotEmpty() }
