@@ -5,9 +5,7 @@
 
 package muix.pickers
 
-external interface MobileDateTimePickerProps : react.Props {
-
-}
+external interface MobileDateTimePickerProps : react.Props
 
 
 @JsName("default")

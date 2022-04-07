@@ -5,9 +5,7 @@
 
 package muix.pickers
 
-external interface DesktopDatePickerProps : react.Props {
-
-}
+external interface DesktopDatePickerProps : react.Props
 
 
 @JsName("default")
