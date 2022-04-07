@@ -125,6 +125,9 @@ typealias PickerOnChangeFn<TDate> = (
 ) -> Unit
 """.trimIndent()
 
+private val CALENDAR_PICKER_VIEW = convertUnion("CalendarPickerView = 'year' | 'day' | 'month'")!!
+private val CLOCK_PICKER_VIEW = convertUnion("ClockPickerView = 'hours' | 'minutes' | 'seconds'")!!
+
 private val BASE_TYPES = setOf(
     "ClickAwayListener",
     "NoSsr",
@@ -437,8 +440,14 @@ private fun generatePickersDeclarations(
         .map { it.resolve("${it.name}.d.ts") }
         .forEach { generate(it, targetDir, Package.pickers) }
 
-    targetDir.resolve("Stubs.kt")
-        .writeText(fileContent(body = PICKERS_STUBS, pkg = Package.pickers))
+    sequenceOf(
+        "Stubs" to PICKERS_STUBS,
+        "CalendarPickerView" to CALENDAR_PICKER_VIEW,
+        "ClockPickerView" to CLOCK_PICKER_VIEW,
+    ).forEach { (name, body) ->
+        targetDir.resolve("$name.kt")
+            .writeText(fileContent(body = body, pkg = Package.pickers))
+    }
 }
 
 private fun String.isComponentName(): Boolean {
