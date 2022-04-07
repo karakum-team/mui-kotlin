@@ -5,7 +5,6 @@ internal fun fixOverrides(
     content: String,
 ): String =
     when (name) {
-        "Badge",
         "Slider",
         -> content
             .override("classes")

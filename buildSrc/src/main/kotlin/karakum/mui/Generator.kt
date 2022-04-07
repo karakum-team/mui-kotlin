@@ -133,8 +133,34 @@ private val BASE_TYPES = setOf(
 )
 
 private val EXCLUDED_TYPES = setOf(
-    "Timeline",
+    "CalendarPicker",
+    "CalendarPickerSkeleton",
+    "ClockPicker",
+    "DatePicker",
+    "DateTimePicker",
+    "DesktopDatePicker",
+    "DesktopDateTimePicker",
+    "DesktopTimePicker",
+    "LocalizationProvider",
+    "MobileDatePicker",
+    "MobileDateTimePicker",
+    "MobileTimePicker",
+    "MonthPicker",
+    "PickersDay",
+    "StaticDatePicker",
+    "StaticDateTimePicker",
+    "StaticTimePicker",
+    "TimePicker",
     "YearPicker",
+
+    "DateRangePicker",
+    "DateRangePickerDay",
+    "DesktopDateRangePicker",
+    "MobileDateRangePicker",
+    "StaticDateRangePicker",
+
+    // TODO: fix
+    "Timeline"
 )
 
 private enum class Package(
