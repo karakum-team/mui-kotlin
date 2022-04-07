@@ -23,6 +23,8 @@ internal fun convertClasses(
         .splitToSequence("\n")
         .map {
             val name = it.removeSuffix(": string;")
+                .removeSuffix("?")
+
             if (name == it) return@map it
 
             if (!name.startsWith("'"))
