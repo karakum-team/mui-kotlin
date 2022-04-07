@@ -35,7 +35,7 @@ external interface YearPickerProps<TDate> : react.PropsWithClassName {
     var readOnly: Boolean?
 }
 
-external interface ExportedYearPickerProps : react.Props {
+external interface ExportedYearPickerProps<TDate> : react.Props {
     /**
      * Callback firing on year change @DateIOType.
      * @param {TDate} year The new year.
@@ -53,4 +53,4 @@ external interface ExportedYearPickerProps : react.Props {
 
 
 @JsName("default")
-external val YearPicker: react.FC<YearPickerProps>
+external val YearPicker: react.FC<YearPickerProps<*>>
