@@ -6,11 +6,13 @@
 
 package muix.pickers
 
+import csstype.ClassName
+
 @Suppress("NAME_CONTAINS_ILLEGAL_CHARS")
 // language=JavaScript
-@JsName("""(/*union*/{root?: 'MuiYearPicker-root?'}/*union*/)""")
+@JsName("""(/*union*/{root: 'MuiYearPicker-root'}/*union*/)""")
 sealed external interface MuiYearPicker {
     companion object {
-        val root?: ClassName
+        val root: ClassName
     }
 }

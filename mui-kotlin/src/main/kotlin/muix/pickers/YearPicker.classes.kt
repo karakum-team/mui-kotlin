@@ -2,7 +2,9 @@
 
 package muix.pickers
 
+import csstype.ClassName
+
 external interface YearPickerClasses {
     /** Styles applied to the root element. */
-    var root?: ClassName
+    var root: ClassName
 }
