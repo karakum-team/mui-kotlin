@@ -116,7 +116,7 @@ external interface TransitionProps: react.Props
 """.trimIndent()
 
 // language=Kotlin
-private val LAB_STUBS = """
+private val PICKERS_STUBS = """
 typealias PickerSelectionState = String
 
 typealias PickerOnChangeFn<TDate> = (
@@ -170,9 +170,9 @@ private enum class Package(
     types,
     base,
     material,
-    materialStyles(id = "material/styles"),
+    materialStyles("material/styles"),
     materialTransitions,
-    iconsMaterial(id = "icons-material"),
+    iconsMaterial("icons-material"),
     lab,
     pickers("x-date-pickers", "muix.pickers"),
     system,
@@ -420,9 +420,6 @@ private fun generateLabDeclarations(
         }
         .map { it.resolve("${it.name}.d.ts") }
         .forEach { generate(it, targetDir, Package.lab) }
-
-    targetDir.resolve("Stubs.kt")
-        .writeText(fileContent(body = LAB_STUBS, pkg = Package.lab))
 }
 
 private fun generatePickersDeclarations(
@@ -439,6 +436,9 @@ private fun generatePickersDeclarations(
         .filter { it.name.isComponentName() }
         .map { it.resolve("${it.name}.d.ts") }
         .forEach { generate(it, targetDir, Package.pickers) }
+
+    targetDir.resolve("Stubs.kt")
+        .writeText(fileContent(body = PICKERS_STUBS, pkg = Package.pickers))
 }
 
 private fun String.isComponentName(): Boolean {
