@@ -147,6 +147,9 @@ private fun String.removeInlineClasses(
     val (s, e) = parts
 
     val type = when {
+        e.startsWith("Partial<BadgeClasses> & {")
+        -> "BadgeClasses"
+
         e.startsWith("Partial<ButtonClasses> & {")
         -> "mui.material.ButtonClasses"
 
