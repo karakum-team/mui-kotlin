@@ -431,6 +431,7 @@ private fun findAdditionalProps(
             -> declaration = declaration.replaceFirst(":", "<TValue>:")
 
             "ExportedClockPickerProps",
+            "ExportedYearPickerProps",
             "BaseDateRangePickerProps",
             -> declaration = declaration.replaceFirst(":", "<TDate>:")
         }
@@ -518,6 +519,7 @@ private fun findComponent(
         "DateRangePickerDayProps",
         "MonthPickerProps",
         "PickersDayProps",
+        "YearPickerProps",
 
         "AutocompleteProps",
         "SelectProps",
