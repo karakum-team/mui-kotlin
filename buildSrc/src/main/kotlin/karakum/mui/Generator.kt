@@ -176,9 +176,10 @@ private enum class Package(
     materialStyles("material/styles"),
     materialTransitions,
     iconsMaterial("icons-material"),
-    lab,
-    pickers("x-date-pickers", "muix.pickers"),
     system,
+    pickers("x-date-pickers", "muix.pickers"),
+    grid("x-data-grid", "muix.grid"),
+    lab,
 
     ;
 
