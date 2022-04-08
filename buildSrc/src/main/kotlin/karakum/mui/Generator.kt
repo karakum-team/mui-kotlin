@@ -208,6 +208,13 @@ fun generateKotlinIconsDeclarations(
     generateIconsMaterialDeclarations(typesDir.resolve("icons-material"), sourceDir)
 }
 
+fun generateKotlinGridDeclarations(
+    typesDir: File,
+    sourceDir: File,
+) {
+    generateGridDeclarations(typesDir.resolve("x-data-grid"), sourceDir)
+}
+
 private fun generateTypesDeclarations(
     sourceDir: File,
 ) {
@@ -397,6 +404,16 @@ private fun generateIconsMaterialDeclarations(
         targetDir.resolve("$name.kt")
             .writeText(fileContent(annotations, body, Package.iconsMaterial))
     }
+}
+
+private fun generateGridDeclarations(
+    typesDir: File,
+    sourceDir: File,
+) {
+    val targetDir = sourceDir.resolve("muix/grid")
+        .also { it.mkdirs() }
+
+    // TODO: implement
 }
 
 private fun generateLabDeclarations(
