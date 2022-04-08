@@ -4,8 +4,9 @@
 
 # [MUI](https://github.com/mui-org/material-ui) Kotlin
 
-| Library      | NPM version                                              | Version |
-|--------------|----------------------------------------------------------|---------| 
-| MUI Material | ![npm](https://img.shields.io/npm/v/@mui/material)       | [![Maven Central](https://img.shields.io/maven-central/v/org.jetbrains.kotlin-wrappers/kotlin-mui)](https://mvnrepository.com/artifact/org.jetbrains.kotlin-wrappers/kotlin-mui) |
+| Library      | NPM version                                              | Version                                                                                                                                                                                      |
+|--------------|----------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| 
+| MUI Material | ![npm](https://img.shields.io/npm/v/@mui/material)       | [![Maven Central](https://img.shields.io/maven-central/v/org.jetbrains.kotlin-wrappers/kotlin-mui)](https://mvnrepository.com/artifact/org.jetbrains.kotlin-wrappers/kotlin-mui)             |
 | MUI Icons    | ![npm](https://img.shields.io/npm/v/@mui/icons-material) | [![Maven Central](https://img.shields.io/maven-central/v/org.jetbrains.kotlin-wrappers/kotlin-mui-icons)](https://mvnrepository.com/artifact/org.jetbrains.kotlin-wrappers/kotlin-mui-icons) |
-| MUI Lab      | ![npm](https://img.shields.io/npm/v/@mui/lab)            | [![Maven Central](https://img.shields.io/maven-central/v/org.jetbrains.kotlin-wrappers/kotlin-mui)](https://mvnrepository.com/artifact/org.jetbrains.kotlin-wrappers/kotlin-mui) |
+| MUI X Grid   | ![npm](https://img.shields.io/npm/v/@mui/x-data-grid)    | [![Maven Central](https://img.shields.io/maven-central/v/org.jetbrains.kotlin-wrappers/kotlin-muix-grid)](https://mvnrepository.com/artifact/org.jetbrains.kotlin-wrappers/kotlin-muix-grid) |
+| MUI Lab      | ![npm](https://img.shields.io/npm/v/@mui/lab)            | [![Maven Central](https://img.shields.io/maven-central/v/org.jetbrains.kotlin-wrappers/kotlin-mui)](https://mvnrepository.com/artifact/org.jetbrains.kotlin-wrappers/kotlin-mui)             |
