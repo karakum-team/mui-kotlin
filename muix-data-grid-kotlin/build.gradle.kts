@@ -1,6 +1,6 @@
 plugins {
     id("io.github.turansky.kfc.library")
-    `muix-grid-declarations`
+    `muix-data-grid-declarations`
 }
 
 val kotlinWrappersVersion = property("kotlin-wrappers.version") as String

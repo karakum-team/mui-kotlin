@@ -19,5 +19,5 @@ dependencyResolutionManagement {
 
 include("mui-kotlin")
 include("mui-icons-kotlin")
-include("muix-grid-kotlin")
+include("muix-data-grid-kotlin")
 include("playground")
