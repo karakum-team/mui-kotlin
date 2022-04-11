@@ -37,7 +37,14 @@ external interface TooltipProps :
      * Either a string to use a HTML element or a component.
      * @default {}
      */
-    var components: dynamic
+    var components: Components?
+
+    interface Components {
+        var Popper: react.ElementType<*>?
+        var Transition: react.ElementType<*>?
+        var Tooltip: react.ElementType<*>?
+        var Arrow: react.ElementType<*>?
+    }
 
     /**
      * The props used for each slot inside the Tooltip.

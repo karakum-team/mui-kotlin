@@ -35,7 +35,13 @@ external interface OptionGroupUnstyledProps :
      * Either a string to use a HTML element or a component.
      * @default {}
      */
-    var components: dynamic
+    var components: Components?
+
+    interface Components {
+        var Root: react.ElementType<*>?
+        var Label: react.ElementType<*>?
+        var List: react.ElementType<*>?
+    }
 
     /**
      * The props used for each slot inside the Input.

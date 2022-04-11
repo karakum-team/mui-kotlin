@@ -29,7 +29,18 @@ external interface SliderUnstyledProps :
      * Either a string to use a HTML element or a component.
      * @default {}
      */
-    var components: dynamic
+    var components: Components?
+
+    interface Components {
+        var Root: react.ElementType<*>?
+        var Track: react.ElementType<*>?
+        var Rail: react.ElementType<*>?
+        var Thumb: react.ElementType<*>?
+        var Mark: react.ElementType<*>?
+        var MarkLabel: react.ElementType<*>?
+        var ValueLabel: react.ElementType<*>?
+        var Input: react.ElementType<*>?
+    }
 
     /**
      * The props used for each slot inside the Slider.

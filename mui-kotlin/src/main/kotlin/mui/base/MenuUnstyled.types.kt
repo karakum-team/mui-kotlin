@@ -26,7 +26,12 @@ external interface MenuUnstyledProps :
 
     var component: react.ElementType<*>?
 
-    var components: dynamic
+    var components: Components?
+
+    interface Components {
+        var Root: react.ElementType<*>?
+        var Listbox: react.ElementType<*>?
+    }
 
     var componentsProps: dynamic
 

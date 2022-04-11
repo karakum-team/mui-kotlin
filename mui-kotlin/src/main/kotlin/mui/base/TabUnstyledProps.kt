@@ -22,7 +22,11 @@ external interface TabUnstyledOwnProps :
      * Either a string to use a HTML element or a component.
      * @default {}
      */
-    override var components: dynamic
+    override var components: Components?
+
+    interface Components {
+        var Root: react.ElementType<*>?
+    }
 
     /**
      * The props used for each slot inside the Tab.

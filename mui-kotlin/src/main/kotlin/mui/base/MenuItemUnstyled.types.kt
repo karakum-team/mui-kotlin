@@ -21,7 +21,11 @@ external interface MenuItemUnstyledProps :
 
     var component: react.ElementType<*>?
 
-    var components: dynamic
+    var components: Components?
+
+    interface Components {
+        var Root: react.ElementType<*>?
+    }
 
     var componentsProps: dynamic
 

@@ -25,7 +25,11 @@ external interface FormControlUnstyledOwnProps :
      * Either a string to use a HTML element or a component.
      * @default {}
      */
-    var components: dynamic
+    var components: Components?
+
+    interface Components {
+        var Root: react.ElementType<*>?
+    }
 
     var componentsProps: dynamic
 

@@ -24,7 +24,14 @@ external interface ClockPickerProps<TDate> : react.PropsWithClassName {
      * The components used for each slot.
      * Either a string to use a HTML element or a component.
      */
-    var components: dynamic
+    var components: Components?
+
+    interface Components {
+        var LeftArrowButton: react.ElementType<*>?
+        var LeftArrowIcon: react.ElementType<*>?
+        var RightArrowButton: react.ElementType<*>?
+        var RightArrowIcon: react.ElementType<*>?
+    }
 
     /**
      * The props used for each slot inside.
