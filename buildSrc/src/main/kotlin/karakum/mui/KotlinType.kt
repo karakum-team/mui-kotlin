@@ -291,5 +291,30 @@ internal fun kotlinType(
     if (type.endsWith("']") || type.endsWith("'] | 'auto'"))
         return "$DYNAMIC /* $type */"
 
+    if (name == "components" && type.startsWith("{\n")) {
+        val interfaceName = name.capitalize()
+        return interfaceName + "\n\n" + componentInterface(interfaceName, type)
+    }
+
     return DYNAMIC
+}
+
+private fun componentInterface(
+    sourceName: String,
+    source: String,
+): String {
+    val body = source
+        .removeSurrounding("{\n", ";\n}")
+        .trimIndent()
+        .splitToSequence(";")
+        .joinToString("\n") { line ->
+            val (name, typeSource) = line.trim().split("?: ")
+            val type = STANDARD_TYPE_MAP[typeSource]
+                ?.let { "$it?" }
+                ?: "react.ElementType<*>? /* $typeSource */"
+
+            "var $name: $type"
+        }
+
+    return "interface $sourceName {\n$body\n}"
 }
