@@ -292,11 +292,6 @@ internal fun kotlinType(
         return "$DYNAMIC /* $type */"
 
     if ((name == "components" || name == "componentsProps") && type.startsWith("{\n") && "/**" !in type) {
-        if (name == "componentsProps") {
-            println("-----------------")
-            println(type)
-        }
-
         val interfaceName = name.capitalize()
         val defaultType = if (name == "components") "react.ElementType<*>" else "react.Props"
         return interfaceName + "\n\n" + componentInterface(interfaceName, type, defaultType)
