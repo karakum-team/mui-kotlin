@@ -80,6 +80,7 @@ private fun convertProperty(
         type == DYNAMIC -> type
         type.startsWith("$DYNAMIC ") -> type
         type.startsWith("Components\n") -> type.replaceFirst("Components\n", "Components?\n")
+        type.startsWith("ComponentsProps\n") -> type.replaceFirst("ComponentsProps\n", "ComponentsProps?\n")
         type.startsWith("(") -> "($type)?"
         type.endsWith("*/") -> type.replace(" /*", "? /*")
         " //" in type -> type.replace(" //", "? //")

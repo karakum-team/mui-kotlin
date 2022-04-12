@@ -291,9 +291,15 @@ internal fun kotlinType(
     if (type.endsWith("']") || type.endsWith("'] | 'auto'"))
         return "$DYNAMIC /* $type */"
 
-    if (name == "components" && type.startsWith("{\n")) {
+    if ((name == "components" || name == "componentsProps") && type.startsWith("{\n") && "/**" !in type) {
+        if (name == "componentsProps") {
+            println("-----------------")
+            println(type)
+        }
+
         val interfaceName = name.capitalize()
-        return interfaceName + "\n\n" + componentInterface(interfaceName, type)
+        val defaultType = if (name == "components") "react.ElementType<*>" else "react.Props"
+        return interfaceName + "\n\n" + componentInterface(interfaceName, type, defaultType)
     }
 
     return DYNAMIC
@@ -302,16 +308,19 @@ internal fun kotlinType(
 private fun componentInterface(
     sourceName: String,
     source: String,
+    defaultType: String,
 ): String {
     val body = source
         .removeSurrounding("{\n", ";\n}")
         .trimIndent()
-        .splitToSequence(";")
+        .replace(";\n}", "\n}")
+        .replace(";\n  ", "\n  ")
+        .splitToSequence(";\n")
         .joinToString("\n") { line ->
-            val (name, typeSource) = line.trim().split("?: ")
+            val (name, typeSource) = line.split("?: ")
             val type = STANDARD_TYPE_MAP[typeSource]
                 ?.let { "$it?" }
-                ?: "react.ElementType<*>? /* $typeSource */"
+                ?: "$defaultType? /* $typeSource */"
 
             "var $name: $type"
         }
