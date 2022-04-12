@@ -27,7 +27,11 @@ external interface MenuItemUnstyledProps :
         var Root: react.ElementType<*>?
     }
 
-    var componentsProps: dynamic
+    var componentsProps: ComponentsProps?
+
+    interface ComponentsProps {
+        var root: react.Props? /* React.ComponentPropsWithRef<'li'> & MenuItemUnstyledComponentsPropsOverrides */
+    }
 
     /**
      * A text representation of the menu item's content.

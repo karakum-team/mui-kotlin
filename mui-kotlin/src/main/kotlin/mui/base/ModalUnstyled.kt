@@ -53,7 +53,11 @@ external interface ModalUnstyledProps :
      * The props used for each slot inside the Modal.
      * @default {}
      */
-    var componentsProps: dynamic
+    var componentsProps: ComponentsProps?
+
+    interface ComponentsProps {
+        var root: react.Props? /* React.HTMLAttributes<HTMLDivElement> & ModalUnstyledComponentsPropsOverrides */
+    }
 
     /**
      * An HTML element or function that returns one.

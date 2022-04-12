@@ -31,7 +31,11 @@ external interface FormControlUnstyledOwnProps :
         var Root: react.ElementType<*>?
     }
 
-    var componentsProps: dynamic
+    var componentsProps: ComponentsProps?
+
+    interface ComponentsProps {
+        var root: react.Props? /* React.HTMLAttributes<HTMLDivElement> & FormControlUnstyledComponentsPropsOverrides */
+    }
 
     var defaultValue: dynamic
 

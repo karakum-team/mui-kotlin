@@ -33,7 +33,12 @@ external interface MenuUnstyledProps :
         var Listbox: react.ElementType<*>?
     }
 
-    var componentsProps: dynamic
+    var componentsProps: ComponentsProps?
+
+    interface ComponentsProps {
+        var root: react.Props? /* Partial<React.ComponentPropsWithRef<typeof PopperUnstyled>> & MenuUnstyledComponentsPropsOverrides */
+        var listbox: react.Props? /* React.ComponentPropsWithRef<'ul'> & MenuUnstyledComponentsPropsOverrides */
+    }
 
     /**
      * Triggered when focus leaves the menu and the menu should close.

@@ -21,7 +21,12 @@ external interface BadgeUnstyledProps :
      * The props used for each slot inside the Badge.
      * @default {}
      */
-    var componentsProps: dynamic
+    var componentsProps: ComponentsProps?
+
+    interface ComponentsProps {
+        var root: react.Props? /* React.HTMLAttributes<HTMLSpanElement> & BadgeUnstyledComponentsPropsOverrides */
+        var badge: react.Props? /* React.HTMLAttributes<HTMLSpanElement> & BadgeUnstyledComponentsPropsOverrides */
+    }
 
     /**
      * The content rendered within the badge.

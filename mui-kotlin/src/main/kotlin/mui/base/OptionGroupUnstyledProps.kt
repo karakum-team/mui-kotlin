@@ -47,5 +47,11 @@ external interface OptionGroupUnstyledProps :
      * The props used for each slot inside the Input.
      * @default {}
      */
-    var componentsProps: dynamic
+    var componentsProps: ComponentsProps?
+
+    interface ComponentsProps {
+        var root: react.Props? /* React.ComponentPropsWithRef<'li'> & OptionGroupUnstyledComponentsPropsOverrides */
+        var label: react.Props? /* React.ComponentPropsWithRef<'span'> & OptionGroupUnstyledComponentsPropsOverrides */
+        var list: react.Props? /* React.ComponentPropsWithRef<'ul'> & OptionGroupUnstyledComponentsPropsOverrides */
+    }
 }

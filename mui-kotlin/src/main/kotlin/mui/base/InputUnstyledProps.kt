@@ -91,7 +91,16 @@ external interface InputUnstyledOwnProps :
      * The props used for each slot inside the Input.
      * @default {}
      */
-    var componentsProps: dynamic
+    var componentsProps: ComponentsProps?
+
+    interface ComponentsProps {
+        var root: react.Props? /* React.ComponentPropsWithRef<'div'> & {
+    ownerState: InputOwnerState
+} */
+        var input: react.Props? /* React.ComponentPropsWithRef<'input'> & {
+    ownerState: InputOwnerState
+} */
+    }
 
     /**
      * Trailing adornment for this input.

@@ -36,7 +36,12 @@ external interface ClockPickerProps<TDate> : react.PropsWithClassName {
     /**
      * The props used for each slot inside.
      */
-    var componentsProps: dynamic
+    var componentsProps: ComponentsProps?
+
+    interface ComponentsProps {
+        var leftArrowButton: react.Props? /* React.SVGAttributes<SVGSVGElement> & ClockPickerComponentsPropsOverrides */
+        var rightArrowButton: react.Props? /* React.SVGAttributes<SVGSVGElement> & ClockPickerComponentsPropsOverrides */
+    }
 
     /**
      * Selected date @DateIOType.

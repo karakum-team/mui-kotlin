@@ -26,7 +26,11 @@ external interface ListItemProps :
      * The props used for each slot inside the Input.
      * @default {}
      */
-    var componentsProps: dynamic
+    var componentsProps: ComponentsProps?
+
+    interface ComponentsProps {
+        var root: react.Props? /* React.HTMLAttributes<HTMLDivElement> & ListItemComponentsPropsOverrides */
+    }
 }
 
 external interface ListItemBaseProps :

@@ -32,5 +32,9 @@ external interface TabsListUnstyledOwnProps :
      * The props used for each slot inside the TabsList.
      * @default {}
      */
-    var componentsProps: dynamic
+    var componentsProps: ComponentsProps?
+
+    interface ComponentsProps {
+        var root: react.Props? /* React.ComponentPropsWithRef<'div'> & TabsListUnstyledComponentsPropsOverrides */
+    }
 }

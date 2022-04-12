@@ -22,7 +22,13 @@ external interface SelectUnstyledProps<TValue> : react.Props {
      * The props used for each slot inside the Input.
      * @default {}
      */
-    var componentsProps: dynamic
+    var componentsProps: ComponentsProps?
+
+    interface ComponentsProps {
+        var root: react.Props? /* React.ComponentPropsWithRef<'button'> & SelectUnstyledComponentsPropsOverrides */
+        var listbox: react.Props? /* React.ComponentPropsWithRef<'ul'> & SelectUnstyledComponentsPropsOverrides */
+        var popper: react.Props? /* Partial<React.ComponentPropsWithRef<typeof PopperUnstyled>> & SelectUnstyledComponentsPropsOverrides */
+    }
 
     /**
      * The default selected value. Use when the component is not controlled.

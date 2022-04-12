@@ -45,7 +45,11 @@ external interface OptionUnstyledProps<TValue> :
      * The props used for each slot inside the Input.
      * @default {}
      */
-    var componentsProps: dynamic
+    var componentsProps: ComponentsProps?
+
+    interface ComponentsProps {
+        var root: react.Props? /* React.ComponentPropsWithRef<'li'> & OptionUnstyledComponentsPropsOverrides */
+    }
 
     /**
      * A text representation of the option's content.

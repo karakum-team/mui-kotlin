@@ -33,7 +33,11 @@ external interface BackdropProps :
      * The props used for each slot inside the Backdrop.
      * @default {}
      */
-    var componentsProps: dynamic
+    var componentsProps: ComponentsProps?
+
+    interface ComponentsProps {
+        var root: react.Props? /* React.HTMLAttributes<HTMLDivElement> & BackdropComponentsPropsOverrides */
+    }
 
     /**
      * Override or extend the styles applied to the component.

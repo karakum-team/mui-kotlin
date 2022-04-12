@@ -39,5 +39,9 @@ external interface ButtonUnstyledOwnProps :
      * The props used for each slot inside the Button.
      * @default {}
      */
-    var componentsProps: dynamic
+    var componentsProps: ComponentsProps?
+
+    interface ComponentsProps {
+        var root: react.Props? /* React.ButtonHTMLAttributes<HTMLButtonElement> & ButtonUnstyledComponentsPropsOverrides */
+    }
 }

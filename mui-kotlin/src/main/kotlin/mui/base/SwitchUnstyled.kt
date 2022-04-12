@@ -40,7 +40,14 @@ external interface SwitchUnstyledProps :
      * The props used for each slot inside the Switch.
      * @default {}
      */
-    var componentsProps: dynamic
+    var componentsProps: ComponentsProps?
+
+    interface ComponentsProps {
+        var root: react.Props? /* React.HTMLAttributes<HTMLSpanElement> & SwitchUnstyledComponentsPropsOverrides */
+        var thumb: react.Props? /* React.HTMLAttributes<HTMLSpanElement> & SwitchUnstyledComponentsPropsOverrides */
+        var input: react.Props? /* React.InputHTMLAttributes<HTMLInputElement> & SwitchUnstyledComponentsPropsOverrides */
+        var track: react.Props? /* React.HTMLAttributes<HTMLSpanElement> & SwitchUnstyledComponentsPropsOverrides */
+    }
 }
 
 /**

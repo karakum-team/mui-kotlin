@@ -35,7 +35,18 @@ external interface TablePaginationUnstyledProps : react.Props {
      * The props used for each slot inside the TablePagination.
      * @default {}
      */
-    var componentsProps: dynamic
+    var componentsProps: ComponentsProps?
+
+    interface ComponentsProps {
+        var root: react.Props? /* React.ComponentPropsWithRef<'div'> & TablePaginationUnstyledComponentsPropsOverrides */
+        var actions: react.Props? /* React.ComponentPropsWithRef<'div'> & TablePaginationUnstyledComponentsPropsOverrides */
+        var select: react.Props? /* React.ComponentPropsWithRef<'select'> & TablePaginationUnstyledComponentsPropsOverrides */
+        var selectLabel: react.Props? /* React.ComponentPropsWithRef<'p'> & TablePaginationUnstyledComponentsPropsOverrides */
+        var menuItem: react.Props? /* React.ComponentPropsWithRef<'option'> & TablePaginationUnstyledComponentsPropsOverrides */
+        var displayedRows: react.Props? /* React.ComponentPropsWithRef<'p'> & TablePaginationUnstyledComponentsPropsOverrides */
+        var toolbar: react.Props? /* React.ComponentPropsWithRef<'div'> & TablePaginationUnstyledComponentsPropsOverrides */
+        var spacer: react.Props? /* React.ComponentPropsWithRef<'div'> & TablePaginationUnstyledComponentsPropsOverrides */
+    }
 
     /**
      * The total number of rows.
