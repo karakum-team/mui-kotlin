@@ -84,6 +84,8 @@ internal fun fixOverrides(
         -> content
             .override("components")
             .override("componentsProps")
+            .replace(": Components?", ": ButtonUnstyledOwnProps.Components?")
+            .replace(": ComponentsProps?", ": ButtonUnstyledOwnProps.ComponentsProps?")
 
         else -> content
     }
