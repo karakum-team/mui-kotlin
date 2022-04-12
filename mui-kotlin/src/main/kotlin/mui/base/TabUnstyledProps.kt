@@ -22,7 +22,7 @@ external interface TabUnstyledOwnProps :
      * Either a string to use a HTML element or a component.
      * @default {}
      */
-    override var components: Components?
+    override var components: ButtonUnstyledOwnProps.Components?
 
     interface Components {
         var Root: react.ElementType<*>?
@@ -32,7 +32,7 @@ external interface TabUnstyledOwnProps :
      * The props used for each slot inside the Tab.
      * @default {}
      */
-    override var componentsProps: ComponentsProps?
+    override var componentsProps: ButtonUnstyledOwnProps.ComponentsProps?
 
     interface ComponentsProps {
         var root: react.Props? /* React.ComponentPropsWithRef<'div'> & TabUnstyledComponentsPropsOverrides */
