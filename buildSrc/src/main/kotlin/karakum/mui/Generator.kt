@@ -363,7 +363,7 @@ private fun generateStylesDeclarations(
             ?: return false
 
         if (name.startsWith("create"))
-            return name != "createTypography"
+            return true
 
         return when (name) {
             "ThemeProvider",
@@ -529,7 +529,7 @@ private fun generate(
     if (componentName in OVERRIDE_FIX_REQUIRED)
         annotations += "@file:Suppress(\n\"VIRTUAL_MEMBER_HIDDEN\",\n)"
 
-    if (componentName != "CalendarPickerView") {
+    if (componentName != "CalendarPickerView" && componentName != "createTypography") {
         val finalBody = when (componentName) {
             "createTransitions" -> body + "\n\n" + STYLE_TRANSITION_CREATE_OPTIONS
             else -> body
@@ -552,8 +552,13 @@ private fun generate(
                     ")"
         } else ""
 
+        val finalBody = when (componentName) {
+            "createTypography" -> extensions.replaceFirst("Variant", "TypographyVariant")
+            else -> extensions
+        }
+
         targetDir.resolve("$fileName.kt")
-            .writeText(fileContent(annotations = extensionsAnnotations, body = extensions, pkg = pkg))
+            .writeText(fileContent(annotations = extensionsAnnotations, body = finalBody, pkg = pkg))
     }
 
     val classesName = componentName + "Classes"
