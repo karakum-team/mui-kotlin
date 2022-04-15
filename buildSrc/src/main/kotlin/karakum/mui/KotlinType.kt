@@ -279,6 +279,9 @@ internal fun kotlinType(
             .map { it.trimStart() }
             .joinToString(" ")
 
+        if (comment == "Variant | 'inherit', TypographyPropsVariantOverrides")
+            return "mui.material.styles.TypographyVariant"
+
         return "$UNION /* $comment */"
     }
 
