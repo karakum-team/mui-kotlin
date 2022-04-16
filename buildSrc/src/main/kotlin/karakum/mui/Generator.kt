@@ -213,7 +213,7 @@ fun generateKotlinDataGridDeclarations(
     typesDir: File,
     sourceDir: File,
 ) {
-    generateGridDeclarations(typesDir.resolve("x-data-grid"), sourceDir)
+    generateDataGridDeclarations(typesDir.resolve("x-data-grid"), sourceDir)
 }
 
 private fun generateTypesDeclarations(
@@ -407,7 +407,7 @@ private fun generateIconsMaterialDeclarations(
     }
 }
 
-private fun generateGridDeclarations(
+private fun generateDataGridDeclarations(
     typesDir: File,
     sourceDir: File,
 ) {
