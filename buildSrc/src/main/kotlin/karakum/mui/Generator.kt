@@ -209,7 +209,7 @@ fun generateKotlinIconsDeclarations(
     generateIconsMaterialDeclarations(typesDir.resolve("icons-material"), sourceDir)
 }
 
-fun generateKotlinGridDeclarations(
+fun generateKotlinDataGridDeclarations(
     typesDir: File,
     sourceDir: File,
 ) {

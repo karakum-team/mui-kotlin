@@ -1,4 +1,4 @@
-import karakum.mui.generateKotlinGridDeclarations
+import karakum.mui.generateKotlinDataGridDeclarations
 
 tasks {
     named<Delete>("clean") {
@@ -15,7 +15,7 @@ tasks {
 
             delete(sourceDir)
 
-            generateKotlinGridDeclarations(
+            generateKotlinDataGridDeclarations(
                 typesDir = typesDir,
                 sourceDir = sourceDir,
             )
