@@ -28,6 +28,7 @@ internal fun String.toFunctionType(): String? {
         .replace("AutocompleteValue<T, Multiple, DisableClearable, FreeSolo>", DYNAMIC)
         .replace("details?: AutocompleteChangeDetails<T>", "details: AutocompleteChangeDetails<T>?")
         .replace("AutocompleteRenderGetTagProps", "Function<*> /* AutocompleteRenderGetTagProps */")
+        .replace("T | AutocompleteFreeSoloValueMapping<FreeSolo>", "T /* or AutocompleteFreeSoloValueMapping<FreeSolo> */")
         .replace(": 'page' | 'first' | 'last' | 'next' | 'previous'", ": mui.system.Union /* 'page' | 'first' | 'last' | 'next' | 'previous' */")
         .replace(": 'first' | 'last' | 'next' | 'previous'", ": mui.system.Union /* 'first' | 'last' | 'next' | 'previous' */")
         .replace("ClockView", "mui.system.Union /* ClockView */")
