@@ -300,6 +300,14 @@ internal fun kotlinType(
         return interfaceName + "\n\n" + componentInterface(interfaceName, type, defaultType)
     }
 
+    if (name != null && name.endsWith("Props") && name != "componentsProps") {
+        val comment = type.split("\n")
+            .map { it.trim() }
+            .joinToString(" ")
+
+        return "react.Props /* $comment */"
+    }
+
     return DYNAMIC
 }
 
