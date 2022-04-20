@@ -125,6 +125,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "PaletteMode" to "mui.material.PaletteMode",
     "TransitionProps" to "mui.material.transitions.TransitionProps",
     "ClickAwayListenerProps" to "mui.base.ClickAwayListenerProps",
+    "ChipProps<ChipComponent>" to "ChipProps",
 
     "React.InputHTMLAttributes<HTMLInputElement>" to "react.dom.html.InputHTMLAttributes<org.w3c.dom.HTMLInputElement>",
     "React.ImgHTMLAttributes<HTMLImageElement> & {\n  sx?: SxProps<Theme>;\n}" to "react.dom.html.ImgHTMLAttributes<org.w3c.dom.HTMLImageElement>",

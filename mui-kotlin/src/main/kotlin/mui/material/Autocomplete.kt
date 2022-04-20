@@ -17,7 +17,7 @@ external interface AutocompleteProps<T> :
     /**
      * Props applied to the [`Chip`](/material-ui/api/chip/) element.
      */
-    var ChipProps: react.Props? /* ChipProps<ChipComponent> */
+    var ChipProps: ChipProps?
 
     /**
      * Override or extend the styles applied to the component.
