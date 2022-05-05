@@ -541,8 +541,9 @@ private fun generate(
         annotations += "@file:Suppress(\n\"VIRTUAL_MEMBER_HIDDEN\",\n)"
 
     if (componentName != "CalendarPickerView" && componentName != "createTypography") {
-        val finalBody = when (componentName) {
-            "createTransitions" -> body + "\n\n" + STYLE_TRANSITION_CREATE_OPTIONS
+        val finalBody = when {
+            componentName == "createTransitions" -> body + "\n\n" + STYLE_TRANSITION_CREATE_OPTIONS
+            pkg == Package.pickers -> body.replace(JS_NAME_DEFAULT, "")
             else -> body
         }
 

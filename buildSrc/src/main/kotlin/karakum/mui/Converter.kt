@@ -2,6 +2,8 @@ package karakum.mui
 
 import java.io.File
 
+internal const val JS_NAME_DEFAULT = "@JsName(\"default\")\n"
+
 internal data class ConversionResult(
     val main: String,
     val extensions: String,
@@ -533,6 +535,6 @@ private fun findComponent(
     }
 
     return "$comment\n" +
-            "@JsName(\"default\")\n" +
+            JS_NAME_DEFAULT +
             "external val $name: react.$type<$typeParameter>"
 }
