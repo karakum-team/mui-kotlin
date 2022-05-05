@@ -24,6 +24,7 @@ fun main() {
         SouthEast()
 
         MyAutocomplete()
+        Pickers()
     }
 
     createRoot(container)
