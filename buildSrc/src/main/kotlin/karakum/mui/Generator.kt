@@ -473,7 +473,7 @@ private fun generatePickersDeclarations(
         "Stubs" to PICKERS_STUBS,
         "CalendarPickerView" to CALENDAR_PICKER_VIEW,
         "ClockPickerView" to CLOCK_PICKER_VIEW,
-        "DateAdapter" to DATE_ADAPTER_BODY,
+        DATE_ADAPTER to DATE_ADAPTER_BODY,
     ).forEach { (name, body) ->
         targetDir.resolve("$name.kt")
             .writeText(fileContent(body = body, pkg = Package.pickers))
