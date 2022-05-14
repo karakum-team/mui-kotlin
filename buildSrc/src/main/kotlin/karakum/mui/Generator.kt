@@ -473,9 +473,27 @@ private fun generatePickersDeclarations(
         "Stubs" to PICKERS_STUBS,
         "CalendarPickerView" to CALENDAR_PICKER_VIEW,
         "ClockPickerView" to CLOCK_PICKER_VIEW,
+        "DateAdapter" to DATE_ADAPTER_BODY,
     ).forEach { (name, body) ->
         targetDir.resolve("$name.kt")
             .writeText(fileContent(body = body, pkg = Package.pickers))
+    }
+
+    DATE_ADAPTERS.forEach { (name, body) ->
+        val annotations = moduleDeclaration(
+            pkg = Package.pickers,
+            subpackage = null,
+            componentName = name
+        )
+
+        val content = fileContent(
+            annotations = annotations,
+            body = body,
+            pkg = Package.pickers,
+        )
+
+        targetDir.resolve("$name.kt")
+            .writeText(content)
     }
 }
 
@@ -521,7 +539,8 @@ private fun generate(
         -> null
 
         fullPath || componentName == "SwitchBase" || componentName == "useAutocomplete" || componentName == "useSwitch" || componentName.startsWith(
-            "create")
+            "create"
+        )
         -> definitionFile.parentFile.name
 
         else -> null
