@@ -177,7 +177,7 @@ private val EXCLUDED_TYPES = setOf(
     "Timeline"
 )
 
-private enum class Package(
+internal enum class Package(
     id: String? = null,
     pkg: String? = null,
 ) {

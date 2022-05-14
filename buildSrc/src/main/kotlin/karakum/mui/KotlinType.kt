@@ -182,6 +182,9 @@ internal fun kotlinType(
     if (name == "palette" && type.startsWith("Record<"))
         return "$DYNAMIC /* ${STANDARD_TYPE_MAP.getValue(type)} */"
 
+    if (name == "dateAdapter")
+        return "${Package.pickers.pkg}.$DATE_ADAPTER /* $type */"
+
     STANDARD_TYPE_MAP[type]
         ?.also { return it }
 
