@@ -182,6 +182,10 @@ private fun findProps(
         -> return "typealias $propsName = BaseTextFieldProps"
 
         "TreeView",
+
+        "StaticDatePicker",
+        "StaticDateTimePicker",
+        "StaticTimePicker",
         -> return props(propsName)
     }
 
@@ -343,8 +347,8 @@ private fun findAdditionalProps(
             "InputBaseComponentProps",
             "CustomSystemProps",
 
-                "CalendarPickerSlotsComponent",
-                "CalendarPickerSlotsComponentsProps",
+            "CalendarPickerSlotsComponent",
+            "CalendarPickerSlotsComponentsProps",
             -> ""
 
             "Spacing",
