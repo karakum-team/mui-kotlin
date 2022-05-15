@@ -342,6 +342,9 @@ private fun findAdditionalProps(
         val membersContent = when (interfaceName) {
             "InputBaseComponentProps",
             "CustomSystemProps",
+
+                "CalendarPickerSlotsComponent",
+                "CalendarPickerSlotsComponentsProps",
             -> ""
 
             "Spacing",
@@ -433,6 +436,7 @@ private fun findAdditionalProps(
             -> declaration = declaration.replaceFirst(":", "<TValue>:")
 
             "ExportedClockPickerProps",
+            "ExportedMonthPickerProps",
             "ExportedYearPickerProps",
             "BaseDateRangePickerProps",
             -> declaration = declaration.replaceFirst(":", "<TDate>:")
