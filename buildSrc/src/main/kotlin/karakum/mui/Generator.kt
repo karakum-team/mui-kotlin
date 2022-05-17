@@ -286,6 +286,13 @@ private fun generateSystemDeclarations(
     directories.asSequence()
         .filter { it.name.isComponentName() }
         .map { it.resolve("${it.name}.d.ts") }
+        .flatMap { component ->
+            val dir = component.parentFile
+
+            dir.existed(
+                dir.name + "Props.d.ts",
+            ) + component
+        }
         .forEach { generate(it, targetDir, Package.system) }
 
     typesDir.resolve("createTheme")
