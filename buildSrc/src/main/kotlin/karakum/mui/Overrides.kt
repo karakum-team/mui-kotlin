@@ -67,10 +67,6 @@ internal fun fixOverrides(
         -> content
             .override("hidden")
 
-        "InputUnstyled",
-        -> content
-            .replaceFirst("*/\nvar value: ", "*/\noverride var value: ")
-
         "PopperUnstyled",
         -> content
             .override("children")

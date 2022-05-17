@@ -19,7 +19,15 @@ internal fun convertClasses(
     val slots = mutableListOf<String>()
 
     val classesName = componentName + "Classes"
-    val classes = content.substringAfter("export interface $classesName {\n")
+    val muiName = MUI + componentName
+
+    val source = content.substringAfter("export interface $classesName {\n", "")
+    if (source.isEmpty()) {
+        check(componentName == "Container")
+        return "typealias $classesName = mui.system.$classesName" to "typealias $muiName = mui.system.$muiName"
+    }
+
+    val classes = source
         .substringBefore("\n}\n")
         .trimIndent()
         .splitToSequence("\n")
@@ -43,8 +51,6 @@ internal fun convertClasses(
 
     if ("Unstyled" in componentName)
         return classesContent to null
-
-    val muiName = MUI + componentName
 
     val muiContent = convertSealed(
         name = muiName,

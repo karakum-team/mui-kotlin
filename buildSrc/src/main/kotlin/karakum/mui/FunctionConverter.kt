@@ -12,6 +12,7 @@ internal fun findDefaultFunction(
     when (name) {
         "createTransitions",
         "useButton",
+        "useInput",
         "useMenu",
         "useMenuItem",
         "useSelect",
