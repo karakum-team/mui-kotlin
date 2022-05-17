@@ -204,7 +204,7 @@ external interface AutocompleteProps<T> :
     var renderTags: ((
         value: ReadonlyArray<T>,
         getTagProps: Function<*>, /* AutocompleteRenderGetTagProps */
-        ownerState: AutocompleteOwnerState<T, Multiple, DisableClearable, FreeSolo, ChipComponent>,
+        ownerState: AutocompleteProps<T>, /* AutocompleteOwnerState<T> */
     ) -> react.ReactNode)?
 
     /**
