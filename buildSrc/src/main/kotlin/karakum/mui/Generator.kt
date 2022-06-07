@@ -189,7 +189,6 @@ private enum class Package(
     iconsMaterial("icons-material"),
     system,
     pickers("x-date-pickers", "muix.pickers"),
-    grid("x-data-grid", "muix.grid"),
     lab,
 
     ;
@@ -218,13 +217,6 @@ fun generateKotlinIconsDeclarations(
     sourceDir: File,
 ) {
     generateIconsMaterialDeclarations(typesDir.resolve("icons-material"), sourceDir)
-}
-
-fun generateKotlinDataGridDeclarations(
-    typesDir: File,
-    sourceDir: File,
-) {
-    generateDataGridDeclarations(typesDir.resolve("x-data-grid"), sourceDir)
 }
 
 private fun generateTypesDeclarations(
@@ -423,16 +415,6 @@ private fun generateIconsMaterialDeclarations(
         targetDir.resolve("$name.kt")
             .writeText(fileContent(annotations, body, Package.iconsMaterial))
     }
-}
-
-private fun generateDataGridDeclarations(
-    typesDir: File,
-    sourceDir: File,
-) {
-    val targetDir = sourceDir.resolve("muix/grid")
-        .also { it.mkdirs() }
-
-    // TODO: implement
 }
 
 private fun generateLabDeclarations(
