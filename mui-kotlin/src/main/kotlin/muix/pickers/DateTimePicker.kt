@@ -5,14 +5,31 @@
 
 package muix.pickers
 
-external interface DateTimePickerProps : react.Props {
+external interface DateTimePickerProps :
+    DesktopDateTimePickerProps<TInputDate {
     /**
      * CSS media query when `Mobile` mode will be changed to `Desktop`.
      * @default '@media (pointer: fine)'
      * @example '@media (min-width: 720px)' or theme.breakpoints.up("sm")
      */
     var desktopModeMediaQuery: String?
+
+    /**
+     * Overrideable components.
+     * @default {}
+     */
+    var components: dynamic
+
+    /**
+     * The props used for each component slot.
+     * @default {}
+     */
+    var componentsProps: DateTimePickerSlotsComponentsProps?
 }
+
+external interface DateTimePickerSlotsComponent
+
+external interface DateTimePickerSlotsComponentsProps : react.Props
 
 /**
  *
