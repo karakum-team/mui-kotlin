@@ -564,6 +564,9 @@ private fun findComponent(
             .substringAfterLast(";\n")
             .substringAfterLast("}\n")
 
+    if (name == "PickersActionBar")
+        comment = ""
+
     val typeParameter = when (propsName) {
         "CalendarPickerProps",
         "ClockPickerProps",
