@@ -355,6 +355,42 @@ private fun findAdditionalProps(
 
             "CalendarPickerSlotsComponent",
             "CalendarPickerSlotsComponentsProps",
+
+            "DatePickerSlotsComponent",
+            "DatePickerSlotsComponentsProps",
+
+            "DateTimePickerSlotsComponent",
+            "DateTimePickerSlotsComponentsProps",
+
+            "DesktopDatePickerSlotsComponent",
+            "DesktopDatePickerSlotsComponentsProps",
+
+            "DesktopDateTimePickerSlotsComponent",
+            "DesktopDateTimePickerSlotsComponentsProps",
+
+            "DesktopTimePickerSlotsComponent",
+            "DesktopTimePickerSlotsComponentsProps",
+
+            "MobileDatePickerSlotsComponent",
+            "MobileDatePickerSlotsComponentsProps",
+
+            "MobileDateTimePickerSlotsComponent",
+            "MobileDateTimePickerSlotsComponentsProps",
+
+            "MobileTimePickerSlotsComponent",
+            "MobileTimePickerSlotsComponentsProps",
+
+            "StaticDatePickerSlotsComponent",
+            "StaticDatePickerSlotsComponentsProps",
+
+            "StaticDateTimePickerSlotsComponent",
+            "StaticDateTimePickerSlotsComponentsProps",
+
+            "StaticTimePickerSlotsComponents",
+            "StaticTimePickerSlotsComponentsProps",
+
+            "TimePickerSlotsComponent",
+            "TimePickerSlotsComponentsProps",
             -> ""
 
             "Spacing",
