@@ -111,14 +111,16 @@ private val MATERIAL_SIZE = """
     "NESTED_CLASS_IN_EXTERNAL_INTERFACE",
 )
 // language=JavaScript
-@JsName("(/*union*/{small: 'small', medium: 'medium', large: 'large'}/*union*/)")
+@JsName("(/*union*/{small: 'small', medium: 'medium', normal: 'normal', large: 'large'}/*union*/)")
 sealed external interface Size {
-    object small : Size, BaseSize
+    object small : Size, BaseSize, NormalSize
     object medium : Size, BaseSize
+    object normal : NormalSize
     object large : Size
 }
 
 sealed external interface BaseSize
+sealed external interface NormalSize
 """.trimIndent()
 
 // language=Kotlin

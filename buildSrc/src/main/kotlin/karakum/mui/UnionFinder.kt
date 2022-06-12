@@ -106,6 +106,7 @@ internal fun findDefaultUnions(
             val sizeName = when (source) {
                 "'small' | 'medium'" -> "BaseSize"
                 "'small' | 'medium' | 'large'" -> "Size"
+                "'small' | 'normal'" -> "NormalSize"
                 else -> TODO()
             }
             newContent = newContent.replaceFirst(original, sizeName)
