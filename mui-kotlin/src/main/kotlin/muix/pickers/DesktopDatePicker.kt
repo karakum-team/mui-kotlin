@@ -5,8 +5,7 @@
 
 package muix.pickers
 
-external interface DesktopDatePickerProps :
-    Omit<BaseDatePickerProps<TInputDate {
+external interface DesktopDatePickerProps : react.Props {
     /**
      * Overrideable components.
      * @default {}

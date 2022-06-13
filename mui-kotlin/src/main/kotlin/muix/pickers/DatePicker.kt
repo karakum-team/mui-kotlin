@@ -5,8 +5,7 @@
 
 package muix.pickers
 
-external interface DatePickerProps :
-    DesktopDatePickerProps<TInputDate {
+external interface DatePickerProps : react.Props {
     /**
      * CSS media query when `Mobile` mode will be changed to `Desktop`.
      * @default '@media (pointer: fine)'
