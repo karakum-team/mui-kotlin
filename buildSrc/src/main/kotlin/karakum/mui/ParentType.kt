@@ -14,6 +14,9 @@ internal fun findParentType(
     if ("<TDate>" in parentSource)
         return null
 
+    if ("<TInputDate, TDate>" in parentSource)
+        return null
+
     if (parentSource.startsWith("StandardProps<"))
         return parseStandardProps(parentSource)
 
