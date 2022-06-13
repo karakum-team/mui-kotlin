@@ -163,6 +163,8 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "typeof create" to "(props: ReadonlyArray<String>, options: TransitionCreateOptions?) -> csstype.Transition",
     "typeof getAutoHeightDuration" to "(height: Number) -> Number",
+
+    "TabsUnstyledDirection" to "mui.system.Direction",
 )
 
 internal fun kotlinType(
