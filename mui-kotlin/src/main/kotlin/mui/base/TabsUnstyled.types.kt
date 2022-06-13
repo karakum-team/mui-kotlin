@@ -36,7 +36,7 @@ external interface TabsUnstyledOwnProps :
      * The direction of the text.
      * @default 'ltr'
      */
-    var direction: TabsUnstyledDirection?
+    var direction: mui.system.Direction?
 
     override var className: ClassName?
 
