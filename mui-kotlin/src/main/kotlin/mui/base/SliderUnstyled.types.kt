@@ -210,6 +210,7 @@ external interface SliderUnstyledProps :
     var valueLabelFormat: dynamic
 }
 
+@Suppress("VIRTUAL_MEMBER_HIDDEN")
 external interface SliderValueLabelProps :
     react.dom.html.HTMLAttributes<org.w3c.dom.HTMLSpanElement> {
     var children: react.ReactElement<*>
