@@ -488,7 +488,12 @@ private fun findAdditionalProps(
             -> declaration = declaration.replaceFirst(":", "<TDate>:")
         }
 
-        declaration + " {\n" +
+        val anotations = when (interfaceName) {
+            "SliderValueLabelProps" -> "@Suppress(\"VIRTUAL_MEMBER_HIDDEN\")\n"
+            else -> ""
+        }
+
+        anotations + declaration + " {\n" +
                 propsBody +
                 "\n}"
     }
