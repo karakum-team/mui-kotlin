@@ -8,6 +8,7 @@ internal fun convertMembers(
 
     return source
         .replaceIndent("  ")
+        .replace("  // component tokens\n", "")
         .replace(";\n    ", "??11??")
         .replace(";\n  }", "??12??")
         .replace(";\n  })", "??22??")
