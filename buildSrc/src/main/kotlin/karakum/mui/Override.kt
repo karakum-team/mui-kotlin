@@ -1,7 +1,7 @@
 package karakum.mui
 
 internal val OVERRIDE_FIX_REQUIRED = setOf(
-    "ModalUnstyled", // children
+    "ModalUnstyled.types", // children
 
     "Chip", // children
     "RadioGroup", // defaultValue, onChange
