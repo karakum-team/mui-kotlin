@@ -3,10 +3,6 @@
 @file:JsModule("@mui/base/ModalUnstyled")
 @file:JsNonModule
 
-@file:Suppress(
-    "VIRTUAL_MEMBER_HIDDEN",
-)
-
 package mui.base
 
 /**
