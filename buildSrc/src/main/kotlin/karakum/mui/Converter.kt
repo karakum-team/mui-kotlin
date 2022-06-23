@@ -72,6 +72,7 @@ internal fun convertDefinitions(
         .replace("\r\n", "\n")
         .removeInlineClasses()
         .removeDeprecated()
+        .replace("(inProps: ", "(props: ")
         .replace(
             "declare type PopperProps = Omit<PopperUnstyledProps, 'direction'> &",
             "interface PopperProps extends PopperUnstyledProps",
