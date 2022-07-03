@@ -261,7 +261,7 @@ private fun findMapProps(
     ).firstOrNull { it.isNotEmpty() }
         ?: return null
 
-    val intrinsicType = propsContent
+    var intrinsicType = propsContent
         .substringBefore(" {\n")
         .substringAfter(" D extends React.ElementType = '", "")
         .substringBefore("'", "")
@@ -274,8 +274,20 @@ private fun findMapProps(
         -> {
             val baseType = "${name}BaseProps"
             if (name.startsWith("List")) {
-                "\n$baseType,\nreact.dom.html.HTMLAttributes<org.w3c.dom.HTMLElement>"
+                sequenceOf(baseType, "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLElement>")
+                    .joinToString(",\n", "\n")
             } else baseType
+        }
+
+        "props: P & ${name}OwnProps;" in propsContent
+        -> {
+            val intrinsicProps = when (propsName) {
+                "InputUnstyledProps" -> "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLInputElement>"
+                else -> INTRINSIC_TYPE_MAP[intrinsicType]
+            }
+
+            sequenceOf("${name}OwnProps", intrinsicProps)
+                .joinToString(",\n", "\n")
         }
 
         "props: P &\n    DistributiveOmit<PaperProps, " in propsContent
