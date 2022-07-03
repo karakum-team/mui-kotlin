@@ -304,6 +304,7 @@ private fun findMapProps(
         .substringAfter(" & {\n", "")
         .let { str ->
             sequenceOf(
+                str.substringBefore(";\n    } & Breakpoints;", ""),
                 str.substringBefore(";\n    };", ""),
                 str.substringBefore(";\n  };", "")
             ).maxByOrNull { it.length }!!
