@@ -40,6 +40,7 @@ internal fun String.toFunctionType(): String? {
         .replace("TValue[]", "ReadonlyArray<TValue>")
         .replace("T[]", "ReadonlyArray<T>")
         .replace("string[]", "ReadonlyArray<String>")
+        .replace("number | string | boolean", DYNAMIC)
         .replace("number | string", DYNAMIC)
         .replace("number | number[]", DYNAMIC)
         .replace("string", "String")
