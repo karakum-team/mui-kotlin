@@ -71,11 +71,6 @@ internal fun fixOverrides(
         -> content
             .override("children")
 
-        "SliderUnstyled",
-        -> content
-            .override("defaultValue")
-            .override("tabIndex")
-
         "TabUnstyled",
         -> content
             .override("components")
