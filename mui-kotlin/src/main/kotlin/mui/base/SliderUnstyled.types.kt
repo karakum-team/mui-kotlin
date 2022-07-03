@@ -3,6 +3,7 @@
 package mui.base
 
 external interface SliderUnstyledProps :
+    SliderUnstyledOwnProps,
     react.dom.html.HTMLAttributes<org.w3c.dom.HTMLSpanElement>
 
 @Suppress("VIRTUAL_MEMBER_HIDDEN")
