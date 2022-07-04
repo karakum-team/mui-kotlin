@@ -266,6 +266,9 @@ private fun findMapProps(
         .substringAfter(" D extends React.ElementType = '", "")
         .substringBefore("'", "")
 
+    if (name == "TablePaginationUnstyledProps")
+        intrinsicType = "td"
+
     val parentType: String? = when {
         name == "LoadingButton"
         -> "mui.material.ButtonProps"

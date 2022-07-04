@@ -5,6 +5,11 @@ internal fun fixOverrides(
     content: String,
 ): String =
     when (name) {
+        "Autocomplete",
+        -> content
+            .override("disabled")
+            .override("readOnly")
+
         "Slider",
         -> content
             .override("classes")

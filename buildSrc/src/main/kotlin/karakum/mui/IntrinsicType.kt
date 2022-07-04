@@ -15,6 +15,7 @@ internal val INTRINSIC_TYPE_MAP = mapOf(
     "tfoot" to "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLTableSectionElement>",
     "thead" to "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLTableSectionElement>",
     "tr" to "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLTableRowElement>",
+    "td" to "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLTableCellElement>",
     "ul" to "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLUListElement>",
 
     "svg" to "react.dom.svg.SVGAttributes<org.w3c.dom.svg.SVGSVGElement>",
