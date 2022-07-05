@@ -365,6 +365,9 @@ private fun findAdditionalProps(
         if (interfaceName == "ValueLabelProps" || interfaceName == "UseButtonProps")
             return@mapNotNull null
 
+        if (interfaceName == "ExtendableDateType")
+            return@mapNotNull null
+
         if (!propsLike && EXCLUDED_PREFIXES.any { interfaceName.endsWith(it) })
             return@mapNotNull null
 
@@ -431,9 +434,15 @@ private fun findAdditionalProps(
                 .substringBefore(";\n}\n")
         }
 
-        var propsBody = if (interfaceName.endsWith("Actions")) {
-            convertMethods(membersContent)
-        } else convertMembers(membersContent)
+        var propsBody = when {
+            interfaceName.endsWith("Actions")
+            -> convertMethods(membersContent)
+
+            interfaceName == "IUtils"
+            -> convertDateUtils(membersContent)
+
+            else -> convertMembers(membersContent)
+        }
 
         when (interfaceName) {
             "TreeViewPropsBase",
@@ -507,6 +516,12 @@ private fun findAdditionalProps(
             "ExportedYearPickerProps",
             "BaseDateRangePickerProps",
             -> declaration = declaration.replaceFirst(":", "<TDate>:")
+
+            "DateIOFormats",
+            -> declaration += "<TLibFormatToken: Any>"
+
+            "IUtils",
+            -> declaration += "<TDate: Any>"
         }
 
         val anotations = when (interfaceName) {

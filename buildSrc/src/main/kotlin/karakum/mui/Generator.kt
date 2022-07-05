@@ -193,6 +193,8 @@ private enum class Package(
     pickers("x-date-pickers", "muix.pickers"),
     lab,
 
+    dateioCore("", "dateio.core"),
+
     ;
 
     val id = id ?: name
@@ -212,6 +214,7 @@ fun generateKotlinDeclarations(
     generateTransitionsDeclarations(sourceDir)
     generateLabDeclarations(typesDir.resolve("lab"), sourceDir)
     generatePickersDeclarations(typesDir.resolve("x-date-pickers"), sourceDir)
+    generateDeteioDeclarations(typesDir.resolve("../@date-io/core"), sourceDir)
 }
 
 fun generateKotlinIconsDeclarations(
@@ -486,6 +489,20 @@ private fun generatePickersDeclarations(
         targetDir.resolve("$name.kt")
             .writeText(content)
     }
+}
+
+private fun generateDeteioDeclarations(
+    typesDir: File,
+    sourceDir: File,
+) {
+    val targetDir = sourceDir.resolve("dateio/core")
+        .also { it.mkdirs() }
+
+    generate(
+        definitionFile = typesDir.resolve("IUtils.d.ts"),
+        targetDir = targetDir,
+        pkg = Package.dateioCore,
+    )
 }
 
 private fun String.isComponentName(): Boolean {

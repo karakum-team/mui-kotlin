@@ -18,6 +18,7 @@ private val KNOWN_TYPES = setOf(
     "T",
     "TDate",
     "TValue",
+    "TLibFormatToken",
     "ReadonlyArray<T>",
     "PickerOnChangeFn<TDate>",
     "CalendarPickerView",
