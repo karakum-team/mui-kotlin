@@ -359,18 +359,20 @@
     react-transition-group "^4.4.2"
     rifm "^0.12.1"
 
-"@mui/x-date-pickers@5.0.0-alpha.7":
-  version "5.0.0-alpha.7"
-  resolved "https://registry.yarnpkg.com/@mui/x-date-pickers/-/x-date-pickers-5.0.0-alpha.7.tgz#994b9025ba02440dbbbb3a887abc4f06510fdfba"
-  integrity sha512-y+RAkuC9riyoPD8mt2/Y9nV3+MxwCYfUOh2o09nFVnIKUSud37hhOMiX8BzAbQRO/2JoRByN5jEj2zuWPW2zuw==
+"@mui/x-date-pickers@5.0.0-beta.0":
+  version "5.0.0-beta.0"
+  resolved "https://registry.yarnpkg.com/@mui/x-date-pickers/-/x-date-pickers-5.0.0-beta.0.tgz#1f2a4400c617453a2d0831a789f2b648c9e2f29b"
+  integrity sha512-WfcYe+5j3xbGO9d+uMFem06b9q+9yIcFj0dP3PKCa1zb6m3Tbkigig6vlCuHLKLSXe1P6IQCt+BNVVbU1rfh7A==
   dependencies:
     "@babel/runtime" "^7.17.2"
+    "@date-io/core" "^2.14.0"
     "@date-io/date-fns" "^2.14.0"
     "@date-io/dayjs" "^2.14.0"
     "@date-io/luxon" "^2.14.0"
     "@date-io/moment" "^2.14.0"
     "@mui/utils" "^5.4.1"
-    clsx "^1.1.1"
+    "@types/react-transition-group" "^4.4.4"
+    clsx "^1.2.1"
     prop-types "^15.7.2"
     react-transition-group "^4.4.2"
     rifm "^0.12.1"
@@ -504,7 +506,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-transition-group@^4.4.5":
+"@types/react-transition-group@^4.4.4", "@types/react-transition-group@^4.4.5":
   version "4.4.5"
   resolved "https://registry.yarnpkg.com/@types/react-transition-group/-/react-transition-group-4.4.5.tgz#aae20dcf773c5aa275d5b9f7cdbca638abc5e416"
   integrity sha512-juKD/eiSM3/xZYzjuzH6ZwpP+/lejltmiS3QEzV/vmb/Q8+HfDmxu+Baga8UEMGBqV88Nbg4l2hY/K2DkyaLLA==
@@ -947,7 +949,7 @@ clone-deep@^4.0.1:
     kind-of "^6.0.2"
     shallow-clone "^3.0.0"
 
-clsx@^1.1.1, clsx@^1.2.0:
+clsx@^1.1.1, clsx@^1.2.0, clsx@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/clsx/-/clsx-1.2.1.tgz#0ddc4a20a549b59c93a4116bb26f5294ca17dc12"
   integrity sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==
