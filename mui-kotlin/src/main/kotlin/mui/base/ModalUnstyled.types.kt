@@ -7,7 +7,10 @@
 package mui.base
 
 external interface ModalUnstyledProps :
-    react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement> {
+    ModalUnstyledOwnProps,
+    react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>
+
+external interface ModalUnstyledOwnProps : react.Props {
     /**
      * A single child content element.
      */
@@ -43,8 +46,8 @@ external interface ModalUnstyledProps :
     var componentsProps: ComponentsProps?
 
     interface ComponentsProps {
-        var root: react.Props? /* React.HTMLAttributes<HTMLDivElement> & ModalUnstyledComponentsPropsOverrides */
-        var backdrop: react.Props? /* React.HTMLAttributes<HTMLDivElement> & ModalUnstyledComponentsPropsOverrides */
+        var root: react.Props? /* SlotComponentProps<'div', ModalUnstyledComponentsPropsOverrides, ModalUnstyledOwnerState> */
+        var backdrop: react.Props? /* SlotComponentProps<'div', ModalUnstyledComponentsPropsOverrides, ModalUnstyledOwnerState> */
     }
 
     /**
