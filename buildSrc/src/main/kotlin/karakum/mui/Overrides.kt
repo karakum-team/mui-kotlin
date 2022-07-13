@@ -83,6 +83,10 @@ internal fun fixOverrides(
             .replace(": Components?", ": ButtonUnstyledOwnProps.Components?")
             .replace(": ComponentsProps?", ": ButtonUnstyledOwnProps.ComponentsProps?")
 
+        "ModalUnstyled"
+            -> content
+            .replace("children: react.ReactElement<*>", "children: dynamic /* react.ReactElement<*> */")
+
         else -> content
     }
 
