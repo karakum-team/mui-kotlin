@@ -1,9 +1,5 @@
 // Automatically generated - do not modify!
 
-@file:Suppress(
-    "VIRTUAL_MEMBER_HIDDEN",
-)
-
 package mui.base
 
 external interface ModalUnstyledProps :
@@ -14,7 +10,7 @@ external interface ModalUnstyledOwnProps : react.Props {
     /**
      * A single child content element.
      */
-    var children: react.ReactElement<*>
+    var children: dynamic /* react.ReactElement<*> */
 
     /**
      * Override or extend the styles applied to the component.
