@@ -9,6 +9,7 @@ internal fun fixOverrides(
         -> content
             .override("disabled")
             .override("readOnly")
+            .replaceFirst("var key: String", "override var key: react.Key? /* Key */")
 
         "Slider",
         -> content
