@@ -228,7 +228,7 @@ external interface AutocompleteRenderOptionState {
 }
 
 external interface AutocompleteRenderGroupParams : react.PropsWithChildren {
-    var key: String
+    override var key: react.Key? /* Key */
 
     var group: String
 
