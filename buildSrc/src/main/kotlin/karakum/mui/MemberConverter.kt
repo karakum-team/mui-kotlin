@@ -83,6 +83,7 @@ private fun convertProperty(
         type.startsWith("Components\n") -> type.replaceFirst("Components\n", "Components?\n")
         type.startsWith("ComponentsProps\n") -> type.replaceFirst("ComponentsProps\n", "ComponentsProps?\n")
         type.startsWith("(") -> "($type)?"
+        "? /*" in type -> type
         type.endsWith("*/") -> type.replace(" /*", "? /*")
         " //" in type -> type.replace(" //", "? //")
         type.endsWith("?") -> type

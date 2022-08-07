@@ -144,7 +144,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.MouseEventHandler" to "react.dom.events.MouseEventHandler<*>",
     "React.MouseEventHandler<HTMLElement>" to "react.dom.events.MouseEventHandler<org.w3c.dom.HTMLElement>",
 
-    "null | Element | ((element: Element) => Element)" to "(element: org.w3c.dom.Element) -> org.w3c.dom.Element",
+    "null | Element | ((element: Element) => Element)" to "org.w3c.dom.Element? /* null | Element | ((element: Element) => Element) */",
 
     "DisableClearable" to "Boolean",
     "FreeSolo" to "Boolean",
@@ -220,8 +220,10 @@ internal fun kotlinType(
     if (type.startsWith("React.ElementType<"))
         return type.replace("React.ElementType", ELEMENT_TYPE)
             .replace("<TransitionProps>", "<mui.material.transitions.TransitionProps>")
-            .replace("React.HTMLAttributes<HTMLDivElement>",
-                "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>")
+            .replace(
+                "React.HTMLAttributes<HTMLDivElement>",
+                "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>"
+            )
 
     if (type.startsWith("React.") && "Handler<" in type) {
         val handlerType = type.removePrefix("React.")
