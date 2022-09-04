@@ -8,7 +8,9 @@ package muix.pickers
 import mui.material.styles.Theme
 import mui.system.SxProps
 
-external interface PickersDayProps<TDate> : mui.system.PropsWithSx {
+external interface PickersDayProps<TDate> :
+    ExtendMui<ButtonBaseProps>,
+    mui.system.PropsWithSx {
     /**
      * Override or extend the styles applied to the component.
      */
@@ -39,7 +41,11 @@ external interface PickersDayProps<TDate> : mui.system.PropsWithSx {
 
     var isAnimating: Boolean?
 
-    var onDayFocus: ((day: TDate) -> Unit)?
+    var onFocus: ((event: React.FocusEvent<HTMLButtonElement>, day: TDate) -> Unit)?
+
+    var onBlur: ((event: React.FocusEvent<HTMLButtonElement>, day: TDate) -> Unit)?
+
+    var onKeyDown: ((event: React.KeyboardEvent<HTMLButtonElement>, day: TDate) -> Unit)?
 
     var onDaySelect: (day: TDate, isFinish: PickerSelectionState) -> Unit
 
