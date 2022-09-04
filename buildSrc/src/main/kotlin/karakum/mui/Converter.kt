@@ -380,6 +380,9 @@ private fun findAdditionalProps(
             "CalendarPickerSlotsComponent",
             "CalendarPickerSlotsComponentsProps",
 
+            "ClockPickerSlotsComponent",
+            "ClockPickerSlotsComponentsProps",
+
             "DatePickerSlotsComponent",
             "DatePickerSlotsComponentsProps",
 
