@@ -20,18 +20,38 @@ internal fun String.toFunctionType(): String? {
         .replace("React.ChangeEvent<unknown>", "react.dom.events.ChangeEvent<*>")
         .replace("React.ChangeEvent<HTMLInputElement>", "react.dom.events.ChangeEvent<org.w3c.dom.HTMLInputElement>")
         .replace("React.MouseEvent<HTMLButtonElement>", "react.dom.events.MouseEvent<org.w3c.dom.HTMLButtonElement, *>")
+        .replace("React.FocusEvent<HTMLButtonElement>", "react.dom.events.FocusEvent<org.w3c.dom.HTMLButtonElement>")
+        .replace(
+            "React.KeyboardEvent<HTMLButtonElement>",
+            "react.dom.events.KeyboardEvent<org.w3c.dom.HTMLButtonElement>"
+        )
         .replace("React.MouseEvent<HTMLElement>", "react.dom.events.MouseEvent<org.w3c.dom.HTMLElement, *>")
         .replace("React.HTMLAttributes<HTMLLIElement>", "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLLIElement>")
-        .replace("?: React.HTMLAttributes<HTMLInputElement>", ": react.dom.html.HTMLAttributes<org.w3c.dom.HTMLInputElement>?")
+        .replace(
+            "?: React.HTMLAttributes<HTMLInputElement>",
+            ": react.dom.html.HTMLAttributes<org.w3c.dom.HTMLInputElement>?"
+        )
         .replace("React.ReactNode", "react.ReactNode")
         .replace(" | null", "?")
         .replace("AutocompleteValue<T, Multiple, DisableClearable, FreeSolo>", DYNAMIC)
         .replace("details?: AutocompleteChangeDetails<T>", "details: AutocompleteChangeDetails<T>?")
         .replace("AutocompleteRenderGetTagProps", "Function<*> /* AutocompleteRenderGetTagProps */")
-        .replace("T | AutocompleteFreeSoloValueMapping<FreeSolo>", "T /* or AutocompleteFreeSoloValueMapping<FreeSolo> */")
-        .replace("AutocompleteOwnerState<T, Multiple, DisableClearable, FreeSolo, ChipComponent>", "AutocompleteProps<T> /* AutocompleteOwnerState<T> */")
-        .replace(": 'page' | 'first' | 'last' | 'next' | 'previous'", ": mui.system.Union /* 'page' | 'first' | 'last' | 'next' | 'previous' */")
-        .replace(": 'first' | 'last' | 'next' | 'previous'", ": mui.system.Union /* 'first' | 'last' | 'next' | 'previous' */")
+        .replace(
+            "T | AutocompleteFreeSoloValueMapping<FreeSolo>",
+            "T /* or AutocompleteFreeSoloValueMapping<FreeSolo> */"
+        )
+        .replace(
+            "AutocompleteOwnerState<T, Multiple, DisableClearable, FreeSolo, ChipComponent>",
+            "AutocompleteProps<T> /* AutocompleteOwnerState<T> */"
+        )
+        .replace(
+            ": 'page' | 'first' | 'last' | 'next' | 'previous'",
+            ": mui.system.Union /* 'page' | 'first' | 'last' | 'next' | 'previous' */"
+        )
+        .replace(
+            ": 'first' | 'last' | 'next' | 'previous'",
+            ": mui.system.Union /* 'first' | 'last' | 'next' | 'previous' */"
+        )
         .replace("ClockView", "mui.system.Union /* ClockView */")
         .replace("MuiPickersAdapter<TDate>", "$DYNAMIC /* MuiPickersAdapter<TDate> */")
         .replace("void | Promise<void>", "Promise<Void>?")
