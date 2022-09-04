@@ -41,11 +41,11 @@ external interface PickersDayProps<TDate> :
 
     var isAnimating: Boolean?
 
-    var onFocus: ((event: React.FocusEvent<HTMLButtonElement>, day: TDate) -> Unit)?
+    var onFocus: ((event: react.dom.events.FocusEvent<org.w3c.dom.HTMLButtonElement>, day: TDate) -> Unit)?
 
-    var onBlur: ((event: React.FocusEvent<HTMLButtonElement>, day: TDate) -> Unit)?
+    var onBlur: ((event: react.dom.events.FocusEvent<org.w3c.dom.HTMLButtonElement>, day: TDate) -> Unit)?
 
-    var onKeyDown: ((event: React.KeyboardEvent<HTMLButtonElement>, day: TDate) -> Unit)?
+    var onKeyDown: ((event: react.dom.events.KeyboardEvent<org.w3c.dom.HTMLButtonElement>, day: TDate) -> Unit)?
 
     var onDaySelect: (day: TDate, isFinish: PickerSelectionState) -> Unit
 
