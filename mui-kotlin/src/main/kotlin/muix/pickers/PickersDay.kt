@@ -3,13 +3,17 @@
 @file:JsModule("@mui/x-date-pickers/PickersDay")
 @file:JsNonModule
 
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
+
 package muix.pickers
 
 import mui.material.styles.Theme
 import mui.system.SxProps
 
 external interface PickersDayProps<TDate> :
-    ExtendMui<ButtonBaseProps>,
+    mui.material.ButtonBaseProps,
     mui.system.PropsWithSx {
     /**
      * Override or extend the styles applied to the component.
