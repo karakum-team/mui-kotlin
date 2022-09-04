@@ -55,6 +55,8 @@ inline fun PropsWithSx.sx(
 
 // language=Kotlin
 private val SYSTEM_RESPONSIVE_STYLE_VALUE = """
+import kotlinx.js.set
+
 external interface ResponsiveStyleValue<T : Any>
 
 @Suppress("NOTHING_TO_INLINE")
