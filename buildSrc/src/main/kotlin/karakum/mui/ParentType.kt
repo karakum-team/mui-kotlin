@@ -21,15 +21,20 @@ internal fun findParentType(
         return parseStandardProps(parentSource)
 
     if (parentSource.startsWith("Omit<")) {
-        var result = parentSource
+        val result = parentSource
             .removeSurrounding("Omit<", ">")
             .substringBefore(",")
             .toTypeParameter()
 
-        if (result == "SystemThemeOptions")
-            result = "mui.system.ThemeOptions"
+        return when (result) {
+            "SystemThemeOptions",
+            -> "mui.system.ThemeOptions"
 
-        return result
+            "ExtendMui<ButtonBaseProps>",
+            -> "mui.material.ButtonBaseProps"
+
+            else -> result
+        }
     }
 
     if (parentSource.startsWith("UseAutocompleteProps<")) {

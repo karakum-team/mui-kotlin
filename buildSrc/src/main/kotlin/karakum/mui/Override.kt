@@ -42,4 +42,6 @@ internal val OVERRIDE_FIX_REQUIRED = setOf(
     "Modal",
     "Popover",
     "SwipeableDrawer",
+
+    "PickersDay",
 )
