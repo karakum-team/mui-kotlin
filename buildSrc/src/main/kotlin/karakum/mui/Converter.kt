@@ -194,6 +194,7 @@ private fun findProps(
 
         "TreeView",
 
+        "DateField",
         "StaticDatePicker",
         "StaticDateTimePicker",
         "StaticTimePicker",
