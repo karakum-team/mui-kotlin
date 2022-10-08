@@ -11,10 +11,12 @@ internal fun convertSpacingOptions(
         .replace("=>", "->")
         .splitToSequence(" | ")
         .map { it.removeSurrounding("(", ")") }
-        .joinToString("\n\n") {
+        .joinToString("\n\n") {type ->
+            val modifier = if (type.startsWith("(")) "noinline" else ""
+
             """
                 inline fun $name(
-                    value: $it,
+                    $modifier value: $type,
                 ): $name =
                     value.unsafeCast<$name>()
             """.trimIndent()
