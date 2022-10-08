@@ -9,9 +9,9 @@ internal fun String.toFunctionType(): String? {
 
     return replace(" => ", "->")
         .replace("{\n    matches: boolean;\n}", DYNAMIC)
-        .replace(": Event,", ": org.w3c.dom.events.Event,")
+        .replace(": Event,", ": web.events.Event,")
         .replace(": HTMLElement", ": dom.html.HTMLElement")
-        .replace("MouseEvent | TouchEvent", "org.w3c.dom.events.UIEvent")
+        .replace("MouseEvent | TouchEvent", "dom.events.UIEvent")
         .replace("React.SyntheticEvent | Event", "react.dom.events.SyntheticEvent<*, *>")
         .replace("React.SyntheticEvent<any> | Event", "react.dom.events.SyntheticEvent<*, *>")
         .replace("React.SyntheticEvent<{}>", "react.dom.events.SyntheticEvent<*, *>")

@@ -101,7 +101,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "HTMLInputElement" to "dom.html.HTMLInputElement",
     "HTMLTextAreaElement" to "dom.html.HTMLTextAreaElement",
 
-    "Element | (() => Element | null) | null" to "org.w3c.dom.Element",
+    "Element | (() => Element | null) | null" to "dom.Element",
     "Partial<OptionsGeneric<any>>" to "popper.core.Options",
     "React.Ref<Instance>" to "react.Ref<popper.core.Instance>",
     "React.ElementType<TableCellBaseProps>" to "react.ElementType<*>",
@@ -144,7 +144,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.MouseEventHandler" to "react.dom.events.MouseEventHandler<*>",
     "React.MouseEventHandler<HTMLElement>" to "react.dom.events.MouseEventHandler<dom.html.HTMLElement>",
 
-    "null | Element | ((element: Element) => Element)" to "org.w3c.dom.Element? /* null | Element | ((element: Element) => Element) */",
+    "null | Element | ((element: Element) => Element)" to "dom.Element? /* null | Element | ((element: Element) => Element) */",
 
     "DisableClearable" to "Boolean",
     "FreeSolo" to "Boolean",
@@ -158,7 +158,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "'horizontal' | 'vertical'" to "mui.material.Orientation",
     "'vertical' | 'horizontal'" to "mui.material.Orientation",
 
-    "typeof window.matchMedia" to "(query: String) -> org.w3c.dom.MediaQueryList",
+    "typeof window.matchMedia" to "(query: String) -> cssom.MediaQueryList",
 
     "PopperPlacementType" to "popper.core.Placement",
 

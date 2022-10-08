@@ -8,10 +8,10 @@ private val ALIAS_MAP = mapOf(
     "NativeSelectInputProps['onChange']" to "react.dom.events.ChangeEventHandler<*>",
     "OutlinedInputProps['onChange']" to "react.dom.events.ChangeEventHandler<dom.html.HTMLElement>",
     "PaperProps['role']" to "react.dom.aria.AriaRole",
-    "PopoverProps['anchorEl']" to "(element: org.w3c.dom.Element) -> org.w3c.dom.Element",
+    "PopoverProps['anchorEl']" to "(element: dom.Element) -> dom.Element",
     "PopoverProps['classes']" to "PopoverClasses",
     "PopoverProps['onClose']" to "",
-    "PortalProps['container']" to "org.w3c.dom.Element",
+    "PortalProps['container']" to "dom.Element",
     "PortalProps['disablePortal']" to "Boolean",
     "SelectInputProps<T>['onChange']" to "(event: react.dom.events.ChangeEvent<dom.html.HTMLInputElement>, child: react.ReactNode) -> Unit",
     "SnackbarContentProps['action']" to "react.ReactNode",
@@ -51,7 +51,7 @@ private val ALIAS_MAP = mapOf(
 
     "ModalProps['onBackdropClick']" to "react.dom.events.ReactEventHandler<*>",
     "ModalProps['open']" to "Boolean",
-    "ModalProps['container']" to "org.w3c.dom.Element",
+    "ModalProps['container']" to "dom.Element",
     "ModalProps['onClose']" to "(event: dynamic, reason: String) -> Unit",
 )
 
