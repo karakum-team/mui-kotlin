@@ -10,7 +10,7 @@ internal fun String.toFunctionType(): String? {
     return replace(" => ", "->")
         .replace("{\n    matches: boolean;\n}", DYNAMIC)
         .replace(": Event,", ": org.w3c.dom.events.Event,")
-        .replace(": HTMLElement", ": org.w3c.dom.HTMLElement")
+        .replace(": HTMLElement", ": dom.html.HTMLElement")
         .replace("MouseEvent | TouchEvent", "org.w3c.dom.events.UIEvent")
         .replace("React.SyntheticEvent | Event", "react.dom.events.SyntheticEvent<*, *>")
         .replace("React.SyntheticEvent<any> | Event", "react.dom.events.SyntheticEvent<*, *>")
@@ -18,18 +18,18 @@ internal fun String.toFunctionType(): String? {
         .replace("React.SyntheticEvent<any>", "react.dom.events.SyntheticEvent<*, *>")
         .replace("React.SyntheticEvent", "react.dom.events.SyntheticEvent<*, *>")
         .replace("React.ChangeEvent<unknown>", "react.dom.events.ChangeEvent<*>")
-        .replace("React.ChangeEvent<HTMLInputElement>", "react.dom.events.ChangeEvent<org.w3c.dom.HTMLInputElement>")
-        .replace("React.MouseEvent<HTMLButtonElement>", "react.dom.events.MouseEvent<org.w3c.dom.HTMLButtonElement, *>")
-        .replace("React.FocusEvent<HTMLButtonElement>", "react.dom.events.FocusEvent<org.w3c.dom.HTMLButtonElement>")
+        .replace("React.ChangeEvent<HTMLInputElement>", "react.dom.events.ChangeEvent<dom.html.HTMLInputElement>")
+        .replace("React.MouseEvent<HTMLButtonElement>", "react.dom.events.MouseEvent<dom.html.HTMLButtonElement, *>")
+        .replace("React.FocusEvent<HTMLButtonElement>", "react.dom.events.FocusEvent<dom.html.HTMLButtonElement>")
         .replace(
             "React.KeyboardEvent<HTMLButtonElement>",
-            "react.dom.events.KeyboardEvent<org.w3c.dom.HTMLButtonElement>"
+            "react.dom.events.KeyboardEvent<dom.html.HTMLButtonElement>"
         )
-        .replace("React.MouseEvent<HTMLElement>", "react.dom.events.MouseEvent<org.w3c.dom.HTMLElement, *>")
-        .replace("React.HTMLAttributes<HTMLLIElement>", "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLLIElement>")
+        .replace("React.MouseEvent<HTMLElement>", "react.dom.events.MouseEvent<dom.html.HTMLElement, *>")
+        .replace("React.HTMLAttributes<HTMLLIElement>", "react.dom.html.HTMLAttributes<dom.html.HTMLLIElement>")
         .replace(
             "?: React.HTMLAttributes<HTMLInputElement>",
-            ": react.dom.html.HTMLAttributes<org.w3c.dom.HTMLInputElement>?"
+            ": react.dom.html.HTMLAttributes<dom.html.HTMLInputElement>?"
         )
         .replace("React.ReactNode", "react.ReactNode")
         .replace(" | null", "?")

@@ -97,9 +97,9 @@ private val STANDARD_TYPE_MAP = mapOf(
     "Breakpoint[]" to "ReadonlyArray<Breakpoint>",
     "UsePaginationItem[]" to "ReadonlyArray<UsePaginationItem>",
 
-    "HTMLDivElement" to "org.w3c.dom.HTMLDivElement",
-    "HTMLInputElement" to "org.w3c.dom.HTMLInputElement",
-    "HTMLTextAreaElement" to "org.w3c.dom.HTMLTextAreaElement",
+    "HTMLDivElement" to "dom.html.HTMLDivElement",
+    "HTMLInputElement" to "dom.html.HTMLInputElement",
+    "HTMLTextAreaElement" to "dom.html.HTMLTextAreaElement",
 
     "Element | (() => Element | null) | null" to "org.w3c.dom.Element",
     "Partial<OptionsGeneric<any>>" to "popper.core.Options",
@@ -128,12 +128,12 @@ private val STANDARD_TYPE_MAP = mapOf(
     "ClickAwayListenerProps" to "mui.base.ClickAwayListenerProps",
     "ChipProps<ChipComponent>" to "ChipProps",
 
-    "React.InputHTMLAttributes<HTMLInputElement>" to "react.dom.html.InputHTMLAttributes<org.w3c.dom.HTMLInputElement>",
-    "React.ImgHTMLAttributes<HTMLImageElement> & {\n  sx?: SxProps<Theme>;\n}" to "react.dom.html.ImgHTMLAttributes<org.w3c.dom.HTMLImageElement>",
-    "React.ImgHTMLAttributes<HTMLImageElement>" to "react.dom.html.ImgHTMLAttributes<org.w3c.dom.HTMLImageElement>",
-    "React.HTMLAttributes<HTMLDivElement>" to "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>",
-    "Partial<React.HTMLAttributes<HTMLDivElement>>" to "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>",
-    "React.HTMLAttributes<HTMLElement>" to "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLElement>",
+    "React.InputHTMLAttributes<HTMLInputElement>" to "react.dom.html.InputHTMLAttributes<dom.html.HTMLInputElement>",
+    "React.ImgHTMLAttributes<HTMLImageElement> & {\n  sx?: SxProps<Theme>;\n}" to "react.dom.html.ImgHTMLAttributes<dom.html.HTMLImageElement>",
+    "React.ImgHTMLAttributes<HTMLImageElement>" to "react.dom.html.ImgHTMLAttributes<dom.html.HTMLImageElement>",
+    "React.HTMLAttributes<HTMLDivElement>" to "react.dom.html.HTMLAttributes<dom.html.HTMLDivElement>",
+    "Partial<React.HTMLAttributes<HTMLDivElement>>" to "react.dom.html.HTMLAttributes<dom.html.HTMLDivElement>",
+    "React.HTMLAttributes<HTMLElement>" to "react.dom.html.HTMLAttributes<dom.html.HTMLElement>",
 
     "NonNullable<React.HTMLAttributes<any>['tabIndex']>" to "Int",
     "React.InputHTMLAttributes<unknown>['type']" to "react.dom.html.InputType",
@@ -142,7 +142,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.ReactEventHandler" to "react.dom.events.ReactEventHandler<*>",
     "React.FocusEventHandler" to "react.dom.events.FocusEventHandler<*>",
     "React.MouseEventHandler" to "react.dom.events.MouseEventHandler<*>",
-    "React.MouseEventHandler<HTMLElement>" to "react.dom.events.MouseEventHandler<org.w3c.dom.HTMLElement>",
+    "React.MouseEventHandler<HTMLElement>" to "react.dom.events.MouseEventHandler<dom.html.HTMLElement>",
 
     "null | Element | ((element: Element) => Element)" to "org.w3c.dom.Element? /* null | Element | ((element: Element) => Element) */",
 
@@ -222,16 +222,16 @@ internal fun kotlinType(
             .replace("<TransitionProps>", "<mui.material.transitions.TransitionProps>")
             .replace(
                 "React.HTMLAttributes<HTMLDivElement>",
-                "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>"
+                "react.dom.html.HTMLAttributes<dom.html.HTMLDivElement>"
             )
 
     if (type.startsWith("React.") && "Handler<" in type) {
         val handlerType = type.removePrefix("React.")
             .replace("<any>", "<*>")
             .replace("<{}>", "<*>")
-            .replace("<HTMLInputElement | HTMLTextAreaElement>", "<org.w3c.dom.HTMLElement>")
-            .replace("<HTMLTextAreaElement | HTMLInputElement>", "<org.w3c.dom.HTMLElement>")
-            .replace("<HTMLInputElement>", "<org.w3c.dom.HTMLInputElement>")
+            .replace("<HTMLInputElement | HTMLTextAreaElement>", "<dom.html.HTMLElement>")
+            .replace("<HTMLTextAreaElement | HTMLInputElement>", "<dom.html.HTMLElement>")
+            .replace("<HTMLInputElement>", "<dom.html.HTMLInputElement>")
 
         return "react.dom.events.$handlerType"
     }

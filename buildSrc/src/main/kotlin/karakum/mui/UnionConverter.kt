@@ -13,18 +13,19 @@ internal fun convertUnion(
         .replace(" | true", " | 'true'")
 
     when (name) {
-        "NativeFormControlElement" -> return "typealias $name = org.w3c.dom.HTMLElement /* $body */"
+        "NativeFormControlElement" -> return "typealias $name = dom.html.HTMLElement /* $body */"
         "SpacingOptions" -> return convertSpacingOptions(name, body)
         "SpacingArgument" -> {
             check(body == "number | string")
             return "typealias $name = Int /* csstype.Auto */"
         }
+
         "TableCellAlign" -> return "typealias $name = react.dom.html.TdAlign /* $body */"
-        "TableCellBaseProps" -> return "typealias TableCellBaseProps = react.dom.html.TdHTMLAttributes<org.w3c.dom.HTMLTableCellElement>"
+        "TableCellBaseProps" -> return "typealias TableCellBaseProps = react.dom.html.TdHTMLAttributes<dom.html.HTMLTableCellElement>"
     }
 
     if (body == "React.LabelHTMLAttributes<HTMLLabelElement>")
-        return "typealias $name = react.dom.html.LabelHTMLAttributes<org.w3c.dom.HTMLLabelElement>"
+        return "typealias $name = react.dom.html.LabelHTMLAttributes<dom.html.HTMLLabelElement>"
 
     if (body == "Omit<PopperUnstyledProps, 'direction'>")
         return "typealias $name = mui.base.PopperUnstyledProps /* $body */"

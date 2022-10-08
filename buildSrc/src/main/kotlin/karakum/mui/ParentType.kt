@@ -75,7 +75,7 @@ internal fun findParentType(
         -> "mui.base.$parentSource"
 
         "HTMLDivProps",
-        -> "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLDivElement>"
+        -> "react.dom.html.HTMLAttributes<dom.html.HTMLDivElement>"
 
         "TransitionProps",
         "React.HTMLAttributes<HTMLDivElement>",

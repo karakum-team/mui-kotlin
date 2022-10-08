@@ -278,7 +278,7 @@ private fun findMapProps(
         -> {
             val baseType = "${name}BaseProps"
             if (name.startsWith("List")) {
-                sequenceOf(baseType, "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLElement>")
+                sequenceOf(baseType, "react.dom.html.HTMLAttributes<dom.html.HTMLElement>")
                     .joinToString(",\n", "\n")
             } else baseType
         }
@@ -286,7 +286,7 @@ private fun findMapProps(
         "props: P & ${name}OwnProps;" in propsContent
         -> {
             val intrinsicProps = when (propsName) {
-                "InputUnstyledProps" -> "react.dom.html.HTMLAttributes<org.w3c.dom.HTMLInputElement>"
+                "InputUnstyledProps" -> "react.dom.html.HTMLAttributes<dom.html.HTMLInputElement>"
                 else -> INTRINSIC_TYPE_MAP[intrinsicType]
             }
 
