@@ -20,6 +20,7 @@ val BreakpointsExample = FC<Props> {
     }
 
     Masonry {
+        @Suppress("INFERRED_TYPE_VARIABLE_INTO_POSSIBLE_EMPTY_INTERSECTION")
         columns = responsive(
             xs to 1,
             md to 4,
