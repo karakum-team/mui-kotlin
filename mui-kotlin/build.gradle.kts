@@ -6,12 +6,12 @@ plugins {
 val kotlinWrappersVersion = property("kotlin-wrappers.version") as String
 
 dependencies {
-    implementation(npmv("@mui/material"))
-    implementation(npmv("@mui/icons-material"))
-    implementation(npmv("@mui/lab"))
-    implementation(npmv("@mui/x-date-pickers"))
+    jsMainImplementation(npmv("@mui/material"))
+    jsMainImplementation(npmv("@mui/icons-material"))
+    jsMainImplementation(npmv("@mui/lab"))
+    jsMainImplementation(npmv("@mui/x-date-pickers"))
 
-    api(enforcedPlatform("org.jetbrains.kotlin-wrappers:kotlin-wrappers-bom:$kotlinWrappersVersion"))
-    api("org.jetbrains.kotlin-wrappers:kotlin-react-dom")
-    api("org.jetbrains.kotlin-wrappers:kotlin-popper")
+    jsMainApi(enforcedPlatform("org.jetbrains.kotlin-wrappers:kotlin-wrappers-bom:$kotlinWrappersVersion"))
+    jsMainApi("org.jetbrains.kotlin-wrappers:kotlin-react-dom")
+    jsMainApi("org.jetbrains.kotlin-wrappers:kotlin-popper")
 }
