@@ -1,4 +1,3 @@
-import kotlinx.browser.document
 import mui.icons.material.Abc
 import mui.icons.material.SouthEast
 import mui.material.SvgIcon
@@ -6,6 +5,8 @@ import react.VFC
 import react.create
 import react.dom.client.createRoot
 import react.dom.svg.ReactSVG.path
+import web.dom.document
+import web.html.HTML.div
 
 private val App = VFC {
     SvgIcon {
@@ -22,8 +23,8 @@ private val App = VFC {
 }
 
 private fun main() {
-    val container = document.createElement("div")
-    document.body!!.appendChild(container)
+    val container = document.createElement(div)
+    document.body.appendChild(container)
 
     createRoot(container)
         .render(App.create())

@@ -7,9 +7,9 @@ private const val GENERATOR_COMMENT = "Automatically generated - do not modify!"
 private val DEFAULT_IMPORTS = listOf(
     "Promise" to "kotlin.js.Promise",
 
-    "ReadonlyArray" to "kotlinx.js.ReadonlyArray",
-    "Record<" to "kotlinx.js.Record",
-    "Void" to "kotlinx.js.Void",
+    "ReadonlyArray" to "js.core.ReadonlyArray",
+    "Record<" to "js.core.Record",
+    "Void" to "js.core.Void",
 
     " ClassName" to "csstype.ClassName",
 )
@@ -44,7 +44,7 @@ external interface PropsWithSx : Props {
 // language=Kotlin
 private val SYSTEM_SX = """
 import csstype.PropertiesBuilder
-import kotlinx.js.jso
+import js.core.jso
 
 inline fun PropsWithSx.sx(
     crossinline block: PropertiesBuilder.() -> Unit,
@@ -55,7 +55,7 @@ inline fun PropsWithSx.sx(
 
 // language=Kotlin
 private val SYSTEM_RESPONSIVE_STYLE_VALUE = """
-import kotlinx.js.set
+import js.core.set
 
 external interface ResponsiveStyleValue<T : Any>
 

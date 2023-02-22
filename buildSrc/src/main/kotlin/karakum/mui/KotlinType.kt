@@ -97,11 +97,11 @@ private val STANDARD_TYPE_MAP = mapOf(
     "Breakpoint[]" to "ReadonlyArray<Breakpoint>",
     "UsePaginationItem[]" to "ReadonlyArray<UsePaginationItem>",
 
-    "HTMLDivElement" to "dom.html.HTMLDivElement",
-    "HTMLInputElement" to "dom.html.HTMLInputElement",
-    "HTMLTextAreaElement" to "dom.html.HTMLTextAreaElement",
+    "HTMLDivElement" to "web.html.HTMLDivElement",
+    "HTMLInputElement" to "web.html.HTMLInputElement",
+    "HTMLTextAreaElement" to "web.html.HTMLTextAreaElement",
 
-    "Element | (() => Element | null) | null" to "dom.Element",
+    "Element | (() => Element | null) | null" to "web.dom.Element",
     "Partial<OptionsGeneric<any>>" to "popper.core.Options",
     "React.Ref<Instance>" to "react.Ref<popper.core.Instance>",
     "React.ElementType<TableCellBaseProps>" to "react.ElementType<*>",
@@ -128,23 +128,23 @@ private val STANDARD_TYPE_MAP = mapOf(
     "ClickAwayListenerProps" to "mui.base.ClickAwayListenerProps",
     "ChipProps<ChipComponent>" to "ChipProps",
 
-    "React.InputHTMLAttributes<HTMLInputElement>" to "react.dom.html.InputHTMLAttributes<dom.html.HTMLInputElement>",
-    "React.ImgHTMLAttributes<HTMLImageElement> & {\n  sx?: SxProps<Theme>;\n}" to "react.dom.html.ImgHTMLAttributes<dom.html.HTMLImageElement>",
-    "React.ImgHTMLAttributes<HTMLImageElement>" to "react.dom.html.ImgHTMLAttributes<dom.html.HTMLImageElement>",
-    "React.HTMLAttributes<HTMLDivElement>" to "react.dom.html.HTMLAttributes<dom.html.HTMLDivElement>",
-    "Partial<React.HTMLAttributes<HTMLDivElement>>" to "react.dom.html.HTMLAttributes<dom.html.HTMLDivElement>",
-    "React.HTMLAttributes<HTMLElement>" to "react.dom.html.HTMLAttributes<dom.html.HTMLElement>",
+    "React.InputHTMLAttributes<HTMLInputElement>" to "react.dom.html.InputHTMLAttributes<web.html.HTMLInputElement>",
+    "React.ImgHTMLAttributes<HTMLImageElement> & {\n  sx?: SxProps<Theme>;\n}" to "react.dom.html.ImgHTMLAttributes<web.html.HTMLImageElement>",
+    "React.ImgHTMLAttributes<HTMLImageElement>" to "react.dom.html.ImgHTMLAttributes<web.html.HTMLImageElement>",
+    "React.HTMLAttributes<HTMLDivElement>" to "react.dom.html.HTMLAttributes<web.html.HTMLDivElement>",
+    "Partial<React.HTMLAttributes<HTMLDivElement>>" to "react.dom.html.HTMLAttributes<web.html.HTMLDivElement>",
+    "React.HTMLAttributes<HTMLElement>" to "react.dom.html.HTMLAttributes<web.html.HTMLElement>",
 
     "NonNullable<React.HTMLAttributes<any>['tabIndex']>" to "Int",
-    "React.InputHTMLAttributes<unknown>['type']" to "react.dom.html.InputType",
-    "React.InputHTMLAttributes<HTMLInputElement>['type']" to "react.dom.html.InputType",
+    "React.InputHTMLAttributes<unknown>['type']" to "web.html.InputType",
+    "React.InputHTMLAttributes<HTMLInputElement>['type']" to "web.html.InputType",
 
     "React.ReactEventHandler" to "react.dom.events.ReactEventHandler<*>",
     "React.FocusEventHandler" to "react.dom.events.FocusEventHandler<*>",
     "React.MouseEventHandler" to "react.dom.events.MouseEventHandler<*>",
-    "React.MouseEventHandler<HTMLElement>" to "react.dom.events.MouseEventHandler<dom.html.HTMLElement>",
+    "React.MouseEventHandler<HTMLElement>" to "react.dom.events.MouseEventHandler<web.html.HTMLElement>",
 
-    "null | Element | ((element: Element) => Element)" to "dom.Element? /* null | Element | ((element: Element) => Element) */",
+    "null | Element | ((element: Element) => Element)" to "web.dom.Element? /* null | Element | ((element: Element) => Element) */",
 
     "DisableClearable" to "Boolean",
     "FreeSolo" to "Boolean",
@@ -158,7 +158,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "'horizontal' | 'vertical'" to "mui.material.Orientation",
     "'vertical' | 'horizontal'" to "mui.material.Orientation",
 
-    "typeof window.matchMedia" to "(query: String) -> cssom.MediaQueryList",
+    "typeof window.matchMedia" to "(query: String) -> web.cssom.MediaQueryList",
 
     "PopperPlacementType" to "popper.core.Placement",
 
@@ -222,16 +222,16 @@ internal fun kotlinType(
             .replace("<TransitionProps>", "<mui.material.transitions.TransitionProps>")
             .replace(
                 "React.HTMLAttributes<HTMLDivElement>",
-                "react.dom.html.HTMLAttributes<dom.html.HTMLDivElement>"
+                "react.dom.html.HTMLAttributes<web.html.HTMLDivElement>"
             )
 
     if (type.startsWith("React.") && "Handler<" in type) {
         val handlerType = type.removePrefix("React.")
             .replace("<any>", "<*>")
             .replace("<{}>", "<*>")
-            .replace("<HTMLInputElement | HTMLTextAreaElement>", "<dom.html.HTMLElement>")
-            .replace("<HTMLTextAreaElement | HTMLInputElement>", "<dom.html.HTMLElement>")
-            .replace("<HTMLInputElement>", "<dom.html.HTMLInputElement>")
+            .replace("<HTMLInputElement | HTMLTextAreaElement>", "<web.html.HTMLElement>")
+            .replace("<HTMLTextAreaElement | HTMLInputElement>", "<web.html.HTMLElement>")
+            .replace("<HTMLInputElement>", "<web.html.HTMLInputElement>")
 
         return "react.dom.events.$handlerType"
     }

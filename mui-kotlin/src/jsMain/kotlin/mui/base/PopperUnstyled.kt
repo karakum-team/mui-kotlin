@@ -5,10 +5,10 @@
 
 package mui.base
 
-import kotlinx.js.ReadonlyArray
+import js.core.ReadonlyArray
 
 external interface PopperUnstyledProps :
-    react.dom.html.HTMLAttributes<dom.html.HTMLDivElement> {
+    react.dom.html.HTMLAttributes<web.html.HTMLDivElement> {
     /**
      * An HTML element, [virtualElement](https://popper.js.org/docs/v2/virtual-elements/),
      * or a function that returns either.
@@ -29,7 +29,7 @@ external interface PopperUnstyledProps :
      * By default, it uses the body of the top-level document object,
      * so it's simply `document.body` most of the time.
      */
-    var container: dom.Element?
+    var container: web.dom.Element?
 
     /**
      * Direction of the text.

@@ -5,7 +5,7 @@
 
 package mui.lab
 
-import kotlinx.js.ReadonlyArray
+import js.core.ReadonlyArray
 import mui.material.styles.Theme
 import mui.system.SxProps
 
@@ -13,7 +13,7 @@ external interface TreeViewProps : react.Props
 
 external interface TreeViewPropsBase :
     mui.system.StandardProps,
-    react.dom.html.HTMLAttributes<dom.html.HTMLUListElement>,
+    react.dom.html.HTMLAttributes<web.html.HTMLUListElement>,
     react.PropsWithChildren,
     mui.system.PropsWithSx {
     /**
