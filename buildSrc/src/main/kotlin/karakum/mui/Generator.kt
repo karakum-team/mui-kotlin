@@ -9,7 +9,11 @@ private val DEFAULT_IMPORTS = listOf(
 
     "ReadonlyArray" to "js.core.ReadonlyArray",
     "Record<" to "js.core.Record",
+    "JsTuple2" to "js.core.JsTuple2",
     "Void" to "js.core.Void",
+
+    "Element" to "web.dom.Element",
+    "InputType" to "web.html.InputType",
 
     " ClassName" to "csstype.ClassName",
 )

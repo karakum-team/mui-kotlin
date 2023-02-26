@@ -101,7 +101,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "HTMLInputElement" to "web.html.HTMLInputElement",
     "HTMLTextAreaElement" to "web.html.HTMLTextAreaElement",
 
-    "Element | (() => Element | null) | null" to "web.dom.Element",
+    "Element | (() => Element | null) | null" to "Element",
     "Partial<OptionsGeneric<any>>" to "popper.core.Options",
     "React.Ref<Instance>" to "react.Ref<popper.core.Instance>",
     "React.ElementType<TableCellBaseProps>" to "react.ElementType<*>",
@@ -136,15 +136,15 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.HTMLAttributes<HTMLElement>" to "react.dom.html.HTMLAttributes<web.html.HTMLElement>",
 
     "NonNullable<React.HTMLAttributes<any>['tabIndex']>" to "Int",
-    "React.InputHTMLAttributes<unknown>['type']" to "web.html.InputType",
-    "React.InputHTMLAttributes<HTMLInputElement>['type']" to "web.html.InputType",
+    "React.InputHTMLAttributes<unknown>['type']" to "InputType",
+    "React.InputHTMLAttributes<HTMLInputElement>['type']" to "InputType",
 
     "React.ReactEventHandler" to "react.dom.events.ReactEventHandler<*>",
     "React.FocusEventHandler" to "react.dom.events.FocusEventHandler<*>",
     "React.MouseEventHandler" to "react.dom.events.MouseEventHandler<*>",
     "React.MouseEventHandler<HTMLElement>" to "react.dom.events.MouseEventHandler<web.html.HTMLElement>",
 
-    "null | Element | ((element: Element) => Element)" to "web.dom.Element? /* null | Element | ((element: Element) => Element) */",
+    "null | Element | ((element: Element) => Element)" to "Element? /* null | Element | ((element: Element) => Element) */",
 
     "DisableClearable" to "Boolean",
     "FreeSolo" to "Boolean",
