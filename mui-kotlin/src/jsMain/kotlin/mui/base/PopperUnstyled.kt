@@ -6,6 +6,7 @@
 package mui.base
 
 import js.core.ReadonlyArray
+import web.dom.Element
 
 external interface PopperUnstyledProps :
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement> {
@@ -29,7 +30,7 @@ external interface PopperUnstyledProps :
      * By default, it uses the body of the top-level document object,
      * so it's simply `document.body` most of the time.
      */
-    var container: web.dom.Element?
+    var container: Element?
 
     /**
      * Direction of the text.
