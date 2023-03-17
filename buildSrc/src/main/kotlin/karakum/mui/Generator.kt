@@ -20,25 +20,25 @@ private val DEFAULT_IMPORTS = listOf(
     " ClassName" to "csstype.ClassName",
 )
 
-// language=Kotlin
+// language=kotlin
 private val TYPES_PROPS_WITH_COMPONENT = """
 external interface PropsWithComponent : react.Props {
     var component: react.ElementType<*>?
 }
 """.trimIndent()
 
-// language=Kotlin
+// language=kotlin
 private val SYSTEM_ALIASES = """
 typealias Union = String
 """.trimIndent()
 
-// language=Kotlin
+// language=kotlin
 private val SYSTEM_SX_PROPS = """
 @Suppress("UNUSED_TYPEALIAS_PARAMETER")
 typealias SxProps<T> = react.CSSProperties
 """.trimIndent()
 
-// language=Kotlin
+// language=kotlin
 private val SYSTEM_PROPS_WITH_SX = """
 import react.Props    
     
@@ -47,7 +47,7 @@ external interface PropsWithSx : Props {
 }
 """.trimIndent()
 
-// language=Kotlin
+// language=kotlin
 private val SYSTEM_SX = """
 import csstype.PropertiesBuilder
 import js.core.jso
@@ -59,7 +59,7 @@ inline fun PropsWithSx.sx(
 }
 """.trimIndent()
 
-// language=Kotlin
+// language=kotlin
 private val SYSTEM_RESPONSIVE_STYLE_VALUE = """
 import js.core.set
 
@@ -83,7 +83,7 @@ fun <T : Any, R> responsive(
     }.unsafeCast<R>()
 """.trimIndent()
 
-// language=Kotlin
+// language=kotlin
 private val SYSTEM_STANDARD_PROPS = """
 external interface StandardProps: 
     react.PropsWithStyle,
@@ -92,7 +92,7 @@ external interface StandardProps:
 
 private val SYSTEM_BREAKPOINT = convertUnion("Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl'")!!
 
-// language=Kotlin
+// language=kotlin
 private val SYSTEM_SHAPE = """
 external interface Shape {
     var borderRadius: csstype.BorderRadius
@@ -103,7 +103,7 @@ typealias ShapeOptions = Shape
 
 private val MATERIAL_PALETTE_MODE = convertUnion("PaletteMode = 'light' | 'dark'")!!
 
-// language=Kotlin
+// language=kotlin
 private val STYLE_TRANSITION_CREATE_OPTIONS = """
 external interface TransitionCreateOptions {
     var duration: Number?
@@ -112,7 +112,7 @@ external interface TransitionCreateOptions {
 }
 """.trimIndent()
 
-// language=Kotlin
+// language=kotlin
 private val MATERIAL_SIZE = """
 @Suppress(
     "NAME_CONTAINS_ILLEGAL_CHARS",
@@ -131,12 +131,12 @@ sealed external interface BaseSize
 sealed external interface NormalSize
 """.trimIndent()
 
-// language=Kotlin
+// language=kotlin
 private val TRANSITIONS_STUBS = """
 external interface TransitionProps: react.Props
 """.trimIndent()
 
-// language=Kotlin
+// language=kotlin
 private val PICKERS_STUBS = """
 typealias PickerSelectionState = String
 
