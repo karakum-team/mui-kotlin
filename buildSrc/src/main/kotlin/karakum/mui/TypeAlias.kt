@@ -45,7 +45,7 @@ private val ALIAS_MAP = mapOf(
     "PaginationProps['shape']" to "PaginationShape",
     "PaginationProps['variant']" to "PaginationVariant",
 
-    "Options['modifiers']" to "ReadonlyArray<popper.core.Modifier<*>>",
+    "Options['modifiers']" to "ReadonlyArray<Modifier<*>>",
 
     "BackdropUnstyledTypeMap['props']['classes']" to "mui.base.BackdropUnstyledClasses",
 

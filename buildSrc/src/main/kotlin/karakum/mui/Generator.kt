@@ -5,6 +5,8 @@ import java.io.File
 private const val GENERATOR_COMMENT = "Automatically generated - do not modify!"
 
 private val DEFAULT_IMPORTS = listOf(
+    "Modifier" to "popper.core.Modifier",
+
     "Promise" to "kotlin.js.Promise",
 
     "ReadonlyArray" to "js.core.ReadonlyArray",
