@@ -6,6 +6,7 @@
 package mui.base
 
 import js.core.ReadonlyArray
+import popper.core.Modifier
 import web.dom.Element
 
 external interface PopperUnstyledProps :
@@ -61,7 +62,7 @@ external interface PopperUnstyledProps :
      * For this reason, modifiers should be very performant to avoid bottlenecks.
      * To learn how to create a modifier, [read the modifiers documentation](https://popper.js.org/docs/v2/modifiers/).
      */
-    var modifiers: ReadonlyArray<popper.core.Modifier<*>>?
+    var modifiers: ReadonlyArray<Modifier<*>>?
 
     /**
      * If `true`, the component is shown.
