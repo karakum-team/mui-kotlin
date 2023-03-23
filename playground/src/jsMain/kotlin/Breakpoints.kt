@@ -2,8 +2,8 @@ import csstype.Display
 import csstype.None.none
 import mui.lab.Masonry
 import mui.material.Box
-import mui.system.Breakpoint.md
-import mui.system.Breakpoint.xs
+import mui.system.Breakpoint.Companion.md
+import mui.system.Breakpoint.Companion.xs
 import mui.system.responsive
 import mui.system.sx
 import react.FC
