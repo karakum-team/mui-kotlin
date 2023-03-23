@@ -600,7 +600,7 @@ private fun generate(
         } else ""
 
         val finalBody = when (componentName) {
-            "createTypography" -> extensions.replaceFirst("Variant", "TypographyVariant")
+            "createTypography" -> extensions.replace("Variant", "TypographyVariant")
             else -> extensions
         }
 

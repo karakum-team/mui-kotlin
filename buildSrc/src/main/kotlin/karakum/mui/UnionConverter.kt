@@ -44,21 +44,25 @@ internal fun convertUnion(
         .toList()
 
     val jsName = values.asSequence()
-        .map { "${enumConstant(it)}: ${enumValue(it)}" }
+        .map { "${unionKey(it)}: ${unionValue(it)}" }
         .joinToString(", ", "@JsName(\"\"\"($UNION_MARKER{", "}$UNION_MARKER)\"\"\")")
 
-    val constantNames = values.asSequence()
+    val properties = values.asSequence()
         .map { escape(it) }
-        .map { "${enumConstant(it)},\n" }
-        .joinToString("")
+        .map { "val ${unionKey(it)}: $name" }
+        .joinToString("\n")
 
     return """
-        @Suppress("NAME_CONTAINS_ILLEGAL_CHARS")
+        @Suppress(
+            "NAME_CONTAINS_ILLEGAL_CHARS",
+            "NESTED_CLASS_IN_EXTERNAL_INTERFACE",
+        )
         // language=JavaScript
         $jsName
-        external enum class $name {
-            $constantNames
-            ;
+        sealed external interface $name {
+            companion object {
+                $properties
+            }
         }
     """.trimIndent()
 }
@@ -100,7 +104,7 @@ private fun escape(
         else -> value
     }
 
-private fun enumConstant(
+private fun unionKey(
     value: String,
 ): String =
     when {
@@ -111,7 +115,7 @@ private fun enumConstant(
             .kebabToCamel()
     }
 
-private fun enumValue(
+private fun unionValue(
     value: String,
 ): String =
     when {
