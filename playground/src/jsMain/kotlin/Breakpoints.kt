@@ -1,5 +1,5 @@
 import csstype.Display
-import csstype.None.none
+import csstype.None.Companion.none
 import mui.lab.Masonry
 import mui.material.Box
 import mui.system.Breakpoint.Companion.md
