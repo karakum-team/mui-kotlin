@@ -84,8 +84,13 @@ internal fun fixOverrides(
             .replace(": Components?", ": ButtonUnstyledOwnProps.Components?")
             .replace(": ComponentsProps?", ": ButtonUnstyledOwnProps.ComponentsProps?")
 
-        "ModalUnstyled"
-            -> content
+        "MenuItem",
+        "MenuList",
+        -> content
+            .override("autoFocus")
+
+        "ModalUnstyled",
+        -> content
             .replace("children: react.ReactElement<*>", "children: dynamic /* react.ReactElement<*> */")
 
         else -> content
