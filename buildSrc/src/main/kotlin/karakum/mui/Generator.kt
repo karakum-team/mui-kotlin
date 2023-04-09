@@ -365,7 +365,7 @@ private fun generateMaterialDeclarations(
         "Size" to MATERIAL_SIZE,
     ).forEach { (name, body) ->
         val annotations = if (name == MUI) {
-            "@file:Suppress(\n\"NESTED_CLASS_IN_EXTERNAL_INTERFACE\",\n)"
+            "@file:Suppress(\n\"NESTED_CLASS_IN_EXTERNAL_INTERFACE\",\n\"NAME_CONTAINS_ILLEGAL_CHARS\",)"
         } else ""
 
         targetDir.resolve("$name.kt")
@@ -617,7 +617,8 @@ private fun generate(
             .writeText(fileContent(body = classes, pkg = pkg))
 
         if (mui != null) {
-            val muiAnnotations = "@file:Suppress(\n\"NESTED_CLASS_IN_EXTERNAL_INTERFACE\",\n)"
+            val muiAnnotations =
+                "@file:Suppress(\n\"NESTED_CLASS_IN_EXTERNAL_INTERFACE\",\n\"NAME_CONTAINS_ILLEGAL_CHARS\",)"
             targetDir.resolve("$componentName.mui.kt")
                 .writeText(fileContent(annotations = muiAnnotations, body = mui, pkg = pkg))
         }
