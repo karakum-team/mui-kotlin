@@ -56,5 +56,11 @@ private fun String.cleanupUnstyledType(name: String): String {
 
     if (source == "") return this
 
-    return replace(source, "")
+    return replace(source, "").replace(
+        """
+export interface ${name}UnstyledType {
+propTypes?: any;
+}
+""", ""
+    )
 }
