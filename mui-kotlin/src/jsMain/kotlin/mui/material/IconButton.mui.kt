@@ -1,13 +1,14 @@
 // Automatically generated - do not modify!
 
+@file:Suppress(
+    "NESTED_CLASS_IN_EXTERNAL_INTERFACE",
+)
+
 package mui.material
 
 import csstype.ClassName
 
-@Suppress(
-    "NAME_CONTAINS_ILLEGAL_CHARS",
-    "NESTED_CLASS_IN_EXTERNAL_INTERFACE",
-)
+@Suppress("NAME_CONTAINS_ILLEGAL_CHARS")
 // language=JavaScript
 @JsName("""(/*union*/{root: 'MuiIconButton-root', edgeStart: 'MuiIconButton-edgeStart', edgeEnd: 'MuiIconButton-edgeEnd', colorInherit: 'MuiIconButton-colorInherit', colorPrimary: 'MuiIconButton-colorPrimary', colorSecondary: 'MuiIconButton-colorSecondary', sizeSmall: 'MuiIconButton-sizeSmall', sizeMedium: 'MuiIconButton-sizeMedium', sizeLarge: 'MuiIconButton-sizeLarge'}/*union*/)""")
 sealed external interface MuiIconButton {

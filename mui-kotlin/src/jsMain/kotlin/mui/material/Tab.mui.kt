@@ -1,13 +1,14 @@
 // Automatically generated - do not modify!
 
+@file:Suppress(
+    "NESTED_CLASS_IN_EXTERNAL_INTERFACE",
+)
+
 package mui.material
 
 import csstype.ClassName
 
-@Suppress(
-    "NAME_CONTAINS_ILLEGAL_CHARS",
-    "NESTED_CLASS_IN_EXTERNAL_INTERFACE",
-)
+@Suppress("NAME_CONTAINS_ILLEGAL_CHARS")
 // language=JavaScript
 @JsName("""(/*union*/{root: 'MuiTab-root', labelIcon: 'MuiTab-labelIcon', textColorInherit: 'MuiTab-textColorInherit', textColorPrimary: 'MuiTab-textColorPrimary', textColorSecondary: 'MuiTab-textColorSecondary', fullWidth: 'MuiTab-fullWidth', wrapped: 'MuiTab-wrapped', iconWrapper: 'MuiTab-iconWrapper'}/*union*/)""")
 sealed external interface MuiTab {

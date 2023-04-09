@@ -1,13 +1,14 @@
 // Automatically generated - do not modify!
 
+@file:Suppress(
+    "NESTED_CLASS_IN_EXTERNAL_INTERFACE",
+)
+
 package mui.material
 
 import csstype.ClassName
 
-@Suppress(
-    "NAME_CONTAINS_ILLEGAL_CHARS",
-    "NESTED_CLASS_IN_EXTERNAL_INTERFACE",
-)
+@Suppress("NAME_CONTAINS_ILLEGAL_CHARS")
 // language=JavaScript
 @JsName("""(/*union*/{root: 'MuiListSubheader-root', colorPrimary: 'MuiListSubheader-colorPrimary', colorInherit: 'MuiListSubheader-colorInherit', gutters: 'MuiListSubheader-gutters', inset: 'MuiListSubheader-inset', sticky: 'MuiListSubheader-sticky'}/*union*/)""")
 sealed external interface MuiListSubheader {
