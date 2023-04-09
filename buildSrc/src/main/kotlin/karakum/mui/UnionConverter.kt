@@ -82,10 +82,7 @@ internal fun convertSealed(
         .joinToString("\n")
 
     return """
-        @Suppress(
-            "NAME_CONTAINS_ILLEGAL_CHARS", 
-            "NESTED_CLASS_IN_EXTERNAL_INTERFACE",
-        )
+        @Suppress("NAME_CONTAINS_ILLEGAL_CHARS")
         // language=JavaScript
         $jsName
         sealed external interface $name {

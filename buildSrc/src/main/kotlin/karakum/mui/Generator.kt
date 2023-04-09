@@ -364,8 +364,12 @@ private fun generateMaterialDeclarations(
         "PaletteMode" to MATERIAL_PALETTE_MODE,
         "Size" to MATERIAL_SIZE,
     ).forEach { (name, body) ->
+        val annotations = if (name == MUI) {
+            "@file:Suppress(\n\"NESTED_CLASS_IN_EXTERNAL_INTERFACE\",\n)"
+        } else ""
+
         targetDir.resolve("$name.kt")
-            .writeText(fileContent(body = body, pkg = Package.material))
+            .writeText(fileContent(annotations, body, Package.material))
     }
 }
 
@@ -613,8 +617,9 @@ private fun generate(
             .writeText(fileContent(body = classes, pkg = pkg))
 
         if (mui != null) {
+            val muiAnnotations = "@file:Suppress(\n\"NESTED_CLASS_IN_EXTERNAL_INTERFACE\",\n)"
             targetDir.resolve("$componentName.mui.kt")
-                .writeText(fileContent(body = mui, pkg = pkg))
+                .writeText(fileContent(annotations = muiAnnotations, body = mui, pkg = pkg))
         }
     }
 }
