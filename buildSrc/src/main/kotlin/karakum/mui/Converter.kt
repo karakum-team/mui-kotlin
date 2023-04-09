@@ -72,15 +72,23 @@ internal fun convertDefinitions(
         .replace("\r\n", "\n")
         .removeInlineClasses()
         .removeDeprecated()
+        .removeExtendsEmptyObject()
         .replace("(inProps: ", "(props: ")
         .replace(
             "declare type PopperProps = Omit<PopperUnstyledProps, 'direction'> &",
             "interface PopperProps extends PopperUnstyledProps",
         )
+        // TODO: Needed because of incorrect work with empty interfaces.
+        //  Probably need to find all such interfaces and replace them with type alias
+        .replace(
+            "interface PopperUnstyledOwnerState extends PopperUnstyledOwnProps {}",
+            "type PopperUnstyledOwnerState = PopperUnstyledOwnProps",
+        )
         .replace(
             "\ninterface ${name}OwnProps {\n",
             "\nexport interface ${name}OwnProps {\n",
         )
+        .cleanupWorkaround()
         .let { findDefaultUnions(name, it) }
 
     val declarations = mutableListOf<String>()
@@ -147,6 +155,14 @@ private fun String.removeDeprecated(): String {
 
     return substringAfter(substringBefore("export interface Options {"))
         .replace("Options", "UseMediaQueryOptions")
+}
+
+private fun String.removeExtendsEmptyObject(): String {
+    // TODO: Probably need to replace not only for `TValue` but for all others
+    return replace(
+        "<TValue extends {}>",
+        "<TValue>",
+    )
 }
 
 private fun String.removeInlineClasses(
@@ -513,7 +529,24 @@ private fun findAdditionalProps(
             -> declaration += "<TValue>"
 
             "MultiSelectUnstyledOwnerState",
+            "SelectUnstyledOwnerState",
             -> declaration = declaration.replaceFirst(":", "<TValue>:")
+
+            // todo alpo!!!
+            "MultiSelectUnstyledOwnProps",
+            "OptionUnstyledOwnProps",
+            "SelectUnstyledOwnProps",
+            -> declaration = declaration.replaceFirst(":", "<TValue>:")
+
+            // todo alpo!!!
+            "MultiSelectUnstyledProps",
+            -> declaration = declaration.replaceFirst(":", "<TValue>: MultiSelectUnstyledOwnProps<TValue>")
+
+            "OptionUnstyledProps",
+            -> declaration = declaration.replaceFirst(":", "<TValue>: OptionUnstyledProps<TValue>")
+
+            "SelectUnstyledProps",
+            -> declaration = declaration.replaceFirst(":", "<TValue>: SelectUnstyledProps<TValue>")
 
             "ExportedClockPickerProps",
             "ExportedMonthPickerProps",

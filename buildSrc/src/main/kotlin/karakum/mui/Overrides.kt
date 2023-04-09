@@ -64,6 +64,21 @@ internal fun fixOverrides(
             .override("open")
             .replace("open: Boolean", "open: Boolean?")
 
+        "MultiSelectUnstyled",
+        -> content
+            .override("disabled")
+            .replace("disabled: Boolean", "disabled: Boolean?")
+            .replace("var component: dynamic", "var component: react.ElementType<*>?")
+
+        "OptionUnstyled",
+        -> content
+            .replace("var component: dynamic", "var component: react.ElementType<*>?")
+
+        "SelectUnstyled",
+        -> content
+            .replace("var component: dynamic", "var component: react.ElementType<*>?")
+            .replaceLast("var disabled: Boolean?", "override var disabled: Boolean?")
+
         "TableCell",
         -> content
             .override("align")
@@ -72,10 +87,6 @@ internal fun fixOverrides(
         "SpeedDial",
         -> content
             .override("hidden")
-
-        "PopperUnstyled",
-        -> content
-            .override("children")
 
         "TabUnstyled",
         -> content
@@ -93,6 +104,13 @@ internal fun fixOverrides(
         -> content
             .replace("children: react.ReactElement<*>", "children: dynamic /* react.ReactElement<*> */")
 
+        "MenuItemUnstyled",
+        -> content
+            .replace(
+                "onClick: react.dom.events.MouseEventHandler<web.html.HTMLElement>?",
+                "onClick: react.dom.events.MouseEventHandler<web.html.HTMLLIElement>?"
+            )
+
         else -> content
     }
 
@@ -100,3 +118,6 @@ private fun String.override(
     name: String,
 ): String =
     replaceFirst("var $name:", "override var $name:")
+
+private fun String.replaceLast(regex: String, replacement: String): String =
+    replaceFirst("(?s)(.*)$regex".toRegex(), "$1$replacement")
