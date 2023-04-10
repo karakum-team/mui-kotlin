@@ -70,7 +70,7 @@ private fun convertProperty(
     if (name == "className" && type == "String")
         return CLASS_NAME
 
-    if (name == "sx" && type == "SxProps<Theme>")
+    if (name == "sx")
         return SX
 
     val optional = source.substringBefore(":")

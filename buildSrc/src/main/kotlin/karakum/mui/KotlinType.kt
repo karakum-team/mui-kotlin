@@ -181,6 +181,9 @@ internal fun kotlinType(
     if (type == "string" && name != null && name.endsWith("ClassName"))
         return "ClassName"
 
+    if (type == "boolean | GridSize")
+        return "$DYNAMIC /* boolean | GridSize /* 'auto' | number */ */"
+
     // For system theme interfaces
     if (name == "palette" && type.startsWith("Record<"))
         return "$DYNAMIC /* ${STANDARD_TYPE_MAP.getValue(type)} */"

@@ -54,6 +54,7 @@ internal fun String.toFunctionType(): String? {
         )
         .replace("ClockView", "mui.system.Union /* ClockView */")
         .replace("MuiPickersAdapter<TDate>", "$DYNAMIC /* MuiPickersAdapter<TDate> */")
+        .replace("CSSObject", "$DYNAMIC /* CSSObject from `@mui/styled-engine` */")
         .replace("void | Promise<void>", "Promise<Void>?")
         .replace("Breakpoint | number", "Breakpoint")
         .replace("SelectOption<TValue>[]", "ReadonlyArray<SelectOption<TValue>>")
