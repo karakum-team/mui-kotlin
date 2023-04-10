@@ -532,13 +532,11 @@ private fun findAdditionalProps(
             "SelectUnstyledOwnerState",
             -> declaration = declaration.replaceFirst(":", "<TValue>:")
 
-            // todo alpo!!!
             "MultiSelectUnstyledOwnProps",
             "OptionUnstyledOwnProps",
             "SelectUnstyledOwnProps",
             -> declaration = declaration.replaceFirst(":", "<TValue>:")
 
-            // todo alpo!!!
             "MultiSelectUnstyledProps",
             -> declaration = declaration.replaceFirst(":", "<TValue>: MultiSelectUnstyledOwnProps<TValue>")
 
