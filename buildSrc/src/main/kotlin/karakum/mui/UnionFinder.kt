@@ -78,13 +78,21 @@ internal fun findDefaultUnions(
 
             var className = when (property) {
                 "fontSize",
-                -> "Size"
+                -> {
+                    "Size"
+                }
 
                 "vertical",
                 "horizontal",
-                -> "Origin" + property.capitalize()
+                -> {
+                    @Suppress("DEPRECATION")
+                    "Origin" + property.capitalize()
+                }
 
-                else -> property.capitalize()
+                else -> {
+                    @Suppress("DEPRECATION")
+                    property.capitalize()
+                }
             }
 
             if ("P" !in property && property !in TOP_UNION_PROPERTIES)

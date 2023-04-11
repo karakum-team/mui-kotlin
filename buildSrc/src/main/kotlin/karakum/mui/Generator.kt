@@ -609,6 +609,7 @@ private fun generate(
     }
 
     val classesName = componentName + "Classes"
+    @Suppress("DEPRECATION")
     val classesFile = definitionFile.parentFile.resolve(classesName.decapitalize() + ".d.ts")
     if (classesFile.exists()) {
         val (classes, mui) = convertClasses(componentName, classesFile)

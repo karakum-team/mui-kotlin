@@ -71,7 +71,11 @@ private val KNOWN_TYPE_SUFFIXES = setOf(
     "Variant",
     "Color",
     "Size",
-) + UNION_PROPERTIES.map { it.capitalize() }
+) + UNION_PROPERTIES
+    .map {
+        @Suppress("DEPRECATION")
+        it.capitalize()
+    }
 
 private val STANDARD_TYPE_MAP = mapOf(
     "any" to "Any",
@@ -307,6 +311,7 @@ internal fun kotlinType(
         return "$DYNAMIC /* $type */"
 
     if ((name == "components" || name == "componentsProps") && type.startsWith("{\n") && "/**" !in type) {
+        @Suppress("DEPRECATION")
         val interfaceName = name.capitalize()
         val defaultType = if (name == "components") "react.ElementType<*>" else "react.Props"
         return interfaceName + "\n\n" + componentInterface(interfaceName, type, defaultType)
