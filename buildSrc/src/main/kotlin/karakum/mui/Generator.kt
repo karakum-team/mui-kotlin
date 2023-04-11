@@ -207,7 +207,10 @@ private enum class Package(
 
     val id = id ?: name
 
-    val pkg: String = pkg ?: ("mui." + name.replace(Regex("""[A-Z]""")) { "." + it.value.toLowerCase() })
+    val pkg: String = pkg ?: ("mui." + name.replace(Regex("""[A-Z]""")) {
+        @Suppress("DEPRECATION")
+        "." + it.value.toLowerCase()
+    })
 }
 
 fun generateKotlinDeclarations(
@@ -518,6 +521,7 @@ private fun String.isComponentName(): Boolean {
         return false
 
     val char = get(0)
+    @Suppress("DEPRECATION")
     return char == char.toUpperCase() && char != char.toLowerCase()
 }
 
