@@ -185,8 +185,9 @@ internal fun kotlinType(
     if (type == "string" && name != null && name.endsWith("ClassName"))
         return "ClassName"
 
-    if (type == "boolean | GridSize")
-        return "$DYNAMIC /* boolean | GridSize /* 'auto' | number */ */"
+    // For `RegularBreakpoints` of `Grid` component
+    if (name in setOf("lg", "md", "sm", "xl", "xs") && type == "boolean | GridSize")
+        return "Any /* boolean | 'auto' | number */"
 
     // For system theme interfaces
     if (name == "palette" && type.startsWith("Record<"))
