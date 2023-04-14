@@ -28,6 +28,10 @@ internal fun String.toFunctionType(): String? {
         .replace("React.MouseEvent<HTMLElement>", "react.dom.events.MouseEvent<web.html.HTMLElement, *>")
         .replace("React.HTMLAttributes<HTMLLIElement>", "react.dom.html.HTMLAttributes<web.html.HTMLLIElement>")
         .replace(
+            "React.InputHTMLAttributes<HTMLInputElement>['value']",
+            "Any /* string | ReadonlyArray<string> | number */"
+        )
+        .replace(
             "?: React.HTMLAttributes<HTMLInputElement>",
             ": react.dom.html.HTMLAttributes<web.html.HTMLInputElement>?"
         )

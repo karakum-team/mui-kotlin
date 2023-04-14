@@ -50,6 +50,14 @@ internal fun fixOverrides(
         -> content
             .override("disabled")
 
+        "InputUnstyled",
+        -> content
+            .override("maxRows", last = true)
+            .override("minRows", last = true)
+            .replaceLast("var multiline: Boolean", "override var multiline: Boolean?")
+            .override("rows", last = true)
+            .override("type", last = true)
+
         "ToggleButton",
         -> content
             .override("disabled")
@@ -116,8 +124,13 @@ internal fun fixOverrides(
 
 private fun String.override(
     name: String,
+    last: Boolean = false,
 ): String =
-    replaceFirst("var $name:", "override var $name:")
+    if (last) {
+        replaceLast("var $name:", "override var $name:")
+    } else {
+        replaceFirst("var $name:", "override var $name:")
+    }
 
-private fun String.replaceLast(regex: String, replacement: String): String =
-    replaceFirst("(?s)(.*)$regex".toRegex(), "$1$replacement")
+private fun String.replaceLast(oldValue: String, newValue: String): String =
+    replaceFirst("(?s)(.*)$oldValue".toRegex(), "$1$newValue")

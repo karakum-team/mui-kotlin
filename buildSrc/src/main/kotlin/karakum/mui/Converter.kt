@@ -537,6 +537,12 @@ private fun findAdditionalProps(
             "SelectUnstyledOwnProps",
             -> declaration = declaration.replaceFirst(":", "<TValue>:")
 
+            "MultiLineInputUnstyledProps",
+            -> declaration = declaration.replaceFirst(": react.Props", ": SingleLineInputUnstyledProps")
+
+            "InputUnstyledOwnProps",
+            -> declaration = declaration.replaceFirst(":", ": MultiLineInputUnstyledProps,")
+
             "MultiSelectUnstyledProps",
             -> declaration = declaration.replaceFirst(":", "<TValue>: MultiSelectUnstyledOwnProps<TValue>")
 

@@ -1,7 +1,8 @@
 package karakum.mui
 
 fun String.cleanupWorkaround(): String {
-    return cleanupMultiSelectUnstyled()
+    return cleanupInputUnstyled()
+        .cleanupMultiSelectUnstyled()
         .cleanupOptionUnstyled()
         .cleanupSelectUnstyled()
 }
@@ -62,5 +63,15 @@ export interface ${name}UnstyledType {
 propTypes?: any;
 }
 """, ""
+    )
+}
+
+private fun String.cleanupInputUnstyled(): String {
+    return replace(
+        """export declare type InputUnstyledOwnProps = (SingleLineInputUnstyledProps | MultiLineInputUnstyledProps) & UseInputParameters & {""",
+        "export interface InputUnstyledOwnProps extends MultiLineInputUnstyledProps {",
+    ).replace(
+        "};\nexport interface InputUnstyledTypeMap<",
+        "}\nexport interface InputUnstyledTypeMap<"
     )
 }
