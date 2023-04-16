@@ -66,7 +66,9 @@ external interface MultiLineInputUnstyledProps : SingleLineInputUnstyledProps {
     override var type: dynamic
 }
 
-external interface InputUnstyledOwnProps : MultiLineInputUnstyledProps, react.PropsWithClassName {
+external interface InputUnstyledOwnProps :
+    react.PropsWithClassName,
+    MultiLineInputUnstyledProps {
     // var `aria-describedby`: String?
 
     // var `aria-label`: String?
