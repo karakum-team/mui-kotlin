@@ -69,6 +69,7 @@ internal fun convertDefinitions(
         .removeSuffix("Props")
 
     val (content, defaultUnions) = definitionFile.readText()
+        .cleanup()
         .replace("\r\n", "\n")
         .removeInlineClasses()
         .removeDeprecated()
@@ -88,7 +89,6 @@ internal fun convertDefinitions(
             "\ninterface ${name}OwnProps {\n",
             "\nexport interface ${name}OwnProps {\n",
         )
-        .cleanupWorkaround()
         .let { findDefaultUnions(name, it) }
 
     val declarations = mutableListOf<String>()
@@ -537,12 +537,6 @@ private fun findAdditionalProps(
             "SelectUnstyledOwnProps",
             -> declaration = declaration.replaceFirst(":", "<TValue>:")
 
-            "MultiLineInputUnstyledProps",
-            -> declaration = declaration.replaceFirst(": react.Props", ": SingleLineInputUnstyledProps")
-
-            "InputUnstyledOwnProps",
-            -> declaration = declaration.replaceFirst(":", ": MultiLineInputUnstyledProps,")
-
             "MultiSelectUnstyledProps",
             -> declaration = declaration.replaceFirst(":", "<TValue>: MultiSelectUnstyledOwnProps<TValue>")
 
@@ -593,6 +587,17 @@ private fun props(
         baseInterfaces += "mui.system.PropsWithSx"
     if (hasComponent)
         baseInterfaces += "mui.types.PropsWithComponent"
+
+    if (propsName == "MultiLineInputUnstyledProps")
+        baseInterfaces += "SingleLineInputUnstyledProps"
+    if (propsName == "InputUnstyledOwnProps")
+        baseInterfaces += "MultiLineInputUnstyledProps"
+
+    if (propsName == "StepProps")
+        baseInterfaces += "mui.system.StandardProps"
+
+    if (propsName == "StepperProps")
+        baseInterfaces += listOf("mui.system.StandardProps", "PaperProps")
 
     val parentTypes = when {
         parentType == null

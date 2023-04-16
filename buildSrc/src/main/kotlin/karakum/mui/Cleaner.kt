@@ -1,6 +1,6 @@
 package karakum.mui
 
-fun String.cleanupWorkaround(): String {
+fun String.cleanup(): String {
     return cleanupInputUnstyled()
         .cleanupMultiSelectUnstyled()
         .cleanupOptionUnstyled()
@@ -23,17 +23,18 @@ export interface MultiSelectUnstyledTypeMap<TValue extends {}, P = {}, D extends
 }
 
 private fun String.cleanupOptionUnstyled(): String {
-    return replace(
-        """
+    return replace("declare const _default: OptionUnstyledType;\n", "")
+        .replace(
+            """
 export interface OptionUnstyledTypeMap<TValue, P = {}, D extends React.ElementType = 'li'> {
     props: P & OptionUnstyledOwnProps<TValue>;
     defaultComponent: D;
 }""",
-        "",
-    ).replace(
-        "declare type OptionUnstyledProps<TValue, D extends React.ElementType = OptionUnstyledTypeMap<TValue>['defaultComponent']> = OverrideProps<OptionUnstyledTypeMap<TValue, {}, D>, D> &",
-        "interface OptionUnstyledProps<TValue> extends OptionUnstyledOwnProps<TValue>",
-    ).cleanupUnstyledType("Option")
+            "",
+        ).replace(
+            "declare type OptionUnstyledProps<TValue, D extends React.ElementType = OptionUnstyledTypeMap<TValue>['defaultComponent']> = OverrideProps<OptionUnstyledTypeMap<TValue, {}, D>, D> &",
+            "interface OptionUnstyledProps<TValue> extends OptionUnstyledOwnProps<TValue>",
+        ).cleanupUnstyledType("Option")
 }
 
 private fun String.cleanupSelectUnstyled(): String {
