@@ -127,6 +127,8 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.Ref<unknown>" to "react.Ref<*>",
     "React.Ref<any>" to "react.Ref<*>",
 
+    "React.AriaRole" to "react.dom.aria.AriaRole",
+
     "PaletteMode" to "mui.material.PaletteMode",
     "TransitionProps" to "mui.material.transitions.TransitionProps",
     "ClickAwayListenerProps" to "mui.base.ClickAwayListenerProps",
@@ -192,6 +194,10 @@ internal fun kotlinType(
     // For `InputUnstyled.InputUnstyledBaseProps`
     if (name == "type" && type == "undefined")
         return "InputType"
+
+    // For `SnackbarUnstyled.SnackbarUnstyledClickAwayListenerSlotProps`
+    if (name == "ownerState" && type == "SnackbarUnstyledOwnerState")
+        return "Any"
 
     // For system theme interfaces
     if (name == "palette" && type.startsWith("Record<"))
