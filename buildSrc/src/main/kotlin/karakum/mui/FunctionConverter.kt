@@ -38,7 +38,10 @@ internal fun findDefaultFunction(
             .mapNotNull { findDefaultFunction(name, it) }
             .joinToString("\n\n")
 
-    val (before, source) = content.split("export default function ")
+    val splitContent = content.split("export default function ")
+
+    val before = splitContent.getOrNull(0) ?: return null
+    val source = splitContent.getOrNull(1) ?: return null
 
     val comment = if (before.endsWith("**/\n")) {
         before.substringAfterLast("\n\n")
