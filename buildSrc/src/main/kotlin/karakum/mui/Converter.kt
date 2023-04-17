@@ -588,10 +588,8 @@ private fun props(
     if (hasComponent)
         baseInterfaces += "mui.types.PropsWithComponent"
 
-    if (propsName == "MultiLineInputUnstyledProps")
-        baseInterfaces += "SingleLineInputUnstyledProps"
     if (propsName == "InputUnstyledOwnProps")
-        baseInterfaces += "MultiLineInputUnstyledProps"
+        baseInterfaces += "InputUnstyledBaseProps"
 
     if (propsName == "StepProps")
         baseInterfaces += "mui.system.StandardProps"

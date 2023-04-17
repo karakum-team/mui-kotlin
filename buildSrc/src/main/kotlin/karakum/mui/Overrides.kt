@@ -50,17 +50,6 @@ internal fun fixOverrides(
         -> content
             .override("disabled")
 
-        "InputUnstyled",
-        -> content
-            .replaceFirst("var maxRows: dynamic", "var maxRows: Number? /* undefined */")
-            .override("maxRows", last = true)
-            .replaceFirst("var minRows: dynamic", "var minRows: Number? /* undefined */")
-            .override("minRows", last = true)
-            .replaceLast("var multiline: Boolean", "var multiline: Boolean?").override("multiline", last = true)
-            .replaceFirst("var rows: dynamic", "var rows: Number? /* undefined */").override("rows", last = true)
-            .replaceFirst("var type: dynamic", "var type: InputType?")
-            .replaceLast("var type: dynamic", "var type: InputType? /* undefined */").override("type", last = true)
-
         "ToggleButton",
         -> content
             .override("disabled")

@@ -189,6 +189,10 @@ internal fun kotlinType(
     if (name in setOf("lg", "md", "sm", "xl", "xs") && type == "boolean | GridSize")
         return "Any /* boolean | 'auto' | number */"
 
+    // For `InputUnstyled.InputUnstyledBaseProps`
+    if (name == "type" && type == "undefined")
+        return "InputType"
+
     // For system theme interfaces
     if (name == "palette" && type.startsWith("Record<"))
         return "$DYNAMIC /* ${STANDARD_TYPE_MAP.getValue(type)} */"
