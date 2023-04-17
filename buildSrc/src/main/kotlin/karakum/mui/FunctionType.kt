@@ -25,6 +25,10 @@ internal fun String.toFunctionType(): String? {
             "React.KeyboardEvent<HTMLButtonElement>",
             "react.dom.events.KeyboardEvent<web.html.HTMLButtonElement>"
         )
+        .replace(
+            "React.MouseEvent | React.KeyboardEvent | React.FocusEvent",
+            "react.dom.events.SyntheticEvent<Element, web.events.Event>"
+        )
         .replace("React.MouseEvent<HTMLElement>", "react.dom.events.MouseEvent<web.html.HTMLElement, *>")
         .replace("React.HTMLAttributes<HTMLLIElement>", "react.dom.html.HTMLAttributes<web.html.HTMLLIElement>")
         .replace(

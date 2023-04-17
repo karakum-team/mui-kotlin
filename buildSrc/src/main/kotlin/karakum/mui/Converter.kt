@@ -69,8 +69,8 @@ internal fun convertDefinitions(
         .removeSuffix("Props")
 
     val (content, defaultUnions) = definitionFile.readText()
-        .cleanup()
         .replace("\r\n", "\n")
+        .cleanup()
         .removeInlineClasses()
         .removeDeprecated()
         .removeExtendsEmptyObject()
