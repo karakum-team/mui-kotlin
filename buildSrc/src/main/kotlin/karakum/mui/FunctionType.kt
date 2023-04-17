@@ -12,6 +12,7 @@ internal fun String.toFunctionType(): String? {
         .replace(": Event,", ": web.events.Event,")
         .replace(": HTMLElement", ": web.html.HTMLElement")
         .replace("MouseEvent | TouchEvent", "web.uievents.UIEvent")
+        .replace("React.MouseEvent | React.KeyboardEvent | React.FocusEvent", "react.dom.events.SyntheticEvent<*, *>")
         .replace("React.SyntheticEvent | Event", "react.dom.events.SyntheticEvent<*, *>")
         .replace("React.SyntheticEvent<any> | Event", "react.dom.events.SyntheticEvent<*, *>")
         .replace("React.SyntheticEvent<{}>", "react.dom.events.SyntheticEvent<*, *>")
@@ -24,10 +25,6 @@ internal fun String.toFunctionType(): String? {
         .replace(
             "React.KeyboardEvent<HTMLButtonElement>",
             "react.dom.events.KeyboardEvent<web.html.HTMLButtonElement>"
-        )
-        .replace(
-            "React.MouseEvent | React.KeyboardEvent | React.FocusEvent",
-            "react.dom.events.SyntheticEvent<Element, web.events.Event>"
         )
         .replace("React.MouseEvent<HTMLElement>", "react.dom.events.MouseEvent<web.html.HTMLElement, *>")
         .replace("React.HTMLAttributes<HTMLLIElement>", "react.dom.html.HTMLAttributes<web.html.HTMLLIElement>")
