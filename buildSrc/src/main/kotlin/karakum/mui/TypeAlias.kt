@@ -53,6 +53,11 @@ private val ALIAS_MAP = mapOf(
     "ModalProps['open']" to "Boolean",
     "ModalProps['container']" to "Element",
     "ModalProps['onClose']" to "(event: dynamic, reason: String) -> Unit",
+
+    "SliderUnstyledTypeMap['props']['slotProps']" to "mui.base.SliderUnstyledOwnProps.SlotProps",
+    "PopperUnstyledProps['slotProps']" to "mui.base.PopperUnstyledOwnProps.SlotProps",
+    "ModalUnstyledTypeMap['props']['slotProps']" to "mui.base.ModalUnstyledOwnProps.SlotProps",
+    "BadgeUnstyledTypeMap['props']['slotProps']" to "mui.base.BadgeUnstyledOwnProps.SlotProps",
 )
 
 internal fun String.toAlias(): String? =

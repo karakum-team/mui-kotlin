@@ -90,10 +90,10 @@ internal fun fixOverrides(
 
         "TabUnstyled",
         -> content
-            .override("components")
-            .override("componentsProps")
-            .replace(": Components?", ": ButtonUnstyledOwnProps.Components?")
-            .replace(": ComponentsProps?", ": ButtonUnstyledOwnProps.ComponentsProps?")
+            .override("slots")
+            .override("slotProps")
+            .replace(": Slots?", ": ButtonUnstyledOwnProps.Slots?")
+            .replace(": SlotProps?", ": ButtonUnstyledOwnProps.SlotProps?")
 
         "MenuItem",
         "MenuList",

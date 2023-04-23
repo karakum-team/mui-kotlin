@@ -484,6 +484,7 @@ private fun findAdditionalProps(
             -> propsBody = sequenceOf(
                 "mixins",
                 "components",
+                "slots",
                 "palette",
                 "shadows",
                 "transitions",

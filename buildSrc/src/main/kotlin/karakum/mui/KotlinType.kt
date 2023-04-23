@@ -328,6 +328,13 @@ internal fun kotlinType(
         return interfaceName + "\n\n" + componentInterface(interfaceName, type, defaultType)
     }
 
+    if ((name == "slots" || name == "slotProps") && type.startsWith("{\n") && "/**" !in type) {
+        @Suppress("DEPRECATION")
+        val interfaceName = name.capitalize()
+        val defaultType = if (name == "slots") "react.ElementType<*>" else "react.Props"
+        return interfaceName + "\n\n" + componentInterface(interfaceName, type, defaultType)
+    }
+
     if (name != null && name.endsWith("Props") && name != "componentsProps") {
         val comment = type.split("\n")
             .map { it.trim() }
