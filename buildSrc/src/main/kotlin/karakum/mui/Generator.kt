@@ -17,7 +17,7 @@ private val DEFAULT_IMPORTS = listOf(
     "Element" to "web.dom.Element",
     "InputType" to "web.html.InputType",
 
-    " ClassName" to "csstype.ClassName",
+    " ClassName" to "web.cssom.ClassName",
 )
 
 // language=kotlin
@@ -95,7 +95,7 @@ private val SYSTEM_BREAKPOINT = convertUnion("Breakpoint = 'xs' | 'sm' | 'md' | 
 // language=kotlin
 private val SYSTEM_SHAPE = """
 external interface Shape {
-    var borderRadius: csstype.BorderRadius
+    var borderRadius: web.cssom.BorderRadius
 }
 
 typealias ShapeOptions = Shape
@@ -613,6 +613,7 @@ private fun generate(
     }
 
     val classesName = componentName + "Classes"
+
     @Suppress("DEPRECATION")
     val classesFile = definitionFile.parentFile.resolve(classesName.decapitalize() + ".d.ts")
     if (classesFile.exists()) {

@@ -474,7 +474,7 @@ private fun findAdditionalProps(
             "TypeAction",
             "SimplePaletteColorOptions",
             "PaletteAugmentColorOptions",
-            -> propsBody = propsBody.replace(": String", ": csstype.Color")
+            -> propsBody = propsBody.replace(": String", ": web.cssom.Color")
         }
 
         when (parentType) {

@@ -5,13 +5,13 @@ internal fun convertSpacingOptions(
     body: String,
 ): String {
     val factories = body
-        .replace("number | string", "csstype.Length")
+        .replace("number | string", "web.cssom.Length")
         .replace("string | number", "Int")
         .replace("number", "Int")
         .replace("=>", "->")
         .splitToSequence(" | ")
         .map { it.removeSurrounding("(", ")") }
-        .joinToString("\n\n") {type ->
+        .joinToString("\n\n") { type ->
             val modifier = if (type.startsWith("(")) "noinline" else ""
 
             """
@@ -37,7 +37,7 @@ internal fun convertSpacing(
             val declaration = source
                 .removeSuffix(";")
                 .replace(": number", ": Int")
-                .replace(": string", ": csstype.Length")
+                .replace(": string", ": web.cssom.Length")
 
             val parameters = declaration
                 .substringAfter("(")

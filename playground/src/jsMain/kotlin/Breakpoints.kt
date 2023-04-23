@@ -1,5 +1,3 @@
-import csstype.Display
-import csstype.None.Companion.none
 import mui.lab.Masonry
 import mui.material.Box
 import mui.system.Breakpoint.Companion.md
@@ -8,6 +6,8 @@ import mui.system.responsive
 import mui.system.sx
 import react.FC
 import react.Props
+import web.cssom.Display
+import web.cssom.None.Companion.none
 
 val BreakpointsExample = FC<Props> {
     Box {
