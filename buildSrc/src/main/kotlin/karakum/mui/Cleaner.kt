@@ -98,7 +98,7 @@ export interface SingleLineInputUnstyledProps {
 }""",
         "",
     ).replace(
-        """export declare type InputUnstyledOwnProps = (SingleLineInputUnstyledProps | MultiLineInputUnstyledProps) & UseInputParameters & {""",
+        """export declare type InputUnstyledOwnProps = (SingleLineInputUnstyledProps | MultiLineInputUnstyledProps) & Omit<UseInputParameters, 'error'> & {""",
         "export interface InputUnstyledOwnProps extends MultiLineInputUnstyledProps {",
     ).replace(
         "};\nexport interface InputUnstyledTypeMap<",
