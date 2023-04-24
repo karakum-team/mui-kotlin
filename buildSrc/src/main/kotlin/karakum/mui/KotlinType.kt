@@ -131,6 +131,7 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "PaletteMode" to "mui.material.PaletteMode",
     "TransitionProps" to "mui.material.transitions.TransitionProps",
+    "TypographyProps" to "mui.material.TypographyProps",
     "ClickAwayListenerProps" to "mui.base.ClickAwayListenerProps",
     "ChipProps<ChipComponent>" to "ChipProps",
 
