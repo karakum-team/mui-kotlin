@@ -19,7 +19,7 @@ export interface MultiSelectUnstyledTypeMap<TValue extends {}, P = {}, D extends
 }""",
         "",
     ).replace(
-        "declare type MultiSelectUnstyledProps<TValue extends {}, D extends React.ElementType = MultiSelectUnstyledTypeMap<TValue>['defaultComponent']> = OverrideProps<MultiSelectUnstyledTypeMap<TValue, {}, D>, D> &",
+        "type MultiSelectUnstyledProps<TValue extends {}, D extends React.ElementType = MultiSelectUnstyledTypeMap<TValue>['defaultComponent']> = OverrideProps<MultiSelectUnstyledTypeMap<TValue, {}, D>, D> &",
         "interface MultiSelectUnstyledProps<TValue> extends MultiSelectUnstyledOwnProps<TValue>",
     ).cleanupUnstyledType("MultiSelect")
 }
@@ -34,7 +34,7 @@ export interface OptionUnstyledTypeMap<TValue, P = {}, D extends React.ElementTy
 }""",
             "",
         ).replace(
-            "declare type OptionUnstyledProps<TValue, D extends React.ElementType = OptionUnstyledTypeMap<TValue>['defaultComponent']> = OverrideProps<OptionUnstyledTypeMap<TValue, {}, D>, D> &",
+            "type OptionUnstyledProps<TValue, D extends React.ElementType = OptionUnstyledTypeMap<TValue>['defaultComponent']> = OverrideProps<OptionUnstyledTypeMap<TValue, {}, D>, D> &",
             "interface OptionUnstyledProps<TValue> extends OptionUnstyledOwnProps<TValue>",
         ).cleanupUnstyledType("Option")
 }
@@ -48,7 +48,7 @@ export interface SelectUnstyledTypeMap<TValue extends {}, P = {}, D extends Reac
 }""",
         "",
     ).replace(
-        "declare type SelectUnstyledProps<TValue extends {}, D extends React.ElementType = SelectUnstyledTypeMap<TValue>['defaultComponent']> = OverrideProps<SelectUnstyledTypeMap<TValue, {}, D>, D> &",
+        "type SelectUnstyledProps<TValue extends {}, D extends React.ElementType = SelectUnstyledTypeMap<TValue>['defaultComponent']> = OverrideProps<SelectUnstyledTypeMap<TValue, {}, D>, D> &",
         "interface SelectUnstyledProps<TValue> extends SelectUnstyledOwnProps<TValue>",
     ).cleanupUnstyledType("Select")
 }
@@ -98,8 +98,8 @@ export interface SingleLineInputUnstyledProps {
 }""",
         "",
     ).replace(
-        """export declare type InputUnstyledOwnProps = (SingleLineInputUnstyledProps | MultiLineInputUnstyledProps) & Omit<UseInputParameters, 'error'> & {""",
-        "export interface InputUnstyledOwnProps extends MultiLineInputUnstyledProps {",
+        """type InputUnstyledOwnProps = (SingleLineInputUnstyledProps | MultiLineInputUnstyledProps) & Omit<UseInputParameters, 'error'> & {""",
+        "interface InputUnstyledOwnProps extends MultiLineInputUnstyledProps {",
     ).replace(
         "};\nexport interface InputUnstyledTypeMap<",
         "}\nexport interface InputUnstyledTypeMap<"

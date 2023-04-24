@@ -76,7 +76,7 @@ internal fun convertDefinitions(
         .removeExtendsEmptyObject()
         .replace("(inProps: ", "(props: ")
         .replace(
-            "declare type PopperProps = Omit<PopperUnstyledProps, 'direction'> &",
+            "type PopperProps = Omit<PopperUnstyledProps, 'direction'> &",
             "interface PopperProps extends PopperUnstyledProps",
         )
         // TODO: Needed because of incorrect work with empty interfaces.
