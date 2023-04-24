@@ -321,6 +321,7 @@ internal fun kotlinType(
     if (type.endsWith("']") || type.endsWith("'] | 'auto'"))
         return "$DYNAMIC /* $type */"
 
+    // TODO: Remove when MUI completes migration to slots
     if ((name == "components" || name == "componentsProps") && type.startsWith("{\n") && "/**" !in type) {
         @Suppress("DEPRECATION")
         val interfaceName = name.capitalize()
@@ -328,6 +329,7 @@ internal fun kotlinType(
         return interfaceName + "\n\n" + componentInterface(interfaceName, type, defaultType)
     }
 
+    // TODO: Need to process `SlotProps` interface separately from parent interface
     if ((name == "slots" || name == "slotProps") && type.startsWith("{\n") && "/**" !in type) {
         @Suppress("DEPRECATION")
         val interfaceName = name.capitalize()
@@ -335,7 +337,7 @@ internal fun kotlinType(
         return interfaceName + "\n\n" + componentInterface(interfaceName, type, defaultType)
     }
 
-    if (name != null && name.endsWith("Props") && name != "componentsProps") {
+    if (name != null && name.endsWith("Props") && name != "componentsProps" && name != "slotProps") {
         val comment = type.split("\n")
             .map { it.trim() }
             .joinToString(" ")
