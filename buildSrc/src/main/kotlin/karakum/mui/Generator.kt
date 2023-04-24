@@ -18,6 +18,8 @@ private val DEFAULT_IMPORTS = listOf(
     "InputType" to "web.html.InputType",
 
     " ClassName" to "web.cssom.ClassName",
+    "Event" to "web.events.Event",
+    "HTMLElement" to "web.html.HTMLElement",
 )
 
 // language=kotlin

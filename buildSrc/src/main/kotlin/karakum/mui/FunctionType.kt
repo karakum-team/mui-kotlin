@@ -9,8 +9,6 @@ internal fun String.toFunctionType(): String? {
 
     return replace(" => ", "->")
         .replace("{\n    matches: boolean;\n}", DYNAMIC)
-        .replace(": Event,", ": web.events.Event,")
-        .replace(": HTMLElement", ": web.html.HTMLElement")
         .replace("MouseEvent | TouchEvent", "web.uievents.UIEvent")
         .replace("React.MouseEvent | React.KeyboardEvent | React.FocusEvent", "react.dom.events.SyntheticEvent<*, *>")
         .replace("React.SyntheticEvent | Event", "react.dom.events.SyntheticEvent<*, *>")
@@ -37,6 +35,7 @@ internal fun String.toFunctionType(): String? {
             ": react.dom.html.HTMLAttributes<web.html.HTMLInputElement>?"
         )
         .replace("React.ReactNode", "react.ReactNode")
+        .replace("React.RefObject", "react.RefObject")
         .replace(" | null", "?")
         .replace("AutocompleteValue<T, Multiple, DisableClearable, FreeSolo>", DYNAMIC)
         .replace("details?: AutocompleteChangeDetails<T>", "details: AutocompleteChangeDetails<T>?")
