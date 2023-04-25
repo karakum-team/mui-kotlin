@@ -71,6 +71,7 @@ internal fun convertDefinitions(
     val (content, defaultUnions) = definitionFile.readText()
         .replace("\r\n", "\n")
         .cleanup()
+        .adaptSelect()
         .removeInlineClasses()
         .removeDeprecated()
         .removeExtendsEmptyObject()
