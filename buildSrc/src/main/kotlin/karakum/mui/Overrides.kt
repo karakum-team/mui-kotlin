@@ -62,7 +62,6 @@ internal fun fixOverrides(
         "SwipeableDrawer",
         -> content
             .override("open")
-            .replace("open: Boolean", "open: Boolean?")
 
         "MultiSelectUnstyled",
         -> content
@@ -111,18 +110,35 @@ internal fun fixOverrides(
                 "onClick: react.dom.events.MouseEventHandler<web.html.HTMLLIElement>?"
             )
 
+        "createTheme",
+        -> {
+            if ("mui.system.ThemeOptions" !in content) {
+                content
+            } else {
+                content
+                    .override("unstable_sxConfig", all = true)
+                    .override("unstable_sx")
+            }
+        }
+
         else -> content
     }
 
 private fun String.override(
     name: String,
     last: Boolean = false,
-): String =
-    if (last) {
-        replaceLast("var $name:", "override var $name:")
-    } else {
-        replaceFirst("var $name:", "override var $name:")
+    all: Boolean = false,
+): String {
+    if (all) {
+        return replace("var $name:", "override var $name:")
     }
+
+    if (last) {
+        return replaceLast("var $name:", "override var $name:")
+    }
+
+    return replaceFirst("var $name:", "override var $name:")
+}
 
 private fun String.replaceLast(oldValue: String, newValue: String): String =
     replaceFirst("(?s)(.*)$oldValue".toRegex(), "$1$newValue")
