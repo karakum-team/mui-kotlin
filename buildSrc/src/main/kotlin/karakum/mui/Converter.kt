@@ -593,6 +593,9 @@ private fun props(
     if (propsName == "InputUnstyledOwnProps")
         baseInterfaces += "InputUnstyledBaseProps"
 
+    if (propsName in setOf("FormLabelProps", "InputLabelProps"))
+        baseInterfaces += "FormLabelOwnProps"
+
     if (propsName == "ModalProps")
         baseInterfaces += "mui.base.ModalUnstyledProps"
 
