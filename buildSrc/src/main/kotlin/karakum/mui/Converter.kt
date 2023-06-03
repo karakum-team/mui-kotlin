@@ -71,7 +71,6 @@ internal fun convertDefinitions(
     val (content, defaultUnions) = definitionFile.readText()
         .replace("\r\n", "\n")
         .cleanup()
-        .adaptSelect()
         .removeInlineClasses()
         .removeDeprecated()
         .removeExtendsEmptyObject()
@@ -592,6 +591,9 @@ private fun props(
 
     if (propsName == "InputUnstyledOwnProps")
         baseInterfaces += "InputUnstyledBaseProps"
+
+    if (propsName == "ModalProps")
+        baseInterfaces += "mui.base.ModalUnstyledProps"
 
     if (propsName == "StepProps")
         baseInterfaces += "mui.system.StandardProps"

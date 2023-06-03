@@ -1,5 +1,7 @@
-package karakum.mui
+package karakum.mui.adapters
 
+// TODO: Was needed for mui-material 5.11.3 but was reverted bu mui team in 5.11.4
+//  Need to check will it be needed in future
 fun String.adaptSelect(): String {
     return replace(
         """

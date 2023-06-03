@@ -56,7 +56,6 @@ private val ALIAS_MAP = mapOf(
 
     "SliderUnstyledTypeMap['props']['slotProps']" to "mui.base.SliderUnstyledOwnProps.SlotProps",
     "PopperUnstyledProps['slotProps']" to "mui.base.PopperUnstyledOwnProps.SlotProps",
-    "ModalUnstyledTypeMap['props']['slotProps']" to "mui.base.ModalUnstyledOwnProps.SlotProps",
     "BadgeUnstyledTypeMap['props']['slotProps']" to "mui.base.BadgeUnstyledOwnProps.SlotProps",
 )
 

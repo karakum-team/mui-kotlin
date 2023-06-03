@@ -1,5 +1,7 @@
 package karakum.mui
 
+import karakum.mui.adapters.adaptModal
+
 fun String.cleanup(): String {
     return cleanupInputUnstyled()
         .cleanupMultiSelectUnstyled()
@@ -7,6 +9,7 @@ fun String.cleanup(): String {
         .cleanupSelectUnstyled()
         .cleanupFormControlLabelSlots()
         .cleanupStepLabelSlots()
+        .adaptModal()
 }
 
 // TODO: Remove when `ButtonHTMLAttributes` will support Type parameter for `value` (and `defaultValue` in common)
