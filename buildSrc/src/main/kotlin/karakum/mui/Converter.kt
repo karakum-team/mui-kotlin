@@ -21,13 +21,7 @@ internal fun convertClasses(
     val classesName = componentName + "Classes"
     val muiName = MUI + componentName
 
-    val source = if (componentName == "Slider") {
-        content
-            .substringAfter("declare const sliderClasses: {\n", "")
-            .substringBefore("};\nexport default sliderClasses;\n", "")
-    } else {
-        content.substringAfter("export interface $classesName {\n", "")
-    }
+    val source = content.substringAfter("export interface $classesName {\n", "")
 
     if (source.isEmpty()) {
         check(componentName == "Container")

@@ -11,10 +11,6 @@ internal fun fixOverrides(
             .override("readOnly")
             .replaceFirst("var key: String", "override var key: react.Key? /* Key */")
 
-        "Slider",
-        -> content
-            .override("classes")
-
         "Box",
         -> content
             .override("component")

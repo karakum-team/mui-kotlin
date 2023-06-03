@@ -14,6 +14,12 @@ private val CREATE_TRANSITION = """
 ) => string
 """.removePrefix("\n").removeSuffix("\n")
 
+private val SWIPEABLE_DRAWER = """
+
+  | boolean
+  | ((e: TouchEvent, swipeArea: HTMLDivElement, paper: HTMLDivElement) => boolean)
+""".removePrefix("\n").removeSuffix("\n")
+
 private val KNOWN_TYPES = setOf(
     "T",
     "TDate",
@@ -161,6 +167,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "Record<string, any> & { mode: 'light' | 'dark' }" to "Record<String, *>",
 
     CREATE_TRANSITION to "(props: ReadonlyArray<String>, options: TransitionCreateOptions?) -> web.cssom.Transition",
+    SWIPEABLE_DRAWER to "Boolean /* or (e: TouchEvent, swipeArea: HTMLDivElement, paper: HTMLDivElement) -> Boolean*/",
 
     "'horizontal' | 'vertical'" to "mui.material.Orientation",
     "'vertical' | 'horizontal'" to "mui.material.Orientation",
