@@ -33,7 +33,7 @@ external interface SliderUnstyledOwnerState {
 
     var valueLabelDisplay: mui.system.Union /* 'on' | 'auto' | 'off' */
 
-    var valueLabelFormat: dynamic
+    var valueLabelFormat: String /* or (value: Number, index: Number) -> react.ReactNode*/
 }
 
 @Suppress("VIRTUAL_MEMBER_HIDDEN")
@@ -260,5 +260,5 @@ external interface SliderUnstyledOwnProps : react.Props {
      *   return x;
      * }
      */
-    var valueLabelFormat: dynamic
+    var valueLabelFormat: String? /* or (value: Number, index: Number) -> react.ReactNode*/
 }
