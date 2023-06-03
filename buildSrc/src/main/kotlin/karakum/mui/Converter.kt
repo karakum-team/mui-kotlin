@@ -154,8 +154,7 @@ private fun String.removeDeprecated(): String {
     if ("interface MuiMediaQuery" !in this)
         return this
 
-    return substringAfter(substringBefore("export interface Options {"))
-        .replace("Options", "UseMediaQueryOptions")
+    return substringAfter(substringBefore("export interface UseMediaQueryOptions {"))
 }
 
 private fun String.removeExtendsEmptyObject(): String {
