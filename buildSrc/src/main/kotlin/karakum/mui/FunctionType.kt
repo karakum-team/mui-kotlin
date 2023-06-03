@@ -21,6 +21,10 @@ internal fun String.toFunctionType(): String? {
         .replace("React.MouseEvent<HTMLButtonElement>", "react.dom.events.MouseEvent<web.html.HTMLButtonElement, *>")
         .replace("React.FocusEvent<HTMLButtonElement>", "react.dom.events.FocusEvent<web.html.HTMLButtonElement>")
         .replace(
+            "React.ReactElement<any, string | React.JSXElementConstructor<any>>[] | null | undefined",
+            "react.ReactElement<*>?",
+        )
+        .replace(
             "React.KeyboardEvent<HTMLButtonElement>",
             "react.dom.events.KeyboardEvent<web.html.HTMLButtonElement>"
         )

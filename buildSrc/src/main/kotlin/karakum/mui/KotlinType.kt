@@ -14,7 +14,14 @@ private val CREATE_TRANSITION = """
 ) => string
 """.removePrefix("\n").removeSuffix("\n")
 
-private val SWIPEABLE_DRAWER = """
+private val USE_TAB_PANEL_RETURN_VALUE_GET_ROOT_PROPS = """
+() => {
+    'aria-labelledby': string | undefined;
+    hidden: boolean;
+    id: string | undefined;
+}""".removePrefix("\n").removeSuffix("\n")
+
+private val SWIPEABLE_DRAWER_PROPS_ALLOW_SWIPE_IN_CHILDREN = """
 
   | boolean
   | ((e: TouchEvent, swipeArea: HTMLDivElement, paper: HTMLDivElement) => boolean)
@@ -86,6 +93,7 @@ private val KNOWN_TYPE_SUFFIXES = setOf(
 private val STANDARD_TYPE_MAP = mapOf(
     "any" to "Any",
     "object" to "Any",
+    "string | number | false" to "Any /* String or Number or Boolean /* false */ */",
 
     "boolean" to "Boolean",
     "number" to "Number",
@@ -169,7 +177,8 @@ private val STANDARD_TYPE_MAP = mapOf(
     "Record<string, any> & { mode: 'light' | 'dark' }" to "Record<String, *>",
 
     CREATE_TRANSITION to "(props: ReadonlyArray<String>, options: TransitionCreateOptions?) -> web.cssom.Transition",
-    SWIPEABLE_DRAWER to "Boolean /* or (e: TouchEvent, swipeArea: HTMLDivElement, paper: HTMLDivElement) -> Boolean*/",
+    SWIPEABLE_DRAWER_PROPS_ALLOW_SWIPE_IN_CHILDREN to "Boolean /* or (e: TouchEvent, swipeArea: HTMLDivElement, paper: HTMLDivElement) -> Boolean*/",
+    USE_TAB_PANEL_RETURN_VALUE_GET_ROOT_PROPS to "() -> UseTabPanelRootSlotProps",
 
     "'horizontal' | 'vertical'" to "mui.material.Orientation",
     "'vertical' | 'horizontal'" to "mui.material.Orientation",
@@ -196,6 +205,10 @@ internal fun kotlinType(
 
     if (type == "string" && name != null && name.endsWith("ClassName"))
         return "ClassName"
+
+    // TODO: Need to support "unknown" -> "Any" for all others
+    if (("unknown" == type || type == "Value") && name == "value")
+        return "Any"
 
     // For `RegularBreakpoints` of `Grid` component
     if (name in setOf("lg", "md", "sm", "xl", "xs") && type == "boolean | GridSize")
