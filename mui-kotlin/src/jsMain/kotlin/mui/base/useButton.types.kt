@@ -71,7 +71,7 @@ external interface UseButtonReturnValue {
     /**
      * Callback for setting the `focusVisible` param.
      */
-    var setFocusVisible: dynamic
+    var setFocusVisible: react.StateSetter<Boolean>
 
     /**
      * If `true`, the component is disabled.
