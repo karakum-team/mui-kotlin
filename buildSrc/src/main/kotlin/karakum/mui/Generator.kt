@@ -20,6 +20,8 @@ private val DEFAULT_IMPORTS = listOf(
     " ClassName" to "web.cssom.ClassName",
     "Event" to "web.events.Event",
     "HTMLElement" to "web.html.HTMLElement",
+
+    "BoxProps" to "mui.system.BoxProps",
 )
 
 // language=kotlin
