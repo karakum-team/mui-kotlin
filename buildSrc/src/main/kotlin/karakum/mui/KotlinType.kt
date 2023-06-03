@@ -95,6 +95,9 @@ private val STANDARD_TYPE_MAP = mapOf(
     "object" to "Any",
     "string | number | false" to "Any /* String or Number or Boolean /* false */ */",
 
+    // TODO: Probably need to replace all " | undefined" to " | null"
+    "FormControlUnstyledState | undefined" to "Any?",
+
     "boolean" to "Boolean",
     "number" to "Number",
     "string" to "String",
@@ -122,6 +125,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "Element | (() => Element | null) | null" to "Element",
     "Partial<OptionsGeneric<any>>" to "popper.core.Options",
     "React.Ref<Instance>" to "react.Ref<popper.core.Instance>",
+    "React.Ref<HTMLElement>" to "react.Ref<web.html.HTMLElement>",
     "React.ElementType<TableCellBaseProps>" to "react.ElementType<*>",
 
     "{\n  bivarianceHack(event: {}, reason: 'backdropClick' | 'escapeKeyDown'): void;\n}['bivarianceHack']" to
