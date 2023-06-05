@@ -63,9 +63,6 @@ internal fun findParentType(
 
         "BaseTheme",
 
-        "SelectUnstyledCommonProps",
-        "MultiSelectUnstyledProps<TValue>",
-        "MultiSelectUnstyledOwnProps<TValue>",
         "OptionUnstyledOwnProps<TValue>",
         "SelectUnstyledOwnProps<TValue>",
         -> parentSource

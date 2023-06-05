@@ -282,16 +282,11 @@ private fun generateBaseDeclarations(
 
             // TODO: Temporary skipping these hooks because there are problems in default function generation
             val ignoredHooksDefaultFiles = setOf(
-                "useButton",
                 "useListbox",
-                "useSwitch",
-                "useInput",
                 "useMenu",
-                "useMenuItem",
                 "useOption",
                 "useSelect",
                 "useSlider",
-                "useSnackbar",
                 "useTab",
                 "useTabPanel",
                 "useTabsList",

@@ -31,6 +31,7 @@ private val KNOWN_TYPES = setOf(
     "T",
     "TDate",
     "TValue",
+    "TOption",
     "TLibFormatToken",
     "ReadonlyArray<T>",
     "PickerOnChangeFn<TDate>",
@@ -111,6 +112,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "Readonly<boolean>" to "Boolean",
     "string[]" to "ReadonlyArray<String>",
     "TValue[]" to "ReadonlyArray<TValue>",
+    "TOption[]" to "ReadonlyArray<TOption>",
 
     "Date" to "kotlin.js.Date",
 
@@ -196,8 +198,9 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "TabsUnstyledDirection" to "mui.system.Direction",
 
-    "React.ComponentType<SelectUnstyledPopperSlotProps<TValue>>" to "react.ComponentType<*>",
-    "React.ComponentType<MultiSelectUnstyledPopperSlotProps<TValue>>" to "react.ComponentType<*>",
+    "MenuUnstyledContextType" to "Any /* mui.base.MenuUnstyledContextType */",
+    "<TOther extends EventHandlers>(otherHandlers?: TOther) => UseMenuListboxSlotProps" to
+            "Any /* <TOther extends EventHandlers>(otherHandlers?: TOther) => UseMenuListboxSlotProps */",
 )
 
 internal fun kotlinType(
@@ -228,6 +231,34 @@ internal fun kotlinType(
     // For `SnackbarUnstyled.SnackbarUnstyledClickAwayListenerSlotProps`
     if (name == "ownerState" && type == "SnackbarUnstyledOwnerState")
         return "Any"
+
+    // For `SelectUnstyled`
+    if (name == "defaultValue" && type == "SelectValue<TValue, Multiple>")
+        return "Any /* SelectValue<TValue, Multiple> */"
+    if (name == "value" && type == "SelectValue<TValue, Multiple>")
+        return "Any /* SelectValue<TValue, Multiple> */"
+    if (name == "multiple" && type == "Multiple")
+        return "Any /* Multiple /* Boolean */ */"
+    if (name == "getSerializedValue" && type == "(option: SelectValue<SelectOption<TValue>, Multiple>) => React.InputHTMLAttributes<HTMLInputElement>['value']")
+        return "Any /* (option: SelectValue<SelectOption<TValue>, Multiple>) => React.InputHTMLAttributes<HTMLInputElement>['value'] */"
+    if (name == "onChange" && type == "(e: React.MouseEvent | React.KeyboardEvent | React.FocusEvent | null, value: SelectValue<TValue, Multiple>) => void")
+        return "Any /* (e: React.MouseEvent | React.KeyboardEvent | React.FocusEvent | null, value: SelectValue<TValue, Multiple>) => void */"
+    if (name == "renderValue" && type == "(option: SelectValue<SelectOption<TValue>, Multiple>) => React.ReactNode")
+        return "Any /* (option: SelectValue<SelectOption<TValue>, Multiple>) => React.ReactNode */"
+    if (name == "popper" && type == "React.ComponentType<SelectUnstyledPopperSlotProps<TValue, Multiple>>")
+        return "react.ComponentType<*>"
+
+    // For `useListbox`
+    if (name == "stateReducer" && type == "ListboxReducer<TOption>")
+        return "Any /* ListboxReducer<TOption> */"
+
+    // For `useMenu`
+    if (name == "menuItems" && type == "Record<string, MenuItemMetadata>")
+        return "Any /* Record<string, MenuItemMetadata> */"
+
+    // For `useTabs`
+    if (name == "tabsContextValue" && type == "TabsContextValue")
+        return "Any /* TabsContextValue */"
 
     // For system theme interfaces
     if (name == "palette" && type.startsWith("Record<"))
@@ -362,7 +393,9 @@ internal fun kotlinType(
     // TODO: Need to process `SlotProps` interface separately from parent interface
     if (name == "slots" || name == "slotProps") {
         return if (!type.startsWith("{\n") || "/**" in type) {
-            type.replace("<TValue>", "")
+            type
+                .replace("<TValue, Multiple>", "")
+                .replace("<TValue>", "")
         } else {
             // TODO: Else branch should die when MUI fully migrates to named slot types
             @Suppress("DEPRECATION")

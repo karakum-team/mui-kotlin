@@ -6,28 +6,12 @@ import karakum.mui.adapters.adaptUseAutocomplete
 
 fun String.cleanup(): String {
     return adaptInputUnstyled()
-        .cleanupMultiSelectUnstyled()
         .cleanupOptionUnstyled()
         .cleanupSelectUnstyled()
         .cleanupFormControlLabelSlots()
         .cleanupStepLabelSlots()
         .adaptModal()
         .adaptUseAutocomplete()
-}
-
-// TODO: Remove when `ButtonHTMLAttributes` will support Type parameter for `value` (and `defaultValue` in common)
-private fun String.cleanupMultiSelectUnstyled(): String {
-    return replace(
-        """
-export interface MultiSelectUnstyledTypeMap<TValue extends {}, P = {}, D extends React.ElementType = 'button'> {
-    props: P & MultiSelectUnstyledOwnProps<TValue>;
-    defaultComponent: D;
-}""",
-        "",
-    ).replace(
-        "type MultiSelectUnstyledProps<TValue extends {}, D extends React.ElementType = MultiSelectUnstyledTypeMap<TValue>['defaultComponent']> = OverrideProps<MultiSelectUnstyledTypeMap<TValue, {}, D>, D> &",
-        "interface MultiSelectUnstyledProps<TValue> extends MultiSelectUnstyledOwnProps<TValue>",
-    ).cleanupUnstyledType("MultiSelect")
 }
 
 private fun String.cleanupOptionUnstyled(): String {
@@ -48,13 +32,13 @@ export interface OptionUnstyledTypeMap<TValue, P = {}, D extends React.ElementTy
 private fun String.cleanupSelectUnstyled(): String {
     return replace(
         """
-export interface SelectUnstyledTypeMap<TValue extends {}, P = {}, D extends React.ElementType = 'button'> {
-    props: P & SelectUnstyledOwnProps<TValue>;
+export interface SelectUnstyledTypeMap<TValue extends {}, Multiple extends boolean, P = {}, D extends React.ElementType = 'button'> {
+    props: P & SelectUnstyledOwnProps<TValue, Multiple>;
     defaultComponent: D;
 }""",
         "",
     ).replace(
-        "type SelectUnstyledProps<TValue extends {}, D extends React.ElementType = SelectUnstyledTypeMap<TValue>['defaultComponent']> = OverrideProps<SelectUnstyledTypeMap<TValue, {}, D>, D> &",
+        "type SelectUnstyledProps<TValue extends {}, Multiple extends boolean, D extends React.ElementType = SelectUnstyledTypeMap<TValue, Multiple>['defaultComponent']> = OverrideProps<SelectUnstyledTypeMap<TValue, Multiple, {}, D>, D> &",
         "interface SelectUnstyledProps<TValue> extends SelectUnstyledOwnProps<TValue>",
     ).cleanupUnstyledType("Select")
 }

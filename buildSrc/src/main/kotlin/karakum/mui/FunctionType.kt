@@ -52,6 +52,7 @@ internal fun String.toFunctionType(): String? {
             "AutocompleteOwnerState<T, Multiple, DisableClearable, FreeSolo, ChipComponent>",
             "AutocompleteProps<T> /* AutocompleteOwnerState<T> */"
         )
+        .replace("UseSwitchInputSlotProps", "Any /* UseSwitchInputSlotProps */")
         .replace(
             ": 'page' | 'first' | 'last' | 'next' | 'previous'",
             ": mui.system.Union /* 'page' | 'first' | 'last' | 'next' | 'previous' */"
@@ -67,11 +68,13 @@ internal fun String.toFunctionType(): String? {
         .replace("Breakpoint | number", "Breakpoint")
         .replace("SelectOption<TValue>[]", "ReadonlyArray<SelectOption<TValue>>")
         .replace("TValue[]", "ReadonlyArray<TValue>")
+        .replace("TOption[]", "ReadonlyArray<TOption>")
         .replace("T[]", "ReadonlyArray<T>")
         .replace("string[]", "ReadonlyArray<String>")
         .replace("number | string | boolean", DYNAMIC)
         .replace("number | string", DYNAMIC)
         .replace("number | number[]", DYNAMIC)
+        .replace("string | undefined", "String?")
         .replace("string", "String")
         .replace("boolean", "Boolean")
         .replace("number", "Number")

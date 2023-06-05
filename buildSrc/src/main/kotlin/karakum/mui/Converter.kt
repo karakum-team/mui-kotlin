@@ -234,6 +234,9 @@ private fun findProps(
         propsContent.startsWith("TValue>") || propsContent.startsWith("TValue extends ")
         -> "$propsName<TValue>"
 
+        propsContent.startsWith("TOption>") || propsContent.startsWith("TOption extends ")
+        -> "$propsName<TOption>"
+
         propsContent.startsWith("T = unknown>")
         -> "$propsName<T>"
 
@@ -529,17 +532,15 @@ private fun findAdditionalProps(
             "UseSelectMultiResult",
             -> declaration += "<TValue>"
 
-            "MultiSelectUnstyledOwnerState",
             "SelectUnstyledOwnerState",
-            -> declaration = declaration.replaceFirst(":", "<TValue>:")
+            -> declaration = declaration.replaceFirst(
+                "SelectUnstyledOwnerState",
+                "SelectUnstyledOwnerState<TValue> : SelectUnstyledOwnProps<TValue>"
+            )
 
-            "MultiSelectUnstyledOwnProps",
             "OptionUnstyledOwnProps",
             "SelectUnstyledOwnProps",
             -> declaration = declaration.replaceFirst(":", "<TValue>:")
-
-            "MultiSelectUnstyledProps",
-            -> declaration = declaration.replaceFirst(":", "<TValue>: MultiSelectUnstyledOwnProps<TValue>")
 
             "OptionUnstyledProps",
             -> declaration = declaration.replaceFirst(":", "<TValue>: OptionUnstyledProps<TValue>")
@@ -558,6 +559,15 @@ private fun findAdditionalProps(
 
             "IUtils",
             -> declaration += "<TDate: Any>"
+
+            "UseSelectResult",
+            -> declaration = declaration.replaceFirst("UseSelectResult", "UseSelectResult<TValue>")
+
+            "UseListboxParameters",
+            -> declaration = declaration.replaceFirst("UseListboxParameters", "UseListboxParameters<TOption>")
+
+            "ListboxState",
+            -> declaration = declaration.replaceFirst("ListboxState", "ListboxState<TOption>")
         }
 
         val anotations = when (interfaceName) {
