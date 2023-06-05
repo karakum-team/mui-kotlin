@@ -11,18 +11,16 @@ internal fun findDefaultFunction(
 
     when (name) {
         "createTransitions",
-        "useButton",
-        "useInput",
+
+        // TODO: Hooks has some problems while default function generation so we skip it
         "useMenu",
         "useMenuItem",
-        "useSelect",
         "useAutocomplete",
-
+        "useBadge",
+        "useListbox",
+        "useSnackbar",
         "useSlider",
         "useSwitch",
-        "useTab",
-        "useTabPanel",
-        "useTabsList",
 
         -> return null
     }

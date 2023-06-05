@@ -22,6 +22,7 @@ private val DEFAULT_IMPORTS = listOf(
     "HTMLElement" to "web.html.HTMLElement",
 
     "BoxProps" to "mui.system.BoxProps",
+    "ModalUnstyledClasses" to "mui.base.ModalUnstyledClasses",
 )
 
 // language=kotlin
@@ -259,7 +260,7 @@ private fun generateBaseDeclarations(
     val directories = typesDir.listFiles { file -> file.isDirectory } ?: return
 
     directories.asSequence()
-        .filter { it.name.isComponentName() }
+        .filter { it.name.isComponentName() || it.name.isHookName() }
         .filter { it.name != "ListboxUnstyled" }
         .map {
             var name = it.name
@@ -271,17 +272,35 @@ private fun generateBaseDeclarations(
         .flatMap { component ->
             val dir = component.parentFile
 
-            val hooks = if (dir.name == "SwitchUnstyled") {
-                sequenceOf(dir.resolve("use" + dir.name.removeSuffix("Unstyled") + ".d.ts"))
-            } else emptySequence()
-
-            dir.existed(
+            val files = dir.existed(
                 dir.name + "Props.d.ts",
                 dir.name + ".types.d.ts",
                 "use" + dir.name.removeSuffix("Unstyled") + "Props.d.ts",
                 "use" + dir.name.removeSuffix("Unstyled") + ".types.d.ts",
                 "Use" + dir.name.removeSuffix("Unstyled") + "Props.d.ts",
-            ) + hooks + component
+            )
+
+            // TODO: Temporary skipping these hooks because there are problems in default function generation
+            val ignoredHooksDefaultFiles = setOf(
+                "useButton",
+                "useListbox",
+                "useSwitch",
+                "useInput",
+                "useMenu",
+                "useMenuItem",
+                "useOption",
+                "useSelect",
+                "useSlider",
+                "useSnackbar",
+                "useTab",
+                "useTabPanel",
+                "useTabsList",
+            )
+
+            if (dir.name in ignoredHooksDefaultFiles)
+                files
+            else
+                files + component
         }
         .forEach { generate(it, targetDir, Package.base) }
 }
@@ -527,6 +546,10 @@ private fun String.isComponentName(): Boolean {
     val char = get(0)
     @Suppress("DEPRECATION")
     return char == char.toUpperCase() && char != char.toLowerCase()
+}
+
+private fun String.isHookName(): Boolean {
+    return startsWith("use")
 }
 
 private fun moduleDeclaration(

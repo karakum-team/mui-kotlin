@@ -195,6 +195,9 @@ private val STANDARD_TYPE_MAP = mapOf(
     "typeof getAutoHeightDuration" to "(height: Number) -> Number",
 
     "TabsUnstyledDirection" to "mui.system.Direction",
+
+    "React.ComponentType<SelectUnstyledPopperSlotProps<TValue>>" to "react.ComponentType<*>",
+    "React.ComponentType<MultiSelectUnstyledPopperSlotProps<TValue>>" to "react.ComponentType<*>",
 )
 
 internal fun kotlinType(
@@ -357,11 +360,16 @@ internal fun kotlinType(
     }
 
     // TODO: Need to process `SlotProps` interface separately from parent interface
-    if ((name == "slots" || name == "slotProps") && type.startsWith("{\n") && "/**" !in type) {
-        @Suppress("DEPRECATION")
-        val interfaceName = name.capitalize()
-        val defaultType = if (name == "slots") "react.ElementType<*>" else "react.Props"
-        return interfaceName + "\n\n" + componentInterface(interfaceName, type, defaultType)
+    if (name == "slots" || name == "slotProps") {
+        return if (!type.startsWith("{\n") || "/**" in type) {
+            type.replace("<TValue>", "")
+        } else {
+            // TODO: Else branch should die when MUI fully migrates to named slot types
+            @Suppress("DEPRECATION")
+            val interfaceName = name.capitalize()
+            val defaultType = if (name == "slots") "react.ElementType<*>" else "react.Props"
+            interfaceName + "\n\n" + componentInterface(interfaceName, type, defaultType)
+        }
     }
 
     if (name != null && name.endsWith("Props") && name != "componentsProps" && name != "slotProps") {

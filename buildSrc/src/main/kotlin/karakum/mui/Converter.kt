@@ -24,7 +24,7 @@ internal fun convertClasses(
     val source = content.substringAfter("export interface $classesName {\n", "")
 
     if (source.isEmpty()) {
-        check(componentName == "Container")
+        check(componentName == "Container" || componentName == "Stack")
         return "typealias $classesName = mui.system.$classesName" to "typealias $muiName = mui.system.$muiName"
     }
 

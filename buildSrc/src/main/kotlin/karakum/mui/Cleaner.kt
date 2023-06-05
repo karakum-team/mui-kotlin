@@ -1,10 +1,11 @@
 package karakum.mui
 
+import karakum.mui.adapters.adaptInputUnstyled
 import karakum.mui.adapters.adaptModal
 import karakum.mui.adapters.adaptUseAutocomplete
 
 fun String.cleanup(): String {
-    return cleanupInputUnstyled()
+    return adaptInputUnstyled()
         .cleanupMultiSelectUnstyled()
         .cleanupOptionUnstyled()
         .cleanupSelectUnstyled()
@@ -71,46 +72,6 @@ export interface ${name}UnstyledType {
 propTypes?: any;
 }
 """, ""
-    )
-}
-
-private fun String.cleanupInputUnstyled(): String {
-    return replace(
-        """
-export interface SingleLineInputUnstyledProps {
-    /**
-     * Maximum number of rows to display when multiline option is set to true.
-     */
-    maxRows?: undefined;
-    /**
-     * Minimum number of rows to display when multiline option is set to true.
-     */
-    minRows?: undefined;
-    /**
-     * If `true`, a `textarea` element is rendered.
-     * @default false
-     */
-    multiline?: false;
-    /**
-     * Number of rows to display when multiline option is set to true.
-     */
-    rows?: undefined;
-    /**
-     * Type of the `input` element. It should be [a valid HTML5 input type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types).
-     * @default 'text'
-     */
-    type?: React.HTMLInputTypeAttribute;
-}""",
-        "",
-    ).replace(
-        """type InputUnstyledOwnProps = (SingleLineInputUnstyledProps | MultiLineInputUnstyledProps) & Omit<UseInputParameters, 'error'> & {""",
-        "interface InputUnstyledOwnProps extends MultiLineInputUnstyledProps {",
-    ).replace(
-        "};\nexport interface InputUnstyledTypeMap<",
-        "}\nexport interface InputUnstyledTypeMap<"
-    ).replace(
-        "MultiLineInputUnstyledProps",
-        "InputUnstyledBaseProps",
     )
 }
 
