@@ -272,13 +272,18 @@ private fun generateBaseDeclarations(
         .flatMap { component ->
             val dir = component.parentFile
 
+            val additionalFiles = if (dir.name == "TablePaginationUnstyled")
+                dir.existed("common.types.d.ts")
+            else
+                emptySequence()
+
             val files = dir.existed(
                 dir.name + "Props.d.ts",
                 dir.name + ".types.d.ts",
                 "use" + dir.name.removeSuffix("Unstyled") + "Props.d.ts",
                 "use" + dir.name.removeSuffix("Unstyled") + ".types.d.ts",
                 "Use" + dir.name.removeSuffix("Unstyled") + "Props.d.ts",
-            )
+            ) + additionalFiles
 
             // TODO: Temporary skipping these hooks because there are problems in default function generation
             val ignoredHooksDefaultFiles = setOf(
@@ -286,7 +291,6 @@ private fun generateBaseDeclarations(
                 "useMenu",
                 "useOption",
                 "useSelect",
-                "useSlider",
                 "useTab",
                 "useTabPanel",
                 "useTabsList",

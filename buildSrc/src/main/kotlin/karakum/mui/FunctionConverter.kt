@@ -17,7 +17,6 @@ internal fun findDefaultFunction(
         "useAutocomplete",
         "useListbox",
         "useOption",
-        "useSlider",
         -> return null
     }
 

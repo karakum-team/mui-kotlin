@@ -1,9 +1,6 @@
 package karakum.mui
 
-import karakum.mui.adapters.adaptBreadcrumbs
-import karakum.mui.adapters.adaptInputUnstyled
-import karakum.mui.adapters.adaptModal
-import karakum.mui.adapters.adaptUseAutocomplete
+import karakum.mui.adapters.*
 
 fun String.cleanup(): String {
     return adaptInputUnstyled()
@@ -14,6 +11,7 @@ fun String.cleanup(): String {
         .adaptModal()
         .adaptUseAutocomplete()
         .adaptBreadcrumbs()
+        .adaptUseSlider()
 }
 
 private fun String.cleanupOptionUnstyled(): String {
