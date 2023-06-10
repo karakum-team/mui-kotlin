@@ -232,7 +232,7 @@ internal fun kotlinType(
     if (name == "ownerState" && type == "SnackbarUnstyledOwnerState")
         return "Any"
 
-    // For `SelectUnstyled`
+    // For `SelectUnstyled` (see `Select` in flst for `SelectValue<TValue, Multiple>` replacement)
     if (name == "defaultValue" && type == "SelectValue<TValue, Multiple>")
         return "Any /* SelectValue<TValue, Multiple> */"
     if (name == "value" && type == "SelectValue<TValue, Multiple>")
@@ -245,7 +245,7 @@ internal fun kotlinType(
         return "Any /* (e: React.MouseEvent | React.KeyboardEvent | React.FocusEvent | null, value: SelectValue<TValue, Multiple>) => void */"
     if (name == "renderValue" && type == "(option: SelectValue<SelectOption<TValue>, Multiple>) => React.ReactNode")
         return "Any /* (option: SelectValue<SelectOption<TValue>, Multiple>) => React.ReactNode */"
-    if (name == "popper" && type == "React.ComponentType<SelectUnstyledPopperSlotProps<TValue, Multiple>>")
+    if (name == "popper" && type == "React.ComponentType<WithOptionalOwnerState<SelectUnstyledPopperSlotProps<TValue, Multiple>>>")
         return "react.ComponentType<*>"
 
     // For `useListbox`
