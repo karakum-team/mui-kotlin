@@ -8,6 +8,7 @@ fun String.cleanup(): String {
         .cleanupSelectUnstyled()
         .cleanupFormControlLabelSlots()
         .cleanupStepLabelSlots()
+        .adaptFormControlUnstyled()
         .adaptModal()
         .adaptUseAutocomplete()
         .adaptBreadcrumbs()
