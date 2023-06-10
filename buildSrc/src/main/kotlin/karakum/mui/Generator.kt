@@ -564,7 +564,7 @@ private fun moduleDeclaration(
     ).filterNotNull()
         .joinToString("/")
 
-    return "@file:JsModule(\"$moduleName\")\n@file:JsNonModule"
+    return "@file:JsModule(\"$moduleName\")"
 }
 
 
