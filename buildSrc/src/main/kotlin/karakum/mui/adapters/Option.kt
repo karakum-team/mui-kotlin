@@ -1,18 +1,25 @@
 package karakum.mui.adapters
 
-import karakum.mui.cleanupType
-
 fun String.adaptOption(): String {
     return replace("declare const _default: OptionType;\n", "")
         .replace(
             """
-export interface OptionTypeMap<OptionValue, P = {}, D extends React.ElementType = 'li'> {
-    props: P & OptionOwnProps<OptionValue>;
-    defaultComponent: D;
+export interface OptionTypeMap<OptionValue, AdditionalProps = {}, RootComponentType extends React.ElementType = 'li'> {
+    props: OptionOwnProps<OptionValue> & AdditionalProps;
+    defaultComponent: RootComponentType;
 }""",
             "",
         ).replace(
-            "type OptionProps<OptionValue, D extends React.ElementType = OptionTypeMap<OptionValue>['defaultComponent']> = OverrideProps<OptionTypeMap<OptionValue, {}, D>, D> &",
-            "interface OptionProps<OptionValue> extends OptionOwnProps<OptionValue>",
-        ).cleanupType("Option")
+            "export type OptionProps<OptionValue, RootComponentType extends React.ElementType = OptionTypeMap<OptionValue>['defaultComponent']> = PolymorphicProps<OptionTypeMap<OptionValue, {}, RootComponentType>, RootComponentType>;",
+            "export interface OptionProps<OptionValue> extends OptionOwnProps<OptionValue> {\ncomponent?: D;\n}",
+        ).replace(
+            """
+export interface OptionType {
+    <OptionValue, RootComponentType extends React.ElementType = OptionTypeMap<OptionValue>['defaultComponent']>(props: PolymorphicProps<OptionTypeMap<OptionValue>, RootComponentType>): JSX.Element | null;
+    propTypes?: any;
+    displayName?: string | undefined;
+}
+""",
+            "",
+        )
 }

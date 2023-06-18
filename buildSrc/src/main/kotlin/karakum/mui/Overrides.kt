@@ -72,7 +72,6 @@ internal fun fixOverrides(
         "Select",
         -> content
             .replace("var component: dynamic", "var component: react.ElementType<*>?")
-            .replaceLast("var disabled: Boolean?", "override var disabled: Boolean?")
 
         "TableCell",
         -> content

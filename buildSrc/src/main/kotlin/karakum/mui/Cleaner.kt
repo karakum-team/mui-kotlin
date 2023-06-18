@@ -15,22 +15,6 @@ fun String.cleanup(): String {
         .adaptUseSlider()
 }
 
-
-fun String.cleanupType(name: String): String {
-    val source = substringAfter("export interface ${name}Type {\n", "")
-        .substringBefore("propTypes?: any;\n}\n")
-
-    if (source == "") return this
-
-    return replace(source, "").replace(
-        """
-export interface ${name}Type {
-propTypes?: any;
-}
-""", ""
-    )
-}
-
 private fun String.cleanupFormControlLabelSlots(): String {
     // TODO: Remove components after MUI completes migration to slots
     return replace(

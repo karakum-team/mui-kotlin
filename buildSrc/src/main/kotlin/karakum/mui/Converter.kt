@@ -274,6 +274,13 @@ private fun findMapProps(
         .substringAfter(" D extends React.ElementType = '", "")
         .substringBefore("'", "")
 
+    if (intrinsicType.isEmpty()) {
+        intrinsicType = propsContent
+            .substringBefore(" {\n")
+            .substringAfter(" RootComponentType extends React.ElementType = '", "")
+            .substringBefore("'", "")
+    }
+
     if (name == "TablePaginationProps")
         intrinsicType = "td"
 
@@ -290,7 +297,7 @@ private fun findMapProps(
             } else baseType
         }
 
-        "props: P & ${name}OwnProps;" in propsContent
+        "props: ${name}OwnProps & AdditionalProps;" in propsContent
         -> {
             val intrinsicProps = when (propsName) {
                 "InputProps" -> "react.dom.html.HTMLAttributes<web.html.HTMLInputElement>"

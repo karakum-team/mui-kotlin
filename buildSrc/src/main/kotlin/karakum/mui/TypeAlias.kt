@@ -4,6 +4,7 @@ private val ALIAS_MAP = mapOf(
     "FilledInputProps['onChange']" to "react.dom.events.ChangeEventHandler<web.html.HTMLElement>",
     "InputBaseProps['inputProps']" to "InputBaseComponentProps",
     "InputBaseProps['onBlur']" to "react.dom.events.FocusEventHandler<web.html.HTMLElement>",
+    "InputBaseProps['onClick']" to "react.dom.events.MouseEventHandler<web.html.HTMLElement>",
     "InputProps['inputProps']" to "InputBaseComponentProps",
     "NativeSelectInputProps['onChange']" to "react.dom.events.ChangeEventHandler<*>",
     "OutlinedInputProps['onChange']" to "react.dom.events.ChangeEventHandler<web.html.HTMLElement>",

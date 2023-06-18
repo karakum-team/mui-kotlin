@@ -1,19 +1,26 @@
 package karakum.mui.adapters
 
-import karakum.mui.cleanupType
-
 fun String.adaptSelect(): String {
     return replace(
         """
-export interface SelectTypeMap<OptionValue extends {}, Multiple extends boolean, P = {}, D extends React.ElementType = 'button'> {
-    props: P & SelectOwnProps<OptionValue, Multiple>;
-    defaultComponent: D;
+export interface SelectTypeMap<OptionValue extends {}, Multiple extends boolean, AdditionalProps = {}, RootComponentType extends React.ElementType = 'button'> {
+    props: SelectOwnProps<OptionValue, Multiple> & AdditionalProps;
+    defaultComponent: RootComponentType;
 }""",
         "",
     ).replace(
-        "type SelectProps<OptionValue extends {}, Multiple extends boolean, D extends React.ElementType = SelectTypeMap<OptionValue, Multiple>['defaultComponent']> = OverrideProps<SelectTypeMap<OptionValue, Multiple, {}, D>, D> &",
-        "interface SelectProps<OptionValue> extends SelectOwnProps<OptionValue>",
-    ).cleanupType("Select")
+        "export type SelectProps<OptionValue extends {}, Multiple extends boolean, RootComponentType extends React.ElementType = SelectTypeMap<OptionValue, Multiple>['defaultComponent']> = PolymorphicProps<SelectTypeMap<OptionValue, Multiple, {}, RootComponentType>, RootComponentType>;",
+        "export interface SelectProps<OptionValue> extends SelectOwnProps<OptionValue> {\ncomponent?: D;\n}",
+    ).replace(
+        """
+export interface SelectType {
+    <OptionValue extends {}, Multiple extends boolean = false, RootComponentType extends React.ElementType = SelectTypeMap<OptionValue, Multiple>['defaultComponent']>(props: PolymorphicProps<SelectTypeMap<OptionValue, Multiple>, RootComponentType>): JSX.Element | null;
+    propTypes?: any;
+    displayName?: string | undefined;
+}
+""",
+        "",
+    )
 }
 
 // TODO: Was needed for mui-material 5.11.3 but was reverted bu mui team in 5.11.4

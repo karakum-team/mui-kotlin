@@ -5,6 +5,7 @@ internal val INTRINSIC_TYPE_MAP = mapOf(
     "button" to "react.dom.html.ButtonHTMLAttributes<web.html.HTMLButtonElement>",
     "div" to "react.dom.html.HTMLAttributes<web.html.HTMLDivElement>",
     "header" to "react.dom.html.HTMLAttributes<web.html.HTMLElement>",
+    "input" to "react.dom.html.HTMLAttributes<web.html.HTMLInputElement>",
     "label" to "react.dom.html.LabelHTMLAttributes<web.html.HTMLLabelElement>",
     "li" to "react.dom.html.LiHTMLAttributes<web.html.HTMLLIElement>",
     "nav" to "react.dom.html.HTMLAttributes<web.html.HTMLElement>",
