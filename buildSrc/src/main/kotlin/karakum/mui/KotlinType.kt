@@ -127,7 +127,6 @@ private val STANDARD_TYPE_MAP = mapOf(
     "Breakpoint[]" to "ReadonlyArray<Breakpoint>",
     "UsePaginationItem[]" to "ReadonlyArray<UsePaginationItem>",
 
-    "null | HTMLElement" to "web.html.HTMLElement?",
     "HTMLDivElement" to "web.html.HTMLDivElement",
     "HTMLInputElement" to "web.html.HTMLInputElement",
     "HTMLTextAreaElement" to "web.html.HTMLTextAreaElement",
@@ -185,6 +184,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.MouseEventHandler" to "react.dom.events.MouseEventHandler<*>",
     "React.MouseEventHandler<HTMLElement>" to "react.dom.events.MouseEventHandler<web.html.HTMLElement>",
 
+    "null | HTMLElement" to "web.html.HTMLElement?",
     "null | Element | ((element: Element) => Element)" to "Element? /* null | Element | ((element: Element) => Element) */",
     "string | ((value: number, index: number) => React.ReactNode)" to "String /* or (value: Number, index: Number) -> react.ReactNode*/",
 
@@ -246,6 +246,10 @@ internal fun kotlinType(
     // For `FormControl.FormControlOwnProps`
     if (name == "defaultValue" && type == "unknown")
         return "Any"
+
+    // For `FormControl.FormControlOwnProps`
+    if (name == "anchorEl" && "null" in type && "Element" in type && "(() => Element)" in type && "PopoverVirtualElement" in type && "(() => PopoverVirtualElement)" in type)
+        return "Element? /* null | Element | (() => Element) | PopoverVirtualElement | (() => PopoverVirtualElement) */"
 
     // For `useList.UseListReturnValue`
     if (name == "getRootProps" && type == "<TOther extends EventHandlers = {}>(otherHandlers?: TOther) => UseListRootSlotProps<TOther>")
