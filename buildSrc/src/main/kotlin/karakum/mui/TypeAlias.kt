@@ -47,16 +47,14 @@ private val ALIAS_MAP = mapOf(
 
     "Options['modifiers']" to "ReadonlyArray<Modifier<*>>",
 
-    "BackdropUnstyledTypeMap['props']['classes']" to "mui.base.BackdropUnstyledClasses",
-
     "ModalProps['onBackdropClick']" to "react.dom.events.ReactEventHandler<*>",
     "ModalProps['open']" to "Boolean",
     "ModalProps['container']" to "Element",
     "ModalProps['onClose']" to "(event: dynamic, reason: String) -> Unit",
 
-    "SliderUnstyledTypeMap['props']['slotProps']" to "mui.base.SliderUnstyledOwnProps.SlotProps",
-    "PopperUnstyledProps['slotProps']" to "mui.base.PopperUnstyledOwnProps.SlotProps",
-    "BadgeUnstyledTypeMap['props']['slotProps']" to "mui.base.BadgeUnstyledOwnProps.SlotProps",
+    "SliderTypeMap['props']['slotProps']" to "mui.base.SliderOwnProps.SlotProps",
+    "BasePopperProps['slotProps']" to "mui.base.PopperOwnProps.SlotProps",
+    "BaseBadgeTypeMap['props']['slotProps']" to "mui.base.BadgeOwnProps.SlotProps",
 )
 
 internal fun String.toAlias(): String? =

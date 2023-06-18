@@ -32,6 +32,9 @@ private val KNOWN_TYPES = setOf(
     "TDate",
     "TValue",
     "TOption",
+    "OptionValue",
+    "ItemValue",
+    "CustomActionContext",
     "TLibFormatToken",
     "ReadonlyArray<T>",
     "PickerOnChangeFn<TDate>",
@@ -95,9 +98,11 @@ private val STANDARD_TYPE_MAP = mapOf(
     "any" to "Any",
     "object" to "Any",
     "string | number | false" to "Any /* String or Number or Boolean /* false */ */",
+    "string | number | null" to "Any /* String or Number */",
 
     // TODO: Probably need to replace all " | undefined" to " | null"
-    "FormControlUnstyledState | undefined" to "Any?",
+    "FormControlState | undefined" to "Any?",
+    "string | undefined" to "String",
 
     "boolean" to "Boolean",
     "number" to "Number",
@@ -112,6 +117,8 @@ private val STANDARD_TYPE_MAP = mapOf(
     "Readonly<boolean>" to "Boolean",
     "string[]" to "ReadonlyArray<String>",
     "TValue[]" to "ReadonlyArray<TValue>",
+    "ItemValue[]" to "ReadonlyArray<ItemValue>",
+    "OptionValue[]" to "ReadonlyArray<OptionValue>",
     "TOption[]" to "ReadonlyArray<TOption>",
 
     "Date" to "kotlin.js.Date",
@@ -135,6 +142,7 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "React.ReactNode" to "react.ReactNode",
     "NonNullable<React.ReactNode>" to "react.ReactNode",
+    "string | React.ReactNode" to "react.ReactNode",
     "string | React.ReactElement" to "react.ReactNode",
     "string | number | React.ReactElement" to "react.ReactNode",
 
@@ -154,6 +162,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "PaletteMode" to "mui.material.PaletteMode",
     "TransitionProps" to "mui.material.transitions.TransitionProps",
     "ClickAwayListenerProps" to "mui.base.ClickAwayListenerProps",
+    "Partial<BaseModalClasses>" to "ModalClasses",
     "ChipProps<ChipComponent>" to "ChipProps",
 
     "React.InputHTMLAttributes<HTMLInputElement>" to "react.dom.html.InputHTMLAttributes<web.html.HTMLInputElement>",
@@ -175,8 +184,12 @@ private val STANDARD_TYPE_MAP = mapOf(
     "null | Element | ((element: Element) => Element)" to "Element? /* null | Element | ((element: Element) => Element) */",
     "string | ((value: number, index: number) => React.ReactNode)" to "String /* or (value: Number, index: Number) -> react.ReactNode*/",
 
+    "React.ReactNode | ((state: FormControlState) => React.ReactNode)" to "react.ReactNode /* or (state: FormControlState) -> react.ReactNode*/",
+
     "DisableClearable" to "Boolean",
     "FreeSolo" to "Boolean",
+
+    "SelectionMode" to "mui.system.Union /* 'none' | 'single' | 'multiple' */",
 
     "{ [key in Breakpoint]: number }" to "Record<Breakpoint, Number>",
     "Record<string, any>" to "Record<String, *>",
@@ -196,11 +209,13 @@ private val STANDARD_TYPE_MAP = mapOf(
     "typeof create" to "(props: ReadonlyArray<String>, options: TransitionCreateOptions?) -> web.cssom.Transition",
     "typeof getAutoHeightDuration" to "(height: Number) -> Number",
 
-    "TabsUnstyledDirection" to "mui.system.Direction",
+    "TabsDirection" to "mui.system.Direction",
 
-    "MenuUnstyledContextType" to "Any /* mui.base.MenuUnstyledContextType */",
+    "MenuContextType" to "Any /* mui.base.MenuContextType */",
     "<TOther extends EventHandlers>(otherHandlers?: TOther) => UseMenuListboxSlotProps" to
             "Any /* <TOther extends EventHandlers>(otherHandlers?: TOther) => UseMenuListboxSlotProps */",
+
+    "StateChangeCallback<State>" to "Any /* StateChangeCallback<State> */",
 )
 
 internal fun kotlinType(
@@ -224,28 +239,34 @@ internal fun kotlinType(
     if (name in setOf("lg", "md", "sm", "xl", "xs") && type == "boolean | GridSize")
         return "Any /* boolean | 'auto' | number */"
 
-    // For `InputUnstyled.InputUnstyledBaseProps`
+    // For `FormControl.FormControlOwnProps`
+    if (name == "defaultValue" && type == "unknown")
+        return "Any"
+
+    // For `Input.InputBaseProps`
     if (name == "type" && type == "undefined")
         return "InputType"
 
-    // For `SnackbarUnstyled.SnackbarUnstyledClickAwayListenerSlotProps`
-    if (name == "ownerState" && type == "SnackbarUnstyledOwnerState")
+    // For `Snackbar.SnackbarClickAwayListenerSlotProps`
+    if (name == "ownerState" && type == "SnackbarOwnerState")
         return "Any"
 
-    // For `SelectUnstyled` (see `Select` in flst for `SelectValue<TValue, Multiple>` replacement)
-    if (name == "defaultValue" && type == "SelectValue<TValue, Multiple>")
-        return "Any /* SelectValue<TValue, Multiple> */"
-    if (name == "value" && type == "SelectValue<TValue, Multiple>")
-        return "Any /* SelectValue<TValue, Multiple> */"
-    if (name == "multiple" && type == "Multiple")
-        return "Any /* Multiple /* Boolean */ */"
-    if (name == "getSerializedValue" && type == "(option: SelectValue<SelectOption<TValue>, Multiple>) => React.InputHTMLAttributes<HTMLInputElement>['value']")
-        return "Any /* (option: SelectValue<SelectOption<TValue>, Multiple>) => React.InputHTMLAttributes<HTMLInputElement>['value'] */"
-    if (name == "onChange" && type == "(e: React.MouseEvent | React.KeyboardEvent | React.FocusEvent | null, value: SelectValue<TValue, Multiple>) => void")
-        return "Any /* (e: React.MouseEvent | React.KeyboardEvent | React.FocusEvent | null, value: SelectValue<TValue, Multiple>) => void */"
-    if (name == "renderValue" && type == "(option: SelectValue<SelectOption<TValue>, Multiple>) => React.ReactNode")
-        return "Any /* (option: SelectValue<SelectOption<TValue>, Multiple>) => React.ReactNode */"
-    if (name == "popper" && type == "React.ComponentType<WithOptionalOwnerState<SelectUnstyledPopperSlotProps<TValue, Multiple>>>")
+    // For `UseListParameters`
+    if (name == "stateReducer" && type == "(state: State, action: ActionWithContext<ListAction<ItemValue> | CustomAction, ListActionContext<ItemValue> & CustomActionContext>) => State")
+        return "Any /* $type */"
+
+    // For `Select` (see `Select` in flst for `SelectValue<OptionValue, Multiple>` replacement)
+    if (
+        (name == "defaultValue" && type == "SelectValue<OptionValue, Multiple>")
+        || (name == "value" && type == "SelectValue<OptionValue, Multiple>")
+        || (name == "multiple" && type == "Multiple")
+        || (name == "getSerializedValue" && type == "(option: SelectValue<SelectOption<OptionValue>, Multiple>) => React.InputHTMLAttributes<HTMLInputElement>['value']")
+        || (name == "onChange" && type == "(e: React.MouseEvent | React.KeyboardEvent | React.FocusEvent | null, value: SelectValue<OptionValue, Multiple>) => void")
+        || (name == "onHighlightChange" && type == "(e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element> | React.FocusEvent<Element, Element> | null, highlighted: OptionValue | null) => void")
+        || (name == "renderValue" && type == "(option: SelectValue<SelectOption<OptionValue>, Multiple>) => React.ReactNode")
+    )
+        return "Any /* $type */"
+    if (name == "popper" && type == "React.ComponentType<WithOptionalOwnerState<SelectPopperSlotProps<OptionValue, Multiple>>>")
         return "react.ComponentType<*>"
 
     // For `useListbox`
@@ -394,7 +415,7 @@ internal fun kotlinType(
     if (name == "slots" || name == "slotProps") {
         return if (!type.startsWith("{\n") || "/**" in type) {
             type
-                .replace("<TValue, Multiple>", "")
+                .replace("<OptionValue, Multiple>", "")
                 .replace("<TValue>", "")
         } else {
             // TODO: Else branch should die when MUI fully migrates to named slot types

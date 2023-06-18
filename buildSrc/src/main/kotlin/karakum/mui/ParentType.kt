@@ -63,15 +63,15 @@ internal fun findParentType(
 
         "BaseTheme",
 
-        "OptionUnstyledOwnProps<TValue>",
-        "SelectUnstyledOwnProps<TValue>",
+        "OptionOwnProps<OptionValue>",
+        "SelectOwnProps<OptionValue>",
         -> parentSource
 
         "SystemTheme",
         -> "mui.system.Theme"
 
-        "ButtonUnstyledOwnProps",
-        "PopperUnstyledProps",
+        "ButtonOwnProps",
+        "PopperProps",
         -> "mui.base.$parentSource"
 
         "HTMLDivProps",

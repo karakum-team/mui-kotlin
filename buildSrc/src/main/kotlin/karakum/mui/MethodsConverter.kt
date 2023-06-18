@@ -13,6 +13,7 @@ internal fun convertMethods(
                 .removeSuffix(": void")
                 .removeSuffix(" => void")
                 .replace("$name: ", "$name ")
+                .replace("ListAction<string>", "Any /* ListAction<string> */")
                 .replace("?: React.SyntheticEvent", ": react.dom.events.SyntheticEvent<*, *> = definedExternally")
                 .replace("?: StartActionOptions", ": StartActionOptions = definedExternally")
                 .replace("?: () => void", ": () -> Unit  = definedExternally")

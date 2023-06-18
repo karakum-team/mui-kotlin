@@ -50,9 +50,6 @@ internal fun convertClasses(
             "$classes\n" +
             "}\n"
 
-    if ("Unstyled" in componentName)
-        return classesContent to null
-
     val muiContent = convertSealed(
         name = muiName,
         keys = slots.filter { it !in MUI_CLASSES },
@@ -77,14 +74,8 @@ internal fun convertDefinitions(
         .removeExtendsEmptyObject()
         .replace("(inProps: ", "(props: ")
         .replace(
-            "type PopperProps = Omit<PopperUnstyledProps, 'direction'> &",
-            "interface PopperProps extends PopperUnstyledProps",
-        )
-        // TODO: Needed because of incorrect work with empty interfaces.
-        //  Probably need to find all such interfaces and replace them with type alias
-        .replace(
-            "interface PopperUnstyledOwnerState extends PopperUnstyledOwnProps {}",
-            "type PopperUnstyledOwnerState = PopperUnstyledOwnProps",
+            "type PopperProps = Omit<BasePopperProps, 'direction'> &",
+            "interface PopperProps extends BasePopperProps",
         )
         .replace(
             "\ninterface ${name}OwnProps {\n",
@@ -184,12 +175,6 @@ private fun String.removeInlineClasses(
         e.startsWith("Partial<ButtonClasses> & {")
         -> "mui.material.ButtonClasses"
 
-        e.startsWith("BadgeUnstyledTypeMap['props']['classes'] & {")
-        -> "unknown"
-
-        e.startsWith("SliderUnstyledTypeMap['props']['classes'] & {")
-        -> "unknown"
-
         e.startsWith("{")
         -> "unknown"
 
@@ -233,6 +218,9 @@ private fun findProps(
 
         propsContent.startsWith("TValue>") || propsContent.startsWith("TValue extends ")
         -> "$propsName<TValue>"
+
+        propsContent.startsWith("OptionValue>") || propsContent.startsWith("OptionValue extends ")
+        -> "$propsName<OptionValue>"
 
         propsContent.startsWith("TOption>") || propsContent.startsWith("TOption extends ")
         -> "$propsName<TOption>"
@@ -286,7 +274,7 @@ private fun findMapProps(
         .substringAfter(" D extends React.ElementType = '", "")
         .substringBefore("'", "")
 
-    if (name == "TablePaginationUnstyledProps")
+    if (name == "TablePaginationProps")
         intrinsicType = "td"
 
     val parentType: String? = when {
@@ -305,7 +293,7 @@ private fun findMapProps(
         "props: P & ${name}OwnProps;" in propsContent
         -> {
             val intrinsicProps = when (propsName) {
-                "InputUnstyledProps" -> "react.dom.html.HTMLAttributes<web.html.HTMLInputElement>"
+                "InputProps" -> "react.dom.html.HTMLAttributes<web.html.HTMLInputElement>"
                 else -> INTRINSIC_TYPE_MAP[intrinsicType]
             }
 
@@ -316,8 +304,8 @@ private fun findMapProps(
         "props: P &\n    DistributiveOmit<PaperProps, " in propsContent
         -> "PaperProps"
 
-        "${name}UnstyledTypeMap<{" in propsContent
-        -> "mui.base.${name}UnstyledProps"
+        "${name}TypeMap<{" in propsContent
+        -> "mui.base.${name}Props"
 
         else -> INTRINSIC_TYPE_MAP[intrinsicType]
     }
@@ -532,21 +520,33 @@ private fun findAdditionalProps(
             "UseSelectMultiResult",
             -> declaration += "<TValue>"
 
-            "SelectUnstyledOwnerState",
+            "ListState",
+            -> declaration += "<ItemValue>"
+
+            "UseListParameters",
+            -> declaration += "<ItemValue, State, CustomAction, CustomActionContext>"
+
+            "UseSelectParameters",
+            -> declaration += "<OptionValue, Multiple>"
+
+            "UseSelectReturnValue",
+            -> declaration += "<Value>"
+
+            "SelectOwnerState",
             -> declaration = declaration.replaceFirst(
-                "SelectUnstyledOwnerState",
-                "SelectUnstyledOwnerState<TValue> : SelectUnstyledOwnProps<TValue>"
+                "SelectOwnerState",
+                "SelectOwnerState<TValue> : SelectOwnProps<TValue>"
             )
 
-            "OptionUnstyledOwnProps",
-            "SelectUnstyledOwnProps",
-            -> declaration = declaration.replaceFirst(":", "<TValue>:")
+            "OptionOwnProps",
+            "SelectOwnProps",
+            -> declaration = declaration.replaceFirst(":", "<OptionValue>:")
 
-            "OptionUnstyledProps",
-            -> declaration = declaration.replaceFirst(":", "<TValue>: OptionUnstyledProps<TValue>")
+            "OptionProps",
+            -> declaration = declaration.replaceFirst(":", "<TValue>: OptionProps<TValue>")
 
-            "SelectUnstyledProps",
-            -> declaration = declaration.replaceFirst(":", "<TValue>: SelectUnstyledProps<TValue>")
+            "SelectProps",
+            -> declaration = declaration.replaceFirst(":", "<TValue>: SelectProps<TValue>")
 
             "ExportedClockPickerProps",
             "ExportedMonthPickerProps",
@@ -599,14 +599,17 @@ private fun props(
     if (hasComponent)
         baseInterfaces += "mui.types.PropsWithComponent"
 
-    if (propsName == "InputUnstyledOwnProps")
-        baseInterfaces += "InputUnstyledBaseProps"
+    if (propsName == "InputOwnProps")
+        baseInterfaces += "InputBaseProps"
 
     if (propsName in setOf("FormLabelProps", "InputLabelProps"))
         baseInterfaces += "FormLabelOwnProps"
 
-    if (propsName == "ModalProps")
-        baseInterfaces += "mui.base.ModalUnstyledProps"
+    if (propsName == "ModalProps" && hasClassName)
+        baseInterfaces += "mui.base.ModalProps"
+
+    if (propsName == "PopperProps" && hasSx)
+        baseInterfaces += "mui.base.PopperProps"
 
     if (propsName == "StepProps")
         baseInterfaces += "mui.system.StandardProps"
@@ -681,9 +684,8 @@ private fun findComponent(
         "AutocompleteProps",
         "SelectProps",
 
-        "MultiSelectUnstyledProps",
-        "OptionUnstyledProps",
-        "SelectUnstyledProps",
+        "MultiSelectProps",
+        "OptionProps",
         -> "$propsName<*>"
 
         else -> propsName

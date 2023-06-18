@@ -22,7 +22,7 @@ private val DEFAULT_IMPORTS = listOf(
     "HTMLElement" to "web.html.HTMLElement",
 
     "BoxProps" to "mui.system.BoxProps",
-    "ModalUnstyledClasses" to "mui.base.ModalUnstyledClasses",
+    "ModalClasses" to "mui.base.ModalClasses",
 )
 
 // language=kotlin
@@ -261,7 +261,6 @@ private fun generateBaseDeclarations(
 
     directories.asSequence()
         .filter { it.name.isComponentName() || it.name.isHookName() }
-        .filter { it.name != "ListboxUnstyled" }
         .map {
             var name = it.name
             if (name == "AutocompleteUnstyled")
@@ -272,24 +271,22 @@ private fun generateBaseDeclarations(
         .flatMap { component ->
             val dir = component.parentFile
 
-            val additionalFiles = if (dir.name == "TablePaginationUnstyled")
+            val additionalFiles = if (dir.name == "TablePagination")
                 dir.existed("common.types.d.ts")
             else
                 emptySequence()
 
             val files = dir.existed(
-                dir.name + "Props.d.ts",
-                dir.name + ".types.d.ts",
-                "use" + dir.name.removeSuffix("Unstyled") + "Props.d.ts",
-                "use" + dir.name.removeSuffix("Unstyled") + ".types.d.ts",
-                "Use" + dir.name.removeSuffix("Unstyled") + "Props.d.ts",
+                "${dir.name}Props.d.ts",
+                "${dir.name}.types.d.ts",
+                "use${dir.name}Props.d.ts",
+                "use${dir.name}.types.d.ts",
+                "Use${dir.name}Props.d.ts",
             ) + additionalFiles
 
             // TODO: Temporary skipping these hooks because there are problems in default function generation
             val ignoredHooksDefaultFiles = setOf(
-                "useListbox",
-                "useMenu",
-                "useOption",
+                "useList",
                 "useSelect",
                 "useTab",
                 "useTabPanel",

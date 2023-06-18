@@ -1,9 +1,9 @@
 package karakum.mui.adapters
 
-fun String.adaptInputUnstyled(): String {
+fun String.adaptInput(): String {
     return replace(
         """
-export interface SingleLineInputUnstyledProps {
+export interface SingleLineInputProps {
     /**
      * Maximum number of rows to display when multiline option is set to true.
      */
@@ -29,13 +29,13 @@ export interface SingleLineInputUnstyledProps {
 }""",
         "",
     ).replace(
-        """type InputUnstyledOwnProps = (SingleLineInputUnstyledProps | MultiLineInputUnstyledProps) & Omit<UseInputParameters, 'error'> & {""",
-        "interface InputUnstyledOwnProps extends MultiLineInputUnstyledProps {",
+        """type InputOwnProps = (SingleLineInputProps | MultiLineInputProps) & Omit<UseInputParameters, 'error'> & {""",
+        "interface InputOwnProps extends MultiLineInputProps {",
     ).replace(
-        "};\nexport interface InputUnstyledSlots {",
-        "}\nexport interface InputUnstyledSlots {"
+        "};\nexport interface InputSlots {",
+        "}\nexport interface InputSlots {"
     ).replace(
-        "MultiLineInputUnstyledProps",
-        "InputUnstyledBaseProps",
+        "MultiLineInputProps",
+        "InputBaseProps",
     )
 }

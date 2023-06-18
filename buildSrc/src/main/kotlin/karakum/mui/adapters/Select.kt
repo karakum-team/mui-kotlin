@@ -1,8 +1,24 @@
 package karakum.mui.adapters
 
+import karakum.mui.cleanupType
+
+fun String.adaptSelect(): String {
+    return replace(
+        """
+export interface SelectTypeMap<OptionValue extends {}, Multiple extends boolean, P = {}, D extends React.ElementType = 'button'> {
+    props: P & SelectOwnProps<OptionValue, Multiple>;
+    defaultComponent: D;
+}""",
+        "",
+    ).replace(
+        "type SelectProps<OptionValue extends {}, Multiple extends boolean, D extends React.ElementType = SelectTypeMap<OptionValue, Multiple>['defaultComponent']> = OverrideProps<SelectTypeMap<OptionValue, Multiple, {}, D>, D> &",
+        "interface SelectProps<OptionValue> extends SelectOwnProps<OptionValue>",
+    ).cleanupType("Select")
+}
+
 // TODO: Was needed for mui-material 5.11.3 but was reverted bu mui team in 5.11.4
 //  Need to check will it be needed in future
-fun String.adaptSelect(): String {
+private fun String.additionalAdaptSelect(): String {
     return replace(
         """
 interface CommonProps<T>

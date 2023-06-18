@@ -12,11 +12,7 @@ internal fun findDefaultFunction(
     when (name) {
         "createTransitions",
 
-            // TODO: Hooks has some problems while default function generation so we skip it
-        "useMenu",
         "useAutocomplete",
-        "useListbox",
-        "useOption",
         -> return null
     }
 
@@ -49,9 +45,13 @@ internal fun findDefaultFunction(
         .replace("...args: object[]", "vararg args: dynamic")
         .replace("(styles: any): never", "(styles: Any)")
         .replace("useTheme<T = Theme>", "<T : Theme> useTheme")
+        .replace("useOption<Value>", "useOption")
         .replace("?: T)", ": T? = definedExternally)")
         .replace("useMediaQuery<Theme = unknown>", "<Theme : Any> useMediaQuery")
+        .replace("?: UseButtonParameters", ": UseButtonParameters? = definedExternally")
+        .replace("?: UseMenuParameters", ": UseMenuParameters? = definedExternally")
         .replace("?: UseMediaQueryOptions", ": UseMediaQueryOptions? = definedExternally")
+        .replace(": UseOptionParameters<Value>", ": UseOptionParameters")
         .replace(": boolean", ": Boolean")
         .replace(": string", ": String")
         .replace(": ((theme: Theme) => string)", ": (theme: Theme) -> String")

@@ -59,17 +59,17 @@ internal fun fixOverrides(
         -> content
             .override("open")
 
-        "MultiSelectUnstyled",
+        "MultiSelect",
         -> content
             .override("disabled")
             .replace("disabled: Boolean", "disabled: Boolean?")
             .replace("var component: dynamic", "var component: react.ElementType<*>?")
 
-        "OptionUnstyled",
+        "Option",
         -> content
             .replace("var component: dynamic", "var component: react.ElementType<*>?")
 
-        "SelectUnstyled",
+        "Select",
         -> content
             .replace("var component: dynamic", "var component: react.ElementType<*>?")
             .replaceLast("var disabled: Boolean?", "override var disabled: Boolean?")
@@ -83,28 +83,28 @@ internal fun fixOverrides(
         -> content
             .override("hidden")
 
-        "TabUnstyled",
+        "Tab",
         -> content
             .override("slots")
-            .replace("slots: TabUnstyledSlots?", "slots: ButtonUnstyledSlots? /* TabUnstyledSlots? */")
+            .replace("slots: TabSlots?", "slots: ButtonSlots? /* TabSlots? */")
             .override("slotProps")
-            .replace(": SlotProps?", ": ButtonUnstyledOwnProps.SlotProps?")
+            .replace(": SlotProps?", ": ButtonOwnProps.SlotProps?")
 
         "MenuItem",
-        "MenuList",
         -> content
             .override("autoFocus")
-
-        "ModalUnstyled",
-        -> content
-            .replace("children: react.ReactElement<*>", "children: dynamic /* react.ReactElement<*> */")
-
-        "MenuItemUnstyled",
-        -> content
             .replace(
                 "onClick: react.dom.events.MouseEventHandler<web.html.HTMLElement>?",
                 "onClick: react.dom.events.MouseEventHandler<web.html.HTMLLIElement>?"
             )
+
+        "MenuList",
+        -> content
+            .override("autoFocus")
+
+        "Modal",
+        -> content
+            .replace("children: react.ReactElement<*>", "children: dynamic /* react.ReactElement<*> */")
 
         "createTheme",
         -> {
