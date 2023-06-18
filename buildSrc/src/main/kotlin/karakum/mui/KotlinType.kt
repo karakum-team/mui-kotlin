@@ -134,10 +134,10 @@ private val STANDARD_TYPE_MAP = mapOf(
     "Element | (() => Element | null) | null" to "Element",
     "Partial<OptionsGeneric<any>>" to "popper.core.Options",
     "React.Ref<Instance>" to "react.Ref<popper.core.Instance>",
-    "React.Ref<Element>" to "react.Ref<web.html.HTMLElement>",
+    "React.Ref<Element>" to "react.Ref<web.dom.Element>",
     "React.Ref<HTMLElement>" to "react.Ref<web.html.HTMLElement>",
     "React.ElementType<TableCellBaseProps>" to "react.ElementType<*>",
-    "React.RefCallback<Element>" to "react.RefCallback<web.html.HTMLElement>",
+    "React.RefCallback<Element>" to "react.RefCallback<web.dom.Element>",
     "React.RefCallback<HTMLInputElement>" to "react.RefCallback<web.html.HTMLInputElement>",
 
     "{\n  bivarianceHack(event: {}, reason: 'backdropClick' | 'escapeKeyDown'): void;\n}['bivarianceHack']" to
@@ -264,8 +264,8 @@ internal fun kotlinType(
         || (name == "value" && type == "SelectValue<OptionValue, Multiple>")
         || (name == "multiple" && type == "Multiple")
         || (name == "getSerializedValue" && type == "(option: SelectValue<SelectOption<OptionValue>, Multiple>) => React.InputHTMLAttributes<HTMLInputElement>['value']")
-        || (name == "onChange" && type == "(e: React.MouseEvent | React.KeyboardEvent | React.FocusEvent | null, value: SelectValue<OptionValue, Multiple>) => void")
-        || (name == "onHighlightChange" && type == "(e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element> | React.FocusEvent<Element, Element> | null, highlighted: OptionValue | null) => void")
+        || (name == "onChange" && type == "(event: React.MouseEvent | React.KeyboardEvent | React.FocusEvent | null, value: SelectValue<OptionValue, Multiple>) => void")
+        || (name == "onHighlightChange" && type == "(event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element> | React.FocusEvent<Element, Element> | null, highlighted: OptionValue | null) => void")
         || (name == "renderValue" && type == "(option: SelectValue<SelectOption<OptionValue>, Multiple>) => React.ReactNode")
     )
         return "Any /* $type */"
