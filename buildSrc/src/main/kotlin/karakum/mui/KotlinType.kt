@@ -127,6 +127,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "Breakpoint[]" to "ReadonlyArray<Breakpoint>",
     "UsePaginationItem[]" to "ReadonlyArray<UsePaginationItem>",
 
+    "null | HTMLElement" to "web.html.HTMLElement?",
     "HTMLDivElement" to "web.html.HTMLDivElement",
     "HTMLInputElement" to "web.html.HTMLInputElement",
     "HTMLTextAreaElement" to "web.html.HTMLTextAreaElement",
@@ -245,6 +246,18 @@ internal fun kotlinType(
     // For `FormControl.FormControlOwnProps`
     if (name == "defaultValue" && type == "unknown")
         return "Any"
+
+    // For `useList.UseListReturnValue`
+    if (name == "getRootProps" && type == "<TOther extends EventHandlers = {}>(otherHandlers?: TOther) => UseListRootSlotProps<TOther>")
+        return "Any /* $type */"
+
+    // For `useAutocomplete`
+    if (
+        (name == "getTagProps" && type == "AutocompleteGetTagProps")
+        || (name == "value" && type == "AutocompleteValue<T, Multiple, DisableClearable, FreeSolo>")
+        || (name == "groupedOptions" && type == "T[] | Array<AutocompleteGroupedOption<T>>")
+    )
+        return "Any /* $type */"
 
     // For `Input.InputBaseProps`
     if (name == "type" && type == "undefined")

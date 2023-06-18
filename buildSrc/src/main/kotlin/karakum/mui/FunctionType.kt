@@ -30,6 +30,17 @@ internal fun String.toFunctionType(): String? {
         )
         .replace("React.MouseEvent<HTMLElement>", "react.dom.events.MouseEvent<web.html.HTMLElement, *>")
         .replace("React.HTMLAttributes<HTMLLIElement>", "react.dom.html.HTMLAttributes<web.html.HTMLLIElement>")
+        .replace("React.HTMLAttributes<HTMLUListElement>", "react.dom.html.HTMLAttributes<web.html.HTMLUListElement>")
+        .replace("React.HTMLAttributes<HTMLDivElement>", "react.dom.html.HTMLAttributes<web.html.HTMLDivElement>")
+        .replace(
+            "React.InputHTMLAttributes<HTMLInputElement>",
+            "react.dom.html.InputHTMLAttributes<web.html.HTMLInputElement>"
+        )
+        .replace(
+            "Omit<React.HTMLAttributes<HTMLLabelElement>, 'color'>",
+            "react.dom.html.InputHTMLAttributes<web.html.HTMLLabelElement>"
+        )
+        .replace("React.HTMLAttributes<HTMLButtonElement>", "react.dom.html.HTMLAttributes<web.html.HTMLButtonElement>")
         .replace(
             "React.InputHTMLAttributes<HTMLInputElement>['value']",
             "Any /* string | ReadonlyArray<string> | number */"
@@ -37,6 +48,10 @@ internal fun String.toFunctionType(): String? {
         .replace(
             "?: React.HTMLAttributes<HTMLInputElement>",
             ": react.dom.html.HTMLAttributes<web.html.HTMLInputElement>?"
+        )
+        .replace(
+            "?: any",
+            ": Any?"
         )
         .replace("React.ReactNode", "react.ReactNode")
         .replace("React.RefObject", "react.RefObject")

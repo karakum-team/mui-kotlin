@@ -516,6 +516,8 @@ private fun findAdditionalProps(
             -> declaration = declaration.replaceFirst(":", "<T>:")
 
             "AutocompleteChangeDetails",
+            "UseAutocompleteRenderedOption",
+            "UseAutocompleteReturnValue",
             "CreateFilterOptionsConfig",
             "FilterOptionsState",
             -> declaration += "<T>"
