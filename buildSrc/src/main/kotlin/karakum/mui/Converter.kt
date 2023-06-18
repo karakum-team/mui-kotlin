@@ -78,6 +78,10 @@ internal fun convertDefinitions(
             "interface PopperProps extends BasePopperProps",
         )
         .replace(
+            "StandardProps<Omit<ModalProps, 'slots' | 'slotProps'>, 'children'>",
+            "StandardProps<ModalProps, 'children'>",
+        )
+        .replace(
             "\ninterface ${name}OwnProps {\n",
             "\nexport interface ${name}OwnProps {\n",
         )
