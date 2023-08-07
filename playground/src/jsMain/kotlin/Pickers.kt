@@ -1,9 +1,9 @@
 import muix.pickers.CalendarPicker
+import react.FC
 import react.Fragment
-import react.VFC
 import react.create
 
-val Pickers = VFC {
+val Pickers = FC {
     Fragment.create {
         CalendarPicker {
             onChange = { _, _ -> }

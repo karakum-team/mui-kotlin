@@ -66,8 +66,6 @@ inline fun PropsWithSx.sx(
 
 // language=kotlin
 private val SYSTEM_RESPONSIVE_STYLE_VALUE = """
-import js.core.set
-
 external interface ResponsiveStyleValue<T : Any>
 
 @Suppress("NOTHING_TO_INLINE")
@@ -79,9 +77,8 @@ inline fun <T : Any> responsive(
 @Suppress("BOUNDS_NOT_ALLOWED_IF_BOUNDED_BY_TYPE_PARAMETER")
 fun <T : Any, R> responsive(
     vararg values: Pair<Breakpoint, T>,
-): R where R : T,
-           R : ResponsiveStyleValue<T> =
-    Record<Breakpoint, T> {
+): R where R : T, R : ResponsiveStyleValue<T> =
+    Record {
         for ((key, value) in values) {
             set(key, value)
         }
