@@ -77,8 +77,9 @@ inline fun <T : Any> responsive(
 @Suppress("BOUNDS_NOT_ALLOWED_IF_BOUNDED_BY_TYPE_PARAMETER")
 fun <T : Any, R> responsive(
     vararg values: Pair<Breakpoint, T>,
-): R where R : T, R : ResponsiveStyleValue<T> =
-    Record {
+): R where R : T,
+           R : ResponsiveStyleValue<T> =
+    Record<Breakpoint, T> {
         for ((key, value) in values) {
             set(key, value)
         }
