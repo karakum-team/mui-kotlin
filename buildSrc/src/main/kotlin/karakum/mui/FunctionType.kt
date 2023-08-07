@@ -97,6 +97,7 @@ internal fun String.toFunctionType(): String? {
         .replace("boolean", "Boolean")
         .replace("number", "Number")
         .replace("void", "Unit")
+        .replace("object", "Any")
         .replace(": any", ": $DYNAMIC")
         .replace(": ListAction<String>", ": Any /* ListAction<string> */")
         .replace(": CustomAction | ListAction<ItemValue>", ": Any /* CustomAction | ListAction<ItemValue> */")

@@ -9,6 +9,10 @@ internal fun convertMethods(
                 .substringBefore("(")
                 .removeSuffix(": ")
 
+            val comment = if ("/**" in it) {
+                it.trim().substringBeforeLast("\n") + "\n"
+            } else ""
+
             val declaration = it.trim()
                 .removeSuffix(": void")
                 .removeSuffix(" => void")
@@ -17,7 +21,8 @@ internal fun convertMethods(
                 .replace("?: React.SyntheticEvent", ": react.dom.events.SyntheticEvent<*, *> = definedExternally")
                 .replace("?: StartActionOptions", ": StartActionOptions = definedExternally")
                 .replace("?: () => void", ": () -> Unit  = definedExternally")
+                .replace(comment, "")
 
-            "fun $declaration"
+            "$comment fun $declaration"
         }
 }
