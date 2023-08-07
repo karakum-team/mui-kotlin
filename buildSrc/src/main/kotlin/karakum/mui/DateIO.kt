@@ -11,6 +11,7 @@ internal fun convertDateUtils(
             when {
                 line.isEmpty() -> line
                 line.startsWith("/**") -> line
+                line.startsWith(" * ") -> line
                 line.startsWith("/") -> line
 
                 "(" in line -> "fun " + line

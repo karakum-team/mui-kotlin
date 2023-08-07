@@ -109,9 +109,9 @@ external interface IUtils<TDate : Any> {
     fun is12HourCycleInCurrentLocale(): Boolean
 
     /**
-    fun  * Returns user readable format (taking into account localized format tokens), useful to render helper text for input (e.g. placeholder).
-    val  * If helper can not be created and **for luxon** always returns empty string.
-    val  * */
+     * Returns user readable format (taking into account localized format tokens), useful to render helper text for input (e.g. placeholder).
+     * If helper can not be created and **for luxon** always returns empty string.
+     * */
     fun getFormatHelperText(format: String): String
 
     fun isNull(value: TDate?): Boolean
