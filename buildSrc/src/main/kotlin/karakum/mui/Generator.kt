@@ -7,7 +7,7 @@ private const val GENERATOR_COMMENT = "Automatically generated - do not modify!"
 private val DEFAULT_IMPORTS = listOf(
     "Modifier" to "popper.core.Modifier",
 
-    "Promise" to "kotlin.js.Promise",
+    "Promise" to "js.promise.Promise",
 
     "ReadonlyArray" to "js.core.ReadonlyArray",
     "Record<" to "js.core.Record",
