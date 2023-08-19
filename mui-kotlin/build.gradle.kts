@@ -7,6 +7,8 @@ val kotlinWrappersVersion = property("kotlin-wrappers.version") as String
 
 dependencies {
     jsMainImplementation(npmv("@mui/material"))
+    jsMainImplementation(npmv("@mui/base"))
+    jsMainImplementation(npmv("@mui/system"))
     jsMainImplementation(npmv("@mui/icons-material"))
     jsMainImplementation(npmv("@mui/lab"))
     jsMainImplementation(npmv("@mui/x-date-pickers"))
