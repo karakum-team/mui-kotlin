@@ -327,8 +327,16 @@ private fun findMapProps(
                 .joinToString(",\n", "\n")
         }
 
-        "props: P &\n    DistributiveOmit<PaperOwnProps, " in propsContent
-        -> "PaperOwnProps"
+        "DistributiveOmit<PaperProps" in propsContent
+        -> "PaperProps"
+
+        "DistributiveOmit<TabsTypeMap['props'], " in propsContent
+        -> "mui.material.TabsProps"
+
+        // TODO: Suppress compiler error and uncomment
+        //  "Var-property type is DialogContentTextClasses?, which is not a type of overridden public abstract var classes: TypographyClasses? defined in mui.material.TypographyProps"
+        // "& Omit<TypographyTypeMap['props'], " in propsContent
+        // -> "TypographyProps"
 
         "${name}TypeMap<{" in propsContent
         -> "mui.base.${name}Props"
