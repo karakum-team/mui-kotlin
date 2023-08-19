@@ -295,10 +295,17 @@ private fun findMapProps(
         "${name}BaseProps & {" in propsContent || "props: P & ${name}BaseProps;" in propsContent
         -> {
             val baseType = "${name}BaseProps"
-            if (name.startsWith("List")) {
-                sequenceOf(baseType, "react.dom.html.HTMLAttributes<web.html.HTMLElement>")
-                    .joinToString(",\n", "\n")
-            } else baseType
+
+            if (baseType == "LinkBaseProps") {
+                // TODO: Also we need to provide `baseType` here too
+                //  Details: But now we skip `baseType`(`LinkBaseProps`) of `LinkProps` because in truth `LinkBaseProps` = `TypographyOwnProps` but there are some inheritance problem  with this type
+                INTRINSIC_TYPE_MAP[intrinsicType]
+            } else {
+                if (name.startsWith("List")) {
+                    sequenceOf(baseType, "react.dom.html.HTMLAttributes<web.html.HTMLElement>")
+                        .joinToString(",\n", "\n")
+                } else baseType
+            }
         }
 
         "props: ${name}OwnProps & AdditionalProps;" in propsContent
@@ -312,8 +319,16 @@ private fun findMapProps(
                 .joinToString(",\n", "\n")
         }
 
-        "props: P &\n    DistributiveOmit<PaperProps, " in propsContent
-        -> "PaperProps"
+        "props: P & ${name}OwnProps" in propsContent
+        -> {
+            val intrinsicProps = INTRINSIC_TYPE_MAP[intrinsicType]
+
+            sequenceOf("${name}OwnProps", intrinsicProps)
+                .joinToString(",\n", "\n")
+        }
+
+        "props: P &\n    DistributiveOmit<PaperOwnProps, " in propsContent
+        -> "PaperOwnProps"
 
         "${name}TypeMap<{" in propsContent
         -> "mui.base.${name}Props"
@@ -326,11 +341,14 @@ private fun findMapProps(
         .substringAfter(" & {\n", "")
         .let { str ->
             sequenceOf(
-                str.substringBefore(";\n    } & Breakpoints;", ""),
+                str.substringBefore(";\n    } &", ""),
                 str.substringBefore(";\n    };", ""),
-                str.substringBefore(";\n  };", "")
+                str.substringBefore(";\n  } &", ""),
+                str.substringBefore(";\n  };", ""),
             ).maxByOrNull { it.length }!!
         }
+
+    val hasComponent = ": OverridableComponent<" in content
 
     return if (membersContent.isNotEmpty()) {
         val body = convertMembers(membersContent)
@@ -340,10 +358,14 @@ private fun findMapProps(
             hasChildren = CHILDREN in body,
             hasClassName = CLASS_NAME in body,
             hasSx = SX in body,
-            hasComponent = ": OverridableComponent<" in content,
+            hasComponent = hasComponent,
         ) + " {\n$body\n}"
     } else {
-        props(propsName, parentType)
+        props(
+            propsName = propsName,
+            parentType = parentType,
+            hasComponent = hasComponent,
+        )
     }
 }
 
@@ -583,12 +605,12 @@ private fun findAdditionalProps(
             -> declaration = declaration.replaceFirst("ListboxState", "ListboxState<TOption>")
         }
 
-        val anotations = when (interfaceName) {
+        val annotations = when (interfaceName) {
             "SliderValueLabelProps" -> "@Suppress(\"VIRTUAL_MEMBER_HIDDEN\")\n"
             else -> ""
         }
 
-        anotations + declaration + " {\n" +
+        annotations + declaration + " {\n" +
                 propsBody +
                 "\n}"
     }

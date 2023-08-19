@@ -35,9 +35,9 @@ private val ALIAS_MAP = mapOf(
     "TransitionProps['easing']" to "",
     "TransitionProps['in']" to "",
     "TransitionProps['timeout']" to "",
-    "TypographyProps['classes']" to "TypographyClasses",
-    "TypographyProps['color']" to "",
-    "TypographyProps['variant']" to "",
+    "TypographyOwnProps['classes']" to "TypographyClasses",
+    "TypographyOwnProps['color']" to "",
+    "TypographyOwnProps['variant']" to "",
     "UsePaginationItem['type']" to "UsePaginationItemType",
 
     "FormLabelProps['color']" to "FormLabelColor",
