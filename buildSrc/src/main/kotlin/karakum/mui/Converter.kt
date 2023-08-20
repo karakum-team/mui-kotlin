@@ -302,8 +302,8 @@ private fun findMapProps(
             .substringBefore("'", "")
     }
 
-    if (name == "TablePaginationProps")
-        intrinsicType = "td"
+    if (name == "AppBar")
+        intrinsicType = "div"
 
     val parentType: String? = when {
         name == "LoadingButton"
@@ -675,6 +675,9 @@ private fun props(
 
     if (propsName == "ModalProps" && hasClassName)
         baseInterfaces += "mui.base.ModalProps"
+
+    if (propsName == "AppBarProps" || propsName == "AccordionProps")
+        baseInterfaces += "PaperProps"
 
     if (propsName == "PopperProps" && hasSx)
         baseInterfaces += "mui.base.PopperProps"
