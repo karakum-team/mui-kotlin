@@ -380,6 +380,8 @@ private fun findMapProps(
         }
 
     val hasComponent = ": OverridableComponent<" in content
+            || "&\n  OverridableComponent<" in content
+            || "& {\n  component?: React.ElementType;\n};" in content
 
     return if (membersContent.isNotEmpty()) {
         val body = convertMembers(membersContent)
@@ -680,7 +682,7 @@ private fun props(
         baseInterfaces += "PaperProps"
 
     if (
-        // TODO: Commented props has conflicts by intrinsic types
+    // TODO: Commented props has conflicts by intrinsic types
         propsName in setOf(
 //            "AccordionSummaryProps",
             "BottomNavigationActionProps",
