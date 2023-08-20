@@ -289,6 +289,7 @@ private fun generateBaseDeclarations(
                 "useTab",
                 "useTabPanel",
                 "useTabsList",
+                "useDropdown",
             )
 
             if (dir.name in ignoredHooksDefaultFiles)
@@ -599,6 +600,9 @@ private fun generate(
 
     if (componentName in OVERRIDE_FIX_REQUIRED)
         annotations += "@file:Suppress(\n\"VIRTUAL_MEMBER_HIDDEN\",\n)"
+
+    if (componentName in VAR_TYPE_MISMATCH_ON_OVERRIDE_FIX_REQUIRED)
+        annotations += "@file:Suppress(\n\"VAR_TYPE_MISMATCH_ON_OVERRIDE\",\n)"
 
     if (componentName != "CalendarPickerView" && componentName != "createTypography") {
         val finalBody = when {

@@ -56,16 +56,16 @@ internal fun String.toFunctionType(): String? {
         .replace("React.ReactNode", "react.ReactNode")
         .replace("React.RefObject", "react.RefObject")
         .replace(" | null", "?")
-        .replace("AutocompleteValue<T, Multiple, DisableClearable, FreeSolo>", DYNAMIC)
-        .replace("details?: AutocompleteChangeDetails<T>", "details: AutocompleteChangeDetails<T>?")
+        .replace("AutocompleteValue<Value, Multiple, DisableClearable, FreeSolo>", DYNAMIC)
+        .replace("details?: AutocompleteChangeDetails<Value>", "details: AutocompleteChangeDetails<Value>?")
         .replace("AutocompleteRenderGetTagProps", "Function<*> /* AutocompleteRenderGetTagProps */")
         .replace(
-            "T | AutocompleteFreeSoloValueMapping<FreeSolo>",
-            "T /* or AutocompleteFreeSoloValueMapping<FreeSolo> */"
+            "Value | AutocompleteFreeSoloValueMapping<FreeSolo>",
+            "Value /* or AutocompleteFreeSoloValueMapping<FreeSolo> */"
         )
         .replace(
-            "AutocompleteOwnerState<T, Multiple, DisableClearable, FreeSolo, ChipComponent>",
-            "AutocompleteProps<T> /* AutocompleteOwnerState<T> */"
+            "AutocompleteOwnerState<Value, Multiple, DisableClearable, FreeSolo, ChipComponent>",
+            "AutocompleteProps<Value> /* AutocompleteOwnerState<Value> */"
         )
         .replace("UseSwitchInputSlotProps", "Any /* UseSwitchInputSlotProps */")
         .replace(
@@ -86,7 +86,7 @@ internal fun String.toFunctionType(): String? {
         .replace("TOption[]", "ReadonlyArray<TOption>")
         .replace("ItemValue[]", "ReadonlyArray<ItemValue>")
         .replace("OptionValue[]", "ReadonlyArray<OptionValue>")
-        .replace("T[]", "ReadonlyArray<T>")
+        .replace("Value[]", "ReadonlyArray<Value>")
         .replace("string[]", "ReadonlyArray<String>")
         .replace("number | string | boolean", DYNAMIC)
         .replace("number | string", "Any /* number | string */")

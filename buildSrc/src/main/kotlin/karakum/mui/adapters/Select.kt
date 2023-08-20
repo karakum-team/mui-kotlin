@@ -31,7 +31,7 @@ private fun String.additionalAdaptSelect(): String {
 interface CommonProps<T>
 """,
         """
-export interface SelectProps<T = unknown>
+export interface SelectProps<Value = unknown>
 """,
     ).replace(
         """

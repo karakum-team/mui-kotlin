@@ -4,11 +4,11 @@ package karakum.mui.adapters
 fun String.adaptUseAutocomplete(): String {
     return replace(
         """export interface UseAutocompleteParameters<
-  T,
+  Value,
   Multiple extends boolean | undefined,
   DisableClearable extends boolean | undefined,
   FreeSolo extends boolean | undefined,
-> extends UseAutocompleteProps<T, Multiple, DisableClearable, FreeSolo> {}""",
+> extends UseAutocompleteProps<Value, Multiple, DisableClearable, FreeSolo> {}""",
         "",
     )
 }

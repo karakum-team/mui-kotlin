@@ -12,6 +12,7 @@ fun String.cleanup(): String {
         .adaptModal()
         .adaptUseAutocomplete()
         .adaptBreadcrumbs()
+        .adaptUseMenu()
         .adaptUseSlider()
 }
 

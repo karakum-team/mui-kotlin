@@ -20,6 +20,10 @@ internal fun fixOverrides(
             .override("disabled")
             .override("tabIndex")
 
+        "CardHeader",
+        -> content
+            .override("title")
+
         "Dialog",
         -> content
             .override("disableEscapeKeyDown")
@@ -73,6 +77,11 @@ internal fun fixOverrides(
         -> content
             .replace("var component: dynamic", "var component: react.ElementType<*>?")
 
+        "Slider",
+        -> content
+            .override("defaultValue")
+            .override("tabIndex")
+
         "TableCell",
         -> content
             .override("align")
@@ -124,15 +133,14 @@ private fun String.override(
     last: Boolean = false,
     all: Boolean = false,
 ): String {
-    if (all) {
-        return replace("var $name:", "override var $name:")
-    }
+    val oldValue = "var $name:"
+    val newValue = "override var $name:"
 
-    if (last) {
-        return replaceLast("var $name:", "override var $name:")
+    return when {
+        all -> replace(oldValue, newValue)
+        last -> replaceLast(oldValue, newValue)
+        else -> replaceFirst(oldValue, newValue)
     }
-
-    return replaceFirst("var $name:", "override var $name:")
 }
 
 private fun String.replaceLast(oldValue: String, newValue: String): String =

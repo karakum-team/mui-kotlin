@@ -12,6 +12,7 @@ internal fun findDefaultFunction(
     when (name) {
         "createTransitions",
 
+        "useDropdown",
         "useAutocomplete",
         -> return null
     }
@@ -45,13 +46,14 @@ internal fun findDefaultFunction(
         .replace("...args: object[]", "vararg args: dynamic")
         .replace("(styles: any): never", "(styles: Any)")
         .replace("useTheme<T = Theme>", "<T : Theme> useTheme")
-        .replace("useOption<Value>", "useOption")
-        .replace("?: T)", ": T? = definedExternally)")
+        .replace("useSelect<OptionValue, Multiple extends boolean = false>", "<OptionValue, Multiple> useSelect")
+        .replace("useOption<Value>", "<Value> useOption")
         .replace("useMediaQuery<Theme = unknown>", "<Theme : Any> useMediaQuery")
+        .replace("?: T)", ": T? = definedExternally)")
         .replace("?: UseButtonParameters", ": UseButtonParameters? = definedExternally")
         .replace("?: UseMenuParameters", ": UseMenuParameters? = definedExternally")
+        .replace("?: UseMenuButtonParameters", ": UseMenuButtonParameters? = definedExternally")
         .replace("?: UseMediaQueryOptions", ": UseMediaQueryOptions? = definedExternally")
-        .replace(": UseOptionParameters<Value>", ": UseOptionParameters")
         .replace(": boolean", ": Boolean")
         .replace(": string", ": String")
         .replace(": ((theme: Theme) => string)", ": (theme: Theme) -> String")

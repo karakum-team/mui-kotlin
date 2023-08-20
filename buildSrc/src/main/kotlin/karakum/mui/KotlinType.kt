@@ -29,6 +29,7 @@ private val SWIPEABLE_DRAWER_PROPS_ALLOW_SWIPE_IN_CHILDREN = """
 
 private val KNOWN_TYPES = setOf(
     "T",
+    "Value",
     "TDate",
     "TValue",
     "TOption",
@@ -37,6 +38,7 @@ private val KNOWN_TYPES = setOf(
     "CustomActionContext",
     "TLibFormatToken",
     "ReadonlyArray<T>",
+    "ReadonlyArray<Value>",
     "PickerOnChangeFn<TDate>",
     "CalendarPickerView",
 
@@ -127,6 +129,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "Breakpoint[]" to "ReadonlyArray<Breakpoint>",
     "UsePaginationItem[]" to "ReadonlyArray<UsePaginationItem>",
 
+    "HTMLElement" to "web.html.HTMLElement",
     "HTMLDivElement" to "web.html.HTMLDivElement",
     "HTMLInputElement" to "web.html.HTMLInputElement",
     "HTMLTextAreaElement" to "web.html.HTMLTextAreaElement",
@@ -220,6 +223,9 @@ private val STANDARD_TYPE_MAP = mapOf(
     "<TOther extends EventHandlers>(otherHandlers?: TOther) => UseMenuListboxSlotProps" to
             "Any /* <TOther extends EventHandlers>(otherHandlers?: TOther) => UseMenuListboxSlotProps */",
 
+    "(otherHandlers?: EventHandlers) => UseMenuButtonRootSlotProps" to
+            "Any /* (otherHandlers?: EventHandlers) => UseMenuButtonRootSlotProps */",
+
     "StateChangeCallback<State>" to "Any /* StateChangeCallback<State> */",
 )
 
@@ -259,8 +265,8 @@ internal fun kotlinType(
     // For `useAutocomplete`
     if (
         (name == "getTagProps" && type == "AutocompleteGetTagProps")
-        || (name == "value" && type == "AutocompleteValue<T, Multiple, DisableClearable, FreeSolo>")
-        || (name == "groupedOptions" && type == "T[] | Array<AutocompleteGroupedOption<T>>")
+        || (name == "value" && type == "AutocompleteValue<Value, Multiple, DisableClearable, FreeSolo>")
+        || (name == "groupedOptions" && type == "Value[] | Array<AutocompleteGroupedOption<Value>>")
     )
         return "Any /* $type */"
 

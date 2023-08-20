@@ -78,8 +78,12 @@ internal fun convertDefinitions(
             "interface PopperProps extends BasePopperProps",
         )
         .replace(
+            "StandardProps<Omit<PopoverProps, 'slots' | 'slotProps'>, 'children'>",
+            "StandardProps<PopoverProps>",
+        )
+        .replace(
             "StandardProps<Omit<ModalProps, 'slots' | 'slotProps'>, 'children'>",
-            "StandardProps<ModalProps, 'children'>",
+            "StandardProps<ModalProps>",
         )
         .replace(
             "\ninterface ${name}OwnProps {\n",
@@ -106,6 +110,7 @@ internal fun convertDefinitions(
     val fun0Declaration = "export default function $name<"
     val fun1Declaration = "export default function $name(props: $propsName): JSX.Element;"
     val fun2Declaration = "declare function $name(props: $propsName): JSX.Element;"
+    val fun3Declaration = "declare function $name(props: $propsName): React.JSX.Element;"
     val typeDeclaration = "declare const $name: React.ComponentType<$propsName>;"
     val const1Declaration = "declare const $name: "
     val const2Declaration = "export default _default"
@@ -114,6 +119,7 @@ internal fun convertDefinitions(
         findComponent(name, propsName, fun0Declaration, content),
         findComponent(name, propsName, fun1Declaration, content),
         findComponent(name, propsName, fun2Declaration, content),
+        findComponent(name, propsName, fun3Declaration, content),
         findComponent(name, propsName, typeDeclaration, content, "ComponentType"),
         findComponent(name, propsName, const1Declaration, content),
         findComponent(name, propsName, const2Declaration, content),
@@ -232,8 +238,11 @@ private fun findProps(
         propsContent.startsWith("T = unknown>")
         -> "$propsName<T>"
 
+        propsContent.startsWith("Value = unknown>")
+        -> "$propsName<Value>"
+
         propsName == "AutocompleteProps"
-        -> "$propsName<T>"
+        -> "$propsName<Value>"
 
         else -> propsName
     }
@@ -275,7 +284,16 @@ private fun findMapProps(
 
     var intrinsicType = propsContent
         .substringBefore(" {\n")
-        .substringAfter(" D extends React.ElementType = '", "")
+        .let { str ->
+            sequenceOf(
+                str.substringAfter(
+                    " D extends React.ElementType = '",
+                    ""
+                ), // todo remove when mui migrates on DefaultComponent generic in all places
+                str.substringAfter(" DefaultComponent extends React.ElementType = '", "")
+            ).maxByOrNull { it.length }!!
+        }
+
         .substringBefore("'", "")
 
     if (intrinsicType.isEmpty()) {
@@ -292,7 +310,7 @@ private fun findMapProps(
         name == "LoadingButton"
         -> "mui.material.ButtonProps"
 
-        "${name}BaseProps & {" in propsContent || "props: P & ${name}BaseProps;" in propsContent
+        "${name}BaseProps & {" in propsContent || "props: AdditionalProps & ${name}BaseProps;" in propsContent
         -> {
             val baseType = "${name}BaseProps"
 
@@ -319,7 +337,7 @@ private fun findMapProps(
                 .joinToString(",\n", "\n")
         }
 
-        "props: P & ${name}OwnProps" in propsContent
+        "props: AdditionalProps & ${name}OwnProps" in propsContent
         -> {
             val intrinsicProps = INTRINSIC_TYPE_MAP[intrinsicType]
 
@@ -327,8 +345,8 @@ private fun findMapProps(
                 .joinToString(",\n", "\n")
         }
 
-        "DistributiveOmit<PaperProps" in propsContent
-        -> "PaperProps"
+        "DistributiveOmit<PaperOwnProps" in propsContent
+        -> "PaperOwnProps"
 
         "DistributiveOmit<TabsTypeMap['props'], " in propsContent
         -> "mui.material.TabsProps"
@@ -345,7 +363,13 @@ private fun findMapProps(
     }
 
     val membersContent = propsContent
-        .substringAfter("props: P", "")
+        .let { str ->
+            sequenceOf(
+                // todo remove when mui migrates on AdditionalProps generic in all places
+                str.substringAfter("props: P", ""),
+                str.substringAfter("props: AdditionalProps", ""),
+            ).maxByOrNull { it.length }!!
+        }
         .substringAfter(" & {\n", "")
         .let { str ->
             sequenceOf(
@@ -547,16 +571,18 @@ private fun findAdditionalProps(
 
         when (interfaceName) {
             "UseAutocompleteProps",
-            -> declaration = declaration.replaceFirst(":", "<T>:")
+            -> declaration = declaration.replaceFirst(":", "<Value>:")
 
+            "SelectOption",
+            "SelectOptionDefinition",
+            "UseOptionParameters",
             "AutocompleteChangeDetails",
             "UseAutocompleteRenderedOption",
             "UseAutocompleteReturnValue",
             "CreateFilterOptionsConfig",
             "FilterOptionsState",
-            -> declaration += "<T>"
+            -> declaration += "<Value>"
 
-            "SelectOption",
             "UseSelectSingleParameters",
             "UseSelectMultiParameters",
             "UseSelectSingleResult",
