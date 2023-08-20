@@ -286,11 +286,10 @@ private fun findMapProps(
         .substringBefore(" {\n")
         .let { str ->
             sequenceOf(
-                str.substringAfter(
-                    " D extends React.ElementType = '",
-                    ""
-                ), // todo remove when mui migrates on DefaultComponent generic in all places
-                str.substringAfter(" DefaultComponent extends React.ElementType = '", "")
+                // todo remove when mui migrates on DefaultComponent generic in all places
+                str.substringAfter(" D extends React.ElementType = '", ""),
+                str.substringAfter(" DefaultComponent extends React.ElementType = '", ""),
+                str.substringAfter(" RootComponent extends React.ElementType = '", ""),
             ).maxByOrNull { it.length }!!
         }
 
@@ -599,7 +598,7 @@ private fun findAdditionalProps(
             -> declaration += "<OptionValue, Multiple>"
 
             "UseSelectReturnValue",
-            -> declaration += "<Value>"
+            -> declaration += "<Value, Multiple>"
 
             "SelectOwnerState",
             -> declaration = declaration.replaceFirst(

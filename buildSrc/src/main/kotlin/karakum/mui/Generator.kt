@@ -259,6 +259,7 @@ private fun generateBaseDeclarations(
 
     directories.asSequence()
         .filter { it.name.isComponentName() || it.name.isHookName() }
+        .filter { it.name != "ClassNameGenerator" }
         .map {
             var name = it.name
             if (name == "AutocompleteUnstyled")
@@ -285,10 +286,6 @@ private fun generateBaseDeclarations(
             // TODO: Temporary skipping these hooks because there are problems in default function generation
             val ignoredHooksDefaultFiles = setOf(
                 "useList",
-                "useSelect",
-                "useTab",
-                "useTabPanel",
-                "useTabsList",
                 "useDropdown",
             )
 

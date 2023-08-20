@@ -1,10 +1,11 @@
 package karakum.mui
 
 private const val QUERY_INPUT_TYPE = "string | ((theme: Theme) => string)"
+private const val DEFAULT_FUNCTION_PREFIX = "export default function "
 
 internal fun findDefaultFunction(
     name: String,
-    content: String,
+    initialContent: String,
 ): String? {
     if (!name.startsWith("use") && !name.startsWith("create"))
         return null
@@ -15,6 +16,29 @@ internal fun findDefaultFunction(
         "useDropdown",
         "useAutocomplete",
         -> return null
+    }
+
+    val content = when (name) {
+        "useSlider",
+        "useBadge",
+        "useButton",
+        "useInput",
+        "useMenu",
+        "useMenuButton",
+        "useMenuItem",
+        "useSnackbar",
+        "useSwitch",
+        "useOption",
+        -> initialContent.replace("export declare function $name", "$DEFAULT_FUNCTION_PREFIX$name")
+
+        "useSelect",
+        "useTab",
+        "useTabPanel",
+        "useTabsList",
+        -> initialContent.replace("declare function $name", "$DEFAULT_FUNCTION_PREFIX$name")
+
+        else
+        -> initialContent
     }
 
     if (QUERY_INPUT_TYPE in content)
@@ -28,7 +52,7 @@ internal fun findDefaultFunction(
             .mapNotNull { findDefaultFunction(name, it) }
             .joinToString("\n\n")
 
-    val splitContent = content.split("export default function ")
+    val splitContent = content.split(DEFAULT_FUNCTION_PREFIX)
 
     val before = splitContent.getOrNull(0) ?: return null
     val source = splitContent.getOrNull(1) ?: return null
@@ -56,6 +80,7 @@ internal fun findDefaultFunction(
         .replace("?: UseMediaQueryOptions", ": UseMediaQueryOptions? = definedExternally")
         .replace(": boolean", ": Boolean")
         .replace(": string", ": String")
+        .replace(": number", ": Number")
         .replace(": ((theme: Theme) => string)", ": (theme: Theme) -> String")
 
     if ("()" !in declaration && "(\n" !in declaration)
