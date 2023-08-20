@@ -1,23 +1,14 @@
-package karakum.mui
+package karakum.mui.adapters
 
-import karakum.mui.adapters.*
-
-fun String.cleanup(): String {
-    return adaptInput()
-        .adaptOption()
-        .adaptSelect()
-        .cleanupFormControlLabelSlots()
+// TODO: Removing comments required
+//  It can be deleted when MUI finishes separating `Slot` & `Component` props to separate interfaces
+fun String.adaptComponentsAndSlots(): String {
+    return cleanupFormControlLabelSlots()
         .cleanupStepLabelSlots()
-        .adaptFormControl()
-        .adaptModal()
-        .adaptUseAutocomplete()
-        .adaptBreadcrumbs()
-        .adaptUseMenu()
-        .adaptUseSlider()
+        .cleanupBadgeOwnSlots()
 }
 
 private fun String.cleanupFormControlLabelSlots(): String {
-    // TODO: Remove components after MUI completes migration to slots
     return replace(
         """
   componentsProps?: {
@@ -54,7 +45,6 @@ private fun String.cleanupFormControlLabelSlots(): String {
 }
 
 private fun String.cleanupStepLabelSlots(): String {
-    // TODO: Remove components after MUI completes migration to slots
     return replace(
         """
   componentsProps?: {
@@ -83,6 +73,31 @@ private fun String.cleanupStepLabelSlots(): String {
         """
   slotProps?: {
     label?: React.HTMLProps<HTMLSpanElement>;
+  };
+""",
+    )
+}
+
+private fun String.cleanupBadgeOwnSlots(): String {
+    return replace(
+        """
+  slots?: {
+    /**
+     * The component that renders the root.
+     * @default 'span'
+     */
+    root?: React.ElementType;
+    /**
+     * The component that renders the badge.
+     * @default 'span'
+     */
+    badge?: React.ElementType;
+  };
+""",
+        """
+  slots?: {
+    root?: React.ElementType;
+    badge?: React.ElementType;
   };
 """,
     )

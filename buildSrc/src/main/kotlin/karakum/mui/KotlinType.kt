@@ -396,8 +396,14 @@ internal fun kotlinType(
         }
     }
 
-    if (type.startsWith("'"))
+    if (type.startsWith("'")) {
+        // TODO: Don't understand why need this check. Should work without. Try to remove
+        if (name == "overlap" && type == "'rectangular' | 'circular'") {
+            return "BadgeOverlap"
+        }
+
         return "$UNION /* $type */"
+    }
 
     if (type.startsWith("\n  | '")) {
         val t = type.removePrefix("\n")
@@ -417,6 +423,10 @@ internal fun kotlinType(
 
         if (comment == "Variant | 'inherit', TypographyPropsVariantOverrides")
             return "mui.material.styles.TypographyVariant"
+
+        // TODO: Don't understand why need this check. Should work without. Try to remove
+        if (name == "variant" && comment == "'standard' | 'dot', BadgePropsVariantOverrides")
+            return "BadgeVariant"
 
         return "$UNION /* $comment */"
     }

@@ -55,7 +55,7 @@ private val ALIAS_MAP = mapOf(
 
     "SliderTypeMap['props']['slotProps']" to "mui.base.SliderOwnProps.SlotProps",
     "BasePopperProps['slotProps']" to "mui.base.PopperOwnProps.SlotProps",
-    "BaseBadgeTypeMap['props']['slotProps']" to "mui.base.BadgeOwnProps.SlotProps",
+    "BadgeOwnProps['slotProps']" to "mui.base.BadgeOwnProps.SlotProps",
 )
 
 internal fun String.toAlias(): String? =
