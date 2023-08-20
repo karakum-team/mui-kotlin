@@ -57,6 +57,11 @@ internal fun fixOverrides(
             .override("open")
             .replaceFirst("override var children:", "    /* override */ var children:")
 
+        "DialogTitle",
+        "DialogContentText",
+        -> content
+            .override("classes")
+
         "Drawer",
         -> content
             .override("onClose")

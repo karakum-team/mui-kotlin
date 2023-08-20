@@ -53,4 +53,6 @@ internal val VAR_TYPE_MISMATCH_ON_OVERRIDE_FIX_REQUIRED = setOf(
     "CardActionArea",
     "Fab",
     "IconButton",
+    "DialogTitle",
+    "DialogContentText",
 )

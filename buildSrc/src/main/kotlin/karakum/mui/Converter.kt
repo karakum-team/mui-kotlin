@@ -350,10 +350,8 @@ private fun findMapProps(
         "DistributiveOmit<TabsTypeMap['props'], " in propsContent
         -> "mui.material.TabsProps"
 
-        // TODO: Suppress compiler error and uncomment
-        //  "Var-property type is DialogContentTextClasses?, which is not a type of overridden public abstract var classes: TypographyClasses? defined in mui.material.TypographyProps"
-        // "& Omit<TypographyTypeMap['props'], " in propsContent
-        // -> "TypographyProps"
+        "& Omit<TypographyTypeMap['props'], " in propsContent
+        -> "TypographyProps"
 
         "${name}TypeMap<{" in propsContent
         -> "mui.base.${name}Props"
@@ -382,6 +380,9 @@ private fun findMapProps(
     val hasComponent = ": OverridableComponent<" in content
             || "&\n  OverridableComponent<" in content
             || "& {\n  component?: React.ElementType;\n};" in content
+    if (propsName == "DialogContentTextProps") {
+        println(hasComponent)
+    }
 
     return if (membersContent.isNotEmpty()) {
         val body = convertMembers(membersContent)
