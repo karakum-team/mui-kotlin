@@ -20,6 +20,31 @@ internal fun fixOverrides(
             .override("disabled")
             .override("tabIndex")
 
+        "BottomNavigationAction",
+        -> content
+            .override("classes")
+            .override("value")
+
+        "StepButton",
+        -> content
+            .override("classes")
+
+        "CardActionArea",
+        -> content
+            .override("classes")
+            .override("focusVisibleClassName")
+
+        "Fab",
+        -> content
+            .override("classes")
+            .override("disabled")
+            .override("disableRipple")
+
+        "IconButton",
+        -> content
+            .override("classes")
+            .override("disabled")
+
         "CardHeader",
         -> content
             .override("title")
@@ -45,8 +70,6 @@ internal fun fixOverrides(
             .replaceFirst("override var children:", "    /* override */ var children:")
 
         "Button",
-        "Fab",
-        "IconButton",
         -> content
             .override("disabled")
 

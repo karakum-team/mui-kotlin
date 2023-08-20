@@ -679,6 +679,26 @@ private fun props(
     if (propsName == "AppBarProps" || propsName == "AccordionProps")
         baseInterfaces += "PaperProps"
 
+    if (
+        // TODO: Commented props has conflicts by intrinsic types
+        propsName in setOf(
+//            "AccordionSummaryProps",
+            "BottomNavigationActionProps",
+            "CardActionAreaProps",
+            "IconButtonProps",
+            "FabProps",
+//            "ListItemProps",
+//            "ListItemButtonProps",
+//            "MenuItemProps",
+            "StepButtonProps",
+//            "TabProps",
+//            "TableSortLabelProps",
+            "ToggleButtonProps",
+        )
+    ) {
+        baseInterfaces += "mui.material.ButtonBaseProps"
+    }
+
     if (propsName == "PopperProps" && hasSx)
         baseInterfaces += "mui.base.PopperProps"
 
