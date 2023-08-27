@@ -140,6 +140,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.Ref<Instance>" to "react.Ref<popper.core.Instance>",
     "React.Ref<Element>" to "react.Ref<web.dom.Element>",
     "React.Ref<HTMLElement>" to "react.Ref<web.html.HTMLElement>",
+    "React.Ref<HTMLInputElement | HTMLTextAreaElement>" to "react.Ref<web.html.HTMLInputElement /* or web.html.HTMLTextAreaElement*/>",
     "React.ElementType<TableCellBaseProps>" to "react.ElementType<*>",
     "React.RefCallback<Element>" to "react.RefCallback<web.dom.Element>",
     "React.RefCallback<HTMLInputElement>" to "react.RefCallback<web.html.HTMLInputElement>",
