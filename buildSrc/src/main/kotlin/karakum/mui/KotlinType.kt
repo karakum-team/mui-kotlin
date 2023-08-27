@@ -153,6 +153,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "string | React.ReactNode" to "react.ReactNode",
     "string | React.ReactElement" to "react.ReactNode",
     "string | number | React.ReactElement" to "react.ReactNode",
+    "React.ReactNode | ((state: FormControlState) => React.ReactNode)" to "react.ReactNode",
 
     "React.Dispatch<React.SetStateAction<boolean>>" to "react.StateSetter<Boolean>",
 
@@ -192,8 +193,6 @@ private val STANDARD_TYPE_MAP = mapOf(
     "null | HTMLElement" to "web.html.HTMLElement?",
     "null | Element | ((element: Element) => Element)" to "Element? /* null | Element | ((element: Element) => Element) */",
     "string | ((value: number, index: number) => React.ReactNode)" to "String /* or (value: Number, index: Number) -> react.ReactNode*/",
-
-    "React.ReactNode | ((state: FormControlState) => React.ReactNode)" to "react.ReactNode /* or (state: FormControlState) -> react.ReactNode*/",
 
     "DisableClearable" to "Boolean",
     "FreeSolo" to "Boolean",

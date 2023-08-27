@@ -55,7 +55,6 @@ internal fun fixOverrides(
             .override("onBackdropClick")
             .override("onClose")
             .override("open")
-            .replaceFirst("override var children:", "    /* override */ var children:")
 
         "DialogTitle",
         "DialogContentText",
@@ -65,14 +64,12 @@ internal fun fixOverrides(
         "Drawer",
         -> content
             .override("onClose")
-            .replaceFirst("override var children:", "    /* override */ var children:")
 
         "Popover",
         -> content
             .override("container")
             .override("onClose")
             .override("open")
-            .replaceFirst("override var children:", "    /* override */ var children:")
 
         "Button",
         -> content
@@ -137,10 +134,6 @@ internal fun fixOverrides(
         "MenuList",
         -> content
             .override("autoFocus")
-
-        "Modal",
-        -> content
-            .replace("children: react.ReactElement<*>", "children: react.ReactNode?")
 
         "createTheme",
         -> {

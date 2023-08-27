@@ -64,7 +64,7 @@ private fun convertProperty(
         name,
     )
 
-    if (name == "children" && type == "react.ReactNode")
+    if (name == "children" && (type == "react.ReactNode" || type == "react.ReactElement<*>"))
         return CHILDREN
 
     if (name == "className" && type == "String")

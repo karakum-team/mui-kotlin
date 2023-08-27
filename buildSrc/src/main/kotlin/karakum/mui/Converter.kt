@@ -380,9 +380,6 @@ private fun findMapProps(
     val hasComponent = ": OverridableComponent<" in content
             || "&\n  OverridableComponent<" in content
             || "& {\n  component?: React.ElementType;\n};" in content
-    if (propsName == "DialogContentTextProps") {
-        println(hasComponent)
-    }
 
     return if (membersContent.isNotEmpty()) {
         val body = convertMembers(membersContent)
