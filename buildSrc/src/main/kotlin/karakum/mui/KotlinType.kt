@@ -191,6 +191,8 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.MouseEventHandler" to "react.dom.events.MouseEventHandler<*>",
     "React.MouseEventHandler<HTMLElement>" to "react.dom.events.MouseEventHandler<web.html.HTMLElement>",
 
+    "Node | Window" to "web.events.EventTarget /* web.dom.Node? or web.window.Window? */",
+
     "null | HTMLElement" to "web.html.HTMLElement?",
     "null | Element | ((element: Element) => Element)" to "Element? /* null | Element | ((element: Element) => Element) */",
     "string | ((value: number, index: number) => React.ReactNode)" to "String /* or (value: Number, index: Number) -> react.ReactNode*/",

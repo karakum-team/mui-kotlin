@@ -352,7 +352,8 @@ private fun generateMaterialDeclarations(
     val directories = typesDir.listFiles { file -> file.isDirectory } ?: return
 
     directories.asSequence()
-        .filter { it.name.isComponentName() || it.name == "internal" || it.name == "useMediaQuery" || it.name == "usePagination" }
+        .filter { it.name.isComponentName() || it.name == "internal" || it.name.isHookName() }
+        .filter { it.name !in setOf("useTouchRipple", "useAutocomplete") }
         .filter { it.name !in BASE_TYPES }
         .filter { it.name != "StyledEngineProvider" }
         .onEach {
