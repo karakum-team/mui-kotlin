@@ -143,9 +143,10 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.ElementType<TableCellBaseProps>" to "react.ElementType<*>",
     "React.RefCallback<Element>" to "react.RefCallback<web.dom.Element>",
     "React.RefCallback<HTMLInputElement>" to "react.RefCallback<web.html.HTMLInputElement>",
+    "React.RefCallback<HTMLInputElement | HTMLTextAreaElement>" to "react.RefCallback<web.html.HTMLInputElement /* or web.html.HTMLTextAreaElement*/>",
 
     "{\n  bivarianceHack(event: {}, reason: 'backdropClick' | 'escapeKeyDown'): void;\n}['bivarianceHack']" to
-            "(event: $DYNAMIC, reason: String) -> Unit",
+            "(event: Any?, reason: String) -> Unit",
 
     "React.ReactNode" to "react.ReactNode",
     "NonNullable<React.ReactNode>" to "react.ReactNode",

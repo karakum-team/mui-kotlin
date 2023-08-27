@@ -96,7 +96,7 @@ external interface UseInputReturnValue {
      */
     var getRootProps: react.Props /* <TOther extends Record<string, any> = {}>(externalProps?: TOther) => UseInputRootSlotProps<TOther> */
 
-    var inputRef: dynamic
+    var inputRef: react.RefCallback<web.html.HTMLInputElement /* or web.html.HTMLTextAreaElement*/>?
 
     /**
      * If `true`, the `input` will indicate that it's required.
