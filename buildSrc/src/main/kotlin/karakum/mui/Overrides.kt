@@ -140,7 +140,7 @@ internal fun fixOverrides(
 
         "Modal",
         -> content
-            .replace("children: react.ReactElement<*>", "children: dynamic /* react.ReactElement<*> */")
+            .replace("children: react.ReactElement<*>", "children: react.ReactNode?")
 
         "createTheme",
         -> {
