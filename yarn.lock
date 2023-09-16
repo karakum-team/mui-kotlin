@@ -210,7 +210,7 @@
     "@floating-ui/core" "^1.4.2"
     "@floating-ui/utils" "^0.1.3"
 
-"@floating-ui/react-dom@^2.0.1":
+"@floating-ui/react-dom@^2.0.1", "@floating-ui/react-dom@^2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@floating-ui/react-dom/-/react-dom-2.0.2.tgz#fab244d64db08e6bed7be4b5fcce65315ef44d20"
   integrity sha512-5qhlDvjaLmAst/rKb3VdlCinwTF4EYMiVxuuc/HVUjs46W0zgtbMmAZ1UTsDrRTxRmUEzl92mOtWbeeXL26lSQ==
@@ -281,6 +281,19 @@
     clsx "^2.0.0"
     prop-types "^15.8.1"
     react-is "^18.2.0"
+
+"@mui/base@^5.0.0-beta.14":
+  version "5.0.0-beta.15"
+  resolved "https://registry.yarnpkg.com/@mui/base/-/base-5.0.0-beta.15.tgz#76bebd377cc3b7fdc80924759a4100e5319ed0f9"
+  integrity sha512-Xtom3YSdi0iwYPtyVRFUEGoRwi6IHWixPwifDKaK+4PkEPtUWMU5YOIJfTsmC59ri+dFvA3oBNSiTPUGGrklZw==
+  dependencies:
+    "@babel/runtime" "^7.22.15"
+    "@floating-ui/react-dom" "^2.0.2"
+    "@mui/types" "^7.2.4"
+    "@mui/utils" "^5.14.9"
+    "@popperjs/core" "^2.11.8"
+    clsx "^2.0.0"
+    prop-types "^15.8.1"
 
 "@mui/core-downloads-tracker@^5.14.8":
   version "5.14.9"
@@ -407,7 +420,20 @@
     react-transition-group "^4.4.5"
     rifm "^0.12.1"
 
-"@mui/x-tree-view@6.0.0-alpha.0", "@mui/x-tree-view@https://pkg.csb.dev/mui/mui-x/commit/1f23b33d/@mui/x-tree-view":
+"@mui/x-tree-view@6.0.0-alpha.3":
+  version "6.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@mui/x-tree-view/-/x-tree-view-6.0.0-alpha.3.tgz#ca585e53ca3d83caa5ccdc133bd416244401868b"
+  integrity sha512-j6vPD3e4Y4dd8v19bnDkPBXdAD8Qo5pbSEAwB3XYh60tprphBU+YVjCfUo4ZZkYEqhGBen6gKsJhFz98H2v2kg==
+  dependencies:
+    "@babel/runtime" "^7.22.15"
+    "@mui/base" "^5.0.0-beta.14"
+    "@mui/utils" "^5.14.8"
+    "@types/react-transition-group" "^4.4.6"
+    clsx "^2.0.0"
+    prop-types "^15.8.1"
+    react-transition-group "^4.4.5"
+
+"@mui/x-tree-view@https://pkg.csb.dev/mui/mui-x/commit/1f23b33d/@mui/x-tree-view":
   version "6.0.0-alpha.0"
   resolved "https://pkg.csb.dev/mui/mui-x/commit/1f23b33d/@mui/x-tree-view#93cbc61c818ed2d6c40554cdbada969f7dcbaab1"
   dependencies:

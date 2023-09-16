@@ -6,10 +6,7 @@ package muix.tree.view
 
 import web.cssom.ClassName
 
-external interface TreeItemContentProps :
-    mui.system.StandardProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLElement>,
-    react.PropsWithClassName {
+external interface TreeItemContentProps : react.PropsWithClassName {
     /**
      * className applied to the root element.
      */

@@ -489,8 +489,8 @@ private fun generateTreeViewDeclarations(
                     val contentFile = it.resolve("${it.name}Content.d.ts")
                     generate(contentFile, targetDir, Package.treeView)
 
-                    val interfaceFile = it.resolve("${it.name}.interface.d.ts")
-                    generate(interfaceFile, targetDir, Package.treeView)
+                    val typesFile = it.resolve("${it.name}.types.d.ts")
+                    generate(typesFile, targetDir, Package.treeView)
 
                     // TODO: Uncomment when separate mui-team separates hook return-type
                     /*val hookFile = it.resolve("use${it.name}.d.ts")

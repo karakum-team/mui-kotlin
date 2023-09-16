@@ -85,7 +85,9 @@ internal fun findParentType(
         -> "react.dom.html.HTMLAttributes<web.html.HTMLDivElement>"
 
         "TransitionProps",
+        "React.HTMLAttributes<HTMLElement>",
         "React.HTMLAttributes<HTMLDivElement>",
+        "React.HTMLAttributes<HTMLUListElement>",
         "React.HTMLAttributes<HTMLSpanElement>",
         "React.HTMLAttributes<HTMLInputElement | HTMLTextAreaElement>",
         -> parentSource.toTypeParameter()
