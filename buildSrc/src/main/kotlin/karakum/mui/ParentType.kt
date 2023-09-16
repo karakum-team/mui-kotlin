@@ -9,6 +9,7 @@ internal fun findParentType(
     val parentSource = content
         .substringAfter(" extends ")
         .substringBefore(" {\n")
+        .substringBefore(" {}")
         .substringAfter("\n> extends ")
 
     if ("<TDate>" in parentSource)
@@ -54,12 +55,18 @@ internal fun findParentType(
     }
 
     return when (parentSource) {
+        "ButtonBaseProps",
+        "ListItemBaseProps",
+        "ListItemButtonBaseProps",
         "BaseTextFieldProps",
         "ListProps",
         "TreeViewPropsBase",
         "UseInputProps",
         "UseSwitchProps",
         "UsePaginationItem",
+
+        "TypographyProps",
+        "TabsProps",
 
         "BaseTheme",
 

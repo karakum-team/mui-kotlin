@@ -29,6 +29,7 @@ internal fun findDefaultFunction(
         "useSnackbar",
         "useSwitch",
         "useOption",
+        "useTreeItem",
         -> initialContent.replace("export declare function $name", "$DEFAULT_FUNCTION_PREFIX$name")
 
         "useSelect",

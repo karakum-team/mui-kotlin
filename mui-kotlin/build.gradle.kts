@@ -11,6 +11,7 @@ dependencies {
     jsMainImplementation(npmv("@mui/system"))
     jsMainImplementation(npmv("@mui/icons-material"))
     jsMainImplementation(npmv("@mui/lab"))
+    jsMainImplementation(npmv("@mui/x-tree-view"))
     jsMainImplementation(npmv("@mui/x-date-pickers"))
 
     jsMainApi(enforcedPlatform("org.jetbrains.kotlin-wrappers:kotlin-wrappers-bom:$kotlinWrappersVersion"))

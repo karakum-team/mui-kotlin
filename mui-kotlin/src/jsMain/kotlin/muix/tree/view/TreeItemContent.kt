@@ -1,6 +1,8 @@
 // Automatically generated - do not modify!
 
-package mui.lab
+@file:JsModule("@mui/x-tree-view/TreeItemContent")
+
+package muix.tree.view
 
 import web.cssom.ClassName
 
@@ -43,3 +45,9 @@ external interface TreeItemContentProps :
      */
     var displayIcon: react.ReactNode?
 }
+
+/**
+ * @ignore - internal component.
+ */
+@JsName("default")
+external val TreeItemContent: react.FC<TreeItemContentProps>

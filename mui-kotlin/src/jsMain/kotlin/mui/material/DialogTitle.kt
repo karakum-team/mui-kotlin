@@ -12,10 +12,13 @@ import mui.material.styles.Theme
 import mui.system.SxProps
 
 external interface DialogTitleProps :
+    DialogTitleOwnProps,
+    mui.types.PropsWithComponent
+
+external interface DialogTitleOwnProps :
     TypographyProps,
     react.PropsWithChildren,
-    mui.system.PropsWithSx,
-    mui.types.PropsWithComponent {
+    mui.system.PropsWithSx {
     /**
      * The content of the component.
      */

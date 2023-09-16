@@ -49,10 +49,9 @@ internal fun String.toFunctionType(): String? {
             "?: React.HTMLAttributes<HTMLInputElement>",
             ": react.dom.html.HTMLAttributes<web.html.HTMLInputElement>?"
         )
-        .replace(
-            "?: any",
-            ": Any?"
-        )
+        .replace("?: any", ": Any?")
+        .replace("?: string", ": String?")
+        .replace("?: boolean", ": Boolean?")
         .replace("React.ReactNode", "react.ReactNode")
         .replace("React.RefObject", "react.RefObject")
         .replace(" | null", "?")

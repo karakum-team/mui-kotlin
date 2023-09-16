@@ -89,6 +89,10 @@ internal fun convertDefinitions(
             "\ninterface ${name}OwnProps {\n",
             "\nexport interface ${name}OwnProps {\n",
         )
+        .replace(
+            "extends Omit<TypographyTypeMap['props'], 'classes'>",
+            "extends TypographyProps",
+        )
         .let { findDefaultUnions(name, it) }
 
     val declarations = mutableListOf<String>()
@@ -203,7 +207,8 @@ private fun findProps(
         "TextField",
         -> return "typealias $propsName = BaseTextFieldProps"
 
-        "TreeView",
+        "TreeViewContext",
+        -> return "external interface TreeViewContextProps : react.Props, TreeViewContextValue"
 
         "DateField",
         "StaticDatePicker",
@@ -305,10 +310,10 @@ private fun findMapProps(
     if (name == "AppBar")
         intrinsicType = "div"
 
-    val parentType: String? = when {
-        name == "LoadingButton"
-        -> "mui.material.ButtonProps"
+    if (name == "Tab")
+        intrinsicType = "button"
 
+    val parentType: String? = when {
         "${name}BaseProps & {" in propsContent || "props: AdditionalProps & ${name}BaseProps;" in propsContent
         -> {
             val baseType = "${name}BaseProps"
@@ -336,22 +341,19 @@ private fun findMapProps(
                 .joinToString(",\n", "\n")
         }
 
-        "props: AdditionalProps & ${name}OwnProps" in propsContent
+        "props: AdditionalProps & ${name}OwnProps" in propsContent || "props: AdditionalProps &\n    ${name}OwnProps" in propsContent
         -> {
             val intrinsicProps = INTRINSIC_TYPE_MAP[intrinsicType]
 
-            sequenceOf("${name}OwnProps", intrinsicProps)
-                .joinToString(",\n", "\n")
+            sequenceOf(
+                "mui.material.ButtonProps".takeIf { name == "LoadingButton" },
+                "${name}OwnProps",
+                intrinsicProps,
+            ).filterNotNull().joinToString(",\n", "\n")
         }
 
         "DistributiveOmit<PaperOwnProps" in propsContent
         -> "PaperOwnProps"
-
-        "DistributiveOmit<TabsTypeMap['props'], " in propsContent
-        -> "mui.material.TabsProps"
-
-        "& Omit<TypographyTypeMap['props'], " in propsContent
-        -> "TypographyProps"
 
         "${name}TypeMap<{" in propsContent
         -> "mui.base.${name}Props"
@@ -394,7 +396,7 @@ private fun findMapProps(
     } else {
         props(
             propsName = propsName,
-            parentType = parentType,
+            parentType = if (propsName == "TabListProps") "mui.material.TabsProps" else parentType,
             hasComponent = hasComponent,
         )
     }
@@ -446,6 +448,8 @@ private fun findAdditionalProps(
         val parentType = findParentType(body)
 
         val membersContent = when (interfaceName) {
+            "ListItemButtonOwnProps",
+
             "InputBaseComponentProps",
             "CustomSystemProps",
 
@@ -708,6 +712,9 @@ private fun props(
     if (propsName == "StepperProps")
         baseInterfaces += listOf("mui.system.StandardProps", "PaperProps")
 
+    baseInterfaces
+        .tryToAddInheritanceInterfaces(propsName)
+
     val parentTypes = when {
         parentType == null
         -> if (baseInterfaces.size > 1) {
@@ -726,6 +733,56 @@ private fun props(
     }
 
     return "external interface $propsName: $parentTypes"
+}
+
+// TODO: This is a WA for inheritance error. Try to avoid somehow...
+//  `Types of inherited var-properties do not match:
+//  public abstract var classes: AppBarClasses? defined in mui.material.AppBarProps,
+//  public abstract var classes: PaperClasses? defined in mui.material.PaperProps`
+private fun MutableList<String>.tryToAddInheritanceInterfaces(
+    propsName: String,
+) {
+    if (propsName == "AppBarOwnProps")
+        this += "PaperProps"
+
+    if (propsName == "BottomNavigationActionOwnProps")
+        this += "ButtonBaseProps"
+
+    if (propsName == "CardActionAreaOwnProps")
+        this += "ButtonBaseProps"
+
+    if (propsName == "CardHeaderOwnProps")
+        this += INTRINSIC_TYPE_MAP.getValue("div")
+
+    if (propsName == "ChipOwnProps")
+        this += INTRINSIC_TYPE_MAP.getValue("div")
+
+    if (propsName == "FabOwnProps")
+        this += "ButtonBaseProps"
+
+    if (propsName == "IconButtonOwnProps")
+        this += "ButtonBaseProps"
+
+    if (propsName == "InputLabelOwnProps")
+        this += "FormLabelOwnProps"
+
+    if (propsName == "MenuItemOwnProps")
+        this += INTRINSIC_TYPE_MAP.getValue("li")
+
+    if (propsName == "StepButtonOwnProps")
+        this += "ButtonBaseProps"
+
+    if (propsName == "StepperOwnProps")
+        this += "PaperProps"
+
+    if (propsName == "SvgIconOwnProps")
+        this += INTRINSIC_TYPE_MAP.getValue("svg")
+
+    if (propsName == "TabOwnProps")
+        this += INTRINSIC_TYPE_MAP.getValue("button")
+
+    if (propsName == "ToggleButtonOwnProps")
+        this += "ButtonBaseProps"
 }
 
 private fun findComponent(
@@ -778,6 +835,13 @@ private fun findComponent(
         "MultiSelectProps",
         "OptionProps",
         -> "$propsName<*>"
+
+        // TODO: Remove when `TreeItem` will be removed from `@mui/lab`
+        "TreeItemProps",
+        -> "muix.tree.view.TreeItemProps"
+
+        "TreeViewProps",
+        -> "muix.tree.view.TreeViewPropsBase /* SingleSelectTreeViewProps or MultiSelectTreeViewProps */"
 
         else -> propsName
     }

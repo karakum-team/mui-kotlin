@@ -8,10 +8,17 @@ import mui.material.styles.Theme
 import mui.system.SxProps
 
 external interface BreadcrumbsProps :
+    BreadcrumbsOwnProps,
     react.dom.html.HTMLAttributes<web.html.HTMLElement>,
+    mui.types.PropsWithComponent
+
+external interface BreadcrumbsOwnerState {
+    var expanded: Boolean
+}
+
+external interface BreadcrumbsOwnProps :
     react.PropsWithChildren,
-    mui.system.PropsWithSx,
-    mui.types.PropsWithComponent {
+    mui.system.PropsWithSx {
     /**
      * The content of the component.
      */
@@ -85,10 +92,6 @@ external interface BreadcrumbsProps :
      * The system prop that allows defining system overrides as well as additional CSS styles.
      */
     override var sx: SxProps<Theme>?
-}
-
-external interface BreadcrumbsOwnerState {
-    var expanded: Boolean
 }
 
 /**

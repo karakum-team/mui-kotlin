@@ -11,7 +11,6 @@ internal val OVERRIDE_FIX_REQUIRED = setOf(
 
     "TimelineContent",
     "TimelineOppositeContent",
-    "TreeItem",
     "AppBar",
     "Accordion",
     "Alert",
@@ -55,4 +54,5 @@ internal val VAR_TYPE_MISMATCH_ON_OVERRIDE_FIX_REQUIRED = setOf(
     "IconButton",
     "DialogTitle",
     "DialogContentText",
+    "TabScrollButton",
 )

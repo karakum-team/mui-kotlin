@@ -5,7 +5,7 @@
     "NAME_CONTAINS_ILLEGAL_CHARS",
 )
 
-package mui.lab
+package muix.tree.view
 
 import web.cssom.ClassName
 

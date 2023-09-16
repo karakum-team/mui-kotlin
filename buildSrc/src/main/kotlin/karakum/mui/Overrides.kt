@@ -11,15 +11,6 @@ internal fun fixOverrides(
             .override("readOnly")
             .replaceFirst("var key: String", "override var key: react.Key? /* Key */")
 
-        "Box",
-        -> content
-            .override("component")
-
-        "ButtonBase",
-        -> content
-            .override("disabled")
-            .override("tabIndex")
-
         "BottomNavigationAction",
         -> content
             .override("classes")
@@ -71,18 +62,10 @@ internal fun fixOverrides(
             .override("onClose")
             .override("open")
 
-        "Button",
-        -> content
-            .override("disabled")
-
         "ToggleButton",
         -> content
             .override("disabled")
             .override("value")
-
-        "LoadingButton",
-        -> content
-            .override("classes")
 
         "SwipeableDrawer",
         -> content
@@ -102,11 +85,6 @@ internal fun fixOverrides(
         -> content
             .replace("var component: dynamic", "var component: react.ElementType<*>?")
 
-        "Slider",
-        -> content
-            .override("defaultValue")
-            .override("tabIndex")
-
         "TableCell",
         -> content
             .override("align")
@@ -118,6 +96,7 @@ internal fun fixOverrides(
 
         "Tab",
         -> content
+            .override("value")
             .override("slots")
             .replace("slots: TabSlots?", "slots: ButtonSlots? /* TabSlots? */")
             .override("slotProps")
@@ -126,14 +105,28 @@ internal fun fixOverrides(
         "MenuItem",
         -> content
             .override("autoFocus")
+            .override("onClick")
             .replace(
                 "onClick: react.dom.events.MouseEventHandler<web.html.HTMLElement>?",
                 "onClick: react.dom.events.MouseEventHandler<web.html.HTMLLIElement>?"
             )
 
-        "MenuList",
+        "TreeItem",
         -> content
-            .override("autoFocus")
+            .replace(
+                "var onFocus: Nothing?",
+                "@Deprecated(\"See documentation\")\noverride var onFocus: react.dom.events.FocusEventHandler<web.html.HTMLLIElement>?"
+            )
+
+        "TabScrollButton",
+        -> content
+            .override("disabled")
+            .override("classes")
+
+        "Tabs",
+        -> content
+            .override("centered")
+            .replaceFirst("centered: Boolean", "centered: Boolean?")
 
         "createTheme",
         -> {

@@ -202,6 +202,7 @@ private enum class Package(
     iconsMaterial("icons-material"),
     system,
     pickers("x-date-pickers", "muix.pickers"),
+    treeView("x-tree-view", "muix.tree.view"),
     lab,
 
     dateioCore("", "dateio.core"),
@@ -227,6 +228,7 @@ fun generateKotlinDeclarations(
     generateStylesDeclarations(typesDir.resolve("material/styles"), sourceDir)
     generateTransitionsDeclarations(sourceDir)
     generateLabDeclarations(typesDir.resolve("lab"), sourceDir)
+    generateTreeViewDeclarations(typesDir.resolve("x-tree-view"), sourceDir)
     generatePickersDeclarations(typesDir.resolve("x-date-pickers"), sourceDir)
     generateDeteioDeclarations(typesDir.resolve("../@date-io/core"), sourceDir)
 }
@@ -456,23 +458,60 @@ private fun generateLabDeclarations(
     val targetDir = sourceDir.resolve("mui/lab")
         .also { it.mkdirs() }
 
-    val directories = typesDir.listFiles { file -> file.isDirectory } ?: return
+    val directories = typesDir.listFiles { file -> file.isDirectory }
+        ?: return
 
     directories.asSequence()
         .filter { !it.name.startsWith("Adapter") }
         .filter { it.name !in EXCLUDED_TYPES }
         .filter { it.name.isComponentName() }
         .filter { !it.resolve("${it.name}.d.ts").readText().startsWith("export { default } from ") }
+        .map { it.resolve("${it.name}.d.ts") }
+        .forEach { generate(it, targetDir, Package.lab) }
+}
+
+private fun generateTreeViewDeclarations(
+    typesDir: File,
+    sourceDir: File,
+) {
+    val targetDir = sourceDir.resolve("muix/tree/view")
+        .also { it.mkdirs() }
+
+    val directories = typesDir.listFiles { file -> file.isDirectory }
+        ?: return
+
+    directories.asSequence()
+        .filter { it.name.isComponentName() || it.name.isHookName() }
+        .filter { !it.resolve("${it.name}.d.ts").readText().startsWith("export { default } from ") }
         .onEach {
             when (it.name) {
                 "TreeItem" -> {
-                    val file = it.resolve("${it.name}Content.d.ts")
-                    generate(file, targetDir, Package.lab)
+                    val contentFile = it.resolve("${it.name}Content.d.ts")
+                    generate(contentFile, targetDir, Package.treeView)
+
+                    val interfaceFile = it.resolve("${it.name}.interface.d.ts")
+                    generate(interfaceFile, targetDir, Package.treeView)
+
+                    // TODO: Uncomment when separate mui-team separates hook return-type
+                    /*val hookFile = it.resolve("use${it.name}.d.ts")
+                    generate(hookFile, targetDir, Package.treeView)*/
+                }
+
+                "TreeView" -> {
+                    val contextFile = it.resolve("${it.name}Context.d.ts")
+                    generate(contextFile, targetDir, Package.treeView)
+
+                    val typesFile = it.resolve("${it.name}.types.d.ts")
+                    generate(typesFile, targetDir, Package.treeView)
+
+                    // TODO: Uncomment when separate mui-team separates hook return-type
+                    /*val hookFile = it.resolve("descendants.d.ts")
+                    generate(hookFile, targetDir, Package.treeView)*/
                 }
             }
         }
         .map { it.resolve("${it.name}.d.ts") }
-        .forEach { generate(it, targetDir, Package.lab) }
+        .forEach { generate(it, targetDir, Package.treeView) }
 }
 
 private fun generatePickersDeclarations(
