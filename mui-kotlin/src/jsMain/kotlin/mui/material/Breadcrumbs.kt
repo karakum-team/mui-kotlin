@@ -103,6 +103,7 @@ external interface BreadcrumbsOwnProps :
  * API:
  *
  * - [Breadcrumbs API](https://mui.com/material-ui/api/breadcrumbs/)
+ * - inherits [Typography API](https://mui.com/material-ui/api/typography/)
  */
 @JsName("default")
 external val Breadcrumbs: react.FC<BreadcrumbsProps>
