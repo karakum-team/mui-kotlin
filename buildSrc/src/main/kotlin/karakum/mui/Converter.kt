@@ -846,7 +846,13 @@ private fun findComponent(
         else -> propsName
     }
 
+    val jsNameAnnotation = if ("export " in content && "default " in content) {
+        JS_NAME_DEFAULT
+    } else {
+        "@JsName(\"$name\")\n"
+    }
+
     return "$comment\n" +
-            JS_NAME_DEFAULT +
+            jsNameAnnotation +
             "external val $name: react.$type<$typeParameter>"
 }
