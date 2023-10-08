@@ -849,7 +849,7 @@ private fun findComponent(
     val jsNameAnnotation = if ("export " in content && "default " in content) {
         JS_NAME_DEFAULT
     } else {
-        "@JsName(\"$name\")\n"
+        ""
     }
 
     return "$comment\n" +

@@ -48,5 +48,4 @@ external interface TreeItemContentProps :
 /**
  * @ignore - internal component.
  */
-@JsName("TreeItemContent")
 external val TreeItemContent: react.FC<TreeItemContentProps>
