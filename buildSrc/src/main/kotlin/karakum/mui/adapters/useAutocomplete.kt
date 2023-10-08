@@ -10,5 +10,10 @@ fun String.adaptUseAutocomplete(): String {
   FreeSolo extends boolean | undefined,
 > extends UseAutocompleteProps<Value, Multiple, DisableClearable, FreeSolo> {}""",
         "",
+    ).replace(
+        "  getInputProps: () => React.InputHTMLAttributes<HTMLInputElement> & {\n" +
+                "    ref: React.Ref<HTMLInputElement>;\n" +
+                "  };",
+        "  getInputProps: () => React.InputHTMLAttributes<HTMLInputElement>;"
     )
 }

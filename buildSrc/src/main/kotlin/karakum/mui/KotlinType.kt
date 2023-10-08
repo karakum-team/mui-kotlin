@@ -223,11 +223,11 @@ private val STANDARD_TYPE_MAP = mapOf(
     "TabsDirection" to "mui.system.Direction",
 
     "MenuContextType" to "Any /* mui.base.MenuContextType */",
-    "<TOther extends EventHandlers>(otherHandlers?: TOther) => UseMenuListboxSlotProps" to
-            "Any /* <TOther extends EventHandlers>(otherHandlers?: TOther) => UseMenuListboxSlotProps */",
+    "<ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseMenuListboxSlotProps" to
+            "Any /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseMenuListboxSlotProps */",
 
-    "(otherHandlers?: EventHandlers) => UseMenuButtonRootSlotProps" to
-            "Any /* (otherHandlers?: EventHandlers) => UseMenuButtonRootSlotProps */",
+    "<ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseMenuButtonRootSlotProps<ExternalProps>" to
+            "Any /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseMenuButtonRootSlotProps<ExternalProps> */",
 
     "StateChangeCallback<State>" to "Any /* StateChangeCallback<State> */",
 )
