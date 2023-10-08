@@ -491,10 +491,6 @@ private fun generateTreeViewDeclarations(
 
                     val typesFile = it.resolve("${it.name}.types.d.ts")
                     generate(typesFile, targetDir, Package.treeView)
-
-                    // TODO: Uncomment when separate mui-team separates hook return-type
-                    /*val hookFile = it.resolve("use${it.name}.d.ts")
-                    generate(hookFile, targetDir, Package.treeView)*/
                 }
 
                 "TreeView" -> {
@@ -503,10 +499,6 @@ private fun generateTreeViewDeclarations(
 
                     val typesFile = it.resolve("${it.name}.types.d.ts")
                     generate(typesFile, targetDir, Package.treeView)
-
-                    // TODO: Uncomment when separate mui-team separates hook return-type
-                    /*val hookFile = it.resolve("descendants.d.ts")
-                    generate(hookFile, targetDir, Package.treeView)*/
                 }
             }
         }
