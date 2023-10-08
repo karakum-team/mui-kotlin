@@ -207,9 +207,6 @@ private fun findProps(
         "TextField",
         -> return "typealias $propsName = BaseTextFieldProps"
 
-        "TreeViewContext",
-        -> return "external interface TreeViewContextProps : react.Props, TreeViewContextValue"
-
         "DateField",
         "StaticDatePicker",
         "StaticDateTimePicker",
@@ -683,6 +680,9 @@ private fun props(
     if (propsName == "AppBarProps" || propsName == "AccordionProps")
         baseInterfaces += "PaperProps"
 
+    if (propsName == "TreeViewProps")
+        baseInterfaces += "TreeViewPropsBase"
+
     if (
     // TODO: Commented props has conflicts by intrinsic types
         propsName in setOf(
@@ -841,7 +841,7 @@ private fun findComponent(
         -> "muix.tree.view.TreeItemProps"
 
         "TreeViewProps",
-        -> "muix.tree.view.TreeViewPropsBase /* SingleSelectTreeViewProps or MultiSelectTreeViewProps */"
+        -> "muix.tree.view.TreeViewProps"
 
         else -> propsName
     }

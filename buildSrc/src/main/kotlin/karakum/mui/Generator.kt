@@ -494,9 +494,6 @@ private fun generateTreeViewDeclarations(
                 }
 
                 "TreeView" -> {
-                    val contextFile = it.resolve("${it.name}Context.d.ts")
-                    generate(contextFile, targetDir, Package.treeView)
-
                     val typesFile = it.resolve("${it.name}.types.d.ts")
                     generate(typesFile, targetDir, Package.treeView)
                 }
