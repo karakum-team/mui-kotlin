@@ -8,7 +8,6 @@ import react.ReactNode
 import react.create
 
 val MyAutocomplete = FC<Props> {
-    @Suppress("UPPER_BOUND_VIOLATED")
     Autocomplete<AutocompleteProps<String>> {
         options = arrayOf("foo", "bar", "baz")
 
