@@ -122,11 +122,15 @@ private val MATERIAL_SIZE = """
     "NESTED_CLASS_IN_EXTERNAL_INTERFACE",
 )
 // language=JavaScript
-@JsName("(/*union*/{small: 'small', medium: 'medium', normal: 'normal', large: 'large'}/*union*/)")
+@JsVirtual()
 sealed external interface Size {
+    @JsName('small')
     object small : Size, BaseSize, NormalSize
+    @JsName('medium')
     object medium : Size, BaseSize
+    @JsName('normal')
     object normal : NormalSize
+    @JsName('large')
     object large : Size
 }
 

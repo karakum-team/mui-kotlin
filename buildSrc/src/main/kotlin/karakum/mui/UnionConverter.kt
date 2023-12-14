@@ -73,17 +73,13 @@ internal fun convertSealed(
     getValue: (String) -> String,
     type: String,
 ): String {
-    val jsName = keys.asSequence()
-        .map { "$it: '${getValue(it)}'" }
-        .joinToString(", ", "@JsName(\"\"\"($UNION_MARKER{", "}$UNION_MARKER)\"\"\")")
-
     val companionContent = keys.asSequence()
-        .map { "val $it: $type" }
+        .map { "@JsName('${getValue(it)}')\nval $it: $type" }
         .joinToString("\n")
 
     return """
         // language=JavaScript
-        $jsName
+        @JsVirtual
         sealed external interface $name {
             companion object {
                 $companionContent
