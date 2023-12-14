@@ -124,13 +124,13 @@ private val MATERIAL_SIZE = """
 // language=JavaScript
 @JsVirtual()
 sealed external interface Size {
-    @JsName('small')
+    @JsValue('small')
     object small : Size, BaseSize, NormalSize
-    @JsName('medium')
+    @JsValue('medium')
     object medium : Size, BaseSize
-    @JsName('normal')
+    @JsValue('normal')
     object normal : NormalSize
-    @JsName('large')
+    @JsValue('large')
     object large : Size
 }
 

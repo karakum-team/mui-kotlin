@@ -74,7 +74,7 @@ internal fun convertSealed(
     type: String,
 ): String {
     val companionContent = keys.asSequence()
-        .map { "@JsName('${getValue(it)}')\nval $it: $type" }
+        .map { "@JsValue(\"${getValue(it)}\")\nval $it: $type" }
         .joinToString("\n")
 
     return """
