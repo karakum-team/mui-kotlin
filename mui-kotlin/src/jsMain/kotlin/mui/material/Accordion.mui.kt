@@ -7,15 +7,24 @@
 
 package mui.material
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
 // language=JavaScript
-@JsName("""(/*union*/{root: 'MuiAccordion-root', rounded: 'MuiAccordion-rounded', gutters: 'MuiAccordion-gutters', region: 'MuiAccordion-region'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiAccordion {
     companion object {
+        @JsValue("MuiAccordion-root")
         val root: ClassName
+
+        @JsValue("MuiAccordion-rounded")
         val rounded: ClassName
+
+        @JsValue("MuiAccordion-gutters")
         val gutters: ClassName
+
+        @JsValue("MuiAccordion-region")
         val region: ClassName
     }
 }

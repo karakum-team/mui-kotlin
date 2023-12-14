@@ -7,13 +7,18 @@
 
 package mui.material
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
 // language=JavaScript
-@JsName("""(/*union*/{root: 'MuiDialogActions-root', spacing: 'MuiDialogActions-spacing'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiDialogActions {
     companion object {
+        @JsValue("MuiDialogActions-root")
         val root: ClassName
+
+        @JsValue("MuiDialogActions-spacing")
         val spacing: ClassName
     }
 }

@@ -7,13 +7,18 @@
 
 package mui.material
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
 // language=JavaScript
-@JsName("""(/*union*/{root: 'MuiPopover-root', paper: 'MuiPopover-paper'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiPopover {
     companion object {
+        @JsValue("MuiPopover-root")
         val root: ClassName
+
+        @JsValue("MuiPopover-paper")
         val paper: ClassName
     }
 }

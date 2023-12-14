@@ -7,13 +7,18 @@
 
 package mui.material
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
 // language=JavaScript
-@JsName("""(/*union*/{root: 'MuiStepIcon-root', text: 'MuiStepIcon-text'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiStepIcon {
     companion object {
+        @JsValue("MuiStepIcon-root")
         val root: ClassName
+
+        @JsValue("MuiStepIcon-text")
         val text: ClassName
     }
 }

@@ -7,17 +7,30 @@
 
 package mui.material
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
 // language=JavaScript
-@JsName("""(/*union*/{root: 'MuiSpeedDialIcon-root', icon: 'MuiSpeedDialIcon-icon', iconOpen: 'MuiSpeedDialIcon-iconOpen', iconWithOpenIconOpen: 'MuiSpeedDialIcon-iconWithOpenIconOpen', openIcon: 'MuiSpeedDialIcon-openIcon', openIconOpen: 'MuiSpeedDialIcon-openIconOpen'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiSpeedDialIcon {
     companion object {
+        @JsValue("MuiSpeedDialIcon-root")
         val root: ClassName
+
+        @JsValue("MuiSpeedDialIcon-icon")
         val icon: ClassName
+
+        @JsValue("MuiSpeedDialIcon-iconOpen")
         val iconOpen: ClassName
+
+        @JsValue("MuiSpeedDialIcon-iconWithOpenIconOpen")
         val iconWithOpenIconOpen: ClassName
+
+        @JsValue("MuiSpeedDialIcon-openIcon")
         val openIcon: ClassName
+
+        @JsValue("MuiSpeedDialIcon-openIconOpen")
         val openIconOpen: ClassName
     }
 }

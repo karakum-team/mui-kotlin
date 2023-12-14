@@ -7,12 +7,15 @@
 
 package mui.material
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
 // language=JavaScript
-@JsName("""(/*union*/{root: 'MuiCardContent-root'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiCardContent {
     companion object {
+        @JsValue("MuiCardContent-root")
         val root: ClassName
     }
 }

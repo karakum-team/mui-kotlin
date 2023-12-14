@@ -7,15 +7,24 @@
 
 package mui.material
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
 // language=JavaScript
-@JsName("""(/*union*/{root: 'MuiFormHelperText-root', sizeSmall: 'MuiFormHelperText-sizeSmall', contained: 'MuiFormHelperText-contained', filled: 'MuiFormHelperText-filled'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiFormHelperText {
     companion object {
+        @JsValue("MuiFormHelperText-root")
         val root: ClassName
+
+        @JsValue("MuiFormHelperText-sizeSmall")
         val sizeSmall: ClassName
+
+        @JsValue("MuiFormHelperText-contained")
         val contained: ClassName
+
+        @JsValue("MuiFormHelperText-filled")
         val filled: ClassName
     }
 }

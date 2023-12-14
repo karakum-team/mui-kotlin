@@ -7,13 +7,18 @@
 
 package mui.material
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
 // language=JavaScript
-@JsName("""(/*union*/{root: 'MuiBackdrop-root', invisible: 'MuiBackdrop-invisible'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiBackdrop {
     companion object {
+        @JsValue("MuiBackdrop-root")
         val root: ClassName
+
+        @JsValue("MuiBackdrop-invisible")
         val invisible: ClassName
     }
 }

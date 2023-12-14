@@ -7,22 +7,45 @@
 
 package mui.material
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
 // language=JavaScript
-@JsName("""(/*union*/{root: 'MuiTablePagination-root', toolbar: 'MuiTablePagination-toolbar', spacer: 'MuiTablePagination-spacer', selectLabel: 'MuiTablePagination-selectLabel', selectRoot: 'MuiTablePagination-selectRoot', select: 'MuiTablePagination-select', selectIcon: 'MuiTablePagination-selectIcon', input: 'MuiTablePagination-input', menuItem: 'MuiTablePagination-menuItem', displayedRows: 'MuiTablePagination-displayedRows', actions: 'MuiTablePagination-actions'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiTablePagination {
     companion object {
+        @JsValue("MuiTablePagination-root")
         val root: ClassName
+
+        @JsValue("MuiTablePagination-toolbar")
         val toolbar: ClassName
+
+        @JsValue("MuiTablePagination-spacer")
         val spacer: ClassName
+
+        @JsValue("MuiTablePagination-selectLabel")
         val selectLabel: ClassName
+
+        @JsValue("MuiTablePagination-selectRoot")
         val selectRoot: ClassName
+
+        @JsValue("MuiTablePagination-select")
         val select: ClassName
+
+        @JsValue("MuiTablePagination-selectIcon")
         val selectIcon: ClassName
+
+        @JsValue("MuiTablePagination-input")
         val input: ClassName
+
+        @JsValue("MuiTablePagination-menuItem")
         val menuItem: ClassName
+
+        @JsValue("MuiTablePagination-displayedRows")
         val displayedRows: ClassName
+
+        @JsValue("MuiTablePagination-actions")
         val actions: ClassName
     }
 }
