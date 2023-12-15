@@ -121,7 +121,6 @@ external interface TransitionCreateOptions {
 // language=kotlin
 private val MATERIAL_SIZE = """
 @Suppress(
-    "NAME_CONTAINS_ILLEGAL_CHARS",
     "NESTED_CLASS_IN_EXTERNAL_INTERFACE",
 )
 @JsVirtual()
