@@ -126,10 +126,10 @@ private val MATERIAL_SIZE = """
 @JsVirtual()
 sealed external interface Size {
     companion object {
-        @JsValue('small')
+        @JsValue("small")
         val small: small
 
-        @JsValue('medium')
+        @JsValue("medium")
         val pkcs8: medium
 
         @JsValue("normal")
