@@ -124,6 +124,7 @@ private val MATERIAL_SIZE = """
     "NAME_CONTAINS_ILLEGAL_CHARS",
     "NESTED_CLASS_IN_EXTERNAL_INTERFACE",
 )
+// language=JavaScript
 @JsVirtual()
 sealed external interface Size {
     @JsValue('small')
