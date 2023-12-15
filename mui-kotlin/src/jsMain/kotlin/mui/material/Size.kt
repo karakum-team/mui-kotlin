@@ -2,16 +2,25 @@
 
 package mui.material
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
+
 @Suppress(
     "NAME_CONTAINS_ILLEGAL_CHARS",
     "NESTED_CLASS_IN_EXTERNAL_INTERFACE",
 )
-// language=JavaScript
-@JsName("(/*union*/{small: 'small', medium: 'medium', normal: 'normal', large: 'large'}/*union*/)")
+@JsVirtual()
 sealed external interface Size {
+    @JsValue('small')
     object small : Size, BaseSize, NormalSize
+
+    @JsValue('medium')
     object medium : Size, BaseSize
+
+    @JsValue('normal')
     object normal : NormalSize
+
+    @JsValue('large')
     object large : Size
 }
 
