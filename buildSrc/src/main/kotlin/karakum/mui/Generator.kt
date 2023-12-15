@@ -23,6 +23,9 @@ private val DEFAULT_IMPORTS = listOf(
 
     "BoxProps" to "mui.system.BoxProps",
     "ModalClasses" to "mui.base.ModalClasses",
+
+    "JsVirtual" to "seskar.js.JsVirtual",
+    "JsValue" to "seskar.js.JsValue",
 )
 
 // language=kotlin
