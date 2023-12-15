@@ -1,7 +1,7 @@
 plugins {
     id("io.github.turansky.kfc.library")
-    `mui-declarations`
     id("io.github.turansky.seskar")
+    `mui-declarations`
 }
 
 val kotlinWrappersVersion = property("kotlin-wrappers.version") as String
