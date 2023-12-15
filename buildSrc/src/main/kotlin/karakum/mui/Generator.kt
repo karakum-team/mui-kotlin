@@ -690,7 +690,7 @@ private fun generate(
 
         if (mui != null) {
             val muiAnnotations =
-                "@file:Suppress(\n\"NESTED_CLASS_IN_EXTERNAL_INTERFACE\",\n\"NAME_CONTAINS_ILLEGAL_CHARS\",)"
+                "@file:Suppress(\n\"NESTED_CLASS_IN_EXTERNAL_INTERFACE\")"
             targetDir.resolve("$componentName.mui.kt")
                 .writeText(fileContent(annotations = muiAnnotations, body = mui, pkg = pkg))
         }
