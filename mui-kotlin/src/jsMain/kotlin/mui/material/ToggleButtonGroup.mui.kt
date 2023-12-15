@@ -7,16 +7,26 @@
 
 package mui.material
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
-// language=JavaScript
-@JsName("""(/*union*/{root: 'MuiToggleButtonGroup-root', vertical: 'MuiToggleButtonGroup-vertical', grouped: 'MuiToggleButtonGroup-grouped', groupedHorizontal: 'MuiToggleButtonGroup-groupedHorizontal', groupedVertical: 'MuiToggleButtonGroup-groupedVertical'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiToggleButtonGroup {
     companion object {
+        @JsValue("MuiToggleButtonGroup-root")
         val root: ClassName
+
+        @JsValue("MuiToggleButtonGroup-vertical")
         val vertical: ClassName
+
+        @JsValue("MuiToggleButtonGroup-grouped")
         val grouped: ClassName
+
+        @JsValue("MuiToggleButtonGroup-groupedHorizontal")
         val groupedHorizontal: ClassName
+
+        @JsValue("MuiToggleButtonGroup-groupedVertical")
         val groupedVertical: ClassName
     }
 }

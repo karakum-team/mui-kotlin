@@ -7,13 +7,17 @@
 
 package mui.material
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
-// language=JavaScript
-@JsName("""(/*union*/{root: 'MuiAccordionActions-root', spacing: 'MuiAccordionActions-spacing'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiAccordionActions {
     companion object {
+        @JsValue("MuiAccordionActions-root")
         val root: ClassName
+
+        @JsValue("MuiAccordionActions-spacing")
         val spacing: ClassName
     }
 }

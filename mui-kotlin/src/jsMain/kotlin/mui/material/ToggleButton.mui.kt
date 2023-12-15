@@ -7,18 +7,32 @@
 
 package mui.material
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
-// language=JavaScript
-@JsName("""(/*union*/{root: 'MuiToggleButton-root', standard: 'MuiToggleButton-standard', primary: 'MuiToggleButton-primary', secondary: 'MuiToggleButton-secondary', sizeSmall: 'MuiToggleButton-sizeSmall', sizeMedium: 'MuiToggleButton-sizeMedium', sizeLarge: 'MuiToggleButton-sizeLarge'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiToggleButton {
     companion object {
+        @JsValue("MuiToggleButton-root")
         val root: ClassName
+
+        @JsValue("MuiToggleButton-standard")
         val standard: ClassName
+
+        @JsValue("MuiToggleButton-primary")
         val primary: ClassName
+
+        @JsValue("MuiToggleButton-secondary")
         val secondary: ClassName
+
+        @JsValue("MuiToggleButton-sizeSmall")
         val sizeSmall: ClassName
+
+        @JsValue("MuiToggleButton-sizeMedium")
         val sizeMedium: ClassName
+
+        @JsValue("MuiToggleButton-sizeLarge")
         val sizeLarge: ClassName
     }
 }

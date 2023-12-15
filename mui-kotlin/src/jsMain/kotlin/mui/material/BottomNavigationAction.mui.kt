@@ -7,14 +7,20 @@
 
 package mui.material
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
-// language=JavaScript
-@JsName("""(/*union*/{root: 'MuiBottomNavigationAction-root', iconOnly: 'MuiBottomNavigationAction-iconOnly', label: 'MuiBottomNavigationAction-label'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiBottomNavigationAction {
     companion object {
+        @JsValue("MuiBottomNavigationAction-root")
         val root: ClassName
+
+        @JsValue("MuiBottomNavigationAction-iconOnly")
         val iconOnly: ClassName
+
+        @JsValue("MuiBottomNavigationAction-label")
         val label: ClassName
     }
 }

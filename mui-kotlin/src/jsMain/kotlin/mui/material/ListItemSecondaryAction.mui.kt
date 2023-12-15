@@ -7,13 +7,17 @@
 
 package mui.material
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
-// language=JavaScript
-@JsName("""(/*union*/{root: 'MuiListItemSecondaryAction-root', disableGutters: 'MuiListItemSecondaryAction-disableGutters'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiListItemSecondaryAction {
     companion object {
+        @JsValue("MuiListItemSecondaryAction-root")
         val root: ClassName
+
+        @JsValue("MuiListItemSecondaryAction-disableGutters")
         val disableGutters: ClassName
     }
 }

@@ -7,13 +7,17 @@
 
 package muix.pickers
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
-// language=JavaScript
-@JsName("""(/*union*/{root: 'MuiCalendarPicker-root', viewTransitionContainer: 'MuiCalendarPicker-viewTransitionContainer'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiCalendarPicker {
     companion object {
+        @JsValue("MuiCalendarPicker-root")
         val root: ClassName
+
+        @JsValue("MuiCalendarPicker-viewTransitionContainer")
         val viewTransitionContainer: ClassName
     }
 }

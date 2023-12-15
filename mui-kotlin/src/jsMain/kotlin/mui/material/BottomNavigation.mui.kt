@@ -7,12 +7,14 @@
 
 package mui.material
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
-// language=JavaScript
-@JsName("""(/*union*/{root: 'MuiBottomNavigation-root'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiBottomNavigation {
     companion object {
+        @JsValue("MuiBottomNavigation-root")
         val root: ClassName
     }
 }

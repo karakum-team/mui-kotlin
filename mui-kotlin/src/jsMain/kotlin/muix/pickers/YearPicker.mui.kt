@@ -7,12 +7,14 @@
 
 package muix.pickers
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
-// language=JavaScript
-@JsName("""(/*union*/{root: 'MuiYearPicker-root'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiYearPicker {
     companion object {
+        @JsValue("MuiYearPicker-root")
         val root: ClassName
     }
 }
