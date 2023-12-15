@@ -7,12 +7,14 @@
 
 package mui.material
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
-// language=JavaScript
-@JsName("""(/*union*/{root: 'MuiTextField-root'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiTextField {
     companion object {
+        @JsValue("MuiTextField-root")
         val root: ClassName
     }
 }

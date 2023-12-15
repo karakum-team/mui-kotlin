@@ -7,12 +7,14 @@
 
 package mui.base
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
-// language=JavaScript
-@JsName("""(/*union*/{root: 'MuiTab-root'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiTab {
     companion object {
+        @JsValue("MuiTab-root")
         val root: ClassName
     }
 }

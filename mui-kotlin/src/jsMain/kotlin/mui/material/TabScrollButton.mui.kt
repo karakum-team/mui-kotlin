@@ -7,13 +7,17 @@
 
 package mui.material
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
-// language=JavaScript
-@JsName("""(/*union*/{root: 'MuiTabScrollButton-root', vertical: 'MuiTabScrollButton-vertical'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiTabScrollButton {
     companion object {
+        @JsValue("MuiTabScrollButton-root")
         val root: ClassName
+
+        @JsValue("MuiTabScrollButton-vertical")
         val vertical: ClassName
     }
 }

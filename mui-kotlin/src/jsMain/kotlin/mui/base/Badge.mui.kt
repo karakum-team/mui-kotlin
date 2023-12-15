@@ -7,14 +7,20 @@
 
 package mui.base
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
-// language=JavaScript
-@JsName("""(/*union*/{root: 'MuiBadge-root', badge: 'MuiBadge-badge', invisible: 'MuiBadge-invisible'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiBadge {
     companion object {
+        @JsValue("MuiBadge-root")
         val root: ClassName
+
+        @JsValue("MuiBadge-badge")
         val badge: ClassName
+
+        @JsValue("MuiBadge-invisible")
         val invisible: ClassName
     }
 }

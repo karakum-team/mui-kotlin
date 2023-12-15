@@ -7,13 +7,17 @@
 
 package mui.material
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
-// language=JavaScript
-@JsName("""(/*union*/{root: 'MuiTable-root', stickyHeader: 'MuiTable-stickyHeader'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiTable {
     companion object {
+        @JsValue("MuiTable-root")
         val root: ClassName
+
+        @JsValue("MuiTable-stickyHeader")
         val stickyHeader: ClassName
     }
 }

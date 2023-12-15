@@ -7,15 +7,23 @@
 
 package mui.material
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
-// language=JavaScript
-@JsName("""(/*union*/{root: 'MuiMenuItem-root', dense: 'MuiMenuItem-dense', divider: 'MuiMenuItem-divider', gutters: 'MuiMenuItem-gutters'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiMenuItem {
     companion object {
+        @JsValue("MuiMenuItem-root")
         val root: ClassName
+
+        @JsValue("MuiMenuItem-dense")
         val dense: ClassName
+
+        @JsValue("MuiMenuItem-divider")
         val divider: ClassName
+
+        @JsValue("MuiMenuItem-gutters")
         val gutters: ClassName
     }
 }

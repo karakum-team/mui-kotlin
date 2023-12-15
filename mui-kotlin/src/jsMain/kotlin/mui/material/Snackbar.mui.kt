@@ -7,18 +7,32 @@
 
 package mui.material
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
-// language=JavaScript
-@JsName("""(/*union*/{root: 'MuiSnackbar-root', anchorOriginTopCenter: 'MuiSnackbar-anchorOriginTopCenter', anchorOriginBottomCenter: 'MuiSnackbar-anchorOriginBottomCenter', anchorOriginTopRight: 'MuiSnackbar-anchorOriginTopRight', anchorOriginBottomRight: 'MuiSnackbar-anchorOriginBottomRight', anchorOriginTopLeft: 'MuiSnackbar-anchorOriginTopLeft', anchorOriginBottomLeft: 'MuiSnackbar-anchorOriginBottomLeft'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiSnackbar {
     companion object {
+        @JsValue("MuiSnackbar-root")
         val root: ClassName
+
+        @JsValue("MuiSnackbar-anchorOriginTopCenter")
         val anchorOriginTopCenter: ClassName
+
+        @JsValue("MuiSnackbar-anchorOriginBottomCenter")
         val anchorOriginBottomCenter: ClassName
+
+        @JsValue("MuiSnackbar-anchorOriginTopRight")
         val anchorOriginTopRight: ClassName
+
+        @JsValue("MuiSnackbar-anchorOriginBottomRight")
         val anchorOriginBottomRight: ClassName
+
+        @JsValue("MuiSnackbar-anchorOriginTopLeft")
         val anchorOriginTopLeft: ClassName
+
+        @JsValue("MuiSnackbar-anchorOriginBottomLeft")
         val anchorOriginBottomLeft: ClassName
     }
 }

@@ -7,12 +7,14 @@
 
 package mui.material
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
-// language=JavaScript
-@JsName("""(/*union*/{root: 'MuiAlertTitle-root'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiAlertTitle {
     companion object {
+        @JsValue("MuiAlertTitle-root")
         val root: ClassName
     }
 }

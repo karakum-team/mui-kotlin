@@ -7,12 +7,14 @@
 
 package mui.lab
 
+import seskar.js.JsValue
+import seskar.js.JsVirtual
 import web.cssom.ClassName
 
-// language=JavaScript
-@JsName("""(/*union*/{root: 'MuiTimelineSeparator-root'}/*union*/)""")
+@JsVirtual
 sealed external interface MuiTimelineSeparator {
     companion object {
+        @JsValue("MuiTimelineSeparator-root")
         val root: ClassName
     }
 }
