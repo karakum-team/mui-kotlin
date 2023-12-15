@@ -121,16 +121,15 @@ external interface TransitionCreateOptions {
 // language=kotlin
 private val MATERIAL_SIZE = """
 @Suppress(
-    "NAME_CONTAINS_ILLEGAL_CHARS",
     "NESTED_CLASS_IN_EXTERNAL_INTERFACE",
 )
 @JsVirtual()
 sealed external interface Size {
     companion object {
-        @JsValue('small')
+        @JsValue("small")
         val small: small
 
-        @JsValue('medium')
+        @JsValue("medium")
         val pkcs8: medium
 
         @JsValue("normal")
