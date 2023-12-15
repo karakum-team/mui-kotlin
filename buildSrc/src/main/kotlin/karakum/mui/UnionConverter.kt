@@ -78,7 +78,6 @@ internal fun convertSealed(
         .joinToString("\n")
 
     return """
-        // language=JavaScript
         @JsVirtual
         sealed external interface $name {
             companion object {
