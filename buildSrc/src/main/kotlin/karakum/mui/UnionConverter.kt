@@ -43,22 +43,21 @@ internal fun convertUnion(
         .map { it.removeSurrounding("'") }
         .toList()
 
-    val jsName = values.asSequence()
-        .map { "${unionKey(it)}: ${unionValue(it)}" }
-        .joinToString(", ", "@JsName(\"\"\"($UNION_MARKER{", "}$UNION_MARKER)\"\"\")")
-
     val properties = values.asSequence()
         .map { escape(it) }
-        .map { "val ${unionKey(it)}: $name" }
+        .map {
+            """
+                @JsValue("${unionValue(it)}")
+                val ${unionKey(it)}: $name
+            """.trimIndent()
+        }
         .joinToString("\n")
 
     return """
         @Suppress(
-            "NAME_CONTAINS_ILLEGAL_CHARS",
             "NESTED_CLASS_IN_EXTERNAL_INTERFACE",
         )
-        // language=JavaScript
-        $jsName
+        @JsVirtual
         sealed external interface $name {
             companion object {
                 $properties
@@ -117,5 +116,5 @@ private fun unionValue(
         value == "true" -> value
         value.toIntOrNull() != null -> value
 
-        else -> "'$value'"
+        else -> value
     }
