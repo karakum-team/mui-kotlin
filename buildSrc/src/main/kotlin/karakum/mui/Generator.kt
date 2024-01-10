@@ -9,9 +9,9 @@ private val DEFAULT_IMPORTS = listOf(
 
     "Promise" to "js.promise.Promise",
 
-    "ReadonlyArray" to "js.core.ReadonlyArray",
-    "Record<" to "js.core.Record",
-    "JsTuple2" to "js.core.JsTuple2",
+    "ReadonlyArray" to "js.array.ReadonlyArray",
+    "Record<" to "js.objects.Record",
+    "JsTuple2" to "js.array.JsTuple2",
     "Void" to "js.core.Void",
 
     "Element" to "web.dom.Element",
@@ -58,7 +58,7 @@ external interface PropsWithSx : Props {
 // language=kotlin
 private val SYSTEM_SX = """
 import csstype.PropertiesBuilder
-import js.core.jso
+import js.objects.jso
 
 inline fun PropsWithSx.sx(
     crossinline block: PropertiesBuilder.() -> Unit,

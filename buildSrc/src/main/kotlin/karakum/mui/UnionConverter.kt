@@ -1,7 +1,5 @@
 package karakum.mui
 
-private const val UNION_MARKER = """/*union*/"""
-
 internal fun convertUnion(
     source: String,
 ): String? {
