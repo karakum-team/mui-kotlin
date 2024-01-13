@@ -11,6 +11,18 @@ external interface UseMenuParameters {
     var id: String?
 
     /**
+     * If `true`, it will be possible to highlight disabled items.
+     * @default true
+     */
+    var disabledItemsFocusable: Boolean?
+
+    /**
+     * If `true`, the highlight will not wrap around the list if arrow keys are used.
+     * @default false
+     */
+    var disableListWrap: Boolean?
+
+    /**
      * Callback fired when the menu items change.
      */
     var onItemsChange: ((items: ReadonlyArray<String>) -> Unit)?

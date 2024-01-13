@@ -22,4 +22,7 @@ external interface ToggleButtonGroupClasses {
 
     /** Styles applied to the children if `orientation="vertical"`. */
     var groupedVertical: ClassName
+
+    /** Styles applied to the root element if `fullWidth={true}`. */
+    var fullWidth: ClassName
 }
