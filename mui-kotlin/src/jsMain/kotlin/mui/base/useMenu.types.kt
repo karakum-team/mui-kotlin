@@ -39,6 +39,13 @@ external interface UseMenuParameters {
      * The ref to the menu's listbox node.
      */
     var listboxRef: react.Ref<web.dom.Element>?
+
+    /**
+     * The name of the component using useMenu.
+     * For debugging purposes.
+     * @default 'useMenu'
+     */
+    var componentName: String?
 }
 
 external interface UseMenuReturnValue {

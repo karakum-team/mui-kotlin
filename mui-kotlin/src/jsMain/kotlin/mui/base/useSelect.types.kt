@@ -120,6 +120,13 @@ external interface UseSelectParameters<OptionValue, Multiple> {
      * Set to `null` to deselect all options.
      */
     var value: Any? /* SelectValue<OptionValue, Multiple> */
+
+    /**
+     * The name of the component using useSelect.
+     * For debugging purposes.
+     * @default 'useSelect'
+     */
+    var componentName: String?
 }
 
 external interface UseSelectReturnValue<Value, Multiple> {
