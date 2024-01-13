@@ -58,7 +58,63 @@ external interface TablePaginationActionsProps :
         var lastButton: react.Props? /* Partial<IconButtonProps> */
         var nextButton: react.Props? /* Partial<IconButtonProps> */
         var previousButton: react.Props? /* Partial<IconButtonProps> */
+        var firstButtonIcon: react.Props? /* Partial<SvgIconProps> */
+        var lastButtonIcon: react.Props? /* Partial<SvgIconProps> */
+        var nextButtonIcon: react.Props? /* Partial<SvgIconProps> */
+        var previousButtonIcon: react.Props? /* Partial<SvgIconProps> */
     }
+
+    var slots: TablePaginationActionsSlots?
+}
+
+external interface TablePaginationActionsSlots {
+    /**
+     * The component that renders the first button.
+     * @default IconButton
+     */
+    var firstButton: react.ElementType<*>?
+
+    /**
+     * The component that renders the last button.
+     * @default IconButton
+     */
+    var lastButton: react.ElementType<*>?
+
+    /**
+     * The component that renders the next button.
+     * @default IconButton
+     */
+    var nextButton: react.ElementType<*>?
+
+    /**
+     * The component that renders the previous button.
+     * @default IconButton
+     */
+    var previousButton: react.ElementType<*>?
+
+    /**
+     * The component that renders the first button icon.
+     * @default FirstPageIcon
+     */
+    var firstButtonIcon: react.ElementType<*>?
+
+    /**
+     * The component that renders the last button icon.
+     * @default LastPageIcon
+     */
+    var lastButtonIcon: react.ElementType<*>?
+
+    /**
+     * The component that renders the next button icon.
+     * @default KeyboardArrowRight
+     */
+    var nextButtonIcon: react.ElementType<*>?
+
+    /**
+     * The component that renders the previous button icon.
+     * @default KeyboardArrowLeft
+     */
+    var previousButtonIcon: react.ElementType<*>?
 }
 
 

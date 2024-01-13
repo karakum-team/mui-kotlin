@@ -164,6 +164,17 @@ external interface TablePaginationOwnProps : mui.system.PropsWithSx {
     }
 
     /**
+     * The components used for each slot inside the TablePagination.
+     * Either a string to use a HTML element or a component.
+     * @default {}
+     */
+    var slots: Slots?
+
+    interface Slots {
+        var actions: react.ElementType<*>? /* TablePaginationActionsProps['slots'] */
+    }
+
+    /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
      */
     override var sx: SxProps<Theme>?
