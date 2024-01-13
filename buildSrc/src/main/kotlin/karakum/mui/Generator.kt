@@ -304,6 +304,9 @@ private fun generateBaseDeclarations(
             val ignoredHooksDefaultFiles = setOf(
                 "useList",
                 "useDropdown",
+                "useCompoundItem",
+                "useCompoundParent",
+                "useCompound",
             )
 
             if (dir.name in ignoredHooksDefaultFiles)

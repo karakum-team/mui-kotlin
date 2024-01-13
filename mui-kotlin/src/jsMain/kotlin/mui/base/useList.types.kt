@@ -158,11 +158,6 @@ external interface UseListParameters<ItemValue, State, CustomAction, CustomActio
 
 external interface ListItemState {
     /**
-     * If `true` the item is disabled.
-     */
-    var disabled: Boolean
-
-    /**
      * Determines if the item is focusable (its focus is managed by the DOM).
      */
     var focusable: Boolean
@@ -171,11 +166,6 @@ external interface ListItemState {
      * If `true` the item is highlighted.
      */
     var highlighted: Boolean
-
-    /**
-     * The 0-based index of the item.
-     */
-    var index: Number
 
     /**
      * If `true` the item is selected.

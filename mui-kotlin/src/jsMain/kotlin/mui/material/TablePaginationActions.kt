@@ -6,6 +6,10 @@ package mui.material
 
 external interface TablePaginationActionsProps :
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement> {
+    /**
+     * This prop is an alias for `slotProps.previousButton` and will be overriden by it if both are used.
+     * @deprecated Use `slotProps.previousButton` instead.
+     */
     var backIconButtonProps: IconButtonProps?
 
     /**
@@ -14,6 +18,12 @@ external interface TablePaginationActionsProps :
     var classes: dynamic
 
     var count: Number
+
+    /**
+     * If `true`, the component is disabled.
+     * @default false
+     */
+    var disabled: Boolean?
 
     /**
      * Accepts a function which returns a string value that provides a user-friendly name for the current page.
@@ -25,6 +35,10 @@ external interface TablePaginationActionsProps :
      */
     var getItemAriaLabel: (type: mui.system.Union /* 'first' | 'last' | 'next' | 'previous' */) -> String
 
+    /**
+     * This prop is an alias for `slotProps.nextButton` and will be overriden by it if both are used.
+     * @deprecated Use `slotProps.nextButton` instead.
+     */
     var nextIconButtonProps: IconButtonProps?
 
     var onPageChange: (event: react.dom.events.MouseEvent<web.html.HTMLButtonElement, *>?, page: Number) -> Unit
@@ -36,6 +50,15 @@ external interface TablePaginationActionsProps :
     var showFirstButton: Boolean
 
     var showLastButton: Boolean
+
+    var slotProps: SlotProps?
+
+    interface SlotProps {
+        var firstButton: react.Props? /* Partial<IconButtonProps> */
+        var lastButton: react.Props? /* Partial<IconButtonProps> */
+        var nextButton: react.Props? /* Partial<IconButtonProps> */
+        var previousButton: react.Props? /* Partial<IconButtonProps> */
+    }
 }
 
 

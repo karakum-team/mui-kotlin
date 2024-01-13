@@ -225,8 +225,10 @@ external interface InputBaseProps :
     var slotProps: SlotProps?
 
     interface SlotProps {
-        var root: react.Props? /* React.HTMLAttributes<HTMLDivElement> & InputBaseComponentsPropsOverrides */
-        var input: react.Props? /* React.InputHTMLAttributes<HTMLInputElement> & InputBaseComponentsPropsOverrides */
+        var root: react.Props? /* React.HTMLAttributes<HTMLDivElement> &
+  InputBaseComponentsPropsOverrides & { sx */
+        var input: react.Props? /* React.InputHTMLAttributes<HTMLInputElement> &
+  InputBaseComponentsPropsOverrides & { sx */
     }
 
     /**

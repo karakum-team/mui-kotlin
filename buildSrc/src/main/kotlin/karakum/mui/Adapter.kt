@@ -9,6 +9,7 @@ fun String.adaptRawContent(): String =
         .adaptSelect()
         .adaptFormControl()
         .adaptModal()
+        .adaptAutocomplete()
         .adaptUseAutocomplete()
         .adaptBreadcrumbs()
         .adaptUseMenu()
