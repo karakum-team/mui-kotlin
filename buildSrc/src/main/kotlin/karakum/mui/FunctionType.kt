@@ -101,6 +101,6 @@ internal fun String.toFunctionType(): String? {
         .replace(": any", ": $DYNAMIC")
         .replace(": ListAction<String>", ": Any /* ListAction<string> */")
         .replace(": CustomAction | ListAction<ItemValue>", ": Any /* CustomAction | ListAction<ItemValue> */")
-        .replace(": ListAction<Value> | SelectAction", ": Any /* ListAction<Value> | SelectAction */")
+        .replace(": ListAction<Value> | SelectAction<Value>", ": Any /* ListAction<Value> | SelectAction<Value> */")
         .replace(": ListAction<String | Number>", ": Any /* ListAction<string | number> */")
 }

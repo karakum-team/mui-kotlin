@@ -583,6 +583,9 @@ private fun findAdditionalProps(
             "FilterOptionsState",
             -> declaration += "<Value>"
 
+            "BrowserAutofillAction",
+            -> declaration += "<OptionValue>"
+
             "UseSelectSingleParameters",
             "UseSelectMultiParameters",
             "UseSelectSingleResult",

@@ -22,6 +22,13 @@ external interface SelectOwnProps<OptionValue> :
     var areOptionsEqual: ((a: OptionValue, b: OptionValue) -> Boolean)?
 
     /**
+     * This prop helps users to fill forms faster, especially on mobile devices.
+     * The name can be confusing, as it's more like an autofill.
+     * You can learn more about it [following the specification](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill).
+     */
+    var autoComplete: String?
+
+    /**
      * If `true`, the select element is focused during the first mount
      * @default false
      */
