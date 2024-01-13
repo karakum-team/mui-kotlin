@@ -76,6 +76,7 @@ internal fun String.toFunctionType(): String? {
             ": mui.system.Union /* 'first' | 'last' | 'next' | 'previous' */"
         )
         .replace("ClockView", "mui.system.Union /* ClockView */")
+        .replace("UsePaginationItem['type']", "mui.system.Union /* UsePaginationItem['type'] */")
         .replace("MuiPickersAdapter<TDate>", "$DYNAMIC /* MuiPickersAdapter<TDate> */")
         .replace("CSSObject", "$DYNAMIC /* CSSObject from `@mui/styled-engine` */")
         .replace("void | Promise<void>", "Promise<Void>?")
