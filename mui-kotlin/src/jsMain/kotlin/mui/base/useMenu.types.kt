@@ -6,6 +6,14 @@ import js.array.ReadonlyArray
 
 external interface UseMenuParameters {
     /**
+     * If `true` (Default) will focus the highligted item. If you set this prop to `false`
+     * the focus will not be moved inside the Menu component. This has severe accessibility implications
+     * and should only be considered if you manage focus otherwise.
+     * @default true
+     */
+    var autoFocus: Boolean?
+
+    /**
      * The id of the menu. If not provided, it will be generated.
      */
     var id: String?
