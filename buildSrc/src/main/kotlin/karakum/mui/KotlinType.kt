@@ -155,6 +155,9 @@ private val STANDARD_TYPE_MAP = mapOf(
     "string | React.ReactElement" to "react.ReactNode",
     "string | number | React.ReactElement" to "react.ReactNode",
     "React.ReactNode | ((state: FormControlState) => React.ReactNode)" to "react.ReactNode",
+    "React.HTMLAttributes<HTMLDivElement>['children']" to "react.ReactNode",
+    "React.LabelHTMLAttributes<HTMLLabelElement>['children']" to "react.ReactNode",
+    "FormControlProps['children']" to "react.ReactNode",
 
     "React.Dispatch<React.SetStateAction<boolean>>" to "react.StateSetter<Boolean>",
 

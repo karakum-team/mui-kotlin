@@ -25,4 +25,13 @@ external interface ToggleButtonGroupClasses {
 
     /** Styles applied to the root element if `fullWidth={true}`. */
     var fullWidth: ClassName
+
+    /** Styles applied to the first button in the toggle button group. */
+    var firstButton: ClassName
+
+    /** Styles applied to the last button in the toggle button group. */
+    var lastButton: ClassName
+
+    /** Styles applied to buttons in the middle of the toggle button group. */
+    var middleButton: ClassName
 }

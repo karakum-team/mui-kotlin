@@ -30,5 +30,14 @@ sealed external interface MuiToggleButtonGroup {
 
         @JsValue("MuiToggleButtonGroup-fullWidth")
         val fullWidth: ClassName
+
+        @JsValue("MuiToggleButtonGroup-firstButton")
+        val firstButton: ClassName
+
+        @JsValue("MuiToggleButtonGroup-lastButton")
+        val lastButton: ClassName
+
+        @JsValue("MuiToggleButtonGroup-middleButton")
+        val middleButton: ClassName
     }
 }

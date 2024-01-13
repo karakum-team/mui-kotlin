@@ -715,6 +715,9 @@ private fun props(
     if (propsName == "StepperProps")
         baseInterfaces += listOf("mui.system.StandardProps", "PaperProps")
 
+    if (propsName == "InputLabelOwnProps")
+        baseInterfaces += "react.PropsWithChildren"
+
     baseInterfaces
         .tryToAddInheritanceInterfaces(propsName)
 
