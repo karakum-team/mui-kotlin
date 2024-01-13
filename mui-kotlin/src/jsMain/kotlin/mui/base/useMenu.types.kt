@@ -43,7 +43,7 @@ external interface UseMenuReturnValue {
      * Action dispatcher for the menu component.
      * Allows to programmatically control the menu.
      */
-    var dispatch: (action: Any /* ListAction<string> */) -> Unit
+    var dispatch: (action: Any /* ListAction<String> */) -> Unit
 
     /**
      * Resolver for the listbox slot's props.

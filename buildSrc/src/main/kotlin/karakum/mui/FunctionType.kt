@@ -75,6 +75,10 @@ internal fun String.toFunctionType(): String? {
             ": 'first' | 'last' | 'next' | 'previous'",
             ": mui.system.Union /* 'first' | 'last' | 'next' | 'previous' */"
         )
+        .replace(": ListAction<string>", ": Any /* ListAction<string> */")
+        .replace(": CustomAction | ListAction<ItemValue>", ": Any /* CustomAction | ListAction<ItemValue> */")
+        .replace(": ListAction<Value> | SelectAction<Value>", ": Any /* ListAction<Value> | SelectAction<Value> */")
+        .replace(": ListAction<string | number>", ": Any /* ListAction<string | number> */")
         .replace("ClockView", "mui.system.Union /* ClockView */")
         .replace("UsePaginationItem['type']", "mui.system.Union /* UsePaginationItem['type'] */")
         .replace("MuiPickersAdapter<TDate>", "$DYNAMIC /* MuiPickersAdapter<TDate> */")
@@ -90,6 +94,7 @@ internal fun String.toFunctionType(): String? {
         .replace("string[]", "ReadonlyArray<String>")
         .replace("number | string | boolean", DYNAMIC)
         .replace("number | string", "Any /* number | string */")
+        .replace("string | number", "Any /* string | number */ ")
         .replace("number | number[]", DYNAMIC)
         .replace("string | undefined", "String?")
         .replace("SelectOption<Value> | undefined", "SelectOption<Value>?")
@@ -99,8 +104,4 @@ internal fun String.toFunctionType(): String? {
         .replace("void", "Unit")
         .replace("object", "Any")
         .replace(": any", ": $DYNAMIC")
-        .replace(": ListAction<String>", ": Any /* ListAction<string> */")
-        .replace(": CustomAction | ListAction<ItemValue>", ": Any /* CustomAction | ListAction<ItemValue> */")
-        .replace(": ListAction<Value> | SelectAction<Value>", ": Any /* ListAction<Value> | SelectAction<Value> */")
-        .replace(": ListAction<String | Number>", ": Any /* ListAction<string | number> */")
 }
