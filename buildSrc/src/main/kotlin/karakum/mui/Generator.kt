@@ -309,10 +309,22 @@ private fun generateBaseDeclarations(
                 "useCompound",
             )
 
-            if (dir.name in ignoredHooksDefaultFiles)
-                files
-            else
-                files + component
+            when (dir.name) {
+                in ignoredHooksDefaultFiles -> files
+                "Transitions" -> dir.existed(
+                    "CssAnimation.d.ts",
+                    "CssTransition.d.ts",
+                )
+
+                "useTransition" -> dir.existed(
+                    // TODO: Fix incorrect files processing and uncomment
+                    // "TransitionContext.d.ts",
+                    // "useTransitionStateManager.d.ts",
+                    // "useTransitionTrigger.d.ts",
+                )
+
+                else -> files + component
+            }
         }
         .forEach { generate(it, targetDir, Package.base) }
 }

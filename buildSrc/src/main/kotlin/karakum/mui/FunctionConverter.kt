@@ -30,6 +30,8 @@ internal fun findDefaultFunction(
         "useSwitch",
         "useOption",
         "useTreeItem",
+        "useTransitionTrigger",
+        "useTransitionStateManager",
         -> initialContent.replace("export declare function $name", "$DEFAULT_FUNCTION_PREFIX$name")
 
         "useSelect",
