@@ -852,7 +852,7 @@ private fun findComponent(
         else -> propsName
     }
 
-    val jsNameAnnotation = if ("export " in content && "default " in content) {
+    val jsNameAnnotation = if ("export default" in content || "export { default " in content) {
         JS_NAME_DEFAULT
     } else {
         ""
