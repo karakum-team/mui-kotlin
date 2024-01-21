@@ -108,6 +108,12 @@ typealias ShapeOptions = Shape
 """.trimIndent()
 
 private val MATERIAL_PALETTE_MODE = convertUnion("PaletteMode = 'light' | 'dark'")!!
+private val BASE_ORIENTATION = convertUnion("Orientation = 'horizontal' | 'vertical'")!!
+
+// language=kotlin
+private val MATERIAL_ORIENTATION = """
+typealias Orientation = mui.base.Orientation
+""".trimIndent()
 
 // language=kotlin
 private val STYLE_TRANSITION_CREATE_OPTIONS = """
@@ -327,6 +333,13 @@ private fun generateBaseDeclarations(
             }
         }
         .forEach { generate(it, targetDir, Package.base) }
+
+    sequenceOf(
+        "Orientation" to BASE_ORIENTATION,
+    ).forEach { (name, body) ->
+        targetDir.resolve("$name.kt")
+            .writeText(fileContent("", body, Package.base))
+    }
 }
 
 private fun generateSystemDeclarations(
@@ -414,6 +427,7 @@ private fun generateMaterialDeclarations(
         MUI to MUI_BODY,
         "PaletteMode" to MATERIAL_PALETTE_MODE,
         "Size" to MATERIAL_SIZE,
+        "Orientation" to MATERIAL_ORIENTATION,
     ).forEach { (name, body) ->
         val annotations = if (name == MUI) {
             "@file:Suppress(\n\"NESTED_CLASS_IN_EXTERNAL_INTERFACE\",\n\"NAME_CONTAINS_ILLEGAL_CHARS\",)"
@@ -670,11 +684,8 @@ private fun generate(
             .writeText(fileContent(annotations.joinToString("\n\n"), finalBody, pkg))
     }
 
-    if (extensions.isNotEmpty()) {
-        val fileName = when (componentName) {
-            "Stepper" -> "Orientation"
-            else -> "$componentName.ext"
-        }
+    if (extensions.isNotEmpty() && componentName != "Stepper") {
+        val fileName = "$componentName.ext"
 
         val extensionsAnnotations = if ("inline fun " in extensions) {
             "@file:Suppress(\n" +

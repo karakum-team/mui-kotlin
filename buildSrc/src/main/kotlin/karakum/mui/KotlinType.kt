@@ -216,8 +216,8 @@ private val STANDARD_TYPE_MAP = mapOf(
     SWIPEABLE_DRAWER_PROPS_ALLOW_SWIPE_IN_CHILDREN to "Boolean /* or (e: TouchEvent, swipeArea: HTMLDivElement, paper: HTMLDivElement) -> Boolean*/",
     USE_TAB_PANEL_RETURN_VALUE_GET_ROOT_PROPS to "() -> UseTabPanelRootSlotProps",
 
-    "'horizontal' | 'vertical'" to "mui.material.Orientation",
-    "'vertical' | 'horizontal'" to "mui.material.Orientation",
+    "'horizontal' | 'vertical'" to "Orientation",
+    "'vertical' | 'horizontal'" to "Orientation",
 
     "typeof window.matchMedia" to "(query: String) -> web.cssom.MediaQueryList",
 
