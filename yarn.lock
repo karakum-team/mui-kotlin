@@ -71,7 +71,7 @@
   dependencies:
     "@date-io/core" "^2.17.0"
 
-"@date-io/dayjs@^2.15.0", "@date-io/dayjs@^2.16.0":
+"@date-io/dayjs@^2.15.0":
   version "2.17.0"
   resolved "https://registry.yarnpkg.com/@date-io/dayjs/-/dayjs-2.17.0.tgz#ec3e2384136c028971ca2f78800a6877b9fdbe62"
   integrity sha512-Iq1wjY5XzBh0lheFA0it6Dsyv94e8mTiNR8vuTai+KopxDkreL3YjwTmZHxkgB7/vd0RMIACStzVgWvPATnDCA==
@@ -410,16 +410,15 @@
     react-transition-group "^4.4.5"
     rifm "^0.12.1"
 
-"@mui/x-date-pickers@6.0.4":
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/@mui/x-date-pickers/-/x-date-pickers-6.0.4.tgz#f82c0ab3d66603c70dcb3a64f51e633d2f570a07"
-  integrity sha512-blh91rqgnr8mdm+bn5vdde7fQII0gUDmeOMttKrMLv6P6OxkQXdz5aLSroXUpPTAAbX53zciFW/UG5Ynxqxtpw==
+"@mui/x-date-pickers@6.2.1":
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/@mui/x-date-pickers/-/x-date-pickers-6.2.1.tgz#1511bf440673fc98428c08f108be45630d26c6e0"
+  integrity sha512-pLSqzxJWgO2MV6so8A4LEGr1nDQuKJugKKP32Ej/YXGqUfW3CS1bHoYeuavO+Y/5JH4qnf7BPvcGEVXIjqTGTA==
   dependencies:
     "@babel/runtime" "^7.21.0"
     "@date-io/core" "^2.16.0"
     "@date-io/date-fns" "^2.16.0"
     "@date-io/date-fns-jalali" "^2.16.0"
-    "@date-io/dayjs" "^2.16.0"
     "@date-io/hijri" "^2.16.1"
     "@date-io/jalaali" "^2.16.1"
     "@date-io/luxon" "^2.16.1"
