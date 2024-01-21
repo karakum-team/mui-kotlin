@@ -663,7 +663,6 @@ private fun generate(
     if (componentName != "CalendarPickerView" && componentName != "createTypography") {
         val finalBody = when {
             componentName == "createTransitions" -> body + "\n\n" + STYLE_TRANSITION_CREATE_OPTIONS
-            pkg == Package.pickers -> body.replace(JS_NAME_DEFAULT, "")
             else -> body
         }
 
