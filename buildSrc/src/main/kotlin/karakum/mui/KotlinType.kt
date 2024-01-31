@@ -99,6 +99,7 @@ private val KNOWN_TYPE_SUFFIXES = setOf(
 private val STANDARD_TYPE_MAP = mapOf(
     "any" to "Any",
     "object" to "Any",
+    "string | number" to "Any /* String or Number */",
     "string | number | false" to "Any /* String or Number or Boolean /* false */ */",
     "string | number | null" to "Any /* String or Number */",
 
