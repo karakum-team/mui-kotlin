@@ -20,6 +20,10 @@ internal fun fixOverrides(
         -> content
             .override("classes")
 
+        "Button",
+        -> content
+            .override("rootElementName")
+
         "CardActionArea",
         -> content
             .override("classes")

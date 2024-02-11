@@ -126,6 +126,8 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "Date" to "kotlin.js.Date",
 
+    "keyof HTMLElementTagNameMap" to "String /* keyof HTMLElementTagNameMap */",
+
     "readonly CalendarPickerView[]" to "ReadonlyArray<CalendarPickerView>",
     "Breakpoint[]" to "ReadonlyArray<Breakpoint>",
     "UsePaginationItem[]" to "ReadonlyArray<UsePaginationItem>",
@@ -237,7 +239,7 @@ private val STANDARD_TYPE_MAP = mapOf(
             "Any /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseMenuButtonRootSlotProps<ExternalProps> */",
 
     "StateChangeCallback<State>" to "Any /* StateChangeCallback<State> */",
-    "PopperProps['anchorEl']" to "Any /* PopperProps['anchorEl'] */",
+    "PopupProps['anchorEl']" to "Any /* PopupProps['anchorEl'] */",
 )
 
 internal fun kotlinType(
