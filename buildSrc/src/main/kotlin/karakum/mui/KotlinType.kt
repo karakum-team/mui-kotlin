@@ -239,7 +239,7 @@ private val STANDARD_TYPE_MAP = mapOf(
             "Any /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseMenuButtonRootSlotProps<ExternalProps> */",
 
     "StateChangeCallback<State>" to "Any /* StateChangeCallback<State> */",
-    "PopupProps['anchorEl']" to "Any /* PopupProps['anchorEl'] */",
+    "PopupProps['anchor']" to "Any /* PopupProps['anchor'] */",
 )
 
 internal fun kotlinType(

@@ -757,6 +757,9 @@ private fun MutableList<String>.tryToAddInheritanceInterfaces(
     if (propsName == "CardActionAreaOwnProps")
         this += "ButtonBaseProps"
 
+    if (propsName == "CardOwnProps")
+        this += "PaperOwnProps"
+
     if (propsName == "CardHeaderOwnProps")
         this += INTRINSIC_TYPE_MAP.getValue("div")
 
