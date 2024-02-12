@@ -126,7 +126,7 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "Date" to "kotlin.js.Date",
 
-    "keyof HTMLElementTagNameMap" to "String /* keyof HTMLElementTagNameMap */",
+    "keyof HTMLElementTagNameMap" to "web.html.HtmlTagName<*>",
 
     "readonly CalendarPickerView[]" to "ReadonlyArray<CalendarPickerView>",
     "Breakpoint[]" to "ReadonlyArray<Breakpoint>",
