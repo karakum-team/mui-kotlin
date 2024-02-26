@@ -718,6 +718,9 @@ private fun props(
     if (propsName == "InputLabelOwnProps")
         baseInterfaces += "react.PropsWithChildren"
 
+    if (propsName == "AlertProps")
+        baseInterfaces += "AlertSlots"
+
     baseInterfaces
         .tryToAddInheritanceInterfaces(propsName)
 

@@ -1,8 +1,7 @@
 package karakum.mui.adapters
 
-fun String.adaptModal(): String {
-    return replace(
-        " & Omit<BaseModalTypeMap['props'], 'slotProps'>",
-        "",
+fun String.adaptModal(): String = this
+    .replace(
+        oldValue = " & Omit<BaseModalTypeMap['props'], 'slotProps'>",
+        newValue = "",
     )
-}

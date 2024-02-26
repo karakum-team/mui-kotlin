@@ -352,7 +352,8 @@ private fun generateSystemDeclarations(
     val directories = typesDir.listFiles { file -> file.isDirectory } ?: return
 
     directories.asSequence()
-        .filter { it.name.isComponentName() }
+        .filter { it.name.isComponentName() || it.name.isHookName() }
+        .filter { it.name !in setOf("useThemeProps") }
         .map { it.resolve("${it.name}.d.ts") }
         .flatMap { component ->
             val dir = component.parentFile
@@ -398,7 +399,7 @@ private fun generateMaterialDeclarations(
 
     directories.asSequence()
         .filter { it.name.isComponentName() || it.name == "internal" || it.name.isHookName() }
-        .filter { it.name !in setOf("useTouchRipple", "useAutocomplete") }
+        .filter { it.name !in setOf("useTouchRipple", "useAutocomplete", "useMediaQuery") }
         .filter { it.name !in BASE_TYPES }
         .filter { it.name != "StyledEngineProvider" }
         .onEach {
