@@ -9,7 +9,7 @@ internal fun String.toFunctionType(): String? {
 
     return replace(" => ", "->")
         .replace("{\n    matches: boolean;\n}", DYNAMIC)
-        .replace("MouseEvent | TouchEvent", "web.uievents.UIEvent<*>")
+        .replace("MouseEvent | TouchEvent", "web.uievents.UIEvent")
         .replace("React.MouseEvent | React.KeyboardEvent | React.FocusEvent", "react.dom.events.SyntheticEvent<*, *>")
         .replace("React.SyntheticEvent | Event", "react.dom.events.SyntheticEvent<*, *>")
         .replace("React.SyntheticEvent<any> | Event", "react.dom.events.SyntheticEvent<*, *>")
@@ -49,7 +49,7 @@ internal fun String.toFunctionType(): String? {
             "?: React.HTMLAttributes<HTMLInputElement>",
             ": react.dom.html.HTMLAttributes<web.html.HTMLInputElement>?"
         )
-        .replace(": Event", ": Event<*>")
+        .replace(": Event", ": Event")
         .replace("?: any", ": Any?")
         .replace("?: string", ": String?")
         .replace("?: boolean", ": Boolean?")
