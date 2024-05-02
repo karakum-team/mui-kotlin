@@ -87,7 +87,7 @@ private val KNOWN_TYPE_SUFFIXES = setOf(
     "Actions",
     "Origin",
     "Position",
-    "Variants",
+    "Variant",
     "Color",
     "Size",
 ) + UNION_PROPERTIES
