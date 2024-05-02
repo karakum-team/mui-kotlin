@@ -705,6 +705,9 @@ private fun generate(
             .writeText(fileContent(annotations = extensionsAnnotations, body = finalBody, pkg = pkg))
     }
 
+    if (componentName == "RadioGroup")
+        return
+
     val classesName = componentName + "Classes"
 
     @Suppress("DEPRECATION")
