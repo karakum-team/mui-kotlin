@@ -74,7 +74,7 @@ internal fun convertDefinitions(
         .removeExtendsEmptyObject()
         .replace("(inProps: ", "(props: ")
         .replace(
-            "type PopperProps = Omit<BasePopperProps, 'direction'> &",
+            "interface PopperProps extends Omit<BasePopperProps, 'direction'>",
             "interface PopperProps extends BasePopperProps",
         )
         .replace(

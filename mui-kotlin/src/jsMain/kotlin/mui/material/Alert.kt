@@ -13,9 +13,9 @@ import mui.system.SxProps
 
 external interface AlertProps :
     mui.system.StandardProps,
-    StandardProps<PaperProps,
-            mui.system.PropsWithSx,
-            AlertSlots {
+    PaperProps,
+    mui.system.PropsWithSx,
+    AlertSlots {
     /**
      * The action to display. It renders after the message, at the end of the alert.
      */
