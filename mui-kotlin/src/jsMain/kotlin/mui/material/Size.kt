@@ -5,10 +5,7 @@ package mui.material
 import seskar.js.JsValue
 import seskar.js.JsVirtual
 
-@Suppress(
-    "NESTED_CLASS_IN_EXTERNAL_INTERFACE",
-)
-@JsVirtual()
+@JsVirtual
 sealed external interface Size {
     companion object {
         @JsValue("small")

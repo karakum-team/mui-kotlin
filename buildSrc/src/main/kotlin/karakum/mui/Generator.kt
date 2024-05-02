@@ -126,10 +126,7 @@ external interface TransitionCreateOptions {
 
 // language=kotlin
 private val MATERIAL_SIZE = """
-@Suppress(
-    "NESTED_CLASS_IN_EXTERNAL_INTERFACE",
-)
-@JsVirtual()
+@JsVirtual
 sealed external interface Size {
     companion object {
         @JsValue("small")
@@ -431,12 +428,8 @@ private fun generateMaterialDeclarations(
         "Size" to MATERIAL_SIZE,
         "Orientation" to MATERIAL_ORIENTATION,
     ).forEach { (name, body) ->
-        val annotations = if (name == MUI) {
-            "@file:Suppress(\n\"NESTED_CLASS_IN_EXTERNAL_INTERFACE\",\n\"NAME_CONTAINS_ILLEGAL_CHARS\",)"
-        } else ""
-
         targetDir.resolve("$name.kt")
-            .writeText(fileContent(annotations, body, Package.material))
+            .writeText(fileContent(body = body, pkg = Package.material))
     }
 }
 
@@ -719,10 +712,8 @@ private fun generate(
             .writeText(fileContent(body = classes, pkg = pkg))
 
         if (mui != null) {
-            val muiAnnotations =
-                "@file:Suppress(\n\"NESTED_CLASS_IN_EXTERNAL_INTERFACE\",)"
             targetDir.resolve("$componentName.mui.kt")
-                .writeText(fileContent(annotations = muiAnnotations, body = mui, pkg = pkg))
+                .writeText(fileContent(body = mui, pkg = pkg))
         }
     }
 }

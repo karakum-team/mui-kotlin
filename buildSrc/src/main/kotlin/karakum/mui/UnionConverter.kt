@@ -52,9 +52,6 @@ internal fun convertUnion(
         .joinToString("\n")
 
     return """
-        @Suppress(
-            "NESTED_CLASS_IN_EXTERNAL_INTERFACE",
-        )
         @JsVirtual
         sealed external interface $name {
             companion object {
