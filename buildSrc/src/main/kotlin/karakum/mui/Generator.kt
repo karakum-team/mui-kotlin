@@ -349,11 +349,12 @@ private fun generateSystemDeclarations(
     val targetDir = sourceDir.resolve("mui/system")
         .also { it.mkdirs() }
 
-    val directories = typesDir.listFiles { file -> file.isDirectory } ?: return
+    val directories = typesDir.listFiles { file -> file.isDirectory }
+        ?: return
 
     directories.asSequence()
         .filter { it.name.isComponentName() || it.name.isHookName() }
-        .filter { it.name !in setOf("useThemeProps") }
+        .filter { it.name !in setOf("useThemeProps", "RtlProvider") }
         .map { it.resolve("${it.name}.d.ts") }
         .flatMap { component ->
             val dir = component.parentFile
