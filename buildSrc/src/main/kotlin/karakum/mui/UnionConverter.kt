@@ -68,18 +68,51 @@ internal fun convertSealed(
     type: String,
 ): String {
     val companionContent = keys.asSequence()
-        .map { "@JsValue(\"${getValue(it)}\")\nval $it: $type" }
-        .joinToString("\n")
-
-    return """
-        @JsVirtual
-        sealed external interface $name {
-            companion object {
-                $companionContent
+        .map {
+            if (!it.startsWith("'")) {
+                "@JsValue(\"${getValue(it)}\")\nval $it: $type"
+            } else {
+                ""
             }
         }
-    """.trimIndent()
+        .joinToString("\n")
+
+    return convertSealed(name, companionContent)
 }
+
+internal fun convertSealed(
+    name: String,
+    keys: List<String>,
+    comments: List<String>,
+    getValue: (String) -> String,
+    type: String,
+): String {
+    require(keys.size == comments.size)
+
+    val companionContent = keys.asSequence()
+        .mapIndexed { index, it ->
+            if (!it.startsWith("'")) {
+                "${comments[index]}\n@JsValue(\"${getValue(it)}\")\nval $it: $type"
+            } else {
+                ""
+            }
+        }
+        .joinToString("\n")
+
+    return convertSealed(name, companionContent)
+}
+
+private fun convertSealed(
+    name: String,
+    companionContent: String,
+): String = """
+    @JsVirtual
+    sealed external interface $name {
+        companion object {
+            $companionContent
+        }
+    }
+""".trimIndent()
 
 private fun escape(
     value: String,

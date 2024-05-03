@@ -706,7 +706,7 @@ private fun generate(
     @Suppress("DEPRECATION")
     val classesFile = definitionFile.parentFile.resolve(classesName.decapitalize() + ".d.ts")
     if (classesFile.exists()) {
-        val (classes, mui) = convertClasses(componentName, classesFile)
+        val (classes, mui) = convertClasses(componentName, classesFile, isBase = pkg == Package.base)
 
         targetDir.resolve("$componentName.classes.kt")
             .writeText(fileContent(body = classes, pkg = pkg))

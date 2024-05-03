@@ -12,11 +12,13 @@ internal data class ConversionResult(
 internal fun convertClasses(
     componentName: String,
     definitionFile: File,
+    isBase: Boolean = false,
 ): Pair<String, String?> {
     val content = definitionFile.readText()
         .replace("\r\n", "\n")
 
     val slots = mutableListOf<String>()
+    val comments = mutableListOf<String>()
 
     val classesName = componentName + "Classes"
     val muiName = MUI + componentName
@@ -33,18 +35,38 @@ internal fun convertClasses(
         .trimIndent()
         .splitToSequence("\n")
         .map {
+            if (it.startsWith("/**"))
+                comments += it
+
             val name = it.removeSuffix(": string;")
                 .removeSuffix("?")
 
             if (name == it) return@map it
 
-            if (!name.startsWith("'"))
-                slots += name
+            slots += name
 
             val line = "var $name: ClassName"
             if (name.startsWith("'")) "    // $line" else line
         }
         .joinToString("\n")
+
+    if (isBase) {
+        val classesContent = convertSealed(
+            name = classesName,
+            keys = slots,
+            comments = comments,
+            getValue = {
+                if (it in MUI_COMMON_CLASSES) {
+                    "${MUI_BASE.lowercase()}-$it"
+                } else {
+                    "${MUI_BASE.lowercase()}-$componentName-$it"
+                }
+            },
+            type = "ClassName",
+        )
+
+        return classesContent to null
+    }
 
     val classesContent = "external interface $classesName {\n" +
             "$classes\n" +
@@ -52,7 +74,7 @@ internal fun convertClasses(
 
     val muiContent = convertSealed(
         name = muiName,
-        keys = slots.filter { it !in MUI_CLASSES },
+        keys = slots.filter { it !in MUI_COMMON_CLASSES },
         getValue = { "$muiName-$it" },
         type = "ClassName",
     )
