@@ -2,6 +2,9 @@
 
 package mui.base
 
+import web.dom.Element
+import web.events.Event
+
 external interface TabProps :
     TabOwnProps,
     react.dom.html.ButtonHTMLAttributes<web.html.HTMLButtonElement>

@@ -68,35 +68,7 @@ internal fun convertSealed(
     type: String,
 ): String {
     val companionContent = keys.asSequence()
-        .map {
-            if (!it.startsWith("'")) {
-                "@JsValue(\"${getValue(it)}\")\nval $it: $type"
-            } else {
-                ""
-            }
-        }
-        .joinToString("\n")
-
-    return convertSealed(name, companionContent)
-}
-
-internal fun convertSealed(
-    name: String,
-    keys: List<String>,
-    comments: List<String>,
-    getValue: (String) -> String,
-    type: String,
-): String {
-    require(keys.size == comments.size)
-
-    val companionContent = keys.asSequence()
-        .mapIndexed { index, it ->
-            if (!it.startsWith("'")) {
-                "${comments[index]}\n@JsValue(\"${getValue(it)}\")\nval $it: $type"
-            } else {
-                ""
-            }
-        }
+        .map { "@JsValue(\"${getValue(it)}\")\nval $it: $type" }
         .joinToString("\n")
 
     return convertSealed(name, companionContent)

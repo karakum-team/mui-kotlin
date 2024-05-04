@@ -2,82 +2,64 @@ package karakum.mui
 
 import java.io.File
 
-private const val JS_NAME_DEFAULT = "@JsName(\"default\")\n"
-
 internal data class ConversionResult(
     val main: String,
     val extensions: String,
 )
 
 internal fun convertClasses(
-    componentName: String,
+    classesName: String,
     definitionFile: File,
-    isBase: Boolean = false,
-): Pair<String, String?> {
+): String {
     val content = definitionFile.readText()
         .replace("\r\n", "\n")
-
-    val slots = mutableListOf<String>()
-    val comments = mutableListOf<String>()
-
-    val classesName = componentName + "Classes"
-    val muiName = MUI + componentName
 
     val source = content.substringAfter("export interface $classesName {\n", "")
 
     if (source.isEmpty()) {
-        check(componentName == "Container" || componentName == "Stack")
-        return "typealias $classesName = mui.system.$classesName" to "typealias $muiName = mui.system.$muiName"
+        check(classesName == "ContainerClasses" || classesName == "StackClasses")
+        return "external interface $classesName : mui.system.$classesName"
     }
 
-    val classes = source
-        .substringBefore("\n}\n")
-        .trimIndent()
-        .splitToSequence("\n")
-        .map {
-            if (it.startsWith("/**"))
-                comments += it
+    val classesInterface = getClassesContent(source)
+    val classesInterfaceContent = "external interface $classesName {\n$classesInterface}\n"
 
-            val name = it.removeSuffix(": string;")
-                .removeSuffix("?")
+    val classesObject = getClassesContent(source, objectMode = true)
+    val classesObjectContent =
+        optionalJsNameDefaultAnnotation(content) +
+                "external object ${classesName.replaceFirstChar(Char::lowercase)} : $classesName {\n$classesObject}\n"
 
-            if (name == it) return@map it
-
-            slots += name
-
-            val line = "var $name: ClassName"
-            if (name.startsWith("'")) "    // $line" else line
-        }
-        .joinToString("\n")
-
-    if (isBase) {
-        val classesContent = convertSealed(
-            name = classesName,
-            keys = slots,
-            comments = comments,
-            getValue = {
-                val name = if (it in MUI_COMMON_CLASS_MODIFIERS) "" else componentName
-                "base-$name-$it"
-            },
-            type = "ClassName",
-        )
-
-        return classesContent to null
-    }
-
-    val classesContent = "external interface $classesName {\n" +
-            "$classes\n" +
-            "}\n"
-
-    val muiContent = convertSealed(
-        name = muiName,
-        keys = slots.filter { it !in MUI_COMMON_CLASS_MODIFIERS },
-        getValue = { "$muiName-$it" },
-        type = "ClassName",
-    )
-
-    return classesContent to muiContent
+    return "$classesInterfaceContent\n$classesObjectContent"
 }
+
+private fun getClassesContent(
+    source: String,
+    objectMode: Boolean = false,
+): String = source
+    .substringBefore("\n}\n")
+    .trimIndent()
+    .splitToSequence("\n")
+    .map {
+        if (objectMode && it.contains("*")) // skip comments in object mode only
+            return@map ""
+
+        val name = it.removeSuffix(": string;")
+            .removeSuffix("?")
+
+        if (name == it)
+            return@map "$it\n"
+
+        val line = if (objectMode)
+            "override var $name: ClassName = definedExternally"
+        else
+            "var $name: ClassName"
+
+        if (name.startsWith("'"))
+            "    // $line\n"
+        else
+            "$line\n"
+    }
+    .joinToString("")
 
 internal fun convertDefinitions(
     definitionFile: File,
@@ -877,13 +859,18 @@ private fun findComponent(
         else -> propsName
     }
 
-    val jsNameAnnotation = if ("export default" in content || "export { default " in content) {
-        JS_NAME_DEFAULT
+    val jsNameDefault = optionalJsNameDefaultAnnotation(content)
+
+    return "$comment\n" +
+            jsNameDefault +
+            "external val $name: react.$type<$typeParameter>"
+}
+
+private fun optionalJsNameDefaultAnnotation(
+    content: String,
+): String =
+    if ("export default" in content || "export { default " in content) {
+        "@JsName(\"default\")\n"
     } else {
         ""
     }
-
-    return "$comment\n" +
-            jsNameAnnotation +
-            "external val $name: react.$type<$typeParameter>"
-}

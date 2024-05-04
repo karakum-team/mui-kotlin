@@ -15,6 +15,7 @@ internal val MUI_COMMON_CLASS_MODIFIERS = listOf(
     "selected",
 )
 
+// TODO: Looks redundant. Check
 internal val MUI_BODY = convertSealed(
     name = MUI,
     keys = MUI_COMMON_CLASS_MODIFIERS,

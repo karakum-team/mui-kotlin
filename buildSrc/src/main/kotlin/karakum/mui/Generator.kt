@@ -701,20 +701,15 @@ private fun generate(
     if (componentName == "RadioGroup")
         return
 
-    val classesName = componentName + "Classes"
+    val classesFileName = "${componentName}Classes".replaceFirstChar(Char::lowercase)
+    val classesFile = definitionFile.parentFile.resolve("$classesFileName.d.ts")
 
-    @Suppress("DEPRECATION")
-    val classesFile = definitionFile.parentFile.resolve(classesName.decapitalize() + ".d.ts")
     if (classesFile.exists()) {
-        val (classes, mui) = convertClasses(componentName, classesFile, isBase = pkg == Package.base)
+        val classes = convertClasses(classesFileName.replaceFirstChar(Char::uppercase), classesFile)
+        val annotation = moduleDeclaration(pkg, subpackage, componentName)
 
         targetDir.resolve("$componentName.classes.kt")
-            .writeText(fileContent(body = classes, pkg = pkg))
-
-        if (mui != null) {
-            targetDir.resolve("$componentName.mui.kt")
-                .writeText(fileContent(body = mui, pkg = pkg))
-        }
+            .writeText(fileContent(annotations = annotation, body = classes, pkg = pkg))
     }
 }
 

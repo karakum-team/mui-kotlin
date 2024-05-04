@@ -1,5 +1,7 @@
 // Automatically generated - do not modify!
 
+@file:JsModule("@mui/x-tree-view/TreeItem")
+
 package muix.tree.view
 
 import web.cssom.ClassName
@@ -31,4 +33,16 @@ external interface TreeItemClasses {
 
     /** Styles applied to the label element. */
     var label: ClassName
+}
+
+external object treeItemClasses : TreeItemClasses {
+    override var root: ClassName = definedExternally
+    override var group: ClassName = definedExternally
+    override var content: ClassName = definedExternally
+    override var expanded: ClassName = definedExternally
+    override var selected: ClassName = definedExternally
+    override var focused: ClassName = definedExternally
+    override var disabled: ClassName = definedExternally
+    override var iconContainer: ClassName = definedExternally
+    override var label: ClassName = definedExternally
 }

@@ -1,5 +1,7 @@
 // Automatically generated - do not modify!
 
+@file:JsModule("@mui/x-date-pickers/PickersDay")
+
 package muix.pickers
 
 import web.cssom.ClassName
@@ -25,4 +27,14 @@ external interface PickersDayClasses {
 
     /** State class applied to the root element if `disabled=true`. */
     var disabled: ClassName
+}
+
+external object pickersDayClasses : PickersDayClasses {
+    override var root: ClassName = definedExternally
+    override var dayWithMargin: ClassName = definedExternally
+    override var dayOutsideMonth: ClassName = definedExternally
+    override var hiddenDaySpacingFiller: ClassName = definedExternally
+    override var today: ClassName = definedExternally
+    override var selected: ClassName = definedExternally
+    override var disabled: ClassName = definedExternally
 }

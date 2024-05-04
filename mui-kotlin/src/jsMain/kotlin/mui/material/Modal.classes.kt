@@ -1,7 +1,10 @@
 // Automatically generated - do not modify!
 
+@file:JsModule("@mui/material/Modal")
+
 package mui.material
 
+import mui.base.ModalClasses
 import web.cssom.ClassName
 
 external interface ModalClasses {
@@ -13,4 +16,11 @@ external interface ModalClasses {
 
     /** Class name applied to the backdrop element. */
     var backdrop: ClassName
+}
+
+@JsName("default")
+external object modalClasses : ModalClasses {
+    override var root: ClassName = definedExternally
+    override var hidden: ClassName = definedExternally
+    override var backdrop: ClassName = definedExternally
 }
