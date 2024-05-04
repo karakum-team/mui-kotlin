@@ -22,7 +22,7 @@ sealed external interface SliderClasses {
         val vertical: ClassName
 
         /** State class applied to the root and thumb element if `disabled={true}`. */
-        @JsValue("base-disabled")
+        @JsValue("base--disabled")
         val disabled: ClassName
 
         /** State class applied to the root if a thumb is being dragged. */
@@ -50,11 +50,11 @@ sealed external interface SliderClasses {
         val thumb: ClassName
 
         /** State class applied to the thumb element if it's active. */
-        @JsValue("base-active")
+        @JsValue("base--active")
         val active: ClassName
 
         /** State class applied to the thumb element if keyboard focused. */
-        @JsValue("base-focusVisible")
+        @JsValue("base--focusVisible")
         val focusVisible: ClassName
 
         /** Class name applied to the mark element. */

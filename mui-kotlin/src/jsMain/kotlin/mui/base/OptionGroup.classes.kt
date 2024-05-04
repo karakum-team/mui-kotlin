@@ -14,7 +14,7 @@ sealed external interface OptionGroupClasses {
         val root: ClassName
 
         /** State class applied to the root `li` element if `disabled={true}`. */
-        @JsValue("base-disabled")
+        @JsValue("base--disabled")
         val disabled: ClassName
 
         /** Class name applied to the label element. */

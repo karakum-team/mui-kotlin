@@ -14,11 +14,11 @@ sealed external interface OptionClasses {
         val root: ClassName
 
         /** State class applied to the root `li` element if `disabled={true}`. */
-        @JsValue("base-disabled")
+        @JsValue("base--disabled")
         val disabled: ClassName
 
         /** State class applied to the root `li` element if `selected={true}`. */
-        @JsValue("base-selected")
+        @JsValue("base--selected")
         val selected: ClassName
 
         /** State class applied to the root `li` element if `highlighted={true}`. */

@@ -14,15 +14,15 @@ sealed external interface MenuButtonClasses {
         val root: ClassName
 
         /** State class applied to the root element if `active={true}`. */
-        @JsValue("base-active")
+        @JsValue("base--active")
         val active: ClassName
 
         /** State class applied to the root element if `disabled={true}`. */
-        @JsValue("base-disabled")
+        @JsValue("base--disabled")
         val disabled: ClassName
 
         /** State class applied to the root element if the associated menu is open. */
-        @JsValue("base-expanded")
+        @JsValue("base--expanded")
         val expanded: ClassName
     }
 }

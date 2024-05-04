@@ -14,15 +14,15 @@ sealed external interface ButtonClasses {
         val root: ClassName
 
         /** State class applied to the root `button` element if `active={true}`. */
-        @JsValue("base-active")
+        @JsValue("base--active")
         val active: ClassName
 
         /** State class applied to the root `button` element if `disabled={true}`. */
-        @JsValue("base-disabled")
+        @JsValue("base--disabled")
         val disabled: ClassName
 
         /** State class applied to the root `button` element if `focusVisible={true}`. */
-        @JsValue("base-focusVisible")
+        @JsValue("base--focusVisible")
         val focusVisible: ClassName
     }
 }

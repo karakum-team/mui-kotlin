@@ -22,19 +22,19 @@ sealed external interface SelectClasses {
         val popup: ClassName
 
         /** State class applied to the root `button` element if `active={true}`. */
-        @JsValue("base-active")
+        @JsValue("base--active")
         val active: ClassName
 
         /** State class applied to the root `button` element if `expanded={true}`. */
-        @JsValue("base-expanded")
+        @JsValue("base--expanded")
         val expanded: ClassName
 
         /** State class applied to the root `button` element and the listbox 'ul' element if `disabled={true}`. */
-        @JsValue("base-disabled")
+        @JsValue("base--disabled")
         val disabled: ClassName
 
         /** State class applied to the root `button` element if `focusVisible={true}`. */
-        @JsValue("base-focusVisible")
+        @JsValue("base--focusVisible")
         val focusVisible: ClassName
     }
 }

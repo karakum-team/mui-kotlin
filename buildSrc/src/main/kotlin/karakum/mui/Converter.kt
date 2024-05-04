@@ -56,11 +56,8 @@ internal fun convertClasses(
             keys = slots,
             comments = comments,
             getValue = {
-                if (it in MUI_COMMON_CLASSES) {
-                    "${MUI_BASE.lowercase()}-$it"
-                } else {
-                    "${MUI_BASE.lowercase()}-$componentName-$it"
-                }
+                val name = if (it in MUI_COMMON_CLASS_MODIFIERS) "" else componentName
+                "base-$name-$it"
             },
             type = "ClassName",
         )
@@ -74,7 +71,7 @@ internal fun convertClasses(
 
     val muiContent = convertSealed(
         name = muiName,
-        keys = slots.filter { it !in MUI_COMMON_CLASSES },
+        keys = slots.filter { it !in MUI_COMMON_CLASS_MODIFIERS },
         getValue = { "$muiName-$it" },
         type = "ClassName",
     )

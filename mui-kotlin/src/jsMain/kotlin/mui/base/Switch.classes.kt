@@ -26,15 +26,15 @@ sealed external interface SwitchClasses {
         val thumb: ClassName
 
         /** State class applied to the root element if the switch is checked */
-        @JsValue("base-checked")
+        @JsValue("base--checked")
         val checked: ClassName
 
         /** State class applied to the root element if the switch is disabled */
-        @JsValue("base-disabled")
+        @JsValue("base--disabled")
         val disabled: ClassName
 
         /** State class applied to the root element if the switch has visible focus */
-        @JsValue("base-focusVisible")
+        @JsValue("base--focusVisible")
         val focusVisible: ClassName
 
         /** Class applied to the root element if the switch is read-only */

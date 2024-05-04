@@ -14,11 +14,11 @@ sealed external interface FormControlClasses {
         val root: ClassName
 
         /** State class applied to the root element if `disabled={true}`. */
-        @JsValue("base-disabled")
+        @JsValue("base--disabled")
         val disabled: ClassName
 
         /** State class applied to the root element if `error={true}`. */
-        @JsValue("base-error")
+        @JsValue("base--error")
         val error: ClassName
 
         /** State class applied to the root element if the inner input has value. */
@@ -26,11 +26,11 @@ sealed external interface FormControlClasses {
         val filled: ClassName
 
         /** State class applied to the root element if the inner input is focused. */
-        @JsValue("base-focused")
+        @JsValue("base--focused")
         val focused: ClassName
 
         /** State class applied to the root element if `required={true}`. */
-        @JsValue("base-required")
+        @JsValue("base--required")
         val required: ClassName
     }
 }

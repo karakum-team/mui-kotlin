@@ -14,11 +14,11 @@ sealed external interface MenuItemClasses {
         val root: ClassName
 
         /** State class applied to the root `button` element if `disabled={true}`. */
-        @JsValue("base-disabled")
+        @JsValue("base--disabled")
         val disabled: ClassName
 
         /** State class applied to the root `button` element if `focusVisible={true}`. */
-        @JsValue("base-focusVisible")
+        @JsValue("base--focusVisible")
         val focusVisible: ClassName
     }
 }

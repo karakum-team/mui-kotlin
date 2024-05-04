@@ -18,7 +18,7 @@ sealed external interface MenuClasses {
         val listbox: ClassName
 
         /** State class applied to the root element if `open={true}`. */
-        @JsValue("base-expanded")
+        @JsValue("base--expanded")
         val expanded: ClassName
     }
 }

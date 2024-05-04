@@ -26,15 +26,15 @@ sealed external interface InputClasses {
         val adornedEnd: ClassName
 
         /** State class applied to the root element if the component is focused. */
-        @JsValue("base-focused")
+        @JsValue("base--focused")
         val focused: ClassName
 
         /** State class applied to the root element if `disabled={true}`. */
-        @JsValue("base-disabled")
+        @JsValue("base--disabled")
         val disabled: ClassName
 
         /** State class applied to the root element if `error={true}`. */
-        @JsValue("base-error")
+        @JsValue("base--error")
         val error: ClassName
 
         /** Class name applied to the root element if `multiline={true}`. */

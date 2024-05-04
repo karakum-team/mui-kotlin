@@ -20,5 +20,7 @@ sealed external interface MuiGrid {
 
         @JsValue("MuiGrid-zeroMinWidth")
         val zeroMinWidth: ClassName
+
+
     }
 }
