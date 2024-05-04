@@ -4,7 +4,6 @@
 
 package mui.material
 
-import mui.base.ModalClasses
 import web.cssom.ClassName
 
 external interface ModalClasses {
