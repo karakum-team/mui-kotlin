@@ -14,7 +14,4 @@ external interface CalendarPickerClasses {
     var viewTransitionContainer: ClassName
 }
 
-external object calendarPickerClasses : CalendarPickerClasses {
-    override var root: ClassName = definedExternally
-    override var viewTransitionContainer: ClassName = definedExternally
-}
+external val calendarPickerClasses: CalendarPickerClasses

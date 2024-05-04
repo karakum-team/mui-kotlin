@@ -29,12 +29,4 @@ external interface PickersDayClasses {
     var disabled: ClassName
 }
 
-external object pickersDayClasses : PickersDayClasses {
-    override var root: ClassName = definedExternally
-    override var dayWithMargin: ClassName = definedExternally
-    override var dayOutsideMonth: ClassName = definedExternally
-    override var hiddenDaySpacingFiller: ClassName = definedExternally
-    override var today: ClassName = definedExternally
-    override var selected: ClassName = definedExternally
-    override var disabled: ClassName = definedExternally
-}
+external val pickersDayClasses: PickersDayClasses

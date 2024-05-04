@@ -17,8 +17,4 @@ external interface CalendarPickerSkeletonClasses {
     var daySkeleton: ClassName
 }
 
-external object calendarPickerSkeletonClasses : CalendarPickerSkeletonClasses {
-    override var root: ClassName = definedExternally
-    override var week: ClassName = definedExternally
-    override var daySkeleton: ClassName = definedExternally
-}
+external val calendarPickerSkeletonClasses: CalendarPickerSkeletonClasses

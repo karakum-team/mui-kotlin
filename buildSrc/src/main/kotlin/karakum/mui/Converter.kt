@@ -21,45 +21,24 @@ internal fun convertClasses(
         return "external interface $classesName : mui.system.$classesName"
     }
 
-    val classesInterface = getClassesContent(source)
-    val classesInterfaceContent = "external interface $classesName {\n$classesInterface}\n"
-
-    val classesObject = getClassesContent(source, objectMode = true)
-    val classesObjectContent =
-        optionalJsNameDefaultAnnotation(content) +
-                "external object ${classesName.replaceFirstChar(Char::lowercase)} : $classesName {\n$classesObject}\n"
-
-    return "$classesInterfaceContent\n$classesObjectContent"
+    return "external interface $classesName {\n${getClassesContent(source)}\n}\n\n" +
+            optionalJsNameDefaultAnnotation(content) +
+            "external val ${classesName.replaceFirstChar(Char::lowercase)}: $classesName\n"
 }
 
 private fun getClassesContent(
     source: String,
-    objectMode: Boolean = false,
 ): String = source
     .substringBefore("\n}\n")
     .trimIndent()
     .splitToSequence("\n")
     .map {
-        if (objectMode && it.contains("*")) // skip comments in object mode only
-            return@map ""
-
-        val name = it.removeSuffix(": string;")
-            .removeSuffix("?")
-
-        if (name == it)
-            return@map "$it\n"
-
-        val line = if (objectMode)
-            "override var $name: ClassName = definedExternally"
-        else
-            "var $name: ClassName"
-
-        if (name.startsWith("'"))
-            "    // $line\n"
-        else
-            "$line\n"
+        val name = it.removeSuffix(": string;").removeSuffix("?")
+        if (name == it) return@map it
+        val line = "var $name: ClassName"
+        if (name.startsWith("'")) "    // $line" else line
     }
-    .joinToString("")
+    .joinToString("\n")
 
 internal fun convertDefinitions(
     definitionFile: File,

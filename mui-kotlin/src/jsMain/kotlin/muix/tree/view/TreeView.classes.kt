@@ -11,6 +11,4 @@ external interface TreeViewClasses {
     var root: ClassName
 }
 
-external object treeViewClasses : TreeViewClasses {
-    override var root: ClassName = definedExternally
-}
+external val treeViewClasses: TreeViewClasses

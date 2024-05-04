@@ -14,7 +14,4 @@ external interface ClockPickerClasses {
     var arrowSwitcher: ClassName
 }
 
-external object clockPickerClasses : ClockPickerClasses {
-    override var root: ClassName = definedExternally
-    override var arrowSwitcher: ClassName = definedExternally
-}
+external val clockPickerClasses: ClockPickerClasses

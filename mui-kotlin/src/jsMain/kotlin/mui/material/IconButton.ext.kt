@@ -2,8 +2,8 @@
 
 package mui.material
 
-import seskar.js.JsVirtual
 import seskar.js.JsValue
+import seskar.js.JsVirtual
 
 @JsVirtual
 sealed external interface IconButtonColor {

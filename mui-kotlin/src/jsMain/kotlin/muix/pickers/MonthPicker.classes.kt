@@ -11,6 +11,4 @@ external interface MonthPickerClasses {
     var root: ClassName
 }
 
-external object monthPickerClasses : MonthPickerClasses {
-    override var root: ClassName = definedExternally
-}
+external val monthPickerClasses: MonthPickerClasses

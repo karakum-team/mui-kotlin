@@ -35,14 +35,4 @@ external interface TreeItemClasses {
     var label: ClassName
 }
 
-external object treeItemClasses : TreeItemClasses {
-    override var root: ClassName = definedExternally
-    override var group: ClassName = definedExternally
-    override var content: ClassName = definedExternally
-    override var expanded: ClassName = definedExternally
-    override var selected: ClassName = definedExternally
-    override var focused: ClassName = definedExternally
-    override var disabled: ClassName = definedExternally
-    override var iconContainer: ClassName = definedExternally
-    override var label: ClassName = definedExternally
-}
+external val treeItemClasses: TreeItemClasses
