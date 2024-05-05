@@ -20,6 +20,7 @@ private val App = FC {
 
     MyAutocomplete()
     Pickers()
+    SliderStylization()
 }
 
 private fun main() {
