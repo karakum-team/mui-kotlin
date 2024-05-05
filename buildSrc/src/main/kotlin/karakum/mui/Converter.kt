@@ -21,8 +21,8 @@ internal fun convertClasses(
         return "typealias $classesName = mui.system.$classesName"
     }
 
-    return "sealed external interface $classesName {\n${getClassesContent(source)}\n}\n\n" +
-            optionalJsNameDefaultAnnotation(content) +
+    return "sealed external interface $classesName {\n${getClassesContent(source)}\n}\n" +
+            "\n" +
             "external val ${classesName.replaceFirstChar(Char::lowercase)}: $classesName\n"
 }
 
