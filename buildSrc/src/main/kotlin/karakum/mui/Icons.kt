@@ -19,7 +19,6 @@ internal fun convertIcons(
             IconConversionResult(
                 name = name,
                 body = """
-                    @JsName("default")
                     external val $name: SvgIconComponent
                 """.trimIndent(),
             )

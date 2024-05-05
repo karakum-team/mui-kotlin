@@ -481,7 +481,7 @@ private fun generateIconsMaterialDeclarations(
 
     for ((name, body) in convertIcons(typesDir.resolve("index.d.ts"))) {
         val annotations = if (name != "SvgIconComponent") {
-            moduleDeclaration(Package.iconsMaterial, null, name)
+            moduleDeclaration(Package.iconsMaterial, null, null)
         } else ""
 
         targetDir.resolve("$name.kt")
@@ -614,7 +614,7 @@ private fun String.isHookName(): Boolean {
 private fun moduleDeclaration(
     pkg: Package,
     subpackage: String?,
-    componentName: String,
+    componentName: String?,
 ): String {
     val moduleName = sequenceOf(
         "@mui",
