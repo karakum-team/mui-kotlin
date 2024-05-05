@@ -6,9 +6,9 @@ package muix.pickers
 
 import web.cssom.ClassName
 
-external interface MonthPickerClasses {
+sealed external interface MonthPickerClasses {
     /** Styles applied to the root element. */
-    var root: ClassName
+    val root: ClassName
 }
 
 external val monthPickerClasses: MonthPickerClasses

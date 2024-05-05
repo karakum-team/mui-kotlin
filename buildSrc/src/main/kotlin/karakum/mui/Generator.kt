@@ -707,6 +707,8 @@ private fun generate(
     if (classesFile.exists()) {
         val classes = convertClasses(classesFileName.replaceFirstChar(Char::uppercase), classesFile)
         val annotation = moduleDeclaration(pkg, subpackage, componentName)
+            .takeIf { "external val" in classes }
+            ?: ""
 
         targetDir.resolve("$componentName.classes.kt")
             .writeText(fileContent(annotations = annotation, body = classes, pkg = pkg))

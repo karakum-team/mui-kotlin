@@ -18,10 +18,10 @@ internal fun convertClasses(
 
     if (source.isEmpty()) {
         check(classesName == "ContainerClasses" || classesName == "StackClasses")
-        return "external interface $classesName : mui.system.$classesName"
+        return "typealias $classesName = mui.system.$classesName"
     }
 
-    return "external interface $classesName {\n${getClassesContent(source)}\n}\n\n" +
+    return "sealed external interface $classesName {\n${getClassesContent(source)}\n}\n\n" +
             optionalJsNameDefaultAnnotation(content) +
             "external val ${classesName.replaceFirstChar(Char::lowercase)}: $classesName\n"
 }
@@ -35,7 +35,7 @@ private fun getClassesContent(
     .map {
         val name = it.removeSuffix(": string;").removeSuffix("?")
         if (name == it) return@map it
-        val line = "var $name: ClassName"
+        val line = "val $name: ClassName"
         if (name.startsWith("'")) "    // $line" else line
     }
     .joinToString("\n")
