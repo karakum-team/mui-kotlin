@@ -22,7 +22,6 @@ private val DEFAULT_IMPORTS = listOf(
     "HTMLElement" to "web.html.HTMLElement",
 
     "BoxProps" to "mui.system.BoxProps",
-    "ModalClasses" to "mui.base.ModalClasses",
 
     "JsVirtual" to "seskar.js.JsVirtual",
     "JsValue" to "seskar.js.JsValue",
