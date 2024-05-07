@@ -11,7 +11,6 @@ dependencies {
     jsMainImplementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom")
 
     jsMainImplementation(project(":mui-kotlin"))
-    jsMainImplementation(project(":mui-icons-kotlin"))
 
     jsMainImplementation(npm("@emotion/react", "11.9.0"))
     jsMainImplementation(npm("@emotion/styled", "11.8.1"))

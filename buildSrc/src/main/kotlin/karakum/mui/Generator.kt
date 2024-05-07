@@ -242,19 +242,13 @@ fun generateKotlinDeclarations(
     generateBaseDeclarations(typesDir.resolve("base"), sourceDir)
     generateSystemDeclarations(typesDir.resolve("system"), sourceDir)
     generateMaterialDeclarations(typesDir.resolve("material"), sourceDir)
+    generateIconsMaterialDeclarations(typesDir.resolve("icons-material"), sourceDir)
     generateStylesDeclarations(typesDir.resolve("material/styles"), sourceDir)
     generateTransitionsDeclarations(sourceDir)
     generateLabDeclarations(typesDir.resolve("lab"), sourceDir)
     generateTreeViewDeclarations(typesDir.resolve("x-tree-view"), sourceDir)
     generatePickersDeclarations(typesDir.resolve("x-date-pickers"), sourceDir)
     generateDeteioDeclarations(typesDir.resolve("../@date-io/core"), sourceDir)
-}
-
-fun generateKotlinIconsDeclarations(
-    typesDir: File,
-    sourceDir: File,
-) {
-    generateIconsMaterialDeclarations(typesDir.resolve("icons-material"), sourceDir)
 }
 
 private fun generateTypesDeclarations(
