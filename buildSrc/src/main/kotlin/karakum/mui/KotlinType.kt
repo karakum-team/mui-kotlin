@@ -96,6 +96,10 @@ private val KNOWN_TYPE_SUFFIXES = setOf(
         it.capitalize()
     }
 
+private val KNOWN_TYPE_PREFIX_MAP = mapOf(
+    "SlotComponentProps" to "react.Props",
+)
+
 private val STANDARD_TYPE_MAP = mapOf(
     "any" to "Any",
     "object" to "Any",
@@ -172,6 +176,9 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "React.Ref<unknown>" to "react.Ref<*>",
     "React.Ref<any>" to "react.Ref<*>",
+
+    "SimpleTreeViewApiRef" to "react.Ref<*>",
+    "RichTreeViewApiRef" to "react.Ref<*>",
 
     "React.AriaRole" to "react.dom.aria.AriaRole",
 
@@ -345,6 +352,10 @@ internal fun kotlinType(
     if (KNOWN_TYPE_SUFFIXES.any { type.endsWith(it) } && " | " !in type && type != "Color")
         return type
 
+    val prefixToType = KNOWN_TYPE_PREFIX_MAP.filter { (prefix) -> type.startsWith(prefix) }
+    if (prefixToType.isNotEmpty())
+        return prefixToType.values.single()
+
     val promiseResult = type.removeSurrounding("Promise<", ">")
     if (promiseResult != type)
         return "$PROMISE<${kotlinType(promiseResult)}>"
@@ -476,7 +487,7 @@ internal fun kotlinType(
         }
     }
 
-    if (name != null && name.endsWith("Props") && name != "componentsProps" && name != "slotProps") {
+    if (name != null && name.endsWith("Props") && name != "componentsProps") {
         val comment = type.split("\n")
             .map { it.trim() }
             .joinToString(" ")

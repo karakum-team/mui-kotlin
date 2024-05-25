@@ -241,7 +241,11 @@ private fun findProps(
         ?.substringBefore(";\n}")
         ?: ""
 
-    val body = convertMembers(membersContent)
+    val body = if (source.startsWith("}"))
+        ""
+    else
+        convertMembers(membersContent)
+
     return props(
         propsName = propsDeclaration,
         parentType = parentType,
@@ -501,8 +505,8 @@ private fun findAdditionalProps(
         }
 
         when (interfaceName) {
-            "TreeViewPropsBase",
-            -> propsBody = propsBody.replace("var id:", "override var id:")
+            "RichTreeViewPropsBase",
+            -> propsBody = propsBody.replace("override var sx:", "var sx:")
 
             "CommonColors",
             "PaletteColor",
@@ -664,7 +668,10 @@ private fun props(
         baseInterfaces += "PaperProps"
 
     if (propsName == "TreeViewProps")
-        baseInterfaces += "TreeViewPropsBase"
+        baseInterfaces += "SimpleTreeViewProps"
+
+    if (propsName == "RichTreeViewProps")
+        baseInterfaces += "RichTreeViewPropsBase"
 
     if (
     // TODO: Commented props has conflicts by intrinsic types

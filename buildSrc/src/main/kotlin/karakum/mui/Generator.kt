@@ -515,6 +515,7 @@ private fun generateTreeViewDeclarations(
     directories.asSequence()
         .filter { it.name.isComponentName() || it.name.isHookName() }
         .filter { !it.resolve("${it.name}.d.ts").readText().startsWith("export { default } from ") }
+        .filter { it.name !in setOf("TreeItem2", "TreeItem2Icon", "TreeItem2Provider", "useTreeItem2") }
         .onEach {
             when (it.name) {
                 "TreeItem" -> {
@@ -525,7 +526,7 @@ private fun generateTreeViewDeclarations(
                     generate(typesFile, targetDir, Package.treeView)
                 }
 
-                "TreeView" -> {
+                "TreeView", "SimpleTreeView", "RichTreeView" -> {
                     val typesFile = it.resolve("${it.name}.types.d.ts")
                     generate(typesFile, targetDir, Package.treeView)
                 }

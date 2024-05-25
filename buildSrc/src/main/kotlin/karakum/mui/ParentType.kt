@@ -60,7 +60,7 @@ internal fun findParentType(
         "ListItemButtonBaseProps",
         "BaseTextFieldProps",
         "ListProps",
-        "TreeViewPropsBase",
+        "RichTreeViewPropsBase",
         "UseInputProps",
         "UseSwitchProps",
         "UsePaginationItem",
