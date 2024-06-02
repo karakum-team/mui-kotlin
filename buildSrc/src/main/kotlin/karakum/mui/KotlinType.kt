@@ -369,6 +369,9 @@ internal fun kotlinType(
     if (refResult != type)
         return "react.Ref<${kotlinType(refResult)}>"
 
+    if (type.startsWith("TreeViewExperimentalFeatures<"))
+        return "Any? /* $type */"
+
     if (type.startsWith("React.ElementType<"))
         return type.replace("React.ElementType", ELEMENT_TYPE)
             .replace("<TransitionProps>", "<mui.material.transitions.TransitionProps>")
