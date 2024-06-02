@@ -33,6 +33,9 @@ sealed external interface TreeItemClasses {
 
     /** Styles applied to the label element. */
     val label: ClassName
+
+    /** Styles applied to the checkbox element. */
+    val checkbox: ClassName
 }
 
 external val treeItemClasses: TreeItemClasses
