@@ -28,7 +28,7 @@ sealed external interface TreeItemClasses {
     /** State class applied to the element when disabled. */
     val disabled: ClassName
 
-    /** Styles applied to the tree node icon. */
+    /** Styles applied to the tree item icon. */
     val iconContainer: ClassName
 
     /** Styles applied to the label element. */
