@@ -23,7 +23,7 @@ export interface SelectTypeMap<OptionValue extends {}, Multiple extends boolean,
     ).replace(
         """
 export interface SelectType {
-    <OptionValue extends {}, Multiple extends boolean = false, RootComponentType extends React.ElementType = SelectTypeMap<OptionValue, Multiple>['defaultComponent']>(props: PolymorphicProps<SelectTypeMap<OptionValue, Multiple>, RootComponentType>): JSX.Element | null;
+    <OptionValue extends {}, Multiple extends boolean = false, RootComponentType extends React.ElementType = SelectTypeMap<OptionValue, Multiple>['defaultComponent']>(props: PolymorphicProps<SelectTypeMap<OptionValue, Multiple>, RootComponentType>): React.JSX.Element | null;
     propTypes?: any;
     displayName?: string | undefined;
 }

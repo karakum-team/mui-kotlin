@@ -15,7 +15,7 @@ export interface OptionTypeMap<OptionValue, AdditionalProps = {}, RootComponentT
         ).replace(
             """
 export interface OptionType {
-    <OptionValue, RootComponentType extends React.ElementType = OptionTypeMap<OptionValue>['defaultComponent']>(props: PolymorphicProps<OptionTypeMap<OptionValue>, RootComponentType>): JSX.Element | null;
+    <OptionValue, RootComponentType extends React.ElementType = OptionTypeMap<OptionValue>['defaultComponent']>(props: PolymorphicProps<OptionTypeMap<OptionValue>, RootComponentType>): React.JSX.Element | null;
     propTypes?: any;
     displayName?: string | undefined;
 }

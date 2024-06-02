@@ -5,6 +5,10 @@ internal fun fixOverrides(
     content: String,
 ): String =
     when (name) {
+        "AlertTitle",
+        -> content
+            .override("classes")
+
         "Autocomplete",
         -> content
             .override("disabled")

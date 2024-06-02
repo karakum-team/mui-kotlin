@@ -169,6 +169,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.Dispatch<React.SetStateAction<boolean>>" to "react.StateSetter<Boolean>",
 
     "React.ReactElement" to "react.ReactElement<*>",
+    "React.ReactElement<any>" to "react.ReactElement<*>",
     "React.ReactElement<any, any>" to "react.ReactElement<*>",
     "NonNullable<React.ReactElement>" to "react.ReactElement<*>",
 

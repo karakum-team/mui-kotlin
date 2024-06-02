@@ -54,6 +54,11 @@ internal fun findParentType(
         ).joinToString(",", "\n")
     }
 
+    if (parentSource.startsWith("TypographyProps<")) {
+        val (first, _) = parentSource.split("<")
+        return first
+    }
+
     return when (parentSource) {
         "ButtonBaseProps",
         "ListItemBaseProps",
