@@ -7,6 +7,7 @@ import karakum.mui.adapters.treeview.adaptTreeView
 
 fun String.adaptRawContent(): String = this
     .adaptComponentsAndSlots()
+    .adaptClasses()
     .adaptInput()
     .adaptOption()
     .adaptSelect()

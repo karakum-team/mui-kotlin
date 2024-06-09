@@ -26,6 +26,13 @@ internal fun convertClasses(
             "external val ${classesName.replaceFirstChar(Char::lowercase)}: $classesName\n"
 }
 
+internal fun convertInlineClasses(
+    classesName: String,
+    source: String,
+): String {
+    return "interface $classesName \n${getClassesContent(source)}"
+}
+
 private fun getClassesContent(
     source: String,
 ): String = source
@@ -132,8 +139,7 @@ internal fun convertDefinitions(
 }
 
 private fun String.removeInlineClasses(): String =
-    removeInlineClasses("  classes: ")
-        .removeInlineClasses("  classes?: ")
+    removeInlineClasses("  classes?: ")
 
 private fun String.removeDeprecated(): String {
     if ("interface MuiMediaQuery" !in this)

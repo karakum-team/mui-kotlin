@@ -1,7 +1,6 @@
 package karakum.mui.adapters
 
-// TODO: Removing comments required
-//  It can be deleted when MUI finishes separating `Slot` & `Component` props to separate interfaces
+// TODO: Fix problem with incorrect comments processing for inline types
 fun String.adaptComponentsAndSlots(): String {
     return cleanupFormControlLabelSlots()
         .cleanupStepLabelSlots()

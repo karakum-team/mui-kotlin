@@ -468,10 +468,14 @@ internal fun kotlinType(
     if (type.endsWith("']") || type.endsWith("'] | 'auto'"))
         return "$DYNAMIC /* $type */"
 
+    if (name == "classes" && type.contains("{\n")) {
+        val interfaceName = name.replaceFirstChar(Char::titlecase)
+        return interfaceName + "\n\n" + convertInlineClasses(interfaceName, type)
+    }
+
     // TODO: Remove when MUI completes migration to slots
     if ((name == "components" || name == "componentsProps") && type.startsWith("{\n") && "/**" !in type) {
-        @Suppress("DEPRECATION")
-        val interfaceName = name.capitalize()
+        val interfaceName = name.replaceFirstChar(Char::titlecase)
         val defaultType = if (name == "components") "react.ElementType<*>" else "react.Props"
         return interfaceName + "\n\n" + componentInterface(interfaceName, type, defaultType)
     }
@@ -484,8 +488,7 @@ internal fun kotlinType(
                 .replace("<TValue>", "")
         } else {
             // TODO: Else branch should die when MUI fully migrates to named slot types
-            @Suppress("DEPRECATION")
-            val interfaceName = name.capitalize()
+            val interfaceName = name.replaceFirstChar(Char::titlecase)
             val defaultType = if (name == "slots") "react.ElementType<*>" else "react.Props"
             interfaceName + "\n\n" + componentInterface(interfaceName, type, defaultType)
         }
