@@ -195,6 +195,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.HTMLAttributes<HTMLDivElement>" to "react.dom.html.HTMLAttributes<web.html.HTMLDivElement>",
     "Partial<React.HTMLAttributes<HTMLDivElement>>" to "react.dom.html.HTMLAttributes<web.html.HTMLDivElement>",
     "React.HTMLAttributes<HTMLElement>" to "react.dom.html.HTMLAttributes<web.html.HTMLElement>",
+    "MuiCancellableEventHandler<React.KeyboardEvent<HTMLLIElement>>" to "react.dom.events.KeyboardEventHandler<web.html.HTMLLIElement>",
 
     "NonNullable<React.HTMLAttributes<any>['tabIndex']>" to "Int",
     "React.InputHTMLAttributes<unknown>['type']" to "InputType",

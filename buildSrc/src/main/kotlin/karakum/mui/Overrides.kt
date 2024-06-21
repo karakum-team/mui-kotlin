@@ -121,6 +121,7 @@ internal fun fixOverrides(
 
         "TreeItem",
         -> content
+            .override("onKeyDown")
             .replace(
                 "var onFocus: Nothing?",
                 "@Deprecated(\"See documentation\")\noverride var onFocus: react.dom.events.FocusEventHandler<web.html.HTMLLIElement>?"
