@@ -1,5 +1,5 @@
 [![CI Status](https://github.com/karakum-team/mui-kotlin/workflows/declarations/badge.svg)](https://github.com/karakum-team/mui-kotlin/actions)
-[![Kotlin](https://img.shields.io/badge/kotlin-1.9.21-blue.svg?logo=kotlin)](http://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/kotlin-2.0.0-blue.svg?logo=kotlin)](http://kotlinlang.org)
 
 # [MUI](https://github.com/mui-org/material-ui) Kotlin
 
