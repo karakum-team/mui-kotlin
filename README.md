@@ -1,4 +1,4 @@
-[![CI Status](https://github.com/turansky/react-types-kotlin/workflows/declarations/badge.svg)](https://github.com/turansky/react-types-kotlin/actions)
+[![CI Status](https://github.com/turansky/mui-kotlin/workflows/declarations/badge.svg)](https://github.com/turansky/mui-kotlin/actions)
 [![Kotlin](https://img.shields.io/badge/kotlin-2.0.0-blue.svg?logo=kotlin)](http://kotlinlang.org)
 
 # [MUI](https://github.com/mui-org/material-ui) Kotlin
