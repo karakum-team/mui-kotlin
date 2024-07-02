@@ -107,7 +107,7 @@ external interface SliderOwnProps :
     /**
      * The default value. Use when the component is not controlled.
      */
-    var defaultValue: ReadonlyArray<Number>?
+    var defaultValue: dynamic
 
     /**
      * If `true`, the component is disabled.
@@ -285,7 +285,7 @@ external interface SliderOwnProps :
      * The value of the slider.
      * For ranged sliders, provide an array with two values.
      */
-    var value: ReadonlyArray<Number>?
+    var value: dynamic
 
     /**
      * Controls when the value label is displayed:

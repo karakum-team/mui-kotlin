@@ -127,7 +127,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "ItemValue[]" to "ReadonlyArray<ItemValue>",
     "OptionValue[]" to "ReadonlyArray<OptionValue>",
     "TOption[]" to "ReadonlyArray<TOption>",
-    "number | number[]" to "ReadonlyArray<Number>",
+//    "number | number[]" to "ReadonlyArray<Number>",
 
     "Date" to "kotlin.js.Date",
 
