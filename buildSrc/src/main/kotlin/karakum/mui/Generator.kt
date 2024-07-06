@@ -23,6 +23,7 @@ private val DEFAULT_IMPORTS = listOf(
     "HTMLElement" to "web.html.HTMLElement",
 
     "BoxProps" to "mui.system.BoxProps",
+    "InitColorSchemeScriptProps" to "mui.system.InitColorSchemeScriptProps",
 
     "JsVirtual" to "seskar.js.JsVirtual",
     "JsValue" to "seskar.js.JsValue",
@@ -344,7 +345,7 @@ private fun generateSystemDeclarations(
 
     directories.asSequence()
         .filter { it.name.isComponentName() || it.name.isHookName() }
-        .filter { it.name !in setOf("useThemeProps", "RtlProvider") }
+        .filter { it.name !in setOf("useThemeProps", "RtlProvider", "DefaultPropsProvider") }
         .map { it.resolve("${it.name}.d.ts") }
         .flatMap { component ->
             val dir = component.parentFile
@@ -390,7 +391,7 @@ private fun generateMaterialDeclarations(
 
     directories.asSequence()
         .filter { it.name.isComponentName() || it.name == "internal" || it.name.isHookName() }
-        .filter { it.name !in setOf("useTouchRipple", "useAutocomplete", "useMediaQuery") }
+        .filter { it.name !in setOf("useTouchRipple", "useAutocomplete", "useMediaQuery", "DefaultPropsProvider") }
         .filter { it.name !in BASE_TYPES }
         .filter { it.name != "StyledEngineProvider" }
         .onEach {

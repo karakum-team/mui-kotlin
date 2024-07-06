@@ -20,6 +20,7 @@ fun String.adaptRawContent(): String = this
     .adaptBreadcrumbs()
     .adaptUseMenu()
     .adaptUseSlider()
+    .adaptInitColorSchemeScript()
     .adaptRichTreeView()
     .adaptTreeItem()
     .adaptTreeView()
