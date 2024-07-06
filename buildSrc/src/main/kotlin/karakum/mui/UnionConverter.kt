@@ -52,7 +52,6 @@ internal fun convertUnion(
         .joinToString("\n")
 
     return """
-        @JsVirtual
         sealed external interface $name {
             companion object {
                 $properties
@@ -78,7 +77,6 @@ private fun convertSealed(
     name: String,
     companionContent: String,
 ): String = """
-    @JsVirtual
     sealed external interface $name {
         companion object {
             $companionContent

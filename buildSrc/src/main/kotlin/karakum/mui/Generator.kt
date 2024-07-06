@@ -126,7 +126,6 @@ external interface TransitionCreateOptions {
 
 // language=kotlin
 private val MATERIAL_SIZE = """
-@JsVirtual
 sealed external interface Size {
     companion object {
         @JsValue("small")
