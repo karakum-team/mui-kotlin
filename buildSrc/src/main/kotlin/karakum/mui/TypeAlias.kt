@@ -51,7 +51,7 @@ private val ALIAS_MAP = mapOf(
     "ModalProps['onBackdropClick']" to "react.dom.events.ReactEventHandler<*>",
     "ModalProps['open']" to "Boolean",
     "ModalProps['container']" to "Element",
-    "ModalProps['onClose']" to "(event: dynamic, reason: String) -> Unit",
+    "ModalProps['onClose']" to "(event: Any, reason: String) -> Unit",
 
     "SliderTypeMap['props']['slotProps']" to "mui.base.SliderOwnProps.SlotProps",
     "BasePopperProps['slotProps']" to "mui.base.PopperOwnProps.SlotProps",

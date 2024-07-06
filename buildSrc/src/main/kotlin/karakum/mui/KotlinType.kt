@@ -155,7 +155,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.RefCallback<HTMLInputElement | HTMLTextAreaElement>" to "react.RefCallback<web.html.HTMLInputElement /* or web.html.HTMLTextAreaElement*/>",
 
     "{\n  bivarianceHack(event: {}, reason: 'backdropClick' | 'escapeKeyDown'): void;\n}['bivarianceHack']" to
-            "(event: Any?, reason: String) -> Unit",
+            "(event: Any, reason: String) -> Unit",
 
     "React.ReactNode" to "react.ReactNode",
     "NonNullable<React.ReactNode>" to "react.ReactNode",
@@ -201,6 +201,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "NonNullable<React.HTMLAttributes<any>['tabIndex']>" to "Int",
     "React.InputHTMLAttributes<unknown>['type']" to "InputType",
     "React.InputHTMLAttributes<HTMLInputElement>['type']" to "InputType",
+    "React.ButtonHTMLAttributes<HTMLButtonElement>['type']" to "ButtonType",
 
     "React.ChangeEvent" to "react.dom.events.ChangeEvent<*>",
     "React.MouseEvent" to "react.dom.events.MouseEvent<*, *>",
@@ -468,7 +469,7 @@ internal fun kotlinType(
         ?.also { return it }
 
     if (type.endsWith("']") || type.endsWith("'] | 'auto'"))
-        return "$DYNAMIC /* $type */"
+        return "Any /* $type */"
 
     if (name == "classes" && type.contains("{\n")) {
         val interfaceName = name.replaceFirstChar(Char::titlecase)

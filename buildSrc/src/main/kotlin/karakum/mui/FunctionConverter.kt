@@ -70,7 +70,7 @@ internal fun findDefaultFunction(
         .replace(": Spacing,", ": mui.system.Spacing,")
         .replace("?: ThemeOptions", ": ThemeOptions? = definedExternally")
         .replace("?: SpacingOptions", ": SpacingOptions? = definedExternally")
-        .replace("...args: object[]", "vararg args: dynamic")
+        .replace("...args: object[]", "vararg args: Any")
         .replace("(styles: any): never", "(styles: Any)")
         .replace("useTheme<T = Theme>", "<T : Theme> useTheme")
         .replace("useSelect<OptionValue, Multiple extends boolean = false>", "<OptionValue, Multiple> useSelect")
