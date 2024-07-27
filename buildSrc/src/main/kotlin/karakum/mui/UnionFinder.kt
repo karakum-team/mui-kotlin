@@ -43,6 +43,9 @@ internal val UNION_PROPERTIES = setOf(
     "margin",
     "padding",
     "textAlign",
+
+    "mouseEvent",
+    "touchEvent",
 ) + TOP_UNION_PROPERTIES
 
 internal fun findDefaultUnions(
@@ -131,6 +134,11 @@ private fun findUnionSource(
         .removePrefix("OverridableStringUnion<")
         // TODO: remove hardcode
         .replace("PropTypes.Color", "'inherit' | 'primary' | 'secondary' | 'default'")
+        .replace(
+            "ClickAwayMouseEventHandler",
+            "'onClick' | 'onMouseDown' | 'onMouseUp' | 'onPointerDown' | 'onPointerUp'"
+        )
+        .replace("ClickAwayTouchEventHandler", "'onTouchStart' | 'onTouchEnd'")
         .trim()
 
     if (source.startsWith("| '"))
