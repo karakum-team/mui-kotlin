@@ -67,7 +67,7 @@ internal fun findDefaultUnions(
             if (name == "TextField" && property == "variant")
                 return@findUnionSource
 
-            if (property == "type" && name != "usePagination")
+            if (name != "usePagination" && property == "type")
                 return@findUnionSource
 
             if (!source.startsWith("'"))
