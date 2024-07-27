@@ -170,8 +170,7 @@ typealias PickerOnChangeFn<TDate> = (
 private val CALENDAR_PICKER_VIEW = convertUnion("CalendarPickerView = 'year' | 'day' | 'month'")!!
 private val CLOCK_PICKER_VIEW = convertUnion("ClockPickerView = 'hours' | 'minutes' | 'seconds'")!!
 
-private val BASE_TYPES = setOf(
-    "ClickAwayListener",
+private val WITH_TYPES_IN_SEPARATE_FILES = setOf(
     "NoSsr",
     "Portal",
     "TextareaAutosize",
@@ -392,7 +391,6 @@ private fun generateMaterialDeclarations(
     directories.asSequence()
         .filter { it.name.isComponentName() || it.name == "internal" || it.name.isHookName() }
         .filter { it.name !in setOf("useTouchRipple", "useAutocomplete", "useMediaQuery", "DefaultPropsProvider") }
-        .filter { it.name !in BASE_TYPES }
         .filter { it.name != "StyledEngineProvider" }
         .onEach {
             when (it.name) {
@@ -403,6 +401,11 @@ private fun generateMaterialDeclarations(
 
                 "TablePagination" -> {
                     val file = it.resolve("${it.name}Actions.d.ts")
+                    generate(file, targetDir, Package.material, true)
+                }
+
+                in WITH_TYPES_IN_SEPARATE_FILES -> {
+                    val file = it.resolve("${it.name}.types.d.ts")
                     generate(file, targetDir, Package.material, true)
                 }
             }
