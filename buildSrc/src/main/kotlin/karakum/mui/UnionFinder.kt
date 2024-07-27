@@ -77,28 +77,15 @@ internal fun findDefaultUnions(
                 return@findUnionSource
 
             var className = when (property) {
-                "fontSize",
-                -> {
-                    "Size"
-                }
-
-                "vertical",
-                "horizontal",
-                -> {
-                    @Suppress("DEPRECATION")
-                    "Origin" + property.capitalize()
-                }
-
-                else -> {
-                    @Suppress("DEPRECATION")
-                    property.capitalize()
-                }
+                "fontSize" -> "Size"
+                "vertical", "horizontal" -> "Origin${property.replaceFirstChar(Char::titlecase)}"
+                else -> property.replaceFirstChar(Char::titlecase)
             }
 
             if ("P" !in property && property !in TOP_UNION_PROPERTIES)
                 className = name + className
 
-            if (property == "type" && name == "usePagination")
+            if (name == "usePagination" && property == "type")
                 className = "UsePaginationItemType"
 
             newContent = newContent
