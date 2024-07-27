@@ -170,7 +170,7 @@ typealias PickerOnChangeFn<TDate> = (
 private val CALENDAR_PICKER_VIEW = convertUnion("CalendarPickerView = 'year' | 'day' | 'month'")!!
 private val CLOCK_PICKER_VIEW = convertUnion("ClockPickerView = 'hours' | 'minutes' | 'seconds'")!!
 
-private val WITH_TYPES_IN_SEPARATE_FILES = setOf(
+private val HAS_PROP_TYPES_IN_SEPARATE_FILES = setOf(
     "NoSsr",
     "Portal",
     "TextareaAutosize",
@@ -404,7 +404,7 @@ private fun generateMaterialDeclarations(
                     generate(file, targetDir, Package.material, true)
                 }
 
-                in WITH_TYPES_IN_SEPARATE_FILES -> {
+                in HAS_PROP_TYPES_IN_SEPARATE_FILES -> {
                     val file = it.resolve("${it.name}.types.d.ts")
                     generate(file, targetDir, Package.material, true)
                 }
