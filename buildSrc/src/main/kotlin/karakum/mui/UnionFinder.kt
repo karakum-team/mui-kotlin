@@ -46,6 +46,8 @@ internal val UNION_PROPERTIES = setOf(
 
     "mouseEvent",
     "touchEvent",
+
+    "action",
 ) + TOP_UNION_PROPERTIES
 
 internal fun findDefaultUnions(
@@ -134,6 +136,7 @@ private fun findUnionSource(
         .removePrefix("OverridableStringUnion<")
         // TODO: remove hardcode
         .replace("PropTypes.Color", "'inherit' | 'primary' | 'secondary' | 'default'")
+        .replace("TreeViewItemsReorderingAction", "'reorder-above' | 'reorder-below' | 'make-child' | 'move-to-parent'")
         .replace(
             "ClickAwayMouseEventHandler",
             "'onClick' | 'onMouseDown' | 'onMouseUp' | 'onPointerDown' | 'onPointerUp'"

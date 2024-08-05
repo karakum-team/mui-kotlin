@@ -145,6 +145,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "Element | (() => Element | null) | null" to "Element",
     "Partial<OptionsGeneric<any>>" to "popper.core.Options",
     "Partial<PaperProps<React.ElementType>>" to "PaperProps",
+    "React.CSSProperties" to "react.CSSProperties",
     "React.Ref<Instance>" to "react.Ref<popper.core.Instance>",
     "React.Ref<Element>" to "react.Ref<web.dom.Element>",
     "React.Ref<HTMLElement>" to "react.Ref<web.html.HTMLElement>",
@@ -251,6 +252,8 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "StateChangeCallback<State>" to "Any /* StateChangeCallback<State> */",
     "PopupProps['anchor']" to "Any /* PopupProps['anchor'] */",
+    
+    "TreeViewItemsReorderingAction" to "TreeItem2DragAndDropOverlayAction",
 )
 
 internal fun kotlinType(
