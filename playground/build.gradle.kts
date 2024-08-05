@@ -16,6 +16,6 @@ dependencies {
     jsMainImplementation(npm("@emotion/styled", "11.8.1"))
 }
 
-tasks.patchWebpackConfig {
+tasks.patchBundlerConfig {
     patch(file("mui-patch.js"))
 }
