@@ -4,7 +4,6 @@ plugins {
     `mui-declarations`
 }
 
-val kotlinWrappersVersion = property("kotlin-wrappers.version") as String
 val seskarVersion = property("seskar.version") as String
 
 dependencies {
@@ -18,7 +17,6 @@ dependencies {
 
     jsMainImplementation("io.github.turansky.seskar:seskar-core:$seskarVersion")
 
-    jsMainApi(enforcedPlatform("org.jetbrains.kotlin-wrappers:kotlin-wrappers-bom:$kotlinWrappersVersion"))
-    jsMainApi("org.jetbrains.kotlin-wrappers:kotlin-react-dom")
-    jsMainApi("org.jetbrains.kotlin-wrappers:kotlin-popper")
+    jsMainApi(libs.wrappers.react.dom)
+    jsMainApi(libs.wrappers.react.dom)
 }

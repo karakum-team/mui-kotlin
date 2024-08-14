@@ -2,13 +2,10 @@ plugins {
     id("io.github.turansky.kfc.application")
 }
 
-val kotlinWrappersVersion = property("kotlin-wrappers.version") as String
-
 dependencies {
-    jsMainImplementation(enforcedPlatform("org.jetbrains.kotlin-wrappers:kotlin-wrappers-bom:$kotlinWrappersVersion"))
-    jsMainImplementation("org.jetbrains.kotlin-wrappers:kotlin-emotion")
-    jsMainImplementation("org.jetbrains.kotlin-wrappers:kotlin-react")
-    jsMainImplementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom")
+    jsMainImplementation(libs.wrappers.emotion)
+    jsMainImplementation(libs.wrappers.react)
+    jsMainImplementation(libs.wrappers.react.dom)
 
     jsMainImplementation(project(":mui-kotlin"))
 
