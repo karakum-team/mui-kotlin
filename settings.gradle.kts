@@ -7,11 +7,8 @@ pluginManagement {
         kotlin("plugin.js-plain-objects") version kotlinVersion
 
         val kfcVersion = extra["kfc.version"] as String
-        id("io.github.turansky.kfc.library") version kfcVersion
         id("io.github.turansky.kfc.application") version kfcVersion
-
-        val seskarVersion = extra["seskar.version"] as String
-        id("io.github.turansky.seskar") version seskarVersion
+        id("io.github.turansky.kfc.library") version kfcVersion
     }
 }
 
@@ -22,6 +19,13 @@ dependencyResolutionManagement {
 
     versionCatalogs {
         create("libs") {
+            val kfcVersion = extra["kfc.version"] as String
+            plugin("kfc-application", "io.github.turansky.kfc.application").version(kfcVersion)
+            plugin("kfc-library", "io.github.turansky.kfc.library").version(kfcVersion)
+
+            val seskarVersion = extra["seskar.version"] as String
+            plugin("seskar", "io.github.turansky.seskar").version(seskarVersion)
+
             val wrappersVersion = extra["kotlin.wrappers.version"]
             from("org.jetbrains.kotlin-wrappers:kotlin-wrappers-catalog:$wrappersVersion")
         }

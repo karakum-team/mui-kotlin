@@ -1,6 +1,6 @@
 plugins {
-    id("io.github.turansky.kfc.library")
-    id("io.github.turansky.seskar")
+    alias(libs.plugins.kfc.library)
+    alias(libs.plugins.seskar)
     `mui-declarations`
 }
 
@@ -18,5 +18,5 @@ dependencies {
     jsMainImplementation("io.github.turansky.seskar:seskar-core:$seskarVersion")
 
     jsMainApi(libs.wrappers.react.dom)
-    jsMainApi(libs.wrappers.react.dom)
+    jsMainApi(libs.wrappers.popper)
 }
