@@ -5,7 +5,7 @@ plugins {
 dependencies {
     jsMainImplementation(libs.wrappers.emotion)
     jsMainImplementation(libs.wrappers.react)
-    jsMainImplementation(libs.wrappers.react.dom)
+    jsMainImplementation(libs.wrappers.reactDom)
 
     jsMainImplementation(project(":mui-kotlin"))
 
@@ -13,6 +13,6 @@ dependencies {
     jsMainImplementation(npm("@emotion/styled", "11.8.1"))
 }
 
-tasks.patchBundlerConfig {
+tasks.patchWebpackConfig {
     patch(file("mui-patch.js"))
 }
