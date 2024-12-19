@@ -18,7 +18,7 @@ internal fun convertSpacingOptions(
                 inline fun $name(
                     $modifier value: $type,
                 ): $name =
-                    value.unsafeCast<$name>()
+                    unsafeCast(value)
             """.trimIndent()
         }
 
@@ -39,17 +39,11 @@ internal fun convertSpacing(
                 .replace(": number", ": Int")
                 .replace(": string", ": web.cssom.Length")
 
-            val parameters = declaration
-                .substringAfter("(")
-                .substringBefore(")")
-                .splitToSequence(",")
-                .joinToString(",") { it.substringBefore(":") }
-
-            "inline operator fun invoke$declaration =\n" +
-                    "asDynamic()($parameters)"
+            "@JsNative" + "\n" +
+                    "operator fun invoke$declaration"
         }
 
-    return "sealed interface $name {\n" +
+    return "sealed external interface $name {\n" +
             members +
             "\n}"
 }

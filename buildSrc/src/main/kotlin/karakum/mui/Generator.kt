@@ -9,6 +9,9 @@ private val DEFAULT_IMPORTS = listOf(
 
     "Promise" to "js.promise.Promise",
 
+    "Spacing" to "seskar.js.JsNative",
+    "SpacingOptions" to "js.reflect.unsafeCast",
+
     "ReadonlyArray" to "js.array.ReadonlyArray",
     "Record<" to "js.objects.Record",
     "JsTuple2" to "js.array.JsTuple2",
@@ -449,7 +452,7 @@ private fun generateStylesDeclarations(
             "ThemeProvider",
             "useTheme",
             "zIndex",
-            -> true
+                -> true
 
             else -> false
         }
@@ -642,12 +645,12 @@ private fun generate(
 
     val subpackage = when {
         pkg == Package.materialStyles
-        -> null
+            -> null
 
         fullPath || componentName == "SwitchBase" || componentName == "useAutocomplete" || componentName == "useSwitch" || componentName.startsWith(
             "create"
         )
-        -> definitionFile.parentFile.name
+            -> definitionFile.parentFile.name
 
         else -> null
     }
@@ -681,20 +684,13 @@ private fun generate(
     if (extensions.isNotEmpty() && componentName != "Stepper") {
         val fileName = "$componentName.ext"
 
-        val extensionsAnnotations = if ("inline fun " in extensions) {
-            "@file:Suppress(\n" +
-                    "\"DECLARATION_CANT_BE_INLINED\",\n" +
-                    "\"NOTHING_TO_INLINE\",\n" +
-                    ")"
-        } else ""
-
         val finalBody = when (componentName) {
             "createTypography" -> extensions.replace("Variant", "TypographyVariant")
             else -> extensions
         }
 
         targetDir.resolve("$fileName.kt")
-            .writeText(fileContent(annotations = extensionsAnnotations, body = finalBody, pkg = pkg))
+            .writeText(fileContent(body = finalBody, pkg = pkg))
     }
 
     if (componentName == "RadioGroup")

@@ -1,65 +1,58 @@
 // Automatically generated - do not modify!
 
-@file:Suppress(
-    "DECLARATION_CANT_BE_INLINED",
-    "NOTHING_TO_INLINE",
-)
-
 package mui.system
 
 import js.array.ReadonlyArray
+import js.reflect.unsafeCast
+import seskar.js.JsNative
 
 sealed external interface SpacingOptions
 
 inline fun SpacingOptions(
     value: Int,
 ): SpacingOptions =
-    value.unsafeCast<SpacingOptions>()
+    unsafeCast(value)
 
 inline fun SpacingOptions(
     value: Spacing,
 ): SpacingOptions =
-    value.unsafeCast<SpacingOptions>()
+    unsafeCast(value)
 
 inline fun SpacingOptions(
     noinline value: (abs: Int) -> web.cssom.Length,
 ): SpacingOptions =
-    value.unsafeCast<SpacingOptions>()
+    unsafeCast(value)
 
 inline fun SpacingOptions(
     noinline value: (abs: web.cssom.Length) -> web.cssom.Length,
 ): SpacingOptions =
-    value.unsafeCast<SpacingOptions>()
+    unsafeCast(value)
 
 inline fun SpacingOptions(
     value: ReadonlyArray<Int>,
 ): SpacingOptions =
-    value.unsafeCast<SpacingOptions>()
+    unsafeCast(value)
 
 typealias SpacingArgument = Int /* web.cssom.Auto */
 
-sealed interface Spacing {
-    inline operator fun invoke(): web.cssom.Length =
-        asDynamic()()
+sealed external interface Spacing {
+    @JsNative
+    operator fun invoke(): web.cssom.Length
 
-    inline operator fun invoke(value: SpacingArgument): web.cssom.Length =
-        asDynamic()(value)
+    @JsNative
+    operator fun invoke(value: SpacingArgument): web.cssom.Length
 
-    inline operator fun invoke(topBottom: SpacingArgument, rightLeft: SpacingArgument): web.cssom.Length =
-        asDynamic()(topBottom, rightLeft)
+    @JsNative
+    operator fun invoke(topBottom: SpacingArgument, rightLeft: SpacingArgument): web.cssom.Length
 
-    inline operator fun invoke(
-        top: SpacingArgument,
-        rightLeft: SpacingArgument,
-        bottom: SpacingArgument,
-    ): web.cssom.Length =
-        asDynamic()(top, rightLeft, bottom)
+    @JsNative
+    operator fun invoke(top: SpacingArgument, rightLeft: SpacingArgument, bottom: SpacingArgument): web.cssom.Length
 
-    inline operator fun invoke(
+    @JsNative
+    operator fun invoke(
         top: SpacingArgument,
         right: SpacingArgument,
         bottom: SpacingArgument,
         left: SpacingArgument,
-    ): web.cssom.Length =
-        asDynamic()(top, right, bottom, left)
+    ): web.cssom.Length
 }
