@@ -50,6 +50,7 @@ internal val VAR_TYPE_MISMATCH_ON_OVERRIDE_FIX_REQUIRED = setOf(
     "CardHeader",
     "BottomNavigationAction",
     "StepButton",
+    "SpeedDial",
     "CardActionArea",
     "Fab",
     "IconButton",

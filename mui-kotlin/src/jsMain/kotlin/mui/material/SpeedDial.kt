@@ -2,6 +2,10 @@
 
 @file:JsModule("@mui/material/SpeedDial")
 
+@file:Suppress(
+    "VAR_TYPE_MISMATCH_ON_OVERRIDE",
+)
+
 package mui.material
 
 import mui.material.styles.Theme
@@ -26,7 +30,7 @@ external interface SpeedDialProps :
      * The aria-label of the button element.
      * Also used to provide the `id` for the `SpeedDial` element and its children.
      */
-    var ariaLabel: String
+    override var ariaLabel: String
 
     /**
      * The direction the actions open relative to the floating action button.

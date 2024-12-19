@@ -6,50 +6,50 @@ internal fun fixOverrides(
 ): String =
     when (name) {
         "AlertTitle",
-        -> content
+            -> content
             .override("classes")
 
         "Autocomplete",
-        -> content
+            -> content
             .override("disabled")
             .override("readOnly")
             .replaceFirst("var key: String", "override var key: react.Key? /* Key */")
 
         "BottomNavigationAction",
-        -> content
+            -> content
             .override("classes")
             .override("value")
 
         "StepButton",
-        -> content
+            -> content
             .override("classes")
 
         "Button",
-        -> content
+            -> content
             .override("rootElementName")
 
         "CardActionArea",
-        -> content
+            -> content
             .override("classes")
             .override("focusVisibleClassName")
 
         "Fab",
-        -> content
+            -> content
             .override("classes")
             .override("disabled")
             .override("disableRipple")
 
         "IconButton",
-        -> content
+            -> content
             .override("classes")
             .override("disabled")
 
         "CardHeader",
-        -> content
+            -> content
             .override("title")
 
         "Dialog",
-        -> content
+            -> content
             .override("disableEscapeKeyDown")
             .override("onBackdropClick")
             .override("onClose")
@@ -57,53 +57,54 @@ internal fun fixOverrides(
 
         "DialogTitle",
         "DialogContentText",
-        -> content
+            -> content
             .override("classes")
 
         "Drawer",
-        -> content
+            -> content
             .override("onClose")
 
         "Popover",
-        -> content
+            -> content
             .override("container")
             .override("onClose")
             .override("open")
 
         "ToggleButton",
-        -> content
+            -> content
             .override("disabled")
             .override("value")
 
         "SwipeableDrawer",
-        -> content
+            -> content
             .override("open")
 
         "MultiSelect",
-        -> content
+            -> content
             .override("disabled")
             .replace("disabled: Boolean", "disabled: Boolean?")
             .replace("var component: dynamic", "var component: react.ElementType<*>?")
 
         "Option",
-        -> content
+            -> content
             .replace("var component: dynamic", "var component: react.ElementType<*>?")
 
         "Select",
-        -> content
+            -> content
             .replace("var component: dynamic", "var component: react.ElementType<*>?")
 
         "TableCell",
-        -> content
+            -> content
             .override("align")
             .override("scope")
 
         "SpeedDial",
-        -> content
+            -> content
+            .override("ariaLabel")
             .override("hidden")
 
         "Tab",
-        -> content
+            -> content
             .override("value")
             .override("slots")
             .replace("slots: TabSlots?", "slots: ButtonSlots? /* TabSlots? */")
@@ -111,7 +112,7 @@ internal fun fixOverrides(
             .replace(": SlotProps?", ": ButtonOwnProps.SlotProps?")
 
         "MenuItem",
-        -> content
+            -> content
             .override("autoFocus")
             .override("onClick")
             .replace(
@@ -120,7 +121,7 @@ internal fun fixOverrides(
             )
 
         "TreeItem",
-        -> content
+            -> content
             .override("onKeyDown")
             .replace(
                 "var onFocus: Nothing?",
@@ -128,17 +129,17 @@ internal fun fixOverrides(
             )
 
         "TabScrollButton",
-        -> content
+            -> content
             .override("disabled")
             .override("classes")
 
         "Tabs",
-        -> content
+            -> content
             .override("centered")
             .replaceFirst("centered: Boolean", "centered: Boolean?")
 
         "createTheme",
-        -> {
+            -> {
             if ("mui.system.ThemeOptions" !in content) {
                 content
             } else {
