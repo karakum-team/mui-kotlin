@@ -5,15 +5,16 @@ import java.io.File
 private const val GENERATOR_COMMENT = "Automatically generated - do not modify!"
 
 private val DEFAULT_IMPORTS = listOf(
+    "@JsNative" to "seskar.js.JsNative",
+
     "Modifier" to "popper.core.Modifier",
 
     "Promise" to "js.promise.Promise",
 
-    "Spacing" to "seskar.js.JsNative",
-    "SpacingOptions" to "js.reflect.unsafeCast",
-
     "ReadonlyArray" to "js.array.ReadonlyArray",
     "Record<" to "js.objects.Record",
+    "recordOf(" to "js.objects.recordOf",
+    "unsafeCast(" to "js.reflect.unsafeCast",
     "JsTuple2" to "js.array.JsTuple2",
     "Void" to "js.core.Void",
 
@@ -75,22 +76,17 @@ inline fun PropsWithSx.sx(
 private val SYSTEM_RESPONSIVE_STYLE_VALUE = """
 external interface ResponsiveStyleValue<T : Any>
 
-@Suppress("NOTHING_TO_INLINE")
 inline fun <T : Any> responsive(
     value: T,
 ): ResponsiveStyleValue<T> =
-    value.unsafeCast<ResponsiveStyleValue<T>>()
+    unsafeCast(value)
 
 @Suppress("BOUNDS_NOT_ALLOWED_IF_BOUNDED_BY_TYPE_PARAMETER")
 fun <T : Any, R> responsive(
     vararg values: Pair<Breakpoint, T>,
 ): R where R : T,
            R : ResponsiveStyleValue<T> =
-    Record<Breakpoint, T> {
-        for ((key, value) in values) {
-            set(key, value)
-        }
-    }.unsafeCast<R>()
+    unsafeCast(recordOf(pairs = values))
 """.trimIndent()
 
 // language=kotlin
