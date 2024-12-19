@@ -55,6 +55,7 @@ internal fun String.toFunctionType(): String? {
         .replace("?: boolean", ": Boolean?")
         .replace("React.ReactNode", "react.ReactNode")
         .replace("React.RefObject", "react.RefObject")
+        .replace("HTMLElement | null", "HTMLElement")
         .replace(" | null", "?")
         .replace("AutocompleteValue<Value, Multiple, DisableClearable, FreeSolo>", "Any")
         .replace("details?: AutocompleteChangeDetails<Value>", "details: AutocompleteChangeDetails<Value>?")

@@ -99,9 +99,13 @@ internal fun convertDefinitions(
     declarations += (additionalInterfaces - functionInterfaces)
 
     val fun0Declaration = "export default function $name<"
+
     val fun1Declaration = "export default function $name(props: $propsName): JSX.Element;"
-    val fun2Declaration = "declare function $name(props: $propsName): JSX.Element;"
-    val fun3Declaration = "declare function $name(props: $propsName): React.JSX.Element;"
+    val fun2Declaration = "export default function $name(props: $propsName): React.JSX.Element;"
+
+    val fun3Declaration = "declare function $name(props: $propsName): JSX.Element;"
+    val fun4Declaration = "declare function $name(props: $propsName): React.JSX.Element;"
+
     val typeDeclaration = "declare const $name: React.ComponentType<$propsName>;"
     val const1Declaration = "declare const $name: "
     val const2Declaration = "export default _default"
@@ -111,6 +115,7 @@ internal fun convertDefinitions(
         findComponent(name, propsName, fun1Declaration, content),
         findComponent(name, propsName, fun2Declaration, content),
         findComponent(name, propsName, fun3Declaration, content),
+        findComponent(name, propsName, fun4Declaration, content),
         findComponent(name, propsName, typeDeclaration, content, "ComponentType"),
         findComponent(name, propsName, const1Declaration, content),
         findComponent(name, propsName, const2Declaration, content),
@@ -170,13 +175,13 @@ private fun String.removeInlineClasses(
 
     val type = when {
         e.startsWith("Partial<BadgeClasses> & {")
-        -> "BadgeClasses"
+            -> "BadgeClasses"
 
         e.startsWith("Partial<ButtonClasses> & {")
-        -> "mui.material.ButtonClasses"
+            -> "mui.material.ButtonClasses"
 
         e.startsWith("{")
-        -> "unknown"
+            -> "unknown"
 
         else -> return this
     }
@@ -191,13 +196,13 @@ private fun findProps(
 ): String? {
     when (name) {
         "TextField",
-        -> return "typealias $propsName = BaseTextFieldProps"
+            -> return "typealias $propsName = BaseTextFieldProps"
 
         "DateField",
         "StaticDatePicker",
         "StaticDateTimePicker",
         "StaticTimePicker",
-        -> return props(propsName)
+            -> return props(propsName)
     }
 
     val propsContent = sequenceOf(" ", "<", "\n")
@@ -212,25 +217,25 @@ private fun findProps(
 
     val propsDeclaration = when {
         propsContent.startsWith("TDate>")
-        -> "$propsName<TDate>"
+            -> "$propsName<TDate>"
 
         propsContent.startsWith("TValue>") || propsContent.startsWith("TValue extends ")
-        -> "$propsName<TValue>"
+            -> "$propsName<TValue>"
 
         propsContent.startsWith("OptionValue>") || propsContent.startsWith("OptionValue extends ")
-        -> "$propsName<OptionValue>"
+            -> "$propsName<OptionValue>"
 
         propsContent.startsWith("TOption>") || propsContent.startsWith("TOption extends ")
-        -> "$propsName<TOption>"
+            -> "$propsName<TOption>"
 
         propsContent.startsWith("T = unknown>")
-        -> "$propsName<T>"
+            -> "$propsName<T>"
 
         propsContent.startsWith("Value = unknown>")
-        -> "$propsName<Value>"
+            -> "$propsName<Value>"
 
         propsName == "AutocompleteProps"
-        -> "$propsName<Value>"
+            -> "$propsName<Value>"
 
         else -> propsName
     }
@@ -302,7 +307,7 @@ private fun findMapProps(
 
     val parentType: String? = when {
         "${name}BaseProps & {" in propsContent || "props: AdditionalProps & ${name}BaseProps;" in propsContent
-        -> {
+            -> {
             val baseType = "${name}BaseProps"
 
             if (baseType == "LinkBaseProps") {
@@ -318,7 +323,7 @@ private fun findMapProps(
         }
 
         "props: ${name}OwnProps & AdditionalProps;" in propsContent
-        -> {
+            -> {
             val intrinsicProps = when (propsName) {
                 "InputProps" -> "react.dom.html.HTMLAttributes<web.html.HTMLInputElement>"
                 else -> INTRINSIC_TYPE_MAP[intrinsicType]
@@ -329,7 +334,7 @@ private fun findMapProps(
         }
 
         "props: AdditionalProps & ${name}OwnProps" in propsContent || "props: AdditionalProps &\n    ${name}OwnProps" in propsContent
-        -> {
+            -> {
             val intrinsicProps = INTRINSIC_TYPE_MAP[intrinsicType]
 
             sequenceOf(
@@ -340,10 +345,10 @@ private fun findMapProps(
         }
 
         "DistributiveOmit<PaperOwnProps" in propsContent
-        -> "PaperOwnProps"
+            -> "PaperOwnProps"
 
         "${name}TypeMap<{" in propsContent
-        -> "mui.base.${name}Props"
+            -> "mui.base.${name}Props"
 
         else -> INTRINSIC_TYPE_MAP[intrinsicType]
     }
@@ -481,10 +486,10 @@ private fun findAdditionalProps(
 
             "TimePickerSlotsComponent",
             "TimePickerSlotsComponentsProps",
-            -> ""
+                -> ""
 
             "Spacing",
-            -> return@mapNotNull convertSpacing(
+                -> return@mapNotNull convertSpacing(
                 name = interfaceName,
                 body = body.substringAfter("{\n")
                     .substringBefore("\n}\n")
@@ -492,27 +497,27 @@ private fun findAdditionalProps(
             )
 
             "MixinsOptions",
-            -> body.substringAfter("{\n")
+                -> body.substringAfter("{\n")
                 .substringBefore("\n}\n")
 
             else
-            -> body.substringAfter("{\n")
+                -> body.substringAfter("{\n")
                 .substringBefore(";\n}\n")
         }
 
         var propsBody = when {
             interfaceName.endsWith("Actions")
-            -> convertMethods(membersContent)
+                -> convertMethods(membersContent)
 
             interfaceName == "IUtils"
-            -> convertDateUtils(membersContent)
+                -> convertDateUtils(membersContent)
 
             else -> convertMembers(membersContent)
         }
 
         when (interfaceName) {
             "RichTreeViewPropsBase",
-            -> propsBody = propsBody.replace("override var sx:", "var sx:")
+                -> propsBody = propsBody.replace("override var sx:", "var sx:")
 
             "CommonColors",
             "PaletteColor",
@@ -520,14 +525,14 @@ private fun findAdditionalProps(
             "TypeAction",
             "SimplePaletteColorOptions",
             "PaletteAugmentColorOptions",
-            -> propsBody = propsBody.replace(": String", ": web.cssom.Color")
+                -> propsBody = propsBody.replace(": String", ": web.cssom.Color")
         }
 
         when (parentType) {
             "mui.system.ThemeOptions",
             "mui.system.Theme",
             "BaseTheme",
-            -> propsBody = sequenceOf(
+                -> propsBody = sequenceOf(
                 "mixins",
                 "components",
                 "slots",
@@ -544,7 +549,7 @@ private fun findAdditionalProps(
         val hasChildren = CHILDREN in propsBody
         var declaration = when {
             propsLike || hasChildren
-            -> props(
+                -> props(
                 propsName = interfaceName,
                 parentType = parentType,
                 hasChildren = hasChildren,
@@ -553,7 +558,7 @@ private fun findAdditionalProps(
             )
 
             interfaceName.endsWith("Params") || interfaceName == "UsePaginationItem"
-            -> props(interfaceName, parentType, hasChildren = false)
+                -> props(interfaceName, parentType, hasChildren = false)
 
             else -> "external interface $interfaceName" +
                     if (parentType != null) ": $parentType" else ""
@@ -561,7 +566,7 @@ private fun findAdditionalProps(
 
         when (interfaceName) {
             "UseAutocompleteProps",
-            -> declaration = declaration.replaceFirst(":", "<Value>:")
+                -> declaration = declaration.replaceFirst(":", "<Value>:")
 
             "SelectOption",
             "SelectOptionDefinition",
@@ -571,65 +576,65 @@ private fun findAdditionalProps(
             "UseAutocompleteReturnValue",
             "CreateFilterOptionsConfig",
             "FilterOptionsState",
-            -> declaration += "<Value>"
+                -> declaration += "<Value>"
 
             "BrowserAutofillAction",
-            -> declaration += "<OptionValue>"
+                -> declaration += "<OptionValue>"
 
             "UseSelectSingleParameters",
             "UseSelectMultiParameters",
             "UseSelectSingleResult",
             "UseSelectMultiResult",
-            -> declaration += "<TValue>"
+                -> declaration += "<TValue>"
 
             "ListState",
-            -> declaration += "<ItemValue>"
+                -> declaration += "<ItemValue>"
 
             "UseListParameters",
-            -> declaration += "<ItemValue, State, CustomAction, CustomActionContext>"
+                -> declaration += "<ItemValue, State, CustomAction, CustomActionContext>"
 
             "UseSelectParameters",
-            -> declaration += "<OptionValue, Multiple>"
+                -> declaration += "<OptionValue, Multiple>"
 
             "UseSelectReturnValue",
-            -> declaration += "<Value, Multiple>"
+                -> declaration += "<Value, Multiple>"
 
             "SelectOwnerState",
-            -> declaration = declaration.replaceFirst(
+                -> declaration = declaration.replaceFirst(
                 "SelectOwnerState",
                 "SelectOwnerState<TValue> : SelectOwnProps<TValue>"
             )
 
             "OptionOwnProps",
             "SelectOwnProps",
-            -> declaration = declaration.replaceFirst(":", "<OptionValue>:")
+                -> declaration = declaration.replaceFirst(":", "<OptionValue>:")
 
             "OptionProps",
-            -> declaration = declaration.replaceFirst(":", "<TValue>: OptionProps<TValue>")
+                -> declaration = declaration.replaceFirst(":", "<TValue>: OptionProps<TValue>")
 
             "SelectProps",
-            -> declaration = declaration.replaceFirst(":", "<TValue>: SelectProps<TValue>")
+                -> declaration = declaration.replaceFirst(":", "<TValue>: SelectProps<TValue>")
 
             "ExportedClockPickerProps",
             "ExportedMonthPickerProps",
             "ExportedYearPickerProps",
             "BaseDateRangePickerProps",
-            -> declaration = declaration.replaceFirst(":", "<TDate>:")
+                -> declaration = declaration.replaceFirst(":", "<TDate>:")
 
             "DateIOFormats",
-            -> declaration += "<TLibFormatToken: Any>"
+                -> declaration += "<TLibFormatToken: Any>"
 
             "IUtils",
-            -> declaration += "<TDate: Any>"
+                -> declaration += "<TDate: Any>"
 
             "UseSelectResult",
-            -> declaration = declaration.replaceFirst("UseSelectResult", "UseSelectResult<TValue>")
+                -> declaration = declaration.replaceFirst("UseSelectResult", "UseSelectResult<TValue>")
 
             "UseListboxParameters",
-            -> declaration = declaration.replaceFirst("UseListboxParameters", "UseListboxParameters<TOption>")
+                -> declaration = declaration.replaceFirst("UseListboxParameters", "UseListboxParameters<TOption>")
 
             "ListboxState",
-            -> declaration = declaration.replaceFirst("ListboxState", "ListboxState<TOption>")
+                -> declaration = declaration.replaceFirst("ListboxState", "ListboxState<TOption>")
         }
 
         val annotations = when (interfaceName) {
@@ -719,17 +724,17 @@ private fun props(
 
     val parentTypes = when {
         parentType == null
-        -> if (baseInterfaces.size > 1) {
+            -> if (baseInterfaces.size > 1) {
             baseInterfaces.joinToString(",\n", "\n")
         } else baseInterfaces.firstOrNull() ?: "react.Props"
 
         baseInterfaces.isNotEmpty()
-        -> sequenceOf(parentType.removePrefix("\n"))
+            -> sequenceOf(parentType.removePrefix("\n"))
             .plus(baseInterfaces)
             .joinToString(",\n", "\n")
 
         "\n" in parentType
-        -> parentType
+            -> parentType
 
         else -> "\n" + parentType
     }
@@ -806,13 +811,13 @@ private fun findComponent(
     var comment = content.substringBefore("\n$declaration")
     comment = when {
         "\n\n" in comment
-        -> comment.substringAfterLast("\n\n")
+            -> comment.substringAfterLast("\n\n")
 
         ";\n/**" in comment
-        -> comment.substringAfterLast(";\n")
+            -> comment.substringAfterLast(";\n")
 
         "}\n/**" in comment
-        -> comment.substringAfterLast("}\n")
+            -> comment.substringAfterLast("}\n")
 
         else -> comment.substringAfterLast("};\n")
     }
@@ -839,14 +844,14 @@ private fun findComponent(
 
         "MultiSelectProps",
         "OptionProps",
-        -> "$propsName<*>"
+            -> "$propsName<*>"
 
         // TODO: Remove when `TreeItem` will be removed from `@mui/lab`
         "TreeItemProps",
-        -> "muix.tree.view.TreeItemProps"
+            -> "muix.tree.view.TreeItemProps"
 
         "TreeViewProps",
-        -> "muix.tree.view.TreeViewProps"
+            -> "muix.tree.view.TreeViewProps"
 
         else -> propsName
     }

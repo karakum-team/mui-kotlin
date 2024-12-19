@@ -162,6 +162,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "NonNullable<React.ReactNode>" to "react.ReactNode",
     "string | React.ReactNode" to "react.ReactNode",
     "string | React.ReactElement" to "react.ReactNode",
+    "string | React.ReactElement<any>" to "react.ReactElement<*>",
     "string | number | React.ReactElement" to "react.ReactNode",
     "React.ReactNode | ((state: FormControlState) => React.ReactNode)" to "react.ReactNode",
     "React.HTMLAttributes<HTMLDivElement>['children']" to "react.ReactNode",
@@ -252,7 +253,7 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "StateChangeCallback<State>" to "Any /* StateChangeCallback<State> */",
     "PopupProps['anchor']" to "Any /* PopupProps['anchor'] */",
-    
+
     "TreeViewItemsReorderingAction" to "TreeItem2DragAndDropOverlayAction",
 )
 
