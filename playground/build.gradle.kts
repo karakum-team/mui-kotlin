@@ -3,9 +3,9 @@ plugins {
 }
 
 dependencies {
-    jsMainImplementation(libs.wrappers.emotion)
-    jsMainImplementation(libs.wrappers.react)
-    jsMainImplementation(libs.wrappers.reactDom)
+    jsMainImplementation(kotlinWrappers.emotion)
+    jsMainImplementation(kotlinWrappers.react)
+    jsMainImplementation(kotlinWrappers.reactDom)
 
     jsMainImplementation(project(":mui-kotlin"))
 

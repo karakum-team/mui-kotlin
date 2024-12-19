@@ -17,6 +17,6 @@ dependencies {
 
     jsMainImplementation("io.github.turansky.seskar:seskar-core:$seskarVersion")
 
-    jsMainApi(libs.wrappers.reactDom)
-    jsMainApi(libs.wrappers.reactPopper)
+    jsMainApi(kotlinWrappers.reactDom)
+    jsMainApi(kotlinWrappers.reactPopper)
 }

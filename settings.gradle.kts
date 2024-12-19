@@ -17,7 +17,9 @@ dependencyResolutionManagement {
 
             val seskarVersion = extra["seskar.version"] as String
             plugin("seskar", "io.github.turansky.seskar").version(seskarVersion)
+        }
 
+        create("kotlinWrappers") {
             val wrappersVersion = extra["kotlin.wrappers.version"]
             from("org.jetbrains.kotlin-wrappers:kotlin-wrappers-catalog:$wrappersVersion")
         }
