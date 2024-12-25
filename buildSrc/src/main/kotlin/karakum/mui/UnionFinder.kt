@@ -142,6 +142,7 @@ private fun findUnionSource(
             "'onClick' | 'onMouseDown' | 'onMouseUp' | 'onPointerDown' | 'onPointerUp'"
         )
         .replace("ClickAwayTouchEventHandler", "'onTouchStart' | 'onTouchEnd'")
+        .replace("DateView", "'year' | 'month' | 'day'")
         .trim()
 
     if (source.startsWith("| '"))

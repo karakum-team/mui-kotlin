@@ -7,6 +7,8 @@ plugins {
 val seskarVersion = property("seskar.version") as String
 
 dependencies {
+    jsMainImplementation(npm("@date-io/core", "2.17.0"))
+
     jsMainImplementation(npmv("@mui/material"))
     jsMainImplementation(npmv("@mui/base"))
     jsMainImplementation(npmv("@mui/system"))

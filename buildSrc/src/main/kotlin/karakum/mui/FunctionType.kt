@@ -56,6 +56,7 @@ internal fun String.toFunctionType(): String? {
         .replace("React.ReactNode", "react.ReactNode")
         .replace("React.RefObject", "react.RefObject")
         .replace("HTMLElement | null", "HTMLElement")
+        .replace(" | null | undefined", "?")
         .replace(" | null", "?")
         .replace("AutocompleteValue<Value, Multiple, DisableClearable, FreeSolo>", "Any")
         .replace("details?: AutocompleteChangeDetails<Value>", "details: AutocompleteChangeDetails<Value>?")
@@ -76,6 +77,10 @@ internal fun String.toFunctionType(): String? {
         .replace(
             ": 'first' | 'last' | 'next' | 'previous'",
             ": mui.system.Union /* 'first' | 'last' | 'next' | 'previous' */"
+        )
+        .replace(
+            ": DateView",
+            ": mui.system.Union /* 'year' | 'month' | 'day' */"
         )
         .replace(": ListAction<string>", ": Any /* ListAction<string> */")
         .replace(": CustomAction | ListAction<ItemValue>", ": Any /* CustomAction | ListAction<ItemValue> */")

@@ -10,6 +10,7 @@ private val DEFAULT_IMPORTS = listOf(
     "Modifier" to "popper.core.Modifier",
 
     "Promise" to "js.promise.Promise",
+    "SlideDirection" to "mui.material.SlideDirection",
 
     "ReadonlyArray" to "js.array.ReadonlyArray",
     "Record<" to "js.objects.Record",
@@ -552,8 +553,47 @@ private fun generatePickersDeclarations(
     directories.asSequence()
         .filter { !it.name.startsWith("Adapter") }
         .filter { it.name.isComponentName() }
-        .map { it.resolve("${it.name}.d.ts") }
-        .forEach { generate(it, targetDir, Package.pickers) }
+        .filter {
+            it.name !in setOf(
+                "DateTimeField",
+                "TimeField",
+                "PickersTextField",
+                "PickersShortcuts",
+                "PickersLayout"
+            )
+        }
+        .forEach {
+            val file = it.resolve("${it.name}.d.ts")
+            generate(file, targetDir, Package.pickers)
+
+            if (it.name in setOf(
+                    "DateCalendar",
+                    "DatePicker",
+                    "DateTimeField",
+                    "DateTimePicker",
+                    "DesktopDatePicker",
+                    "DesktopDateTimePicker",
+                    "DesktopTimePicker",
+                    "DigitalClock",
+                    "MobileDatePicker",
+                    "MobileDateTimePicker",
+                    "MobileTimePicker",
+                    "MonthCalendar",
+                    "MultiSectionDigitalClock",
+                    "PickersCalendarHeader",
+                    "PickersLayout",
+                    "PickersSectionList",
+                    "PickersTextField",
+                    "TimeClock",
+                    "TimeField",
+                    "TimePicker",
+                    "YearCalendar"
+                )
+            ) {
+                val typesFile = it.resolve("${it.name}.types.d.ts")
+                generate(typesFile, targetDir, Package.pickers)
+            }
+        }
 
     sequenceOf(
         "Stubs" to PICKERS_STUBS,

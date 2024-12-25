@@ -44,7 +44,7 @@ private fun convertMember(
         .joinToString("\n")
 }
 
-private val CSS_RECORD = "[k: string]: unknown | CSSProperties"
+private const val CSS_RECORD = "[k: string]: unknown | CSSProperties"
 
 private fun convertProperty(
     source: String,
@@ -56,7 +56,7 @@ private fun convertProperty(
         .removeSuffix("?")
         .let { kotlinName(it) }
 
-    if (name == "ref")
+    if (name == "ref" || name == "}")
         return ""
 
     val type = kotlinType(
@@ -102,7 +102,7 @@ private fun convertProperty(
     val modifier = if (": Readonly<" in source) "val" else "var"
     var declaration = "$modifier $name: $fullType"
     if ("-" in name) {
-        declaration = "    // " + declaration
+        declaration = "    // $declaration"
     }
 
     return declaration

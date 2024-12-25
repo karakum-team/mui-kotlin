@@ -504,9 +504,7 @@ internal fun kotlinType(
     }
 
     if (name != null && name.endsWith("Props") && name != "componentsProps") {
-        val comment = type.split("\n")
-            .map { it.trim() }
-            .joinToString(" ")
+        val comment = type.split("\n").joinToString(" ") { it.trim() }
 
         return "react.Props /* $comment */"
     }

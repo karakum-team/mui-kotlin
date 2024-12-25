@@ -80,6 +80,10 @@ internal fun convertDefinitions(
             "extends Omit<TypographyTypeMap['props'], 'classes'>",
             "extends TypographyProps",
         )
+        .replace(
+            "extends Omit<React.HTMLAttributes<HTMLDivElement>, 'contentEditable'>",
+            "extends React.HTMLAttributes<HTMLDivElement>",
+        )
         .let { findDefaultUnions(name, it) }
 
     val declarations = mutableListOf<String>()
@@ -216,7 +220,13 @@ private fun findProps(
         ?: return null
 
     val propsDeclaration = when {
-        propsContent.startsWith("TDate>")
+        propsContent.contains("TDate") && propsContent.contains("TView") && propsContent.contains("TEnableAccessibleFieldDOMStructure")
+            -> "$propsName<TDate, TView, TEnableAccessibleFieldDOMStructure>"
+
+        propsContent.contains("TDate") && propsContent.contains("TEnableAccessibleFieldDOMStructure")
+            -> "$propsName<TDate, TEnableAccessibleFieldDOMStructure>"
+
+        propsContent.startsWith("TDate>") || propsContent.startsWith("TDate extends ")
             -> "$propsName<TDate>"
 
         propsContent.startsWith("TValue>") || propsContent.startsWith("TValue extends ")
@@ -585,6 +595,7 @@ private fun findAdditionalProps(
             "UseSelectMultiParameters",
             "UseSelectSingleResult",
             "UseSelectMultiResult",
+            "MultiSectionDigitalClockOption",
                 -> declaration += "<TValue>"
 
             "ListState",
@@ -615,11 +626,41 @@ private fun findAdditionalProps(
             "SelectProps",
                 -> declaration = declaration.replaceFirst(":", "<TValue>: SelectProps<TValue>")
 
+            "DateCalendarSlots",
+            "DatePickerSlots",
+            "DateTimePickerSlots",
+            "DesktopDatePickerSlots",
+            "DesktopDateTimePickerSlots",
+            "DesktopTimePickerSlots",
+            "MobileDatePickerSlots",
+            "TimePickerSlots",
+                -> declaration += "<TDate>"
+
+            "MobileDateTimePickerSlots",
+            "MobileTimePickerSlots",
+                -> declaration += "<TDate, TView>"
+
             "ExportedClockPickerProps",
             "ExportedMonthPickerProps",
             "ExportedYearPickerProps",
             "BaseDateRangePickerProps",
+            "DateCalendarSlotProps",
+            "ExportedDateCalendarProps",
+            "PickersCalendarHeaderSlotProps",
                 -> declaration = declaration.replaceFirst(":", "<TDate>:")
+
+            "DatePickerSlotProps",
+            "DateTimePickerSlotProps",
+            "DesktopDatePickerSlotProps",
+            "DesktopDateTimePickerSlotProps",
+            "DesktopTimePickerSlotProps",
+            "MobileDatePickerSlotProps",
+            "TimePickerSlotProps",
+                -> declaration = declaration.replaceFirst(":", "<TDate, TEnableAccessibleFieldDOMStructure>:")
+
+            "MobileDateTimePickerSlotProps",
+            "MobileTimePickerSlotProps",
+                -> declaration = declaration.replaceFirst(":", "<TDate, TView, TEnableAccessibleFieldDOMStructure>:")
 
             "DateIOFormats",
                 -> declaration += "<TLibFormatToken: Any>"
@@ -844,7 +885,29 @@ private fun findComponent(
 
         "MultiSelectProps",
         "OptionProps",
+        "DateCalendarProps",
+        "DateTimeFieldProps",
+        "DigitalClockProps",
+        "LocalizationProviderProps",
+        "MonthCalendarProps",
+        "MultiSectionDigitalClockProps",
+        "PickersCalendarHeaderProps",
+        "TimeClockProps",
+        "YearCalendarProps",
             -> "$propsName<*>"
+
+        "DatePickerProps",
+        "DateTimePickerProps",
+        "DesktopDatePickerProps",
+        "DesktopDateTimePickerProps",
+        "DesktopTimePickerProps",
+        "MobileDatePickerProps",
+        "TimePickerProps",
+            -> "$propsName<*, *>"
+
+        "MobileDateTimePickerProps",
+        "MobileTimePickerProps",
+            -> "$propsName<*, *, *>"
 
         // TODO: Remove when `TreeItem` will be removed from `@mui/lab`
         "TreeItemProps",
