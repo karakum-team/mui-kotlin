@@ -529,7 +529,7 @@ private fun generateTreeViewDeclarations(
                     generate(typesFile, targetDir, Package.treeView)
                 }
 
-                "TreeView", "SimpleTreeView", "RichTreeView", "TreeItem2DragAndDropOverlay" -> {
+                "TreeView", "SimpleTreeView", "RichTreeView", "TreeItem2LabelInput", "TreeItem2DragAndDropOverlay" -> {
                     val typesFile = it.resolve("${it.name}.types.d.ts")
                     generate(typesFile, targetDir, Package.treeView)
                 }

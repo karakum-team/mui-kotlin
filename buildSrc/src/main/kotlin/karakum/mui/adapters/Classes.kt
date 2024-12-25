@@ -19,12 +19,18 @@ private fun String.cleanupTreeItemContentClasses(): String {
         focused: string;
         /** State class applied to the element when disabled. */
         disabled: string;
-        /** Styles applied to the tree item icon and collapse/expand icon. */
+        /** Styles applied to the Tree Item icon and collapse/expand icon. */
         iconContainer: string;
         /** Styles applied to the label element. */
         label: string;
         /** Styles applied to the checkbox element. */
         checkbox: string;
+        /** Styles applied to the input element that is visible when editing is enabled. */
+        labelInput: string;
+        /** Styles applied to the content element when editing is enabled. */
+        editing: string;
+        /** Styles applied to the content of the items that are editable. */
+        editable: string;
     };
 """,
         """
@@ -37,6 +43,9 @@ private fun String.cleanupTreeItemContentClasses(): String {
         iconContainer: string;
         label: string;
         checkbox: string;
+        labelInput: string;
+        editing: string;
+        editable: string;
     };
 """,
     )

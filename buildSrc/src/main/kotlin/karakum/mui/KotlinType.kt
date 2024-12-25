@@ -198,7 +198,9 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.HTMLAttributes<HTMLDivElement>" to "react.dom.html.HTMLAttributes<web.html.HTMLDivElement>",
     "Partial<React.HTMLAttributes<HTMLDivElement>>" to "react.dom.html.HTMLAttributes<web.html.HTMLDivElement>",
     "React.HTMLAttributes<HTMLElement>" to "react.dom.html.HTMLAttributes<web.html.HTMLElement>",
-    "MuiCancellableEventHandler<React.KeyboardEvent<HTMLLIElement>>" to "react.dom.events.KeyboardEventHandler<web.html.HTMLLIElement>",
+    "TreeViewCancellableEventHandler<React.KeyboardEvent<HTMLLIElement>>" to "react.dom.events.KeyboardEventHandler<web.html.HTMLLIElement>",
+    "TreeViewCancellableEventHandler<React.KeyboardEvent<HTMLInputElement>>" to "react.dom.events.KeyboardEventHandler<web.html.HTMLInputElement>",
+    "TreeViewCancellableEventHandler<React.FocusEvent<HTMLInputElement>>" to "react.dom.events.FocusEventHandler<web.html.HTMLInputElement>",
 
     "NonNullable<React.HTMLAttributes<any>['tabIndex']>" to "Int",
     "React.InputHTMLAttributes<unknown>['type']" to "InputType",
@@ -414,13 +416,13 @@ internal fun kotlinType(
             return when (partialResult) {
                 "TouchRippleProps",
                 "NativeSelectInputProps",
-                -> DYNAMIC
+                    -> DYNAMIC
 
                 "StandardInputProps",
-                -> "InputProps"
+                    -> "InputProps"
 
                 "SelectProps",
-                -> "SelectProps<*>"
+                    -> "SelectProps<*>"
 
                 else -> STANDARD_TYPE_MAP[partialResult] ?: partialResult
             }
