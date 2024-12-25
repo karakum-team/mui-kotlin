@@ -100,7 +100,7 @@ internal fun fixOverrides(
 
         "SpeedDial",
             -> content
-            .override("ariaLabel").replace("override var ariaLabel: String", "override var ariaLabel: String?")
+            .override("ariaLabel").replace("override var ariaLabel: String", "/* override var ariaLabel: String */")
             .override("hidden")
 
         "Tab",
