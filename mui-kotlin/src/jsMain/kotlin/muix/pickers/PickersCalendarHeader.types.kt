@@ -2,6 +2,7 @@
 
 package muix.pickers
 
+import js.array.ReadonlyArray
 import mui.material.SlideDirection
 import mui.material.styles.Theme
 import mui.system.SxProps
@@ -26,7 +27,7 @@ external interface PickersCalendarHeaderProps<TDate> :
 
     var disabled: Boolean?
 
-    var views: dynamic
+    var views: ReadonlyArray<String /* 'year' | 'month' | 'day' */>
 
     var onMonthChange: (date: TDate, slideDirection: SlideDirection) -> Unit
 

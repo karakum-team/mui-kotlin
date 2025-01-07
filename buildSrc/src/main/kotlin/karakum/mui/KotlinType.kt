@@ -128,13 +128,20 @@ private val STANDARD_TYPE_MAP = mapOf(
     "OptionValue[]" to "ReadonlyArray<OptionValue>",
     "TOption[]" to "ReadonlyArray<TOption>",
 //    "number | number[]" to "ReadonlyArray<Number>",
+    "3 | 4" to "Number /* 3 | 4 */",
 
     "Date" to "kotlin.js.Date",
 
     "keyof HTMLElementTagNameMap" to "web.html.HtmlTagName<*>",
 
     "readonly CalendarPickerView[]" to "ReadonlyArray<CalendarPickerView>",
+    "readonly DateOrTimeView[]" to "ReadonlyArray<String /* 'year' | 'month' | 'day' | 'hours' | 'minutes' | 'seconds' */>",
+    "readonly DateView[]" to "ReadonlyArray<String /* 'year' | 'month' | 'day' */>",
+    "readonly TimeView[]" to "ReadonlyArray<String /* 'hours' | 'minutes' | 'seconds' */>",
+    "readonly 'hours'[]" to "ReadonlyArray<String /* 'hours' */>",
+    "readonly TimeViewWithMeridiem[]" to "ReadonlyArray<String /* 'hours' | 'minutes' | 'seconds' | 'meridiem' */>",
     "Breakpoint[]" to "ReadonlyArray<Breakpoint>",
+    "PickersActionBarAction[]" to "ReadonlyArray<PickersActionBarAction>",
     "UsePaginationItem[]" to "ReadonlyArray<UsePaginationItem>",
 
     "HTMLElement" to "web.html.HTMLElement",
