@@ -135,6 +135,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "keyof HTMLElementTagNameMap" to "web.html.HtmlTagName<*>",
 
     "DateView" to "String /* 'year' | 'month' | 'day' */",
+    "PickersSectionElement[]" to "ReadonlyArray<PickersSectionElement>",
     "readonly CalendarPickerView[]" to "ReadonlyArray<CalendarPickerView>",
     "readonly DateOrTimeView[]" to "ReadonlyArray<String /* 'year' | 'month' | 'day' | 'hours' | 'minutes' | 'seconds' */>",
     "readonly DateView[]" to "ReadonlyArray<String /* 'year' | 'month' | 'day' */>",
@@ -155,6 +156,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "Partial<OptionsGeneric<any>>" to "popper.core.Options",
     "Partial<PaperProps<React.ElementType>>" to "PaperProps",
     "React.CSSProperties" to "react.CSSProperties",
+    "React.Ref<PickersSectionListRef>" to "react.Ref<PickersSectionListRef>",
     "React.Ref<Instance>" to "react.Ref<popper.core.Instance>",
     "React.Ref<Element>" to "react.Ref<web.dom.Element>",
     "React.Ref<HTMLElement>" to "react.Ref<web.html.HTMLElement>",
@@ -207,6 +209,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.HTMLAttributes<HTMLDivElement>" to "react.dom.html.HTMLAttributes<web.html.HTMLDivElement>",
     "Partial<React.HTMLAttributes<HTMLDivElement>>" to "react.dom.html.HTMLAttributes<web.html.HTMLDivElement>",
     "React.HTMLAttributes<HTMLElement>" to "react.dom.html.HTMLAttributes<web.html.HTMLElement>",
+    "React.HTMLAttributes<HTMLSpanElement>" to "react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>",
     "TreeViewCancellableEventHandler<React.KeyboardEvent<HTMLLIElement>>" to "react.dom.events.KeyboardEventHandler<web.html.HTMLLIElement>",
     "TreeViewCancellableEventHandler<React.KeyboardEvent<HTMLInputElement>>" to "react.dom.events.KeyboardEventHandler<web.html.HTMLInputElement>",
     "TreeViewCancellableEventHandler<React.FocusEvent<HTMLInputElement>>" to "react.dom.events.FocusEventHandler<web.html.HTMLInputElement>",
@@ -266,6 +269,11 @@ private val STANDARD_TYPE_MAP = mapOf(
     "PopupProps['anchor']" to "Any /* PopupProps['anchor'] */",
 
     "TreeViewItemsReorderingAction" to "TreeItem2DragAndDropOverlayAction",
+
+    // LocalizationProvider
+    "Partial<AdapterFormats>" to "Any /* Partial<AdapterFormats> */",
+    "TLocale" to "Any /* TLocale */",
+    "PickersInputLocaleText<TDate>" to "Any /* PickersInputLocaleText<TDate> */",
 )
 
 internal fun kotlinType(
