@@ -134,12 +134,14 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "keyof HTMLElementTagNameMap" to "web.html.HtmlTagName<*>",
 
+    "DateView" to "String /* 'year' | 'month' | 'day' */",
     "readonly CalendarPickerView[]" to "ReadonlyArray<CalendarPickerView>",
     "readonly DateOrTimeView[]" to "ReadonlyArray<String /* 'year' | 'month' | 'day' | 'hours' | 'minutes' | 'seconds' */>",
     "readonly DateView[]" to "ReadonlyArray<String /* 'year' | 'month' | 'day' */>",
     "readonly TimeView[]" to "ReadonlyArray<String /* 'hours' | 'minutes' | 'seconds' */>",
     "readonly 'hours'[]" to "ReadonlyArray<String /* 'hours' */>",
     "readonly TimeViewWithMeridiem[]" to "ReadonlyArray<String /* 'hours' | 'minutes' | 'seconds' | 'meridiem' */>",
+    "readonly TView[]" to "ReadonlyArray<TView>",
     "Breakpoint[]" to "ReadonlyArray<Breakpoint>",
     "PickersActionBarAction[]" to "ReadonlyArray<PickersActionBarAction>",
     "UsePaginationItem[]" to "ReadonlyArray<UsePaginationItem>",

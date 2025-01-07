@@ -31,7 +31,7 @@ external interface PickersCalendarHeaderProps<TDate> :
 
     var onMonthChange: (date: TDate, slideDirection: SlideDirection) -> Unit
 
-    var view: dynamic
+    var view: String /* 'year' | 'month' | 'day' */
 
     var reduceAnimations: Boolean
 

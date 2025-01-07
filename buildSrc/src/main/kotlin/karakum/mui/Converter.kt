@@ -223,6 +223,9 @@ private fun findProps(
         propsContent.contains("TDate") && propsContent.contains("TView") && propsContent.contains("TEnableAccessibleFieldDOMStructure")
             -> "$propsName<TDate, TView, TEnableAccessibleFieldDOMStructure>"
 
+        propsContent.contains("TDate") && propsContent.contains("TView")
+            -> "$propsName<TDate, TView>"
+
         propsContent.contains("TDate") && propsContent.contains("TEnableAccessibleFieldDOMStructure")
             -> "$propsName<TDate, TEnableAccessibleFieldDOMStructure>"
 
@@ -892,7 +895,6 @@ private fun findComponent(
         "MonthCalendarProps",
         "MultiSectionDigitalClockProps",
         "PickersCalendarHeaderProps",
-        "TimeClockProps",
         "YearCalendarProps",
             -> "$propsName<*>"
 
@@ -902,6 +904,7 @@ private fun findComponent(
         "DesktopDateTimePickerProps",
         "DesktopTimePickerProps",
         "MobileDatePickerProps",
+        "TimeClockProps",
         "TimePickerProps",
             -> "$propsName<*, *>"
 
