@@ -1,6 +1,7 @@
 import BasicBreadcrumbs from './Breadcrumbs'
 import BasicTextFields from './TextFields'
-import { Chip } from '@mui/material'
+import BasicTimeFields from './TimeFields'
+import {Chip} from '@mui/material'
 
 function App () {
   return <>
@@ -11,6 +12,11 @@ function App () {
 
     <Chip label={"Text Fields"}/>
     <BasicTextFields/>
+
+    <br/>
+
+    <Chip label={"Time Fields"}/>
+    <BasicTimeFields/>
   </>
 }
 
