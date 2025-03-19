@@ -5,7 +5,7 @@ import java.io.File
 private const val GENERATOR_COMMENT = "Automatically generated - do not modify!"
 
 private val DEFAULT_IMPORTS = listOf(
-    "@JsNative" to "seskar.js.JsNative",
+    "@JsNativeInvoke" to "seskar.js.JsNativeInvoke",
 
     "Modifier" to "popper.core.Modifier",
 

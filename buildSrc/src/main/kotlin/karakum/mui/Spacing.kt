@@ -39,7 +39,7 @@ internal fun convertSpacing(
                 .replace(": number", ": Int")
                 .replace(": string", ": web.cssom.Length")
 
-            "@JsNative" + "\n" +
+            "@JsNativeInvoke" + "\n" +
                     "operator fun invoke$declaration"
         }
 
