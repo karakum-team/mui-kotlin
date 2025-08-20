@@ -6,7 +6,7 @@ import react.create
 import react.dom.client.createRoot
 import react.dom.svg.ReactSVG.path
 import web.dom.document
-import web.html.HTML.div
+import web.html.HtmlTagName.div
 
 private val App = FC {
     SvgIcon {
