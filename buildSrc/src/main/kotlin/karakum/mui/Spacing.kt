@@ -39,8 +39,7 @@ internal fun convertSpacing(
                 .replace(": number", ": Int")
                 .replace(": string", ": web.cssom.Length")
 
-            "@JsNativeInvoke" + "\n" +
-                    "operator fun invoke$declaration"
+            "\noperator fun invoke$declaration"
         }
 
     return "sealed external interface $name {\n" +

@@ -2,8 +2,10 @@
 
 package mui.base
 
+import web.dom.ElementId
+
 external interface MenuItemMetadata {
-    var id: String
+    var id: ElementId?
 
     var disabled: Boolean
 
@@ -13,7 +15,7 @@ external interface MenuItemMetadata {
 external interface UseMenuItemParameters {
     var disabled: Boolean?
 
-    var id: String?
+    var id: ElementId?
 
     var label: String?
 

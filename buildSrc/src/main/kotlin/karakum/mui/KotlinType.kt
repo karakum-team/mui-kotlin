@@ -132,7 +132,7 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "Date" to "kotlin.js.Date",
 
-    "keyof HTMLElementTagNameMap" to "web.html.HtmlTagName<*>",
+    "keyof HTMLElementTagNameMap" to "web.dom.TagName<out HTMLElement>",
 
     "DateView" to "String /* 'year' | 'month' | 'day' */",
     "PickersSectionElement[]" to "ReadonlyArray<PickersSectionElement>",

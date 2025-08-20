@@ -3,7 +3,8 @@ plugins {
 }
 
 dependencies {
-    jsMainImplementation(kotlinWrappers.emotion)
+    jsMainImplementation(kotlinWrappers.emotion.react)
+    jsMainImplementation(kotlinWrappers.emotion.styled)
     jsMainImplementation(kotlinWrappers.react)
     jsMainImplementation(kotlinWrappers.reactDom)
 

@@ -5,8 +5,6 @@ import java.io.File
 private const val GENERATOR_COMMENT = "Automatically generated - do not modify!"
 
 private val DEFAULT_IMPORTS = listOf(
-    "@JsNativeInvoke" to "seskar.js.JsNativeInvoke",
-
     "Modifier" to "popper.core.Modifier",
 
     "Promise" to "js.promise.Promise",
@@ -16,9 +14,10 @@ private val DEFAULT_IMPORTS = listOf(
     "Record<" to "js.objects.Record",
     "recordOf(" to "js.objects.recordOf",
     "unsafeCast(" to "js.reflect.unsafeCast",
-    "JsTuple2" to "js.array.JsTuple2",
+    "Tuple2" to "js.array.Tuple2",
     "Void" to "js.core.Void",
 
+    "ElementId" to "web.dom.ElementId",
     "Element" to "web.dom.Element",
     "InputType" to "web.html.InputType",
     "ButtonType" to "web.html.ButtonType",
@@ -64,12 +63,12 @@ external interface PropsWithSx : Props {
 // language=kotlin
 private val SYSTEM_SX = """
 import csstype.PropertiesBuilder
-import js.objects.jso
+import js.objects.unsafeJso
 
 inline fun PropsWithSx.sx(
     crossinline block: PropertiesBuilder.() -> Unit,
 ) {
-    sx = jso(block)
+    sx = unsafeJso(block)
 }
 """.trimIndent()
 
@@ -229,8 +228,7 @@ private enum class Package(
     val id = id ?: name
 
     val pkg: String = pkg ?: ("mui." + name.replace(Regex("""[A-Z]""")) {
-        @Suppress("DEPRECATION")
-        "." + it.value.toLowerCase()
+        "." + it.value.lowercase()
     })
 }
 
@@ -643,7 +641,7 @@ private fun String.isComponentName(): Boolean {
 
     val char = get(0)
     @Suppress("DEPRECATION")
-    return char == char.toUpperCase() && char != char.toLowerCase()
+    return char == char.uppercaseChar() && char != char.lowercaseChar()
 }
 
 private fun String.isHookName(): Boolean {

@@ -74,6 +74,9 @@ private fun convertProperty(
         }
     }
 
+    if (name == "id")
+        return ID
+
     if (name == "className" && type == "String")
         return CLASS_NAME
 

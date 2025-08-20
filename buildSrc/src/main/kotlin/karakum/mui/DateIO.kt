@@ -18,7 +18,7 @@ internal fun convertDateUtils(
                     .replace(": TDate[][]", ": ReadonlyArray<ReadonlyArray<TDate>>")
                     .replace(": TDate[]", ": ReadonlyArray<TDate>")
                     .replace(": TDate[]", ": ReadonlyArray<TDate>")
-                    .replace(": [TDate, TDate]", ": JsTuple2<TDate, TDate>")
+                    .replace(": [TDate, TDate]", ": Tuple2<TDate, TDate>")
                     .replace(": TDate | string", ": TDate")
                     .replace(": TDate | null", ": TDate?")
                     .replace(": Date", ": kotlin.js.Date")

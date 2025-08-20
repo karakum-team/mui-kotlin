@@ -2,6 +2,8 @@
 
 package mui.base
 
+import web.dom.ElementId
+
 external interface UseTabParameters {
     /**
      * The value of the tab.
@@ -29,7 +31,7 @@ external interface UseTabParameters {
      * The id of the tab.
      * If not provided, it will be automatically generated.
      */
-    var id: String?
+    var id: ElementId?
 
     /**
      * Ref to the root slot's DOM element.

@@ -2,11 +2,13 @@
 
 package mui.base
 
+import web.dom.ElementId
+
 external interface UseTabPanelParameters {
     /**
      * The id of the TabPanel.
      */
-    var id: String?
+    var id: ElementId?
 
     /**
      * The ref of the TabPanel.

@@ -3,6 +3,7 @@
 package mui.base
 
 import js.array.ReadonlyArray
+import web.dom.ElementId
 
 external interface UseMenuParameters {
     /**
@@ -16,7 +17,7 @@ external interface UseMenuParameters {
     /**
      * The id of the menu. If not provided, it will be generated.
      */
-    var id: String?
+    var id: ElementId?
 
     /**
      * If `true`, it will be possible to highlight disabled items.
