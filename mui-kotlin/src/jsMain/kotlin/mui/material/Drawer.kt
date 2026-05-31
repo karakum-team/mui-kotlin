@@ -151,7 +151,7 @@ external interface DrawerSlotProps : react.Props {
     var paper: PaperProps?
 
     /** TS: SlotProps< React.ElementType, TransitionProps & DrawerTransitionSlotPropsOverrides, DrawerOwnerState > */
-    var transition: Any?
+    var transition: mui.material.transitions.TransitionProps?
 }
 
 external interface DrawerSlotsAndSlotProps : react.Props {

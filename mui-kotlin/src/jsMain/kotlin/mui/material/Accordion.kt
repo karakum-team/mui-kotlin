@@ -114,7 +114,7 @@ external interface AccordionSlotProps : react.Props {
     var heading: Any?
 
     /** TS: SlotComponentProps< React.ElementType, TransitionProps & AccordionTransitionSlotPropsOverrides, AccordionOwnerState > */
-    var transition: Any?
+    var transition: mui.material.transitions.TransitionProps?
 }
 
 external interface AccordionSlotsAndSlotProps : react.Props {

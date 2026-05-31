@@ -122,7 +122,9 @@ external interface TablePaginationSlotsAndSlotProps : react.Props {
     var slotProps: TablePaginationSlotProps?
 }
 
-external interface TablePaginationOwnProps : mui.system.PropsWithSx {
+external interface TablePaginationOwnProps :
+    TablePaginationBaseProps,
+    mui.system.PropsWithSx {
     /**
      * The component used for displaying the actions.
      * Either a string to use a HTML element or a component.

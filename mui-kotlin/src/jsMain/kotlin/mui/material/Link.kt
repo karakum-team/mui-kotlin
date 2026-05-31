@@ -13,6 +13,7 @@ external interface LinkProps :
     mui.types.PropsWithComponent
 
 external interface LinkOwnProps :
+    LinkBaseProps,
     react.PropsWithChildren,
     mui.system.PropsWithSx {
     /**

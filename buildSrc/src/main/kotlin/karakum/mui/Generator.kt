@@ -458,11 +458,23 @@ private fun generateMaterialDeclarations(
         "PaletteMode" to MATERIAL_PALETTE_MODE,
         "Size" to MATERIAL_SIZE,
         "Orientation" to MATERIAL_ORIENTATION,
+        "LinkBaseProps" to MATERIAL_LINK_BASE_PROPS_STUB,
+        "TablePaginationBaseProps" to MATERIAL_TABLE_PAGINATION_BASE_PROPS_STUB,
     ).forEach { (name, body) ->
         targetDir.resolve("$name.kt")
             .writeText(fileContent(body = body, pkg = Package.material))
     }
 }
+
+// language=kotlin
+private val MATERIAL_LINK_BASE_PROPS_STUB = """
+external interface LinkBaseProps : react.Props
+""".trimIndent()
+
+// language=kotlin
+private val MATERIAL_TABLE_PAGINATION_BASE_PROPS_STUB = """
+external interface TablePaginationBaseProps : react.Props
+""".trimIndent()
 
 private fun generateStylesDeclarations(
     typesDir: File,
@@ -824,6 +836,16 @@ private fun generate(
                 inline var RatingProps.defaultValueAsNumber: Number?
                     get() = js.reflect.unsafeCast(defaultValue)
                     set(value) { defaultValue = value }
+            """.trimIndent(),
+        ).filterNotNull().joinToString("\n\n")
+
+        // StepIcon: SvgIconOwnProps stripped from extends (HTMLAttributes T-param diamond).
+        // Provide typed accessor so consumers can opt in to SvgIcon API.
+        "StepIcon" -> sequenceOf(
+            extensions.takeIf { it.isNotEmpty() },
+            """
+                inline fun StepIconProps.asSvgIconOwnProps(): SvgIconOwnProps =
+                    js.reflect.unsafeCast(this)
             """.trimIndent(),
         ).filterNotNull().joinToString("\n\n")
 

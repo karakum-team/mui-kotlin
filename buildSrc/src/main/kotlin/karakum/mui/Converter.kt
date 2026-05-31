@@ -394,6 +394,23 @@ private fun mapSlotPropsToKotlin(tsType: String): String? {
     Regex("""^Slot(?:Component)?Props<\s*React\.ElementType<React\.HTMLProps<(\w+)>>""").find(normalized)?.let { m ->
         return "React.HTMLAttributes<${m.groupValues[1]}>"
     }
+    // Pattern 5a: bare React.ElementType with intersection — first identifier is the inheritable props type.
+    //   SlotProps<React.ElementType, TransitionProps & Overrides, OwnerState> → TransitionProps
+    //   Used by Tooltip.transition slot.
+    Regex("""^Slot(?:Component)?Props<\s*React\.ElementType\s*,\s*(\w+)\s*&\s*\w+""").find(normalized)?.let { m ->
+        return m.groupValues[1]
+    }
+    // Pattern 5b: bare React.ElementType without intersection — fall back to generic HTMLAttributes<HTMLElement>.
+    //   SlotProps<React.ElementType, Overrides, OwnerState> → React.HTMLAttributes<HTMLElement>
+    Regex("""^Slot(?:Component)?Props<\s*React\.ElementType\s*,""").find(normalized)?.let {
+        return "React.HTMLAttributes<HTMLElement>"
+    }
+    // Pattern 6: React.ElementType<Partial<X>> — Partial is just optionality, drop it and use X directly.
+    //   SlotProps<React.ElementType<Partial<IconButtonProps>>, …> → IconButtonProps
+    //   Used by Autocomplete.clearIndicator/.popupIndicator/.popper.
+    Regex("""^Slot(?:Component)?Props<\s*React\.ElementType<Partial<(\w+)>>""").find(normalized)?.let { m ->
+        return m.groupValues[1]
+    }
     return null
 }
 

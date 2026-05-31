@@ -36,7 +36,7 @@ external interface BackdropSlotProps : react.Props {
     var root: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
 
     /** TS: SlotComponentProps< React.ElementType, TransitionProps & BackdropTransitionSlotPropsOverrides, BackdropOwnerState > */
-    var transition: Any?
+    var transition: mui.material.transitions.TransitionProps?
 }
 
 external interface BackdropSlotsAndSlotProps : react.Props {

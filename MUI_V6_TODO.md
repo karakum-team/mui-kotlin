@@ -6,6 +6,31 @@
 
 Формат: `<имя>` — `<MUI .d.ts путь>` — Status / Reason / Workaround / To fix.
 
+## Почему `@mui/base@5.0.0-beta.70` остаётся (а не мигрируем на `@base-ui/react`)
+
+`@mui/base` помечен в npm как deprecated в пользу `@base-ui/react`. Мы намеренно не мигрируем сейчас:
+
+- **`@base-ui/react@1.5.0` — это другой продукт**, не drop-in. Compound API (`Popover.Root` +
+  `.Trigger` + `.Popup`), свои subpath exports (`@base-ui-components/react/popover`), не используется
+  внутри `@mui/material@6` или `@mui/lab@6`. Команда Material UI + Radix + Floating UI собрала это
+  как новую библиотеку, а не как переименование `@mui/base`.
+- **`@mui/material@6` уже не зависит от `@mui/base`** — внутри лежат локальные копии типов
+  (`@mui/material/Popper/BasePopper.types.d.ts` с полным `PopperOwnProps` и т.д.). Эту часть
+  deprecation апстрим уже решил у себя.
+- **`@mui/lab@6.0.1-beta.36` всё ещё требует `@mui/base` в runtime** — `composeClasses`,
+  `useAutocomplete`, `createFilterOptions` импортятся из `@mui/base`. Дроп npm-зависимости ломает Lab.
+- **Наша Kotlin-сторона активно использует `mui.base.*`** — Material наследует ~13 полей
+  `PopperOwnProps` и ~7 полей `BadgeOwnProps` через цепочку `mui.material.X : mui.base.X`. Playground
+  импортит `mui.base.Slider` и `mui.base.sliderClasses` как runtime-значения. Минимальные стабы это
+  ломают.
+
+Deprecation в npm — informational warning, не runtime. Пакет работает и будет работать. Когда апстрим
+(вероятно `@mui/material@7`) полностью уберёт зависимость и в Lab — пересмотрим.
+
+Будущая альтернатива — отдельный проект `kotlin-base-ui-react` с обёртками для `@base-ui/react`.
+Это новый параллельный пакет (compound API, новые адаптеры в генераторе) — недели работы.
+К текущему `mui-kotlin` точек соприкосновения мало.
+
 ## Полностью скипнутые .d.ts файлы
 
 ### Material
@@ -135,11 +160,15 @@
 - **Grid2 / PigmentGrid `GridSize`** — у каждого свой union в v6 (`'auto' | 'grow' | number [| false]`). Сейчас все идут
   через общий `mui.system.Union /* 'auto' | 'grow' | number | false */` в `STANDARD_TYPE_MAP["GridSize"]`. `'grow'` и
   `false` могут пропустить compile-time проверку для Grid (классическая, без grow/false).
-- **Internal-rejected parents** — `LinkBaseProps`, `BasePopperProps`, `TablePaginationBaseProps`,
-  `DialogActionsProps`, `PickersArrowSwitcherSlots`, `CssContainerQueries`, `NormalCssProperties`,
-  `StyledComponentProps`, `RichTreeViewPluginSlots`, `SimpleTreeViewPluginSlots` — внутренние MUI типы, не
-  экспортируются и не имеют Kotlin-стороны. В `ParentType.kt::INTERNAL_REJECTED_PARENTS` они отбрасываются из
-  родительских списков — лучше потерять часть наследования, чем эмитить unresolved.
+- **Internal-rejected parents** — `BasePopperProps`, `DialogActionsProps`, `PickersArrowSwitcherSlots`,
+  `CssContainerQueries`, `NormalCssProperties`, `StyledComponentProps`, `RichTreeViewPluginSlots`,
+  `SimpleTreeViewPluginSlots` — внутренние MUI типы, не экспортируются и не имеют Kotlin-стороны. В
+  `ParentType.kt::INTERNAL_REJECTED_PARENTS` они отбрасываются из родительских списков — лучше потерять
+  часть наследования, чем эмитить unresolved. **`LinkBaseProps` и `TablePaginationBaseProps`** теперь
+  эмитятся как пустые стабы в `Generator.kt::generateMaterialDeclarations` (constants
+  `MATERIAL_LINK_BASE_PROPS_STUB`, `MATERIAL_TABLE_PAGINATION_BASE_PROPS_STUB`) — наследование
+  `LinkOwnProps : LinkBaseProps` и `TablePaginationOwnProps : TablePaginationBaseProps` восстановлено
+  на уровне символа (поверхность пустая, но цепочка не разорвана).
 - **`LoadingButton`** — в v6.4+ перенесён из `@mui/lab` в `@mui/material/Button`. На текущей версии lab `6.0.1-beta.36`
   он ещё есть и генерится. Когда обновим lab выше — потребуется адаптация.
 - **MUI-X `7.28.0`** на этом этапе **не обновлялся** — формально совместим с Material v6 по peer-deps, но реально может
@@ -191,47 +220,74 @@
 - **`SlotComponentProps<…>`** ✅ — тот же regex `^Slot(?:Component)?Props<…>` обрабатывает обе формы.
 - **`SlotProps<React.ElementType<React.HTMLProps<X>>, …>`** ✅ — nested-generic ElementType (использует
   PaginationItem.first/.last/.next/.previous). Маппится на `HTMLAttributes<X>`.
+- **Bare `React.ElementType` (без параметра)** ✅. Покрытые формы:
+    - `SlotProps<React.ElementType, X & Overrides, OwnerState>` → `X` (например
+      `TooltipSlotProps.transition: TransitionProps?` через `TransitionProps & TooltipTransitionSlotPropsOverrides`).
+    - `SlotProps<React.ElementType, Overrides, OwnerState>` (без intersection) →
+      `react.dom.html.HTMLAttributes<web.html.HTMLElement>?` (общий fallback).
 
 Если тег не в таблице (`'h1'`, `'h2'`, `'p'` и т.п.) или RootComponent неузнан — fallback на `Any?` (как раньше).
 Новые теги легко добавлять — extend `TAG_TO_HTML_ATTRS_TS` + парный entry в `STANDARD_TYPE_MAP`.
 
 ### Средняя сложность
 
-- **Bare `React.ElementType` (без параметра).** `SlotProps<React.ElementType, TransitionProps & …>` —
-  например `TooltipSlotProps.transition`. Без RootComponent fallback на `react.Props?` (лучше чем `Any?`).
-    - Дополнительно: при наличии intersection во втором аргументе (`TransitionProps & X`) — попробовать
-      эмитнуть `TransitionProps?`.
+- **DistributiveOmit/Omit — пометка "omitted keys" в JSDoc.** Откладывается — оказалось сложнее средней.
+  Inline-комментарий (`extends X /* Omitted: 'a' */`) ломает `findParentType`: парсер ищет идентификатор
+  родителя, а `/* */` ломает `IDENTIFIER_RE` и all-or-nothing fallback отбрасывает родителя →
+  потомок дефолтится в `react.Props`. Side-channel (`Map<interfaceName, omittedKeys>` + два прохода)
+  работает, но требует существенного рефакторинга `adaptRawContent` (сейчас pure pipeline без контекста).
+  Большинство случаев Omit — `'slots' | 'slotProps'`-омит на OwnerState'ах (репетативные, малоценные).
+  Интересные случаи (`Omit<TransitionProps, 'children'>` в Fade, `Omit<TypographyTypeMap['props'], 'classes'>`
+  в DialogTitle) — единичные. ROI для JSDoc-comment-only задачи низкий.
+    - Where: при возврате к задаче — `Converter.kt::adaptRawContent` пред-pass для сбора
+      `Map<interfaceName, List<omittedKeys>>`, потом второй pass с инжекцией JSDoc над interface headers.
 
-- **DistributiveOmit/Omit — пометка "omitted keys" в JSDoc.** Сейчас просто разворачиваем в первый аргумент,
-  теряя список omit-ключей. Можно прицеплять JSDoc-комментарий типа `/** Omitted: 'a' | 'b' */` к
-  сгенерированному interface для документации.
-    - Where: `Converter.kt::adaptRawContent` — при unwrap сохранять keys в side-channel и эмитить как JSDoc.
+- **`Partial<X>` в member-позиции — обобщить.** ✅ В большой степени реализовано:
+  `KotlinType.kt::kotlinType` (строки 460-481) уже делает generic unwrap `Partial<XxxProps>` → `XxxProps`
+  через `STANDARD_TYPE_MAP[partialResult] ?: partialResult` fallback. Точечные исключения остались для
+  типов, которые не имеют корректного Kotlin-аналога (`TouchRippleProps`, `NativeSelectInputProps` —
+  `Any?`; `StandardInputProps` → `InputProps`; `SelectProps` → `SelectProps<*>`). Дополнительно
+  добавлен Pattern 6 в `Converter.kt::mapSlotPropsToKotlin` для
+  `SlotProps<React.ElementType<Partial<X>>, …>` → `X` — будет автоматически подхватываться, когда Step
+  "TextFieldSlotsAndSlotProps<InputPropsType>" разблокирует generic SlotsAndSlotProps aliases
+  (Autocomplete — единственный текущий потребитель).
 
-- **`Partial<X>` в member-позиции — обобщить.** Сейчас есть spec-handling в `KotlinType.kt::STANDARD_TYPE_MAP`
-  для `Partial<StandardInputProps>` → `InputProps`, etc. Универсально превращать `Partial<X>` в Kotlin `X?`
-  с пометкой "все поля опциональны". Уменьшит число special-cases.
+- **TextFieldSlotsAndSlotProps<InputPropsType> — generic над type alias.** Пробовал — откатил.
+  Конкретный блокер: парсер `Converter.kt::convertSlotsAndSlotPropsAliases` УДАЛОСЬ научить читать
+  `<InputPropsType>` после имени alias'а (regex `(\w+)SlotsAndSlotProps(<[^>]+>)?\s*=…`) и эмитить
+  TS-форму `export interface TextFieldSlotProps<InputPropsType> { … }`. Но **`findAdditionalProps`
+  на строке 771** делает `body.substringBefore("<")` для извлечения имени интерфейса — generic
+  params срезаются на этом этапе и НЕ попадают в Kotlin LHS (`external interface TextFieldSlotProps`
+  без `<InputPropsType>`). При этом ссылки на интерфейс в полях типа (`slotProps: TextFieldSlotProps<InputPropsType>?`)
+  уже корректные — но эта ссылка указывает на не-generic интерфейс → unresolved reference.
+    - Где чинить: `Converter.kt::findAdditionalProps` (строки 752-960) — извлекать generic params
+      рядом с `interfaceName`, прокидывать через `props()`/декларацию (`else -> "external interface
+      $interfaceName$typeParams"`). Сейчас generic params извлекаются ТОЛЬКО для empty-body
+      интерфейсов (строки 800-820); для non-empty этой логики нет.
+    - Дополнительно: придётся снять `replace(Regex(""",\s+TextFieldSlotsAndSlotProps<[^<>]*>"""), "")`
+      из `adaptRawContent` (сейчас strip'ает TextField'овский extends — иначе diamond с
+      `BaseTextFieldProps`'ами). Без strip — диамант возможен; проверять отдельно.
+    - Объём работы: ~1-2 часа аккуратного рефакторинга с верификацией всех существующих
+      generic интерфейсов (UseAutocompleteProps&lt;Value&gt;, DatePickerSlots&lt;TDate&gt; и т.п.).
 
-- **TextFieldSlotsAndSlotProps<InputPropsType> — generic над type alias.**
-    - Сейчас: strip из extends-цепочки (теряем slots/slotProps на TextField).
-    - Хочется: распознать `type X<T> = CreateSlotsAndSlotProps<…>;` и эмитнуть
-      `external interface TextFieldSlotsAndSlotProps<InputPropsType> { … }`.
-    - Where: `Converter.kt::convertSlotsAndSlotPropsAliases` — добавить опциональное чтение `<T>` после имени.
-
-- **Internal-rejected parents — эмитить пустые стабы.** `LinkBaseProps`, `BasePopperProps`,
-  `TablePaginationBaseProps`, `DialogActionsProps` — сейчас отбрасываем из родителей. Если эмитить
-  `external interface LinkBaseProps` (и т.п.) пустыми стабами в соответствующих пакетах, можно
-  сохранить inheritance-цепочки.
-    - Where: `Generator.kt::generateMaterialDeclarations` — собрать referenced-but-not-emitted имена,
-      эмитнуть стабы в конце прохода.
+- **Internal-rejected parents — эмитить пустые стабы.** ✅ Реализовано для `LinkBaseProps` и
+  `TablePaginationBaseProps` через constants `MATERIAL_LINK_BASE_PROPS_STUB` /
+  `MATERIAL_TABLE_PAGINATION_BASE_PROPS_STUB` в `Generator.kt::generateMaterialDeclarations`. Остальные
+  (`BasePopperProps`, `DialogActionsProps`, `StyledComponentProps`, Pickers/TreeView плагинные) пока
+  остаются в `INTERNAL_REJECTED_PARENTS` — либо имеют дубликаты в собственных файлах, либо нужны более
+  тонкие правки (например `StyledComponentProps<never>` — TS generic с `never`).
 
 - **Switch/Rating/StepIcon — более тонкие правки для diamond.**
-    - Switch: вместо стрипа `UseSwitchParameters` — оставить, но в `SwitchProps` body инжектнуть
+    - **StepIcon** ✅ — добавлено `StepIcon.ext.kt::asSvgIconOwnProps()` через спец.case в
+      `Generator.kt`. Родитель `SvgIconOwnProps` остаётся стрипнутым (Kotlin diamond), но типизированный
+      доступ к SvgIcon API теперь есть через `props.asSvgIconOwnProps().color = ...`.
+    - **Switch**: вместо стрипа `UseSwitchParameters` — оставить, но в `SwitchProps` body инжектнуть
       `override var onBlur: …<*>?; override var onChange: …; override var onFocus: …` чтобы устранить
-      конфликт invariance.
-    - Rating: попробовать `override var defaultValue: Any?` в RatingProps body (Kotlin var-invariance
-      скорее всего не разрешит, но проверить экспериментально).
-    - StepIcon: вместо стрипа `SvgIconOwnProps` — emit extension property
-      `inline fun StepIconProps.asSvgIconProps(): SvgIconOwnProps = unsafeCast(this)` в Rating.ext.kt-стиле.
+      конфликт invariance. Откладывается — требует кастомного override-injection в Generator/Overrides.
+    - **Rating**: попробовать `override var defaultValue: Any?` в RatingProps body (Kotlin var-invariance
+      скорее всего не разрешит — диамант идёт от `HTMLAttributes.defaultValue: Any?` который УЖЕ `Any?`,
+      т.е. поле не меняет тип; на практике Kotlin компилятор может не разрешить переоткрытие сериализуемых
+      var-полей). Откладывается до пробы.
 
 ### Высокая сложность
 

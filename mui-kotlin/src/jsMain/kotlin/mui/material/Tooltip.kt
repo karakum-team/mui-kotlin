@@ -251,7 +251,7 @@ external interface TooltipSlotProps : react.Props {
     var popper: PopperProps?
 
     /** TS: SlotProps< React.ElementType, TransitionProps & TooltipTransitionSlotPropsOverrides, TooltipOwnerState > */
-    var transition: Any?
+    var transition: mui.material.transitions.TransitionProps?
 
     /** TS: SlotProps<'div', TooltipTooltipSlotPropsOverrides, TooltipOwnerState> */
     var tooltip: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?

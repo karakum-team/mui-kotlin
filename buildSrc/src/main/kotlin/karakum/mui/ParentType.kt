@@ -141,9 +141,9 @@ private val TS_UTILITY_PREFIXES = setOf(
 // Dropping them from the parent list loses some inheritance, but the alternative is unresolved
 // references at compile time. See MUI_V6_TODO.md for follow-up.
 private val INTERNAL_REJECTED_PARENTS = setOf(
-    "LinkBaseProps",
+    // Material types: stubbed in Generator.kt::generateMaterialDeclarations and removed from this set
+    // (LinkBaseProps, TablePaginationBaseProps) — see MATERIAL_*_STUB.
     "BasePopperProps",
-    "TablePaginationBaseProps",
     "DialogActionsProps",
     "PickersArrowSwitcherSlots",
     "CssContainerQueries",

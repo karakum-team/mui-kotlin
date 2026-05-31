@@ -64,7 +64,7 @@ external interface StepContentSlots {
 
 external interface StepContentSlotProps : react.Props {
     /** TS: SlotComponentProps<React.ElementType, CollapseProps, StepContentOwnerState> */
-    var transition: Any?
+    var transition: react.dom.html.HTMLAttributes<web.html.HTMLElement>?
 }
 
 external interface StepContentSlotsAndSlotProps : react.Props {

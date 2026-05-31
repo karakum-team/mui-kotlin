@@ -191,7 +191,7 @@ external interface DialogSlotProps : react.Props {
     var container: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
 
     /** TS: SlotComponentProps< React.ElementType, TransitionProps & DialogTransitionSlotPropsOverrides, DialogOwnerState > */
-    var transition: Any?
+    var transition: mui.material.transitions.TransitionProps?
 
     /** TS: SlotProps< React.ElementType<PaperProps>, DialogPaperSlotPropsOverrides, DialogOwnerState > */
     var paper: PaperProps?

@@ -182,7 +182,7 @@ external interface SnackbarSlotProps : react.Props {
     var clickAwayListener: mui.base.ClickAwayListenerProps?
 
     /** TS: SlotComponentProps< React.ElementType, TransitionProps & SnackbarTransitionSlotPropsOverrides, SnackbarOwnerState > */
-    var transition: Any?
+    var transition: mui.material.transitions.TransitionProps?
 }
 
 external interface SnackbarSlotsAndSlotProps : react.Props {
