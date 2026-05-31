@@ -74,7 +74,7 @@ external interface Breakpoints {
     var unit: String?
 }
 
-external interface BreakpointsOptions {
+external interface BreakpointsOptions : Breakpoints {
     /**
      * The increment divided by 100 used to implement exclusive breakpoints.
      * For example, `step: 5` means that `down(500)` will result in `'(max-width: 499.95px)'`.
@@ -86,7 +86,7 @@ external interface BreakpointsOptions {
      * The unit used for the breakpoint's values.
      * @default 'px'
      */
-    var unit: String?
+    override var unit: String?
 }
 
 @JsName("default")

@@ -23,6 +23,12 @@ external interface AvatarSlots {
 
 external interface AvatarPropsVariantOverrides
 
+external interface AvatarSlotsAndSlotProps : react.Props {
+    var slots: AvatarSlots?
+
+    var slotProps: Any?
+}
+
 external interface AvatarOwnProps :
     react.PropsWithChildren,
     mui.system.PropsWithSx {

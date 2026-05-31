@@ -30,6 +30,12 @@ external interface TableSortLabelSlots {
     var icon: react.ElementType<*>?
 }
 
+external interface TableSortLabelSlotsAndSlotProps : react.Props {
+    var slots: TableSortLabelSlots?
+
+    var slotProps: Any?
+}
+
 external interface TableSortLabelOwnerState
 
 external interface TableSortLabelOwnProps :

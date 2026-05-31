@@ -21,7 +21,7 @@ external interface SliderPropsSizeOverrides
 
 external interface SliderComponentsPropsOverrides
 
-external interface SliderOwnerState {
+external interface SliderOwnerState : SliderProps {
     var dragging: Boolean
 
     var marked: Boolean

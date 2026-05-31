@@ -108,6 +108,12 @@ external interface SwitchSlots {
     var input: react.ElementType<*>
 }
 
+external interface SwitchSlotsAndSlotProps : react.Props {
+    var slots: SwitchSlots?
+
+    var slotProps: Any?
+}
+
 external interface SwitchOwnerState
 
 /**

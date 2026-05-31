@@ -48,6 +48,7 @@ external interface SnackbarSlots {
     var root: react.ElementType<*>?
 }
 
-external interface SnackbarClickAwayListenerSlotProps : react.Props {
+external interface SnackbarClickAwayListenerSlotProps :
+    ClickAwayListenerProps {
     var ownerState: Any
 }

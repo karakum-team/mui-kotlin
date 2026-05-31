@@ -14,7 +14,7 @@ external interface BreadcrumbsProps :
 
 external interface BreadcrumbsCollapsedIconSlotPropsOverrides
 
-external interface BreadcrumbsOwnerState {
+external interface BreadcrumbsOwnerState : BreadcrumbsProps {
     var expanded: Boolean
 }
 

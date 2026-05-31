@@ -233,7 +233,8 @@ external interface BaseTextFieldProps :
     var value: Any?
 }
 
-external interface StandardTextFieldProps : react.Props {
+external interface StandardTextFieldProps :
+    BaseTextFieldProps {
     /**
      * Callback fired when the value is changed.
      *
@@ -258,7 +259,8 @@ external interface StandardTextFieldProps : react.Props {
     var InputProps: InputProps?
 }
 
-external interface FilledTextFieldProps : react.Props {
+external interface FilledTextFieldProps :
+    BaseTextFieldProps {
     /**
      * Callback fired when the value is changed.
      *
@@ -283,7 +285,8 @@ external interface FilledTextFieldProps : react.Props {
     var InputProps: FilledInputProps?
 }
 
-external interface OutlinedTextFieldProps : react.Props {
+external interface OutlinedTextFieldProps :
+    BaseTextFieldProps {
     /**
      * Callback fired when the value is changed.
      *

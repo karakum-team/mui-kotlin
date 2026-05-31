@@ -28,9 +28,17 @@ external interface PaginationItemSlots {
     var previous: react.ElementType<*>
 }
 
+external interface PaginationItemSlotsAndSlotProps : react.Props {
+    var slots: PaginationItemSlots?
+
+    var slotProps: Any?
+}
+
 external interface PaginationItemOwnerState
 
-external interface PaginationItemOwnProps : mui.system.PropsWithSx {
+external interface PaginationItemOwnProps :
+    PaginationItemSlotsAndSlotProps,
+    mui.system.PropsWithSx {
     /**
      * Override or extend the styles applied to the component.
      */

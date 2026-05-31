@@ -10,6 +10,7 @@ import mui.system.SxProps
 external interface FormControlLabelProps :
     mui.system.StandardProps,
     react.dom.html.LabelHTMLAttributes<web.html.HTMLLabelElement>,
+    FormControlLabelSlotsAndSlotProps,
     mui.system.PropsWithSx {
     /**
      * If `true`, the component appears selected.
@@ -96,6 +97,12 @@ external interface FormControlLabelSlots {
      * @default Typography
      */
     var typography: react.ElementType<*>
+}
+
+external interface FormControlLabelSlotsAndSlotProps : react.Props {
+    var slots: FormControlLabelSlots?
+
+    var slotProps: Any?
 }
 
 /**

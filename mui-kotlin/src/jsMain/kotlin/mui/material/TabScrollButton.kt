@@ -82,7 +82,7 @@ external interface TabScrollButtonStartIconSlotPropsOverrides
 
 external interface TabScrollButtonEndIconSlotPropsOverrides
 
-external interface TabScrollButtonOwnerState {
+external interface TabScrollButtonOwnerState : TabScrollButtonProps {
     var isRtl: Boolean
 }
 

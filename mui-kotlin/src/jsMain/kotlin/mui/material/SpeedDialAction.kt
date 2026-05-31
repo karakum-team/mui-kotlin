@@ -54,7 +54,7 @@ external interface SpeedDialActionProps :
      * @default 'left'
      * @deprecated Use `slotProps.tooltip.placement` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
-    var tooltipPlacement: Any? /* TooltipProps['placement'] */
+    var tooltipPlacement: TooltipPlacement?
 
     /**
      * Label to display in the tooltip.
@@ -103,6 +103,12 @@ external interface SpeedDialActionTooltipSlotPropsOverrides
 external interface SpeedDialActionStaticTooltipSlotPropsOverrides
 
 external interface SpeedDialActionStaticTooltipLabelSlotPropsOverrides
+
+external interface SpeedDialActionSlotsAndSlotProps : react.Props {
+    var slots: SpeedDialActionSlots?
+
+    var slotProps: Any?
+}
 
 external interface SpeedDialActionOwnerState
 

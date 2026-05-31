@@ -19,8 +19,8 @@ external interface CardProps :
 external interface CardPropsColorOverrides
 
 external interface CardOwnProps :
-    mui.system.PropsWithSx,
-    PaperOwnProps {
+    PaperOwnProps,
+    mui.system.PropsWithSx {
     /**
      * Override or extend the styles applied to the component.
      */

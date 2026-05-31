@@ -38,7 +38,14 @@ external interface AccordionSummaryContentSlotPropsOverrides
 
 external interface AccordionSummaryExpandIconWrapperSlotPropsOverrides
 
+external interface AccordionSummarySlotsAndSlotProps : react.Props {
+    var slots: AccordionSummarySlots?
+
+    var slotProps: Any?
+}
+
 external interface AccordionSummaryOwnProps :
+    AccordionSummarySlotsAndSlotProps,
     react.PropsWithChildren,
     mui.system.PropsWithSx {
     override var children: react.ReactNode?

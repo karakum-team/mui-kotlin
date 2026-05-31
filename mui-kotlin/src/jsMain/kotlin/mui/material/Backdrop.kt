@@ -31,7 +31,15 @@ external interface BackdropComponentsPropsOverrides
 
 external interface BackdropTransitionSlotPropsOverrides
 
+external interface BackdropSlotsAndSlotProps : react.Props {
+    var slots: BackdropSlots?
+
+    var slotProps: Any?
+}
+
 external interface BackdropOwnProps :
+    FadeProps,
+    BackdropSlotsAndSlotProps,
     react.PropsWithChildren,
     mui.system.PropsWithSx {
     /**

@@ -48,10 +48,12 @@
     - To fix: ручной адаптер или раскрытие `LazyRipple` как `Any /* LazyRipple */`.
 
 - **`OverridableComponent`** — `@mui/material/OverridableComponent/index.d.ts`
-    - Status: excluded
-    - Reason: в v6 стал директорией с `index.d.ts`, а генератор ищет `${dir.name}/${dir.name}.d.ts`.
-    - Workaround: эмиссия пропущена. Тип используется только внутри других компонентов через спец.ветки `Converter.kt`.
-    - To fix: fallback в `generate(...)`: при отсутствии `${dir.name}.d.ts` пробовать `index.d.ts`.
+    - Status: excluded (даже после index.d.ts fallback)
+    - Reason: TS call signatures + intersection types в `interface OverridableComponent<TypeMap>`. Конвертер выдаёт
+      несинтаксический Kotlin.
+    - Workaround: эмиссия пропущена. Тип используется только внутри других компонентов через спец.ветки
+      `Converter.kt::findMapProps::hasComponent`.
+    - To fix: научить генератор обрабатывать call signatures на интерфейсе.
 
 - **`ThemeProvider`/`ThemeProviderNoVars`/`ThemeProviderWithVars`** — `@mui/material/styles/ThemeProvider*.d.ts`
     - Status: excluded
@@ -101,14 +103,36 @@
   `createColorScheme`) — нет в Kotlin-обёртке. Большая v6-фича, требует отдельного захода.
 - **`Theme.applyStyles<'light' | 'dark'>`** — emitted as `Any? /* ApplyStyles<'light' | 'dark'> */`.
 - **`Typography.color`** — TS template literal type (`text${Capitalize<keyof TypeText>}`) превращается в `Any? /* … */`.
-- **`Tooltip.placement`** — `TooltipProps['placement']` теперь `Any? /* TooltipProps['placement'] */` (раньше был алиас
-  `TooltipPlacement`, которого никогда не существовало декларацией).
+- **`Tooltip.placement`** — теперь `TooltipPlacement`, где `typealias TooltipPlacement = popper.core.Placement`
+  эмитится в `Tooltip.ext.kt` (Generator-special-case). Точный union из MUI потеряется, но Popper-плейсменты
+  достаточно широки.
 - **`Autocomplete.key`** — переопределена как `react.Key? /* Key */`.
 - **`Rating.defaultValue`** — расширена с `Number?` до `Any? /* Number */`, чтобы не клешиться с inherited
-  `HTMLAttributes.defaultValue: Any?`.
+  `HTMLAttributes.defaultValue: Any?` (Kotlin var-invariance не позволяет diamond сузить тип).
+  В `Rating.ext.kt` есть `inline var RatingProps.defaultValueAsNumber: Number?` для типизированного доступа.
+- **`SlotProps` inner typing для всех `XxxSlotsAndSlotProps`** — `slotProps?: any` (Kotlin → `Any?`).
+  Точные типы (`popper: SlotProps<…>`, `transition: SlotProps<…>`) не парсятся. Для типизированного доступа
+  пользуйся `unsafeCast` или приводи к ad-hoc интерфейсу. To fix: научить generator парсить
+  `CreateSlotsAndSlotProps<XxxSlots, { …inline… }>` второй аргумент.
+- **Компоненты, наследующие slots/slotProps от родителя** — Dialog/Drawer/Menu/Popover/SwipeableDrawer (extend Modal),
+  OutlinedInput/FilledInput (extend InputBase), Checkbox/Radio/Switch (extend SwitchBase) — теряют их собственные
+  `XxxSlotsAndSlotProps` parent, чтобы избежать diamond `ParentSlots? vs ChildSlots?`. Сам интерфейс
+  `XxxSlotsAndSlotProps` всё ещё эмитится — пользователь может работать с ним напрямую через `unsafeCast`.
+  То же для `TextFieldSlotsAndSlotProps<InputPropsType>` (TS generic — наш парсер пока не делает interface из
+  обобщённого type alias).
+- **`Switch.onBlur` / `Switch.onChange` / `Switch.onFocus`** — UseSwitchParameters стрипнут из SwitchOwnProps
+  (Kotlin не разрешает diamond `<*>` vs `<HTMLSpanElement>` для var). Hook-типизированные хендлеры теряются;
+  остаются HTMLAttributes-типизированные.
+- **`StepIcon`** — SvgIconOwnProps стрипнут из родителей (HTMLAttributes T-параметр не совмещался). Теряется
+  SVG-специфичный API. Пользователь может приводить к `SvgIconOwnProps`.
 - **Grid2 / PigmentGrid `GridSize`** — у каждого свой union в v6 (`'auto' | 'grow' | number [| false]`). Сейчас все идут
   через общий `mui.system.Union /* 'auto' | 'grow' | number | false */` в `STANDARD_TYPE_MAP["GridSize"]`. `'grow'` и
   `false` могут пропустить compile-time проверку для Grid (классическая, без grow/false).
+- **Internal-rejected parents** — `LinkBaseProps`, `BasePopperProps`, `TablePaginationBaseProps`,
+  `DialogActionsProps`, `PickersArrowSwitcherSlots`, `CssContainerQueries`, `NormalCssProperties`,
+  `StyledComponentProps`, `RichTreeViewPluginSlots`, `SimpleTreeViewPluginSlots` — внутренние MUI типы, не
+  экспортируются и не имеют Kotlin-стороны. В `ParentType.kt::INTERNAL_REJECTED_PARENTS` они отбрасываются из
+  родительских списков — лучше потерять часть наследования, чем эмитить unresolved.
 - **`LoadingButton`** — в v6.4+ перенесён из `@mui/lab` в `@mui/material/Button`. На текущей версии lab `6.0.1-beta.36`
   он ещё есть и генерится. Когда обновим lab выше — потребуется адаптация.
 - **MUI-X `7.28.0`** на этом этапе **не обновлялся** — формально совместим с Material v6 по peer-deps, но реально может
@@ -119,11 +143,23 @@
 - Фолбэк для непарсимых типов — `Any? /* оригинальный TS-тип */`, а не `dynamic`. Так сохраняется источник и
   nullability. См. `KotlinType.kt::kotlinType` нижний `return`.
 - `ResponsiveStyleValue<T>` имеет bound `T : Any` — фолбэк внутри него убирает `?`: `Any? /* ... */` → `Any /* ... */`.
-- При появлении новых SlotsAndSlotProps-родителей в v6 они автоматически стрипаются из `extends` цепочки (
-  `Converter.kt`).
-- При появлении новых `Omit<StandardProps<...>, '...'>` / `StandardProps<Omit<...>>` форм —
-  `Converter.kt::adaptRawContent` коллапсирует их к каноничному `StandardProps<X>`, который
-  `ParentType.parseStandardProps` уже знает.
+- `XxxSlotsAndSlotProps` — type-alias из `CreateSlotsAndSlotProps<XxxSlots, {…}>` теперь конвертируется в реальный
+  `interface XxxSlotsAndSlotProps { slots?: XxxSlots; slotProps?: any; }`
+  (`Converter.kt::convertSlotsAndSlotPropsAliases`). Inner slotProps теряет точное типирование (см. выше).
+- Компоненты, наследующие `slots/slotProps` от родителя (Dialog/Drawer/Menu/Popover/SwipeableDrawer/OutlinedInput/
+  FilledInput/Checkbox/Radio/Switch), теряют свою собственную `XxxSlotsAndSlotProps` parent — избегаем diamond.
+- При появлении новых `Omit<StandardProps<...>, '...'>` / `StandardProps<Omit<...>>` / `DistributiveOmit<...>` /
+  `Pick<...>` / `Partial<...>` форм — `Converter.kt::adaptRawContent` их распарсивает и коллапсирует. Partial
+  применяется только в extends-позиции (lookbehind `(?<=\bextends )` / `(?<=,\s{4})`), чтобы не сломать
+  `Partial<X>` в member-типах, где `kotlinType()` имеет специальные обработки.
+- `(?<!\w)Omit<` lookbehind не даёт регексу для `Omit<…>` "съесть" внутреннее имя из `DistributiveOmit<…>`.
+- `findParentType` имеет fallback на multi-parent extends-списки (depth-aware split по top-level запятым).
+  Каждый parent должен пройти `isAcceptableParent` (отвергает TS-utilities и internal-rejected names) —
+  все-или-ничего: если хоть один parent невалиден, возвращаем null, потомок дефолтится в `react.Props`.
+- `Generator.kt::generate(...)` имеет fallback на `index.d.ts` если `${dir.name}/${dir.name}.d.ts` нет
+  (полезно для useMediaQuery, OverridableComponent).
+- Tooltip и Rating получают дополнительные `*.ext.kt` через спец.case в Generator (TooltipPlacement typealias,
+  Rating.defaultValueAsNumber extension).
 
 ---
 

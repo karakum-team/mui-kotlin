@@ -8,7 +8,7 @@ external interface BaseCSSProperties {
     // var `@font-face`: Any? /* Fontface | Fontface[] */
 }
 
-external interface CSSProperties {
+external interface CSSProperties : BaseCSSProperties {
 // Allow pseudo selectors and media queries
 // `unknown` is used since TS does not allow assigning an interface without
 // an index signature to one with an index signature. This is to allow type safe
@@ -24,7 +24,7 @@ external interface Mixins {
     var toolbar: CSSProperties
 }
 
-external interface MixinsOptions {
+external interface MixinsOptions : Mixins {
 // ... use interface declaration merging to add custom mixin options
 }
 

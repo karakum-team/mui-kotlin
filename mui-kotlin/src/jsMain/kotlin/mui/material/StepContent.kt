@@ -10,6 +10,7 @@ import mui.system.SxProps
 external interface StepContentProps :
     mui.system.StandardProps,
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
+    StepContentSlotsAndSlotProps,
     react.PropsWithChildren,
     mui.system.PropsWithSx {
     /**
@@ -59,6 +60,12 @@ external interface StepContentSlots {
      * @default Collapse
      */
     var transition: react.ComponentType<*>?
+}
+
+external interface StepContentSlotsAndSlotProps : react.Props {
+    var slots: StepContentSlots?
+
+    var slotProps: Any?
 }
 
 external interface StepContentOwnerState

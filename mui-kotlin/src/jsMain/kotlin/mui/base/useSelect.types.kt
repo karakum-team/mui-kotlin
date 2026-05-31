@@ -230,6 +230,6 @@ external interface BrowserAutofillAction<OptionValue> {
     var event: react.dom.events.ChangeEvent<*, *>
 }
 
-external interface SelectInternalState {
+external interface SelectInternalState<OptionValue> : ListState<OptionValue> {
     var open: Boolean
 }

@@ -50,7 +50,12 @@ private fun getClassesContent(
 internal fun convertDefinitions(
     definitionFile: File,
 ): ConversionResult {
-    val name = definitionFile.name.substringBefore(".")
+    // MUI v6 sometimes uses `Component/index.d.ts` instead of `Component/Component.d.ts`.
+    // Derive the component name from the parent directory in that case.
+    val name = (if (definitionFile.name == "index.d.ts")
+        definitionFile.parentFile.name
+    else
+        definitionFile.name.substringBefore("."))
         .removeSuffix("Props")
 
     val (content, defaultUnions) = definitionFile.readText()
@@ -76,14 +81,46 @@ internal fun convertDefinitions(
         // so existing single-arg ParentType.parseStandardProps logic can handle it.
         .replace(Regex("""StandardProps<\s*(\w+),[^<>]*>"""), "StandardProps<$1>")
         // MUI v6 wraps StandardProps in Omit for some components (Dialog, etc.) — unwrap.
-        .replace(Regex("""Omit<\s*(StandardProps<\w+>)\s*,[^<>]*>"""), "$1")
+        // `(?<!\w)` so we don't accidentally chew inside `DistributiveOmit<…>`.
+        .replace(Regex("""(?<!\w)Omit<\s*(StandardProps<\w+>)\s*,[^<>]*>"""), "$1")
+        // Generic Omit<SimpleType, 'a' | 'b'> → SimpleType (used in StepIcon's extends list).
+        .replace(Regex("""(?<!\w)Omit<\s*(\w+)\s*,\s*'[^']+(?:'\s*\|\s*'[^']+)*'\s*>"""), "$1")
+        // MUI v6 uses DistributiveOmit (from @mui/types) for some `extends` clauses.
+        // Same semantic as Omit for our purposes — just unwrap to the first type arg.
+        .replace(Regex("""DistributiveOmit<\s*(\w+)\s*,\s*'[^']+(?:'\s*\|\s*'[^']+)*'\s*>"""), "$1")
+        // Pick<X, 'a' | 'b'> → X (we don't enforce key-narrowing in Kotlin).
+        .replace(Regex("""Pick<\s*(\w+)\s*,\s*'[^']+(?:'\s*\|\s*'[^']+)*'\s*>"""), "$1")
+        // Partial<X> in extends → X (TS optional-fields semantic is irrelevant for inheritance).
+        // SCOPE to `extends ` and `,\s+` contexts only — `Partial<X>` inside member type signatures
+        // is consumed by kotlinType()'s STANDARD_TYPE_MAP special-cases (e.g. `Partial<StandardInputProps>`).
+        .replace(Regex("""(?<=\bextends )Partial<\s*(\w+(?:<[^<>]+>)?)\s*>"""), "$1")
+        .replace(Regex("""(?<=,\s{4})Partial<\s*(\w+(?:<[^<>]+>)?)\s*>"""), "$1")
         // MUI v6 Menu / Popover do the inverse — `StandardProps<Omit<X, '...'>[, '...']>`.
         // Collapse to single-arg StandardProps<X>; parseStandardProps handles that form.
         .replace(Regex("""StandardProps<\s*Omit<\s*(\w+),[^<>]*>\s*(?:,[^<>]*)?>"""), "StandardProps<$1>")
-        // MUI v6 frequently adds `, XxxSlotsAndSlotProps` as an extra extends parent.
-        // The generator emits each parent verbatim and the slot-props type doesn't exist
-        // in Kotlin-side wrappers. Strip it; record in MUI_V6_TODO if you need it later.
-        .replace(Regex(""",\s+\w+SlotsAndSlotProps"""), "")
+        // MUI v6 declares per-component slot wiring as a TS type alias:
+        //   `export type XxxSlotsAndSlotProps = CreateSlotsAndSlotProps<XxxSlots, { ...inline... }>;`
+        // and then `extends ..., XxxSlotsAndSlotProps`. Convert the type alias to a real
+        // interface so the generator emits `slots?: XxxSlots` and `slotProps?: ...` fields.
+        // Inner SlotProps typing is collapsed to `any` for now (see MUI_V6_TODO.md).
+        .convertSlotsAndSlotPropsAliases()
+        // Components that extend Modal/Popover/InputBase already inherit `slots`/`slotProps`
+        // of the parent's types. Their own `XxxSlotsAndSlotProps` would create a diamond
+        // (Kotlin's invariant `var` rejects `ModalSlots? vs DialogSlots?`). Drop the
+        // component-specific extends — slot fields are still typed (as parent's slots) via the
+        // parent inheritance. The XxxSlotsAndSlotProps interface itself is still emitted, so
+        // users can cast/access it directly if needed.
+        // Also strip `TextFieldSlotsAndSlotProps<...>` (TS generic — our regex doesn't currently
+        // produce that interface form; see MUI_V6_TODO.md for the parser limitation).
+        .replace(
+            Regex(""",\s+(?:Dialog|Drawer|Menu|Popover|SwipeableDrawer|OutlinedInput|FilledInput|Checkbox|Radio|Switch)SlotsAndSlotProps"""),
+            ""
+        )
+        .replace(Regex(""",\s+TextFieldSlotsAndSlotProps<[^<>]*>"""), "")
+        // Some `Slots`/`SlotsAndSlotProps`-related interfaces are declared without `export`
+        // (e.g. internal SwitchBaseSlots, OutlinedInputSlots). Normalize so findAdditionalProps
+        // / convertSlotsAndSlotPropsAliases pick them up.
+        .replace(Regex("""(\A|\n)interface (\w+Slots\b)"""), "$1export interface $2")
         // TS indexed access types used in function args (UsePaginationItem['page'] etc.)
         // — go through FunctionType.toFunctionType which doesn't look at TypeAlias.ALIAS_MAP,
         // so collapse here to the primitive type the alias would produce.
@@ -175,6 +212,116 @@ internal fun convertDefinitions(
 
 private fun String.removeInlineClasses(): String =
     removeInlineClasses("  classes?: ")
+
+/**
+ * MUI v6 declares per-component slot wiring as a TS type alias:
+ * ```
+ * export type XxxSlotsAndSlotProps = CreateSlotsAndSlotProps<XxxSlots, { ...inline-slotProps... }>;
+ * ```
+ * Convert each such alias into a real interface
+ * ```
+ * export interface XxxSlotsAndSlotProps { slots?: XxxSlots; slotProps?: any; }
+ * ```
+ * so the generator's findAdditionalProps emits `slots`/`slotProps` fields on every component that
+ * extends this interface. Inner SlotProps typing is collapsed to `any` for now.
+ */
+private fun String.convertSlotsAndSlotPropsAliases(): String {
+    // Some `XxxSlotsAndSlotProps` aliases are declared without `export ` (e.g. SwitchBase) —
+    // normalize them so the export-prefix logic below catches both forms.
+    val normalized = replace(
+        Regex("""(\A|\n)type (\w+SlotsAndSlotProps\s*=\s*CreateSlotsAndSlotProps)"""),
+        "$1export type $2"
+    )
+    return normalized.convertExportSlotsAndSlotPropsAliases()
+}
+
+private fun String.convertExportSlotsAndSlotPropsAliases(): String {
+    val prefix = "export type "
+    val marker = "SlotsAndSlotProps = CreateSlotsAndSlotProps<"
+
+    val result = StringBuilder()
+    var cursor = 0
+    while (cursor < length) {
+        val typeStart = indexOf(prefix, cursor).takeIf { it >= 0 } ?: break
+        val nameStart = typeStart + prefix.length
+        val nameEnd = indexOf(marker, nameStart)
+        if (nameEnd < 0) {
+            result.append(this, cursor, length)
+            return result.toString()
+        }
+        val interfaceName = substring(nameStart, nameEnd)
+        if (!interfaceName.matches(Regex("\\w+"))) {
+            // not a simple identifier — skip this match
+            result.append(this, cursor, nameEnd + marker.length)
+            cursor = nameEnd + marker.length
+            continue
+        }
+        // Position right after `CreateSlotsAndSlotProps<` — find balanced `>` close.
+        val ltOpen = nameEnd + marker.length
+        var depth = 1
+        var i = ltOpen
+        while (i < length && depth > 0) {
+            when (this[i]) {
+                '<' -> depth++
+                '>' -> depth--
+            }
+            if (depth == 0) break
+            i++
+        }
+        if (depth != 0) {
+            result.append(this, cursor, length)
+            return result.toString()
+        }
+        val gtClose = i
+        // Inside `<...>` we expect `XxxSlots,\n   {...inline...}`. Extract slot interface name
+        // (before first top-level comma) — slotProps shape collapses to `any`.
+        val inside = substring(ltOpen, gtClose)
+        val slotInterface = run {
+            var bracketDepth = 0
+            var commaIdx = -1
+            for (j in inside.indices) {
+                when (inside[j]) {
+                    '<', '{', '(' -> bracketDepth++
+                    '>', '}', ')' -> bracketDepth--
+                    ',' -> if (bracketDepth == 0) {
+                        commaIdx = j
+                        break
+                    }
+                }
+            }
+            (if (commaIdx >= 0) inside.substring(0, commaIdx) else inside).trim()
+        }
+        // Consume the rest of the declaration up to `;\n` — handles plain
+        // `;\n` AND intersection tails like ` & { slots?: …; slotProps?: … };`.
+        var endOfDecl = gtClose + 1
+        var bDepth = 0
+        var lDepth = 0
+        while (endOfDecl < length) {
+            when (this[endOfDecl]) {
+                '<' -> lDepth++
+                '>' -> lDepth--
+                '{' -> bDepth++
+                '}' -> bDepth--
+                ';' -> if (bDepth == 0 && lDepth == 0) {
+                    endOfDecl++
+                    break
+                }
+            }
+            endOfDecl++
+        }
+        if (endOfDecl < length && this[endOfDecl] == '\n') endOfDecl++
+
+        result.append(this, cursor, typeStart)
+        result.append("export interface ")
+            .append(interfaceName)
+            .append("SlotsAndSlotProps {\n  slots?: ")
+            .append(slotInterface)
+            .append(";\n  slotProps?: any;\n}\n")
+        cursor = endOfDecl
+    }
+    if (cursor < length) result.append(this, cursor, length)
+    return result.toString()
+}
 
 private fun String.removeDeprecated(): String {
     if ("interface MuiMediaQuery" !in this)
@@ -682,6 +829,12 @@ private fun findAdditionalProps(
             "ListState",
                 -> declaration += "<ItemValue>"
 
+            "SelectInternalState",
+                -> declaration = declaration.replaceFirst(
+                "SelectInternalState",
+                "SelectInternalState<OptionValue>"
+            )
+
             "UseListParameters",
                 -> declaration += "<ItemValue, State, CustomAction, CustomActionContext>"
 
@@ -847,13 +1000,21 @@ private fun props(
     val parentTypes = when {
         parentType == null
             -> if (baseInterfaces.size > 1) {
-            baseInterfaces.joinToString(",\n", "\n")
+            baseInterfaces.distinct().joinToString(",\n", "\n")
         } else baseInterfaces.firstOrNull() ?: "react.Props"
 
         baseInterfaces.isNotEmpty()
-            -> sequenceOf(parentType.removePrefix("\n"))
-            .plus(baseInterfaces)
-            .joinToString(",\n", "\n")
+            -> {
+            // Dedupe: parentType may already contain entries that tryToAddInheritanceInterfaces
+            // re-adds (e.g. Card's CardOwnProps already extends PaperOwnProps in v6).
+            val existingTokens = parentType.removePrefix("\n")
+                .split(",")
+                .map { it.trim() }
+                .toSet()
+            sequenceOf(parentType.removePrefix("\n"))
+                .plus(baseInterfaces.filter { it !in existingTokens })
+                .joinToString(",\n", "\n")
+        }
 
         "\n" in parentType
             -> parentType

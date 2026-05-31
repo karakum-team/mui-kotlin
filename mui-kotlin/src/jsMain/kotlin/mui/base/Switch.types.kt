@@ -16,7 +16,8 @@ external interface SwitchInputSlotPropsOverrides
 
 external interface SwitchTrackSlotPropsOverrides
 
-external interface SwitchOwnProps : react.PropsWithClassName {
+external interface SwitchOwnProps :
+    react.PropsWithClassName {
     /**
      * Class name applied to the root element.
      */

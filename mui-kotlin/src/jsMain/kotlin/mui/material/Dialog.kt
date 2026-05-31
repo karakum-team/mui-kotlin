@@ -180,6 +180,12 @@ external interface DialogBackdropSlotPropsOverrides
 
 external interface DialogRootSlotPropsOverrides
 
+external interface DialogSlotsAndSlotProps : react.Props {
+    var slots: DialogSlots?
+
+    var slotProps: Any?
+}
+
 external interface DialogOwnerState
 
 /**

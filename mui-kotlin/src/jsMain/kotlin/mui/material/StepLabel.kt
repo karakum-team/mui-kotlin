@@ -10,6 +10,7 @@ import mui.system.SxProps
 external interface StepLabelProps :
     mui.system.StandardProps,
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
+    StepLabelSlotsAndSlotProps,
     react.PropsWithChildren,
     mui.system.PropsWithSx {
     /**
@@ -84,6 +85,12 @@ external interface StepLabelSlots {
      * The component to render in place of the [`StepIcon`](https://mui.com/material-ui/api/step-icon/).
      */
     var stepIcon: react.ElementType<*>
+}
+
+external interface StepLabelSlotsAndSlotProps : react.Props {
+    var slots: StepLabelSlots?
+
+    var slotProps: Any?
 }
 
 external interface StepLabelOwnerState

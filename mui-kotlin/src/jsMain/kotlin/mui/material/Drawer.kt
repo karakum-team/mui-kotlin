@@ -137,6 +137,12 @@ external interface DrawerSlots {
     var transition: react.ElementType<*>
 }
 
+external interface DrawerSlotsAndSlotProps : react.Props {
+    var slots: DrawerSlots?
+
+    var slotProps: Any?
+}
+
 external interface DrawerOwnerState
 
 /**

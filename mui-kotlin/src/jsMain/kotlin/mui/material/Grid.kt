@@ -5,7 +5,9 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.Breakpoints
 import mui.system.SxProps
+import mui.system.SystemProps
 
 external interface GridProps :
     GridOwnProps,
@@ -70,6 +72,8 @@ external interface RegularBreakpoints {
 }
 
 external interface GridOwnProps :
+    SystemProps<Theme>,
+    Breakpoints,
     react.PropsWithChildren,
     mui.system.PropsWithSx {
     /**

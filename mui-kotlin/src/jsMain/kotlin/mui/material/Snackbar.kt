@@ -171,6 +171,12 @@ external interface SnackbarClickAwayListenerSlotPropsOverrides
 
 external interface SnackbarTransitionSlotPropsOverrides
 
+external interface SnackbarSlotsAndSlotProps : react.Props {
+    var slots: SnackbarSlots?
+
+    var slotProps: Any?
+}
+
 external interface SnackbarOrigin {
     var vertical: SnackbarOriginVertical
 

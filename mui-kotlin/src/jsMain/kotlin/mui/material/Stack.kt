@@ -6,6 +6,7 @@ package mui.material
 
 import mui.material.styles.Theme
 import mui.system.SxProps
+import mui.system.SystemProps
 
 external interface StackProps :
     StackOwnProps,
@@ -13,6 +14,7 @@ external interface StackProps :
     mui.types.PropsWithComponent
 
 external interface StackOwnProps :
+    SystemProps<Theme>,
     react.PropsWithChildren,
     mui.system.PropsWithSx {
     /**

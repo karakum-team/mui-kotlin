@@ -31,6 +31,12 @@ external interface CardActionAreaSlots {
     var focusHighlight: react.ElementType<*>
 }
 
+external interface CardActionAreaSlotsAndSlotProps : react.Props {
+    var slots: CardActionAreaSlots?
+
+    var slotProps: Any?
+}
+
 external interface CardActionAreaOwnerState
 
 external interface CardActionAreaOwnProps :

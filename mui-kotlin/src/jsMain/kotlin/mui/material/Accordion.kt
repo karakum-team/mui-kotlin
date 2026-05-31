@@ -106,6 +106,12 @@ external interface AccordionHeadingSlotPropsOverrides
 
 external interface AccordionTransitionSlotPropsOverrides
 
+external interface AccordionSlotsAndSlotProps : react.Props {
+    var slots: AccordionSlots?
+
+    var slotProps: Any?
+}
+
 /**
  *
  * Demos:

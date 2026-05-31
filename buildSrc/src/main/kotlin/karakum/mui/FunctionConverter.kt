@@ -15,7 +15,7 @@ internal fun findDefaultFunction(
 
         "useDropdown",
         "useAutocomplete",
-        -> return null
+            -> return null
     }
 
     val content = when (name) {
@@ -32,16 +32,24 @@ internal fun findDefaultFunction(
         "useTreeItem",
         "useTransitionTrigger",
         "useTransitionStateManager",
-        -> initialContent.replace("export declare function $name", "$DEFAULT_FUNCTION_PREFIX$name")
+            -> initialContent.replace("export declare function $name", "$DEFAULT_FUNCTION_PREFIX$name")
 
         "useSelect",
         "useTab",
         "useTabPanel",
         "useTabsList",
-        -> initialContent.replace("declare function $name", "$DEFAULT_FUNCTION_PREFIX$name")
+            -> initialContent.replace("declare function $name", "$DEFAULT_FUNCTION_PREFIX$name")
+
+        // MUI v6 useMediaQuery moved to `declare function useMediaQuery<T = Theme>` form.
+        // Normalize back to the v5 shape so the existing `<Theme = unknown>` rewrite applies.
+        "useMediaQuery",
+            -> initialContent
+            .replace("declare function $name", "$DEFAULT_FUNCTION_PREFIX$name")
+            .replace("<T = Theme>", "<Theme = unknown>")
+            .replace("(theme: T)", "(theme: Theme)")
 
         else
-        -> initialContent
+            -> initialContent
     }
 
     if (QUERY_INPUT_TYPE in content)

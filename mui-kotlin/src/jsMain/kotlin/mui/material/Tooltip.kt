@@ -15,6 +15,7 @@ import web.dom.ElementId
 external interface TooltipProps :
     mui.system.StandardProps,
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
+    TooltipSlotsAndSlotProps,
     react.PropsWithChildren,
     mui.system.PropsWithSx {
     /**
@@ -243,6 +244,12 @@ external interface TooltipSlots {
      * The component used for the arrow.
      */
     var arrow: react.ElementType<*>
+}
+
+external interface TooltipSlotsAndSlotProps : react.Props {
+    var slots: TooltipSlots?
+
+    var slotProps: Any?
 }
 
 external interface TooltipOwnerState

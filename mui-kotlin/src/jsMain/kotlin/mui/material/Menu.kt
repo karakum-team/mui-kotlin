@@ -144,6 +144,12 @@ external interface MenuSlots {
     var backdrop: react.ElementType<*>
 }
 
+external interface MenuSlotsAndSlotProps : react.Props {
+    var slots: MenuSlots?
+
+    var slotProps: Any?
+}
+
 external interface MenuOwnerState
 
 /**

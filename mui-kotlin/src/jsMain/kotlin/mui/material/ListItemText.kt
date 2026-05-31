@@ -10,6 +10,7 @@ import mui.system.SxProps
 external interface ListItemTextProps :
     mui.system.StandardProps,
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
+    ListItemTextSlotsAndSlotProps,
     react.PropsWithChildren,
     mui.system.PropsWithSx {
     /**
@@ -86,6 +87,12 @@ external interface ListItemTextSlots {
      * @default Typography
      */
     var secondary: react.ElementType<*>?
+}
+
+external interface ListItemTextSlotsAndSlotProps : react.Props {
+    var slots: ListItemTextSlots?
+
+    var slotProps: Any?
 }
 
 external interface ListItemTextOwnerState

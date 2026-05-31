@@ -58,7 +58,15 @@ external interface RatingSlots {
     var decimal: react.ElementType<*>
 }
 
-external interface RatingOwnProps : mui.system.PropsWithSx {
+external interface RatingSlotsAndSlotProps : react.Props {
+    var slots: RatingSlots?
+
+    var slotProps: Any?
+}
+
+external interface RatingOwnProps :
+    RatingSlotsAndSlotProps,
+    mui.system.PropsWithSx {
     /**
      * Override or extend the styles applied to the component.
      */

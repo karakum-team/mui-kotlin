@@ -208,6 +208,12 @@ external interface PopoverTransitionSlotPropsOverrides
 
 external interface PopoverBackdropSlotPropsOverrides
 
+external interface PopoverSlotsAndSlotProps : react.Props {
+    var slots: PopoverSlots?
+
+    var slotProps: Any?
+}
+
 external interface PopoverOrigin {
     var vertical: mui.system.Union /* 'top' | 'center' | 'bottom' | number */
 

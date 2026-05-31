@@ -13,7 +13,8 @@ import web.html.InputType
 
 external interface SwitchBaseProps :
     mui.system.StandardProps,
-    ButtonBaseProps {
+    ButtonBaseProps,
+    SwitchBaseSlotsAndSlotProps {
     var autoFocus: Boolean?
 
     /**
@@ -108,6 +109,26 @@ external interface SwitchBaseProps :
      * The value of the component. The DOM API casts this to a string.
      */
     var value: Any?
+}
+
+external interface SwitchBaseSlots {
+    /**
+     * The component that renders the root slot.
+     * @default ButtonBase
+     */
+    var root: react.ElementType<*>
+
+    /**
+     * The component that renders the input slot.
+     * @default 'input'
+     */
+    var input: react.ElementType<*>
+}
+
+external interface SwitchBaseSlotsAndSlotProps : react.Props {
+    var slots: SwitchBaseSlots?
+
+    var slotProps: Any?
 }
 
 external interface SwitchBaseOwnerState

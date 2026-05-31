@@ -20,7 +20,14 @@ external interface AvatarGroupSlots {
     var surplus: react.ElementType<*>
 }
 
+external interface AvatarGroupSlotsAndSlotProps : react.Props {
+    var slots: AvatarGroupSlots?
+
+    var slotProps: Any?
+}
+
 external interface AvatarGroupOwnProps :
+    AvatarGroupSlotsAndSlotProps,
     react.PropsWithChildren,
     mui.system.PropsWithSx {
     /**

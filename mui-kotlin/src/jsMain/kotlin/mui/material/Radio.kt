@@ -80,6 +80,12 @@ external interface RadioSlots {
     var input: react.ElementType<*>
 }
 
+external interface RadioSlotsAndSlotProps : react.Props {
+    var slots: RadioSlots?
+
+    var slotProps: Any?
+}
+
 external interface RadioOwnerState
 
 /**

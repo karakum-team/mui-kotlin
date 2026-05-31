@@ -67,6 +67,12 @@ external interface CardHeaderSlots {
     var subheader: react.ElementType<*>
 }
 
+external interface CardHeaderSlotsAndSlotProps : react.Props {
+    var slots: CardHeaderSlots?
+
+    var slotProps: Any?
+}
+
 external interface CardHeaderOwnProps :
     mui.system.PropsWithSx,
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement> {

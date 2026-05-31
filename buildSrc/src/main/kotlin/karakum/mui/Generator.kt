@@ -30,6 +30,8 @@ private val DEFAULT_IMPORTS = listOf(
     "BoxProps" to "mui.system.BoxProps",
     "InitColorSchemeScriptProps" to "mui.system.InitColorSchemeScriptProps",
     "SystemProps" to "mui.system.SystemProps",
+    "UseMediaQueryOptions" to "mui.system.UseMediaQueryOptions",
+    "Breakpoints" to "mui.system.Breakpoints",
 
     "JsVirtual" to "seskar.js.JsVirtual",
     "JsValue" to "seskar.js.JsValue",
@@ -412,12 +414,14 @@ private fun generateMaterialDeclarations(
             it.name !in setOf(
                 "useTouchRipple",
                 "useAutocomplete",
-                "useMediaQuery",
                 "DefaultPropsProvider",
                 "useLazyRipple"
             )
         }
         .filter { it.name != "StyledEngineProvider" }
+        // OverridableComponent is a TS type-helper utility (call signatures + conditional types
+        // that don't translate). Keep it skipped — components that use it are still generated
+        // via the OverridableComponent-detection heuristic in Converter.kt.
         .filter { it.name != "OverridableComponent" }
         // v6 ships Pigment-CSS variants alongside default Emotion-based components.
         // They duplicate HiddenProps/GridBaseProps in the same Kotlin package; skip them.
@@ -749,11 +753,19 @@ private fun generate(
     pkg: Package,
     fullPath: Boolean = false,
 ) {
-    val componentName = when (definitionFile.name) {
-        "shared.d.ts" -> "CalendarPickerView"
-        else -> definitionFile.name.removeSuffix(".d.ts")
+    // MUI v6 sometimes ships only `<Component>/index.d.ts` (e.g. useMediaQuery, OverridableComponent).
+    // Fall back to it when the standard `<Component>.d.ts` is missing.
+    val actualFile = if (!definitionFile.exists()) {
+        val indexFallback = definitionFile.parentFile?.resolve("index.d.ts")
+        if (indexFallback != null && indexFallback.exists()) indexFallback else definitionFile
+    } else definitionFile
+
+    val componentName = when {
+        actualFile.name == "shared.d.ts" -> "CalendarPickerView"
+        actualFile.name == "index.d.ts" -> actualFile.parentFile.name
+        else -> actualFile.name.removeSuffix(".d.ts")
     }
-    val (body, extensions) = convertDefinitions(definitionFile)
+    val (body, extensions) = convertDefinitions(actualFile)
 
     val subpackage = when {
         pkg == Package.materialStyles
@@ -797,12 +809,33 @@ private fun generate(
             .writeText(fileContent(annotations.joinToString("\n\n"), finalBody, pkg))
     }
 
-    if (extensions.isNotEmpty() && componentName != "Stepper") {
+    // MUI v6 Tooltip uses `placement?: PopperProps['placement']` — no standalone enum to
+    // emit. Provide a typealias to popper's Placement for ergonomic Kotlin usage.
+    // Rating: typed accessor for `defaultValue` (widened to Any? to satisfy Kotlin diamond).
+    val extensionsBody = when (componentName) {
+        "Tooltip" -> sequenceOf(
+            extensions.takeIf { it.isNotEmpty() },
+            "typealias TooltipPlacement = popper.core.Placement",
+        ).filterNotNull().joinToString("\n\n")
+
+        "Rating" -> sequenceOf(
+            extensions.takeIf { it.isNotEmpty() },
+            """
+                inline var RatingProps.defaultValueAsNumber: Number?
+                    get() = js.reflect.unsafeCast(defaultValue)
+                    set(value) { defaultValue = value }
+            """.trimIndent(),
+        ).filterNotNull().joinToString("\n\n")
+
+        else -> extensions
+    }
+
+    if (extensionsBody.isNotEmpty() && componentName != "Stepper") {
         val fileName = "$componentName.ext"
 
         val finalBody = when (componentName) {
-            "createTypography" -> extensions.replace("Variant", "TypographyVariant")
-            else -> extensions
+            "createTypography" -> extensionsBody.replace("Variant", "TypographyVariant")
+            else -> extensionsBody
         }
 
         targetDir.resolve("$fileName.kt")

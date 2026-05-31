@@ -20,6 +20,7 @@ external interface InputLabelProps :
 external interface InputLabelPropsSizeOverrides
 
 external interface InputLabelOwnProps :
+    FormLabelProps,
     mui.system.PropsWithSx,
     react.PropsWithChildren,
     FormLabelOwnProps {

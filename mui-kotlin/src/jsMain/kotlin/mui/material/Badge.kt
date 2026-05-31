@@ -39,6 +39,12 @@ external interface BadgeSlots {
     var badge: react.ElementType<*>
 }
 
+external interface BadgeSlotsAndSlotProps : react.Props {
+    var slots: BadgeSlots?
+
+    var slotProps: Any?
+}
+
 external interface BadgeOrigin {
     var vertical: BadgeOriginVertical?
 
@@ -46,6 +52,7 @@ external interface BadgeOrigin {
 }
 
 external interface BadgeOwnProps :
+    BadgeSlotsAndSlotProps,
     react.PropsWithChildren,
     react.PropsWithClassName,
     mui.system.PropsWithSx {

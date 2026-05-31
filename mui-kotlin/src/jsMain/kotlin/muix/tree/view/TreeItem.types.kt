@@ -122,14 +122,14 @@ external interface TreeItemSlotProps : react.Props {
     var groupTransition: react.Props?
 }
 
-external interface TreeItemOwnerState {
+external interface TreeItemOwnerState : TreeItemProps {
     var expanded: Boolean
 
     var focused: Boolean
 
     var selected: Boolean
 
-    var disabled: Boolean
+    override var disabled: Boolean?
 
     var indentationAtItemLevel: Boolean
 }

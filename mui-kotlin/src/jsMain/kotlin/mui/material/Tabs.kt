@@ -80,6 +80,12 @@ external interface TabsSlots {
     var endScrollButtonIcon: react.ElementType<*>
 }
 
+external interface TabsSlotsAndSlotProps : react.Props {
+    var slots: TabsSlots?
+
+    var slotProps: Any?
+}
+
 external interface TabsOwnerState : TabsProps {
     var vertical: Boolean
 
@@ -97,6 +103,7 @@ external interface TabsOwnerState : TabsProps {
 }
 
 external interface TabsOwnProps :
+    TabsSlotsAndSlotProps,
     react.PropsWithChildren,
     mui.system.PropsWithSx {
     /**

@@ -31,7 +31,7 @@ private val ALIAS_MAP = mapOf(
     "SwitchBaseProps['value']" to "",
     "TableCellBaseProps['scope']" to "String",
     "TooltipProps['classes']" to "TooltipClasses",
-    "TooltipProps['placement']" to "Any? /* TooltipProps['placement'] */",
+    "TooltipProps['placement']" to "TooltipPlacement",
     "TransitionProps['easing']" to "",
     "TransitionProps['in']" to "",
     "TransitionProps['timeout']" to "",

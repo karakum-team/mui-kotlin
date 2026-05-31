@@ -44,8 +44,8 @@ external interface InputBaseProps : react.Props {
 }
 
 external interface InputOwnProps :
-    react.PropsWithClassName,
-    InputBaseProps {
+    InputBaseProps,
+    react.PropsWithClassName {
     // var `aria-describedby`: String?
 
     // var `aria-label`: String?

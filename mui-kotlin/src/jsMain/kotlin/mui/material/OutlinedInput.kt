@@ -37,6 +37,20 @@ external interface OutlinedInputProps :
     override var sx: SxProps<Theme>?
 }
 
+external interface OutlinedInputSlots {
+    /**
+     * The component that renders the notchedOutline slot.
+     * @default NotchedOutline
+     */
+    var notchedOutline: react.ElementType<*>
+}
+
+external interface OutlinedInputSlotsAndSlotProps : react.Props {
+    var slots: OutlinedInputSlots?
+
+    var slotProps: Any?
+}
+
 external interface OutlinedInputOwnerState
 
 /**

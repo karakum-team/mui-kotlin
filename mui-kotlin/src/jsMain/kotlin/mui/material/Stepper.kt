@@ -19,9 +19,9 @@ external interface StepperProps :
     PaperProps
 
 external interface StepperOwnProps :
+    PaperProps,
     react.PropsWithChildren,
-    mui.system.PropsWithSx,
-    PaperProps {
+    mui.system.PropsWithSx {
     /**
      * Set the active step (zero based index).
      * Set to -1 to disable all the steps.

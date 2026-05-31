@@ -20,7 +20,7 @@ external interface ModalProps :
 
 external interface ModalComponentsPropsOverrides
 
-external interface ModalOwnerState {
+external interface ModalOwnerState : ModalProps {
     var exited: Boolean
 }
 

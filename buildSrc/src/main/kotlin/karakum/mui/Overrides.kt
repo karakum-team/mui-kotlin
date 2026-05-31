@@ -104,6 +104,38 @@ internal fun fixOverrides(
             .override("align")
             .override("scope")
 
+        "StepIcon",
+            -> content
+            // SvgIconOwnProps drags in HTMLAttributes<SVGSVGElement> which clashes with our
+            // already-emitted HTMLAttributes<HTMLDivElement> parent. Drop it for v6 minimum.
+            // The StepIconProps's `classes` field is its own (no parent has it after the drop),
+            // so don't add an `override` modifier.
+            .replace(",\nSvgIconOwnProps", "")
+
+        "Switch",
+            -> content
+            // SwitchProps inherits handlers from BOTH UseSwitchParameters (typed `<*>`) and
+            // HTMLAttributes<HTMLSpanElement> (typed `<HTMLSpanElement>`). Diamond inheritance,
+            // Kotlin's invariant var can't reconcile. Drop UseSwitchParameters from SwitchOwnProps —
+            // the resulting wrapper keeps HTMLAttributes typing but loses hook-typed onChange/onFocus/onBlur.
+            .replace("UseSwitchParameters,\n", "")
+
+        "createBreakpoints",
+            // `unit` is defined on BOTH Breakpoints (line 75) and BreakpointsOptions (line 90).
+            // BreakpointsOptions extends Partial<Breakpoints> → second declaration overrides.
+            -> content.override("unit", last = true)
+
+        "TreeItem",
+            -> content
+            .override("onKeyDown")
+            .replace(
+                "var onFocus: Nothing?",
+                "@Deprecated(\"See documentation\")\noverride var onFocus: react.dom.events.FocusEventHandler<web.html.HTMLLIElement>?"
+            )
+            // TS source has `disabled: boolean` (non-optional) in TreeItem2OwnProps, but parent
+            // TreeItemProps has `disabled?: boolean`. Align nullability AND add override.
+            .replace("\nvar disabled: Boolean\n", "\noverride var disabled: Boolean?\n")
+
         "SpeedDial",
             -> content
             .override("ariaLabel").replace("override var ariaLabel: String", "/* override var ariaLabel: String */")
@@ -125,14 +157,6 @@ internal fun fixOverrides(
             .replace(
                 "onClick: react.dom.events.MouseEventHandler<web.html.HTMLElement>?",
                 "onClick: react.dom.events.MouseEventHandler<web.html.HTMLLIElement>?"
-            )
-
-        "TreeItem",
-            -> content
-            .override("onKeyDown")
-            .replace(
-                "var onFocus: Nothing?",
-                "@Deprecated(\"See documentation\")\noverride var onFocus: react.dom.events.FocusEventHandler<web.html.HTMLLIElement>?"
             )
 
         "TabScrollButton",

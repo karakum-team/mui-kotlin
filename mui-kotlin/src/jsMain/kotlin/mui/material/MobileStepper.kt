@@ -14,6 +14,7 @@ import mui.system.SxProps
 external interface MobileStepperProps :
     mui.system.StandardProps,
     PaperProps,
+    MobileStepperSlotsAndSlotProps,
     mui.system.PropsWithSx {
     /**
      * Set the active step (zero based index).
@@ -99,6 +100,12 @@ external interface MobileStepperProgressSlotPropsOverrides
 external interface MobileStepperDotsSlotPropsOverrides
 
 external interface MobileStepperDotSlotPropsOverrides
+
+external interface MobileStepperSlotsAndSlotProps : react.Props {
+    var slots: MobileStepperSlots?
+
+    var slotProps: Any?
+}
 
 external interface MobileStepperOwnerState
 

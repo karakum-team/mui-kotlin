@@ -30,7 +30,14 @@ external interface BottomNavigationActionSlots {
     var label: react.ElementType<*>
 }
 
+external interface BottomNavigationActionSlotsAndSlotProps : react.Props {
+    var slots: BottomNavigationActionSlots?
+
+    var slotProps: Any?
+}
+
 external interface BottomNavigationActionOwnProps :
+    BottomNavigationActionSlotsAndSlotProps,
     react.PropsWithChildren,
     mui.system.PropsWithSx,
     ButtonBaseProps {
