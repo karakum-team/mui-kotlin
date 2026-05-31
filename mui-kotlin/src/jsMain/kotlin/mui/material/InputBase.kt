@@ -11,7 +11,6 @@ package mui.material
 import mui.material.styles.Theme
 import mui.system.SxProps
 import web.dom.ElementId
-import web.html.HTMLElement
 
 external interface InputBaseProps :
     mui.system.StandardProps,
@@ -156,7 +155,7 @@ external interface InputBaseProps :
      *
      * Notice that the first argument (event) might be undefined.
      */
-    var onBlur: react.dom.events.FocusEventHandler<HTMLElement>?
+    var onBlur: react.dom.events.FocusEventHandler<web.html.HTMLElement>?
 
     /**
      * Callback fired when the value is changed.
@@ -164,18 +163,18 @@ external interface InputBaseProps :
      * @param {React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>} event The event source of the callback.
      * You can pull out the new value by accessing `event.target.value` (string).
      */
-    var onChange: react.dom.events.ChangeEventHandler<HTMLElement>?
+    var onChange: react.dom.events.ChangeEventHandler<web.html.HTMLElement, *>?
 
-    var onFocus: react.dom.events.FocusEventHandler<HTMLElement>?
+    var onFocus: react.dom.events.FocusEventHandler<web.html.HTMLElement>?
 
-    var onKeyDown: react.dom.events.KeyboardEventHandler<HTMLElement>?
+    var onKeyDown: react.dom.events.KeyboardEventHandler<web.html.HTMLElement>?
 
-    var onKeyUp: react.dom.events.KeyboardEventHandler<HTMLElement>?
+    var onKeyUp: react.dom.events.KeyboardEventHandler<web.html.HTMLElement>?
 
     /**
      * Callback fired when the `input` doesn't satisfy its constraints.
      */
-    var onInvalid: react.dom.events.FormEventHandler<HTMLElement>?
+    var onInvalid: react.dom.events.ReactEventHandler<web.html.HTMLElement>?
 
     /**
      * The short hint displayed in the `input` before the user enters a value.
@@ -270,7 +269,7 @@ external interface InputBaseProps :
 }
 
 external interface InputBaseComponentProps :
-    react.dom.html.HTMLAttributes<HTMLElement>
+    react.dom.html.HTMLAttributes<web.html.HTMLElement>
 
 /**
  * `InputBase` contains as few styles as possible.

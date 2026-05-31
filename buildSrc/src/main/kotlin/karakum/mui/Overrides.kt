@@ -102,6 +102,7 @@ internal fun fixOverrides(
             -> content
             .override("ariaLabel").replace("override var ariaLabel: String", "/* override var ariaLabel: String */")
             .override("hidden")
+            .replace("override var hidden: Boolean?", "override var hidden: Hidden?")
 
         "Tab",
             -> content

@@ -7,6 +7,9 @@ plugins {
 val seskarVersion = property("seskar.version") as String
 
 dependencies {
+    fun npmv(packageName: String) =
+        npm(packageName, property(packageName.removePrefix("@").replace("/", "-") + ".version") as String)
+
     jsMainImplementation(npm("@date-io/core", "2.17.0"))
 
     jsMainImplementation(npmv("@mui/material"))
@@ -20,5 +23,5 @@ dependencies {
     jsMainImplementation("io.github.turansky.seskar:seskar-core:$seskarVersion")
 
     jsMainApi(kotlinWrappers.reactDom)
-    jsMainApi(kotlinWrappers.reactPopper)
+    jsMainApi(kotlinWrappers.popperjs.core)
 }

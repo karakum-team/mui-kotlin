@@ -12,7 +12,6 @@ package mui.material
 import mui.material.styles.Theme
 import mui.system.SxProps
 import web.dom.ElementId
-import web.html.HTMLElement
 import web.html.InputType
 
 typealias TextFieldProps = BaseTextFieldProps
@@ -124,9 +123,9 @@ external interface BaseTextFieldProps :
      */
     var name: String?
 
-    var onBlur: react.dom.events.FocusEventHandler<HTMLElement>?
+    var onBlur: react.dom.events.FocusEventHandler<web.html.HTMLElement>?
 
-    var onFocus: react.dom.events.FocusEventHandler<HTMLElement>?
+    var onFocus: react.dom.events.FocusEventHandler<web.html.HTMLElement>?
 
     /**
      * The short hint displayed in the `input` before the user enters a value.
@@ -195,7 +194,7 @@ external interface StandardTextFieldProps :
      * @param {object} event The event source of the callback.
      * You can pull out the new value by accessing `event.target.value` (string).
      */
-    var onChange: react.dom.events.ChangeEventHandler<HTMLElement>?
+    var onChange: react.dom.events.ChangeEventHandler<web.html.HTMLElement, *>?
 
     /**
      * The variant to use.
@@ -220,7 +219,7 @@ external interface FilledTextFieldProps :
      * @param {object} event The event source of the callback.
      * You can pull out the new value by accessing `event.target.value` (string).
      */
-    var onChange: react.dom.events.ChangeEventHandler<HTMLElement>?
+    var onChange: react.dom.events.ChangeEventHandler<web.html.HTMLElement, *>?
 
     /**
      * The variant to use.
@@ -245,7 +244,7 @@ external interface OutlinedTextFieldProps :
      * @param {object} event The event source of the callback.
      * You can pull out the new value by accessing `event.target.value` (string).
      */
-    var onChange: react.dom.events.ChangeEventHandler<HTMLElement>?
+    var onChange: react.dom.events.ChangeEventHandler<web.html.HTMLElement, *>?
 
     /**
      * The variant to use.

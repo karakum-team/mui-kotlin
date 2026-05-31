@@ -2,7 +2,6 @@
 
 package mui.base
 
-import web.dom.Element
 import web.dom.ElementId
 
 external interface SelectOption<Value> {
@@ -22,7 +21,7 @@ external interface UseOptionParameters<Value> {
 
     var label: react.ReactNode
 
-    var rootRef: react.Ref<Element>?
+    var rootRef: react.Ref<web.dom.Element>?
 
     var value: Value
 }
@@ -50,5 +49,5 @@ external interface UseOptionReturnValue {
     /**
      * Ref to the root slot DOM node.
      */
-    var rootRef: react.RefCallback<Element>?
+    var rootRef: react.RefCallback<web.dom.Element>?
 }

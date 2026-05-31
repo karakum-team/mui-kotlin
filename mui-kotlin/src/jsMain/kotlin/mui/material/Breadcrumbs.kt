@@ -6,11 +6,10 @@ package mui.material
 
 import mui.material.styles.Theme
 import mui.system.SxProps
-import web.html.HTMLElement
 
 external interface BreadcrumbsProps :
     BreadcrumbsOwnProps,
-    react.dom.html.HTMLAttributes<HTMLElement>,
+    react.dom.html.HTMLAttributes<web.html.HTMLElement>,
     mui.types.PropsWithComponent
 
 external interface BreadcrumbsOwnerState {

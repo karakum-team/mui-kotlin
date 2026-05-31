@@ -21,6 +21,7 @@ private val DEFAULT_IMPORTS = listOf(
     "Element" to "web.dom.Element",
     "InputType" to "web.html.InputType",
     "ButtonType" to "web.html.ButtonType",
+    "Hidden" to "web.html.Hidden",
 
     " ClassName" to "web.cssom.ClassName",
     "Event" to "web.events.Event",

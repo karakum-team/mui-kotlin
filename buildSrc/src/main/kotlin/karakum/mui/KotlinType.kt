@@ -219,7 +219,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.InputHTMLAttributes<HTMLInputElement>['type']" to "InputType",
     "React.ButtonHTMLAttributes<HTMLButtonElement>['type']" to "ButtonType",
 
-    "React.ChangeEvent" to "react.dom.events.ChangeEvent<*>",
+    "React.ChangeEvent" to "react.dom.events.ChangeEvent<*, *>",
     "React.MouseEvent" to "react.dom.events.MouseEvent<*, *>",
 
     "React.ReactEventHandler" to "react.dom.events.ReactEventHandler<*>",
@@ -407,12 +407,20 @@ internal fun kotlinType(
             )
 
     if (type.startsWith("React.") && "Handler<" in type) {
-        val handlerType = type.removePrefix("React.")
+        var handlerType = type.removePrefix("React.")
             .replace("<any>", "<*>")
             .replace("<{}>", "<*>")
             .replace("<HTMLInputElement | HTMLTextAreaElement>", "<web.html.HTMLElement>")
             .replace("<HTMLTextAreaElement | HTMLInputElement>", "<web.html.HTMLElement>")
             .replace("<HTMLInputElement>", "<web.html.HTMLInputElement>")
+
+        // FormEventHandler was removed from react-dom wrappers; use ReactEventHandler.
+        if (handlerType.startsWith("FormEventHandler<"))
+            handlerType = handlerType.replaceFirst("FormEventHandler<", "ReactEventHandler<")
+
+        // ChangeEventHandler<T> gained a second target-element type parameter.
+        if (handlerType.startsWith("ChangeEventHandler<") && !handlerType.contains(","))
+            handlerType = handlerType.removeSuffix(">") + ", *>"
 
         return "react.dom.events.$handlerType"
     }

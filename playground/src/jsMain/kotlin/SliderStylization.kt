@@ -39,7 +39,7 @@ private val RangeSliderBase = Slider.styled {
         width = 100.pct
         height = 4.px
         borderRadius = 6.px
-        backgroundColor = Color.currentcolor
+        backgroundColor = Color.currentColor
         opacity = number(0.3)
     }
 
