@@ -110,19 +110,19 @@ external interface SwitchSlots {
 
 external interface SwitchSlotProps : react.Props {
     /** TS: SlotProps<'span', SwitchRootSlotPropsOverrides, SwitchOwnerState> */
-    var root: Any?
+    var root: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
 
     /** TS: SlotProps<'span', SwitchTrackSlotPropsOverrides, SwitchOwnerState> */
-    var track: Any?
+    var track: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
 
     /** TS: SlotProps<'span', SwitchThumbSlotPropsOverrides, SwitchOwnerState> */
-    var thumb: Any?
+    var thumb: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
 
     /** TS: SlotProps< React.ElementType<SwitchBaseProps>, SwitchSwitchBaseSlotPropsOverrides, SwitchOwnerState > */
-    var switchBase: Any?
+    var switchBase: SwitchBaseProps?
 
     /** TS: SlotProps<'input', SwitchInputSlotPropsOverrides, SwitchOwnerState> */
-    var input: Any?
+    var input: react.dom.html.InputHTMLAttributes<web.html.HTMLInputElement>?
 }
 
 external interface SwitchSlotsAndSlotProps : react.Props {

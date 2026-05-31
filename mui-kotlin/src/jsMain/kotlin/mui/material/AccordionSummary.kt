@@ -40,13 +40,13 @@ external interface AccordionSummaryExpandIconWrapperSlotPropsOverrides
 
 external interface AccordionSummarySlotProps : react.Props {
     /** TS: SlotProps< React.ElementType<ButtonBaseProps>, AccordionSummaryRootSlotPropsOverrides, AccordionSummaryOwnerState > */
-    var root: Any?
+    var root: ButtonBaseProps?
 
     /** TS: SlotProps< 'div', AccordionSummaryContentSlotPropsOverrides, AccordionSummaryOwnerState > */
-    var content: Any?
+    var content: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
 
     /** TS: SlotProps< 'div', AccordionSummaryExpandIconWrapperSlotPropsOverrides, AccordionSummaryOwnerState > */
-    var expandIconWrapper: Any?
+    var expandIconWrapper: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
 }
 
 external interface AccordionSummarySlotsAndSlotProps : react.Props {

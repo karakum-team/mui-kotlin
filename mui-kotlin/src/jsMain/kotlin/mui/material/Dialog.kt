@@ -182,19 +182,19 @@ external interface DialogRootSlotPropsOverrides
 
 external interface DialogSlotProps : react.Props {
     /** TS: SlotProps<React.ElementType<ModalProps>, DialogRootSlotPropsOverrides, DialogOwnerState> */
-    var root: Any?
+    var root: ModalProps?
 
     /** TS: SlotProps< React.ElementType<BackdropProps>, DialogBackdropSlotPropsOverrides, DialogOwnerState > */
-    var backdrop: Any?
+    var backdrop: BackdropProps?
 
     /** TS: SlotProps<'div', DialogContainerSlotPropsOverrides, DialogOwnerState> */
-    var container: Any?
+    var container: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
 
     /** TS: SlotComponentProps< React.ElementType, TransitionProps & DialogTransitionSlotPropsOverrides, DialogOwnerState > */
     var transition: Any?
 
     /** TS: SlotProps< React.ElementType<PaperProps>, DialogPaperSlotPropsOverrides, DialogOwnerState > */
-    var paper: Any?
+    var paper: PaperProps?
 }
 
 external interface DialogSlotsAndSlotProps : react.Props {

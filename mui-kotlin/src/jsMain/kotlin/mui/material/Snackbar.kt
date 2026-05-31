@@ -173,13 +173,13 @@ external interface SnackbarTransitionSlotPropsOverrides
 
 external interface SnackbarSlotProps : react.Props {
     /** TS: SlotProps<'div', SnackbarRootSlotPropsOverrides, SnackbarOwnerState> */
-    var root: Any?
+    var root: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
 
     /** TS: SlotProps< React.ElementType<SnackbarContentProps>, SnackbarContentSlotPropsOverrides, SnackbarOwnerState > */
-    var content: Any?
+    var content: SnackbarContentProps?
 
     /** TS: SlotComponentProps< typeof ClickAwayListener, SnackbarClickAwayListenerSlotPropsOverrides, SnackbarOwnerState > */
-    var clickAwayListener: Any?
+    var clickAwayListener: mui.base.ClickAwayListenerProps?
 
     /** TS: SlotComponentProps< React.ElementType, TransitionProps & SnackbarTransitionSlotPropsOverrides, SnackbarOwnerState > */
     var transition: Any?

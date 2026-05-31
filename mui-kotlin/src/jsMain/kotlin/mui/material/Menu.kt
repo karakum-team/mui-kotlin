@@ -146,19 +146,19 @@ external interface MenuSlots {
 
 external interface MenuSlotProps : react.Props {
     /** TS: SlotProps<React.ElementType<ModalProps>, MenuRootSlotPropsOverrides, MenuOwnerState> */
-    var root: Any?
+    var root: ModalProps?
 
     /** TS: SlotProps<React.ElementType<PaperProps>, MenuPaperSlotPropsOverrides, MenuOwnerState> */
-    var paper: Any?
+    var paper: PaperProps?
 
     /** TS: SlotProps<React.ElementType<MenuListProps>, MenuListSlotPropsOverrides, MenuOwnerState> */
-    var list: Any?
+    var list: MenuListProps?
 
     /** TS: SlotComponentProps< // use SlotComponentProps because transition slot does not support `component` and `sx` prop React.ElementType, TransitionProps & MenuTransitionSlotPropsOverrides, MenuOwnerState > */
     var transition: Any?
 
     /** TS: SlotProps< React.ElementType<BackdropProps>, MenuBackdropSlotPropsOverrides, MenuOwnerState > */
-    var backdrop: Any?
+    var backdrop: BackdropProps?
 }
 
 external interface MenuSlotsAndSlotProps : react.Props {

@@ -106,16 +106,16 @@ external interface SpeedDialActionStaticTooltipLabelSlotPropsOverrides
 
 external interface SpeedDialActionSlotProps : react.Props {
     /** TS: SlotProps< React.ElementType<FabProps>, SpeedDialActionFabSlotPropsOverrides, SpeedDialActionOwnerState > */
-    var fab: Any?
+    var fab: FabProps?
 
     /** TS: SlotProps< React.ElementType<TooltipProps>, SpeedDialActionTooltipSlotPropsOverrides, SpeedDialActionOwnerState > */
-    var tooltip: Any?
+    var tooltip: TooltipProps?
 
     /** TS: SlotProps< 'span', SpeedDialActionStaticTooltipSlotPropsOverrides, SpeedDialActionOwnerState > */
-    var staticTooltip: Any?
+    var staticTooltip: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
 
     /** TS: SlotProps< 'span', SpeedDialActionStaticTooltipLabelSlotPropsOverrides, SpeedDialActionOwnerState > */
-    var staticTooltipLabel: Any?
+    var staticTooltipLabel: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
 }
 
 external interface SpeedDialActionSlotsAndSlotProps : react.Props {

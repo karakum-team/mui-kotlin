@@ -169,6 +169,104 @@
 - Tooltip и Rating получают дополнительные `*.ext.kt` через спец.case в Generator (TooltipPlacement typealias,
   Rating.defaultValueAsNumber extension).
 
+## Будущие доработки типизации
+
+Кандидаты на улучшение генератора. Сгруппировано по сложности.
+
+### ✅ Низкая сложность — реализовано
+
+Покрывается `Converter.kt::mapSlotPropsToKotlin` (вызывается из `convertExportSlotsAndSlotPropsAliases`) +
+`Converter.kt::TAG_TO_HTML_ATTRS_TS` + расширенный `KotlinType.kt::STANDARD_TYPE_MAP`. Оставлено для документации.
+
+- **`SlotProps<'tag', …>` со строковым литералом тегом** ✅. Покрытые теги:
+  `'input'`, `'div'`, `'span'`, `'button'`, `'a'`, `'label'`, `'li'`, `'fieldset'`, `'form'`, `'img'`.
+    - Пример: `CheckboxSlotProps.input: react.dom.html.InputHTMLAttributes<web.html.HTMLInputElement>?`.
+- **`SlotProps<typeof X, …>`** ✅ → `XProps`.
+    - Пример: `PopoverSlotProps.root: ModalProps?` (`SlotProps<typeof Modal, …>`),
+      `PopoverSlotProps.paper: PaperProps?`.
+- **`SlotProps<React.ElementType<X>, …>`** ✅ → `X`.
+    - Пример: `CheckboxSlotProps.root: SwitchBaseProps?`,
+      `TooltipSlotProps.popper: PopperProps?`,
+      `PopoverSlotProps.backdrop: BackdropProps?`.
+- **`SlotComponentProps<…>`** ✅ — тот же regex `^Slot(?:Component)?Props<…>` обрабатывает обе формы.
+- **`SlotProps<React.ElementType<React.HTMLProps<X>>, …>`** ✅ — nested-generic ElementType (использует
+  PaginationItem.first/.last/.next/.previous). Маппится на `HTMLAttributes<X>`.
+
+Если тег не в таблице (`'h1'`, `'h2'`, `'p'` и т.п.) или RootComponent неузнан — fallback на `Any?` (как раньше).
+Новые теги легко добавлять — extend `TAG_TO_HTML_ATTRS_TS` + парный entry в `STANDARD_TYPE_MAP`.
+
+### Средняя сложность
+
+- **Bare `React.ElementType` (без параметра).** `SlotProps<React.ElementType, TransitionProps & …>` —
+  например `TooltipSlotProps.transition`. Без RootComponent fallback на `react.Props?` (лучше чем `Any?`).
+    - Дополнительно: при наличии intersection во втором аргументе (`TransitionProps & X`) — попробовать
+      эмитнуть `TransitionProps?`.
+
+- **DistributiveOmit/Omit — пометка "omitted keys" в JSDoc.** Сейчас просто разворачиваем в первый аргумент,
+  теряя список omit-ключей. Можно прицеплять JSDoc-комментарий типа `/** Omitted: 'a' | 'b' */` к
+  сгенерированному interface для документации.
+    - Where: `Converter.kt::adaptRawContent` — при unwrap сохранять keys в side-channel и эмитить как JSDoc.
+
+- **`Partial<X>` в member-позиции — обобщить.** Сейчас есть spec-handling в `KotlinType.kt::STANDARD_TYPE_MAP`
+  для `Partial<StandardInputProps>` → `InputProps`, etc. Универсально превращать `Partial<X>` в Kotlin `X?`
+  с пометкой "все поля опциональны". Уменьшит число special-cases.
+
+- **TextFieldSlotsAndSlotProps<InputPropsType> — generic над type alias.**
+    - Сейчас: strip из extends-цепочки (теряем slots/slotProps на TextField).
+    - Хочется: распознать `type X<T> = CreateSlotsAndSlotProps<…>;` и эмитнуть
+      `external interface TextFieldSlotsAndSlotProps<InputPropsType> { … }`.
+    - Where: `Converter.kt::convertSlotsAndSlotPropsAliases` — добавить опциональное чтение `<T>` после имени.
+
+- **Internal-rejected parents — эмитить пустые стабы.** `LinkBaseProps`, `BasePopperProps`,
+  `TablePaginationBaseProps`, `DialogActionsProps` — сейчас отбрасываем из родителей. Если эмитить
+  `external interface LinkBaseProps` (и т.п.) пустыми стабами в соответствующих пакетах, можно
+  сохранить inheritance-цепочки.
+    - Where: `Generator.kt::generateMaterialDeclarations` — собрать referenced-but-not-emitted имена,
+      эмитнуть стабы в конце прохода.
+
+- **Switch/Rating/StepIcon — более тонкие правки для diamond.**
+    - Switch: вместо стрипа `UseSwitchParameters` — оставить, но в `SwitchProps` body инжектнуть
+      `override var onBlur: …<*>?; override var onChange: …; override var onFocus: …` чтобы устранить
+      конфликт invariance.
+    - Rating: попробовать `override var defaultValue: Any?` в RatingProps body (Kotlin var-invariance
+      скорее всего не разрешит, но проверить экспериментально).
+    - StepIcon: вместо стрипа `SvgIconOwnProps` — emit extension property
+      `inline fun StepIconProps.asSvgIconProps(): SvgIconOwnProps = unsafeCast(this)` в Rating.ext.kt-стиле.
+
+### Высокая сложность
+
+- **CssVars вселенная** (`CssVarsTheme`, `CssVarsPalette`, `extendTheme`, `CssVarsProvider`, `ColorSystem`,
+  `createColorScheme`, `ThemeProvider*`-варианты). Требует:
+    - Поддержки TS conditional types в `Converter.kt::adaptRawContent`.
+    - Поддержки TS mapped types `{ [K in X]: Y }` → Kotlin `Record<X, Y>` или подобное.
+    - Ручных адаптеров для `extendTheme`, `CssVarsProvider`.
+    - Отдельная задача — большой заход.
+
+- **TS template literal types** (`text${Capitalize<keyof TypeText>}` в `Typography.color`). Распознавать
+  `` `…${X}…` `` и схлопывать к `String` (либо к `mui.system.Union` с комментарием набора кейсов). Сейчас
+  падает в `Any?` fallback.
+
+- **TS overloaded call signatures на interface.**
+    - `interface Spacing { (): string; (v): string; (a, b): string; … }` (см. `createSpacing.d.ts`)
+    - `interface OverridableComponent { (props: …): JSX; (props: …): JSX; }`
+    - Нужно эмитить `inline operator fun invoke(…)` в companion object или серию overloaded extension functions.
+
+- **TS generic с дефолтом конкретного типа** (`useThemeWithoutDefault<T = null>`).
+    - Дефолт `null` → emit `Any?` без default.
+    - Дефолт `XxxType` → emit без default, но с явным `<T : XxxType>` bound (или просто без).
+
+- **OverridableComponent с TypeMap.** Типизация `<RootComponent extends ElementType>` для динамического
+  тега. Сейчас обходим через `mui.types.PropsWithComponent`, но это сильно упрощённо. Полная типизация
+  потребует генерации generic-функций компонента с RootComponent параметром.
+
+### Не вошло в v6-минимум
+
+- **MUI-X `7.28.0` на v6 материале** — формально совместим по peer-deps, но возможны несоответствия типов
+  в Pickers/TreeView с v6 Theme. Тестировать отдельно после обновления.
+- **`LoadingButton` миграция.** Lab 6.4+ перенесла его в `@mui/material/Button`. Текущий `6.0.1-beta.36`
+  ещё имеет старый. При обновлении lab выше — поправить генерацию (`Button.loading`, `Button.loadingPosition`).
+- **Pigment-CSS варианты в отдельный subpackage** (`mui.material.pigment`) вместо полного скипа.
+
 ---
 
 *Файл обновляется по мере новых исключений в `buildSrc/src/main/kotlin/karakum/mui/`.*

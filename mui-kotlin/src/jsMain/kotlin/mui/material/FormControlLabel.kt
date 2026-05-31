@@ -101,7 +101,7 @@ external interface FormControlLabelSlots {
 
 external interface FormControlLabelSlotProps : react.Props {
     /** TS: SlotProps<typeof Typography, {}, FormControlLabelProps> */
-    var typography: Any?
+    var typography: TypographyProps?
 }
 
 external interface FormControlLabelSlotsAndSlotProps : react.Props {

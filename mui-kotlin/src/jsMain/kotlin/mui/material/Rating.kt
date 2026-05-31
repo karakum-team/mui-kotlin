@@ -60,16 +60,16 @@ external interface RatingSlots {
 
 external interface RatingSlotProps : react.Props {
     /** TS: SlotProps<'span', RatingRootSlotPropsOverrides, RatingOwnerState> */
-    var root: Any?
+    var root: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
 
     /** TS: SlotProps<'label', RatingLabelSlotPropsOverrides, RatingOwnerState> */
-    var label: Any?
+    var label: react.dom.html.LabelHTMLAttributes<web.html.HTMLLabelElement>?
 
     /** TS: SlotProps<'span', RatingIconSlotPropsOverrides, RatingOwnerState> */
-    var icon: Any?
+    var icon: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
 
     /** TS: SlotProps<'span', RatingDecimalSlotPropsOverrides, RatingOwnerState> */
-    var decimal: Any?
+    var decimal: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
 }
 
 external interface RatingSlotsAndSlotProps : react.Props {

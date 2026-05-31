@@ -335,6 +335,8 @@ private fun String.convertExportSlotsAndSlotPropsAliases(): String {
 
         // Emit per-slot XxxSlotProps interface (when we managed to parse the inline shape).
         // TS-type goes into a JSDoc comment above the field (preserves info without nesting).
+        // Try to map the inner SlotProps<RootComponent, …> to a concrete type when RootComponent
+        // matches one of our recognized forms (string-literal tag, typeof X, React.ElementType<X>).
         val slotPropsTypeName: String = if (slotMembers.isNotEmpty()) {
             val slotPropsInterfaceName = "${interfaceName}SlotProps"
             result.append("export interface ").append(slotPropsInterfaceName).append(" {\n")
@@ -343,7 +345,8 @@ private fun String.convertExportSlotsAndSlotPropsAliases(): String {
                     val safe = tsType.replace("*/", "*\\/").lineSequence().joinToString(" ") { it.trim() }
                     result.append("  /** TS: ").append(safe).append(" */\n")
                 }
-                result.append("  ").append(memberName).append("?: any;\n")
+                val mapped = mapSlotPropsToKotlin(tsType)
+                result.append("  ").append(memberName).append("?: ").append(mapped ?: "any").append(";\n")
             }
             result.append("}\n")
             slotPropsInterfaceName
@@ -361,6 +364,52 @@ private fun String.convertExportSlotsAndSlotPropsAliases(): String {
     if (cursor < length) result.append(this, cursor, length)
     return result.toString()
 }
+
+/**
+ * Map a single TS slot type like `SlotProps<'input', Overrides, OwnerState>` to a TS-form
+ * RootComponent type that the rest of the generator (`STANDARD_TYPE_MAP` + identifier resolution)
+ * can then turn into Kotlin. Returns null when the form isn't recognized — caller falls back to `any`.
+ *
+ * Handled patterns (both `SlotProps<…>` and `SlotComponentProps<…>`):
+ *   - String-literal tag: `SlotProps<'input', …>` → `React.InputHTMLAttributes<HTMLInputElement>`
+ *   - `typeof X`:         `SlotProps<typeof Modal, …>` → `ModalProps`
+ *   - `React.ElementType<X>`: `SlotProps<React.ElementType<SwitchBaseProps>, …>` → `SwitchBaseProps`
+ */
+private fun mapSlotPropsToKotlin(tsType: String): String? {
+    if (tsType.isEmpty()) return null
+    val normalized = tsType.lineSequence().joinToString(" ") { it.trim() }
+
+    Regex("""^Slot(?:Component)?Props<\s*'(\w+)'\s*,""").find(normalized)?.let { m ->
+        return TAG_TO_HTML_ATTRS_TS[m.groupValues[1]]
+    }
+    Regex("""^Slot(?:Component)?Props<\s*typeof\s+(\w+)\s*,""").find(normalized)?.let { m ->
+        return "${m.groupValues[1]}Props"
+    }
+    Regex("""^Slot(?:Component)?Props<\s*React\.ElementType<(\w+)>\s*,""").find(normalized)?.let { m ->
+        return m.groupValues[1]
+    }
+    // Pattern 4: nested-generic ElementType, common in PaginationItem:
+    //   SlotProps<React.ElementType<React.HTMLProps<X>>, …> → React.HTMLAttributes<X>
+    //   (HTMLProps and HTMLAttributes are semantically equivalent in MUI usage.)
+    Regex("""^Slot(?:Component)?Props<\s*React\.ElementType<React\.HTMLProps<(\w+)>>""").find(normalized)?.let { m ->
+        return "React.HTMLAttributes<${m.groupValues[1]}>"
+    }
+    return null
+}
+
+/** TS-form tag → React HTMLAttributes variant. The TS strings are matched in STANDARD_TYPE_MAP. */
+private val TAG_TO_HTML_ATTRS_TS = mapOf(
+    "input" to "React.InputHTMLAttributes<HTMLInputElement>",
+    "div" to "React.HTMLAttributes<HTMLDivElement>",
+    "span" to "React.HTMLAttributes<HTMLSpanElement>",
+    "button" to "React.ButtonHTMLAttributes<HTMLButtonElement>",
+    "a" to "React.AnchorHTMLAttributes<HTMLAnchorElement>",
+    "label" to "React.LabelHTMLAttributes<HTMLLabelElement>",
+    "li" to "React.LiHTMLAttributes<HTMLLIElement>",
+    "fieldset" to "React.FieldsetHTMLAttributes<HTMLFieldSetElement>",
+    "form" to "React.FormHTMLAttributes<HTMLFormElement>",
+    "img" to "React.ImgHTMLAttributes<HTMLImageElement>",
+)
 
 /** Parse the inline `{ root: SlotProps<…>; input: …; }` second arg of `CreateSlotsAndSlotProps`. */
 private fun parseInlineSlotProps(inline: String): List<Pair<String, String>> {

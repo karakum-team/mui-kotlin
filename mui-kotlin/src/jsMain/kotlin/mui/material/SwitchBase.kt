@@ -127,10 +127,10 @@ external interface SwitchBaseSlots {
 
 external interface SwitchBaseSlotProps : react.Props {
     /** TS: SlotProps<React.ElementType<ButtonBaseProps>, {}, SwitchBaseOwnerState> */
-    var root: Any?
+    var root: ButtonBaseProps?
 
     /** TS: SlotProps<'input', {}, SwitchBaseOwnerState> */
-    var input: Any?
+    var input: react.dom.html.InputHTMLAttributes<web.html.HTMLInputElement>?
 }
 
 external interface SwitchBaseSlotsAndSlotProps : react.Props {

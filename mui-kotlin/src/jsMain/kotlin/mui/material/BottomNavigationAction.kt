@@ -32,10 +32,10 @@ external interface BottomNavigationActionSlots {
 
 external interface BottomNavigationActionSlotProps : react.Props {
     /** TS: SlotProps<React.ElementType<ButtonBaseProps>, {}, BottomNavigationActionOwnerState> */
-    var root: Any?
+    var root: ButtonBaseProps?
 
     /** TS: SlotProps<'span', {}, BottomNavigationActionOwnerState> */
-    var label: Any?
+    var label: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
 }
 
 external interface BottomNavigationActionSlotsAndSlotProps : react.Props {

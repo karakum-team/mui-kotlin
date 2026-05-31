@@ -91,13 +91,13 @@ external interface ListItemTextSlots {
 
 external interface ListItemTextSlotProps : react.Props {
     /** TS: SlotProps<'div', {}, ListItemTextOwnerState> */
-    var root: Any?
+    var root: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
 
     /** TS: SlotProps<React.ElementType<TypographyProps>, {}, ListItemTextOwnerState> */
-    var primary: Any?
+    var primary: TypographyProps?
 
     /** TS: SlotProps<React.ElementType<TypographyProps>, {}, ListItemTextOwnerState> */
-    var secondary: Any?
+    var secondary: TypographyProps?
 }
 
 external interface ListItemTextSlotsAndSlotProps : react.Props {

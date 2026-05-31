@@ -103,16 +103,16 @@ external interface MobileStepperDotSlotPropsOverrides
 
 external interface MobileStepperSlotProps : react.Props {
     /** TS: SlotProps< React.ElementType<PaperProps>, MobileStepperRootSlotPropsOverrides, MobileStepperOwnerState > */
-    var root: Any?
+    var root: PaperProps?
 
     /** TS: SlotProps< React.ElementType<LinearProgressProps>, MobileStepperProgressSlotPropsOverrides, MobileStepperOwnerState > */
-    var progress: Any?
+    var progress: LinearProgressProps?
 
     /** TS: SlotProps<'div', MobileStepperDotsSlotPropsOverrides, MobileStepperOwnerState> */
-    var dots: Any?
+    var dots: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
 
     /** TS: SlotProps<'div', MobileStepperDotSlotPropsOverrides, MobileStepperOwnerState> */
-    var dot: Any?
+    var dot: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
 }
 
 external interface MobileStepperSlotsAndSlotProps : react.Props {

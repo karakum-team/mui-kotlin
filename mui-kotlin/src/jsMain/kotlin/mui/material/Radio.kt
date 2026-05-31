@@ -82,10 +82,10 @@ external interface RadioSlots {
 
 external interface RadioSlotProps : react.Props {
     /** TS: SlotProps< React.ElementType<SwitchBaseProps>, RadioRootSlotPropsOverrides, RadioOwnerState > */
-    var root: Any?
+    var root: SwitchBaseProps?
 
     /** TS: SlotProps<'input', RadioInputSlotPropsOverrides, RadioOwnerState> */
-    var input: Any?
+    var input: react.dom.html.InputHTMLAttributes<web.html.HTMLInputElement>?
 }
 
 external interface RadioSlotsAndSlotProps : react.Props {

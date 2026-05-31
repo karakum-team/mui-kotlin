@@ -89,13 +89,13 @@ external interface StepLabelSlots {
 
 external interface StepLabelSlotProps : react.Props {
     /** TS: SlotProps<'span', {}, StepLabelOwnerState> */
-    var root: Any?
+    var root: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
 
     /** TS: SlotProps<'span', {}, StepLabelOwnerState> */
-    var label: Any?
+    var label: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
 
     /** TS: SlotProps<React.ElementType<StepIconProps>, {}, StepLabelOwnerState> */
-    var stepIcon: Any?
+    var stepIcon: StepIconProps?
 }
 
 external interface StepLabelSlotsAndSlotProps : react.Props {

@@ -92,13 +92,13 @@ external interface TablePaginationSlots {
 
 external interface TablePaginationSlotProps : react.Props {
     /** TS: SlotProps< React.ElementType<TableCellProps>, TablePaginationRootSlotPropsOverrides, TablePaginationOwnerState > */
-    var root: Any?
+    var root: TableCellProps?
 
     /** TS: SlotProps< React.ElementType<ToolbarProps>, TablePaginationToolbarSlotPropsOverrides, TablePaginationOwnerState > */
-    var toolbar: Any?
+    var toolbar: ToolbarProps?
 
     /** TS: SlotProps<'div', TablePaginationSpacerSlotPropsOverrides, TablePaginationOwnerState> */
-    var spacer: Any?
+    var spacer: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
 
     /** TS: SlotProps< 'p', TablePaginationSelectLabelSlotPropsOverrides, TablePaginationOwnerState > */
     var selectLabel: Any?
@@ -107,7 +107,7 @@ external interface TablePaginationSlotProps : react.Props {
     var select: Any?
 
     /** TS: SlotProps< React.ElementType<MenuItemProps>, TablePaginationMenuItemSlotPropsOverrides, TablePaginationOwnerState > */
-    var menuItem: Any?
+    var menuItem: MenuItemProps?
 
     /** TS: SlotProps< 'p', TablePaginationDisplayedRowsSlotPropsOverrides, TablePaginationOwnerState > */
     var displayedRows: Any?

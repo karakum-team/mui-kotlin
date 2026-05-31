@@ -69,22 +69,22 @@ external interface CardHeaderSlots {
 
 external interface CardHeaderSlotProps : react.Props {
     /** TS: SlotProps<'div', CardHeaderRootSlotPropsOverrides, CardHeaderOwnerState> */
-    var root: Any?
+    var root: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
 
     /** TS: SlotProps<'div', CardHeaderAvatarSlotPropsOverrides, CardHeaderOwnerState> */
-    var avatar: Any?
+    var avatar: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
 
     /** TS: SlotProps<'div', CardHeaderActionSlotPropsOverrides, CardHeaderOwnerState> */
-    var action: Any?
+    var action: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
 
     /** TS: SlotProps<'div', CardHeaderContentSlotPropsOverrides, CardHeaderOwnerState> */
-    var content: Any?
+    var content: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
 
     /** TS: SlotProps< React.ElementType<TypographyProps>, CardHeaderTitleSlotPropsOverrides, CardHeaderOwnerState > */
-    var title: Any?
+    var title: TypographyProps?
 
     /** TS: SlotProps< React.ElementType<TypographyProps>, CardHeaderSubheaderSlotPropsOverrides, CardHeaderOwnerState > */
-    var subheader: Any?
+    var subheader: TypographyProps?
 }
 
 external interface CardHeaderSlotsAndSlotProps : react.Props {

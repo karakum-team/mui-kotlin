@@ -47,7 +47,7 @@ external interface OutlinedInputSlots {
 
 external interface OutlinedInputSlotProps : react.Props {
     /** TS: SlotProps<'fieldset', {}, OutlinedInputOwnerState> */
-    var notchedOutline: Any?
+    var notchedOutline: react.dom.html.FieldsetHTMLAttributes<web.html.HTMLFieldSetElement>?
 }
 
 external interface OutlinedInputSlotsAndSlotProps : react.Props {
