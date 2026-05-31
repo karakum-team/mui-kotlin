@@ -5,17 +5,21 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.AnchorHTMLAttributes
+import web.html.HTMLAnchorElement
 
 external interface LinkProps :
     LinkOwnProps,
-    react.dom.html.AnchorHTMLAttributes<web.html.HTMLAnchorElement>,
-    mui.types.PropsWithComponent
+    AnchorHTMLAttributes<HTMLAnchorElement>,
+    PropsWithComponent
 
 external interface LinkOwnProps :
     LinkBaseProps,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The content of the component.
      */

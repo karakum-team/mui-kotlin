@@ -9,11 +9,14 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface CardHeaderProps :
     CardHeaderOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>
+    HTMLAttributes<HTMLDivElement>
 
 external interface CardHeaderRootSlotPropsOverrides
 
@@ -69,16 +72,16 @@ external interface CardHeaderSlots {
 
 external interface CardHeaderSlotProps : react.Props {
     /** TS: SlotProps<'div', CardHeaderRootSlotPropsOverrides, CardHeaderOwnerState> */
-    var root: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
+    var root: HTMLAttributes<HTMLDivElement>?
 
     /** TS: SlotProps<'div', CardHeaderAvatarSlotPropsOverrides, CardHeaderOwnerState> */
-    var avatar: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
+    var avatar: HTMLAttributes<HTMLDivElement>?
 
     /** TS: SlotProps<'div', CardHeaderActionSlotPropsOverrides, CardHeaderOwnerState> */
-    var action: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
+    var action: HTMLAttributes<HTMLDivElement>?
 
     /** TS: SlotProps<'div', CardHeaderContentSlotPropsOverrides, CardHeaderOwnerState> */
-    var content: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
+    var content: HTMLAttributes<HTMLDivElement>?
 
     /** TS: SlotProps< React.ElementType<TypographyProps>, CardHeaderTitleSlotPropsOverrides, CardHeaderOwnerState > */
     var title: TypographyProps?
@@ -94,8 +97,8 @@ external interface CardHeaderSlotsAndSlotProps : react.Props {
 }
 
 external interface CardHeaderOwnProps :
-    mui.system.PropsWithSx,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement> {
+    PropsWithSx,
+    HTMLAttributes<HTMLDivElement> {
     /**
      * The action to display in the card header.
      */

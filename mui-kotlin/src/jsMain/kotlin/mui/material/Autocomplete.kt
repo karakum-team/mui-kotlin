@@ -5,15 +5,22 @@
 package mui.material
 
 import js.array.ReadonlyArray
+import mui.base.UseAutocompleteProps
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import mui.system.Union
+import react.dom.html.HTMLAttributes
 import web.dom.ElementId
+import web.html.HTMLDivElement
+import web.html.HTMLLIElement
 
 external interface AutocompleteProps<Value> :
-    mui.base.UseAutocompleteProps<Value>,
-    mui.system.StandardProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
-    mui.system.PropsWithSx {
+    UseAutocompleteProps<Value>,
+    StandardProps,
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithSx {
     /**
      * Props applied to the [`Chip`](https://mui.com/material-ui/api/chip/) element.
      * @deprecated Use `slotProps.chip` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
@@ -196,7 +203,7 @@ external interface AutocompleteProps<Value> :
      * @returns {ReactNode}
      */
     var renderOption: ((
-        props: react.dom.html.HTMLAttributes<web.html.HTMLLIElement>,
+        props: HTMLAttributes<HTMLLIElement>,
         option: Value,
         state: AutocompleteRenderOptionState,
         ownerState: AutocompleteProps<Value>, /* AutocompleteOwnerState<Value> */
@@ -220,7 +227,7 @@ external interface AutocompleteProps<Value> :
      * The size of the component.
      * @default 'medium'
      */
-    var size: mui.system.Union? /* 'small' | 'medium', AutocompletePropsSizeOverrides */
+    var size: Union? /* 'small' | 'medium', AutocompletePropsSizeOverrides */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
@@ -255,7 +262,7 @@ external interface AutocompleteRenderInputParams : react.Props {
 
     var fullWidth: Boolean
 
-    var size: mui.system.Union /* 'small' | undefined */
+    var size: Union /* 'small' | undefined */
 
     var InputLabelProps: react.Props /* ReturnType<ReturnType<typeof useAutocomplete>['getInputLabelProps']> */
 

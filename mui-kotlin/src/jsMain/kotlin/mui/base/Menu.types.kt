@@ -3,11 +3,13 @@
 package mui.base
 
 import js.array.ReadonlyArray
+import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
+import web.html.HTMLDivElement
 
 external interface MenuProps :
     MenuOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>
+    HTMLAttributes<HTMLDivElement>
 
 external interface MenuRootSlotPropsOverrides
 

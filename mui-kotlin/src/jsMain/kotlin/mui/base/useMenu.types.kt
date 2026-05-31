@@ -3,6 +3,7 @@
 package mui.base
 
 import js.array.ReadonlyArray
+import web.dom.Element
 import web.dom.ElementId
 
 external interface UseMenuParameters {
@@ -39,7 +40,7 @@ external interface UseMenuParameters {
     /**
      * The ref to the menu's listbox node.
      */
-    var listboxRef: react.Ref<web.dom.Element>?
+    var listboxRef: react.Ref<Element>?
 
     /**
      * The name of the component using useMenu.
@@ -76,7 +77,7 @@ external interface UseMenuReturnValue {
     /**
      * The ref to the menu's listbox node.
      */
-    var listboxRef: react.RefCallback<web.dom.Element>?
+    var listboxRef: react.RefCallback<Element>?
 
     /**
      * Items in the menu listbox.

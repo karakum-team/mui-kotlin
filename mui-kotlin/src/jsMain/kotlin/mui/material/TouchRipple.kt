@@ -4,6 +4,8 @@
 
 package mui.material
 
+import react.dom.events.SyntheticEvent
+
 external interface StartActionOptions {
     var pulsate: Boolean?
 
@@ -12,13 +14,13 @@ external interface StartActionOptions {
 
 external interface TouchRippleActions {
     fun start(
-        event: react.dom.events.SyntheticEvent<*, *> = definedExternally,
+        event: SyntheticEvent<*, *> = definedExternally,
         options: StartActionOptions = definedExternally,
         callback: () -> Unit = definedExternally,
     )
 
-    fun pulsate(event: react.dom.events.SyntheticEvent<*, *> = definedExternally)
-    fun stop(event: react.dom.events.SyntheticEvent<*, *> = definedExternally, callback: () -> Unit = definedExternally)
+    fun pulsate(event: SyntheticEvent<*, *> = definedExternally)
+    fun stop(event: SyntheticEvent<*, *> = definedExternally, callback: () -> Unit = definedExternally)
 }
 
 

@@ -2,6 +2,11 @@
 
 package mui.base
 
+import react.dom.events.ChangeEventHandler
+import react.dom.events.FocusEventHandler
+import react.dom.events.MouseEventHandler
+import web.html.HTMLInputElement
+
 external interface UseInputParameters {
     /**
      * The default value. Use when the component is not controlled.
@@ -20,15 +25,15 @@ external interface UseInputParameters {
      */
     var error: Boolean?
 
-    var onBlur: react.dom.events.FocusEventHandler<web.html.HTMLElement>?
+    var onBlur: FocusEventHandler<web.html.HTMLElement>?
 
-    var onClick: react.dom.events.MouseEventHandler<*>?
+    var onClick: MouseEventHandler<*>?
 
-    var onChange: react.dom.events.ChangeEventHandler<web.html.HTMLElement, *>?
+    var onChange: ChangeEventHandler<web.html.HTMLElement, *>?
 
-    var onFocus: react.dom.events.FocusEventHandler<web.html.HTMLElement>?
+    var onFocus: FocusEventHandler<web.html.HTMLElement>?
 
-    var inputRef: react.Ref<web.html.HTMLInputElement /* or web.html.HTMLTextAreaElement*/>?
+    var inputRef: react.Ref<HTMLInputElement /* or HTMLTextAreaElement*/>?
 
     /**
      * If `true`, the `input` element is required.
@@ -50,11 +55,11 @@ external interface UseInputInputSlotOwnProps : react.Props {
 
     var value: Any? /* string | number | readonly string[] | undefined */
 
-    var onBlur: react.dom.events.FocusEventHandler<web.html.HTMLElement>
+    var onBlur: FocusEventHandler<web.html.HTMLElement>
 
-    var onChange: react.dom.events.ChangeEventHandler<web.html.HTMLElement, *>
+    var onChange: ChangeEventHandler<web.html.HTMLElement, *>
 
-    var onFocus: react.dom.events.FocusEventHandler<web.html.HTMLElement>
+    var onFocus: FocusEventHandler<web.html.HTMLElement>
 
     var required: Boolean
 
@@ -96,7 +101,7 @@ external interface UseInputReturnValue {
      */
     var getRootProps: react.Props /* <ExternalProps extends Record<string, any> = {}>(externalProps?: ExternalProps) => UseInputRootSlotProps<ExternalProps> */
 
-    var inputRef: react.RefCallback<web.html.HTMLInputElement /* or web.html.HTMLTextAreaElement*/>?
+    var inputRef: react.RefCallback<HTMLInputElement /* or HTMLTextAreaElement*/>?
 
     /**
      * If `true`, the `input` will indicate that it's required.

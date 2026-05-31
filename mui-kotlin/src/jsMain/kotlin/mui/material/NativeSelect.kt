@@ -9,13 +9,16 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import react.dom.events.ChangeEventHandler
 
 external interface NativeSelectProps :
-    mui.system.StandardProps,
+    StandardProps,
     InputProps,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The option elements to populate the select with.
      * Can be some `<option>` elements.
@@ -51,7 +54,7 @@ external interface NativeSelectProps :
      * @param {React.ChangeEvent<HTMLSelectElement>} event The event source of the callback.
      * You can pull out the new value by accessing `event.target.value` (string).
      */
-    var onChange: react.dom.events.ChangeEventHandler<*, *>?
+    var onChange: ChangeEventHandler<*, *>?
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

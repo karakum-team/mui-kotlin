@@ -5,12 +5,18 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.ResponsiveStyleValue
 import mui.system.SxProps
+import mui.system.Union
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface Grid2Props :
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
-    mui.system.PropsWithSx,
-    mui.types.PropsWithComponent {
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithSx,
+    PropsWithComponent {
     override var sx: SxProps<Theme>?
 }
 
@@ -24,13 +30,13 @@ external interface GridBaseProps : react.PropsWithChildren {
      * The number of columns.
      * @default 12
      */
-    var columns: mui.system.ResponsiveStyleValue<Number>?
+    var columns: ResponsiveStyleValue<Number>?
 
     /**
      * Defines the horizontal space between the type `item` components.
      * It overrides the value of the `spacing` prop.
      */
-    var columnSpacing: mui.system.ResponsiveStyleValue<Any /* GridSpacing */>?
+    var columnSpacing: ResponsiveStyleValue<Any /* GridSpacing */>?
 
     /**
      * If `true`, the component will have the flex *container* behavior.
@@ -44,12 +50,12 @@ external interface GridBaseProps : react.PropsWithChildren {
      * It is applied for all screen sizes.
      * @default 'row'
      */
-    var direction: mui.system.ResponsiveStyleValue<GridDirection>?
+    var direction: ResponsiveStyleValue<GridDirection>?
 
     /**
      * Defines the offset value for the type `item` components.
      */
-    var offset: mui.system.ResponsiveStyleValue<Any /* GridOffset */>?
+    var offset: ResponsiveStyleValue<Any /* GridOffset */>?
 
     /**
      * @internal
@@ -84,12 +90,12 @@ external interface GridBaseProps : react.PropsWithChildren {
      * Defines the vertical space between the type `item` components.
      * It overrides the value of the `spacing` prop.
      */
-    var rowSpacing: mui.system.ResponsiveStyleValue<Any /* GridSpacing */>?
+    var rowSpacing: ResponsiveStyleValue<Any /* GridSpacing */>?
 
     /**
      * Defines the size of the the type `item` components.
      */
-    var size: mui.system.ResponsiveStyleValue<mui.system.Union /* 'auto' | 'grow' | number | false */>?
+    var size: ResponsiveStyleValue<Union /* 'auto' | 'grow' | number | false */>?
 
     /**
      * Defines the space between the type `item` components.

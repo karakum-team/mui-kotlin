@@ -5,15 +5,17 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
 
 external interface CardMediaProps :
     CardMediaOwnProps,
-    mui.types.PropsWithComponent
+    PropsWithComponent
 
 external interface CardMediaOwnProps :
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The content of the component.
      */

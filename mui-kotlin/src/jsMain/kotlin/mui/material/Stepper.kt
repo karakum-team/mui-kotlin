@@ -9,19 +9,24 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface StepperProps :
     StepperOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
-    mui.types.PropsWithComponent,
-    mui.system.StandardProps,
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithComponent,
+    StandardProps,
     PaperProps
 
 external interface StepperOwnProps :
     PaperProps,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * Set the active step (zero based index).
      * Set to -1 to disable all the steps.

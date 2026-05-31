@@ -9,13 +9,19 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.material.transitions.TransitionProps
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.events.SyntheticEvent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface AccordionProps :
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
+    HTMLAttributes<HTMLDivElement>,
     react.PropsWithChildren,
-    mui.system.PropsWithSx,
-    mui.types.PropsWithComponent,
+    PropsWithSx,
+    PropsWithComponent,
     PaperProps {
     /**
      * The content of the component.
@@ -57,7 +63,7 @@ external interface AccordionProps :
      * @param {React.SyntheticEvent} event The event source of the callback. **Warning**: This is a generic event not a change event.
      * @param {boolean} expanded The `expanded` state of the accordion.
      */
-    var onChange: ((event: react.dom.events.SyntheticEvent<*, *>, expanded: Boolean) -> Unit)?
+    var onChange: ((event: SyntheticEvent<*, *>, expanded: Boolean) -> Unit)?
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
@@ -76,7 +82,7 @@ external interface AccordionProps :
      * By default, the element is based on this [`Transition`](https://reactcommunity.org/react-transition-group/transition/) component.
      * @deprecated Use `slotProps.transition` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
-    var TransitionProps: mui.material.transitions.TransitionProps?
+    var TransitionProps: TransitionProps?
 }
 
 external interface AccordionSlots {
@@ -114,7 +120,7 @@ external interface AccordionSlotProps : react.Props {
     var heading: Any?
 
     /** TS: SlotComponentProps< React.ElementType, TransitionProps & AccordionTransitionSlotPropsOverrides, AccordionOwnerState > */
-    var transition: mui.material.transitions.TransitionProps?
+    var transition: TransitionProps?
 }
 
 external interface AccordionSlotsAndSlotProps : react.Props {

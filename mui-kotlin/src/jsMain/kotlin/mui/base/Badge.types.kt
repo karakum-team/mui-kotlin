@@ -2,9 +2,12 @@
 
 package mui.base
 
+import react.dom.html.HTMLAttributes
+import web.html.HTMLSpanElement
+
 external interface BadgeProps :
     BadgeOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>
+    HTMLAttributes<HTMLSpanElement>
 
 external interface BadgeRootSlotPropsOverrides
 

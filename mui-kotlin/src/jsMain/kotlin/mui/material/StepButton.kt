@@ -9,16 +9,18 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
 
 external interface StepButtonProps :
     StepButtonOwnProps,
-    mui.types.PropsWithComponent,
+    PropsWithComponent,
     ButtonBaseProps
 
 external interface StepButtonOwnProps :
     react.PropsWithChildren,
-    mui.system.PropsWithSx,
+    PropsWithSx,
     ButtonBaseProps {
     /**
      * Can be a `StepLabel` or a node to place inside `StepLabel` as children.

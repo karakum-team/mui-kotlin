@@ -5,14 +5,18 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface ListItemTextProps :
-    mui.system.StandardProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
+    StandardProps,
+    HTMLAttributes<HTMLDivElement>,
     ListItemTextSlotsAndSlotProps,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * Alias for the `primary` prop.
      */
@@ -91,7 +95,7 @@ external interface ListItemTextSlots {
 
 external interface ListItemTextSlotProps : react.Props {
     /** TS: SlotProps<'div', {}, ListItemTextOwnerState> */
-    var root: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
+    var root: HTMLAttributes<HTMLDivElement>?
 
     /** TS: SlotProps<React.ElementType<TypographyProps>, {}, ListItemTextOwnerState> */
     var primary: TypographyProps?

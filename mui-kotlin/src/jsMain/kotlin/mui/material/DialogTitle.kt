@@ -9,16 +9,18 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
 
 external interface DialogTitleProps :
     DialogTitleOwnProps,
-    mui.types.PropsWithComponent
+    PropsWithComponent
 
 external interface DialogTitleOwnProps :
     TypographyProps,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The content of the component.
      */

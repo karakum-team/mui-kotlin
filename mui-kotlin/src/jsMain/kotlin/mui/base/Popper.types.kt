@@ -4,12 +4,15 @@ package mui.base
 
 import js.array.ReadonlyArray
 import popper.core.Modifier
+import popper.core.Placement
+import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
 import web.dom.Element
+import web.html.HTMLDivElement
 
 external interface PopperProps :
     PopperOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>
+    HTMLAttributes<HTMLDivElement>
 
 external interface PopperRootSlotPropsOverrides
 
@@ -22,7 +25,7 @@ external interface PopperTransitionProps : react.Props {
 }
 
 external interface PopperChildrenProps : react.Props {
-    var placement: popper.core.Placement
+    var placement: Placement
 
     var TransitionProps: PopperTransitionProps?
 }
@@ -93,7 +96,7 @@ external interface PopperOwnProps : react.PropsWithChildren {
      * Popper placement.
      * @default 'bottom'
      */
-    var placement: popper.core.Placement?
+    var placement: Placement?
 
     /**
      * Options provided to the [`Popper.js`](https://popper.js.org/docs/v2/constructors/#options) instance.

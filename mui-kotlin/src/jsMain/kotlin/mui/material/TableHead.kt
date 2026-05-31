@@ -5,16 +5,19 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
 
 external interface TableHeadProps :
     TableHeadOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLTableSectionElement>,
-    mui.types.PropsWithComponent
+    HTMLAttributes<web.html.HTMLTableSectionElement>,
+    PropsWithComponent
 
 external interface TableHeadOwnProps :
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The content of the component, normally `TableRow`.
      */

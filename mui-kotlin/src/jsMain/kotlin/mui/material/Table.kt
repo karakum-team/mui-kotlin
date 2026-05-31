@@ -5,18 +5,21 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.TableHTMLAttributes
 
 external interface TableProps :
     TableOwnProps,
-    react.dom.html.TableHTMLAttributes<web.html.HTMLTableElement>,
-    mui.types.PropsWithComponent
+    TableHTMLAttributes<web.html.HTMLTableElement>,
+    PropsWithComponent
 
 external interface TablePropsSizeOverrides
 
 external interface TableOwnProps :
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The content of the table, normally `TableHead` and `TableBody`.
      */

@@ -5,18 +5,22 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLSpanElement
 
 external interface SkeletonProps :
     SkeletonOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>,
-    mui.types.PropsWithComponent
+    HTMLAttributes<HTMLSpanElement>,
+    PropsWithComponent
 
 external interface SkeletonPropsVariantOverrides
 
 external interface SkeletonOwnProps :
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The animation.
      * If `false` the animation effect is disabled.

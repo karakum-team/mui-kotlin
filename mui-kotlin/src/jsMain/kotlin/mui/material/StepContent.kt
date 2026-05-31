@@ -5,14 +5,19 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.material.transitions.TransitionProps
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface StepContentProps :
-    mui.system.StandardProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
+    StandardProps,
+    HTMLAttributes<HTMLDivElement>,
     StepContentSlotsAndSlotProps,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The content of the component.
      */
@@ -50,7 +55,7 @@ external interface StepContentProps :
      * By default, the element is based on this [`Transition`](https://reactcommunity.org/react-transition-group/transition/) component.
      * @deprecated Use `slotProps.transition` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
-    var TransitionProps: mui.material.transitions.TransitionProps?
+    var TransitionProps: TransitionProps?
 }
 
 external interface StepContentSlots {
@@ -64,7 +69,7 @@ external interface StepContentSlots {
 
 external interface StepContentSlotProps : react.Props {
     /** TS: SlotComponentProps<React.ElementType, CollapseProps, StepContentOwnerState> */
-    var transition: react.dom.html.HTMLAttributes<web.html.HTMLElement>?
+    var transition: HTMLAttributes<web.html.HTMLElement>?
 }
 
 external interface StepContentSlotsAndSlotProps : react.Props {

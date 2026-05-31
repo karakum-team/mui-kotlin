@@ -5,16 +5,20 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface CardContentProps :
     CardContentOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
-    mui.types.PropsWithComponent
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithComponent
 
 external interface CardContentOwnProps :
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The content of the component.
      */

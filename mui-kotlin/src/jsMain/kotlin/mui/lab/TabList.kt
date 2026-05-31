@@ -4,9 +4,11 @@
 
 package mui.lab
 
+import mui.types.PropsWithComponent
+
 external interface TabListProps :
     mui.material.TabsProps,
-    mui.types.PropsWithComponent
+    PropsWithComponent
 
 /**
  *

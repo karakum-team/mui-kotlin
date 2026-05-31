@@ -6,14 +6,20 @@ package mui.material
 
 import js.array.ReadonlyArray
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.system.Union
+import mui.types.PropsWithComponent
+import react.dom.events.SyntheticEvent
+import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
 import web.events.Event
+import web.html.HTMLSpanElement
 
 external interface SliderProps :
     SliderOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>,
-    mui.types.PropsWithComponent
+    HTMLAttributes<HTMLSpanElement>,
+    PropsWithComponent
 
 external interface SliderPropsColorOverrides
 
@@ -31,7 +37,7 @@ external interface SliderOwnerState : SliderProps {
 
 external interface SliderOwnProps :
     react.PropsWithClassName,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The label of the slider.
      */
@@ -188,7 +194,7 @@ external interface SliderOwnProps :
      * @param {React.SyntheticEvent | Event} event The event source of the callback. **Warning**: This is a generic event not a change event.
      * @param {number | number[]} value The new value.
      */
-    var onChangeCommitted: ((event: react.dom.events.SyntheticEvent<*, *>, value: ReadonlyArray<Number>) -> Unit)?
+    var onChangeCommitted: ((event: SyntheticEvent<*, *>, value: ReadonlyArray<Number>) -> Unit)?
 
     /**
      * The component orientation.
@@ -285,7 +291,7 @@ external interface SliderOwnProps :
      * - `false` the track will render without a bar.
      * @default 'normal'
      */
-    var track: mui.system.Union? /* 'normal' | false | 'inverted' */
+    var track: Union? /* 'normal' | false | 'inverted' */
 
     /**
      * The value of the slider.
@@ -301,7 +307,7 @@ external interface SliderOwnProps :
      * - `off` will never display.
      * @default 'off'
      */
-    var valueLabelDisplay: mui.system.Union? /* 'on' | 'auto' | 'off' */
+    var valueLabelDisplay: Union? /* 'on' | 'auto' | 'off' */
 
     /**
      * The format function the value label's value.
@@ -321,7 +327,7 @@ external interface SliderOwnProps :
 
 @Suppress("VIRTUAL_MEMBER_HIDDEN")
 external interface SliderValueLabelProps :
-    react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>,
+    HTMLAttributes<HTMLSpanElement>,
     react.PropsWithChildren {
     override var children: react.ReactNode? /* React.ReactElement<unknown> */
 

@@ -9,15 +9,22 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.material.transitions.TransitionProps
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import react.dom.events.SyntheticEvent
+import react.dom.html.HTMLAttributes
 import web.dom.ElementId
+import web.html.HTMLDivElement
+import web.html.HTMLSpanElement
 
 external interface TooltipProps :
-    mui.system.StandardProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
+    StandardProps,
+    HTMLAttributes<HTMLDivElement>,
     TooltipSlotsAndSlotProps,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * If `true`, adds an arrow to the tooltip.
      * @default false
@@ -152,14 +159,14 @@ external interface TooltipProps :
      *
      * @param {React.SyntheticEvent} event The event source of the callback.
      */
-    var onClose: ((event: react.dom.events.SyntheticEvent<*, *>) -> Unit)?
+    var onClose: ((event: SyntheticEvent<*, *>) -> Unit)?
 
     /**
      * Callback fired when the component requests to be open.
      *
      * @param {React.SyntheticEvent} event The event source of the callback.
      */
-    var onOpen: ((event: react.dom.events.SyntheticEvent<*, *>) -> Unit)?
+    var onOpen: ((event: SyntheticEvent<*, *>) -> Unit)?
 
     /**
      * If `true`, the component is shown.
@@ -208,7 +215,7 @@ external interface TooltipProps :
      * @deprecated use the `slotProps.transition` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      * @default {}
      */
-    var TransitionProps: mui.material.transitions.TransitionProps?
+    var TransitionProps: TransitionProps?
 }
 
 external interface TooltipComponentsPropsOverrides
@@ -251,13 +258,13 @@ external interface TooltipSlotProps : react.Props {
     var popper: PopperProps?
 
     /** TS: SlotProps< React.ElementType, TransitionProps & TooltipTransitionSlotPropsOverrides, TooltipOwnerState > */
-    var transition: mui.material.transitions.TransitionProps?
+    var transition: TransitionProps?
 
     /** TS: SlotProps<'div', TooltipTooltipSlotPropsOverrides, TooltipOwnerState> */
-    var tooltip: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
+    var tooltip: HTMLAttributes<HTMLDivElement>?
 
     /** TS: SlotProps<'span', TooltipArrowSlotPropsOverrides, TooltipOwnerState> */
-    var arrow: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
+    var arrow: HTMLAttributes<HTMLSpanElement>?
 }
 
 external interface TooltipSlotsAndSlotProps : react.Props {

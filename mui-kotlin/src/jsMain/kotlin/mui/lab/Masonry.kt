@@ -5,16 +5,21 @@
 package mui.lab
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.ResponsiveStyleValue
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface MasonryProps :
     MasonryOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
-    mui.types.PropsWithComponent
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithComponent
 
 external interface MasonryOwnProps :
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The content of the component.
      */
@@ -29,7 +34,7 @@ external interface MasonryOwnProps :
      * Number of columns.
      * @default 4
      */
-    var columns: mui.system.ResponsiveStyleValue<Any /* number | string */>?
+    var columns: ResponsiveStyleValue<Any /* number | string */>?
 
     /**
      * The default number of columns of the component. This is provided for server-side rendering.
@@ -50,7 +55,7 @@ external interface MasonryOwnProps :
      * Defines the space between children. It is a factor of the theme's spacing.
      * @default 1
      */
-    var spacing: mui.system.ResponsiveStyleValue<Any /* number | string */>?
+    var spacing: ResponsiveStyleValue<Any /* number | string */>?
 
     /**
      * Allows using sequential order rather than adding to shortest column

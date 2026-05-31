@@ -4,10 +4,11 @@
 
 package muix.tree.view
 
+import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
 
 external interface TreeItemContentProps :
-    react.dom.html.HTMLAttributes<web.html.HTMLElement>,
+    HTMLAttributes<web.html.HTMLElement>,
     react.PropsWithClassName {
     override var className: ClassName?
 

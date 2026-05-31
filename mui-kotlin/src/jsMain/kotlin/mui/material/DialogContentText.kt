@@ -9,15 +9,17 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
 
 external interface DialogContentTextProps :
     DialogContentTextOwnProps,
-    mui.types.PropsWithComponent
+    PropsWithComponent
 
 external interface DialogContentTextOwnProps :
     TypographyProps,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * Override or extend the styles applied to the component.
      */

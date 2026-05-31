@@ -5,12 +5,17 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.events.SyntheticEvent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface TabsProps :
     TabsOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
-    mui.types.PropsWithComponent
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithComponent
 
 external interface TabsPropsIndicatorColorOverrides
 
@@ -105,7 +110,7 @@ external interface TabsOwnerState : TabsProps {
 external interface TabsOwnProps :
     TabsSlotsAndSlotProps,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * Callback fired when the component mounts.
      * This is useful when you want to trigger an action programmatically.
@@ -162,7 +167,7 @@ external interface TabsOwnProps :
      * @param {React.SyntheticEvent} event The event source of the callback. **Warning**: This is a generic event not a change event.
      * @param {any} value We default to the index of the child (number)
      */
-    var onChange: ((event: react.dom.events.SyntheticEvent<*, *>, value: Any) -> Unit)?
+    var onChange: ((event: SyntheticEvent<*, *>, value: Any) -> Unit)?
 
     /**
      * The component orientation (layout flow direction).

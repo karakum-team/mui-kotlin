@@ -9,12 +9,16 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.ButtonHTMLAttributes
+import web.html.HTMLButtonElement
 
 external interface FabProps :
     FabOwnProps,
-    react.dom.html.ButtonHTMLAttributes<web.html.HTMLButtonElement>,
-    mui.types.PropsWithComponent,
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    PropsWithComponent,
     ButtonBaseProps
 
 external interface FabPropsVariantOverrides
@@ -25,7 +29,7 @@ external interface FabPropsColorOverrides
 
 external interface FabOwnProps :
     react.PropsWithChildren,
-    mui.system.PropsWithSx,
+    PropsWithSx,
     ButtonBaseProps {
     /**
      * The content of the component.

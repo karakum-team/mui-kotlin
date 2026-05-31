@@ -9,13 +9,15 @@
 package mui.lab
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
 
 external interface TimelineContentProps :
-    mui.system.StandardProps,
+    StandardProps,
     mui.material.TypographyProps,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The content of the component.
      */

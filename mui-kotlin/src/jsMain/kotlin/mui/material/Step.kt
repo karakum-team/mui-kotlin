@@ -5,17 +5,22 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface StepProps :
     StepOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
-    mui.types.PropsWithComponent,
-    mui.system.StandardProps
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithComponent,
+    StandardProps
 
 external interface StepOwnProps :
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * Sets the step as active. Is passed to child components.
      */

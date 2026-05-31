@@ -5,13 +5,17 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
+import web.html.HTMLSpanElement
 
 external interface IconProps :
     IconOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>,
-    mui.types.PropsWithComponent
+    HTMLAttributes<HTMLSpanElement>,
+    PropsWithComponent
 
 external interface IconPropsSizeOverrides
 
@@ -19,7 +23,7 @@ external interface IconPropsColorOverrides
 
 external interface IconOwnProps :
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The base class applied to the icon. Defaults to 'material-icons', but can be changed to any
      * other base class that suits the icon font you're using (for example material-icons-rounded, fas, etc).

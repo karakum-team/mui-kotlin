@@ -9,18 +9,22 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface AppBarProps :
     AppBarOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
-    mui.types.PropsWithComponent,
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithComponent,
     PaperProps
 
 external interface AppBarPropsColorOverrides
 
 external interface AppBarOwnProps :
-    mui.system.PropsWithSx,
+    PropsWithSx,
     PaperProps {
     /**
      * Override or extend the styles applied to the component.

@@ -9,12 +9,17 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.events.EventHandler
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface ChipProps :
     ChipOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
-    mui.types.PropsWithComponent
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithComponent
 
 external interface ChipPropsVariantOverrides
 
@@ -23,8 +28,8 @@ external interface ChipPropsSizeOverrides
 external interface ChipPropsColorOverrides
 
 external interface ChipOwnProps :
-    mui.system.PropsWithSx,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement> {
+    PropsWithSx,
+    HTMLAttributes<HTMLDivElement> {
     /**
      * The Avatar element to display.
      */
@@ -84,7 +89,7 @@ external interface ChipOwnProps :
      * Callback fired when the delete icon is clicked.
      * If set, the delete icon will be shown.
      */
-    var onDelete: react.dom.events.EventHandler<*>?
+    var onDelete: EventHandler<*>?
 
     /**
      * The size of the component.

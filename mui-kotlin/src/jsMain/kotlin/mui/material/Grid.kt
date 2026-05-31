@@ -5,14 +5,15 @@
 package mui.material
 
 import mui.material.styles.Theme
-import mui.system.Breakpoints
-import mui.system.SxProps
-import mui.system.SystemProps
+import mui.system.*
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface GridProps :
     GridOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
-    mui.types.PropsWithComponent
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithComponent
 
 external interface RegularBreakpoints {
     /**
@@ -75,7 +76,7 @@ external interface GridOwnProps :
     SystemProps<Theme>,
     Breakpoints,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The content of the component.
      */
@@ -90,13 +91,13 @@ external interface GridOwnProps :
      * The number of columns.
      * @default 12
      */
-    var columns: mui.system.ResponsiveStyleValue<Number>?
+    var columns: ResponsiveStyleValue<Number>?
 
     /**
      * Defines the horizontal space between the type `item` components.
      * It overrides the value of the `spacing` prop.
      */
-    var columnSpacing: mui.system.ResponsiveStyleValue<Any /* GridSpacing */>?
+    var columnSpacing: ResponsiveStyleValue<Any /* GridSpacing */>?
 
     /**
      * If `true`, the component will have the flex *container* behavior.
@@ -110,7 +111,7 @@ external interface GridOwnProps :
      * It is applied for all screen sizes.
      * @default 'row'
      */
-    var direction: mui.system.ResponsiveStyleValue<GridDirection>?
+    var direction: ResponsiveStyleValue<GridDirection>?
 
     /**
      * If `true`, the component will have the flex *item* behavior.
@@ -123,14 +124,14 @@ external interface GridOwnProps :
      * Defines the vertical space between the type `item` components.
      * It overrides the value of the `spacing` prop.
      */
-    var rowSpacing: mui.system.ResponsiveStyleValue<Any /* GridSpacing */>?
+    var rowSpacing: ResponsiveStyleValue<Any /* GridSpacing */>?
 
     /**
      * Defines the space between the type `item` components.
      * It can only be used on a type `container` component.
      * @default 0
      */
-    var spacing: mui.system.ResponsiveStyleValue<Any /* GridSpacing */>?
+    var spacing: ResponsiveStyleValue<Any /* GridSpacing */>?
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

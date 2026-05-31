@@ -5,13 +5,17 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import mui.system.Union
+import react.dom.html.HTMLAttributes
 
 external interface PaginationProps :
     UsePaginationProps,
-    mui.system.StandardProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLElement>,
-    mui.system.PropsWithSx {
+    StandardProps,
+    HTMLAttributes<web.html.HTMLElement>,
+    PropsWithSx {
     /**
      * Override or extend the styles applied to the component.
      */
@@ -36,7 +40,7 @@ external interface PaginationProps :
      * @returns {string}
      */
     var getItemAriaLabel: ((
-        type: mui.system.Union, /* UsePaginationItem['type'] */
+        type: Union, /* UsePaginationItem['type'] */
         page: Number?,
         selected: Boolean,
     ) -> String)?

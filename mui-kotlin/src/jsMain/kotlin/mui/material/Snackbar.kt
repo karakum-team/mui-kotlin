@@ -8,14 +8,21 @@
 
 package mui.material
 
+import mui.base.ClickAwayListenerProps
 import mui.material.styles.Theme
+import mui.material.transitions.TransitionProps
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import react.dom.events.SyntheticEvent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface SnackbarProps :
-    mui.system.StandardProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
+    StandardProps,
+    HTMLAttributes<HTMLDivElement>,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The action to display. It renders after the message, at the end of the snackbar.
      */
@@ -52,7 +59,7 @@ external interface SnackbarProps :
      * Props applied to the `ClickAwayListener` element.
      * @deprecated Use `slotProps.clickAwayListener` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
-    var ClickAwayListenerProps: mui.base.ClickAwayListenerProps?
+    var ClickAwayListenerProps: ClickAwayListenerProps?
 
     /**
      * Props applied to the [`SnackbarContent`](https://mui.com/material-ui/api/snackbar-content/) element.
@@ -89,7 +96,7 @@ external interface SnackbarProps :
      * @param {React.SyntheticEvent<any> | Event} event The event source of the callback.
      * @param {string} reason Can be: `"timeout"` (`autoHideDuration` expired), `"clickaway"`, or `"escapeKeyDown"`.
      */
-    var onClose: ((event: react.dom.events.SyntheticEvent<*, *>, reason: SnackbarCloseReason) -> Unit)?
+    var onClose: ((event: SyntheticEvent<*, *>, reason: SnackbarCloseReason) -> Unit)?
 
     /**
      * If `true`, the component is shown.
@@ -133,7 +140,7 @@ external interface SnackbarProps :
      * @deprecated Use `slotProps.transition` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      * @default {}
      */
-    var TransitionProps: mui.material.transitions.TransitionProps?
+    var TransitionProps: TransitionProps?
 }
 
 external interface SnackbarSlots {
@@ -173,16 +180,16 @@ external interface SnackbarTransitionSlotPropsOverrides
 
 external interface SnackbarSlotProps : react.Props {
     /** TS: SlotProps<'div', SnackbarRootSlotPropsOverrides, SnackbarOwnerState> */
-    var root: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
+    var root: HTMLAttributes<HTMLDivElement>?
 
     /** TS: SlotProps< React.ElementType<SnackbarContentProps>, SnackbarContentSlotPropsOverrides, SnackbarOwnerState > */
     var content: SnackbarContentProps?
 
     /** TS: SlotComponentProps< typeof ClickAwayListener, SnackbarClickAwayListenerSlotPropsOverrides, SnackbarOwnerState > */
-    var clickAwayListener: mui.base.ClickAwayListenerProps?
+    var clickAwayListener: ClickAwayListenerProps?
 
     /** TS: SlotComponentProps< React.ElementType, TransitionProps & SnackbarTransitionSlotPropsOverrides, SnackbarOwnerState > */
-    var transition: mui.material.transitions.TransitionProps?
+    var transition: TransitionProps?
 }
 
 external interface SnackbarSlotsAndSlotProps : react.Props {

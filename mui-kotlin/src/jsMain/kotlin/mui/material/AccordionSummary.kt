@@ -5,12 +5,16 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface AccordionSummaryProps :
     AccordionSummaryOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
-    mui.types.PropsWithComponent
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithComponent
 
 external interface AccordionSummarySlots {
     /**
@@ -43,10 +47,10 @@ external interface AccordionSummarySlotProps : react.Props {
     var root: ButtonBaseProps?
 
     /** TS: SlotProps< 'div', AccordionSummaryContentSlotPropsOverrides, AccordionSummaryOwnerState > */
-    var content: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
+    var content: HTMLAttributes<HTMLDivElement>?
 
     /** TS: SlotProps< 'div', AccordionSummaryExpandIconWrapperSlotPropsOverrides, AccordionSummaryOwnerState > */
-    var expandIconWrapper: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
+    var expandIconWrapper: HTMLAttributes<HTMLDivElement>?
 }
 
 external interface AccordionSummarySlotsAndSlotProps : react.Props {
@@ -58,7 +62,7 @@ external interface AccordionSummarySlotsAndSlotProps : react.Props {
 external interface AccordionSummaryOwnProps :
     AccordionSummarySlotsAndSlotProps,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     override var children: react.ReactNode?
 
     /**

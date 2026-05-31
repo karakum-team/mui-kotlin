@@ -5,12 +5,15 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
 
 external interface BreadcrumbsProps :
     BreadcrumbsOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLElement>,
-    mui.types.PropsWithComponent
+    HTMLAttributes<web.html.HTMLElement>,
+    PropsWithComponent
 
 external interface BreadcrumbsCollapsedIconSlotPropsOverrides
 
@@ -20,7 +23,7 @@ external interface BreadcrumbsOwnerState : BreadcrumbsProps {
 
 external interface BreadcrumbsOwnProps :
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The content of the component.
      */

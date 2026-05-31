@@ -5,11 +5,19 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.system.Union
+import mui.types.PropsWithComponent
+import react.dom.events.ChangeEventHandler
+import react.dom.events.MouseEvent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLButtonElement
+import web.html.HTMLDivElement
 
 external interface TablePaginationProps :
     TablePaginationOwnProps,
-    mui.types.PropsWithComponent
+    PropsWithComponent
 
 external interface LabelDisplayedRowsArgs {
     var from: Number
@@ -98,7 +106,7 @@ external interface TablePaginationSlotProps : react.Props {
     var toolbar: ToolbarProps?
 
     /** TS: SlotProps<'div', TablePaginationSpacerSlotPropsOverrides, TablePaginationOwnerState> */
-    var spacer: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
+    var spacer: HTMLAttributes<HTMLDivElement>?
 
     /** TS: SlotProps< 'p', TablePaginationSelectLabelSlotPropsOverrides, TablePaginationOwnerState > */
     var selectLabel: Any?
@@ -124,7 +132,7 @@ external interface TablePaginationSlotsAndSlotProps : react.Props {
 
 external interface TablePaginationOwnProps :
     TablePaginationBaseProps,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The component used for displaying the actions.
      * Either a string to use a HTML element or a component.
@@ -169,7 +177,7 @@ external interface TablePaginationOwnProps :
      *   return `Go to ${type} page`;
      * }
      */
-    var getItemAriaLabel: ((type: mui.system.Union /* 'first' | 'last' | 'next' | 'previous' */) -> String)?
+    var getItemAriaLabel: ((type: Union /* 'first' | 'last' | 'next' | 'previous' */) -> String)?
 
     /**
      * Customize the displayed rows label. Invoked with a `{ from, to, count, page }`
@@ -204,14 +212,14 @@ external interface TablePaginationOwnProps :
      * @param {React.MouseEvent<HTMLButtonElement> | null} event The event source of the callback.
      * @param {number} page The page selected.
      */
-    var onPageChange: (event: react.dom.events.MouseEvent<web.html.HTMLButtonElement, *>?, page: Number) -> Unit
+    var onPageChange: (event: MouseEvent<HTMLButtonElement, *>?, page: Number) -> Unit
 
     /**
      * Callback fired when the number of rows per page is changed.
      *
      * @param {React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>} event The event source of the callback.
      */
-    var onRowsPerPageChange: react.dom.events.ChangeEventHandler<web.html.HTMLElement, *>?
+    var onRowsPerPageChange: ChangeEventHandler<web.html.HTMLElement, *>?
 
     /**
      * The zero-based index of the current page.

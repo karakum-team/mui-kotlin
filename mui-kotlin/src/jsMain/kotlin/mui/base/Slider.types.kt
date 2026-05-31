@@ -2,9 +2,13 @@
 
 package mui.base
 
+import mui.system.Union
+import react.dom.html.HTMLAttributes
+import web.html.HTMLSpanElement
+
 external interface SliderProps :
     SliderOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>
+    HTMLAttributes<HTMLSpanElement>
 
 external interface SliderRootSlotPropsOverrides
 
@@ -91,7 +95,7 @@ external interface SliderOwnProps :
      * - `false` the track will render without a bar.
      * @default 'normal'
      */
-    var track: mui.system.Union? /* 'normal' | false | 'inverted' */
+    var track: Union? /* 'normal' | false | 'inverted' */
 
     /**
      * The format function the value label's value.

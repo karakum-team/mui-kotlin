@@ -5,16 +5,19 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
 
 external interface TableRowProps :
     TableRowOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLTableRowElement>,
-    mui.types.PropsWithComponent
+    HTMLAttributes<web.html.HTMLTableRowElement>,
+    PropsWithComponent
 
 external interface TableRowOwnProps :
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * Should be valid `<tr>` children such as `TableCell`.
      */

@@ -5,18 +5,22 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLParagraphElement
 
 external interface FormHelperTextProps :
     FormHelperTextOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLParagraphElement>,
-    mui.types.PropsWithComponent
+    HTMLAttributes<HTMLParagraphElement>,
+    PropsWithComponent
 
 external interface FormHelperTextPropsVariantOverrides
 
 external interface FormHelperTextOwnProps :
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The content of the component.
      *

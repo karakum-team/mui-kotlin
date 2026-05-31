@@ -5,18 +5,22 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLHRElement
 
 external interface DividerProps :
     DividerOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLHRElement>,
-    mui.types.PropsWithComponent
+    HTMLAttributes<HTMLHRElement>,
+    PropsWithComponent
 
 external interface DividerPropsVariantOverrides
 
 external interface DividerOwnProps :
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * Absolutely position the element.
      * @default false

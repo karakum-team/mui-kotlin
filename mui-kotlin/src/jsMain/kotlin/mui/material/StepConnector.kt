@@ -5,12 +5,16 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface StepConnectorProps :
-    mui.system.StandardProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
-    mui.system.PropsWithSx {
+    StandardProps,
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithSx {
     /**
      * Override or extend the styles applied to the component.
      */

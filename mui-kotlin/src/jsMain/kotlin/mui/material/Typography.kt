@@ -5,13 +5,17 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.system.SystemProps
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLSpanElement
 
 external interface TypographyProps :
     TypographyOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>,
-    mui.types.PropsWithComponent
+    HTMLAttributes<HTMLSpanElement>,
+    PropsWithComponent
 
 external interface TypographyPropsVariantOverrides
 
@@ -20,7 +24,7 @@ external interface TypographyPropsColorOverrides
 external interface TypographyOwnProps :
     SystemProps<Theme>,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * Set the text-align on the component.
      * @default 'inherit'

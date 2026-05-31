@@ -9,12 +9,16 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import mui.system.Union
+import react.dom.events.SyntheticEvent
 
 external interface AlertProps :
-    mui.system.StandardProps,
+    StandardProps,
     PaperProps,
-    mui.system.PropsWithSx,
+    PropsWithSx,
     AlertSlots {
     /**
      * The action to display. It renders after the message, at the end of the alert.
@@ -74,7 +78,7 @@ external interface AlertProps :
      * The severity of the alert. This defines the color and icon used.
      * @default 'success'
      */
-    var severity: mui.system.Union? /* AlertColor, AlertPropsColorOverrides */
+    var severity: Union? /* AlertColor, AlertPropsColorOverrides */
 
     /**
      * Override the icon displayed before the children.
@@ -104,7 +108,7 @@ external interface AlertProps :
      * When provided and no `action` prop is set, a close icon button is displayed that triggers the callback when clicked.
      * @param {React.SyntheticEvent} event The event source of the callback.
      */
-    var onClose: ((event: react.dom.events.SyntheticEvent<*, *>) -> Unit)?
+    var onClose: ((event: SyntheticEvent<*, *>) -> Unit)?
 
     /**
      * The variant to use.

@@ -4,10 +4,11 @@
 
 package mui.material
 
+import mui.material.transitions.TransitionProps
 import web.dom.Element
 
 external interface SlideProps :
-    mui.material.transitions.TransitionProps,
+    TransitionProps,
     react.PropsWithChildren {
     /**
      * Perform the enter transition when it first mounts if `in` is also `true`.

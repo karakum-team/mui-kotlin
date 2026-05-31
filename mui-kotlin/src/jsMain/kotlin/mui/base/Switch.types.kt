@@ -2,11 +2,13 @@
 
 package mui.base
 
+import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
+import web.html.HTMLSpanElement
 
 external interface SwitchProps :
     SwitchOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>
+    HTMLAttributes<HTMLSpanElement>
 
 external interface SwitchRootSlotPropsOverrides
 

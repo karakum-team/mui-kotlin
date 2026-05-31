@@ -5,15 +5,18 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.material.transitions.TransitionProps
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
 import web.cssom.ClassName
 
 external interface CollapseProps :
-    mui.system.StandardProps,
-    mui.material.transitions.TransitionProps,
+    StandardProps,
+    TransitionProps,
     react.PropsWithChildren,
     react.PropsWithClassName,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The content node to be collapsed.
      */
@@ -36,7 +39,7 @@ external interface CollapseProps :
      * The component used for the root node.
      * Either a string to use a HTML element or a component.
      */
-    var component: react.ElementType<mui.material.transitions.TransitionProps>?
+    var component: react.ElementType<TransitionProps>?
 
     /**
      * The transition timing function.

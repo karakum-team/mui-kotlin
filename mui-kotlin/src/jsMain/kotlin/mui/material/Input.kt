@@ -9,12 +9,14 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
 
 external interface InputProps :
-    mui.system.StandardProps,
+    StandardProps,
     InputBaseProps,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * Override or extend the styles applied to the component.
      */

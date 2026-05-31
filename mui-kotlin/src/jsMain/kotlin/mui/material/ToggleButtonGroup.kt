@@ -5,13 +5,18 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import react.dom.events.MouseEvent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface ToggleButtonGroupProps :
-    mui.system.StandardProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
+    StandardProps,
+    HTMLAttributes<HTMLDivElement>,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The content of the component.
      */
@@ -56,7 +61,7 @@ external interface ToggleButtonGroupProps :
      * this is a single value; when false an array of selected values. If no value
      * is selected and `exclusive` is true the value is null; when false an empty array.
      */
-    var onChange: ((event: react.dom.events.MouseEvent<web.html.HTMLElement, *>, value: Any) -> Unit)?
+    var onChange: ((event: MouseEvent<web.html.HTMLElement, *>, value: Any) -> Unit)?
 
     /**
      * The component orientation (layout flow direction).

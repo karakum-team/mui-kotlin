@@ -3,6 +3,9 @@
 package mui.base
 
 import js.array.ReadonlyArray
+import mui.system.Union
+import react.dom.events.SyntheticEvent
+import web.dom.Element
 import web.html.HTMLElement
 
 external interface ListState<ItemValue> {
@@ -79,19 +82,19 @@ external interface UseListParameters<ItemValue, State, CustomAction, CustomActio
     /**
      * Ref to the list root DOM element.
      */
-    var rootRef: react.Ref<web.dom.Element>?
+    var rootRef: react.Ref<Element>?
 
     /**
      * Callback fired when the selected value changes.
      * This is a strongly typed convenience event that can be used instead of `onStateChange`.
      */
-    var onChange: ((event: react.dom.events.SyntheticEvent<*, *>?, value: ReadonlyArray<ItemValue>, reason: String) -> Unit)?
+    var onChange: ((event: SyntheticEvent<*, *>?, value: ReadonlyArray<ItemValue>, reason: String) -> Unit)?
 
     /**
      * Callback fired when the highlighted option changes.
      * This is a strongly typed convenience event that can be used instead of `onStateChange`.
      */
-    var onHighlightChange: ((event: react.dom.events.SyntheticEvent<*, *>?, option: ItemValue?, reason: String) -> Unit)?
+    var onHighlightChange: ((event: SyntheticEvent<*, *>?, option: ItemValue?, reason: String) -> Unit)?
 
     /**
      * Callback fired when the items change.
@@ -141,13 +144,13 @@ external interface UseListParameters<ItemValue, State, CustomAction, CustomActio
      * Orientation of the items in the list.
      * Determines the actions that are performed when arrow keys are pressed.
      */
-    var orientation: mui.system.Union? /* 'horizontal-ltr' | 'horizontal-rtl' | 'vertical' */
+    var orientation: Union? /* 'horizontal-ltr' | 'horizontal-rtl' | 'vertical' */
 
     /**
      * Controls how many items can be selected at once: none (the selection functionality is disabled in this case), one, or indefinitely many.
      * @default 'single'
      */
-    var selectionMode: mui.system.Union? /* 'none' | 'single' | 'multiple' */
+    var selectionMode: Union? /* 'none' | 'single' | 'multiple' */
 
     /**
      * Custom state reducer function. It calculates the new state (highlighted and selected items + optional custom state)
@@ -192,7 +195,7 @@ external interface UseListReturnValue {
      */
     var getRootProps: react.Props /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseListRootSlotProps<ExternalProps> */
 
-    var rootRef: react.RefCallback<web.dom.Element>?
+    var rootRef: react.RefCallback<Element>?
 
     var state: Any? /* State */
 }

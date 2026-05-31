@@ -9,13 +9,18 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import react.dom.events.ChangeEvent
+import react.dom.html.InputHTMLAttributes
 import web.dom.ElementId
+import web.html.HTMLInputElement
 
 external interface CheckboxProps :
-    mui.system.StandardProps,
+    StandardProps,
     SwitchBaseProps,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * If `true`, the component is checked.
      */
@@ -84,7 +89,7 @@ external interface CheckboxProps :
      * @param {React.ChangeEvent<HTMLInputElement>} event The event source of the callback.
      * You can pull out the new checked state by accessing `event.target.checked` (boolean).
      */
-    var onChange: ((event: react.dom.events.ChangeEvent<web.html.HTMLInputElement, *>, checked: Boolean) -> Unit)?
+    var onChange: ((event: ChangeEvent<HTMLInputElement, *>, checked: Boolean) -> Unit)?
 
     /**
      * If `true`, the `input` element is required.
@@ -138,7 +143,7 @@ external interface CheckboxSlotProps : react.Props {
     var root: SwitchBaseProps?
 
     /** TS: SlotProps<'input', CheckboxInputSlotPropsOverrides, CheckboxOwnerState> */
-    var input: react.dom.html.InputHTMLAttributes<web.html.HTMLInputElement>?
+    var input: InputHTMLAttributes<HTMLInputElement>?
 }
 
 external interface CheckboxSlotsAndSlotProps : react.Props {

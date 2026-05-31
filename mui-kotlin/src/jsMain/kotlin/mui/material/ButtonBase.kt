@@ -5,17 +5,22 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.events.FocusEventHandler
+import react.dom.html.ButtonHTMLAttributes
 import web.cssom.ClassName
+import web.html.HTMLButtonElement
 
 external interface ButtonBaseProps :
     ButtonBaseOwnProps,
-    react.dom.html.ButtonHTMLAttributes<web.html.HTMLButtonElement>,
-    mui.types.PropsWithComponent
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    PropsWithComponent
 
 external interface ButtonBaseOwnProps :
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * A ref for imperative actions.
      * It currently only supports `focusVisible()` action.
@@ -86,7 +91,7 @@ external interface ButtonBaseOwnProps :
      * Callback fired when the component is focused with a keyboard.
      * We trigger a `onFocus` callback too.
      */
-    var onFocusVisible: react.dom.events.FocusEventHandler<*>?
+    var onFocusVisible: FocusEventHandler<*>?
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

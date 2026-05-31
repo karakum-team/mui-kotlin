@@ -9,12 +9,15 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.svg.SVGAttributes
 
 external interface SvgIconProps :
     SvgIconOwnProps,
-    react.dom.svg.SVGAttributes<web.svg.SVGSVGElement>,
-    mui.types.PropsWithComponent
+    SVGAttributes<web.svg.SVGSVGElement>,
+    PropsWithComponent
 
 external interface SvgIconPropsSizeOverrides
 
@@ -22,8 +25,8 @@ external interface SvgIconPropsColorOverrides
 
 external interface SvgIconOwnProps :
     react.PropsWithChildren,
-    mui.system.PropsWithSx,
-    react.dom.svg.SVGAttributes<web.svg.SVGSVGElement> {
+    PropsWithSx,
+    SVGAttributes<web.svg.SVGSVGElement> {
     /**
      * Node passed into the SVG element.
      */

@@ -2,4 +2,6 @@
 
 package mui.material
 
-typealias TooltipPlacement = popper.core.Placement
+import popper.core.Placement
+
+typealias TooltipPlacement = Placement

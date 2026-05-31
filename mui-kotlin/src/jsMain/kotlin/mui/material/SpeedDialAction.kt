@@ -9,12 +9,16 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import react.dom.html.HTMLAttributes
+import web.html.HTMLSpanElement
 
 external interface SpeedDialActionProps :
-    mui.system.StandardProps,
+    StandardProps,
     TooltipProps,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * Override or extend the styles applied to the component.
      */
@@ -112,10 +116,10 @@ external interface SpeedDialActionSlotProps : react.Props {
     var tooltip: TooltipProps?
 
     /** TS: SlotProps< 'span', SpeedDialActionStaticTooltipSlotPropsOverrides, SpeedDialActionOwnerState > */
-    var staticTooltip: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
+    var staticTooltip: HTMLAttributes<HTMLSpanElement>?
 
     /** TS: SlotProps< 'span', SpeedDialActionStaticTooltipLabelSlotPropsOverrides, SpeedDialActionOwnerState > */
-    var staticTooltipLabel: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
+    var staticTooltipLabel: HTMLAttributes<HTMLSpanElement>?
 }
 
 external interface SpeedDialActionSlotsAndSlotProps : react.Props {

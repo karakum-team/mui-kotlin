@@ -9,12 +9,16 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import react.dom.html.InputHTMLAttributes
+import web.html.HTMLInputElement
 
 external interface RadioProps :
-    mui.system.StandardProps,
+    StandardProps,
     SwitchBaseProps,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The icon to display when the component is checked.
      * @default <RadioButtonIcon checked />
@@ -85,7 +89,7 @@ external interface RadioSlotProps : react.Props {
     var root: SwitchBaseProps?
 
     /** TS: SlotProps<'input', RadioInputSlotPropsOverrides, RadioOwnerState> */
-    var input: react.dom.html.InputHTMLAttributes<web.html.HTMLInputElement>?
+    var input: InputHTMLAttributes<HTMLInputElement>?
 }
 
 external interface RadioSlotsAndSlotProps : react.Props {

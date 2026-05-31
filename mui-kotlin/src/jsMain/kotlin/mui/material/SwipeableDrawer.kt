@@ -8,6 +8,8 @@
 
 package mui.material
 
+import react.dom.events.ReactEventHandler
+
 external interface SwipeableDrawerProps :
     DrawerProps {
     /**
@@ -67,14 +69,14 @@ external interface SwipeableDrawerProps :
      *
      * @param {React.SyntheticEvent<{}>} event The event source of the callback.
      */
-    var onClose: react.dom.events.ReactEventHandler<*>
+    var onClose: ReactEventHandler<*>
 
     /**
      * Callback fired when the component requests to be opened.
      *
      * @param {React.SyntheticEvent<{}>} event The event source of the callback.
      */
-    var onOpen: react.dom.events.ReactEventHandler<*>
+    var onOpen: ReactEventHandler<*>
 
     /**
      * If `true`, the component is shown.

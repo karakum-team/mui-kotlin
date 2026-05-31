@@ -2,6 +2,9 @@
 
 package mui.base
 
+import react.dom.events.MouseEventHandler
+import react.dom.events.SyntheticEvent
+import web.dom.Element
 import web.dom.ElementId
 
 external interface UseTabParameters {
@@ -15,12 +18,12 @@ external interface UseTabParameters {
     /**
      * Callback invoked when new value is being set.
      */
-    var onChange: ((event: react.dom.events.SyntheticEvent<*, *>, value: Any /* Number | String */) -> Unit)?
+    var onChange: ((event: SyntheticEvent<*, *>, value: Any /* Number | String */) -> Unit)?
 
     /**
      * Callback fired when the tab is clicked.
      */
-    var onClick: react.dom.events.MouseEventHandler<*>?
+    var onClick: MouseEventHandler<*>?
 
     /**
      * If `true`, the tab will be disabled.
@@ -36,7 +39,7 @@ external interface UseTabParameters {
     /**
      * Ref to the root slot's DOM element.
      */
-    var rootRef: react.Ref<web.dom.Element>?
+    var rootRef: react.Ref<Element>?
 }
 
 external interface UseTabReturnValue {
@@ -71,7 +74,7 @@ external interface UseTabReturnValue {
     /**
      * Ref to the root slot's DOM element.
      */
-    var rootRef: react.RefCallback<web.dom.Element>?
+    var rootRef: react.RefCallback<Element>?
 
     /**
      * If `true`, the tab is selected.

@@ -5,12 +5,14 @@ package muix.pickers
 import js.array.ReadonlyArray
 import mui.material.SlideDirection
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.system.Union
 import web.cssom.ClassName
 
 external interface PickersCalendarHeaderProps<TDate> :
     react.PropsWithClassName,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * Overridable component slots.
      * @default {}
@@ -35,7 +37,7 @@ external interface PickersCalendarHeaderProps<TDate> :
 
     var reduceAnimations: Boolean
 
-    var onViewChange: ((view: mui.system.Union /* 'year' | 'month' | 'day' */) -> Unit)?
+    var onViewChange: ((view: Union /* 'year' | 'month' | 'day' */) -> Unit)?
 
     /**
      * Id of the calendar text element.

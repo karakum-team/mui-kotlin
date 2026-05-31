@@ -886,10 +886,13 @@ private fun fileContent(
     body: String,
     pkg: Package,
 ): String {
+    val (resolvedBody, addedImports) = resolveImportedFqns(body, pkg)
     val defaultImports = DEFAULT_IMPORTS
-        .filter { it.first in body }
+        .filter { it.first in resolvedBody }
         .map { it.second }
-        .plus(systemImports(body, pkg))
+        .plus(systemImports(resolvedBody, pkg))
+        .plus(addedImports)
+        .distinct()
         .map { "import $it" }
         .joinToString("\n")
 
@@ -898,10 +901,113 @@ private fun fileContent(
         annotations,
         "package ${pkg.pkg}",
         defaultImports,
-        body,
+        resolvedBody,
     ).filter { it.isNotEmpty() }
         .joinToString("\n\n")
         .removeSuffix("\n") + "\n"
+}
+
+// Cross-package types that should appear as short names in body and be imported at the top.
+// FQN is replaced with the short name (last segment after `.`); if the FQN's package matches
+// the file's package, the prefix is just stripped (no import). Otherwise an `import FQN` is added.
+// Negative lookahead `(?![A-Za-z0-9_])` ensures `react.dom.events.MouseEvent` doesn't accidentally
+// match inside `react.dom.events.MouseEventHandler`.
+private val IMPORTED_FQNS = listOf(
+    // mui.base
+    "mui.base.BadgeOwnProps",
+    "mui.base.ClickAwayListenerProps",
+    "mui.base.Orientation",
+    "mui.base.PopperOwnProps",
+    "mui.base.PopperProps",
+    "mui.base.UseAutocompleteProps",
+
+    // mui.material.transitions
+    "mui.material.transitions.TransitionProps",
+
+    // mui.types
+    "mui.types.PropsWithComponent",
+
+    // mui.system
+    "mui.system.ContainerClasses",
+    "mui.system.PropsWithSx",
+    "mui.system.ResponsiveStyleValue",
+    "mui.system.StackClasses",
+    "mui.system.StandardProps",
+    "mui.system.Union",
+
+    // popper.core
+    "popper.core.Placement",
+
+    // react.dom.aria
+    "react.dom.aria.AriaRole",
+
+    // react.dom.events (order doesn't matter due to negative-lookahead in replace)
+    "react.dom.events.ChangeEvent",
+    "react.dom.events.ChangeEventHandler",
+    "react.dom.events.EventHandler",
+    "react.dom.events.FocusEventHandler",
+    "react.dom.events.KeyboardEventHandler",
+    "react.dom.events.MouseEvent",
+    "react.dom.events.MouseEventHandler",
+    "react.dom.events.ReactEventHandler",
+    "react.dom.events.SyntheticEvent",
+
+    // react.dom.html
+    "react.dom.html.AnchorHTMLAttributes",
+    "react.dom.html.ButtonHTMLAttributes",
+    "react.dom.html.FieldsetHTMLAttributes",
+    "react.dom.html.FormHTMLAttributes",
+    "react.dom.html.HTMLAttributes",
+    "react.dom.html.ImgHTMLAttributes",
+    "react.dom.html.InputHTMLAttributes",
+    "react.dom.html.LabelHTMLAttributes",
+    "react.dom.html.LiHTMLAttributes",
+    "react.dom.html.TableHTMLAttributes",
+    "react.dom.html.TdAlign",
+    "react.dom.html.TdHTMLAttributes",
+    "react.dom.html.TextareaHTMLAttributes",
+
+    // react.dom.svg
+    "react.dom.svg.SVGAttributes",
+
+    // web
+    "web.cssom.ClassName",
+    "web.dom.Element",
+    "web.dom.ElementId",
+    "web.dom.Node",
+    "web.events.EventTarget",
+    "web.html.HTMLAnchorElement",
+    "web.html.HTMLButtonElement",
+    "web.html.HTMLDivElement",
+    "web.html.HTMLFieldSetElement",
+    "web.html.HTMLFormElement",
+    "web.html.HTMLHRElement",
+    "web.html.HTMLImageElement",
+    "web.html.HTMLInputElement",
+    "web.html.HTMLLIElement",
+    "web.html.HTMLLabelElement",
+    "web.html.HTMLParagraphElement",
+    "web.html.HTMLSpanElement",
+    "web.html.HTMLTextAreaElement",
+)
+
+private fun resolveImportedFqns(
+    body: String,
+    pkg: Package,
+): Pair<String, List<String>> {
+    var rewritten = body
+    val imports = mutableListOf<String>()
+    for (fqn in IMPORTED_FQNS) {
+        val shortName = fqn.substringAfterLast(".")
+        val fqnPkg = fqn.substringBeforeLast(".")
+        val pattern = Regex(Regex.escape(fqn) + "(?![A-Za-z0-9_])")
+        if (!pattern.containsMatchIn(rewritten)) continue
+        rewritten = pattern.replace(rewritten, shortName)
+        if (fqnPkg != pkg.pkg) {
+            imports.add(fqn)
+        }
+    }
+    return rewritten to imports
 }
 
 private fun systemImports(

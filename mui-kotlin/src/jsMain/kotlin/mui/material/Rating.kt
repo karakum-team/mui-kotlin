@@ -10,15 +10,22 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.events.SyntheticEvent
+import react.dom.html.HTMLAttributes
+import react.dom.html.LabelHTMLAttributes
+import web.html.HTMLLabelElement
+import web.html.HTMLSpanElement
 
 external interface RatingProps :
     RatingOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>,
-    mui.types.PropsWithComponent
+    HTMLAttributes<HTMLSpanElement>,
+    PropsWithComponent
 
 external interface IconContainerProps :
-    react.dom.html.HTMLAttributes<web.html.HTMLSpanElement> {
+    HTMLAttributes<HTMLSpanElement> {
     var value: Number
 }
 
@@ -60,16 +67,16 @@ external interface RatingSlots {
 
 external interface RatingSlotProps : react.Props {
     /** TS: SlotProps<'span', RatingRootSlotPropsOverrides, RatingOwnerState> */
-    var root: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
+    var root: HTMLAttributes<HTMLSpanElement>?
 
     /** TS: SlotProps<'label', RatingLabelSlotPropsOverrides, RatingOwnerState> */
-    var label: react.dom.html.LabelHTMLAttributes<web.html.HTMLLabelElement>?
+    var label: LabelHTMLAttributes<HTMLLabelElement>?
 
     /** TS: SlotProps<'span', RatingIconSlotPropsOverrides, RatingOwnerState> */
-    var icon: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
+    var icon: HTMLAttributes<HTMLSpanElement>?
 
     /** TS: SlotProps<'span', RatingDecimalSlotPropsOverrides, RatingOwnerState> */
-    var decimal: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
+    var decimal: HTMLAttributes<HTMLSpanElement>?
 }
 
 external interface RatingSlotsAndSlotProps : react.Props {
@@ -80,7 +87,7 @@ external interface RatingSlotsAndSlotProps : react.Props {
 
 external interface RatingOwnProps :
     RatingSlotsAndSlotProps,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * Override or extend the styles applied to the component.
      */
@@ -163,14 +170,14 @@ external interface RatingOwnProps :
      * @param {React.SyntheticEvent} event The event source of the callback.
      * @param {number|null} value The new value.
      */
-    var onChange: ((event: react.dom.events.SyntheticEvent<*, *>, value: Number?) -> Unit)?
+    var onChange: ((event: SyntheticEvent<*, *>, value: Number?) -> Unit)?
 
     /**
      * Callback function that is fired when the hover state changes.
      * @param {React.SyntheticEvent} event The event source of the callback.
      * @param {number} value The new value.
      */
-    var onChangeActive: ((event: react.dom.events.SyntheticEvent<*, *>, value: Number) -> Unit)?
+    var onChangeActive: ((event: SyntheticEvent<*, *>, value: Number) -> Unit)?
 
     /**
      * The minimum increment value change allowed.

@@ -9,13 +9,18 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.material.transitions.TransitionProps
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface DrawerProps :
-    mui.system.StandardProps,
+    StandardProps,
     ModalProps,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * Side from which the drawer will appear.
      * @default 'left'
@@ -145,13 +150,13 @@ external interface DrawerSlotProps : react.Props {
     var backdrop: BackdropProps?
 
     /** TS: SlotProps<'div', DrawerDockedSlotPropsOverrides, DrawerOwnerState> */
-    var docked: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
+    var docked: HTMLAttributes<HTMLDivElement>?
 
     /** TS: SlotProps< React.ElementType<PaperProps>, DrawerPaperSlotPropsOverrides, DrawerOwnerState > */
     var paper: PaperProps?
 
     /** TS: SlotProps< React.ElementType, TransitionProps & DrawerTransitionSlotPropsOverrides, DrawerOwnerState > */
-    var transition: mui.material.transitions.TransitionProps?
+    var transition: TransitionProps?
 }
 
 external interface DrawerSlotsAndSlotProps : react.Props {

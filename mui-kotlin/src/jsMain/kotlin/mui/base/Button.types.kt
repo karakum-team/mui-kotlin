@@ -2,12 +2,14 @@
 
 package mui.base
 
+import react.dom.html.ButtonHTMLAttributes
 import web.cssom.ClassName
+import web.html.HTMLButtonElement
 import web.html.HTMLElement
 
 external interface ButtonProps :
     ButtonOwnProps,
-    react.dom.html.ButtonHTMLAttributes<web.html.HTMLButtonElement>
+    ButtonHTMLAttributes<HTMLButtonElement>
 
 external interface ButtonActions {
     fun focusVisible()

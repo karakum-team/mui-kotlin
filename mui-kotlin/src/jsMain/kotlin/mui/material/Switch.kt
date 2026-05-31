@@ -9,12 +9,18 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import react.dom.html.HTMLAttributes
+import react.dom.html.InputHTMLAttributes
+import web.html.HTMLInputElement
+import web.html.HTMLSpanElement
 
 external interface SwitchProps :
-    mui.system.StandardProps,
+    StandardProps,
     SwitchBaseProps,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The icon to display when the component is checked.
      */
@@ -110,19 +116,19 @@ external interface SwitchSlots {
 
 external interface SwitchSlotProps : react.Props {
     /** TS: SlotProps<'span', SwitchRootSlotPropsOverrides, SwitchOwnerState> */
-    var root: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
+    var root: HTMLAttributes<HTMLSpanElement>?
 
     /** TS: SlotProps<'span', SwitchTrackSlotPropsOverrides, SwitchOwnerState> */
-    var track: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
+    var track: HTMLAttributes<HTMLSpanElement>?
 
     /** TS: SlotProps<'span', SwitchThumbSlotPropsOverrides, SwitchOwnerState> */
-    var thumb: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
+    var thumb: HTMLAttributes<HTMLSpanElement>?
 
     /** TS: SlotProps< React.ElementType<SwitchBaseProps>, SwitchSwitchBaseSlotPropsOverrides, SwitchOwnerState > */
     var switchBase: SwitchBaseProps?
 
     /** TS: SlotProps<'input', SwitchInputSlotPropsOverrides, SwitchOwnerState> */
-    var input: react.dom.html.InputHTMLAttributes<web.html.HTMLInputElement>?
+    var input: InputHTMLAttributes<HTMLInputElement>?
 }
 
 external interface SwitchSlotsAndSlotProps : react.Props {

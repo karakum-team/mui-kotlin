@@ -2,11 +2,13 @@
 
 package mui.base
 
+import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
+import web.html.HTMLDivElement
 
 external interface TabsListProps :
     TabsListOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>
+    HTMLAttributes<HTMLDivElement>
 
 external interface TabsListRootSlotPropsOverrides
 

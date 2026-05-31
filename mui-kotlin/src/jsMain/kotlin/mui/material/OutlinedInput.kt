@@ -9,12 +9,16 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import react.dom.html.FieldsetHTMLAttributes
+import web.html.HTMLFieldSetElement
 
 external interface OutlinedInputProps :
-    mui.system.StandardProps,
+    StandardProps,
     InputBaseProps,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * Override or extend the styles applied to the component.
      */
@@ -47,7 +51,7 @@ external interface OutlinedInputSlots {
 
 external interface OutlinedInputSlotProps : react.Props {
     /** TS: SlotProps<'fieldset', {}, OutlinedInputOwnerState> */
-    var notchedOutline: react.dom.html.FieldsetHTMLAttributes<web.html.HTMLFieldSetElement>?
+    var notchedOutline: FieldsetHTMLAttributes<HTMLFieldSetElement>?
 }
 
 external interface OutlinedInputSlotsAndSlotProps : react.Props {

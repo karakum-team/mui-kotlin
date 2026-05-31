@@ -2,11 +2,13 @@
 
 package mui.base
 
+import react.dom.html.LiHTMLAttributes
 import web.cssom.ClassName
+import web.html.HTMLLIElement
 
 external interface OptionGroupProps :
     OptionGroupOwnProps,
-    react.dom.html.LiHTMLAttributes<web.html.HTMLLIElement>
+    LiHTMLAttributes<HTMLLIElement>
 
 external interface OptionGroupRootSlotPropsOverrides
 

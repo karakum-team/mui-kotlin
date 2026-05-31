@@ -4,8 +4,10 @@
 
 package mui.material
 
+import mui.material.transitions.TransitionProps
+
 external interface FadeProps :
-    mui.material.transitions.TransitionProps,
+    TransitionProps,
     react.PropsWithChildren {
     /**
      * Perform the enter transition when it first mounts if `in` is also `true`.

@@ -5,18 +5,23 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.ResponsiveStyleValue
 import mui.system.SxProps
 import mui.system.SystemProps
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface StackProps :
     StackOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
-    mui.types.PropsWithComponent
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithComponent
 
 external interface StackOwnProps :
     SystemProps<Theme>,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The content of the component.
      */
@@ -27,13 +32,13 @@ external interface StackOwnProps :
      * It is applied for all screen sizes.
      * @default 'column'
      */
-    var direction: mui.system.ResponsiveStyleValue<StackDirection>?
+    var direction: ResponsiveStyleValue<StackDirection>?
 
     /**
      * Defines the space between immediate children.
      * @default 0
      */
-    var spacing: mui.system.ResponsiveStyleValue<Any /* number | string */>?
+    var spacing: ResponsiveStyleValue<Any /* number | string */>?
 
     /**
      * Add an element between each child.

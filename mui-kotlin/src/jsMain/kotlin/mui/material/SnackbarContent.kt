@@ -9,12 +9,15 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import react.dom.aria.AriaRole
 
 external interface SnackbarContentProps :
-    mui.system.StandardProps,
+    StandardProps,
     PaperProps,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The action to display. It renders after the message, at the end of the snackbar.
      */
@@ -34,7 +37,7 @@ external interface SnackbarContentProps :
      * The ARIA role attribute of the element.
      * @default 'alert'
      */
-    var role: react.dom.aria.AriaRole?
+    var role: AriaRole?
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

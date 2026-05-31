@@ -5,12 +5,17 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.system.Union
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface AvatarGroupProps :
     AvatarGroupOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
-    mui.types.PropsWithComponent
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithComponent
 
 external interface AvatarGroupPropsVariantOverrides
 
@@ -37,7 +42,7 @@ external interface AvatarGroupSlotsAndSlotProps : react.Props {
 external interface AvatarGroupOwnProps :
     AvatarGroupSlotsAndSlotProps,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The avatars to stack.
      */
@@ -86,7 +91,7 @@ external interface AvatarGroupOwnProps :
      * Spacing between avatars.
      * @default 'medium'
      */
-    var spacing: mui.system.Union? /* 'small' | 'medium' | number */
+    var spacing: Union? /* 'small' | 'medium' | number */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

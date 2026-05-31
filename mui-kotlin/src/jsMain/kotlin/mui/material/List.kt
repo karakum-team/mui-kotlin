@@ -5,16 +5,19 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
 
 external interface ListProps :
     ListOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLUListElement>,
-    mui.types.PropsWithComponent
+    HTMLAttributes<web.html.HTMLUListElement>,
+    PropsWithComponent
 
 external interface ListOwnProps :
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The content of the component.
      */

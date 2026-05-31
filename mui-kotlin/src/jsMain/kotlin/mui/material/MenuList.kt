@@ -4,10 +4,13 @@
 
 package mui.material
 
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
+
 external interface MenuListProps :
     MenuListOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLUListElement>,
-    mui.types.PropsWithComponent
+    HTMLAttributes<web.html.HTMLUListElement>,
+    PropsWithComponent
 
 external interface MenuListOwnProps : react.PropsWithChildren {
     /**

@@ -2,13 +2,16 @@
 
 package mui.base
 
+import react.dom.events.KeyboardEventHandler
+import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
 import web.dom.ElementId
+import web.html.HTMLInputElement
 import web.html.InputType
 
 external interface InputProps :
     InputOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLInputElement>
+    HTMLAttributes<HTMLInputElement>
 
 external interface InputRootSlotPropsOverrides
 
@@ -90,9 +93,9 @@ external interface InputOwnProps :
      */
     var name: String?
 
-    var onKeyDown: react.dom.events.KeyboardEventHandler<web.html.HTMLInputElement>?
+    var onKeyDown: KeyboardEventHandler<HTMLInputElement>?
 
-    var onKeyUp: react.dom.events.KeyboardEventHandler<web.html.HTMLInputElement>?
+    var onKeyUp: KeyboardEventHandler<HTMLInputElement>?
 
     /**
      * The short hint displayed in the `input` before the user enters a value.

@@ -4,8 +4,14 @@
 
 package mui.material
 
+import mui.system.Union
+import react.dom.events.MouseEvent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLButtonElement
+import web.html.HTMLDivElement
+
 external interface TablePaginationActionsProps :
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement> {
+    HTMLAttributes<HTMLDivElement> {
     /**
      * This prop is an alias for `slotProps.previousButton` and will be overriden by it if both are used.
      * @deprecated Use `slotProps.previousButton` instead.
@@ -33,7 +39,7 @@ external interface TablePaginationActionsProps :
      * @param {string} type The link or button type to format ('first' | 'last' | 'next' | 'previous').
      * @returns {string}
      */
-    var getItemAriaLabel: (type: mui.system.Union /* 'first' | 'last' | 'next' | 'previous' */) -> String
+    var getItemAriaLabel: (type: Union /* 'first' | 'last' | 'next' | 'previous' */) -> String
 
     /**
      * This prop is an alias for `slotProps.nextButton` and will be overriden by it if both are used.
@@ -41,7 +47,7 @@ external interface TablePaginationActionsProps :
      */
     var nextIconButtonProps: IconButtonProps?
 
-    var onPageChange: (event: react.dom.events.MouseEvent<web.html.HTMLButtonElement, *>?, page: Number) -> Unit
+    var onPageChange: (event: MouseEvent<HTMLButtonElement, *>?, page: Number) -> Unit
 
     var page: Number
 

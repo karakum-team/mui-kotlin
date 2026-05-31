@@ -9,12 +9,17 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.events.MouseEvent
+import react.dom.html.ButtonHTMLAttributes
+import web.html.HTMLButtonElement
 
 external interface ToggleButtonProps :
     ToggleButtonOwnProps,
-    react.dom.html.ButtonHTMLAttributes<web.html.HTMLButtonElement>,
-    mui.types.PropsWithComponent,
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    PropsWithComponent,
     ButtonBaseProps
 
 external interface ToggleButtonPropsSizeOverrides
@@ -23,7 +28,7 @@ external interface ToggleButtonPropsColorOverrides
 
 external interface ToggleButtonOwnProps :
     react.PropsWithChildren,
-    mui.system.PropsWithSx,
+    PropsWithSx,
     ButtonBaseProps {
     /**
      * The content of the component.
@@ -67,7 +72,7 @@ external interface ToggleButtonOwnProps :
      * @param {React.MouseEvent<HTMLElement>} event The event source of the callback.
      * @param {any} value of the selected button.
      */
-    var onChange: ((event: react.dom.events.MouseEvent<web.html.HTMLElement, *>, value: Any) -> Unit)?
+    var onChange: ((event: MouseEvent<web.html.HTMLElement, *>, value: Any) -> Unit)?
 
     /**
      * Callback fired when the button is clicked.
@@ -75,7 +80,7 @@ external interface ToggleButtonOwnProps :
      * @param {React.MouseEvent<HTMLElement>} event The event source of the callback.
      * @param {any} value of the selected button.
      */
-    var onClick: ((event: react.dom.events.MouseEvent<web.html.HTMLElement, *>, value: Any) -> Unit)?
+    var onClick: ((event: MouseEvent<web.html.HTMLElement, *>, value: Any) -> Unit)?
 
     /**
      * If `true`, the button is rendered in an active state.

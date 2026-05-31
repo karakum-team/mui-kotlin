@@ -8,11 +8,15 @@
 
 package mui.material
 
+import mui.system.StandardProps
+import react.dom.events.ChangeEvent
+import react.dom.html.InputHTMLAttributes
 import web.dom.ElementId
+import web.html.HTMLInputElement
 import web.html.InputType
 
 external interface SwitchBaseProps :
-    mui.system.StandardProps,
+    StandardProps,
     ButtonBaseProps,
     SwitchBaseSlotsAndSlotProps {
     var autoFocus: Boolean?
@@ -71,7 +75,7 @@ external interface SwitchBaseProps :
      * [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
      * @deprecated Use `slotProps.input` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
-    var inputProps: react.dom.html.InputHTMLAttributes<web.html.HTMLInputElement>?
+    var inputProps: InputHTMLAttributes<HTMLInputElement>?
 
     /**
      * Pass a ref to the `input` element.
@@ -91,7 +95,7 @@ external interface SwitchBaseProps :
      * You can pull out the new value by accessing `event.target.value` (string).
      * You can pull out the new checked state by accessing `event.target.checked` (boolean).
      */
-    var onChange: ((event: react.dom.events.ChangeEvent<web.html.HTMLInputElement, *>, checked: Boolean) -> Unit)?
+    var onChange: ((event: ChangeEvent<HTMLInputElement, *>, checked: Boolean) -> Unit)?
 
     var readOnly: Boolean?
 
@@ -130,7 +134,7 @@ external interface SwitchBaseSlotProps : react.Props {
     var root: ButtonBaseProps?
 
     /** TS: SlotProps<'input', {}, SwitchBaseOwnerState> */
-    var input: react.dom.html.InputHTMLAttributes<web.html.HTMLInputElement>?
+    var input: InputHTMLAttributes<HTMLInputElement>?
 }
 
 external interface SwitchBaseSlotsAndSlotProps : react.Props {

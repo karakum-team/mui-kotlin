@@ -2,6 +2,10 @@
 
 package mui.base
 
+import react.dom.aria.AriaRole
+import react.dom.events.FocusEventHandler
+import react.dom.events.MouseEventHandler
+import web.dom.Element
 import web.html.ButtonType
 import web.html.HTMLElement
 
@@ -20,9 +24,9 @@ external interface UseButtonParameters {
 
     var href: String?
 
-    var onFocusVisible: react.dom.events.FocusEventHandler<*>?
+    var onFocusVisible: FocusEventHandler<*>?
 
-    var rootRef: react.Ref<web.dom.Element>?
+    var rootRef: react.Ref<Element>?
 
     var tabIndex: Int?
 
@@ -50,19 +54,19 @@ external interface UseButtonRootSlotOwnProps : react.Props {
 
     var type: ButtonType?
 
-    var role: react.dom.aria.AriaRole?
+    var role: AriaRole?
 
-    var onBlur: react.dom.events.FocusEventHandler<*>
+    var onBlur: FocusEventHandler<*>
 
-    var onFocus: react.dom.events.FocusEventHandler<*>
+    var onFocus: FocusEventHandler<*>
 
     var onKeyDown: Any? /* MuiCancellableEventHandler<React.KeyboardEvent> */
 
     var onKeyUp: Any? /* MuiCancellableEventHandler<React.KeyboardEvent> */
 
-    var onMouseDown: react.dom.events.MouseEventHandler<*>
+    var onMouseDown: MouseEventHandler<*>
 
-    var onMouseLeave: react.dom.events.MouseEventHandler<*>
+    var onMouseLeave: MouseEventHandler<*>
 }
 
 external interface UseButtonReturnValue {
@@ -91,5 +95,5 @@ external interface UseButtonReturnValue {
     /**
      * A ref to the component's root DOM element.
      */
-    var rootRef: react.RefCallback<web.dom.Element>?
+    var rootRef: react.RefCallback<Element>?
 }

@@ -3,14 +3,19 @@
 package muix.tree.view
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import react.dom.events.FocusEventHandler
+import react.dom.events.KeyboardEventHandler
+import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
+import web.html.HTMLLIElement
 
 external interface TreeItemProps :
-    react.dom.html.HTMLAttributes<web.html.HTMLLIElement>,
+    HTMLAttributes<HTMLLIElement>,
     react.PropsWithChildren,
     react.PropsWithClassName,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The content of the component.
      */
@@ -59,7 +64,7 @@ external interface TreeItemProps :
      * Use the `onItemFocus` callback on the tree if you need to monitor a item's focus.
      */
     @Deprecated("See documentation")
-    override var onFocus: react.dom.events.FocusEventHandler<web.html.HTMLLIElement>?
+    override var onFocus: FocusEventHandler<HTMLLIElement>?
 
     /**
      * The Tree Item label.
@@ -79,7 +84,7 @@ external interface TreeItemProps :
     /**
      * Callback fired when a key of the keyboard is pressed on the item.
      */
-    override var onKeyDown: react.dom.events.KeyboardEventHandler<web.html.HTMLLIElement>?
+    override var onKeyDown: KeyboardEventHandler<HTMLLIElement>?
 }
 
 external interface TreeItemSlots {

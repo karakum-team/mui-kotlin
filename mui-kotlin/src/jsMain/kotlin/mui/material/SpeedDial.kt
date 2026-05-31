@@ -5,14 +5,20 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.material.transitions.TransitionProps
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import react.dom.events.SyntheticEvent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 import web.html.Hidden
 
 external interface SpeedDialProps :
-    mui.system.StandardProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
+    StandardProps,
+    HTMLAttributes<HTMLDivElement>,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * SpeedDialActions to display when the SpeedDial is `open`.
      */
@@ -59,7 +65,7 @@ external interface SpeedDialProps :
      * @param {object} event The event source of the callback.
      * @param {string} reason Can be: `"toggle"`, `"blur"`, `"mouseLeave"`, `"escapeKeyDown"`.
      */
-    var onClose: ((event: react.dom.events.SyntheticEvent<*, *>, reason: CloseReason) -> Unit)?
+    var onClose: ((event: SyntheticEvent<*, *>, reason: CloseReason) -> Unit)?
 
     /**
      * Callback fired when the component requests to be open.
@@ -67,7 +73,7 @@ external interface SpeedDialProps :
      * @param {object} event The event source of the callback.
      * @param {string} reason Can be: `"toggle"`, `"focus"`, `"mouseEnter"`.
      */
-    var onOpen: ((event: react.dom.events.SyntheticEvent<*, *>, reason: OpenReason) -> Unit)?
+    var onOpen: ((event: SyntheticEvent<*, *>, reason: OpenReason) -> Unit)?
 
     /**
      * If `true`, the component is shown.
@@ -90,7 +96,7 @@ external interface SpeedDialProps :
      * @default Zoom
      * * @deprecated Use `slots.transition` instead. This prop will be removed in v7. [How to migrate](/material-ui/migration/migrating-from-deprecated-apis/)
      */
-    var TransitionComponent: react.ComponentType<mui.material.transitions.TransitionProps>?
+    var TransitionComponent: react.ComponentType<TransitionProps>?
 
     /**
      * The duration for the transition, in milliseconds.
@@ -107,7 +113,7 @@ external interface SpeedDialProps :
      * By default, the element is based on this [`Transition`](https://reactcommunity.org/react-transition-group/transition/) component.
      * @deprecated Use `slotProps.transition` instead. This prop will be removed in v7. [How to migrate](/material-ui/migration/migrating-from-deprecated-apis/)
      */
-    var TransitionProps: mui.material.transitions.TransitionProps?
+    var TransitionProps: TransitionProps?
 }
 
 external interface SpeedDialSlots {

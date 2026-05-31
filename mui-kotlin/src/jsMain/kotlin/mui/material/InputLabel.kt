@@ -9,19 +9,23 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.LabelHTMLAttributes
+import web.html.HTMLLabelElement
 
 external interface InputLabelProps :
     InputLabelOwnProps,
-    react.dom.html.LabelHTMLAttributes<web.html.HTMLLabelElement>,
-    mui.types.PropsWithComponent,
+    LabelHTMLAttributes<HTMLLabelElement>,
+    PropsWithComponent,
     FormLabelOwnProps
 
 external interface InputLabelPropsSizeOverrides
 
 external interface InputLabelOwnProps :
     FormLabelProps,
-    mui.system.PropsWithSx,
+    PropsWithSx,
     react.PropsWithChildren,
     FormLabelOwnProps {
     /**

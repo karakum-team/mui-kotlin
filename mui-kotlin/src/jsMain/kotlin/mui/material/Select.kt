@@ -9,14 +9,22 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import mui.system.Union
+import react.dom.events.ChangeEvent
+import react.dom.events.SyntheticEvent
+import react.dom.html.HTMLAttributes
 import web.dom.ElementId
+import web.html.HTMLDivElement
+import web.html.HTMLInputElement
 
 external interface SelectProps<Value> :
-    mui.system.StandardProps,
+    StandardProps,
     InputProps,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * If `true`, the width of the popover will automatically be set according to the items inside the
      * menu, otherwise it will be at least the width of the select input.
@@ -120,7 +128,7 @@ external interface SelectProps<Value> :
      * **Warning**: This is a generic event, not a change event, unless the change event is caused by browser autofill.
      * @param {object} [child] The react element that was selected when `native` is `false` (default).
      */
-    var onChange: ((event: react.dom.events.ChangeEvent<web.html.HTMLInputElement, *>, child: react.ReactNode) -> Unit)?
+    var onChange: ((event: ChangeEvent<HTMLInputElement, *>, child: react.ReactNode) -> Unit)?
 
     /**
      * Callback fired when the component requests to be closed.
@@ -128,7 +136,7 @@ external interface SelectProps<Value> :
      *
      * @param {object} event The event source of the callback.
      */
-    var onClose: ((event: react.dom.events.SyntheticEvent<*, *>) -> Unit)?
+    var onClose: ((event: SyntheticEvent<*, *>) -> Unit)?
 
     /**
      * Callback fired when the component requests to be opened.
@@ -136,7 +144,7 @@ external interface SelectProps<Value> :
      *
      * @param {object} event The event source of the callback.
      */
-    var onOpen: ((event: react.dom.events.SyntheticEvent<*, *>) -> Unit)?
+    var onOpen: ((event: SyntheticEvent<*, *>) -> Unit)?
 
     /**
      * If `true`, the component is shown.
@@ -156,7 +164,7 @@ external interface SelectProps<Value> :
     /**
      * Props applied to the clickable div element.
      */
-    var SelectDisplayProps: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
+    var SelectDisplayProps: HTMLAttributes<HTMLDivElement>?
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
@@ -185,7 +193,7 @@ external interface FilledSelectProps :
      * The variant to use.
      * @default 'outlined'
      */
-    var variant: mui.system.Union /* 'filled' */
+    var variant: Union /* 'filled' */
 }
 
 external interface StandardSelectProps :
@@ -194,7 +202,7 @@ external interface StandardSelectProps :
      * The variant to use.
      * @default 'outlined'
      */
-    var variant: mui.system.Union /* 'standard' */
+    var variant: Union /* 'standard' */
 }
 
 external interface OutlinedSelectProps :
@@ -203,7 +211,7 @@ external interface OutlinedSelectProps :
      * The variant to use.
      * @default 'outlined'
      */
-    var variant: mui.system.Union? /* 'outlined' */
+    var variant: Union? /* 'outlined' */
 }
 
 /**

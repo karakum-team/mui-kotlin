@@ -9,13 +9,19 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.material.transitions.TransitionProps
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import react.dom.events.ReactEventHandler
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface DialogProps :
-    mui.system.StandardProps,
+    StandardProps,
     ModalProps,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The id(s) of the element(s) that describe the dialog.
      */
@@ -75,7 +81,7 @@ external interface DialogProps :
      * Callback fired when the backdrop is clicked.
      * @deprecated Use the `onClose` prop with the `reason` argument to handle the `backdropClick` events.
      */
-    override var onBackdropClick: react.dom.events.ReactEventHandler<*>?
+    override var onBackdropClick: ReactEventHandler<*>?
 
     /**
      * Callback fired when the component requests to be closed.
@@ -137,7 +143,7 @@ external interface DialogProps :
      * By default, the element is based on this [`Transition`](https://reactcommunity.org/react-transition-group/transition/) component.
      * @deprecated Use `slotProps.transition` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
-    var TransitionProps: mui.material.transitions.TransitionProps?
+    var TransitionProps: TransitionProps?
 }
 
 external interface DialogSlots {
@@ -188,10 +194,10 @@ external interface DialogSlotProps : react.Props {
     var backdrop: BackdropProps?
 
     /** TS: SlotProps<'div', DialogContainerSlotPropsOverrides, DialogOwnerState> */
-    var container: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
+    var container: HTMLAttributes<HTMLDivElement>?
 
     /** TS: SlotComponentProps< React.ElementType, TransitionProps & DialogTransitionSlotPropsOverrides, DialogOwnerState > */
-    var transition: mui.material.transitions.TransitionProps?
+    var transition: TransitionProps?
 
     /** TS: SlotProps< React.ElementType<PaperProps>, DialogPaperSlotPropsOverrides, DialogOwnerState > */
     var paper: PaperProps?

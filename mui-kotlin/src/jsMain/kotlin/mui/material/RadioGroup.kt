@@ -8,6 +8,9 @@
 
 package mui.material
 
+import react.dom.events.ChangeEvent
+import web.html.HTMLInputElement
+
 external interface RadioGroupProps :
     FormGroupProps {
     /**
@@ -28,7 +31,7 @@ external interface RadioGroupProps :
      * @param {string} value The value of the selected radio button.
      * You can pull out the new value by accessing `event.target.value` (string).
      */
-    var onChange: ((event: react.dom.events.ChangeEvent<web.html.HTMLInputElement, *>, value: String) -> Unit)?
+    var onChange: ((event: ChangeEvent<HTMLInputElement, *>, value: String) -> Unit)?
 
     /**
      * Value of the selected radio button. The DOM API casts this to a string.

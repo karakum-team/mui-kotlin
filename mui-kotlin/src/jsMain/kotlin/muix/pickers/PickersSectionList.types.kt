@@ -3,8 +3,10 @@
 package muix.pickers
 
 import js.array.ReadonlyArray
+import react.dom.html.HTMLAttributes
 import web.dom.Element
 import web.html.HTMLElement
+import web.html.HTMLSpanElement
 
 external interface PickersSectionListProps : react.Props {
     /**
@@ -44,13 +46,13 @@ external interface PickersSectionListSlotProps : react.Props {
 }
 
 external interface PickersSectionElement {
-    var container: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>
+    var container: HTMLAttributes<HTMLSpanElement>
 
-    var content: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>
+    var content: HTMLAttributes<HTMLSpanElement>
 
-    var before: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>
+    var before: HTMLAttributes<HTMLSpanElement>
 
-    var after: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>
+    var after: HTMLAttributes<HTMLSpanElement>
 }
 
 external interface PickersSectionListRef {

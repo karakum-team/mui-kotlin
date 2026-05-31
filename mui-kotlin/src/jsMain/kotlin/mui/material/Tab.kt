@@ -9,16 +9,20 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.ButtonHTMLAttributes
+import web.html.HTMLButtonElement
 
 external interface TabProps :
     TabOwnProps,
-    react.dom.html.ButtonHTMLAttributes<web.html.HTMLButtonElement>,
-    mui.types.PropsWithComponent
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    PropsWithComponent
 
 external interface TabOwnProps :
-    mui.system.PropsWithSx,
-    react.dom.html.ButtonHTMLAttributes<web.html.HTMLButtonElement> {
+    PropsWithSx,
+    ButtonHTMLAttributes<HTMLButtonElement> {
     /**
      * This prop isn't supported.
      * Use the `component` prop if you need to change the children structure.

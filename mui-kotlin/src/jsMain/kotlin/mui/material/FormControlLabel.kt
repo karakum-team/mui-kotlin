@@ -5,13 +5,18 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import react.dom.events.SyntheticEvent
+import react.dom.html.LabelHTMLAttributes
+import web.html.HTMLLabelElement
 
 external interface FormControlLabelProps :
-    mui.system.StandardProps,
-    react.dom.html.LabelHTMLAttributes<web.html.HTMLLabelElement>,
+    StandardProps,
+    LabelHTMLAttributes<HTMLLabelElement>,
     FormControlLabelSlotsAndSlotProps,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * If `true`, the component appears selected.
      */
@@ -72,7 +77,7 @@ external interface FormControlLabelProps :
      * @param {React.SyntheticEvent} event The event source of the callback.
      * You can pull out the new checked state by accessing `event.target.checked` (boolean).
      */
-    var onChange: ((event: react.dom.events.SyntheticEvent<*, *>, checked: Boolean) -> Unit)?
+    var onChange: ((event: SyntheticEvent<*, *>, checked: Boolean) -> Unit)?
 
     /**
      * If `true`, the label will indicate that the `input` is required.

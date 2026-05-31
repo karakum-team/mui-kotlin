@@ -9,13 +9,17 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface MobileStepperProps :
-    mui.system.StandardProps,
+    StandardProps,
     PaperProps,
     MobileStepperSlotsAndSlotProps,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * Set the active step (zero based index).
      * Defines which dot is highlighted when the variant is 'dots'.
@@ -109,10 +113,10 @@ external interface MobileStepperSlotProps : react.Props {
     var progress: LinearProgressProps?
 
     /** TS: SlotProps<'div', MobileStepperDotsSlotPropsOverrides, MobileStepperOwnerState> */
-    var dots: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
+    var dots: HTMLAttributes<HTMLDivElement>?
 
     /** TS: SlotProps<'div', MobileStepperDotSlotPropsOverrides, MobileStepperOwnerState> */
-    var dot: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
+    var dot: HTMLAttributes<HTMLDivElement>?
 }
 
 external interface MobileStepperSlotsAndSlotProps : react.Props {

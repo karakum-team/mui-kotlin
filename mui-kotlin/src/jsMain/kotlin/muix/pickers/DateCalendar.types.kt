@@ -3,12 +3,13 @@
 package muix.pickers
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
 import web.cssom.ClassName
 
 external interface DateCalendarProps<TDate> :
     react.PropsWithClassName,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The selected value.
      * Used when the component is controlled.

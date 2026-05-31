@@ -4,12 +4,15 @@
 
 package mui.material
 
+import mui.base.PopperOwnProps
+import mui.base.PopperProps
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
 
 external interface PopperProps :
-    mui.system.PropsWithSx,
-    mui.base.PopperProps {
+    PropsWithSx,
+    PopperProps {
     /**
      * The component used for the root node.
      * Either a string to use a HTML element or a component.
@@ -35,7 +38,7 @@ external interface PopperProps :
      * @deprecated use the `slotProps` prop instead. This prop will be removed in v7. [How to migrate](/material-ui/migration/migrating-from-deprecated-apis/).
      * @default {}
      */
-    var componentsProps: mui.base.PopperOwnProps.SlotProps?
+    var componentsProps: PopperOwnProps.SlotProps?
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

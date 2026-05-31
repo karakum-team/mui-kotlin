@@ -8,14 +8,19 @@
 
 package mui.material
 
+import mui.base.BadgeOwnProps
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
+import web.html.HTMLSpanElement
 
 external interface BadgeProps :
     BadgeOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>,
-    mui.types.PropsWithComponent
+    HTMLAttributes<HTMLSpanElement>,
+    PropsWithComponent
 
 external interface BadgePropsVariantOverrides
 
@@ -41,10 +46,10 @@ external interface BadgeSlots {
 
 external interface BadgeSlotProps : react.Props {
     /** TS: SlotProps<'span', BadgeRootSlotPropsOverrides, BadgeOwnerState> */
-    var root: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
+    var root: HTMLAttributes<HTMLSpanElement>?
 
     /** TS: SlotProps<'span', BadgeBadgeSlotPropsOverrides, BadgeOwnerState> */
-    var badge: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
+    var badge: HTMLAttributes<HTMLSpanElement>?
 }
 
 external interface BadgeSlotsAndSlotProps : react.Props {
@@ -63,7 +68,7 @@ external interface BadgeOwnProps :
     BadgeSlotsAndSlotProps,
     react.PropsWithChildren,
     react.PropsWithClassName,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The anchor of the badge.
      * @default {
@@ -109,7 +114,7 @@ external interface BadgeOwnProps :
      *
      * @default {}
      */
-    var componentsProps: mui.base.BadgeOwnProps.SlotProps?
+    var componentsProps: BadgeOwnProps.SlotProps?
 
     /**
      * The components used for each slot inside.

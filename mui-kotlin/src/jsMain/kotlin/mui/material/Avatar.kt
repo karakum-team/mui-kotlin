@@ -5,12 +5,18 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
+import react.dom.html.ImgHTMLAttributes
+import web.html.HTMLDivElement
+import web.html.HTMLImageElement
 
 external interface AvatarProps :
     AvatarOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
-    mui.types.PropsWithComponent
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithComponent
 
 external interface AvatarSlots {
     /**
@@ -36,7 +42,7 @@ external interface AvatarSlotsAndSlotProps : react.Props {
 
 external interface AvatarOwnProps :
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * Used in combination with `src` or `srcSet` to
      * provide an alt attribute for the rendered `img` element.
@@ -59,7 +65,7 @@ external interface AvatarOwnProps :
      * It can be used to listen for the loading error event.
      * @deprecated Use `slotProps.img` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
-    var imgProps: react.dom.html.ImgHTMLAttributes<web.html.HTMLImageElement>?
+    var imgProps: ImgHTMLAttributes<HTMLImageElement>?
 
     /**
      * The `sizes` attribute for the `img` element.

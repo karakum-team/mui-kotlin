@@ -5,13 +5,15 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
 
 external interface TableCellProps :
-    mui.system.StandardProps,
+    StandardProps,
     TableCellBaseProps,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * Set the text-align on the table cell content.
      *

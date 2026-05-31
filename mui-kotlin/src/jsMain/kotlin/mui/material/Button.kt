@@ -5,12 +5,16 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.ButtonHTMLAttributes
+import web.html.HTMLButtonElement
 
 external interface ButtonProps :
     ButtonOwnProps,
-    react.dom.html.ButtonHTMLAttributes<web.html.HTMLButtonElement>,
-    mui.types.PropsWithComponent
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    PropsWithComponent
 
 external interface ButtonPropsVariantOverrides
 
@@ -20,7 +24,7 @@ external interface ButtonPropsSizeOverrides
 
 external interface ButtonOwnProps :
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The content of the component.
      */

@@ -9,11 +9,15 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLSpanElement
 
 external interface BottomNavigationActionProps :
     BottomNavigationActionOwnProps,
-    mui.types.PropsWithComponent,
+    PropsWithComponent,
     ButtonBaseProps
 
 external interface BottomNavigationActionSlots {
@@ -35,7 +39,7 @@ external interface BottomNavigationActionSlotProps : react.Props {
     var root: ButtonBaseProps?
 
     /** TS: SlotProps<'span', {}, BottomNavigationActionOwnerState> */
-    var label: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
+    var label: HTMLAttributes<HTMLSpanElement>?
 }
 
 external interface BottomNavigationActionSlotsAndSlotProps : react.Props {
@@ -47,7 +51,7 @@ external interface BottomNavigationActionSlotsAndSlotProps : react.Props {
 external interface BottomNavigationActionOwnProps :
     BottomNavigationActionSlotsAndSlotProps,
     react.PropsWithChildren,
-    mui.system.PropsWithSx,
+    PropsWithSx,
     ButtonBaseProps {
     /**
      * This prop isn't supported.

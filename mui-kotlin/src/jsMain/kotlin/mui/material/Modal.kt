@@ -9,14 +9,19 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.events.ReactEventHandler
+import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
 import web.dom.Element
+import web.html.HTMLDivElement
 
 external interface ModalProps :
     ModalOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
-    mui.types.PropsWithComponent
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithComponent
 
 external interface ModalComponentsPropsOverrides
 
@@ -40,7 +45,7 @@ external interface ModalSlots {
 external interface ModalOwnProps :
     react.PropsWithChildren,
     react.PropsWithClassName,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * A backdrop component. This prop enables custom backdrop rendering.
      * @deprecated Use `slots.backdrop` instead. While this prop currently works, it will be removed in the next major version.
@@ -188,7 +193,7 @@ external interface ModalOwnProps :
      * Callback fired when the backdrop is clicked.
      * @deprecated Use the `onClose` prop with the `reason` argument to handle the `backdropClick` events.
      */
-    var onBackdropClick: react.dom.events.ReactEventHandler<*>?
+    var onBackdropClick: ReactEventHandler<*>?
 
     /**
      * Callback fired when the component requests to be closed.

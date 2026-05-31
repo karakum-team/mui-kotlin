@@ -2,11 +2,14 @@
 
 package mui.base
 
+import react.dom.events.ChangeEventHandler
+import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
+import web.html.HTMLDivElement
 
 external interface FormControlProps :
     FormControlOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>
+    HTMLAttributes<HTMLDivElement>
 
 external interface FormControlRootSlotPropsOverrides
 
@@ -40,7 +43,7 @@ external interface FormControlOwnProps :
     /**
      * Callback fired when the form element's value is modified.
      */
-    var onChange: react.dom.events.ChangeEventHandler<NativeFormControlElement, *>?
+    var onChange: ChangeEventHandler<NativeFormControlElement, *>?
 
     /**
      * If `true`, the label will indicate that the `input` is required.

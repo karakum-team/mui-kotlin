@@ -2,6 +2,9 @@
 
 package mui.material
 
+import mui.system.StandardProps
+import react.dom.html.HTMLAttributes
+
 external interface TouchRippleProps :
-    mui.system.StandardProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLElement>
+    StandardProps,
+    HTMLAttributes<web.html.HTMLElement>

@@ -2,9 +2,12 @@
 
 package mui.base
 
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
+
 external interface SnackbarProps :
     SnackbarOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>
+    HTMLAttributes<HTMLDivElement>
 
 external interface SnackbarRootSlotPropsOverrides
 

@@ -5,16 +5,20 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.LiHTMLAttributes
+import web.html.HTMLLIElement
 
 external interface ImageListItemProps :
     ImageListItemOwnProps,
-    react.dom.html.LiHTMLAttributes<web.html.HTMLLIElement>,
-    mui.types.PropsWithComponent
+    LiHTMLAttributes<HTMLLIElement>,
+    PropsWithComponent
 
 external interface ImageListItemOwnProps :
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The content of the component, normally an `<img>`.
      */

@@ -2,15 +2,19 @@
 
 package mui.base
 
+import react.dom.events.SyntheticEvent
+import react.dom.html.ButtonHTMLAttributes
+import web.html.HTMLButtonElement
+
 external interface TabProps :
     TabOwnProps,
-    react.dom.html.ButtonHTMLAttributes<web.html.HTMLButtonElement>
+    ButtonHTMLAttributes<HTMLButtonElement>
 
 external interface TabRootSlotPropsOverrides
 
 external interface TabOwnProps :
     ButtonOwnProps,
-    react.dom.html.ButtonHTMLAttributes<web.html.HTMLButtonElement> {
+    ButtonHTMLAttributes<HTMLButtonElement> {
     /**
      * You can provide your own value. Otherwise, it falls back to the child position index.
      */
@@ -19,7 +23,7 @@ external interface TabOwnProps :
     /**
      * Callback invoked when new value is being set.
      */
-    var onChange: ((event: react.dom.events.SyntheticEvent<*, *>, value: Any /* Number | String */) -> Unit)?
+    var onChange: ((event: SyntheticEvent<*, *>, value: Any /* Number | String */) -> Unit)?
 
     /**
      * The props used for each slot inside the Tab.

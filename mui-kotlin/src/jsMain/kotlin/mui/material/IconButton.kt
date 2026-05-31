@@ -9,12 +9,16 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.ButtonHTMLAttributes
+import web.html.HTMLButtonElement
 
 external interface IconButtonProps :
     IconButtonOwnProps,
-    react.dom.html.ButtonHTMLAttributes<web.html.HTMLButtonElement>,
-    mui.types.PropsWithComponent,
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    PropsWithComponent,
     ButtonBaseProps
 
 external interface IconButtonPropsColorOverrides
@@ -23,7 +27,7 @@ external interface IconButtonPropsSizeOverrides
 
 external interface IconButtonOwnProps :
     react.PropsWithChildren,
-    mui.system.PropsWithSx,
+    PropsWithSx,
     ButtonBaseProps {
     /**
      * The icon to display.

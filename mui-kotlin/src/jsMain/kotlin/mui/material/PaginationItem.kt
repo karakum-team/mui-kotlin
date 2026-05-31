@@ -5,12 +5,16 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface PaginationItemProps :
     PaginationItemOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
-    mui.types.PropsWithComponent
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithComponent
 
 external interface PaginationItemPropsVariantOverrides
 
@@ -30,16 +34,16 @@ external interface PaginationItemSlots {
 
 external interface PaginationItemSlotProps : react.Props {
     /** TS: SlotProps<React.ElementType<React.HTMLProps<HTMLElement>>, {}, PaginationItemOwnerState> */
-    var first: react.dom.html.HTMLAttributes<web.html.HTMLElement>?
+    var first: HTMLAttributes<web.html.HTMLElement>?
 
     /** TS: SlotProps<React.ElementType<React.HTMLProps<HTMLElement>>, {}, PaginationItemOwnerState> */
-    var last: react.dom.html.HTMLAttributes<web.html.HTMLElement>?
+    var last: HTMLAttributes<web.html.HTMLElement>?
 
     /** TS: SlotProps<React.ElementType<React.HTMLProps<HTMLElement>>, {}, PaginationItemOwnerState> */
-    var next: react.dom.html.HTMLAttributes<web.html.HTMLElement>?
+    var next: HTMLAttributes<web.html.HTMLElement>?
 
     /** TS: SlotProps< React.ElementType<React.HTMLProps<HTMLElement>>, {}, PaginationItemOwnerState > */
-    var previous: react.dom.html.HTMLAttributes<web.html.HTMLElement>?
+    var previous: HTMLAttributes<web.html.HTMLElement>?
 }
 
 external interface PaginationItemSlotsAndSlotProps : react.Props {
@@ -52,7 +56,7 @@ external interface PaginationItemOwnerState
 
 external interface PaginationItemOwnProps :
     PaginationItemSlotsAndSlotProps,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * Override or extend the styles applied to the component.
      */

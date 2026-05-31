@@ -5,12 +5,17 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.material.transitions.TransitionProps
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface BackdropProps :
     BackdropOwnProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
-    mui.types.PropsWithComponent
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithComponent
 
 external interface BackdropSlots {
     /**
@@ -33,10 +38,10 @@ external interface BackdropTransitionSlotPropsOverrides
 
 external interface BackdropSlotProps : react.Props {
     /** TS: SlotProps<'div', BackdropComponentsPropsOverrides, BackdropOwnerState> */
-    var root: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
+    var root: HTMLAttributes<HTMLDivElement>?
 
     /** TS: SlotComponentProps< React.ElementType, TransitionProps & BackdropTransitionSlotPropsOverrides, BackdropOwnerState > */
-    var transition: mui.material.transitions.TransitionProps?
+    var transition: TransitionProps?
 }
 
 external interface BackdropSlotsAndSlotProps : react.Props {
@@ -49,7 +54,7 @@ external interface BackdropOwnProps :
     FadeProps,
     BackdropSlotsAndSlotProps,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The content of the component.
      */

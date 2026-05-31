@@ -3,12 +3,13 @@
 package muix.pickers
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
 import web.cssom.ClassName
 
 external interface MonthCalendarProps<TDate> :
     react.PropsWithClassName,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     var autoFocus: Boolean?
 
     override var className: ClassName?

@@ -9,14 +9,18 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.material.transitions.TransitionProps
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import mui.system.Union
 import web.dom.Element
 
 external interface PopoverProps :
-    mui.system.StandardProps,
+    StandardProps,
     ModalProps,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * A ref for imperative actions.
      * It currently only supports updatePosition() action.
@@ -171,7 +175,7 @@ external interface PopoverProps :
      * @deprecated use the `slotProps.transition` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      * @default {}
      */
-    var TransitionProps: mui.material.transitions.TransitionProps?
+    var TransitionProps: TransitionProps?
 }
 
 external interface PopoverSlots {
@@ -229,9 +233,9 @@ external interface PopoverSlotsAndSlotProps : react.Props {
 }
 
 external interface PopoverOrigin {
-    var vertical: mui.system.Union /* 'top' | 'center' | 'bottom' | number */
+    var vertical: Union /* 'top' | 'center' | 'bottom' | number */
 
-    var horizontal: mui.system.Union /* 'left' | 'center' | 'right' | number */
+    var horizontal: Union /* 'left' | 'center' | 'right' | number */
 }
 
 external interface PopoverPosition {

@@ -5,17 +5,21 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface ListItemProps :
     ListItemOwnProps,
-    mui.types.PropsWithComponent
+    PropsWithComponent
 
 external interface ListItemComponentsPropsOverrides
 
 external interface ListItemBaseProps :
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * Defines the `align-items` style property.
      * @default 'center'
@@ -38,14 +42,14 @@ external interface ListItemBaseProps :
      * @default 'li'
      * @deprecated Use the `component` or `slots.root` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
-    var ContainerComponent: react.ElementType<react.dom.html.HTMLAttributes<web.html.HTMLDivElement>>?
+    var ContainerComponent: react.ElementType<HTMLAttributes<HTMLDivElement>>?
 
     /**
      * Props applied to the container component if used.
      * @default {}
      * @deprecated Use the `slotProps.root` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
-    var ContainerProps: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
+    var ContainerProps: HTMLAttributes<HTMLDivElement>?
 
     /**
      * If `true`, compact vertical padding designed for keyboard and mouse input is used.

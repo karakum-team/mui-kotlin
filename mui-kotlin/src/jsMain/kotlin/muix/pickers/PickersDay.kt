@@ -8,6 +8,9 @@
 
 package muix.pickers
 
+import react.dom.events.MouseEvent
+import web.html.HTMLButtonElement
+
 external interface PickersDayProps<TDate> : react.Props {
     /**
      * Override or extend the styles applied to the component.
@@ -33,13 +36,13 @@ external interface PickersDayProps<TDate> : react.Props {
 
     var isAnimating: Boolean?
 
-    var onFocus: ((event: react.dom.events.FocusEvent<web.html.HTMLButtonElement>, day: TDate) -> Unit)?
+    var onFocus: ((event: react.dom.events.FocusEvent<HTMLButtonElement>, day: TDate) -> Unit)?
 
-    var onBlur: ((event: react.dom.events.FocusEvent<web.html.HTMLButtonElement>, day: TDate) -> Unit)?
+    var onBlur: ((event: react.dom.events.FocusEvent<HTMLButtonElement>, day: TDate) -> Unit)?
 
-    var onKeyDown: ((event: react.dom.events.KeyboardEvent<web.html.HTMLButtonElement>, day: TDate) -> Unit)?
+    var onKeyDown: ((event: react.dom.events.KeyboardEvent<HTMLButtonElement>, day: TDate) -> Unit)?
 
-    var onMouseEnter: ((event: react.dom.events.MouseEvent<web.html.HTMLButtonElement, *>, day: TDate) -> Unit)?
+    var onMouseEnter: ((event: MouseEvent<HTMLButtonElement, *>, day: TDate) -> Unit)?
 
     var onDaySelect: (day: TDate) -> Unit
 

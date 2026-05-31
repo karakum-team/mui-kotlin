@@ -9,12 +9,16 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
+import mui.types.PropsWithComponent
+import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
+import web.html.HTMLSpanElement
 
 external interface CardActionAreaProps :
     CardActionAreaOwnProps,
-    mui.types.PropsWithComponent,
+    PropsWithComponent,
     ButtonBaseProps
 
 external interface CardActionAreaSlots {
@@ -36,7 +40,7 @@ external interface CardActionAreaSlotProps : react.Props {
     var root: ButtonBaseProps?
 
     /** TS: SlotProps<'span', {}, CardActionAreaOwnerState> */
-    var focusHighlight: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
+    var focusHighlight: HTMLAttributes<HTMLSpanElement>?
 }
 
 external interface CardActionAreaSlotsAndSlotProps : react.Props {
@@ -48,7 +52,7 @@ external interface CardActionAreaSlotsAndSlotProps : react.Props {
 external interface CardActionAreaOwnerState
 
 external interface CardActionAreaOwnProps :
-    mui.system.PropsWithSx,
+    PropsWithSx,
     ButtonBaseProps {
     /**
      * Override or extend the styles applied to the component.

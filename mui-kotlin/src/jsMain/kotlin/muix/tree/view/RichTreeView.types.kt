@@ -4,6 +4,7 @@ package muix.tree.view
 
 import mui.material.styles.Theme
 import mui.system.SxProps
+import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
 
 external interface RichTreeViewProps : RichTreeViewPropsBase {
@@ -52,7 +53,7 @@ external interface RichTreeViewSlotProps : react.Props {
     var item: react.Props?
 }
 
-external interface RichTreeViewPropsBase : react.dom.html.HTMLAttributes<web.html.HTMLUListElement> {
+external interface RichTreeViewPropsBase : HTMLAttributes<web.html.HTMLUListElement> {
     override var className: ClassName?
 
     /**

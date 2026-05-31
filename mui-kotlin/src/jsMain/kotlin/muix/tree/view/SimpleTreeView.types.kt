@@ -3,13 +3,14 @@
 package muix.tree.view
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
 import web.cssom.ClassName
 
 external interface SimpleTreeViewProps :
     react.PropsWithChildren,
     react.PropsWithClassName,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * The content of the component.
      */

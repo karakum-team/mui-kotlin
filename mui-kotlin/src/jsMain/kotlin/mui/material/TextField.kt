@@ -10,7 +10,12 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import mui.system.Union
+import react.dom.events.ChangeEventHandler
+import react.dom.events.FocusEventHandler
 import web.dom.ElementId
 import web.html.InputType
 
@@ -59,10 +64,10 @@ external interface TextFieldSlots {
 }
 
 external interface BaseTextFieldProps :
-    mui.system.StandardProps,
+    StandardProps,
     FormControlProps,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * This prop helps users to fill forms faster, especially on mobile devices.
      * The name can be confusing, as it's more like an autofill.
@@ -168,9 +173,9 @@ external interface BaseTextFieldProps :
      */
     var name: String?
 
-    var onBlur: react.dom.events.FocusEventHandler<web.html.HTMLElement>?
+    var onBlur: FocusEventHandler<web.html.HTMLElement>?
 
-    var onFocus: react.dom.events.FocusEventHandler<web.html.HTMLElement>?
+    var onFocus: FocusEventHandler<web.html.HTMLElement>?
 
     /**
      * The short hint displayed in the `input` before the user enters a value.
@@ -241,13 +246,13 @@ external interface StandardTextFieldProps :
      * @param {object} event The event source of the callback.
      * You can pull out the new value by accessing `event.target.value` (string).
      */
-    var onChange: react.dom.events.ChangeEventHandler<web.html.HTMLElement, *>?
+    var onChange: ChangeEventHandler<web.html.HTMLElement, *>?
 
     /**
      * The variant to use.
      * @default 'outlined'
      */
-    var variant: mui.system.Union? /* 'standard' */
+    var variant: Union? /* 'standard' */
 
     /**
      * Props applied to the Input element.
@@ -267,13 +272,13 @@ external interface FilledTextFieldProps :
      * @param {object} event The event source of the callback.
      * You can pull out the new value by accessing `event.target.value` (string).
      */
-    var onChange: react.dom.events.ChangeEventHandler<web.html.HTMLElement, *>?
+    var onChange: ChangeEventHandler<web.html.HTMLElement, *>?
 
     /**
      * The variant to use.
      * @default 'outlined'
      */
-    var variant: mui.system.Union /* 'filled' */
+    var variant: Union /* 'filled' */
 
     /**
      * Props applied to the Input element.
@@ -293,13 +298,13 @@ external interface OutlinedTextFieldProps :
      * @param {object} event The event source of the callback.
      * You can pull out the new value by accessing `event.target.value` (string).
      */
-    var onChange: react.dom.events.ChangeEventHandler<web.html.HTMLElement, *>?
+    var onChange: ChangeEventHandler<web.html.HTMLElement, *>?
 
     /**
      * The variant to use.
      * @default 'outlined'
      */
-    var variant: mui.system.Union /* 'outlined' */
+    var variant: Union /* 'outlined' */
 
     /**
      * Props applied to the Input element.

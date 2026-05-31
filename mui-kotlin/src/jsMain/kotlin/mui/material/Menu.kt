@@ -9,14 +9,17 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.material.transitions.TransitionProps
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
 import web.dom.Element
 
 external interface MenuProps :
-    mui.system.StandardProps,
+    StandardProps,
     PopoverProps,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * An HTML element, or a function that returns one.
      * It's used to set the position of the menu.
@@ -93,7 +96,7 @@ external interface MenuProps :
      * @deprecated use the `slotProps.transition` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      * @default {}
      */
-    var TransitionProps: mui.material.transitions.TransitionProps?
+    var TransitionProps: TransitionProps?
 
     /**
      * The variant to use. Use `menu` to prevent selected items from impacting the initial focus.

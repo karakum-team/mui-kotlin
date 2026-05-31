@@ -5,14 +5,19 @@
 package mui.material
 
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
+import web.html.HTMLSpanElement
 
 external interface StepLabelProps :
-    mui.system.StandardProps,
-    react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
+    StandardProps,
+    HTMLAttributes<HTMLDivElement>,
     StepLabelSlotsAndSlotProps,
     react.PropsWithChildren,
-    mui.system.PropsWithSx {
+    PropsWithSx {
     /**
      * In most cases will simply be a string containing a title for the label.
      */
@@ -89,10 +94,10 @@ external interface StepLabelSlots {
 
 external interface StepLabelSlotProps : react.Props {
     /** TS: SlotProps<'span', {}, StepLabelOwnerState> */
-    var root: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
+    var root: HTMLAttributes<HTMLSpanElement>?
 
     /** TS: SlotProps<'span', {}, StepLabelOwnerState> */
-    var label: react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>?
+    var label: HTMLAttributes<HTMLSpanElement>?
 
     /** TS: SlotProps<React.ElementType<StepIconProps>, {}, StepLabelOwnerState> */
     var stepIcon: StepIconProps?
