@@ -8,6 +8,14 @@ external interface SwitchProps :
     SwitchOwnProps,
     react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>
 
+external interface SwitchRootSlotPropsOverrides
+
+external interface SwitchThumbSlotPropsOverrides
+
+external interface SwitchInputSlotPropsOverrides
+
+external interface SwitchTrackSlotPropsOverrides
+
 external interface SwitchOwnProps : react.PropsWithClassName {
     /**
      * Class name applied to the root element.

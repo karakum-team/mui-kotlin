@@ -17,6 +17,8 @@ external interface AppBarProps :
     mui.types.PropsWithComponent,
     PaperProps
 
+external interface AppBarPropsColorOverrides
+
 external interface AppBarOwnProps :
     mui.system.PropsWithSx,
     PaperProps {
@@ -41,7 +43,7 @@ external interface AppBarOwnProps :
 
     /**
      * The positioning type. The behavior of the different options is described
-     * [in the MDN web docs](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Positioning).
+     * [in the MDN web docs](https://developer.mozilla.org/en-US/docs/Web/CSS/position).
      * Note: `sticky` is not universally supported and will fall back to `static` when unavailable.
      * @default 'fixed'
      */
@@ -57,12 +59,12 @@ external interface AppBarOwnProps :
  *
  * Demos:
  *
- * - [App Bar](https://mui.com/material-ui/react-app-bar/)
+ * - [App Bar](https://v6.mui.com/material-ui/react-app-bar/)
  *
  * API:
  *
- * - [AppBar API](https://mui.com/material-ui/api/app-bar/)
- * - inherits [Paper API](https://mui.com/material-ui/api/paper/)
+ * - [AppBar API](https://v6.mui.com/material-ui/api/app-bar/)
+ * - inherits [Paper API](https://v6.mui.com/material-ui/api/paper/)
  */
 
 @JsName("default")

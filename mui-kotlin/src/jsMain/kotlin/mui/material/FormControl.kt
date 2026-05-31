@@ -12,6 +12,10 @@ external interface FormControlProps :
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
     mui.types.PropsWithComponent
 
+external interface FormControlPropsSizeOverrides
+
+external interface FormControlPropsColorOverrides
+
 external interface FormControlOwnProps :
     react.PropsWithChildren,
     mui.system.PropsWithSx {
@@ -100,12 +104,12 @@ external interface FormControlOwnProps :
  * consistent across the children of the `FormControl`.
  * This context is used by the following components:
  *
- * *   FormLabel
- * *   FormHelperText
- * *   Input
- * *   InputLabel
+ * * FormLabel
+ * * FormHelperText
+ * * Input
+ * * InputLabel
  *
- * You can find one composition example below and more going to [the demos](https://mui.com/material-ui/react-text-field/#components).
+ * You can find one composition example below and more going to [the demos](https://v6.mui.com/material-ui/react-text-field/#components).
  *
  * ```jsx
  * <FormControl>
@@ -120,14 +124,14 @@ external interface FormControlOwnProps :
  *
  * Demos:
  *
- * - [Checkbox](https://mui.com/material-ui/react-checkbox/)
- * - [Radio Group](https://mui.com/material-ui/react-radio-button/)
- * - [Switch](https://mui.com/material-ui/react-switch/)
- * - [Text Field](https://mui.com/material-ui/react-text-field/)
+ * - [Checkbox](https://v6.mui.com/material-ui/react-checkbox/)
+ * - [Radio Group](https://v6.mui.com/material-ui/react-radio-button/)
+ * - [Switch](https://v6.mui.com/material-ui/react-switch/)
+ * - [Text Field](https://v6.mui.com/material-ui/react-text-field/)
  *
  * API:
  *
- * - [FormControl API](https://mui.com/material-ui/api/form-control/)
+ * - [FormControl API](https://v6.mui.com/material-ui/api/form-control/)
  */
 @JsName("default")
 external val FormControl: react.FC<FormControlProps>

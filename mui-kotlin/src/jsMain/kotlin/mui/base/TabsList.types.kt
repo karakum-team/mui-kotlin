@@ -8,6 +8,8 @@ external interface TabsListProps :
     TabsListOwnProps,
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement>
 
+external interface TabsListRootSlotPropsOverrides
+
 external interface TabsListOwnProps :
     react.PropsWithChildren,
     react.PropsWithClassName {

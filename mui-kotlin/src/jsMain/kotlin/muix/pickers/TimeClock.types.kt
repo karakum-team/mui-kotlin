@@ -41,4 +41,4 @@ external interface ExportedTimeClockProps : react.Props {
 
 external interface TimeClockSlots
 
-external interface TimeClockSlotProps : react.Props
+external interface TimeClockSlotProps

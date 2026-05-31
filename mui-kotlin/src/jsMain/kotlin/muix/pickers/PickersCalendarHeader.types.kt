@@ -70,6 +70,8 @@ external interface PickersCalendarHeaderSlots {
     var switchViewIcon: react.ElementType<*>?
 }
 
+external interface PickersCalendarHeaderSlotPropsOverrides
+
 external interface PickersCalendarHeaderSlotProps<TDate> : react.Props {
     var switchViewButton: react.Props?
 

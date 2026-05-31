@@ -9,18 +9,12 @@ external interface BoxProps :
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
     mui.types.PropsWithComponent
 
-external interface CustomSystemProps : react.Props
+external interface CustomSystemProps
 
 external interface BoxOwnProps :
     react.PropsWithChildren,
     PropsWithSx {
     override var children: react.ReactNode?
-
-    /**
-     * The component used for the root node.
-     * Either a string to use a HTML element or a component.
-     */
-    var component: react.ElementType<*>?
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

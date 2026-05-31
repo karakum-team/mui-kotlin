@@ -72,6 +72,23 @@ internal fun convertDefinitions(
             "StandardProps<Omit<ModalProps, 'slots' | 'slotProps'>, 'children'>",
             "StandardProps<ModalProps>",
         )
+        // MUI v6 multi-line `StandardProps<Foo, 'a' | 'b' | ...>` → collapse to `StandardProps<Foo>`
+        // so existing single-arg ParentType.parseStandardProps logic can handle it.
+        .replace(Regex("""StandardProps<\s*(\w+),[^<>]*>"""), "StandardProps<$1>")
+        // MUI v6 wraps StandardProps in Omit for some components (Dialog, etc.) — unwrap.
+        .replace(Regex("""Omit<\s*(StandardProps<\w+>)\s*,[^<>]*>"""), "$1")
+        // MUI v6 Menu / Popover do the inverse — `StandardProps<Omit<X, '...'>[, '...']>`.
+        // Collapse to single-arg StandardProps<X>; parseStandardProps handles that form.
+        .replace(Regex("""StandardProps<\s*Omit<\s*(\w+),[^<>]*>\s*(?:,[^<>]*)?>"""), "StandardProps<$1>")
+        // MUI v6 frequently adds `, XxxSlotsAndSlotProps` as an extra extends parent.
+        // The generator emits each parent verbatim and the slot-props type doesn't exist
+        // in Kotlin-side wrappers. Strip it; record in MUI_V6_TODO if you need it later.
+        .replace(Regex(""",\s+\w+SlotsAndSlotProps"""), "")
+        // TS indexed access types used in function args (UsePaginationItem['page'] etc.)
+        // — go through FunctionType.toFunctionType which doesn't look at TypeAlias.ALIAS_MAP,
+        // so collapse here to the primitive type the alias would produce.
+        .replace("UsePaginationItem['page']", "Number?")
+        .replace("UsePaginationItem['selected']", "Boolean")
         .replace(
             "\ninterface ${name}OwnProps {\n",
             "\nexport interface ${name}OwnProps {\n",
@@ -129,9 +146,18 @@ internal fun convertDefinitions(
         findDefaultFunction(name, content)
     )
 
+    // MUI v6 re-declares Grid* union types in each Grid variant file.
+    // Keep them only in the canonical Grid.d.ts; skip in Grid2/PigmentGrid.
+    val skipDuplicateUnions = name in setOf("Grid2", "PigmentGrid")
+
     val enums = content.splitToSequence("export type ", "export declare type ")
         .drop(1)
         .map { it.substringBefore(";") }
+        .filter { typeDecl ->
+            if (!skipDuplicateUnions) return@filter true
+            val typeName = typeDecl.substringBefore(" ").substringBefore("<")
+            typeName !in setOf("GridDirection", "GridWrap", "GridSpacing", "GridSize")
+        }
         .mapNotNull { convertUnion(it) }
         .plus(defaultUnions)
         .toList()
@@ -443,6 +469,55 @@ private fun findAdditionalProps(
         // TODO: check
         if (propsLike && interfaceName == propsName && interfaceName != "UseButtonProps")
             return@mapNotNull null
+
+        // Empty interfaces like `export interface Typography {}` or
+        // `export interface XxxOwnerState\n  extends PartiallyRequired<...> {}` (MUI v6)
+        // — drop extends clause we can't parse, emit plain empty external interface.
+        // Find the body-opening `{` outside any generic `<...>` clause to ignore default-value
+        // braces like `<AdditionalProps = {}>`.
+        run {
+            var ltDepth = 0
+            var bodyBrace = -1
+            for (i in body.indices) {
+                when (body[i]) {
+                    '<' -> ltDepth++
+                    '>' -> ltDepth--
+                    '{' -> if (ltDepth == 0) {
+                        bodyBrace = i; break
+                    }
+                }
+            }
+            if (bodyBrace > 0) {
+                val afterBrace = body.substring(bodyBrace + 1).trimStart()
+                if (afterBrace.startsWith("}")) {
+                    // Preserve TS type parameters so generic usages (e.g. `DatePickerSlots<TDate>`)
+                    // still resolve. Strip `extends X` bounds — we just need the param names.
+                    val afterName = body.substring(interfaceName.length)
+                    val typeParams = if (afterName.startsWith("<")) {
+                        var d = 0
+                        var end = -1
+                        for (i in afterName.indices) {
+                            when (afterName[i]) {
+                                '<' -> d++
+                                '>' -> {
+                                    d--; if (d == 0) {
+                                        end = i; break
+                                    }
+                                }
+                            }
+                        }
+                        if (end > 0) {
+                            afterName.substring(1, end)
+                                .split(",")
+                                .map { it.trim().substringBefore(" ").substringBefore("=").trim() }
+                                .filter { it.isNotEmpty() }
+                                .joinToString(", ", "<", ">")
+                        } else ""
+                    } else ""
+                    return@mapNotNull "external interface $interfaceName$typeParams"
+                }
+            }
+        }
 
         if (interfaceName == "ValueLabelProps" || interfaceName == "UseButtonProps")
             return@mapNotNull null

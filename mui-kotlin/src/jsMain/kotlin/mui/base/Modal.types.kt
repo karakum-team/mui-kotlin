@@ -9,6 +9,10 @@ external interface ModalProps :
     ModalOwnProps,
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement>
 
+external interface ModalRootSlotPropsOverrides
+
+external interface ModalBackdropSlotPropsOverrides
+
 external interface ModalOwnProps : react.PropsWithChildren {
     /**
      * A single child content element.
@@ -163,9 +167,9 @@ external interface ModalRootSlotProps :
 
     override var className: ClassName?
 
-    var onKeyDown: dynamic
+    var onKeyDown: Any? /* React.KeyboardEventHandler */
 
-    var ownerState: dynamic
+    var ownerState: Any? /* ModalOwnerState */
 
     var role: react.dom.aria.AriaRole
 }
@@ -179,5 +183,5 @@ external interface ModalBackdropSlotProps : react.PropsWithChildren {
 
     var open: Boolean
 
-    var ownerState: dynamic
+    var ownerState: Any? /* ModalOwnerState */
 }

@@ -6,8 +6,14 @@ import web.cssom.ClassName
 
 external interface SelectProps<OptionValue> :
     SelectOwnProps<OptionValue> {
-    var component: react.ElementType<*>?
+    var component: Any? /* D */
 }
+
+external interface SelectRootSlotPropsOverrides
+
+external interface SelectListboxSlotPropsOverrides
+
+external interface SelectPopupSlotPropsOverrides
 
 external interface SelectOwnProps<OptionValue> :
     react.PropsWithChildren,

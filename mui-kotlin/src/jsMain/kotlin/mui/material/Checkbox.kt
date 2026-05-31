@@ -79,16 +79,6 @@ external interface CheckboxProps :
     var indeterminateIcon: react.ReactNode?
 
     /**
-     * [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
-     */
-    var inputProps: react.dom.html.InputHTMLAttributes<web.html.HTMLInputElement>?
-
-    /**
-     * Pass a ref to the `input` element.
-     */
-    var inputRef: react.Ref<web.html.HTMLInputElement>?
-
-    /**
      * Callback fired when the state is changed.
      *
      * @param {React.ChangeEvent<HTMLInputElement>} event The event source of the callback.
@@ -121,17 +111,41 @@ external interface CheckboxProps :
     var value: Any? /* SwitchBaseProps['value'] */
 }
 
+external interface CheckboxPropsSizeOverrides
+
+external interface CheckboxPropsColorOverrides
+
+external interface CheckboxRootSlotPropsOverrides
+
+external interface CheckboxInputSlotPropsOverrides
+
+external interface CheckboxSlots {
+    /**
+     * The component that renders the root slot.
+     * @default SwitchBase
+     */
+    var root: react.ElementType<*>
+
+    /**
+     * The component that renders the input slot.
+     * @default SwitchBase's input
+     */
+    var input: react.ElementType<*>
+}
+
+external interface CheckboxOwnerState
+
 /**
  *
  * Demos:
  *
- * - [Checkbox](https://mui.com/material-ui/react-checkbox/)
- * - [Transfer List](https://mui.com/material-ui/react-transfer-list/)
+ * - [Checkbox](https://v6.mui.com/material-ui/react-checkbox/)
+ * - [Transfer List](https://v6.mui.com/material-ui/react-transfer-list/)
  *
  * API:
  *
- * - [Checkbox API](https://mui.com/material-ui/api/checkbox/)
- * - inherits [ButtonBase API](https://mui.com/material-ui/api/button-base/)
+ * - [Checkbox API](https://v6.mui.com/material-ui/api/checkbox/)
+ * - inherits [ButtonBase API](https://v6.mui.com/material-ui/api/button-base/)
  */
 @JsName("default")
 external val Checkbox: react.FC<CheckboxProps>

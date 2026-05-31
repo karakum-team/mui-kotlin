@@ -11,6 +11,8 @@ external interface PopperProps :
     PopperOwnProps,
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement>
 
+external interface PopperRootSlotPropsOverrides
+
 external interface PopperTransitionProps : react.Props {
     var `in`: Boolean
 
@@ -25,19 +27,19 @@ external interface PopperChildrenProps : react.Props {
     var TransitionProps: PopperTransitionProps?
 }
 
-external interface PopperOwnProps : react.Props {
+external interface PopperOwnProps : react.PropsWithChildren {
     /**
      * An HTML element, [virtualElement](https://popper.js.org/docs/v2/virtual-elements/),
      * or a function that returns either.
      * It's used to set the position of the popper.
      * The return value will passed as the reference object of the Popper instance.
      */
-    var anchorEl: dynamic
+    var anchorEl: Any? /* null | VirtualElement | HTMLElement | (() => HTMLElement) | (() => VirtualElement) */
 
     /**
      * Popper render function or node.
      */
-    var children: dynamic
+    override var children: react.ReactNode? /* React.ReactNode | ((props: PopperChildrenProps) => React.ReactNode) */
 
     /**
      * An HTML element or function that returns one.
@@ -139,5 +141,5 @@ external interface PopperSlots {
 external interface PopperRootSlotProps : react.PropsWithClassName {
     override var className: ClassName?
 
-    var ownerState: dynamic
+    var ownerState: Any? /* PopperOwnerState */
 }

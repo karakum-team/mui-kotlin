@@ -6,8 +6,10 @@ import web.cssom.ClassName
 
 external interface OptionProps<OptionValue> :
     OptionOwnProps<OptionValue> {
-    var component: react.ElementType<*>?
+    var component: Any? /* D */
 }
+
+external interface OptionRootSlotPropsOverrides
 
 external interface OptionOwnProps<OptionValue> :
     react.PropsWithChildren,

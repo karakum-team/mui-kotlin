@@ -37,7 +37,7 @@ external interface CircularProgressProps :
      * If using a string, you need to provide the CSS unit, for example '3rem'.
      * @default 40
      */
-    var size: dynamic
+    var size: Any? /* number | string */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
@@ -65,6 +65,10 @@ external interface CircularProgressProps :
     var variant: CircularProgressVariant?
 }
 
+external interface CircularProgressPropsColorOverrides
+
+external interface CircularProgressPropsVariantOverrides
+
 /**
  * ## ARIA
  *
@@ -74,11 +78,11 @@ external interface CircularProgressProps :
  *
  * Demos:
  *
- * - [Progress](https://mui.com/material-ui/react-progress/)
+ * - [Progress](https://v6.mui.com/material-ui/react-progress/)
  *
  * API:
  *
- * - [CircularProgress API](https://mui.com/material-ui/api/circular-progress/)
+ * - [CircularProgress API](https://v6.mui.com/material-ui/api/circular-progress/)
  */
 @JsName("default")
 external val CircularProgress: react.FC<CircularProgressProps>

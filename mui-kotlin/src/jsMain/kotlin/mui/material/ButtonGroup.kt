@@ -12,6 +12,12 @@ external interface ButtonGroupProps :
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
     mui.types.PropsWithComponent
 
+external interface ButtonGroupPropsColorOverrides
+
+external interface ButtonGroupPropsVariantOverrides
+
+external interface ButtonGroupPropsSizeOverrides
+
 external interface ButtonGroupOwnProps :
     react.PropsWithChildren,
     mui.system.PropsWithSx {
@@ -92,11 +98,11 @@ external interface ButtonGroupOwnProps :
  *
  * Demos:
  *
- * - [Button Group](https://mui.com/material-ui/react-button-group/)
+ * - [Button Group](https://v6.mui.com/material-ui/react-button-group/)
  *
  * API:
  *
- * - [ButtonGroup API](https://mui.com/material-ui/api/button-group/)
+ * - [ButtonGroup API](https://v6.mui.com/material-ui/api/button-group/)
  */
 @JsName("default")
 external val ButtonGroup: react.FC<ButtonGroupProps>

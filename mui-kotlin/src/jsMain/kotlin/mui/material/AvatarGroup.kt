@@ -8,8 +8,19 @@ import mui.material.styles.Theme
 import mui.system.SxProps
 
 external interface AvatarGroupProps :
-    mui.system.StandardProps,
+    AvatarGroupOwnProps,
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
+    mui.types.PropsWithComponent
+
+external interface AvatarGroupPropsVariantOverrides
+
+external interface AvatarGroupComponentsPropsOverrides
+
+external interface AvatarGroupSlots {
+    var surplus: react.ElementType<*>
+}
+
+external interface AvatarGroupOwnProps :
     react.PropsWithChildren,
     mui.system.PropsWithSx {
     /**
@@ -33,9 +44,8 @@ external interface AvatarGroupProps :
      * You can override the existing props or add new ones.
      *
      * This prop is an alias for the `slotProps` prop.
-     * It's recommended to use the `slotProps` prop instead, as `componentsProps` will be deprecated in the future.
      *
-     * @default {}
+     * @deprecated use the `slotProps` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var componentsProps: ComponentsProps?
 
@@ -56,21 +66,6 @@ external interface AvatarGroupProps :
      * @returns {React.ReactNode} custom element to display
      */
     var renderSurplus: ((surplus: Number) -> react.ReactNode)?
-
-    /**
-     * The extra props for the slot components.
-     * You can override the existing props or add new ones.
-     *
-     * This prop is an alias for the `componentsProps` prop, which will be deprecated in the future.
-     *
-     * @default {}
-     */
-    var slotProps: SlotProps?
-
-    interface SlotProps {
-        var additionalAvatar: react.Props? /* React.ComponentPropsWithRef<typeof Avatar> &
-  AvatarGroupComponentsPropsOverrides */
-    }
 
     /**
      * Spacing between avatars.
@@ -96,15 +91,17 @@ external interface AvatarGroupProps :
     var variant: AvatarGroupVariant?
 }
 
+external interface AvatarGroupOwnerState
+
 /**
  *
  * Demos:
  *
- * - [Avatar](https://mui.com/material-ui/react-avatar/)
+ * - [Avatar](https://v6.mui.com/material-ui/react-avatar/)
  *
  * API:
  *
- * - [AvatarGroup API](https://mui.com/material-ui/api/avatar-group/)
+ * - [AvatarGroup API](https://v6.mui.com/material-ui/api/avatar-group/)
  */
 @JsName("default")
 external val AvatarGroup: react.FC<AvatarGroupProps>

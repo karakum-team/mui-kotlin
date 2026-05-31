@@ -12,6 +12,8 @@ external interface BreadcrumbsProps :
     react.dom.html.HTMLAttributes<web.html.HTMLElement>,
     mui.types.PropsWithComponent
 
+external interface BreadcrumbsCollapsedIconSlotPropsOverrides
+
 external interface BreadcrumbsOwnerState {
     var expanded: Boolean
 }
@@ -57,7 +59,7 @@ external interface BreadcrumbsOwnProps :
     /**
      * Override the default label for the expand button.
      *
-     * For localization purposes, you can use the provided [translations](/material-ui/guides/localization/).
+     * For localization purposes, you can use the provided [translations](https://mui.com/material-ui/guides/localization/).
      * @default 'Show path'
      */
     var expandText: String?
@@ -98,12 +100,12 @@ external interface BreadcrumbsOwnProps :
  *
  * Demos:
  *
- * - [Breadcrumbs](https://mui.com/material-ui/react-breadcrumbs/)
+ * - [Breadcrumbs](https://v6.mui.com/material-ui/react-breadcrumbs/)
  *
  * API:
  *
- * - [Breadcrumbs API](https://mui.com/material-ui/api/breadcrumbs/)
- * - inherits [Typography API](https://mui.com/material-ui/api/typography/)
+ * - [Breadcrumbs API](https://v6.mui.com/material-ui/api/breadcrumbs/)
+ * - inherits [Typography API](https://v6.mui.com/material-ui/api/typography/)
  */
 @JsName("default")
 external val Breadcrumbs: react.FC<BreadcrumbsProps>

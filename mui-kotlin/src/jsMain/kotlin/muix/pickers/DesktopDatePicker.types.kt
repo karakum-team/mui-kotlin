@@ -24,4 +24,4 @@ external interface DesktopDatePickerProps<TDate, TEnableAccessibleFieldDOMStruct
 
 external interface DesktopDatePickerSlots<TDate>
 
-external interface DesktopDatePickerSlotProps<TDate, TEnableAccessibleFieldDOMStructure> : react.Props
+external interface DesktopDatePickerSlotProps<TDate, TEnableAccessibleFieldDOMStructure>

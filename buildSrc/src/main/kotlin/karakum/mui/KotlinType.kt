@@ -238,6 +238,10 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "SelectionMode" to "mui.system.Union /* 'none' | 'single' | 'multiple' */",
 
+    // MUI v6 Grid2/PigmentGrid use GridSize but each .d.ts defines own variant; we keep only Grid's
+    // declaration and route the others through this opaque alias.
+    "GridSize" to "mui.system.Union /* 'auto' | 'grow' | number | false */",
+
     "{ [key in Breakpoint]: number }" to "Record<Breakpoint, Number>",
     "Record<string, any>" to "Record<String, *>",
     "Record<string, any> & { mode: 'light' | 'dark' }" to "Record<String, *>",
@@ -357,7 +361,7 @@ internal fun kotlinType(
 
     // For system theme interfaces
     if (name == "palette" && type.startsWith("Record<"))
-        return "$DYNAMIC /* ${STANDARD_TYPE_MAP.getValue(type)} */"
+        return "Any? /* ${STANDARD_TYPE_MAP.getValue(type)} */"
 
     if (name == "dateAdapter")
         return "$DATE_ADAPTER /* $type */"
@@ -373,7 +377,12 @@ internal fun kotlinType(
 
     if (type.endsWith(" | null")) {
         val t = kotlinType(type.removeSuffix(" | null"))
-        return if (t == DYNAMIC) t else "$t?"
+        return when {
+            t == DYNAMIC -> t
+            "? /*" in t -> t // already nullable from Any?/* TS-source */ fallback
+            t.endsWith("?") -> t
+            else -> "$t?"
+        }
     }
 
     if (KNOWN_TYPE_SUFFIXES.any { type.endsWith(it) } && " | " !in type && type != "Color")
@@ -388,8 +397,15 @@ internal fun kotlinType(
         return "$PROMISE<${kotlinType(promiseResult)}>"
 
     val styleValueResult = type.removeSurrounding("ResponsiveStyleValue<", ">")
-    if (styleValueResult != type)
-        return "mui.system.ResponsiveStyleValue<${kotlinType(styleValueResult)}>"
+    if (styleValueResult != type) {
+        // ResponsiveStyleValue<T : Any> requires non-null. Drop `?` from fallback so the bound is satisfied.
+        val inner = kotlinType(styleValueResult)
+        val nonNullInner = when {
+            inner.startsWith("Any? /*") -> "Any" + inner.removePrefix("Any?")
+            else -> inner
+        }
+        return "mui.system.ResponsiveStyleValue<$nonNullInner>"
+    }
 
     val refResult = type.removeSurrounding("React.Ref<", ">")
     if (refResult != type)
@@ -441,7 +457,7 @@ internal fun kotlinType(
             return when (partialResult) {
                 "TouchRippleProps",
                 "NativeSelectInputProps",
-                    -> DYNAMIC
+                    -> "Any? /* Partial<$partialResult> */"
 
                 "StandardInputProps",
                     -> "InputProps"
@@ -534,7 +550,7 @@ internal fun kotlinType(
         return "react.Props /* $comment */"
     }
 
-    return DYNAMIC
+    return "Any? /* $type */"
 }
 
 private fun componentInterface(

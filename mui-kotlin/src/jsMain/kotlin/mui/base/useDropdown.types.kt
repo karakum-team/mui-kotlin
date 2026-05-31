@@ -31,7 +31,7 @@ external interface UseDropdownReturnValue {
     /**
      * The value to be passed into the DropdownContext provider.
      */
-    var contextValue: dynamic
+    var contextValue: Any? /* DropdownContextValue */
 
     /**
      * If `true`, the dropdown is open.

@@ -48,11 +48,11 @@ external interface CardMediaOwnProps :
  *
  * Demos:
  *
- * - [Card](https://mui.com/material-ui/react-card/)
+ * - [Card](https://v6.mui.com/material-ui/react-card/)
  *
  * API:
  *
- * - [CardMedia API](https://mui.com/material-ui/api/card-media/)
+ * - [CardMedia API](https://v6.mui.com/material-ui/api/card-media/)
  */
 @JsName("default")
 external val CardMedia: react.FC<CardMediaProps>

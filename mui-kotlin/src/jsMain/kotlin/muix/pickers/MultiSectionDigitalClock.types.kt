@@ -43,9 +43,9 @@ external interface MultiSectionDigitalClockOption<TValue> {
     var ariaLabel: String
 }
 
-external interface ExportedMultiSectionDigitalClockProps : react.Props
+external interface ExportedMultiSectionDigitalClockProps<TDate>
 
-external interface MultiSectionDigitalClockViewProps : react.Props
+external interface MultiSectionDigitalClockViewProps<TValue>
 
 external interface MultiSectionDigitalClockSlots {
     /**

@@ -40,15 +40,19 @@ external interface TimelineDotProps :
     var variant: TimelineDotVariant?
 }
 
+external interface TimelineDotPropsVariantOverrides
+
+external interface TimelineDotPropsColorOverrides
+
 /**
  *
  * Demos:
  *
- * - [Timeline](https://mui.com/material-ui/react-timeline/)
+ * - [Timeline](https://v6.mui.com/material-ui/react-timeline/)
  *
  * API:
  *
- * - [TimelineDot API](https://mui.com/material-ui/api/timeline-dot/)
+ * - [TimelineDot API](https://v6.mui.com/material-ui/api/timeline-dot/)
  */
 @JsName("default")
 external val TimelineDot: react.FC<TimelineDotProps>

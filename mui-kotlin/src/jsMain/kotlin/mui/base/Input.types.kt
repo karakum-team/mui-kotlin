@@ -10,6 +10,10 @@ external interface InputProps :
     InputOwnProps,
     react.dom.html.HTMLAttributes<web.html.HTMLInputElement>
 
+external interface InputRootSlotPropsOverrides
+
+external interface InputInputSlotPropsOverrides
+
 external interface InputBaseProps : react.Props {
     /**
      * Maximum number of rows to display when multiline option is set to true.

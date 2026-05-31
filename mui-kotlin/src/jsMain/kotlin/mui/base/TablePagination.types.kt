@@ -16,6 +16,22 @@ external interface LabelDisplayedRowsArgs {
     var page: Number
 }
 
+external interface TablePaginationRootSlotPropsOverrides
+
+external interface TablePaginationActionsSlotPropsOverrides
+
+external interface TablePaginationSelectSlotPropsOverrides
+
+external interface TablePaginationSelectLabelSlotPropsOverrides
+
+external interface TablePaginationMenuItemSlotPropsOverrides
+
+external interface TablePaginationDisplayedRowsSlotPropsOverrides
+
+external interface TablePaginationToolbarSlotPropsOverrides
+
+external interface TablePaginationSpacerSlotPropsOverrides
+
 external interface TablePaginationOwnProps : react.Props {
     /**
      * @ignore
@@ -57,7 +73,7 @@ external interface TablePaginationOwnProps : react.Props {
      * Accepts a function which returns a string value that provides a user-friendly name for the current page.
      * This is important for screen reader users.
      *
-     * For localization purposes, you can use the provided [translations](/material-ui/guides/localization/).
+     * For localization purposes, you can use the provided [translations](https://mui.com/material-ui/guides/localization/).
      * @param {string} type The link or button type to format ('first' | 'last' | 'next' | 'previous').
      * @returns {string}
      * @default function defaultGetAriaLabel(type: ItemAriaLabelType) {
@@ -70,7 +86,7 @@ external interface TablePaginationOwnProps : react.Props {
      * Customize the displayed rows label. Invoked with a `{ from, to, count, page }`
      * object.
      *
-     * For localization purposes, you can use the provided [translations](/material-ui/guides/localization/).
+     * For localization purposes, you can use the provided [translations](https://mui.com/material-ui/guides/localization/).
      * @default function defaultLabelDisplayedRows({ from, to, count }: LabelDisplayedRowsArgs) {
      *   return `${from}–${to} of ${count !== -1 ? count : `more than ${to}`}`;
      * }
@@ -85,7 +101,7 @@ external interface TablePaginationOwnProps : react.Props {
     /**
      * Customize the rows per page label.
      *
-     * For localization purposes, you can use the provided [translations](/material-ui/guides/localization/).
+     * For localization purposes, you can use the provided [translations](https://mui.com/material-ui/guides/localization/).
      * @default 'Rows per page:'
      */
     var labelRowsPerPage: react.ReactNode?
@@ -123,7 +139,10 @@ external interface TablePaginationOwnProps : react.Props {
      * Use -1 for the value with a custom label to show all the rows.
      * @default [10, 25, 50, 100]
      */
-    var rowsPerPageOptions: dynamic
+    var rowsPerPageOptions: Any? /* ReadonlyArray<number | {
+    value: number;
+    label: string;
+}> */
 
     /**
      * Id of the select element within the pagination.

@@ -15,7 +15,8 @@ external interface AutocompleteProps<Value> :
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
     mui.system.PropsWithSx {
     /**
-     * Props applied to the [`Chip`](/material-ui/api/chip/) element.
+     * Props applied to the [`Chip`](https://mui.com/material-ui/api/chip/) element.
+     * @deprecated Use `slotProps.chip` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var ChipProps: ChipProps?
 
@@ -33,7 +34,7 @@ external interface AutocompleteProps<Value> :
     /**
      * Override the default text for the *clear* icon button.
      *
-     * For localization purposes, you can use the provided [translations](/material-ui/guides/localization/).
+     * For localization purposes, you can use the provided [translations](https://mui.com/material-ui/guides/localization/).
      * @default 'Clear'
      */
     var clearText: String?
@@ -41,14 +42,14 @@ external interface AutocompleteProps<Value> :
     /**
      * Override the default text for the *close popup* icon button.
      *
-     * For localization purposes, you can use the provided [translations](/material-ui/guides/localization/).
+     * For localization purposes, you can use the provided [translations](https://mui.com/material-ui/guides/localization/).
      * @default 'Close'
      */
     var closeText: String?
 
     /**
      * The props used for each slot inside.
-     * @default {}
+     * @deprecated Use the `slotProps` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var componentsProps: ComponentsProps?
 
@@ -75,7 +76,7 @@ external interface AutocompleteProps<Value> :
      * Force the visibility display of the popup icon.
      * @default 'auto'
      */
-    var forcePopupIcon: dynamic
+    var forcePopupIcon: Any? /* true | false | 'auto' */
 
     /**
      * If `true`, the input will take up the full width of its container.
@@ -95,11 +96,13 @@ external interface AutocompleteProps<Value> :
     /**
      * The component used to render the listbox.
      * @default 'ul'
+     * @deprecated Use `slotProps.listbox.component` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var ListboxComponent: react.ComponentType<*>?
 
     /**
      * Props applied to the Listbox element.
+     * @deprecated Use `slotProps.listbox` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var ListboxProps: react.Props? /* ReturnType<ReturnType<typeof useAutocomplete>['getListboxProps']> & { sx?: SxProps<Theme>; ref?: React.Ref<Element>; } */
 
@@ -113,7 +116,7 @@ external interface AutocompleteProps<Value> :
     /**
      * Text to display when in a loading state.
      *
-     * For localization purposes, you can use the provided [translations](/material-ui/guides/localization/).
+     * For localization purposes, you can use the provided [translations](https://mui.com/material-ui/guides/localization/).
      * @default 'Loading…'
      */
     var loadingText: react.ReactNode?
@@ -128,7 +131,7 @@ external interface AutocompleteProps<Value> :
     /**
      * Text to display when there are no options.
      *
-     * For localization purposes, you can use the provided [translations](/material-ui/guides/localization/).
+     * For localization purposes, you can use the provided [translations](https://mui.com/material-ui/guides/localization/).
      * @default 'No options'
      */
     var noOptionsText: react.ReactNode?
@@ -136,7 +139,7 @@ external interface AutocompleteProps<Value> :
     /**
      * Override the default text for the *open popup* icon button.
      *
-     * For localization purposes, you can use the provided [translations](/material-ui/guides/localization/).
+     * For localization purposes, you can use the provided [translations](https://mui.com/material-ui/guides/localization/).
      * @default 'Open'
      */
     var openText: String?
@@ -144,12 +147,14 @@ external interface AutocompleteProps<Value> :
     /**
      * The component used to render the body of the popup.
      * @default Paper
+     * @deprecated Use `slots.paper` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var PaperComponent: react.ComponentType<*>?
 
     /**
      * The component used to position the popup.
      * @default Popper
+     * @deprecated Use `slots.popper` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var PopperComponent: react.ComponentType<PopperProps>?
 
@@ -218,23 +223,14 @@ external interface AutocompleteProps<Value> :
     var size: mui.system.Union? /* 'small' | 'medium', AutocompletePropsSizeOverrides */
 
     /**
-     * The props used for each slot inside.
-     * @default {}
-     */
-    var slotProps: SlotProps?
-
-    interface SlotProps {
-        var clearIndicator: react.Props? /* Partial<IconButtonProps> */
-        var paper: react.Props? /* PaperProps */
-        var popper: react.Props? /* Partial<PopperProps> */
-        var popupIndicator: react.Props? /* Partial<IconButtonProps> */
-    }
-
-    /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
      */
     override var sx: SxProps<Theme>?
 }
+
+external interface AutocompletePaperSlotPropsOverrides
+
+external interface AutocompletePopperSlotPropsOverrides
 
 external interface AutocompleteRenderOptionState {
     var inputValue: String
@@ -263,20 +259,42 @@ external interface AutocompleteRenderInputParams : react.Props {
 
     var InputLabelProps: react.Props /* ReturnType<ReturnType<typeof useAutocomplete>['getInputLabelProps']> */
 
-    var InputProps: react.Props /* { ref: React.Ref<any>; className: string; startAdornment: React.ReactNode; endAdornment: React.ReactNode; } */
+    var InputProps: react.Props /* { ref: React.Ref<any>; className: string; startAdornment: React.ReactNode; endAdornment: React.ReactNode; onMouseDown: React.MouseEventHandler; } */
 
     var inputProps: react.Props /* ReturnType<ReturnType<typeof useAutocomplete>['getInputProps']> */
+}
+
+external interface AutocompletePropsSizeOverrides
+
+external interface AutocompleteSlots {
+    /**
+     * The component used to render the listbox.
+     * @default 'ul'
+     */
+    var listbox: react.ComponentType<*>
+
+    /**
+     * The component used to render the body of the popup.
+     * @default Paper
+     */
+    var paper: react.ComponentType<*>
+
+    /**
+     * The component used to position the popup.
+     * @default Popper
+     */
+    var popper: react.ComponentType<*>
 }
 
 /**
  *
  * Demos:
  *
- * - [Autocomplete](https://mui.com/material-ui/react-autocomplete/)
+ * - [Autocomplete](https://v6.mui.com/material-ui/react-autocomplete/)
  *
  * API:
  *
- * - [Autocomplete API](https://mui.com/material-ui/api/autocomplete/)
+ * - [Autocomplete API](https://v6.mui.com/material-ui/api/autocomplete/)
  */
 @JsName("default")
 external val Autocomplete: react.FC<AutocompleteProps<*>>

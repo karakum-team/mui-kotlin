@@ -6,6 +6,22 @@ external interface SliderProps :
     SliderOwnProps,
     react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>
 
+external interface SliderRootSlotPropsOverrides
+
+external interface SliderTrackSlotPropsOverrides
+
+external interface SliderRailSlotPropsOverrides
+
+external interface SliderThumbSlotPropsOverrides
+
+external interface SliderMarkSlotPropsOverrides
+
+external interface SliderMarkLabelSlotPropsOverrides
+
+external interface SliderValueLabelSlotPropsOverrides
+
+external interface SliderInputSlotPropsOverrides
+
 external interface SliderThumbSlotState {
     var focused: Boolean
 

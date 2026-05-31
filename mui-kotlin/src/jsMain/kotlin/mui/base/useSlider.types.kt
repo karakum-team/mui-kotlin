@@ -14,7 +14,7 @@ external interface UseSliderParameters {
     /**
      * The default value. Use when the component is not controlled.
      */
-    var defaultValue: dynamic
+    var defaultValue: Any? /* number | ReadonlyArray<number> */
 
     /**
      * If `true`, the component is disabled.
@@ -40,7 +40,7 @@ external interface UseSliderParameters {
      * If an array, it should contain objects with `value` and an optional `label` keys.
      * @default false
      */
-    var marks: dynamic
+    var marks: Any? /* boolean | ReadonlyArray<Mark> */
 
     /**
      * The maximum allowed value of the slider.
@@ -126,7 +126,7 @@ external interface UseSliderParameters {
      * The value of the slider.
      * For ranged sliders, provide an array with two values.
      */
-    var value: dynamic
+    var value: Any? /* number | ReadonlyArray<number> */
 }
 
 external interface Mark {
@@ -144,7 +144,7 @@ external interface UseSliderReturnValue {
     /**
      * The orientation of the slider.
      */
-    var axis: dynamic
+    var axis: Any? /* Axis */
 
     /**
      * Returns the `offset` and `leap` methods to calculate the positioning styles based on the slider axis.
@@ -192,7 +192,7 @@ external interface UseSliderReturnValue {
     /**
      * The marks of the slider. Marks indicate predetermined values to which the user can move the slider.
      */
-    var marks: dynamic
+    var marks: Any? /* Mark[] */
 
     /**
      * The thumb index for the current value when in hover state.
@@ -222,5 +222,5 @@ external interface UseSliderReturnValue {
     /**
      * The possible values of the slider.
      */
-    var values: dynamic
+    var values: Any? /* number[] */
 }

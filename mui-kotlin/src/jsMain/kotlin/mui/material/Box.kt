@@ -10,11 +10,11 @@ import mui.system.BoxProps
  *
  * Demos:
  *
- * - [Box](https://mui.com/material-ui/react-box/)
+ * - [Box](https://v6.mui.com/material-ui/react-box/)
  *
  * API:
  *
- * - [Box API](https://mui.com/material-ui/api/box/)
+ * - [Box API](https://v6.mui.com/material-ui/api/box/)
  */
 @JsName("default")
 external val Box: react.FC<BoxProps>

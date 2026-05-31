@@ -25,6 +25,7 @@ external interface StepLabelProps :
     /**
      * The props used for each slot inside.
      * @default {}
+     * @deprecated use the `slotProps` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var componentsProps: ComponentsProps?
 
@@ -49,22 +50,14 @@ external interface StepLabelProps :
     var optional: react.ReactNode?
 
     /**
-     * The props used for each slot inside.
-     * @default {}
-     */
-    var slotProps: SlotProps?
-
-    interface SlotProps {
-        var label: react.Props? /* React.HTMLProps<HTMLSpanElement> */
-    }
-
-    /**
-     * The component to render in place of the [`StepIcon`](/material-ui/api/step-icon/).
+     * The component to render in place of the [`StepIcon`](https://mui.com/material-ui/api/step-icon/).
+     * @deprecated Use `slots.stepIcon` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var StepIconComponent: react.ElementType<StepIconProps>?
 
     /**
-     * Props applied to the [`StepIcon`](/material-ui/api/step-icon/) element.
+     * Props applied to the [`StepIcon`](https://mui.com/material-ui/api/step-icon/) element.
+     * @deprecated Use `slotProps.stepIcon` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var StepIconProps: StepIconProps?
 
@@ -74,15 +67,36 @@ external interface StepLabelProps :
     override var sx: SxProps<Theme>?
 }
 
+external interface StepLabelSlots {
+    /**
+     * The component that renders the root.
+     * @default span
+     */
+    var root: react.ElementType<*>
+
+    /**
+     * The component that renders the label.
+     * @default span
+     */
+    var label: react.ElementType<*>
+
+    /**
+     * The component to render in place of the [`StepIcon`](https://mui.com/material-ui/api/step-icon/).
+     */
+    var stepIcon: react.ElementType<*>
+}
+
+external interface StepLabelOwnerState
+
 /**
  *
  * Demos:
  *
- * - [Stepper](https://mui.com/material-ui/react-stepper/)
+ * - [Stepper](https://v6.mui.com/material-ui/react-stepper/)
  *
  * API:
  *
- * - [StepLabel API](https://mui.com/material-ui/api/step-label/)
+ * - [StepLabel API](https://v6.mui.com/material-ui/api/step-label/)
  */
 @JsName("default")
 external val StepLabel: react.FC<StepLabelProps>

@@ -55,11 +55,11 @@ external interface BottomNavigationOwnProps :
  *
  * Demos:
  *
- * - [Bottom Navigation](https://mui.com/material-ui/react-bottom-navigation/)
+ * - [Bottom Navigation](https://v6.mui.com/material-ui/react-bottom-navigation/)
  *
  * API:
  *
- * - [BottomNavigation API](https://mui.com/material-ui/api/bottom-navigation/)
+ * - [BottomNavigation API](https://v6.mui.com/material-ui/api/bottom-navigation/)
  */
 @JsName("default")
 external val BottomNavigation: react.FC<BottomNavigationProps>

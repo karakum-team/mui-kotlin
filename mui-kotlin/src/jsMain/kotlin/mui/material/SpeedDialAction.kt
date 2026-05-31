@@ -21,8 +21,9 @@ external interface SpeedDialActionProps :
     var classes: SpeedDialActionClasses?
 
     /**
-     * Props applied to the [`Fab`](/material-ui/api/fab/) component.
+     * Props applied to the [`Fab`](https://mui.com/material-ui/api/fab/) component.
      * @default {}
+     * @deprecated Use `slotProps.fab` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var FabProps: FabProps?
 
@@ -43,38 +44,78 @@ external interface SpeedDialActionProps :
     override var sx: SxProps<Theme>?
 
     /**
-     * `classes` prop applied to the [`Tooltip`](/material-ui/api/tooltip/) element.
+     * `classes` prop applied to the [`Tooltip`](https://mui.com/material-ui/api/tooltip/) element.
+     * @deprecated Use `slotProps.tooltip.classes` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var TooltipClasses: TooltipClasses?
 
     /**
      * Placement of the tooltip.
      * @default 'left'
+     * @deprecated Use `slotProps.tooltip.placement` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
-    var tooltipPlacement: TooltipPlacement?
+    var tooltipPlacement: Any? /* TooltipProps['placement'] */
 
     /**
      * Label to display in the tooltip.
+     * @deprecated Use `slotProps.tooltip.title` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var tooltipTitle: react.ReactNode?
 
     /**
      * Make the tooltip always visible when the SpeedDial is open.
      * @default false
+     * @deprecated Use `slotProps.tooltip.open` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var tooltipOpen: Boolean?
 }
+
+external interface SpeedDialActionSlots {
+    /**
+     * The component that renders the fab.
+     * @default Fab
+     */
+    var fab: react.ElementType<*>?
+
+    /**
+     * The component that renders the tooltip.
+     * @default Tooltip
+     */
+    var tooltip: react.ElementType<*>?
+
+    /**
+     * The component that renders the static tooltip.
+     * @default 'span'
+     */
+    var staticTooltip: react.ElementType<*>?
+
+    /**
+     * The component that renders the static tooltip label.
+     * @default 'span'
+     */
+    var staticTooltipLabel: react.ElementType<*>?
+}
+
+external interface SpeedDialActionFabSlotPropsOverrides
+
+external interface SpeedDialActionTooltipSlotPropsOverrides
+
+external interface SpeedDialActionStaticTooltipSlotPropsOverrides
+
+external interface SpeedDialActionStaticTooltipLabelSlotPropsOverrides
+
+external interface SpeedDialActionOwnerState
 
 /**
  *
  * Demos:
  *
- * - [Speed Dial](https://mui.com/material-ui/react-speed-dial/)
+ * - [Speed Dial](https://v6.mui.com/material-ui/react-speed-dial/)
  *
  * API:
  *
- * - [SpeedDialAction API](https://mui.com/material-ui/api/speed-dial-action/)
- * - inherits [Tooltip API](https://mui.com/material-ui/api/tooltip/)
+ * - [SpeedDialAction API](https://v6.mui.com/material-ui/api/speed-dial-action/)
+ * - inherits [Tooltip API](https://v6.mui.com/material-ui/api/tooltip/)
  */
 @JsName("default")
 external val SpeedDialAction: react.FC<SpeedDialActionProps>

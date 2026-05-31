@@ -17,6 +17,10 @@ external interface ToggleButtonProps :
     mui.types.PropsWithComponent,
     ButtonBaseProps
 
+external interface ToggleButtonPropsSizeOverrides
+
+external interface ToggleButtonPropsColorOverrides
+
 external interface ToggleButtonOwnProps :
     react.PropsWithChildren,
     mui.system.PropsWithSx,
@@ -94,19 +98,19 @@ external interface ToggleButtonOwnProps :
      * The value to associate with the button when selected in a
      * ToggleButtonGroup.
      */
-    override var value: dynamic
+    override var value: Any? /* NonNullable<unknown> */
 }
 
 /**
  *
  * Demos:
  *
- * - [Toggle Button](https://mui.com/material-ui/react-toggle-button/)
+ * - [Toggle Button](https://v6.mui.com/material-ui/react-toggle-button/)
  *
  * API:
  *
- * - [ToggleButton API](https://mui.com/material-ui/api/toggle-button/)
- * - inherits [ButtonBase API](https://mui.com/material-ui/api/button-base/)
+ * - [ToggleButton API](https://v6.mui.com/material-ui/api/toggle-button/)
+ * - inherits [ButtonBase API](https://v6.mui.com/material-ui/api/button-base/)
  */
 @JsName("default")
 external val ToggleButton: react.FC<ToggleButtonProps>

@@ -56,9 +56,9 @@ external interface UseButtonRootSlotOwnProps : react.Props {
 
     var onFocus: react.dom.events.FocusEventHandler<*>
 
-    var onKeyDown: dynamic
+    var onKeyDown: Any? /* MuiCancellableEventHandler<React.KeyboardEvent> */
 
-    var onKeyUp: dynamic
+    var onKeyUp: Any? /* MuiCancellableEventHandler<React.KeyboardEvent> */
 
     var onMouseDown: react.dom.events.MouseEventHandler<*>
 

@@ -4,6 +4,7 @@
 
 @file:Suppress(
     "VIRTUAL_MEMBER_HIDDEN",
+    "VAR_TYPE_MISMATCH_ON_OVERRIDE",
 )
 
 package mui.material
@@ -12,9 +13,52 @@ import mui.material.styles.Theme
 import mui.system.SxProps
 
 external interface RatingProps :
-    mui.system.StandardProps,
+    RatingOwnProps,
     react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>,
-    mui.system.PropsWithSx {
+    mui.types.PropsWithComponent
+
+external interface IconContainerProps :
+    react.dom.html.HTMLAttributes<web.html.HTMLSpanElement> {
+    var value: Number
+}
+
+external interface RatingPropsSizeOverrides
+
+external interface RatingRootSlotPropsOverrides
+
+external interface RatingLabelSlotPropsOverrides
+
+external interface RatingIconSlotPropsOverrides
+
+external interface RatingDecimalSlotPropsOverrides
+
+external interface RatingSlots {
+    /**
+     * The component used for the root slot.
+     * @default 'span'
+     */
+    var root: react.ElementType<*>
+
+    /**
+     * The component used for the label slot.
+     * @default 'label'
+     */
+    var label: react.ElementType<*>
+
+    /**
+     * The component used for the icon slot.
+     * @default 'span'
+     */
+    var icon: react.ElementType<*>
+
+    /**
+     * The component used fo r the decimal slot.
+     * @default 'span'
+     */
+    var decimal: react.ElementType<*>
+}
+
+external interface RatingOwnProps : mui.system.PropsWithSx {
     /**
      * Override or extend the styles applied to the component.
      */
@@ -24,7 +68,7 @@ external interface RatingProps :
      * The default value. Use when the component is not controlled.
      * @default null
      */
-    var defaultValue: Number?
+    var defaultValue: Any? /* Number */
 
     /**
      * If `true`, the component is disabled.
@@ -48,11 +92,11 @@ external interface RatingProps :
      * Accepts a function which returns a string value that provides a user-friendly name for the current value of the rating.
      * This is important for screen reader users.
      *
-     * For localization purposes, you can use the provided [translations](/material-ui/guides/localization/).
+     * For localization purposes, you can use the provided [translations](https://mui.com/material-ui/guides/localization/).
      * @param {number} value The rating label's value to format.
      * @returns {string}
      * @default function defaultLabelText(value) {
-     *   return `${value} Star${value !== 1 ? 's' : ''}`;
+     *   return `${value || '0'} Star${value !== 1 ? 's' : ''}`;
      * }
      */
     var getLabelText: ((value: Number) -> String)?
@@ -71,6 +115,7 @@ external interface RatingProps :
 
     /**
      * The component containing the icon.
+     * @deprecated Use `slotProps.icon.component` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      * @default function IconContainer(props) {
      *   const { value, ...other } = props;
      *   return <span {...other} />;
@@ -87,7 +132,7 @@ external interface RatingProps :
     /**
      * The name attribute of the radio `input` elements.
      * This input `name` should be unique within the page.
-     * Being unique within a form is insufficient since the `name` is used to generated IDs.
+     * Being unique within a form is insufficient since the `name` is used to generate IDs.
      */
     var name: String?
 
@@ -134,20 +179,17 @@ external interface RatingProps :
     var value: Number?
 }
 
-external interface IconContainerProps :
-    react.dom.html.HTMLAttributes<web.html.HTMLSpanElement> {
-    var value: Number
-}
+external interface RatingOwnerState
 
 /**
  *
  * Demos:
  *
- * - [Rating](https://mui.com/material-ui/react-rating/)
+ * - [Rating](https://v6.mui.com/material-ui/react-rating/)
  *
  * API:
  *
- * - [Rating API](https://mui.com/material-ui/api/rating/)
+ * - [Rating API](https://v6.mui.com/material-ui/api/rating/)
  */
 @JsName("default")
 external val Rating: react.FC<RatingProps>

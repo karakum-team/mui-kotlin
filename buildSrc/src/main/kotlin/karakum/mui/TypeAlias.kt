@@ -31,7 +31,7 @@ private val ALIAS_MAP = mapOf(
     "SwitchBaseProps['value']" to "",
     "TableCellBaseProps['scope']" to "String",
     "TooltipProps['classes']" to "TooltipClasses",
-    "TooltipProps['placement']" to "TooltipPlacement",
+    "TooltipProps['placement']" to "Any? /* TooltipProps['placement'] */",
     "TransitionProps['easing']" to "",
     "TransitionProps['in']" to "",
     "TransitionProps['timeout']" to "",
@@ -39,6 +39,8 @@ private val ALIAS_MAP = mapOf(
     "TypographyOwnProps['color']" to "",
     "TypographyOwnProps['variant']" to "",
     "UsePaginationItem['type']" to "UsePaginationItemType",
+    "UsePaginationItem['page']" to "Number?",
+    "UsePaginationItem['selected']" to "Boolean",
 
     "FormLabelProps['color']" to "FormLabelColor",
     "PaginationProps['color']" to "PaginationColor",

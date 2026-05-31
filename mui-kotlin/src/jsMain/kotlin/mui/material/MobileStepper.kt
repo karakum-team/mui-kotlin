@@ -34,6 +34,7 @@ external interface MobileStepperProps :
 
     /**
      * Props applied to the `LinearProgress` element.
+     * @deprecated Use `slotProps.progress` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var LinearProgressProps: LinearProgressProps?
 
@@ -65,16 +66,52 @@ external interface MobileStepperProps :
     var variant: MobileStepperVariant?
 }
 
+external interface MobileStepperSlots {
+    /**
+     * The component that renders the root slot.
+     * @default Paper
+     */
+    var root: react.ElementType<*>
+
+    /**
+     * The component that renders the progress slot.
+     * @default LinearProgress
+     */
+    var progress: react.ElementType<*>
+
+    /**
+     * The component that renders the dots slot.
+     * @default 'div'
+     */
+    var dots: react.ElementType<*>
+
+    /**
+     * The component that renders the dot slot.
+     * @default 'div'
+     */
+    var dot: react.ElementType<*>
+}
+
+external interface MobileStepperRootSlotPropsOverrides
+
+external interface MobileStepperProgressSlotPropsOverrides
+
+external interface MobileStepperDotsSlotPropsOverrides
+
+external interface MobileStepperDotSlotPropsOverrides
+
+external interface MobileStepperOwnerState
+
 /**
  *
  * Demos:
  *
- * - [Stepper](https://mui.com/material-ui/react-stepper/)
+ * - [Stepper](https://v6.mui.com/material-ui/react-stepper/)
  *
  * API:
  *
- * - [MobileStepper API](https://mui.com/material-ui/api/mobile-stepper/)
- * - inherits [Paper API](https://mui.com/material-ui/api/paper/)
+ * - [MobileStepper API](https://v6.mui.com/material-ui/api/mobile-stepper/)
+ * - inherits [Paper API](https://v6.mui.com/material-ui/api/paper/)
  */
 @JsName("default")
 external val MobileStepper: react.FC<MobileStepperProps>

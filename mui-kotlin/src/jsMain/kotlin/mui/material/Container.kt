@@ -43,7 +43,7 @@ external interface ContainerOwnProps :
      * Set to `false` to disable `maxWidth`.
      * @default 'lg'
      */
-    var maxWidth: dynamic
+    var maxWidth: Any? /* Breakpoint | false */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
@@ -55,11 +55,11 @@ external interface ContainerOwnProps :
  *
  * Demos:
  *
- * - [Container](https://mui.com/material-ui/react-container/)
+ * - [Container](https://v6.mui.com/material-ui/react-container/)
  *
  * API:
  *
- * - [Container API](https://mui.com/material-ui/api/container/)
+ * - [Container API](https://v6.mui.com/material-ui/api/container/)
  */
 @JsName("default")
 external val Container: react.FC<ContainerProps>

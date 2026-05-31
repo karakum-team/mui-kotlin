@@ -18,7 +18,7 @@ external interface UseTabPanelParameters {
     /**
      * The value of the TabPanel. It will be shown when the Tab with the corresponding value is selected.
      */
-    var value: dynamic
+    var value: Any? /* number | string */
 }
 
 external interface UseTabPanelReturnValue {

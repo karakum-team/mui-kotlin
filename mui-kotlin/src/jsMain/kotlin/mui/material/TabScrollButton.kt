@@ -78,6 +78,10 @@ external interface TabScrollButtonProps :
     override var sx: SxProps<Theme>?
 }
 
+external interface TabScrollButtonStartIconSlotPropsOverrides
+
+external interface TabScrollButtonEndIconSlotPropsOverrides
+
 external interface TabScrollButtonOwnerState {
     var isRtl: Boolean
 }
@@ -86,11 +90,11 @@ external interface TabScrollButtonOwnerState {
  *
  * Demos:
  *
- * - [Tabs](https://mui.com/material-ui/react-tabs/)
+ * - [Tabs](https://v6.mui.com/material-ui/react-tabs/)
  *
  * API:
  *
- * - [TabScrollButton API](https://mui.com/material-ui/api/tab-scroll-button/)
+ * - [TabScrollButton API](https://v6.mui.com/material-ui/api/tab-scroll-button/)
  */
 @JsName("default")
 external val TabScrollButton: react.FC<TabScrollButtonProps>

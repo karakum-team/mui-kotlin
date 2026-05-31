@@ -62,17 +62,65 @@ external interface SwitchProps :
     var value: Any?
 }
 
+external interface SwitchPropsSizeOverrides
+
+external interface SwitchPropsColorOverrides
+
+external interface SwitchRootSlotPropsOverrides
+
+external interface SwitchTrackSlotPropsOverrides
+
+external interface SwitchThumbSlotPropsOverrides
+
+external interface SwitchSwitchBaseSlotPropsOverrides
+
+external interface SwitchInputSlotPropsOverrides
+
+external interface SwitchSlots {
+    /**
+     * The component that renders the root slot.
+     * @default 'span'
+     */
+    var root: react.ElementType<*>
+
+    /**
+     * The component that renders the track slot.
+     * @default 'span'
+     */
+    var track: react.ElementType<*>
+
+    /**
+     * The component that renders the thumb slot.
+     * @default 'span'
+     */
+    var thumb: react.ElementType<*>
+
+    /**
+     * The component that renders the switchBase slot.
+     * @default SwitchBase
+     */
+    var switchBase: react.ElementType<*>
+
+    /**
+     * The component that renders the switchBase's input slot.
+     * @default SwitchBaseInput
+     */
+    var input: react.ElementType<*>
+}
+
+external interface SwitchOwnerState
+
 /**
  *
  * Demos:
  *
- * - [Switch](https://mui.com/material-ui/react-switch/)
- * - [Transfer List](https://mui.com/material-ui/react-transfer-list/)
+ * - [Switch](https://v6.mui.com/material-ui/react-switch/)
+ * - [Transfer List](https://v6.mui.com/material-ui/react-transfer-list/)
  *
  * API:
  *
- * - [Switch API](https://mui.com/material-ui/api/switch/)
- * - inherits [IconButton API](https://mui.com/material-ui/api/icon-button/)
+ * - [Switch API](https://v6.mui.com/material-ui/api/switch/)
+ * - inherits [IconButton API](https://v6.mui.com/material-ui/api/icon-button/)
  */
 @JsName("default")
 external val Switch: react.FC<SwitchProps>

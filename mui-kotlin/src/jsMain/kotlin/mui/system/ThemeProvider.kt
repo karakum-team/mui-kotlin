@@ -18,7 +18,7 @@ external interface ThemeProviderProps : react.PropsWithChildren {
     /**
      * A theme object. You can provide a function to extend the outer theme.
      */
-    var theme: dynamic
+    var theme: Any? /* Partial<Theme> | ((outerTheme: Theme) => Theme) */
 }
 
 /**

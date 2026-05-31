@@ -5,7 +5,7 @@
 package mui.material.styles
 
 external interface BaseCSSProperties {
-    // var `@font-face`: dynamic
+    // var `@font-face`: Any? /* Fontface | Fontface[] */
 }
 
 external interface CSSProperties {
@@ -21,7 +21,7 @@ external interface CSSProperties {
 }
 
 external interface Mixins {
-    var toolbar: dynamic
+    var toolbar: CSSProperties
 }
 
 external interface MixinsOptions {

@@ -49,6 +49,10 @@ external interface LinearProgressProps :
     var variant: LinearProgressVariant?
 }
 
+external interface LinearProgressPropsColorOverrides
+
+external interface LinearProgressPropsVariantOverrides
+
 /**
  * ## ARIA
  *
@@ -58,11 +62,11 @@ external interface LinearProgressProps :
  *
  * Demos:
  *
- * - [Progress](https://mui.com/material-ui/react-progress/)
+ * - [Progress](https://v6.mui.com/material-ui/react-progress/)
  *
  * API:
  *
- * - [LinearProgress API](https://mui.com/material-ui/api/linear-progress/)
+ * - [LinearProgress API](https://v6.mui.com/material-ui/api/linear-progress/)
  */
 @JsName("default")
 external val LinearProgress: react.FC<LinearProgressProps>

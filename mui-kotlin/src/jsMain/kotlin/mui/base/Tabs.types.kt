@@ -8,6 +8,8 @@ external interface TabsProps :
     TabsOwnProps,
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement>
 
+external interface TabsRootSlotPropsOverrides
+
 external interface TabsOwnProps :
     react.PropsWithChildren,
     react.PropsWithClassName {
@@ -31,7 +33,7 @@ external interface TabsOwnProps :
      * The component orientation (layout flow direction).
      * @default 'horizontal'
      */
-    var orientation: dynamic
+    var orientation: Any? /* TabsOrientation */
 
     /**
      * The direction of the text.

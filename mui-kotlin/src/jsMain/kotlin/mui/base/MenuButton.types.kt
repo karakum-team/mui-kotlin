@@ -49,6 +49,8 @@ external interface MenuButtonProps :
     }
 }
 
+external interface MenuButtonRootSlotPropsOverrides
+
 external interface MenuButtonSlots {
     /**
      * The component that renders the root.

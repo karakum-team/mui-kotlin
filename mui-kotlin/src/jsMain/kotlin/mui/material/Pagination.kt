@@ -29,13 +29,17 @@ external interface PaginationProps :
      * Accepts a function which returns a string value that provides a user-friendly name for the current page.
      * This is important for screen reader users.
      *
-     * For localization purposes, you can use the provided [translations](/material-ui/guides/localization/).
+     * For localization purposes, you can use the provided [translations](https://mui.com/material-ui/guides/localization/).
      * @param {string} type The link or button type to format ('page' | 'first' | 'last' | 'next' | 'previous' | 'start-ellipsis' | 'end-ellipsis'). Defaults to 'page'.
-     * @param {number} page The page number to format.
-     * @param {bool} selected If true, the current page is selected.
+     * @param {number | null} page The page number to format.
+     * @param {boolean} selected If true, the current page is selected.
      * @returns {string}
      */
-    var getItemAriaLabel: ((type: mui.system.Union /* UsePaginationItem['type'] */, page: Number, selected: Boolean) -> String)?
+    var getItemAriaLabel: ((
+        type: mui.system.Union, /* UsePaginationItem['type'] */
+        page: Number?,
+        selected: Boolean,
+    ) -> String)?
 
     /**
      * Render the item.
@@ -80,15 +84,21 @@ external interface PaginationRenderItemParams :
     var variant: PaginationVariant
 }
 
+external interface PaginationPropsVariantOverrides
+
+external interface PaginationPropsSizeOverrides
+
+external interface PaginationPropsColorOverrides
+
 /**
  *
  * Demos:
  *
- * - [Pagination](https://mui.com/material-ui/react-pagination/)
+ * - [Pagination](https://v6.mui.com/material-ui/react-pagination/)
  *
  * API:
  *
- * - [Pagination API](https://mui.com/material-ui/api/pagination/)
+ * - [Pagination API](https://v6.mui.com/material-ui/api/pagination/)
  */
 @JsName("default")
 external val Pagination: react.FC<PaginationProps>

@@ -12,6 +12,12 @@ external interface ButtonProps :
     react.dom.html.ButtonHTMLAttributes<web.html.HTMLButtonElement>,
     mui.types.PropsWithComponent
 
+external interface ButtonPropsVariantOverrides
+
+external interface ButtonPropsColorOverrides
+
+external interface ButtonPropsSizeOverrides
+
 external interface ButtonOwnProps :
     react.PropsWithChildren,
     mui.system.PropsWithSx {
@@ -69,6 +75,27 @@ external interface ButtonOwnProps :
     var href: String?
 
     /**
+     * If `true`, the loading indicator is visible and the button is disabled.
+     * If `true | false`, the loading wrapper is always rendered before the children to prevent [Google Translation Crash](https://github.com/mui/material-ui/issues/27853).
+     * @default null
+     */
+    var loading: Boolean?
+
+    /**
+     * Element placed before the children if the button is in loading state.
+     * The node should contain an element with `role="progressbar"` with an accessible name.
+     * By default, it renders a `CircularProgress` that is labeled by the button itself.
+     * @default <CircularProgress color="inherit" size={16} />
+     */
+    var loadingIndicator: react.ReactNode?
+
+    /**
+     * The loading indicator can be positioned on the start, end, or the center of the button.
+     * @default 'center'
+     */
+    var loadingPosition: LoadingPosition?
+
+    /**
      * The size of the component.
      * `small` is equivalent to the dense button styling.
      * @default 'medium'
@@ -96,13 +123,13 @@ external interface ButtonOwnProps :
  *
  * Demos:
  *
- * - [Button Group](https://mui.com/material-ui/react-button-group/)
- * - [Button](https://mui.com/material-ui/react-button/)
+ * - [Button Group](https://v6.mui.com/material-ui/react-button-group/)
+ * - [Button](https://v6.mui.com/material-ui/react-button/)
  *
  * API:
  *
- * - [Button API](https://mui.com/material-ui/api/button/)
- * - inherits [ButtonBase API](https://mui.com/material-ui/api/button-base/)
+ * - [Button API](https://v6.mui.com/material-ui/api/button/)
+ * - inherits [ButtonBase API](https://v6.mui.com/material-ui/api/button-base/)
  */
 @JsName("default")
 external val Button: react.FC<ButtonProps>

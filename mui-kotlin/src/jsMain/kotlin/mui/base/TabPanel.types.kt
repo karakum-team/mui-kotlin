@@ -8,6 +8,8 @@ external interface TabPanelProps :
     TabPanelOwnProps,
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement>
 
+external interface TabPanelRootSlotPropsOverrides
+
 external interface TabPanelOwnProps :
     react.PropsWithChildren,
     react.PropsWithClassName {
@@ -23,7 +25,7 @@ external interface TabPanelOwnProps :
      * If not provided, it will fall back to the index of the panel.
      * It is recommended to explicitly provide it, as it's required for the tab panel to be rendered on the server.
      */
-    var value: dynamic
+    var value: Any? /* number | string */
 
     /**
      * The components used for each slot inside the TabPanel.

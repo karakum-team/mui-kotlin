@@ -11,6 +11,8 @@ external interface ListItemProps :
     ListItemOwnProps,
     mui.types.PropsWithComponent
 
+external interface ListItemComponentsPropsOverrides
+
 external interface ListItemBaseProps :
     react.PropsWithChildren,
     mui.system.PropsWithSx {
@@ -19,14 +21,6 @@ external interface ListItemBaseProps :
      * @default 'center'
      */
     var alignItems: ListItemAlignItems?
-
-    /**
-     * If `true`, the list item is focused during the first mount.
-     * Focus will also be triggered if the value changes from false to true.
-     * @default false
-     * @deprecated checkout [ListItemButton](/material-ui/api/list-item-button/) instead
-     */
-    var autoFocus: Boolean?
 
     /**
      * The content of the component if a `ListItemSecondaryAction` is used it must
@@ -42,14 +36,14 @@ external interface ListItemBaseProps :
     /**
      * The container component used when a `ListItemSecondaryAction` is the last child.
      * @default 'li'
-     * @deprecated
+     * @deprecated Use the `component` or `slots.root` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var ContainerComponent: react.ElementType<react.dom.html.HTMLAttributes<web.html.HTMLDivElement>>?
 
     /**
      * Props applied to the container component if used.
      * @default {}
-     * @deprecated
+     * @deprecated Use the `slotProps.root` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var ContainerProps: react.dom.html.HTMLAttributes<web.html.HTMLDivElement>?
 
@@ -59,13 +53,6 @@ external interface ListItemBaseProps :
      * @default false
      */
     var dense: Boolean?
-
-    /**
-     * If `true`, the component is disabled.
-     * @default false
-     * @deprecated checkout [ListItemButton](/material-ui/api/list-item-button/) instead
-     */
-    var disabled: Boolean?
 
     /**
      * If `true`, the left and right padding is removed.
@@ -91,13 +78,6 @@ external interface ListItemBaseProps :
     var secondaryAction: react.ReactNode?
 
     /**
-     * Use to apply selected styling.
-     * @default false
-     * @deprecated checkout [ListItemButton](/material-ui/api/list-item-button/) instead
-     */
-    var selected: Boolean?
-
-    /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
      */
     override var sx: SxProps<Theme>?
@@ -108,9 +88,7 @@ external interface ListItemOwnProps :
     /**
      * The components used for each slot inside.
      *
-     * This prop is an alias for the `slots` prop.
-     * It's recommended to use the `slots` prop instead.
-     *
+     * @deprecated Use the `slots` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      * @default {}
      */
     var components: Components?
@@ -123,9 +101,7 @@ external interface ListItemOwnProps :
      * The extra props for the slot components.
      * You can override the existing props or add new ones.
      *
-     * This prop is an alias for the `slotProps` prop.
-     * It's recommended to use the `slotProps` prop instead, as `componentsProps` will be deprecated in the future.
-     *
+     * @deprecated Use the `slotProps` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      * @default {}
      */
     var componentsProps: ComponentsProps?
@@ -138,8 +114,6 @@ external interface ListItemOwnProps :
      * The extra props for the slot components.
      * You can override the existing props or add new ones.
      *
-     * This prop is an alias for the `componentsProps` prop, which will be deprecated in the future.
-     *
      * @default {}
      */
     var slotProps: SlotProps?
@@ -150,8 +124,6 @@ external interface ListItemOwnProps :
 
     /**
      * The components used for each slot inside.
-     *
-     * This prop is an alias for the `components` prop, which will be deprecated in the future.
      *
      * @default {}
      */
@@ -167,12 +139,12 @@ external interface ListItemOwnProps :
  *
  * Demos:
  *
- * - [Lists](https://mui.com/material-ui/react-list/)
- * - [Transfer List](https://mui.com/material-ui/react-transfer-list/)
+ * - [Lists](https://v6.mui.com/material-ui/react-list/)
+ * - [Transfer List](https://v6.mui.com/material-ui/react-transfer-list/)
  *
  * API:
  *
- * - [ListItem API](https://mui.com/material-ui/api/list-item/)
+ * - [ListItem API](https://v6.mui.com/material-ui/api/list-item/)
  */
 @JsName("default")
 external val ListItem: react.FC<ListItemProps>

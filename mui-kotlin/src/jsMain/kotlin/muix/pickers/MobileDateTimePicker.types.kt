@@ -18,4 +18,4 @@ external interface MobileDateTimePickerProps<TDate, TView, TEnableAccessibleFiel
 
 external interface MobileDateTimePickerSlots<TDate, TView>
 
-external interface MobileDateTimePickerSlotProps<TDate, TView, TEnableAccessibleFieldDOMStructure> : react.Props
+external interface MobileDateTimePickerSlotProps<TDate, TView, TEnableAccessibleFieldDOMStructure>

@@ -21,6 +21,75 @@ external interface LabelDisplayedRowsArgs {
     var page: Number
 }
 
+external interface TablePaginationRootSlotPropsOverrides
+
+external interface TablePaginationToolbarSlotPropsOverrides
+
+external interface TablePaginationSpacerSlotPropsOverrides
+
+external interface TablePaginationSelectLabelSlotPropsOverrides
+
+external interface TablePaginationSelectSlotPropsOverrides
+
+external interface TablePaginationMenuItemSlotPropsOverrides
+
+external interface TablePaginationDisplayedRowsSlotPropsOverrides
+
+external interface TablePaginationActionsSlotPropsOverrides
+
+external interface TablePaginationSlots {
+    /**
+     * The component that renders the root slot.
+     * [Follow this guide](https://mui.com/material-ui/api/table-cell/#props) to learn more about the requirements for this component.
+     * @default TableCell
+     */
+    var root: react.ElementType<*>
+
+    /**
+     * The component that renders the toolbar slot.
+     * [Follow this guide](https://mui.com/material-ui/api/toolbar/#props) to learn more about the requirements for this component.
+     * @default Toolbar
+     */
+    var toolbar: react.ElementType<*>
+
+    /**
+     * The tag that renders the spacer slot.
+     * @default 'div'
+     */
+    var spacer: react.ElementType<*>
+
+    /**
+     * The tag that renders the selectLabel slot.
+     * @default 'p'
+     */
+    var selectLabel: react.ElementType<*>
+
+    /**
+     * The component that renders the select slot.
+     * [Follow this guide](https://mui.com/material-ui/api/select/#props) to learn more about the requirements for this component.
+     * @default Select
+     */
+    var select: react.ElementType<*>
+
+    /**
+     * The component that renders the select slot.
+     * [Follow this guide](https://mui.com/material-ui/api/menu-item/#props) to learn more about the requirements for this component.
+     * @default MenuItem
+     */
+    var menuItem: react.ElementType<*>
+
+    /**
+     * The tag that renders the displayedRows slot.
+     * @default 'p'
+     */
+    var displayedRows: react.ElementType<*>
+
+    /**
+     * The slots that passed to the actions slot.
+     */
+    var actions: Any? /* TablePaginationActionsSlots */
+}
+
 external interface TablePaginationOwnProps : mui.system.PropsWithSx {
     /**
      * The component used for displaying the actions.
@@ -30,7 +99,7 @@ external interface TablePaginationOwnProps : mui.system.PropsWithSx {
     var ActionsComponent: react.ElementType<TablePaginationActionsProps>?
 
     /**
-     * Props applied to the back arrow [`IconButton`](/material-ui/api/icon-button/) component.
+     * Props applied to the back arrow [`IconButton`](https://mui.com/material-ui/api/icon-button/) component.
      *
      * This prop is an alias for `slotProps.actions.previousButton` and will be overriden by it if both are used.
      * @deprecated Use `slotProps.actions.previousButton` instead.
@@ -59,7 +128,7 @@ external interface TablePaginationOwnProps : mui.system.PropsWithSx {
      * Accepts a function which returns a string value that provides a user-friendly name for the current page.
      * This is important for screen reader users.
      *
-     * For localization purposes, you can use the provided [translations](/material-ui/guides/localization/).
+     * For localization purposes, you can use the provided [translations](https://mui.com/material-ui/guides/localization/).
      * @param {string} type The link or button type to format ('first' | 'last' | 'next' | 'previous').
      * @returns {string}
      * @default function defaultGetAriaLabel(type) {
@@ -72,7 +141,7 @@ external interface TablePaginationOwnProps : mui.system.PropsWithSx {
      * Customize the displayed rows label. Invoked with a `{ from, to, count, page }`
      * object.
      *
-     * For localization purposes, you can use the provided [translations](/material-ui/guides/localization/).
+     * For localization purposes, you can use the provided [translations](https://mui.com/material-ui/guides/localization/).
      * @default function defaultLabelDisplayedRows({ from, to, count }) {
      *   return `${from}–${to} of ${count !== -1 ? count : `more than ${to}`}`;
      * }
@@ -82,13 +151,13 @@ external interface TablePaginationOwnProps : mui.system.PropsWithSx {
     /**
      * Customize the rows per page label.
      *
-     * For localization purposes, you can use the provided [translations](/material-ui/guides/localization/).
+     * For localization purposes, you can use the provided [translations](https://mui.com/material-ui/guides/localization/).
      * @default 'Rows per page:'
      */
     var labelRowsPerPage: react.ReactNode?
 
     /**
-     * Props applied to the next arrow [`IconButton`](/material-ui/api/icon-button/) element.
+     * Props applied to the next arrow [`IconButton`](https://mui.com/material-ui/api/icon-button/) element.
      *
      * This prop is an alias for `slotProps.actions.nextButton` and will be overriden by it if both are used.
      * @deprecated Use `slotProps.actions.nextButton` instead.
@@ -128,10 +197,10 @@ external interface TablePaginationOwnProps : mui.system.PropsWithSx {
      * Use -1 for the value with a custom label to show all the rows.
      * @default [10, 25, 50, 100]
      */
-    var rowsPerPageOptions: dynamic
+    var rowsPerPageOptions: Any? /* ReadonlyArray<number | { value: number; label: string }> */
 
     /**
-     * Props applied to the rows per page [`Select`](/material-ui/api/select/) element.
+     * Props applied to the rows per page [`Select`](https://mui.com/material-ui/api/select/) element.
      *
      * This prop is an alias for `slotProps.select` and will be overriden by it if both are used.
      * @deprecated Use `slotProps.select` instead.
@@ -153,45 +222,25 @@ external interface TablePaginationOwnProps : mui.system.PropsWithSx {
     var showLastButton: Boolean?
 
     /**
-     * The props used for each slot inside the TablePagination.
-     * @default {}
-     */
-    var slotProps: SlotProps?
-
-    interface SlotProps {
-        var actions: react.Props? /* TablePaginationActionsProps['slotProps'] */
-        var select: react.Props? /* Partial<SelectProps> */
-    }
-
-    /**
-     * The components used for each slot inside the TablePagination.
-     * Either a string to use a HTML element or a component.
-     * @default {}
-     */
-    var slots: Slots?
-
-    interface Slots {
-        var actions: react.ElementType<*>? /* TablePaginationActionsProps['slots'] */
-    }
-
-    /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
      */
     override var sx: SxProps<Theme>?
 }
+
+external interface TablePaginationOwnerState
 
 /**
  * A `TableCell` based component for placing inside `TableFooter` for pagination.
  *
  * Demos:
  *
- * - [Pagination](https://mui.com/material-ui/react-pagination/)
- * - [Table](https://mui.com/material-ui/react-table/)
+ * - [Pagination](https://v6.mui.com/material-ui/react-pagination/)
+ * - [Table](https://v6.mui.com/material-ui/react-table/)
  *
  * API:
  *
- * - [TablePagination API](https://mui.com/material-ui/api/table-pagination/)
- * - inherits [TableCell API](https://mui.com/material-ui/api/table-cell/)
+ * - [TablePagination API](https://v6.mui.com/material-ui/api/table-pagination/)
+ * - inherits [TableCell API](https://v6.mui.com/material-ui/api/table-cell/)
  */
 @JsName("default")
 external val TablePagination: react.FC<TablePaginationProps>

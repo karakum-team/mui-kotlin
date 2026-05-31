@@ -37,7 +37,7 @@ external interface LinkOwnProps :
     override var sx: SxProps<Theme>?
 
     /**
-     * `classes` prop applied to the [`Typography`](/material-ui/api/typography/) element.
+     * `classes` prop applied to the [`Typography`](https://mui.com/material-ui/api/typography/) element.
      */
     var TypographyClasses: TypographyClasses?
 
@@ -58,13 +58,13 @@ external interface LinkOwnProps :
  *
  * Demos:
  *
- * - [Breadcrumbs](https://mui.com/material-ui/react-breadcrumbs/)
- * - [Links](https://mui.com/material-ui/react-link/)
+ * - [Breadcrumbs](https://v6.mui.com/material-ui/react-breadcrumbs/)
+ * - [Links](https://v6.mui.com/material-ui/react-link/)
  *
  * API:
  *
- * - [Link API](https://mui.com/material-ui/api/link/)
- * - inherits [Typography API](https://mui.com/material-ui/api/typography/)
+ * - [Link API](https://v6.mui.com/material-ui/api/link/)
+ * - inherits [Typography API](https://v6.mui.com/material-ui/api/typography/)
  */
 @JsName("default")
 external val Link: react.FC<LinkProps>

@@ -31,4 +31,4 @@ external interface DateTimePickerProps<TDate, TEnableAccessibleFieldDOMStructure
 
 external interface DateTimePickerSlots<TDate>
 
-external interface DateTimePickerSlotProps<TDate, TEnableAccessibleFieldDOMStructure> : react.Props
+external interface DateTimePickerSlotProps<TDate, TEnableAccessibleFieldDOMStructure>

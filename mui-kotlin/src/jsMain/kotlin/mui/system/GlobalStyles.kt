@@ -3,7 +3,7 @@
 package mui.system
 
 external interface GlobalStylesProps : react.Props {
-    var styles: dynamic
+    var styles: Any? /* Interpolation<Theme> */
 
     var defaultTheme: Any?
 

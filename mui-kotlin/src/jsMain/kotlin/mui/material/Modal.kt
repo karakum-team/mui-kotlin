@@ -18,6 +18,8 @@ external interface ModalProps :
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
     mui.types.PropsWithComponent
 
+external interface ModalComponentsPropsOverrides
+
 external interface ModalOwnerState {
     var exited: Boolean
 }
@@ -56,7 +58,7 @@ external interface ModalOwnProps :
     var BackdropComponent: react.ElementType<BackdropProps>?
 
     /**
-     * Props applied to the [`Backdrop`](/material-ui/api/backdrop/) element.
+     * Props applied to the [`Backdrop`](https://mui.com/material-ui/api/backdrop/) element.
      * @deprecated Use `slotProps.backdrop` instead.
      */
     var BackdropProps: BackdropProps?
@@ -64,7 +66,7 @@ external interface ModalOwnProps :
     /**
      * A single child content element.
      */
-    override var children: react.ReactNode? /* react.ReactElement<*>? */
+    override var children: react.ReactNode? /* React.ReactElement<unknown> */
 
     /**
      * Override or extend the styles applied to the component.
@@ -85,8 +87,7 @@ external interface ModalOwnProps :
     /**
      * The components used for each slot inside.
      *
-     * This prop is an alias for the `slots` prop.
-     * It's recommended to use the `slots` prop instead.
+     * @deprecated Use the `slots` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      *
      * @default {}
      */
@@ -101,8 +102,7 @@ external interface ModalOwnProps :
      * The extra props for the slot components.
      * You can override the existing props or add new ones.
      *
-     * This prop is an alias for the `slotProps` prop.
-     * It's recommended to use the `slotProps` prop instead, as `componentsProps` will be deprecated in the future.
+     * @deprecated Use the `slotProps` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      *
      * @default {}
      */
@@ -241,23 +241,23 @@ external interface ModalOwnProps :
 /**
  * Modal is a lower-level construct that is leveraged by the following components:
  *
- * *   [Dialog](https://mui.com/material-ui/api/dialog/)
- * *   [Drawer](https://mui.com/material-ui/api/drawer/)
- * *   [Menu](https://mui.com/material-ui/api/menu/)
- * *   [Popover](https://mui.com/material-ui/api/popover/)
+ * * [Dialog](https://v6.mui.com/material-ui/api/dialog/)
+ * * [Drawer](https://v6.mui.com/material-ui/api/drawer/)
+ * * [Menu](https://v6.mui.com/material-ui/api/menu/)
+ * * [Popover](https://v6.mui.com/material-ui/api/popover/)
  *
- * If you are creating a modal dialog, you probably want to use the [Dialog](https://mui.com/material-ui/api/dialog/) component
+ * If you are creating a modal dialog, you probably want to use the [Dialog](https://v6.mui.com/material-ui/api/dialog/) component
  * rather than directly using Modal.
  *
  * This component shares many concepts with [react-overlays](https://react-bootstrap.github.io/react-overlays/#modals).
  *
  * Demos:
  *
- * - [Modal](https://mui.com/material-ui/react-modal/)
+ * - [Modal](https://v6.mui.com/material-ui/react-modal/)
  *
  * API:
  *
- * - [Modal API](https://mui.com/material-ui/api/modal/)
+ * - [Modal API](https://v6.mui.com/material-ui/api/modal/)
  */
 @JsName("default")
 external val Modal: react.FC<ModalProps>

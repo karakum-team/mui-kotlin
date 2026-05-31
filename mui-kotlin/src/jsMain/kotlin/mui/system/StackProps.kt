@@ -28,7 +28,7 @@ external interface StackBaseProps : react.PropsWithChildren {
      * Defines the space between immediate children.
      * @default 0
      */
-    var spacing: ResponsiveStyleValue<dynamic>?
+    var spacing: ResponsiveStyleValue<Any /* number | string */>?
 
     /**
      * Add an element between each child.

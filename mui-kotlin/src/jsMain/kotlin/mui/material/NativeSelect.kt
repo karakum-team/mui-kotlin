@@ -38,12 +38,12 @@ external interface NativeSelectProps :
      * An `Input` element; does not have to be a material-ui specific `Input`.
      * @default <Input />
      */
-    var input: react.ReactElement<*>?
+    var input: Any? /* React.ReactElement<unknown, any> */
 
     /**
      * [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select#attributes) applied to the `select` element.
      */
-    var inputProps: dynamic
+    var inputProps: Any? /* Partial<NativeSelectInputProps> */
 
     /**
      * Callback fired when a menu item is selected.
@@ -74,12 +74,12 @@ external interface NativeSelectProps :
  *
  * Demos:
  *
- * - [Select](https://mui.com/material-ui/react-select/)
+ * - [Select](https://v6.mui.com/material-ui/react-select/)
  *
  * API:
  *
- * - [NativeSelect API](https://mui.com/material-ui/api/native-select/)
- * - inherits [Input API](https://mui.com/material-ui/api/input/)
+ * - [NativeSelect API](https://v6.mui.com/material-ui/api/native-select/)
+ * - inherits [Input API](https://v6.mui.com/material-ui/api/input/)
  */
 @JsName("default")
 external val NativeSelect: react.FC<NativeSelectProps>

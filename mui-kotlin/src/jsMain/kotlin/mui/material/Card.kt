@@ -16,6 +16,8 @@ external interface CardProps :
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
     mui.types.PropsWithComponent
 
+external interface CardPropsColorOverrides
+
 external interface CardOwnProps :
     mui.system.PropsWithSx,
     PaperOwnProps {
@@ -40,12 +42,12 @@ external interface CardOwnProps :
  *
  * Demos:
  *
- * - [Card](https://mui.com/material-ui/react-card/)
+ * - [Card](https://v6.mui.com/material-ui/react-card/)
  *
  * API:
  *
- * - [Card API](https://mui.com/material-ui/api/card/)
- * - inherits [Paper API](https://mui.com/material-ui/api/paper/)
+ * - [Card API](https://v6.mui.com/material-ui/api/card/)
+ * - inherits [Paper API](https://v6.mui.com/material-ui/api/paper/)
  */
 
 @JsName("default")

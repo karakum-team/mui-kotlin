@@ -46,6 +46,7 @@ external interface ListItemTextProps :
     /**
      * These props will be forwarded to the primary typography component
      * (as long as disableTypography is not `true`).
+     * @deprecated Use `slotProps.primary` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var primaryTypographyProps: TypographyProps?
 
@@ -57,6 +58,7 @@ external interface ListItemTextProps :
     /**
      * These props will be forwarded to the secondary typography component
      * (as long as disableTypography is not `true`).
+     * @deprecated Use `slotProps.secondary` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var secondaryTypographyProps: TypographyProps?
 
@@ -66,15 +68,37 @@ external interface ListItemTextProps :
     override var sx: SxProps<Theme>?
 }
 
+external interface ListItemTextSlots {
+    /**
+     * The component that renders the root slot.
+     * @default 'div'
+     */
+    var root: react.ElementType<*>?
+
+    /**
+     * The component that renders the primary slot.
+     * @default Typography
+     */
+    var primary: react.ElementType<*>?
+
+    /**
+     * The component that renders the secondary slot.
+     * @default Typography
+     */
+    var secondary: react.ElementType<*>?
+}
+
+external interface ListItemTextOwnerState
+
 /**
  *
  * Demos:
  *
- * - [Lists](https://mui.com/material-ui/react-list/)
+ * - [Lists](https://v6.mui.com/material-ui/react-list/)
  *
  * API:
  *
- * - [ListItemText API](https://mui.com/material-ui/api/list-item-text/)
+ * - [ListItemText API](https://v6.mui.com/material-ui/api/list-item-text/)
  */
 @JsName("default")
 external val ListItemText: react.FC<ListItemTextProps>

@@ -22,18 +22,31 @@ internal fun findParentType(
         return parseStandardProps(parentSource)
 
     if (parentSource.startsWith("Omit<")) {
-        val result = parentSource
-            .removeSurrounding("Omit<", ">")
-            .substringBefore(",")
-            .toTypeParameter()
+        // For v6 `Omit<StandardProps<...>[, '...']>` we need to strip the outer comma at depth 0,
+        // not at the first encountered comma (which may be inside a nested generic).
+        val innerStart = "Omit<".length
+        var depth = 0
+        var topComma = -1
+        for (i in innerStart until parentSource.length) {
+            when (parentSource[i]) {
+                '<' -> depth++
+                '>' -> depth--
+                ',' -> if (depth == 0) {
+                    topComma = i; break
+                }
+            }
+        }
+        val rawInner = if (topComma >= 0) {
+            parentSource.substring(innerStart, topComma).trim()
+        } else {
+            parentSource.removeSurrounding("Omit<", ">").trim()
+        }
+        val result = rawInner.toTypeParameter()
 
-        return when (result) {
-            "SystemThemeOptions",
-            -> "mui.system.ThemeOptions"
-
-            "ExtendMui<ButtonBaseProps>",
-            -> "mui.material.ButtonBaseProps"
-
+        return when {
+            result == "SystemThemeOptions" -> "mui.system.ThemeOptions"
+            result == "ExtendMui<ButtonBaseProps>" -> "mui.material.ButtonBaseProps"
+            result.startsWith("StandardProps<") -> parseStandardProps(result)
             else -> result
         }
     }
@@ -77,17 +90,17 @@ internal fun findParentType(
 
         "OptionOwnProps<OptionValue>",
         "SelectOwnProps<OptionValue>",
-        -> parentSource
+            -> parentSource
 
         "SystemTheme",
-        -> "mui.system.Theme"
+            -> "mui.system.Theme"
 
         "ButtonOwnProps",
         "PopperProps",
-        -> "mui.base.$parentSource"
+            -> "mui.base.$parentSource"
 
         "HTMLDivProps",
-        -> "react.dom.html.HTMLAttributes<web.html.HTMLDivElement>"
+            -> "react.dom.html.HTMLAttributes<web.html.HTMLDivElement>"
 
         "TransitionProps",
         "React.HTMLAttributes<HTMLElement>",
@@ -95,7 +108,7 @@ internal fun findParentType(
         "React.HTMLAttributes<HTMLUListElement>",
         "React.HTMLAttributes<HTMLSpanElement>",
         "React.HTMLAttributes<HTMLInputElement | HTMLTextAreaElement>",
-        -> parentSource.toTypeParameter()
+            -> parentSource.toTypeParameter()
 
         else -> null
     }

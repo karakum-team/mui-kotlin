@@ -72,6 +72,12 @@ private fun convertProperty(
         if (type == "react.ReactElement<*>") {
             return "$CHILDREN /* react.ReactElement<*>? */"
         }
+
+        // Fallback type with ReactNode/ReactElement in the original TS — still treat as React children.
+        if (type.startsWith("Any? /*") && ("ReactNode" in type || "ReactElement" in type)) {
+            val comment = type.substringAfter("Any? /* ").removeSuffix(" */")
+            return "$CHILDREN /* $comment */"
+        }
     }
 
     if (name == "id")
@@ -112,6 +118,12 @@ private fun convertProperty(
 }
 
 private fun kotlinName(name: String): String =
-    if (name == "in" || name.startsWith("'")) {
-        "`${name.removeSurrounding("'")}`"
-    } else name
+    when {
+        name == "in" || name.startsWith("'") ->
+            "`${name.removeSurrounding("'")}`"
+
+        name.isNotEmpty() && name[0].isDigit() ->
+            "`$name`"
+
+        else -> name
+    }

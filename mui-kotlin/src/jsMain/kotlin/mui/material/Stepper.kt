@@ -50,7 +50,7 @@ external interface StepperOwnProps :
      * An element to be placed between each step.
      * @default <StepConnector />
      */
-    var connector: react.ReactElement<*>?
+    var connector: Any? /* React.ReactElement<unknown, any> */
 
     /**
      * If set the `Stepper` will not assist in controlling steps for linear flow.
@@ -74,11 +74,11 @@ external interface StepperOwnProps :
  *
  * Demos:
  *
- * - [Stepper](https://mui.com/material-ui/react-stepper/)
+ * - [Stepper](https://v6.mui.com/material-ui/react-stepper/)
  *
  * API:
  *
- * - [Stepper API](https://mui.com/material-ui/api/stepper/)
+ * - [Stepper API](https://v6.mui.com/material-ui/api/stepper/)
  */
 @JsName("default")
 external val Stepper: react.FC<StepperProps>

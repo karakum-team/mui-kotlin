@@ -12,6 +12,8 @@ external interface SkeletonProps :
     react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>,
     mui.types.PropsWithComponent
 
+external interface SkeletonPropsVariantOverrides
+
 external interface SkeletonOwnProps :
     react.PropsWithChildren,
     mui.system.PropsWithSx {
@@ -36,7 +38,7 @@ external interface SkeletonOwnProps :
      * Height of the skeleton.
      * Useful when you don't want to adapt the skeleton to a text element but for instance a card.
      */
-    var height: dynamic
+    var height: Any? /* number | string */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
@@ -53,18 +55,18 @@ external interface SkeletonOwnProps :
      * Width of the skeleton.
      * Useful when the skeleton is inside an inline element with no width of its own.
      */
-    var width: dynamic
+    var width: Any? /* number | string */
 }
 
 /**
  *
  * Demos:
  *
- * - [Skeleton](https://mui.com/material-ui/react-skeleton/)
+ * - [Skeleton](https://v6.mui.com/material-ui/react-skeleton/)
  *
  * API:
  *
- * - [Skeleton API](https://mui.com/material-ui/api/skeleton/)
+ * - [Skeleton API](https://v6.mui.com/material-ui/api/skeleton/)
  */
 @JsName("default")
 external val Skeleton: react.FC<SkeletonProps>

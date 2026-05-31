@@ -17,6 +17,22 @@ external interface CardActionAreaProps :
     mui.types.PropsWithComponent,
     ButtonBaseProps
 
+external interface CardActionAreaSlots {
+    /**
+     * The component that renders the root.
+     * @default ButtonBase
+     */
+    var root: react.ElementType<*>
+
+    /**
+     * The component that renders the focusHighlight.
+     * @default span
+     */
+    var focusHighlight: react.ElementType<*>
+}
+
+external interface CardActionAreaOwnerState
+
 external interface CardActionAreaOwnProps :
     mui.system.PropsWithSx,
     ButtonBaseProps {
@@ -37,12 +53,12 @@ external interface CardActionAreaOwnProps :
  *
  * Demos:
  *
- * - [Card](https://mui.com/material-ui/react-card/)
+ * - [Card](https://v6.mui.com/material-ui/react-card/)
  *
  * API:
  *
- * - [CardActionArea API](https://mui.com/material-ui/api/card-action-area/)
- * - inherits [ButtonBase API](https://mui.com/material-ui/api/button-base/)
+ * - [CardActionArea API](https://v6.mui.com/material-ui/api/card-action-area/)
+ * - inherits [ButtonBase API](https://v6.mui.com/material-ui/api/button-base/)
  */
 @JsName("default")
 external val CardActionArea: react.FC<CardActionAreaProps>

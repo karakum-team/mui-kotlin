@@ -19,6 +19,8 @@ external interface PopperProps :
     /**
      * The components used for each slot inside the Popper.
      * Either a string to use a HTML element or a component.
+     *
+     * @deprecated use the `slots` prop instead. This prop will be removed in v7. [How to migrate](/material-ui/migration/migrating-from-deprecated-apis/).
      * @default {}
      */
     var components: Components?
@@ -29,6 +31,8 @@ external interface PopperProps :
 
     /**
      * The props used for each slot inside the Popper.
+     *
+     * @deprecated use the `slotProps` prop instead. This prop will be removed in v7. [How to migrate](/material-ui/migration/migrating-from-deprecated-apis/).
      * @default {}
      */
     var componentsProps: mui.base.PopperOwnProps.SlotProps?
@@ -43,13 +47,13 @@ external interface PopperProps :
  *
  * Demos:
  *
- * - [Autocomplete](https://mui.com/material-ui/react-autocomplete/)
- * - [Menu](https://mui.com/material-ui/react-menu/)
- * - [Popper](https://mui.com/material-ui/react-popper/)
+ * - [Autocomplete](https://v6.mui.com/material-ui/react-autocomplete/)
+ * - [Menu](https://v6.mui.com/material-ui/react-menu/)
+ * - [Popper](https://v6.mui.com/material-ui/react-popper/)
  *
  * API:
  *
- * - [Popper API](https://mui.com/material-ui/api/popper/)
+ * - [Popper API](https://v6.mui.com/material-ui/api/popper/)
  */
 @JsName("default")
 external val Popper: react.FC<PopperProps>

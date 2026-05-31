@@ -181,7 +181,7 @@ external interface ListItemState {
 }
 
 external interface UseListReturnValue {
-    var contextValue: dynamic
+    var contextValue: Any? /* ListContextValue<ItemValue> */
 
     var dispatch: (action: Any /* CustomAction | ListAction<ItemValue> */) -> Unit
 
@@ -194,5 +194,5 @@ external interface UseListReturnValue {
 
     var rootRef: react.RefCallback<web.dom.Element>?
 
-    var state: dynamic
+    var state: Any? /* State */
 }

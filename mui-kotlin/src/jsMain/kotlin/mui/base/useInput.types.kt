@@ -40,15 +40,15 @@ external interface UseInputParameters {
 }
 
 external interface UseInputRootSlotOwnProps : react.Props {
-    var onClick: dynamic
+    var onClick: Any? /* React.MouseEventHandler | undefined */
 }
 
 external interface UseInputInputSlotOwnProps : react.Props {
     // var `aria-invalid`: Any /* React.AriaAttributes['aria-invalid'] */
 
-    var defaultValue: dynamic
+    var defaultValue: Any? /* string | number | readonly string[] | undefined */
 
-    var value: dynamic
+    var value: Any? /* string | number | readonly string[] | undefined */
 
     var onBlur: react.dom.events.FocusEventHandler<web.html.HTMLElement>
 

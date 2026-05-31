@@ -13,7 +13,13 @@ internal fun fixOverrides(
             -> content
             .override("disabled")
             .override("readOnly")
-            .replaceFirst("var key: String", "override var key: react.Key? /* Key */")
+            .replace("var key: Number", "override var key: react.Key? /* Key */")
+
+        "Rating",
+            -> content
+            // `defaultValue: Number?` in RatingOwnProps clashes with `defaultValue: Any?` inherited
+            // from react.dom.html.HTMLAttributes via RatingProps. Widen to Any? to match.
+            .replace("var defaultValue: Number?", "var defaultValue: Any? /* Number */")
 
         "BottomNavigationAction",
             -> content
@@ -46,7 +52,7 @@ internal fun fixOverrides(
 
         "CardHeader",
             -> content
-            .override("title")
+            .override("title", last = true)
 
         "Dialog",
             -> content

@@ -101,7 +101,7 @@ external interface ButtonBaseOwnProps :
     /**
      * Props applied to the `TouchRipple` element.
      */
-    var TouchRippleProps: dynamic
+    var TouchRippleProps: Any? /* Partial<TouchRippleProps> */
 
     /**
      * A ref that points to the `TouchRipple` element.
@@ -120,11 +120,11 @@ external interface ButtonBaseActions {
  *
  * Demos:
  *
- * - [Button](https://mui.com/material-ui/react-button/)
+ * - [Button](https://v6.mui.com/material-ui/react-button/)
  *
  * API:
  *
- * - [ButtonBase API](https://mui.com/material-ui/api/button-base/)
+ * - [ButtonBase API](https://v6.mui.com/material-ui/api/button-base/)
  */
 @JsName("default")
 external val ButtonBase: react.FC<ButtonBaseProps>

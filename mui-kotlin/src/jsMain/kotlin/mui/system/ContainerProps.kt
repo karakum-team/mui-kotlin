@@ -34,7 +34,7 @@ external interface ContainerProps :
      * Set to `false` to disable `maxWidth`.
      * @default 'lg'
      */
-    var maxWidth: dynamic
+    var maxWidth: Any? /* Breakpoint | false */
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

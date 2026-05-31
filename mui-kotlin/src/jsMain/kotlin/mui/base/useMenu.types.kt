@@ -53,7 +53,7 @@ external interface UseMenuReturnValue {
     /**
      * The value to be passed into the MenuProvider.
      */
-    var contextValue: dynamic
+    var contextValue: Any? /* MenuProviderValue */
 
     /**
      * Action dispatcher for the menu component.
@@ -81,7 +81,7 @@ external interface UseMenuReturnValue {
     /**
      * Items in the menu listbox.
      */
-    var menuItems: dynamic
+    var menuItems: Any? /* Map<string, MenuItemMetadata> */
 
     /**
      * If `true`, the menu is open.

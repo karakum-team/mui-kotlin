@@ -16,6 +16,20 @@ external interface BottomNavigationActionProps :
     mui.types.PropsWithComponent,
     ButtonBaseProps
 
+external interface BottomNavigationActionSlots {
+    /**
+     * The component that renders the root.
+     * @default ButtonBase
+     */
+    var root: react.ElementType<*>
+
+    /**
+     * The component that renders the label.
+     * @default span
+     */
+    var label: react.ElementType<*>
+}
+
 external interface BottomNavigationActionOwnProps :
     react.PropsWithChildren,
     mui.system.PropsWithSx,
@@ -61,16 +75,18 @@ external interface BottomNavigationActionOwnProps :
     override var value: Any?
 }
 
+external interface BottomNavigationActionOwnerState
+
 /**
  *
  * Demos:
  *
- * - [Bottom Navigation](https://mui.com/material-ui/react-bottom-navigation/)
+ * - [Bottom Navigation](https://v6.mui.com/material-ui/react-bottom-navigation/)
  *
  * API:
  *
- * - [BottomNavigationAction API](https://mui.com/material-ui/api/bottom-navigation-action/)
- * - inherits [ButtonBase API](https://mui.com/material-ui/api/button-base/)
+ * - [BottomNavigationAction API](https://v6.mui.com/material-ui/api/bottom-navigation-action/)
+ * - inherits [ButtonBase API](https://v6.mui.com/material-ui/api/button-base/)
  */
 @JsName("default")
 external val BottomNavigationAction: react.FC<BottomNavigationActionProps>

@@ -30,6 +30,7 @@ external interface FilledInputProps :
 
     /**
      * If `true`, the input will not have an underline.
+     * @default false
      */
     var disableUnderline: Boolean?
 
@@ -43,12 +44,12 @@ external interface FilledInputProps :
  *
  * Demos:
  *
- * - [Text Field](https://mui.com/material-ui/react-text-field/)
+ * - [Text Field](https://v6.mui.com/material-ui/react-text-field/)
  *
  * API:
  *
- * - [FilledInput API](https://mui.com/material-ui/api/filled-input/)
- * - inherits [InputBase API](https://mui.com/material-ui/api/input-base/)
+ * - [FilledInput API](https://v6.mui.com/material-ui/api/filled-input/)
+ * - inherits [InputBase API](https://v6.mui.com/material-ui/api/input-base/)
  */
 @JsName("default")
 external val FilledInput: react.FC<FilledInputProps>

@@ -31,7 +31,7 @@ external interface StackOwnProps :
      * Defines the space between immediate children.
      * @default 0
      */
-    var spacing: mui.system.ResponsiveStyleValue<dynamic>?
+    var spacing: mui.system.ResponsiveStyleValue<Any /* number | string */>?
 
     /**
      * Add an element between each child.
@@ -59,11 +59,11 @@ external interface StackOwnProps :
  *
  * Demos:
  *
- * - [Stack](https://mui.com/material-ui/react-stack/)
+ * - [Stack](https://v6.mui.com/material-ui/react-stack/)
  *
  * API:
  *
- * - [Stack API](https://mui.com/material-ui/api/stack/)
+ * - [Stack API](https://v6.mui.com/material-ui/api/stack/)
  */
 @JsName("default")
 external val Stack: react.FC<StackProps>

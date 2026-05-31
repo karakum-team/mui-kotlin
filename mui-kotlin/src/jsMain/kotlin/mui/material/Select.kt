@@ -76,7 +76,7 @@ external interface SelectProps<Value> :
     /**
      * An `Input` element; does not have to be a material-ui specific `Input`.
      */
-    var input: react.ReactElement<*>?
+    var input: Any? /* React.ReactElement<unknown, any> */
 
     /**
      * [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
@@ -85,7 +85,7 @@ external interface SelectProps<Value> :
     var inputProps: InputBaseComponentProps?
 
     /**
-     * See [OutlinedInput#label](/material-ui/api/outlined-input/#props)
+     * See [OutlinedInput#label](https://mui.com/material-ui/api/outlined-input/#props)
      */
     var label: react.ReactNode?
 
@@ -96,7 +96,7 @@ external interface SelectProps<Value> :
     var labelId: String?
 
     /**
-     * Props applied to the [`Menu`](/material-ui/api/menu/) element.
+     * Props applied to the [`Menu`](https://mui.com/material-ui/api/menu/) element.
      */
     var MenuProps: MenuProps?
 
@@ -170,7 +170,7 @@ external interface SelectProps<Value> :
      * If the value is an object it must have reference equality with the option in order to be selected.
      * If the value is not an object, the string representation must match with the string representation of the option in order to be selected.
      */
-    var value: dynamic
+    var value: Any? /* Value | '' */
 
     /**
      * The variant to use.
@@ -210,12 +210,12 @@ external interface OutlinedSelectProps :
  *
  * Demos:
  *
- * - [Select](https://mui.com/material-ui/react-select/)
+ * - [Select](https://v6.mui.com/material-ui/react-select/)
  *
  * API:
  *
- * - [Select API](https://mui.com/material-ui/api/select/)
- * - inherits [OutlinedInput API](https://mui.com/material-ui/api/outlined-input/)
+ * - [Select API](https://v6.mui.com/material-ui/api/select/)
+ * - inherits [OutlinedInput API](https://v6.mui.com/material-ui/api/outlined-input/)
  */
 @JsName("default")
 external val Select: react.FC<SelectProps<*>>

@@ -31,18 +31,24 @@ external interface TabPanelProps :
      * The `value` of the corresponding `Tab`. Must use the index of the `Tab` when
      * no `value` was passed to `Tab`.
      */
-    var value: String
+    var value: Any /* String or Number */
+
+    /**
+     * Always keep the children in the DOM.
+     * @default false
+     */
+    var keepMounted: Boolean?
 }
 
 /**
  *
  * Demos:
  *
- * - [Tabs](https://mui.com/material-ui/react-tabs/)
+ * - [Tabs](https://v6.mui.com/material-ui/react-tabs/)
  *
  * API:
  *
- * - [TabPanel API](https://mui.com/material-ui/api/tab-panel/)
+ * - [TabPanel API](https://v6.mui.com/material-ui/api/tab-panel/)
  */
 @JsName("default")
 external val TabPanel: react.FC<TabPanelProps>

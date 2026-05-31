@@ -46,8 +46,7 @@ external interface InputBaseProps :
     /**
      * The components used for each slot inside.
      *
-     * This prop is an alias for the `slots` prop.
-     * It's recommended to use the `slots` prop instead.
+     * @deprecated use the `slots` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      *
      * @default {}
      */
@@ -62,8 +61,7 @@ external interface InputBaseProps :
      * The extra props for the slot components.
      * You can override the existing props or add new ones.
      *
-     * This prop is an alias for the `slotProps` prop.
-     * It's recommended to use the `slotProps` prop instead, as `componentsProps` will be deprecated in the future.
+     * @deprecated use the `slotProps` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      *
      * @default {}
      */
@@ -140,7 +138,7 @@ external interface InputBaseProps :
     var margin: InputBaseMargin?
 
     /**
-     * If `true`, a [TextareaAutosize](/material-ui/react-textarea-autosize/) element is rendered.
+     * If `true`, a [TextareaAutosize](https://mui.com/material-ui/react-textarea-autosize/) element is rendered.
      * @default false
      */
     var multiline: Boolean?
@@ -193,7 +191,15 @@ external interface InputBaseProps :
      */
     var required: Boolean?
 
-    var renderSuffix: dynamic
+    var renderSuffix: Any? /* (state: {
+  disabled?: boolean;
+  error?: boolean;
+  filled?: boolean;
+  focused?: boolean;
+  margin?: 'dense' | 'none' | 'normal';
+  required?: boolean;
+  startAdornment?: React.ReactNode;
+}) => React.ReactNode */
 
     /**
      * Number of rows to display when multiline option is set to true.
@@ -268,6 +274,12 @@ external interface InputBaseProps :
     var value: Any?
 }
 
+external interface InputBasePropsSizeOverrides
+
+external interface InputBasePropsColorOverrides
+
+external interface InputBaseComponentsPropsOverrides
+
 external interface InputBaseComponentProps :
     react.dom.html.HTMLAttributes<web.html.HTMLElement>
 
@@ -278,11 +290,11 @@ external interface InputBaseComponentProps :
  *
  * Demos:
  *
- * - [Text Field](https://mui.com/material-ui/react-text-field/)
+ * - [Text Field](https://v6.mui.com/material-ui/react-text-field/)
  *
  * API:
  *
- * - [InputBase API](https://mui.com/material-ui/api/input-base/)
+ * - [InputBase API](https://v6.mui.com/material-ui/api/input-base/)
  */
 @JsName("default")
 external val InputBase: react.FC<InputBaseProps>

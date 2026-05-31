@@ -16,6 +16,10 @@ external interface SvgIconProps :
     react.dom.svg.SVGAttributes<web.svg.SVGSVGElement>,
     mui.types.PropsWithComponent
 
+external interface SvgIconPropsSizeOverrides
+
+external interface SvgIconPropsColorOverrides
+
 external interface SvgIconOwnProps :
     react.PropsWithChildren,
     mui.system.PropsWithSx,
@@ -92,12 +96,12 @@ external interface SvgIconOwnProps :
  *
  * Demos:
  *
- * - [Icons](https://mui.com/material-ui/icons/)
- * - [Material Icons](https://mui.com/material-ui/material-icons/)
+ * - [Icons](https://v6.mui.com/material-ui/icons/)
+ * - [Material Icons](https://v6.mui.com/material-ui/material-icons/)
  *
  * API:
  *
- * - [SvgIcon API](https://mui.com/material-ui/api/svg-icon/)
+ * - [SvgIcon API](https://v6.mui.com/material-ui/api/svg-icon/)
  */
 @JsName("default")
 external val SvgIcon: react.FC<SvgIconProps>

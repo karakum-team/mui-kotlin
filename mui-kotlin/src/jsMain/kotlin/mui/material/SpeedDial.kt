@@ -42,7 +42,7 @@ external interface SpeedDialProps :
     override var hidden: Hidden?
 
     /**
-     * Props applied to the [`Fab`](/material-ui/api/fab/) element.
+     * Props applied to the [`Fab`](https://mui.com/material-ui/api/fab/) element.
      * @default {}
      */
     var FabProps: FabProps?
@@ -86,8 +86,9 @@ external interface SpeedDialProps :
 
     /**
      * The component used for the transition.
-     * [Follow this guide](/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
+     * [Follow this guide](https://mui.com/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
      * @default Zoom
+     * * @deprecated Use `slots.transition` instead. This prop will be removed in v7. [How to migrate](/material-ui/migration/migrating-from-deprecated-apis/)
      */
     var TransitionComponent: react.ComponentType<mui.material.transitions.TransitionProps>?
 
@@ -104,19 +105,37 @@ external interface SpeedDialProps :
     /**
      * Props applied to the transition element.
      * By default, the element is based on this [`Transition`](https://reactcommunity.org/react-transition-group/transition/) component.
+     * @deprecated Use `slotProps.transition` instead. This prop will be removed in v7. [How to migrate](/material-ui/migration/migrating-from-deprecated-apis/)
      */
     var TransitionProps: mui.material.transitions.TransitionProps?
 }
+
+external interface SpeedDialSlots {
+    /**
+     * The component that renders the root slot.
+     * @default 'div'
+     */
+    var root: react.ElementType<*>
+
+    /**
+     * The component that renders the transition.
+     * [Follow this guide](https://mui.com/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
+     * @default Zoom
+     */
+    var transition: react.ElementType<*>
+}
+
+external interface SpeedDialOwnerState
 
 /**
  *
  * Demos:
  *
- * - [Speed Dial](https://mui.com/material-ui/react-speed-dial/)
+ * - [Speed Dial](https://v6.mui.com/material-ui/react-speed-dial/)
  *
  * API:
  *
- * - [SpeedDial API](https://mui.com/material-ui/api/speed-dial/)
+ * - [SpeedDial API](https://v6.mui.com/material-ui/api/speed-dial/)
  */
 @JsName("default")
 external val SpeedDial: react.FC<SpeedDialProps>

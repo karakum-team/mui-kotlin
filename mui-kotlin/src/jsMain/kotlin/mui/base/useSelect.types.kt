@@ -97,7 +97,7 @@ external interface UseSelectParameters<OptionValue, Multiple> {
      * An alternative way to specify the options.
      * If this parameter is set, options defined as JSX children are ignored.
      */
-    var options: dynamic
+    var options: Any? /* ReadonlyArray<SelectOptionDefinition<OptionValue>> */
 
     /**
      * A function to convert the currently selected value to a string.
@@ -188,7 +188,7 @@ external interface UseSelectReturnValue<Value, Multiple> {
     /**
      * A value to be passed to the `SelectProvider` component.
      */
-    var contextValue: dynamic
+    var contextValue: Any? /* SelectProviderValue<Value> */
 
     /**
      * The value of the highlighted option.
@@ -208,22 +208,22 @@ external interface UseSelectReturnValue<Value, Multiple> {
     /**
      * Values of all the registered options.
      */
-    var options: dynamic
+    var options: Any? /* Value[] */
 
     /**
      * The value of the selected option(s).
      */
-    var value: dynamic
+    var value: Any? /* SelectValue<Value, Multiple> */
 }
 
 external interface ButtonClickAction {
-    var type: dynamic
+    var type: Any? /* typeof SelectActionTypes.buttonClick */
 
     var event: react.dom.events.MouseEvent<*, *>
 }
 
 external interface BrowserAutofillAction<OptionValue> {
-    var type: dynamic
+    var type: Any? /* typeof SelectActionTypes.browserAutoFill */
 
     var item: OptionValue
 

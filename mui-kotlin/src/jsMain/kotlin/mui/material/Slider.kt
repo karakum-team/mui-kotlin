@@ -15,6 +15,12 @@ external interface SliderProps :
     react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>,
     mui.types.PropsWithComponent
 
+external interface SliderPropsColorOverrides
+
+external interface SliderPropsSizeOverrides
+
+external interface SliderComponentsPropsOverrides
+
 external interface SliderOwnerState {
     var dragging: Boolean
 
@@ -52,7 +58,7 @@ external interface SliderOwnProps :
     /**
      * The components used for each slot inside.
      *
-     * @deprecated use the `slots` prop instead. This prop will be removed in v7. [How to migrate](/material-ui/migration/migrating-from-deprecated-apis/).
+     * @deprecated use the `slots` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      *
      * @default {}
      */
@@ -73,7 +79,7 @@ external interface SliderOwnProps :
      * The extra props for the slot components.
      * You can override the existing props or add new ones.
      *
-     * @deprecated use the `slotProps` prop instead. This prop will be removed in v7. [How to migrate](/material-ui/migration/migrating-from-deprecated-apis/).
+     * @deprecated use the `slotProps` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      *
      * @default {}
      */
@@ -107,7 +113,7 @@ external interface SliderOwnProps :
     /**
      * The default value. Use when the component is not controlled.
      */
-    var defaultValue: dynamic
+    var defaultValue: Any? /* number | number[] */
 
     /**
      * If `true`, the component is disabled.
@@ -144,7 +150,7 @@ external interface SliderOwnProps :
      * If an array, it should contain objects with `value` and an optional `label` keys.
      * @default false
      */
-    var marks: dynamic
+    var marks: Any? /* boolean | Mark[] */
 
     /**
      * The maximum allowed value of the slider.
@@ -285,7 +291,7 @@ external interface SliderOwnProps :
      * The value of the slider.
      * For ranged sliders, provide an array with two values.
      */
-    var value: dynamic
+    var value: Any? /* number | number[] */
 
     /**
      * Controls when the value label is displayed:
@@ -317,24 +323,24 @@ external interface SliderOwnProps :
 external interface SliderValueLabelProps :
     react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>,
     react.PropsWithChildren {
-    override var children: react.ReactNode? /* react.ReactElement<*>? */
+    override var children: react.ReactNode? /* React.ReactElement<unknown> */
 
     var index: Number
 
     var open: Boolean
 
-    var value: Number
+    var value: react.ReactNode
 }
 
 /**
  *
  * Demos:
  *
- * - [Slider](https://mui.com/material-ui/react-slider/)
+ * - [Slider](https://v6.mui.com/material-ui/react-slider/)
  *
  * API:
  *
- * - [Slider API](https://mui.com/material-ui/api/slider/)
+ * - [Slider API](https://v6.mui.com/material-ui/api/slider/)
  */
 @JsName("default")
 external val Slider: react.FC<SliderProps>

@@ -9,6 +9,10 @@ external interface MenuProps :
     MenuOwnProps,
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement>
 
+external interface MenuRootSlotPropsOverrides
+
+external interface MenuListboxSlotPropsOverrides
+
 external interface MenuActions {
     /**
      * Dispatches an action that can cause a change to the menu's internal state.

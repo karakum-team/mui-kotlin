@@ -29,7 +29,7 @@ external interface DigitalClockProps<TDate> : react.Props {
     var slotProps: DigitalClockSlotProps?
 }
 
-external interface ExportedDigitalClockProps : react.Props
+external interface ExportedDigitalClockProps<TDate>
 
 external interface DigitalClockSlots {
     /**

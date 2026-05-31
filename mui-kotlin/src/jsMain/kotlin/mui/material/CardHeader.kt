@@ -15,6 +15,58 @@ external interface CardHeaderProps :
     CardHeaderOwnProps,
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement>
 
+external interface CardHeaderRootSlotPropsOverrides
+
+external interface CardHeaderAvatarSlotPropsOverrides
+
+external interface CardHeaderActionSlotPropsOverrides
+
+external interface CardHeaderContentSlotPropsOverrides
+
+external interface CardHeaderTitleSlotPropsOverrides
+
+external interface CardHeaderSubheaderSlotPropsOverrides
+
+external interface CardHeaderSlots {
+    /**
+     * The component that renders the root slot.
+     * @default 'div'
+     */
+    var root: react.ElementType<*>
+
+    /**
+     * The component that renders the avatar slot.
+     * @default 'div'
+     */
+    var avatar: react.ElementType<*>
+
+    /**
+     * The component that renders the action slot.
+     * @default 'div'
+     */
+    var action: react.ElementType<*>
+
+    /**
+     * The component that renders the content slot.
+     * @default 'div'
+     */
+    var content: react.ElementType<*>
+
+    /**
+     * The component that renders the title slot (as long as disableTypography is not `true`).
+     * [Follow this guide](https://mui.com/material-ui/api/typography/#props) to learn more about the requirements for this component.
+     * @default Typography
+     */
+    var title: react.ElementType<*>
+
+    /**
+     * The component that renders the subheader slot (as long as disableTypography is not `true`).
+     * [Follow this guide](https://mui.com/material-ui/api/typography/#props) to learn more about the requirements for this component.
+     * @default Typography
+     */
+    var subheader: react.ElementType<*>
+}
+
 external interface CardHeaderOwnProps :
     mui.system.PropsWithSx,
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement> {
@@ -50,6 +102,7 @@ external interface CardHeaderOwnProps :
     /**
      * These props will be forwarded to the subheader
      * (as long as disableTypography is not `true`).
+     * @deprecated Use `slotProps.subheader` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var subheaderTypographyProps: TypographyProps?
 
@@ -66,19 +119,22 @@ external interface CardHeaderOwnProps :
     /**
      * These props will be forwarded to the title
      * (as long as disableTypography is not `true`).
+     * @deprecated Use `slotProps.title` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var titleTypographyProps: TypographyProps?
 }
+
+external interface CardHeaderOwnerState
 
 /**
  *
  * Demos:
  *
- * - [Card](https://mui.com/material-ui/react-card/)
+ * - [Card](https://v6.mui.com/material-ui/react-card/)
  *
  * API:
  *
- * - [CardHeader API](https://mui.com/material-ui/api/card-header/)
+ * - [CardHeader API](https://v6.mui.com/material-ui/api/card-header/)
  */
 @JsName("default")
 external val CardHeader: react.FC<CardHeaderProps>

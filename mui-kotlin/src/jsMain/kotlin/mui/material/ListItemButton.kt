@@ -76,19 +76,18 @@ external interface ListItemButtonBaseProps :
     override var sx: SxProps<Theme>?
 }
 
-external interface ListItemButtonOwnProps :
-    ListItemButtonBaseProps
+external interface ListItemButtonOwnProps
 
 /**
  *
  * Demos:
  *
- * - [Lists](https://mui.com/material-ui/react-list/)
+ * - [Lists](https://v6.mui.com/material-ui/react-list/)
  *
  * API:
  *
- * - [ListItemButton API](https://mui.com/material-ui/api/list-item-button/)
- * - inherits [ButtonBase API](https://mui.com/material-ui/api/button-base/)
+ * - [ListItemButton API](https://v6.mui.com/material-ui/api/list-item-button/)
+ * - inherits [ButtonBase API](https://v6.mui.com/material-ui/api/button-base/)
  */
 @JsName("default")
 external val ListItemButton: react.FC<ListItemButtonProps>

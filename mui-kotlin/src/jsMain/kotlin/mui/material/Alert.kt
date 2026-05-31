@@ -29,7 +29,7 @@ external interface AlertProps :
     /**
      * Override the default label for the *close popup* icon button.
      *
-     * For localization purposes, you can use the provided [translations](/material-ui/guides/localization/).
+     * For localization purposes, you can use the provided [translations](https://mui.com/material-ui/guides/localization/).
      * @default 'Close'
      */
     var closeText: String?
@@ -44,7 +44,7 @@ external interface AlertProps :
     /**
      * The components used for each slot inside.
      *
-     * @deprecated use the `slots` prop instead. This prop will be removed in v7. [How to migrate](/material-ui/migration/migrating-from-deprecated-apis/).
+     * @deprecated use the `slots` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      *
      * @default {}
      */
@@ -59,7 +59,7 @@ external interface AlertProps :
      * The extra props for the slot components.
      * You can override the existing props or add new ones.
      *
-     * @deprecated use the `slotProps` prop instead. This prop will be removed in v7. [How to migrate](/material-ui/migration/migrating-from-deprecated-apis/).
+     * @deprecated use the `slotProps` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      *
      * @default {}
      */
@@ -95,7 +95,9 @@ external interface AlertProps :
      * If you wish to change this mapping, you can provide your own.
      * Alternatively, you can use the `icon` prop to override the icon displayed.
      */
-    var iconMapping: dynamic
+    var iconMapping: Any? /* Partial<
+  Record<OverridableStringUnion<AlertColor, AlertPropsColorOverrides>, React.ReactNode>
+> */
 
     /**
      * Callback fired when the component requests to be closed.
@@ -116,30 +118,70 @@ external interface AlertProps :
     override var sx: SxProps<Theme>?
 }
 
+external interface AlertPropsVariantOverrides
+
+external interface AlertPropsColorOverrides
+
+external interface AlertRootSlotPropsOverrides
+
+external interface AlertIconSlotPropsOverrides
+
+external interface AlertMessageSlotPropsOverrides
+
+external interface AlertActionSlotPropsOverrides
+
+external interface AlertCloseButtonSlotPropsOverrides
+
+external interface AlertCloseIconSlotPropsOverrides
+
 external interface AlertSlots {
+    /**
+     * The component that renders the root slot.
+     * @default Paper
+     */
+    var root: react.ElementType<*>
+
+    /**
+     * The component that renders the icon slot.
+     * @default div
+     */
+    var icon: react.ElementType<*>
+
+    /**
+     * The component that renders the message slot.
+     * @default div
+     */
+    var message: react.ElementType<*>
+
+    /**
+     * The component that renders the action slot.
+     * @default div
+     */
+    var action: react.ElementType<*>
+
     /**
      * The component that renders the close button.
      * @default IconButton
      */
-    var closeButton: react.ElementType<*>?
+    var closeButton: react.ElementType<*>
 
     /**
      * The component that renders the close icon.
      * @default svg
      */
-    var closeIcon: react.ElementType<*>?
+    var closeIcon: react.ElementType<*>
 }
 
 /**
  *
  * Demos:
  *
- * - [Alert](https://mui.com/material-ui/react-alert/)
+ * - [Alert](https://v6.mui.com/material-ui/react-alert/)
  *
  * API:
  *
- * - [Alert API](https://mui.com/material-ui/api/alert/)
- * - inherits [Paper API](https://mui.com/material-ui/api/paper/)
+ * - [Alert API](https://v6.mui.com/material-ui/api/alert/)
+ * - inherits [Paper API](https://v6.mui.com/material-ui/api/paper/)
  */
 @JsName("default")
 external val Alert: react.FC<AlertProps>

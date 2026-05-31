@@ -13,7 +13,7 @@ external interface UseTabsListReturnValue {
     /**
      * The value to be passed to the TabListProvider above all the tabs.
      */
-    var contextValue: dynamic
+    var contextValue: Any? /* TabsListProviderValue */
 
     /**
      * Action dispatcher for the tabs list component.
@@ -52,7 +52,7 @@ external interface UseTabsListReturnValue {
 }
 
 external interface ValueChangeAction {
-    var type: dynamic
+    var type: Any? /* typeof TabsListActionTypes.valueChange */
 
     var value: Any /* String or Number */
 }

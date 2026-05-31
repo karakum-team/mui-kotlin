@@ -29,8 +29,9 @@ external interface StepContentProps :
 
     /**
      * The component used for the transition.
-     * [Follow this guide](/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
+     * [Follow this guide](https://mui.com/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
      * @default Collapse
+     * @deprecated Use `slots.transition` instead. This prop will be removed in v7. [How to migrate](/material-ui/migration/migrating-from-deprecated-apis/).
      */
     var TransitionComponent: react.ComponentType<*>?
 
@@ -46,19 +47,31 @@ external interface StepContentProps :
     /**
      * Props applied to the transition element.
      * By default, the element is based on this [`Transition`](https://reactcommunity.org/react-transition-group/transition/) component.
+     * @deprecated Use `slotProps.transition` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var TransitionProps: mui.material.transitions.TransitionProps?
 }
+
+external interface StepContentSlots {
+    /**
+     * The component that renders the transition slot.
+     * [Follow this guide](https://mui.com/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
+     * @default Collapse
+     */
+    var transition: react.ComponentType<*>?
+}
+
+external interface StepContentOwnerState
 
 /**
  *
  * Demos:
  *
- * - [Stepper](https://mui.com/material-ui/react-stepper/)
+ * - [Stepper](https://v6.mui.com/material-ui/react-stepper/)
  *
  * API:
  *
- * - [StepContent API](https://mui.com/material-ui/api/step-content/)
+ * - [StepContent API](https://v6.mui.com/material-ui/api/step-content/)
  */
 @JsName("default")
 external val StepContent: react.FC<StepContentProps>

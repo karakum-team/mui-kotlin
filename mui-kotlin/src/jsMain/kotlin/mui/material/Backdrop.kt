@@ -12,6 +12,25 @@ external interface BackdropProps :
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
     mui.types.PropsWithComponent
 
+external interface BackdropSlots {
+    /**
+     * The component that renders the root.
+     * @default 'div'
+     */
+    var root: react.ElementType<*>
+
+    /**
+     * The component that renders the transition.
+     * [Follow this guide](https://mui.com/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
+     * @default Fade
+     */
+    var transition: react.ElementType<*>
+}
+
+external interface BackdropComponentsPropsOverrides
+
+external interface BackdropTransitionSlotPropsOverrides
+
 external interface BackdropOwnProps :
     react.PropsWithChildren,
     mui.system.PropsWithSx {
@@ -23,8 +42,7 @@ external interface BackdropOwnProps :
     /**
      * The components used for each slot inside.
      *
-     * This prop is an alias for the `slots` prop.
-     * It's recommended to use the `slots` prop instead.
+     * @deprecated Use the `slots` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      *
      * @default {}
      */
@@ -38,8 +56,7 @@ external interface BackdropOwnProps :
      * The extra props for the slot components.
      * You can override the existing props or add new ones.
      *
-     * This prop is an alias for the `slotProps` prop.
-     * It's recommended to use the `slotProps` prop instead, as `componentsProps` will be deprecated in the future.
+     * @deprecated Use the `slotProps` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      *
      * @default {}
      */
@@ -67,33 +84,6 @@ external interface BackdropOwnProps :
     var open: Boolean
 
     /**
-     * The extra props for the slot components.
-     * You can override the existing props or add new ones.
-     *
-     * This prop is an alias for the `componentsProps` prop, which will be deprecated in the future.
-     *
-     * @default {}
-     */
-    var slotProps: SlotProps?
-
-    interface SlotProps {
-        var root: react.Props? /* React.HTMLAttributes<HTMLDivElement> & BackdropComponentsPropsOverrides */
-    }
-
-    /**
-     * The components used for each slot inside.
-     *
-     * This prop is an alias for the `components` prop, which will be deprecated in the future.
-     *
-     * @default {}
-     */
-    var slots: Slots?
-
-    interface Slots {
-        var root: react.ElementType<*>?
-    }
-
-    /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
      */
     override var sx: SxProps<Theme>?
@@ -106,22 +96,25 @@ external interface BackdropOwnProps :
 
     /**
      * The component used for the transition.
-     * [Follow this guide](/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
+     * [Follow this guide](https://mui.com/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
      * @default Fade
+     * @deprecated Use `slots.transition` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var TransitionComponent: react.ComponentType<*>?
 }
+
+external interface BackdropOwnerState
 
 /**
  *
  * Demos:
  *
- * - [Backdrop](https://mui.com/material-ui/react-backdrop/)
+ * - [Backdrop](https://v6.mui.com/material-ui/react-backdrop/)
  *
  * API:
  *
- * - [Backdrop API](https://mui.com/material-ui/api/backdrop/)
- * - inherits [Fade API](https://mui.com/material-ui/api/fade/)
+ * - [Backdrop API](https://v6.mui.com/material-ui/api/backdrop/)
+ * - inherits [Fade API](https://v6.mui.com/material-ui/api/fade/)
  */
 @JsName("default")
 external val Backdrop: react.FC<BackdropProps>

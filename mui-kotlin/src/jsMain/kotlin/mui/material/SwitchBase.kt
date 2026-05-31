@@ -68,11 +68,13 @@ external interface SwitchBaseProps :
 
     /**
      * [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
+     * @deprecated Use `slotProps.input` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var inputProps: react.dom.html.InputHTMLAttributes<web.html.HTMLInputElement>?
 
     /**
      * Pass a ref to the `input` element.
+     * @deprecated Use `slotProps.input.ref` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var inputRef: react.Ref<*>?
 
@@ -107,6 +109,8 @@ external interface SwitchBaseProps :
      */
     var value: Any?
 }
+
+external interface SwitchBaseOwnerState
 
 
 @JsName("default")

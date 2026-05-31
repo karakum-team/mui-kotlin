@@ -25,4 +25,4 @@ external interface TimePickerProps<TDate, TEnableAccessibleFieldDOMStructure> : 
 
 external interface TimePickerSlots<TDate>
 
-external interface TimePickerSlotProps<TDate, TEnableAccessibleFieldDOMStructure> : react.Props
+external interface TimePickerSlotProps<TDate, TEnableAccessibleFieldDOMStructure>

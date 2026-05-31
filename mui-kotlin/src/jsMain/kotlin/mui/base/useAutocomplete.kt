@@ -33,7 +33,7 @@ external interface AutocompleteGroupedOption {
 
     var group: String
 
-    var options: dynamic
+    var options: Any? /* Value[] */
 }
 
 external interface UseAutocompleteProps<Value> : react.Props {
@@ -110,7 +110,7 @@ external interface UseAutocompleteProps<Value> : react.Props {
      * The default value. Use when the component is not controlled.
      * @default props.multiple ? [] : null
      */
-    var defaultValue: dynamic
+    var defaultValue: Any? /* AutocompleteValue<Value, Multiple, DisableClearable, FreeSolo> */
 
     /**
      * If `true`, the input can't be cleared.
@@ -285,7 +285,7 @@ external interface UseAutocompleteProps<Value> : react.Props {
      *
      * @param {React.SyntheticEvent} event The event source of the callback.
      * @param {string} value The new value of the text input.
-     * @param {string} reason Can be: `"input"` (user input), `"reset"` (programmatic change), `"clear"`.
+     * @param {string} reason Can be: `"input"` (user input), `"reset"` (programmatic change), `"clear"`, `"blur"`, `"selectOption"`, `"removeOption"`
      */
     var onInputChange: ((
         event: react.dom.events.SyntheticEvent<*, *>,

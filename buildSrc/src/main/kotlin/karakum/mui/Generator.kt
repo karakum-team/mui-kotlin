@@ -21,7 +21,7 @@ private val DEFAULT_IMPORTS = listOf(
     "Element" to "web.dom.Element",
     "InputType" to "web.html.InputType",
     "ButtonType" to "web.html.ButtonType",
-    "Hidden" to "web.html.Hidden",
+    "Hidden?" to "web.html.Hidden",
 
     " ClassName" to "web.cssom.ClassName",
     "Event" to "web.events.Event",
@@ -29,6 +29,7 @@ private val DEFAULT_IMPORTS = listOf(
 
     "BoxProps" to "mui.system.BoxProps",
     "InitColorSchemeScriptProps" to "mui.system.InitColorSchemeScriptProps",
+    "SystemProps" to "mui.system.SystemProps",
 
     "JsVirtual" to "seskar.js.JsVirtual",
     "JsValue" to "seskar.js.JsValue",
@@ -92,9 +93,20 @@ fun <T : Any, R> responsive(
 
 // language=kotlin
 private val SYSTEM_STANDARD_PROPS = """
-external interface StandardProps: 
+external interface StandardProps:
     react.PropsWithStyle,
     react.PropsWithClassName
+""".trimIndent()
+
+// language=kotlin
+private val SYSTEM_SPACING_STUB = """
+external interface Spacing
+""".trimIndent()
+
+// language=kotlin
+private val SYSTEM_SYSTEM_PROPS_STUB = """
+@Suppress("UNUSED_TYPEALIAS_PARAMETER")
+typealias SystemProps<T> = react.Props
 """.trimIndent()
 
 private val SYSTEM_BREAKPOINT = convertUnion("Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl'")!!
@@ -343,7 +355,7 @@ private fun generateSystemDeclarations(
 
     directories.asSequence()
         .filter { it.name.isComponentName() || it.name.isHookName() }
-        .filter { it.name !in setOf("useThemeProps", "RtlProvider", "DefaultPropsProvider") }
+        .filter { it.name !in setOf("useThemeProps", "RtlProvider", "DefaultPropsProvider", "useThemeWithoutDefault") }
         .map { it.resolve("${it.name}.d.ts") }
         .flatMap { component ->
             val dir = component.parentFile
@@ -356,9 +368,14 @@ private fun generateSystemDeclarations(
 
     typesDir.resolve("createTheme")
         .listFiles { file -> file.name.startsWith("create") && file.name.endsWith(".d.ts") }!!
+        .filter { it.nameWithoutExtension.removeSuffix(".d") != "createSpacing" }
         .forEach { generate(it, targetDir, Package.system) }
 
-    generate(typesDir.resolve("useTheme.d.ts"), targetDir, Package.system)
+    // MUI v6 moved Breakpoints / BreakpointsOptions out of createTheme.d.ts into createBreakpoints/.
+    typesDir.resolve("createBreakpoints")
+        .takeIf { it.isDirectory }
+        ?.listFiles { file -> file.name.startsWith("create") && file.name.endsWith(".d.ts") }
+        ?.forEach { generate(it, targetDir, Package.system) }
 
     sequenceOf(
         "Breakpoint" to SYSTEM_BREAKPOINT,
@@ -372,6 +389,8 @@ private fun generateSystemDeclarations(
 
         "ResponsiveStyleValue" to SYSTEM_RESPONSIVE_STYLE_VALUE,
         "StandardProps" to SYSTEM_STANDARD_PROPS,
+        "Spacing" to SYSTEM_SPACING_STUB,
+        "SystemProps" to SYSTEM_SYSTEM_PROPS_STUB,
     ).forEach { (name, body) ->
         targetDir.resolve("$name.kt")
             .writeText(fileContent(body = body, pkg = Package.system))
@@ -389,8 +408,20 @@ private fun generateMaterialDeclarations(
 
     directories.asSequence()
         .filter { it.name.isComponentName() || it.name == "internal" || it.name.isHookName() }
-        .filter { it.name !in setOf("useTouchRipple", "useAutocomplete", "useMediaQuery", "DefaultPropsProvider") }
+        .filter {
+            it.name !in setOf(
+                "useTouchRipple",
+                "useAutocomplete",
+                "useMediaQuery",
+                "DefaultPropsProvider",
+                "useLazyRipple"
+            )
+        }
         .filter { it.name != "StyledEngineProvider" }
+        .filter { it.name != "OverridableComponent" }
+        // v6 ships Pigment-CSS variants alongside default Emotion-based components.
+        // They duplicate HiddenProps/GridBaseProps in the same Kotlin package; skip them.
+        .filter { !it.name.startsWith("Pigment") }
         .onEach {
             when (it.name) {
                 "ButtonBase" -> {
@@ -441,6 +472,18 @@ private fun generateStylesDeclarations(
             .takeIf { it != fileName }
             ?: return false
 
+        if (name in setOf(
+                "createThemeNoVars",
+                "createThemeWithVars",
+                "createTheme",
+                "createColorScheme",
+                "ThemeProvider",
+                "ThemeProviderNoVars",
+                "ThemeProviderWithVars"
+            )
+        )
+            return false
+
         if (name.startsWith("create"))
             return true
 
@@ -456,6 +499,40 @@ private fun generateStylesDeclarations(
 
     typesDir.listFiles { file -> isStyleDefinition(file.name) }!!
         .forEach { generate(it, targetDir, Package.materialStyles) }
+
+    // MUI v6 split `Theme` and `ThemeOptions` definitions across createThemeNoVars/
+    // createThemeWithVars/createTheme with complex TS conditional types we skip.
+    // Emit minimal stubs so downstream references resolve.
+    targetDir.resolve("Theme.kt")
+        .writeText(
+            fileContent(
+                body = """
+                    external interface Theme : mui.system.Theme
+
+                    typealias ThemeOptions = mui.system.ThemeOptions
+                """.trimIndent(),
+                pkg = Package.materialStyles,
+            )
+        )
+
+    // ThemeProvider.d.ts uses TS conditional types (`extends X ? {...} : {}`) that confuse
+    // the generator. Emit a minimal external val + props stub here.
+    targetDir.resolve("ThemeProvider.kt")
+        .writeText(
+            fileContent(
+                annotations = "@file:JsModule(\"@mui/material/styles/ThemeProvider\")",
+                body = """
+                    external interface ThemeProviderProps : react.PropsWithChildren {
+                        override var children: react.ReactNode?
+                        var theme: Any? /* Partial<Theme> | ((outerTheme: Theme) => Theme) */
+                    }
+
+                    @JsName("default")
+                    external val ThemeProvider: react.FC<ThemeProviderProps>
+                """.trimIndent(),
+                pkg = Package.materialStyles,
+            )
+        )
 }
 
 
@@ -700,11 +777,15 @@ private fun generate(
                 "\"NON_EXTERNAL_DECLARATION_IN_INAPPROPRIATE_FILE\",\n" +
                 ")"
 
-    if (componentName in OVERRIDE_FIX_REQUIRED)
-        annotations += "@file:Suppress(\n\"VIRTUAL_MEMBER_HIDDEN\",\n)"
-
-    if (componentName in VAR_TYPE_MISMATCH_ON_OVERRIDE_FIX_REQUIRED)
-        annotations += "@file:Suppress(\n\"VAR_TYPE_MISMATCH_ON_OVERRIDE\",\n)"
+    // Combine into a single @file:Suppress(...) — Kotlin disallows repeating @file:Suppress.
+    run {
+        val suppressKeys = mutableListOf<String>()
+        if (componentName in OVERRIDE_FIX_REQUIRED) suppressKeys += "VIRTUAL_MEMBER_HIDDEN"
+        if (componentName in VAR_TYPE_MISMATCH_ON_OVERRIDE_FIX_REQUIRED) suppressKeys += "VAR_TYPE_MISMATCH_ON_OVERRIDE"
+        if (suppressKeys.isNotEmpty() && componentName != "TextField") {
+            annotations += "@file:Suppress(\n" + suppressKeys.joinToString(",\n") { "\"$it\"" } + ",\n)"
+        }
+    }
 
     if (componentName != "CalendarPickerView" && componentName != "createTypography") {
         val finalBody = when {

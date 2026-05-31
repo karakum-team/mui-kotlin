@@ -10,11 +10,11 @@ package mui.material
  *
  * Demos:
  *
- * - [Portal](https://mui.com/material-ui/react-portal/)
+ * - [Portal](https://v6.mui.com/material-ui/react-portal/)
  *
  * API:
  *
- * - [Portal API](https://mui.com/material-ui/api/portal/)
+ * - [Portal API](https://v6.mui.com/material-ui/api/portal/)
  */
 @JsName("default")
 external val Portal: react.FC<PortalProps>

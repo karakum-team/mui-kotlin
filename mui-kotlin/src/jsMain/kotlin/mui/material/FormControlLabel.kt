@@ -24,6 +24,7 @@ external interface FormControlLabelProps :
     /**
      * The props used for each slot inside.
      * @default {}
+     * @deprecated use the `slotProps` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var componentsProps: ComponentsProps?
 
@@ -34,7 +35,7 @@ external interface FormControlLabelProps :
     /**
      * A control element. For instance, it can be a `Radio`, a `Switch` or a `Checkbox`.
      */
-    var control: react.ReactElement<*>
+    var control: Any? /* React.ReactElement<unknown, any> */
 
     /**
      * If `true`, the control is disabled.
@@ -78,16 +79,6 @@ external interface FormControlLabelProps :
     var required: Boolean?
 
     /**
-     * The props used for each slot inside.
-     * @default {}
-     */
-    var slotProps: SlotProps?
-
-    interface SlotProps {
-        var typography: react.Props? /* TypographyProps */
-    }
-
-    /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
      */
     override var sx: SxProps<Theme>?
@@ -98,19 +89,28 @@ external interface FormControlLabelProps :
     var value: Any?
 }
 
+external interface FormControlLabelSlots {
+    /**
+     * The component that renders the label.
+     * This is unused if `disableTypography` is true.
+     * @default Typography
+     */
+    var typography: react.ElementType<*>
+}
+
 /**
  * Drop-in replacement of the `Radio`, `Switch` and `Checkbox` component.
  * Use this component if you want to display an extra label.
  *
  * Demos:
  *
- * - [Checkbox](https://mui.com/material-ui/react-checkbox/)
- * - [Radio Group](https://mui.com/material-ui/react-radio-button/)
- * - [Switch](https://mui.com/material-ui/react-switch/)
+ * - [Checkbox](https://v6.mui.com/material-ui/react-checkbox/)
+ * - [Radio Group](https://v6.mui.com/material-ui/react-radio-button/)
+ * - [Switch](https://v6.mui.com/material-ui/react-switch/)
  *
  * API:
  *
- * - [FormControlLabel API](https://mui.com/material-ui/api/form-control-label/)
+ * - [FormControlLabel API](https://v6.mui.com/material-ui/api/form-control-label/)
  */
 @JsName("default")
 external val FormControlLabel: react.FC<FormControlLabelProps>

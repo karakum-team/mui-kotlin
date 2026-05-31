@@ -42,5 +42,5 @@ external interface UseTabsReturnValue {
     /**
      * Returns the values to be passed to the tabs provider.
      */
-    var contextValue: dynamic
+    var contextValue: Any? /* TabsProviderValue */
 }

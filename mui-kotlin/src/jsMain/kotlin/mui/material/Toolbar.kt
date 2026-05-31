@@ -12,6 +12,8 @@ external interface ToolbarProps :
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement>,
     mui.types.PropsWithComponent
 
+external interface ToolbarPropsVariantOverrides
+
 external interface ToolbarOwnProps :
     react.PropsWithChildren,
     mui.system.PropsWithSx {
@@ -48,11 +50,11 @@ external interface ToolbarOwnProps :
  *
  * Demos:
  *
- * - [App Bar](https://mui.com/material-ui/react-app-bar/)
+ * - [App Bar](https://v6.mui.com/material-ui/react-app-bar/)
  *
  * API:
  *
- * - [Toolbar API](https://mui.com/material-ui/api/toolbar/)
+ * - [Toolbar API](https://v6.mui.com/material-ui/api/toolbar/)
  */
 @JsName("default")
 external val Toolbar: react.FC<ToolbarProps>

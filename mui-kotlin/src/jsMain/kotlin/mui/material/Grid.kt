@@ -92,7 +92,7 @@ external interface GridOwnProps :
      * Defines the horizontal space between the type `item` components.
      * It overrides the value of the `spacing` prop.
      */
-    var columnSpacing: mui.system.ResponsiveStyleValue<dynamic>?
+    var columnSpacing: mui.system.ResponsiveStyleValue<Any /* GridSpacing */>?
 
     /**
      * If `true`, the component will have the flex *container* behavior.
@@ -119,14 +119,14 @@ external interface GridOwnProps :
      * Defines the vertical space between the type `item` components.
      * It overrides the value of the `spacing` prop.
      */
-    var rowSpacing: mui.system.ResponsiveStyleValue<dynamic>?
+    var rowSpacing: mui.system.ResponsiveStyleValue<Any /* GridSpacing */>?
 
     /**
      * Defines the space between the type `item` components.
      * It can only be used on a type `container` component.
      * @default 0
      */
-    var spacing: mui.system.ResponsiveStyleValue<dynamic>?
+    var spacing: mui.system.ResponsiveStyleValue<Any /* GridSpacing */>?
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
@@ -152,11 +152,13 @@ external interface GridOwnProps :
  *
  * Demos:
  *
- * - [Grid](https://mui.com/material-ui/react-grid/)
+ * - [Grid](https://v6.mui.com/material-ui/react-grid/)
  *
  * API:
  *
- * - [Grid API](https://mui.com/material-ui/api/grid/)
+ * - [Grid API](https://v6.mui.com/material-ui/api/grid/)
+ *
+ * @deprecated Use the [`Grid2`](https://mui.com/material-ui/react-grid2/) component instead.
  */
 @JsName("default")
 external val Grid: react.FC<GridProps>

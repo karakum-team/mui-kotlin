@@ -7,7 +7,7 @@ package mui.material
 external interface UseScrollTriggerOptions {
     var disableHysteresis: Boolean?
 
-    var target: web.events.EventTarget? /* web.dom.Node? or web.window.Window? */
+    var target: web.events.EventTarget /* web.dom.Node? or web.window.Window? */?
 
     var threshold: Number?
 }

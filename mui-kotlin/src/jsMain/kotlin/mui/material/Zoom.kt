@@ -17,7 +17,7 @@ external interface ZoomProps :
     /**
      * A single child content element.
      */
-    override var children: react.ReactNode? /* react.ReactElement<*>? */
+    override var children: react.ReactNode? /* React.ReactElement<unknown, any> */
 
     /**
      * The transition timing function.
@@ -43,16 +43,16 @@ external interface ZoomProps :
 
 /**
  * The Zoom transition can be used for the floating variant of the
- * [Button](https://mui.com/material-ui/react-button/#floating-action-buttons) component.
+ * [Button](https://v6.mui.com/material-ui/react-button/#floating-action-buttons) component.
  * It uses [react-transition-group](https://github.com/reactjs/react-transition-group) internally.
  *
  * Demos:
  *
- * - [Transitions](https://mui.com/material-ui/transitions/)
+ * - [Transitions](https://v6.mui.com/material-ui/transitions/)
  *
  * API:
  *
- * - [Zoom API](https://mui.com/material-ui/api/zoom/)
+ * - [Zoom API](https://v6.mui.com/material-ui/api/zoom/)
  * - inherits [Transition API](https://reactcommunity.org/react-transition-group/transition/#Transition-props)
  */
 @JsName("default")

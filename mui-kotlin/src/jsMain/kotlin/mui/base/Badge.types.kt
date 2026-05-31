@@ -6,6 +6,10 @@ external interface BadgeProps :
     BadgeOwnProps,
     react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>
 
+external interface BadgeRootSlotPropsOverrides
+
+external interface BadgeBadgeSlotPropsOverrides
+
 external interface BadgeOwnProps : react.PropsWithChildren {
     /**
      * The content rendered within the badge.

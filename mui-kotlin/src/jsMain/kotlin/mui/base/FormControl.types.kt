@@ -8,6 +8,8 @@ external interface FormControlProps :
     FormControlOwnProps,
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement>
 
+external interface FormControlRootSlotPropsOverrides
+
 external interface FormControlOwnProps :
     react.PropsWithChildren,
     react.PropsWithClassName {

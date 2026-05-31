@@ -26,7 +26,7 @@ external interface TooltipProps :
     /**
      * Tooltip reference element.
      */
-    override var children: react.ReactNode? /* react.ReactElement<*>? */
+    override var children: react.ReactNode? /* React.ReactElement<unknown, any> */
 
     /**
      * Override or extend the styles applied to the component.
@@ -36,8 +36,7 @@ external interface TooltipProps :
     /**
      * The components used for each slot inside.
      *
-     * This prop is an alias for the `slots` prop.
-     * It's recommended to use the `slots` prop instead.
+     * @deprecated use the `slots` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      *
      * @default {}
      */
@@ -54,8 +53,7 @@ external interface TooltipProps :
      * The extra props for the slot components.
      * You can override the existing props or add new ones.
      *
-     * This prop is an alias for the `slotProps` prop.
-     * It's recommended to use the `slotProps` prop instead, as `componentsProps` will be deprecated in the future.
+     * @deprecated use the `slotProps` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      *
      * @default {}
      */
@@ -171,56 +169,20 @@ external interface TooltipProps :
      * Tooltip placement.
      * @default 'bottom'
      */
-    var placement: TooltipPlacement?
+    var placement: Any? /* PopperProps['placement'] */
 
     /**
      * The component used for the popper.
-     * @default Popper
+     * @deprecated use the `slots.popper` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var PopperComponent: react.ComponentType<PopperProps>?
 
     /**
-     * Props applied to the [`Popper`](/material-ui/api/popper/) element.
+     * Props applied to the [`Popper`](https://mui.com/material-ui/api/popper/) element.
+     * @deprecated use the `slotProps.popper` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      * @default {}
      */
     var PopperProps: PopperProps?
-
-    /**
-     * The extra props for the slot components.
-     * You can override the existing props or add new ones.
-     *
-     * This prop is an alias for the `componentsProps` prop, which will be deprecated in the future.
-     *
-     * @default {}
-     */
-    var slotProps: SlotProps?
-
-    interface SlotProps {
-        var popper: react.Props? /* Partial<PopperProps> & TooltipComponentsPropsOverrides */
-        var transition: react.Props? /* TransitionProps & TooltipComponentsPropsOverrides */
-        var tooltip: react.Props? /* React.HTMLProps<HTMLDivElement> &
-  MUIStyledCommonProps<Theme> &
-  TooltipComponentsPropsOverrides */
-        var arrow: react.Props? /* React.HTMLProps<HTMLSpanElement> &
-  MUIStyledCommonProps<Theme> &
-  TooltipComponentsPropsOverrides */
-    }
-
-    /**
-     * The components used for each slot inside.
-     *
-     * This prop is an alias for the `components` prop, which will be deprecated in the future.
-     *
-     * @default {}
-     */
-    var slots: Slots?
-
-    interface Slots {
-        var popper: react.ElementType<*>? /* React.ElementType<PopperProps> */
-        var transition: react.ElementType<*>?
-        var tooltip: react.ElementType<*>?
-        var arrow: react.ElementType<*>?
-    }
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
@@ -234,27 +196,66 @@ external interface TooltipProps :
 
     /**
      * The component used for the transition.
-     * [Follow this guide](/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
-     * @default Grow
+     * [Follow this guide](https://mui.com/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
+     * @deprecated use the `slots.transition` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var TransitionComponent: react.ComponentType<*>?
 
     /**
      * Props applied to the transition element.
      * By default, the element is based on this [`Transition`](https://reactcommunity.org/react-transition-group/transition/) component.
+     * @deprecated use the `slotProps.transition` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
+     * @default {}
      */
     var TransitionProps: mui.material.transitions.TransitionProps?
 }
+
+external interface TooltipComponentsPropsOverrides
+
+external interface TooltipPopperSlotPropsOverrides
+
+external interface TooltipTransitionSlotPropsOverrides
+
+external interface TooltipTooltipSlotPropsOverrides
+
+external interface TooltipArrowSlotPropsOverrides
+
+external interface TooltipSlots {
+    /**
+     * The component used for the popper.
+     * @default Popper
+     */
+    var popper: react.ElementType<*>
+
+    /**
+     * The component used for the transition.
+     * [Follow this guide](https://mui.com/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
+     * @default Grow
+     */
+    var transition: react.ElementType<*>
+
+    /**
+     * The component used for the tooltip.
+     */
+    var tooltip: react.ElementType<*>
+
+    /**
+     * The component used for the arrow.
+     */
+    var arrow: react.ElementType<*>
+}
+
+external interface TooltipOwnerState
 
 /**
  *
  * Demos:
  *
- * - [Tooltip](https://mui.com/material-ui/react-tooltip/)
+ * - [Tooltip](https://v6.mui.com/material-ui/react-tooltip/)
  *
  * API:
  *
- * - [Tooltip API](https://mui.com/material-ui/api/tooltip/)
+ * - [Tooltip API](https://v6.mui.com/material-ui/api/tooltip/)
  */
 @JsName("default")
 external val Tooltip: react.FC<TooltipProps>

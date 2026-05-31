@@ -29,7 +29,7 @@ external interface MasonryOwnProps :
      * Number of columns.
      * @default 4
      */
-    var columns: mui.system.ResponsiveStyleValue<dynamic>?
+    var columns: mui.system.ResponsiveStyleValue<Any /* number | string */>?
 
     /**
      * The default number of columns of the component. This is provided for server-side rendering.
@@ -50,7 +50,7 @@ external interface MasonryOwnProps :
      * Defines the space between children. It is a factor of the theme's spacing.
      * @default 1
      */
-    var spacing: mui.system.ResponsiveStyleValue<dynamic>?
+    var spacing: mui.system.ResponsiveStyleValue<Any /* number | string */>?
 
     /**
      * Allows using sequential order rather than adding to shortest column
@@ -68,11 +68,11 @@ external interface MasonryOwnProps :
  *
  * Demos:
  *
- * - [Masonry](https://mui.com/material-ui/react-masonry/)
+ * - [Masonry](https://v6.mui.com/material-ui/react-masonry/)
  *
  * API:
  *
- * - [Masonry API](https://mui.com/material-ui/api/masonry/)
+ * - [Masonry API](https://v6.mui.com/material-ui/api/masonry/)
  */
 @JsName("default")
 external val Masonry: react.FC<MasonryProps>

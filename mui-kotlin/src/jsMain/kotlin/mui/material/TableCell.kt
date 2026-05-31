@@ -71,17 +71,21 @@ external interface TableCellProps :
     var variant: TableCellVariant?
 }
 
+external interface TableCellPropsSizeOverrides
+
+external interface TableCellPropsVariantOverrides
+
 /**
  * The component renders a `<th>` element when the parent context is a header
  * or otherwise a `<td>` element.
  *
  * Demos:
  *
- * - [Table](https://mui.com/material-ui/react-table/)
+ * - [Table](https://v6.mui.com/material-ui/react-table/)
  *
  * API:
  *
- * - [TableCell API](https://mui.com/material-ui/api/table-cell/)
+ * - [TableCell API](https://v6.mui.com/material-ui/api/table-cell/)
  */
 @JsName("default")
 external val TableCell: react.FC<TableCellProps>

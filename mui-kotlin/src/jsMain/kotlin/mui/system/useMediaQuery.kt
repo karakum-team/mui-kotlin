@@ -1,7 +1,5 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@mui/system/useMediaQuery")
-
 package mui.system
 
 external interface UseMediaQueryOptions {
@@ -32,15 +30,3 @@ external interface UseMediaQueryOptions {
      */
     var ssrMatchMedia: ((query: String) -> dynamic)?
 }
-
-@JsName("default")
-external fun useMediaQuery(
-    queryInput: String,
-    options: UseMediaQueryOptions? = definedExternally,
-): Boolean
-
-@JsName("default")
-external fun <Theme : Any> useMediaQuery(
-    queryInput: (theme: Theme) -> String,
-    options: UseMediaQueryOptions? = definedExternally,
-): Boolean

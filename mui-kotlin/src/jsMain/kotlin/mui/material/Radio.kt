@@ -58,16 +58,40 @@ external interface RadioProps :
     override var sx: SxProps<Theme>?
 }
 
+external interface RadioPropsSizeOverrides
+
+external interface RadioPropsColorOverrides
+
+external interface RadioRootSlotPropsOverrides
+
+external interface RadioInputSlotPropsOverrides
+
+external interface RadioSlots {
+    /**
+     * The component that renders the root slot.
+     * @default SwitchBase
+     */
+    var root: react.ElementType<*>
+
+    /**
+     * The component that renders the input slot.
+     * @default SwitchBase's input
+     */
+    var input: react.ElementType<*>
+}
+
+external interface RadioOwnerState
+
 /**
  *
  * Demos:
  *
- * - [Radio Group](https://mui.com/material-ui/react-radio-button/)
+ * - [Radio Group](https://v6.mui.com/material-ui/react-radio-button/)
  *
  * API:
  *
- * - [Radio API](https://mui.com/material-ui/api/radio/)
- * - inherits [ButtonBase API](https://mui.com/material-ui/api/button-base/)
+ * - [Radio API](https://v6.mui.com/material-ui/api/radio/)
+ * - inherits [ButtonBase API](https://v6.mui.com/material-ui/api/button-base/)
  */
 @JsName("default")
 external val Radio: react.FC<RadioProps>

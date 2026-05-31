@@ -10,10 +10,10 @@ external interface UseTabParameters {
      * It's used to associate the tab with a tab panel(s) with the same value.
      * If the value is not provided, it falls back to the position index.
      */
-    var value: dynamic
+    var value: Any? /* number | string */
 
     /**
-     * If `true`, the tab will be disabled.
+     * Callback invoked when new value is being set.
      */
     var onChange: ((event: react.dom.events.SyntheticEvent<*, *>, value: Any /* Number | String */) -> Unit)?
 

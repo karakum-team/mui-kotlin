@@ -4,6 +4,36 @@
 
 package mui.material.styles
 
+external interface Color {
+    var `50`: String
+
+    var `100`: String
+
+    var `200`: String
+
+    var `300`: String
+
+    var `400`: String
+
+    var `500`: String
+
+    var `600`: String
+
+    var `700`: String
+
+    var `800`: String
+
+    var `900`: String
+
+    var A100: String
+
+    var A200: String
+
+    var A400: String
+
+    var A700: String
+}
+
 external interface CommonColors {
     var black: web.cssom.Color
 
@@ -73,21 +103,21 @@ external interface TypeObject {
 
     var action: TypeAction
 
-    var divider: dynamic
+    var divider: Any? /* TypeDivider */
 
     var background: TypeBackground
 }
 
 external interface PaletteAugmentColorOptions {
-    var color: dynamic
+    var color: Any? /* PaletteColorOptions */
 
-    var mainShade: dynamic
+    var mainShade: Any? /* number | string */
 
-    var lightShade: dynamic
+    var lightShade: Any? /* number | string */
 
-    var darkShade: dynamic
+    var darkShade: Any? /* number | string */
 
-    var name: dynamic
+    var name: Any? /* number | string */
 }
 
 external interface Palette {
@@ -97,7 +127,7 @@ external interface Palette {
 
     var contrastThreshold: Number
 
-    var tonalOffset: dynamic
+    var tonalOffset: Any? /* PaletteTonalOffset */
 
     var primary: PaletteColor
 
@@ -111,11 +141,11 @@ external interface Palette {
 
     var success: PaletteColor
 
-    var grey: dynamic
+    var grey: Any? /* Color */
 
     var text: TypeText
 
-    var divider: dynamic
+    var divider: Any? /* TypeDivider */
 
     var action: TypeAction
 
@@ -137,27 +167,27 @@ external interface Channels {
 }
 
 external interface PaletteOptions {
-    var primary: dynamic
+    var primary: Any? /* PaletteColorOptions */
 
-    var secondary: dynamic
+    var secondary: Any? /* PaletteColorOptions */
 
-    var error: dynamic
+    var error: Any? /* PaletteColorOptions */
 
-    var warning: dynamic
+    var warning: Any? /* PaletteColorOptions */
 
-    var info: dynamic
+    var info: Any? /* PaletteColorOptions */
 
-    var success: dynamic
+    var success: Any? /* PaletteColorOptions */
 
     var mode: mui.material.PaletteMode?
 
-    var tonalOffset: dynamic
+    var tonalOffset: Any? /* PaletteTonalOffset */
 
     var contrastThreshold: Number?
 
     var common: CommonColors?
 
-    var grey: dynamic
+    var grey: Any? /* ColorPartial */
 
     var text: TypeText?
 

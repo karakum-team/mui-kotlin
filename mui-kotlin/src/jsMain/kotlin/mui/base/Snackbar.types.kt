@@ -6,6 +6,10 @@ external interface SnackbarProps :
     SnackbarOwnProps,
     react.dom.html.HTMLAttributes<web.html.HTMLDivElement>
 
+external interface SnackbarRootSlotPropsOverrides
+
+external interface SnackbarClickAwayListenerSlotPropsOverrides
+
 external interface SnackbarOwnProps :
     UseSnackbarParameters,
     react.PropsWithChildren {

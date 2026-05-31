@@ -27,6 +27,13 @@ external interface DialogProps :
     // var `aria-labelledby`: String?
 
     /**
+     * Informs assistive technologies that the element is modal.
+     * It's added on the element with role="dialog".
+     * @default true
+     */
+    // var `aria-modal`: Any? /* boolean | 'true' | 'false' */
+
+    /**
      * Dialog children, usually the included sub-components.
      */
     override var children: react.ReactNode?
@@ -62,7 +69,7 @@ external interface DialogProps :
      * Set to `false` to disable `maxWidth`.
      * @default 'sm'
      */
-    var maxWidth: dynamic
+    var maxWidth: Any? /* Breakpoint | false */
 
     /**
      * Callback fired when the backdrop is clicked.
@@ -90,8 +97,9 @@ external interface DialogProps :
     var PaperComponent: react.ComponentType<PaperProps>?
 
     /**
-     * Props applied to the [`Paper`](/material-ui/api/paper/) element.
+     * Props applied to the [`Paper`](https://mui.com/material-ui/api/paper/) element.
      * @default {}
+     * @deprecated Use `slotProps.paper` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var PaperProps: PaperProps?
 
@@ -108,8 +116,9 @@ external interface DialogProps :
 
     /**
      * The component used for the transition.
-     * [Follow this guide](/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
+     * [Follow this guide](https://mui.com/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
      * @default Fade
+     * @deprecated Use `slots.transition` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var TransitionComponent: react.ComponentType<*>?
 
@@ -126,21 +135,64 @@ external interface DialogProps :
     /**
      * Props applied to the transition element.
      * By default, the element is based on this [`Transition`](https://reactcommunity.org/react-transition-group/transition/) component.
+     * @deprecated Use `slotProps.transition` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var TransitionProps: mui.material.transitions.TransitionProps?
 }
+
+external interface DialogSlots {
+    /**
+     * The component that renders the transition.
+     * [Follow this guide](/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
+     * @default Collapse
+     */
+    var transition: react.ElementType<*>?
+
+    /**
+     * The component that renders the paper.
+     * @default Paper
+     */
+    var paper: react.ElementType<*>?
+
+    /**
+     * The component that renders the container.
+     */
+    var container: react.ElementType<*>?
+
+    /**
+     * The component that renders the backdrop.
+     */
+    var backdrop: react.ElementType<*>?
+
+    /**
+     * The component that renders the root.
+     */
+    var root: react.ElementType<*>?
+}
+
+external interface DialogTransitionSlotPropsOverrides
+
+external interface DialogPaperSlotPropsOverrides
+
+external interface DialogContainerSlotPropsOverrides
+
+external interface DialogBackdropSlotPropsOverrides
+
+external interface DialogRootSlotPropsOverrides
+
+external interface DialogOwnerState
 
 /**
  * Dialogs are overlaid modal paper based components with a backdrop.
  *
  * Demos:
  *
- * - [Dialog](https://mui.com/material-ui/react-dialog/)
+ * - [Dialog](https://v6.mui.com/material-ui/react-dialog/)
  *
  * API:
  *
- * - [Dialog API](https://mui.com/material-ui/api/dialog/)
- * - inherits [Modal API](https://mui.com/material-ui/api/modal/)
+ * - [Dialog API](https://v6.mui.com/material-ui/api/dialog/)
+ * - inherits [Modal API](https://v6.mui.com/material-ui/api/modal/)
  */
 @JsName("default")
 external val Dialog: react.FC<DialogProps>

@@ -8,6 +8,8 @@ external interface MenuItemProps :
     MenuItemOwnProps,
     react.dom.html.LiHTMLAttributes<web.html.HTMLLIElement>
 
+external interface MenuItemRootSlotPropsOverrides
+
 external interface MenuItemOwnProps :
     react.PropsWithChildren,
     react.PropsWithClassName,

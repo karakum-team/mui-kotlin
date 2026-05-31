@@ -12,6 +12,8 @@ external interface FormHelperTextProps :
     react.dom.html.HTMLAttributes<web.html.HTMLParagraphElement>,
     mui.types.PropsWithComponent
 
+external interface FormHelperTextPropsVariantOverrides
+
 external interface FormHelperTextOwnProps :
     react.PropsWithChildren,
     mui.system.PropsWithSx {
@@ -73,11 +75,11 @@ external interface FormHelperTextOwnProps :
  *
  * Demos:
  *
- * - [Text Field](https://mui.com/material-ui/react-text-field/)
+ * - [Text Field](https://v6.mui.com/material-ui/react-text-field/)
  *
  * API:
  *
- * - [FormHelperText API](https://mui.com/material-ui/api/form-helper-text/)
+ * - [FormHelperText API](https://v6.mui.com/material-ui/api/form-helper-text/)
  */
 @JsName("default")
 external val FormHelperText: react.FC<FormHelperTextProps>

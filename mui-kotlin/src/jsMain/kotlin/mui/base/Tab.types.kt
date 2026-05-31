@@ -6,13 +6,15 @@ external interface TabProps :
     TabOwnProps,
     react.dom.html.ButtonHTMLAttributes<web.html.HTMLButtonElement>
 
+external interface TabRootSlotPropsOverrides
+
 external interface TabOwnProps :
     ButtonOwnProps,
     react.dom.html.ButtonHTMLAttributes<web.html.HTMLButtonElement> {
     /**
      * You can provide your own value. Otherwise, it falls back to the child position index.
      */
-    override var value: dynamic
+    override var value: Any? /* number | string */
 
     /**
      * Callback invoked when new value is being set.

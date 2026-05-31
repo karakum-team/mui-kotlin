@@ -33,12 +33,12 @@ external interface DialogContentTextOwnProps :
  *
  * Demos:
  *
- * - [Dialog](https://mui.com/material-ui/react-dialog/)
+ * - [Dialog](https://v6.mui.com/material-ui/react-dialog/)
  *
  * API:
  *
- * - [DialogContentText API](https://mui.com/material-ui/api/dialog-content-text/)
- * - inherits [Typography API](https://mui.com/material-ui/api/typography/)
+ * - [DialogContentText API](https://v6.mui.com/material-ui/api/dialog-content-text/)
+ * - inherits [Typography API](https://v6.mui.com/material-ui/api/typography/)
  */
 @JsName("default")
 external val DialogContentText: react.FC<DialogContentTextProps>

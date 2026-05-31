@@ -12,6 +12,8 @@ external interface TableProps :
     react.dom.html.TableHTMLAttributes<web.html.HTMLTableElement>,
     mui.types.PropsWithComponent
 
+external interface TablePropsSizeOverrides
+
 external interface TableOwnProps :
     react.PropsWithChildren,
     mui.system.PropsWithSx {
@@ -39,8 +41,6 @@ external interface TableOwnProps :
 
     /**
      * Set the header sticky.
-     *
-     * ⚠️ It doesn't work with IE11.
      * @default false
      */
     var stickyHeader: Boolean?
@@ -55,11 +55,11 @@ external interface TableOwnProps :
  *
  * Demos:
  *
- * - [Table](https://mui.com/material-ui/react-table/)
+ * - [Table](https://v6.mui.com/material-ui/react-table/)
  *
  * API:
  *
- * - [Table API](https://mui.com/material-ui/api/table/)
+ * - [Table API](https://v6.mui.com/material-ui/api/table/)
  */
 @JsName("default")
 external val Table: react.FC<TableProps>

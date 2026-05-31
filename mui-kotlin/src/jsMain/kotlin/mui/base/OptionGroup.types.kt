@@ -8,6 +8,12 @@ external interface OptionGroupProps :
     OptionGroupOwnProps,
     react.dom.html.LiHTMLAttributes<web.html.HTMLLIElement>
 
+external interface OptionGroupRootSlotPropsOverrides
+
+external interface OptionGroupLabelSlotPropsOverrides
+
+external interface OptionGroupListSlotPropsOverrides
+
 external interface OptionGroupOwnProps :
     react.PropsWithChildren,
     react.PropsWithClassName {

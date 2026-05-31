@@ -13,6 +13,10 @@ external interface IconProps :
     react.dom.html.HTMLAttributes<web.html.HTMLSpanElement>,
     mui.types.PropsWithComponent
 
+external interface IconPropsSizeOverrides
+
+external interface IconPropsColorOverrides
+
 external interface IconOwnProps :
     react.PropsWithChildren,
     mui.system.PropsWithSx {
@@ -57,12 +61,12 @@ external interface IconOwnProps :
  *
  * Demos:
  *
- * - [Icons](https://mui.com/material-ui/icons/)
- * - [Material Icons](https://mui.com/material-ui/material-icons/)
+ * - [Icons](https://v6.mui.com/material-ui/icons/)
+ * - [Material Icons](https://v6.mui.com/material-ui/material-icons/)
  *
  * API:
  *
- * - [Icon API](https://mui.com/material-ui/api/icon/)
+ * - [Icon API](https://v6.mui.com/material-ui/api/icon/)
  */
 @JsName("default")
 external val Icon: react.FC<IconProps>

@@ -45,7 +45,7 @@ external interface TabOwnProps :
     /**
      * The icon to display.
      */
-    var icon: react.ReactElement<*>?
+    var icon: Any? /* string | React.ReactElement<unknown> */
 
     /**
      * The position of the icon relative to the label.
@@ -80,12 +80,12 @@ external interface TabOwnProps :
  *
  * Demos:
  *
- * - [Tabs](https://mui.com/material-ui/react-tabs/)
+ * - [Tabs](https://v6.mui.com/material-ui/react-tabs/)
  *
  * API:
  *
- * - [Tab API](https://mui.com/material-ui/api/tab/)
- * - inherits [ButtonBase API](https://mui.com/material-ui/api/button-base/)
+ * - [Tab API](https://v6.mui.com/material-ui/api/tab/)
+ * - inherits [ButtonBase API](https://v6.mui.com/material-ui/api/button-base/)
  */
 @JsName("default")
 external val Tab: react.FC<TabProps>
