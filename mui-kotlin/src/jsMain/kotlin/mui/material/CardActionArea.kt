@@ -31,10 +31,18 @@ external interface CardActionAreaSlots {
     var focusHighlight: react.ElementType<*>
 }
 
+external interface CardActionAreaSlotProps : react.Props {
+    /** TS: SlotProps<React.ElementType<ButtonBaseProps>, {}, CardActionAreaOwnerState> */
+    var root: Any?
+
+    /** TS: SlotProps<'span', {}, CardActionAreaOwnerState> */
+    var focusHighlight: Any?
+}
+
 external interface CardActionAreaSlotsAndSlotProps : react.Props {
     var slots: CardActionAreaSlots?
 
-    var slotProps: Any?
+    var slotProps: CardActionAreaSlotProps?
 }
 
 external interface CardActionAreaOwnerState

@@ -246,10 +246,24 @@ external interface TooltipSlots {
     var arrow: react.ElementType<*>
 }
 
+external interface TooltipSlotProps : react.Props {
+    /** TS: SlotProps< React.ElementType<PopperProps>, TooltipPopperSlotPropsOverrides, TooltipOwnerState > */
+    var popper: Any?
+
+    /** TS: SlotProps< React.ElementType, TransitionProps & TooltipTransitionSlotPropsOverrides, TooltipOwnerState > */
+    var transition: Any?
+
+    /** TS: SlotProps<'div', TooltipTooltipSlotPropsOverrides, TooltipOwnerState> */
+    var tooltip: Any?
+
+    /** TS: SlotProps<'span', TooltipArrowSlotPropsOverrides, TooltipOwnerState> */
+    var arrow: Any?
+}
+
 external interface TooltipSlotsAndSlotProps : react.Props {
     var slots: TooltipSlots?
 
-    var slotProps: Any?
+    var slotProps: TooltipSlotProps?
 }
 
 external interface TooltipOwnerState

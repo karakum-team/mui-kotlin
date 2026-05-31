@@ -171,10 +171,24 @@ external interface SnackbarClickAwayListenerSlotPropsOverrides
 
 external interface SnackbarTransitionSlotPropsOverrides
 
+external interface SnackbarSlotProps : react.Props {
+    /** TS: SlotProps<'div', SnackbarRootSlotPropsOverrides, SnackbarOwnerState> */
+    var root: Any?
+
+    /** TS: SlotProps< React.ElementType<SnackbarContentProps>, SnackbarContentSlotPropsOverrides, SnackbarOwnerState > */
+    var content: Any?
+
+    /** TS: SlotComponentProps< typeof ClickAwayListener, SnackbarClickAwayListenerSlotPropsOverrides, SnackbarOwnerState > */
+    var clickAwayListener: Any?
+
+    /** TS: SlotComponentProps< React.ElementType, TransitionProps & SnackbarTransitionSlotPropsOverrides, SnackbarOwnerState > */
+    var transition: Any?
+}
+
 external interface SnackbarSlotsAndSlotProps : react.Props {
     var slots: SnackbarSlots?
 
-    var slotProps: Any?
+    var slotProps: SnackbarSlotProps?
 }
 
 external interface SnackbarOrigin {

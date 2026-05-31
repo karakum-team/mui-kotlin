@@ -133,10 +133,18 @@ external interface CheckboxSlots {
     var input: react.ElementType<*>
 }
 
+external interface CheckboxSlotProps : react.Props {
+    /** TS: SlotProps< React.ElementType<SwitchBaseProps>, CheckboxRootSlotPropsOverrides, CheckboxOwnerState > */
+    var root: Any?
+
+    /** TS: SlotProps<'input', CheckboxInputSlotPropsOverrides, CheckboxOwnerState> */
+    var input: Any?
+}
+
 external interface CheckboxSlotsAndSlotProps : react.Props {
     var slots: CheckboxSlots?
 
-    var slotProps: Any?
+    var slotProps: CheckboxSlotProps?
 }
 
 external interface CheckboxOwnerState

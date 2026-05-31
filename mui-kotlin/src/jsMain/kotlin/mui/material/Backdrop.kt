@@ -31,10 +31,18 @@ external interface BackdropComponentsPropsOverrides
 
 external interface BackdropTransitionSlotPropsOverrides
 
+external interface BackdropSlotProps : react.Props {
+    /** TS: SlotProps<'div', BackdropComponentsPropsOverrides, BackdropOwnerState> */
+    var root: Any?
+
+    /** TS: SlotComponentProps< React.ElementType, TransitionProps & BackdropTransitionSlotPropsOverrides, BackdropOwnerState > */
+    var transition: Any?
+}
+
 external interface BackdropSlotsAndSlotProps : react.Props {
     var slots: BackdropSlots?
 
-    var slotProps: Any?
+    var slotProps: BackdropSlotProps?
 }
 
 external interface BackdropOwnProps :

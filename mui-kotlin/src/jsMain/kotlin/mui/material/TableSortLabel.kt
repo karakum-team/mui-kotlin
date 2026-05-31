@@ -30,10 +30,18 @@ external interface TableSortLabelSlots {
     var icon: react.ElementType<*>?
 }
 
+external interface TableSortLabelSlotProps : react.Props {
+    /** TS: SlotProps< React.ElementType<React.HTMLAttributes<HTMLSpanElement>>, TableSortLabelRootSlotPropsOverrides, TableSortLabelOwnerState > */
+    var root: Any?
+
+    /** TS: SlotProps< React.ElementType<React.SVGAttributes<SVGSVGElement>>, TableSortLabelIconSlotPropsOverrides, TableSortLabelOwnerState > */
+    var icon: Any?
+}
+
 external interface TableSortLabelSlotsAndSlotProps : react.Props {
     var slots: TableSortLabelSlots?
 
-    var slotProps: Any?
+    var slotProps: TableSortLabelSlotProps?
 }
 
 external interface TableSortLabelOwnerState

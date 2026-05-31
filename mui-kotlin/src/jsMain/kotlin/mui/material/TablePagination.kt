@@ -90,10 +90,36 @@ external interface TablePaginationSlots {
     var actions: Any? /* TablePaginationActionsSlots */
 }
 
+external interface TablePaginationSlotProps : react.Props {
+    /** TS: SlotProps< React.ElementType<TableCellProps>, TablePaginationRootSlotPropsOverrides, TablePaginationOwnerState > */
+    var root: Any?
+
+    /** TS: SlotProps< React.ElementType<ToolbarProps>, TablePaginationToolbarSlotPropsOverrides, TablePaginationOwnerState > */
+    var toolbar: Any?
+
+    /** TS: SlotProps<'div', TablePaginationSpacerSlotPropsOverrides, TablePaginationOwnerState> */
+    var spacer: Any?
+
+    /** TS: SlotProps< 'p', TablePaginationSelectLabelSlotPropsOverrides, TablePaginationOwnerState > */
+    var selectLabel: Any?
+
+    /** TS: Partial<SelectProps> & TablePaginationSelectSlotPropsOverrides */
+    var select: Any?
+
+    /** TS: SlotProps< React.ElementType<MenuItemProps>, TablePaginationMenuItemSlotPropsOverrides, TablePaginationOwnerState > */
+    var menuItem: Any?
+
+    /** TS: SlotProps< 'p', TablePaginationDisplayedRowsSlotPropsOverrides, TablePaginationOwnerState > */
+    var displayedRows: Any?
+
+    /** TS: TablePaginationActionsProps['slotProps'] & TablePaginationActionsSlotPropsOverrides */
+    var actions: Any?
+}
+
 external interface TablePaginationSlotsAndSlotProps : react.Props {
     var slots: TablePaginationSlots?
 
-    var slotProps: Any?
+    var slotProps: TablePaginationSlotProps?
 }
 
 external interface TablePaginationOwnProps : mui.system.PropsWithSx {

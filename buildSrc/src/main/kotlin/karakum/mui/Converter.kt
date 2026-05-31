@@ -274,9 +274,9 @@ private fun String.convertExportSlotsAndSlotPropsAliases(): String {
         }
         val gtClose = i
         // Inside `<...>` we expect `XxxSlots,\n   {...inline...}`. Extract slot interface name
-        // (before first top-level comma) — slotProps shape collapses to `any`.
+        // (before first top-level comma); inline `{ ... }` second arg gives us per-slot members.
         val inside = substring(ltOpen, gtClose)
-        val slotInterface = run {
+        val topComma = run {
             var bracketDepth = 0
             var commaIdx = -1
             for (j in inside.indices) {
@@ -289,8 +289,28 @@ private fun String.convertExportSlotsAndSlotPropsAliases(): String {
                     }
                 }
             }
-            (if (commaIdx >= 0) inside.substring(0, commaIdx) else inside).trim()
+            commaIdx
         }
+        val slotInterface = (if (topComma >= 0) inside.substring(0, topComma) else inside).trim()
+        val secondArgRaw = if (topComma >= 0) inside.substring(topComma + 1).trim() else ""
+        // Parse the inline `{ ... }` for per-slot members. Falls back to empty list if shape isn't
+        // a simple object literal — we then emit `slotProps?: any` as before.
+        val slotMembers: List<Pair<String, String>> = if (secondArgRaw.startsWith("{")) {
+            var bd = 1
+            var closeIdx = -1
+            for (j in 1 until secondArgRaw.length) {
+                when (secondArgRaw[j]) {
+                    '{' -> bd++
+                    '}' -> {
+                        bd--; if (bd == 0) {
+                            closeIdx = j; break
+                        }
+                    }
+                }
+            }
+            if (closeIdx > 0) parseInlineSlotProps(secondArgRaw.substring(1, closeIdx))
+            else emptyList()
+        } else emptyList()
         // Consume the rest of the declaration up to `;\n` — handles plain
         // `;\n` AND intersection tails like ` & { slots?: …; slotProps?: … };`.
         var endOfDecl = gtClose + 1
@@ -312,15 +332,80 @@ private fun String.convertExportSlotsAndSlotPropsAliases(): String {
         if (endOfDecl < length && this[endOfDecl] == '\n') endOfDecl++
 
         result.append(this, cursor, typeStart)
+
+        // Emit per-slot XxxSlotProps interface (when we managed to parse the inline shape).
+        // TS-type goes into a JSDoc comment above the field (preserves info without nesting).
+        val slotPropsTypeName: String = if (slotMembers.isNotEmpty()) {
+            val slotPropsInterfaceName = "${interfaceName}SlotProps"
+            result.append("export interface ").append(slotPropsInterfaceName).append(" {\n")
+            for ((memberName, tsType) in slotMembers) {
+                if (tsType.isNotEmpty()) {
+                    val safe = tsType.replace("*/", "*\\/").lineSequence().joinToString(" ") { it.trim() }
+                    result.append("  /** TS: ").append(safe).append(" */\n")
+                }
+                result.append("  ").append(memberName).append("?: any;\n")
+            }
+            result.append("}\n")
+            slotPropsInterfaceName
+        } else "any"
+
         result.append("export interface ")
             .append(interfaceName)
             .append("SlotsAndSlotProps {\n  slots?: ")
             .append(slotInterface)
-            .append(";\n  slotProps?: any;\n}\n")
+            .append(";\n  slotProps?: ")
+            .append(slotPropsTypeName)
+            .append(";\n}\n")
         cursor = endOfDecl
     }
     if (cursor < length) result.append(this, cursor, length)
     return result.toString()
+}
+
+/** Parse the inline `{ root: SlotProps<…>; input: …; }` second arg of `CreateSlotsAndSlotProps`. */
+private fun parseInlineSlotProps(inline: String): List<Pair<String, String>> {
+    val out = mutableListOf<Pair<String, String>>()
+    var i = 0
+    while (i < inline.length) {
+        // skip whitespace
+        while (i < inline.length && inline[i].isWhitespace()) i++
+        if (i >= inline.length) break
+        // skip JSDoc / block comment
+        if (i < inline.length - 1 && inline[i] == '/' && inline[i + 1] == '*') {
+            val end = inline.indexOf("*/", i + 2)
+            if (end < 0) break
+            i = end + 2
+            continue
+        }
+        // read identifier name
+        val nameStart = i
+        while (i < inline.length && (inline[i].isLetterOrDigit() || inline[i] == '_')) i++
+        if (i == nameStart) {
+            i++
+            continue
+        }
+        val name = inline.substring(nameStart, i)
+        // optional `?`
+        if (i < inline.length && inline[i] == '?') i++
+        // expect `:`
+        if (i >= inline.length || inline[i] != ':') continue
+        i++
+        // read type up to top-level `;`
+        val typeStart = i
+        var depth = 0
+        while (i < inline.length) {
+            when (inline[i]) {
+                '<', '{', '(' -> depth++
+                '>', '}', ')' -> depth--
+                ';' -> if (depth == 0) break
+            }
+            i++
+        }
+        val tsType = inline.substring(typeStart, i).trim()
+        out += name to tsType
+        if (i < inline.length && inline[i] == ';') i++
+    }
+    return out
 }
 
 private fun String.removeDeprecated(): String {

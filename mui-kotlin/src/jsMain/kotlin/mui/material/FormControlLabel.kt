@@ -99,10 +99,15 @@ external interface FormControlLabelSlots {
     var typography: react.ElementType<*>
 }
 
+external interface FormControlLabelSlotProps : react.Props {
+    /** TS: SlotProps<typeof Typography, {}, FormControlLabelProps> */
+    var typography: Any?
+}
+
 external interface FormControlLabelSlotsAndSlotProps : react.Props {
     var slots: FormControlLabelSlots?
 
-    var slotProps: Any?
+    var slotProps: FormControlLabelSlotProps?
 }
 
 /**

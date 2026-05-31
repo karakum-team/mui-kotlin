@@ -137,10 +137,27 @@ external interface DrawerSlots {
     var transition: react.ElementType<*>
 }
 
+external interface DrawerSlotProps : react.Props {
+    /** TS: SlotProps<React.ElementType<ModalProps>, DrawerRootSlotPropsOverrides, DrawerOwnerState> */
+    var root: Any?
+
+    /** TS: SlotProps< React.ElementType<BackdropProps>, DrawerBackdropSlotPropsOverrides, DrawerOwnerState > */
+    var backdrop: Any?
+
+    /** TS: SlotProps<'div', DrawerDockedSlotPropsOverrides, DrawerOwnerState> */
+    var docked: Any?
+
+    /** TS: SlotProps< React.ElementType<PaperProps>, DrawerPaperSlotPropsOverrides, DrawerOwnerState > */
+    var paper: Any?
+
+    /** TS: SlotProps< React.ElementType, TransitionProps & DrawerTransitionSlotPropsOverrides, DrawerOwnerState > */
+    var transition: Any?
+}
+
 external interface DrawerSlotsAndSlotProps : react.Props {
     var slots: DrawerSlots?
 
-    var slotProps: Any?
+    var slotProps: DrawerSlotProps?
 }
 
 external interface DrawerOwnerState

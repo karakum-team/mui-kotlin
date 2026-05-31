@@ -62,10 +62,15 @@ external interface StepContentSlots {
     var transition: react.ComponentType<*>?
 }
 
+external interface StepContentSlotProps : react.Props {
+    /** TS: SlotComponentProps<React.ElementType, CollapseProps, StepContentOwnerState> */
+    var transition: Any?
+}
+
 external interface StepContentSlotsAndSlotProps : react.Props {
     var slots: StepContentSlots?
 
-    var slotProps: Any?
+    var slotProps: StepContentSlotProps?
 }
 
 external interface StepContentOwnerState

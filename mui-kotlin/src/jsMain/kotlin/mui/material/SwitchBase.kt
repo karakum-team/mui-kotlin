@@ -125,10 +125,18 @@ external interface SwitchBaseSlots {
     var input: react.ElementType<*>
 }
 
+external interface SwitchBaseSlotProps : react.Props {
+    /** TS: SlotProps<React.ElementType<ButtonBaseProps>, {}, SwitchBaseOwnerState> */
+    var root: Any?
+
+    /** TS: SlotProps<'input', {}, SwitchBaseOwnerState> */
+    var input: Any?
+}
+
 external interface SwitchBaseSlotsAndSlotProps : react.Props {
     var slots: SwitchBaseSlots?
 
-    var slotProps: Any?
+    var slotProps: SwitchBaseSlotProps?
 }
 
 external interface SwitchBaseOwnerState

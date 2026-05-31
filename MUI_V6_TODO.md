@@ -110,10 +110,17 @@
 - **`Rating.defaultValue`** — расширена с `Number?` до `Any? /* Number */`, чтобы не клешиться с inherited
   `HTMLAttributes.defaultValue: Any?` (Kotlin var-invariance не позволяет diamond сузить тип).
   В `Rating.ext.kt` есть `inline var RatingProps.defaultValueAsNumber: Number?` для типизированного доступа.
-- **`SlotProps` inner typing для всех `XxxSlotsAndSlotProps`** — `slotProps?: any` (Kotlin → `Any?`).
-  Точные типы (`popper: SlotProps<…>`, `transition: SlotProps<…>`) не парсятся. Для типизированного доступа
-  пользуйся `unsafeCast` или приводи к ad-hoc интерфейсу. To fix: научить generator парсить
-  `CreateSlotsAndSlotProps<XxxSlots, { …inline… }>` второй аргумент.
+- **`SlotProps` inner typing для всех `XxxSlotsAndSlotProps`** — структура по именам слотов теперь сохранена:
+  generator парсит второй аргумент `CreateSlotsAndSlotProps<XxxSlots, { root: SlotProps<…>; input: …; }>` и эмитит
+  отдельный `XxxSlotProps` интерфейс с полем на каждый слот (например
+  `CheckboxSlotProps { var root: Any?; var input: Any? }`).
+  `XxxSlotsAndSlotProps.slotProps` теперь типизируется как `XxxSlotProps?`. Имена слотов автокомплитятся.
+  **Что НЕ типизируется:** конкретный inner `SlotProps<RootComponent, Overrides, OwnerState>` каждого поля
+  остаётся `Any?` — это TS-шаблон с тремя generic-параметрами, корректно мапить в Kotlin без перебора всех
+  возможных RootComponent невозможно. Оригинальный TS-тип сохранён в `/** TS: SlotProps<…> */` JSDoc-комментарии
+  над каждым полем — для справки. Если нужен типизированный доступ, делается через `unsafeCast`.
+  To fix позже: при необходимости вытащить `RootComponent`-тип из первого аргумента SlotProps и эмитить
+  `react.PropsOf<…>`/`mui.types.PropsWithComponent`-подобный shape, но это значительная работа.
 - **Компоненты, наследующие slots/slotProps от родителя** — Dialog/Drawer/Menu/Popover/SwipeableDrawer (extend Modal),
   OutlinedInput/FilledInput (extend InputBase), Checkbox/Radio/Switch (extend SwitchBase) — теряют их собственные
   `XxxSlotsAndSlotProps` parent, чтобы избежать diamond `ParentSlots? vs ChildSlots?`. Сам интерфейс
@@ -143,9 +150,10 @@
 - Фолбэк для непарсимых типов — `Any? /* оригинальный TS-тип */`, а не `dynamic`. Так сохраняется источник и
   nullability. См. `KotlinType.kt::kotlinType` нижний `return`.
 - `ResponsiveStyleValue<T>` имеет bound `T : Any` — фолбэк внутри него убирает `?`: `Any? /* ... */` → `Any /* ... */`.
-- `XxxSlotsAndSlotProps` — type-alias из `CreateSlotsAndSlotProps<XxxSlots, {…}>` теперь конвертируется в реальный
-  `interface XxxSlotsAndSlotProps { slots?: XxxSlots; slotProps?: any; }`
-  (`Converter.kt::convertSlotsAndSlotPropsAliases`). Inner slotProps теряет точное типирование (см. выше).
+- `XxxSlotsAndSlotProps` — type-alias из `CreateSlotsAndSlotProps<XxxSlots, {…}>` теперь конвертируется в ДВА
+  интерфейса: `XxxSlotsAndSlotProps { slots?: XxxSlots; slotProps?: XxxSlotProps; }` и сам `XxxSlotProps` с
+  именованными полями на каждый слот (`Converter.kt::convertSlotsAndSlotPropsAliases` +
+  `parseInlineSlotProps`). Inner SlotProps<…> каждого слота — `Any?` с TS-типом в JSDoc-комментарии над полем.
 - Компоненты, наследующие `slots/slotProps` от родителя (Dialog/Drawer/Menu/Popover/SwipeableDrawer/OutlinedInput/
   FilledInput/Checkbox/Radio/Switch), теряют свою собственную `XxxSlotsAndSlotProps` parent — избегаем diamond.
 - При появлении новых `Omit<StandardProps<...>, '...'>` / `StandardProps<Omit<...>>` / `DistributiveOmit<...>` /

@@ -208,10 +208,24 @@ external interface PopoverTransitionSlotPropsOverrides
 
 external interface PopoverBackdropSlotPropsOverrides
 
+external interface PopoverSlotProps : react.Props {
+    /** TS: SlotProps<typeof Modal, PopoverRootSlotPropsOverrides, PopoverOwnerState> */
+    var root: Any?
+
+    /** TS: SlotProps<typeof Paper, PopoverPaperSlotPropsOverrides, PopoverOwnerState> */
+    var paper: Any?
+
+    /** TS: SlotComponentProps< // use SlotComponentProps because transition slot does not support `component` and `sx` prop React.ElementType, TransitionProps & PopoverTransitionSlotPropsOverrides, PopoverOwnerState > */
+    var transition: Any?
+
+    /** TS: SlotProps< React.ElementType<BackdropProps>, PopoverBackdropSlotPropsOverrides, PopoverOwnerState > */
+    var backdrop: Any?
+}
+
 external interface PopoverSlotsAndSlotProps : react.Props {
     var slots: PopoverSlots?
 
-    var slotProps: Any?
+    var slotProps: PopoverSlotProps?
 }
 
 external interface PopoverOrigin {

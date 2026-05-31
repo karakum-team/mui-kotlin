@@ -20,10 +20,18 @@ external interface AvatarGroupSlots {
     var surplus: react.ElementType<*>
 }
 
+external interface AvatarGroupSlotProps : react.Props {
+    /** TS: React.ComponentPropsWithRef<typeof Avatar> & AvatarGroupComponentsPropsOverrides */
+    var additionalAvatar: Any?
+
+    /** TS: SlotProps< React.ElementType<React.ComponentPropsWithRef<typeof Avatar>>, AvatarGroupComponentsPropsOverrides, AvatarGroupOwnerState > */
+    var surplus: Any?
+}
+
 external interface AvatarGroupSlotsAndSlotProps : react.Props {
     var slots: AvatarGroupSlots?
 
-    var slotProps: Any?
+    var slotProps: AvatarGroupSlotProps?
 }
 
 external interface AvatarGroupOwnProps :

@@ -45,10 +45,15 @@ external interface OutlinedInputSlots {
     var notchedOutline: react.ElementType<*>
 }
 
+external interface OutlinedInputSlotProps : react.Props {
+    /** TS: SlotProps<'fieldset', {}, OutlinedInputOwnerState> */
+    var notchedOutline: Any?
+}
+
 external interface OutlinedInputSlotsAndSlotProps : react.Props {
     var slots: OutlinedInputSlots?
 
-    var slotProps: Any?
+    var slotProps: OutlinedInputSlotProps?
 }
 
 external interface OutlinedInputOwnerState

@@ -39,10 +39,18 @@ external interface BadgeSlots {
     var badge: react.ElementType<*>
 }
 
+external interface BadgeSlotProps : react.Props {
+    /** TS: SlotProps<'span', BadgeRootSlotPropsOverrides, BadgeOwnerState> */
+    var root: Any?
+
+    /** TS: SlotProps<'span', BadgeBadgeSlotPropsOverrides, BadgeOwnerState> */
+    var badge: Any?
+}
+
 external interface BadgeSlotsAndSlotProps : react.Props {
     var slots: BadgeSlots?
 
-    var slotProps: Any?
+    var slotProps: BadgeSlotProps?
 }
 
 external interface BadgeOrigin {

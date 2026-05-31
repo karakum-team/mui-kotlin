@@ -28,10 +28,24 @@ external interface PaginationItemSlots {
     var previous: react.ElementType<*>
 }
 
+external interface PaginationItemSlotProps : react.Props {
+    /** TS: SlotProps<React.ElementType<React.HTMLProps<HTMLElement>>, {}, PaginationItemOwnerState> */
+    var first: Any?
+
+    /** TS: SlotProps<React.ElementType<React.HTMLProps<HTMLElement>>, {}, PaginationItemOwnerState> */
+    var last: Any?
+
+    /** TS: SlotProps<React.ElementType<React.HTMLProps<HTMLElement>>, {}, PaginationItemOwnerState> */
+    var next: Any?
+
+    /** TS: SlotProps< React.ElementType<React.HTMLProps<HTMLElement>>, {}, PaginationItemOwnerState > */
+    var previous: Any?
+}
+
 external interface PaginationItemSlotsAndSlotProps : react.Props {
     var slots: PaginationItemSlots?
 
-    var slotProps: Any?
+    var slotProps: PaginationItemSlotProps?
 }
 
 external interface PaginationItemOwnerState
