@@ -12,6 +12,8 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.FC
+import react.ReactNode
 import react.dom.events.EventHandler
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
@@ -83,7 +85,7 @@ external interface ChipOwnProps :
     /**
      * The content of the component.
      */
-    var label: react.ReactNode?
+    var label: ReactNode?
 
     /**
      * Callback fired when the delete icon is clicked.
@@ -133,4 +135,4 @@ external interface ChipOwnProps :
  * - [Chip API](https://v6.mui.com/material-ui/api/chip/)
  */
 @JsName("default")
-external val Chip: react.FC<ChipProps>
+external val Chip: FC<ChipProps>

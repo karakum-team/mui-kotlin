@@ -936,7 +936,27 @@ private val IMPORTED_FQNS = listOf(
     "mui.system.Union",
 
     // popper.core
+    "popper.core.Instance",
+    "popper.core.Modifier",
+    "popper.core.Options",
     "popper.core.Placement",
+
+    // react (top-level)
+    "react.CSSProperties",
+    "react.ComponentType",
+    "react.ElementType",
+    "react.FC",
+    "react.Key",
+    "react.Props",
+    "react.PropsWithChildren",
+    "react.PropsWithClassName",
+    "react.PropsWithStyle",
+    "react.ReactElement",
+    "react.ReactNode",
+    "react.Ref",
+    "react.RefCallback",
+    "react.RefObject",
+    "react.StateSetter",
 
     // react.dom.aria
     "react.dom.aria.AriaRole",
@@ -970,15 +990,34 @@ private val IMPORTED_FQNS = listOf(
     // react.dom.svg
     "react.dom.svg.SVGAttributes",
 
+    // js
+    "js.array.ReadonlyArray",
+    "js.array.Tuple",
+    "js.objects.Record",
+
+    // seskar
+    "seskar.js.JsValue",
+
+    // csstype
+    "csstype.PropertiesBuilder",
+
     // web
+    "web.cssom.BorderRadius",
     "web.cssom.ClassName",
+    "web.cssom.Color",
+    "web.cssom.MediaQueryList",
+    "web.cssom.Transition",
     "web.dom.Element",
     "web.dom.ElementId",
     "web.dom.Node",
+    "web.dom.TagName",
+    "web.events.Event",
     "web.events.EventTarget",
+    "web.html.ButtonType",
     "web.html.HTMLAnchorElement",
     "web.html.HTMLButtonElement",
     "web.html.HTMLDivElement",
+    "web.html.HTMLElement",
     "web.html.HTMLFieldSetElement",
     "web.html.HTMLFormElement",
     "web.html.HTMLHRElement",
@@ -988,7 +1027,17 @@ private val IMPORTED_FQNS = listOf(
     "web.html.HTMLLabelElement",
     "web.html.HTMLParagraphElement",
     "web.html.HTMLSpanElement",
+    "web.html.HTMLTableCellElement",
+    "web.html.HTMLTableElement",
+    "web.html.HTMLTableRowElement",
+    "web.html.HTMLTableSectionElement",
     "web.html.HTMLTextAreaElement",
+    "web.html.HTMLUListElement",
+    "web.html.Hidden",
+    "web.html.InputType",
+    "web.svg.SVGSVGElement",
+    "web.uievents.UIEvent",
+    "web.window.Window",
 )
 
 private fun resolveImportedFqns(
@@ -1001,8 +1050,17 @@ private fun resolveImportedFqns(
         val shortName = fqn.substringAfterLast(".")
         val fqnPkg = fqn.substringBeforeLast(".")
         val pattern = Regex(Regex.escape(fqn) + "(?![A-Za-z0-9_])")
-        if (!pattern.containsMatchIn(rewritten)) continue
-        rewritten = pattern.replace(rewritten, shortName)
+        // Skip lines that are `import ...` statements — those are intentional inline imports in
+        // hand-written stub templates (e.g. SYSTEM_PROPS_WITH_SX, SYSTEM_SX). Rewriting their
+        // FQN would produce invalid `import ShortName` lines.
+        val anyNonImportMatch = rewritten.lineSequence().any { line ->
+            !line.trimStart().startsWith("import ") && pattern.containsMatchIn(line)
+        }
+        if (!anyNonImportMatch) continue
+        rewritten = rewritten.lineSequence().joinToString("\n") { line ->
+            if (line.trimStart().startsWith("import ")) line
+            else pattern.replace(line, shortName)
+        }
         if (fqnPkg != pkg.pkg) {
             imports.add(fqn)
         }

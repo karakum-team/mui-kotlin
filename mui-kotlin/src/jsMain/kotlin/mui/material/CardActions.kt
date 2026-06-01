@@ -8,18 +8,21 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
 external interface CardActionsProps :
     StandardProps,
     HTMLAttributes<HTMLDivElement>,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -49,4 +52,4 @@ external interface CardActionsProps :
  * - [CardActions API](https://v6.mui.com/material-ui/api/card-actions/)
  */
 @JsName("default")
-external val CardActions: react.FC<CardActionsProps>
+external val CardActions: FC<CardActionsProps>

@@ -2,9 +2,13 @@
 
 package mui.base
 
+import react.Props
+import react.Ref
+import react.RefCallback
 import react.dom.events.ChangeEventHandler
 import react.dom.events.FocusEventHandler
 import react.dom.events.MouseEventHandler
+import web.html.HTMLElement
 import web.html.HTMLInputElement
 
 external interface UseInputParameters {
@@ -25,15 +29,15 @@ external interface UseInputParameters {
      */
     var error: Boolean?
 
-    var onBlur: FocusEventHandler<web.html.HTMLElement>?
+    var onBlur: FocusEventHandler<HTMLElement>?
 
     var onClick: MouseEventHandler<*>?
 
-    var onChange: ChangeEventHandler<web.html.HTMLElement, *>?
+    var onChange: ChangeEventHandler<HTMLElement, *>?
 
-    var onFocus: FocusEventHandler<web.html.HTMLElement>?
+    var onFocus: FocusEventHandler<HTMLElement>?
 
-    var inputRef: react.Ref<HTMLInputElement /* or HTMLTextAreaElement*/>?
+    var inputRef: Ref<HTMLInputElement /* or HTMLTextAreaElement*/>?
 
     /**
      * If `true`, the `input` element is required.
@@ -44,22 +48,22 @@ external interface UseInputParameters {
     var value: Any?
 }
 
-external interface UseInputRootSlotOwnProps : react.Props {
+external interface UseInputRootSlotOwnProps : Props {
     var onClick: Any? /* React.MouseEventHandler | undefined */
 }
 
-external interface UseInputInputSlotOwnProps : react.Props {
+external interface UseInputInputSlotOwnProps : Props {
     // var `aria-invalid`: Any /* React.AriaAttributes['aria-invalid'] */
 
     var defaultValue: Any? /* string | number | readonly string[] | undefined */
 
     var value: Any? /* string | number | readonly string[] | undefined */
 
-    var onBlur: FocusEventHandler<web.html.HTMLElement>
+    var onBlur: FocusEventHandler<HTMLElement>
 
-    var onChange: ChangeEventHandler<web.html.HTMLElement, *>
+    var onChange: ChangeEventHandler<HTMLElement, *>
 
-    var onFocus: FocusEventHandler<web.html.HTMLElement>
+    var onFocus: FocusEventHandler<HTMLElement>
 
     var required: Boolean
 
@@ -92,16 +96,16 @@ external interface UseInputReturnValue {
      * @param externalProps props for the input slot
      * @returns props that should be spread on the input slot
      */
-    var getInputProps: react.Props /* <ExternalProps extends Record<string, any> = {}>(externalProps?: ExternalProps) => UseInputInputSlotProps<ExternalProps> */
+    var getInputProps: Props /* <ExternalProps extends Record<string, any> = {}>(externalProps?: ExternalProps) => UseInputInputSlotProps<ExternalProps> */
 
     /**
      * Resolver for the root slot's props.
      * @param externalProps props for the root slot
      * @returns props that should be spread on the root slot
      */
-    var getRootProps: react.Props /* <ExternalProps extends Record<string, any> = {}>(externalProps?: ExternalProps) => UseInputRootSlotProps<ExternalProps> */
+    var getRootProps: Props /* <ExternalProps extends Record<string, any> = {}>(externalProps?: ExternalProps) => UseInputRootSlotProps<ExternalProps> */
 
-    var inputRef: react.RefCallback<HTMLInputElement /* or HTMLTextAreaElement*/>?
+    var inputRef: RefCallback<HTMLInputElement /* or HTMLTextAreaElement*/>?
 
     /**
      * If `true`, the `input` will indicate that it's required.

@@ -14,18 +14,19 @@ import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
 import mui.system.Union
+import react.*
 import web.dom.Element
 
 external interface PopoverProps :
     StandardProps,
     ModalProps,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * A ref for imperative actions.
      * It currently only supports updatePosition() action.
      */
-    var action: react.Ref<PopoverActions>?
+    var action: Ref<PopoverActions>?
 
     /**
      * An HTML element, [PopoverVirtualElement](https://mui.com/material-ui/react-popover/#virtual-element),
@@ -79,7 +80,7 @@ external interface PopoverProps :
      *   zIndex: -1,
      * })
      */
-    var BackdropComponent: react.ElementType<BackdropProps>?
+    var BackdropComponent: ElementType<BackdropProps>?
 
     /**
      * Props applied to the [`Backdrop`](/material-ui/api/backdrop/) element.
@@ -90,7 +91,7 @@ external interface PopoverProps :
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -161,7 +162,7 @@ external interface PopoverProps :
      * @deprecated use the `slots.transition` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      * @default Grow
      */
-    var TransitionComponent: react.ComponentType<*>?
+    var TransitionComponent: ComponentType<*>?
 
     /**
      * Set to 'auto' to automatically calculate transition time based on height.
@@ -183,25 +184,25 @@ external interface PopoverSlots {
      * The component used for the root slot.
      * @default Modal
      */
-    var root: react.ElementType<*>
+    var root: ElementType<*>
 
     /**
      * The component used for the paper slot.
      * @default Paper
      */
-    var paper: react.ElementType<*>
+    var paper: ElementType<*>
 
     /**
      * The component used for the transition slot.
      * @default Grow
      */
-    var transition: react.ElementType<*>
+    var transition: ElementType<*>
 
     /**
      * The component used for the backdrop slot.
      * @default Backdrop
      */
-    var backdrop: react.ElementType<*>
+    var backdrop: ElementType<*>
 }
 
 external interface PopoverRootSlotPropsOverrides
@@ -212,7 +213,7 @@ external interface PopoverTransitionSlotPropsOverrides
 
 external interface PopoverBackdropSlotPropsOverrides
 
-external interface PopoverSlotProps : react.Props {
+external interface PopoverSlotProps : Props {
     /** TS: SlotProps<typeof Modal, PopoverRootSlotPropsOverrides, PopoverOwnerState> */
     var root: ModalProps?
 
@@ -226,7 +227,7 @@ external interface PopoverSlotProps : react.Props {
     var backdrop: BackdropProps?
 }
 
-external interface PopoverSlotsAndSlotProps : react.Props {
+external interface PopoverSlotsAndSlotProps : Props {
     var slots: PopoverSlots?
 
     var slotProps: PopoverSlotProps?
@@ -263,4 +264,4 @@ external interface PopoverActions {
  * - inherits [Modal API](https://v6.mui.com/material-ui/api/modal/)
  */
 @JsName("default")
-external val Popover: react.FC<PopoverProps>
+external val Popover: FC<PopoverProps>

@@ -2,7 +2,9 @@
 
 package mui.system
 
-external interface GlobalStylesProps : react.Props {
+import react.Props
+
+external interface GlobalStylesProps : Props {
     var styles: Any? /* Interpolation<Theme> */
 
     var defaultTheme: Any?

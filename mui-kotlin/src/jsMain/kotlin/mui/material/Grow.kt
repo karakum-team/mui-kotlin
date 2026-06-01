@@ -5,10 +5,13 @@
 package mui.material
 
 import mui.material.transitions.TransitionProps
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 
 external interface GrowProps :
     TransitionProps,
-    react.PropsWithChildren {
+    PropsWithChildren {
     /**
      * Perform the enter transition when it first mounts if `in` is also `true`.
      * Set this to `false` to disable this behavior.
@@ -19,7 +22,7 @@ external interface GrowProps :
     /**
      * A single child content element.
      */
-    override var children: react.ReactNode? /* React.ReactElement<unknown, any> */
+    override var children: ReactNode? /* React.ReactElement<unknown, any> */
 
     /**
      * The transition timing function.
@@ -58,4 +61,4 @@ external interface GrowProps :
  * - inherits [Transition API](https://reactcommunity.org/react-transition-group/transition/#Transition-props)
  */
 @JsName("default")
-external val Grow: react.FC<GrowProps>
+external val Grow: FC<GrowProps>

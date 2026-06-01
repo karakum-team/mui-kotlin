@@ -8,6 +8,7 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.FC
 import react.dom.html.HTMLAttributes
 import web.html.HTMLSpanElement
 
@@ -73,4 +74,4 @@ external interface LinearProgressPropsVariantOverrides
  * - [LinearProgress API](https://v6.mui.com/material-ui/api/linear-progress/)
  */
 @JsName("default")
-external val LinearProgress: react.FC<LinearProgressProps>
+external val LinearProgress: FC<LinearProgressProps>

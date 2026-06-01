@@ -12,6 +12,8 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.FC
+import react.PropsWithChildren
 import react.dom.html.LabelHTMLAttributes
 import web.html.HTMLLabelElement
 
@@ -26,7 +28,7 @@ external interface InputLabelPropsSizeOverrides
 external interface InputLabelOwnProps :
     FormLabelProps,
     PropsWithSx,
-    react.PropsWithChildren,
+    PropsWithChildren,
     FormLabelOwnProps {
     /**
      * Override or extend the styles applied to the component.
@@ -101,4 +103,4 @@ external interface InputLabelOwnProps :
  * - inherits [FormLabel API](https://v6.mui.com/material-ui/api/form-label/)
  */
 @JsName("default")
-external val InputLabel: react.FC<InputLabelProps>
+external val InputLabel: FC<InputLabelProps>

@@ -2,14 +2,16 @@
 
 package mui.system
 
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
 external interface ContainerProps :
     HTMLAttributes<HTMLDivElement>,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.

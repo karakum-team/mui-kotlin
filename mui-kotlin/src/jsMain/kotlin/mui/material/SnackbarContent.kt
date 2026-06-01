@@ -12,6 +12,8 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.FC
+import react.ReactNode
 import react.dom.aria.AriaRole
 
 external interface SnackbarContentProps :
@@ -21,7 +23,7 @@ external interface SnackbarContentProps :
     /**
      * The action to display. It renders after the message, at the end of the snackbar.
      */
-    var action: react.ReactNode?
+    var action: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -31,7 +33,7 @@ external interface SnackbarContentProps :
     /**
      * The message to display.
      */
-    var message: react.ReactNode?
+    var message: ReactNode?
 
     /**
      * The ARIA role attribute of the element.
@@ -57,4 +59,4 @@ external interface SnackbarContentProps :
  * - inherits [Paper API](https://v6.mui.com/material-ui/api/paper/)
  */
 @JsName("default")
-external val SnackbarContent: react.FC<SnackbarContentProps>
+external val SnackbarContent: FC<SnackbarContentProps>

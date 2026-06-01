@@ -2,7 +2,9 @@
 
 package muix.pickers
 
-external interface TimePickerProps<TDate, TEnableAccessibleFieldDOMStructure> : react.Props {
+import react.Props
+
+external interface TimePickerProps<TDate, TEnableAccessibleFieldDOMStructure> : Props {
     /**
      * CSS media query when `Mobile` mode will be changed to `Desktop`.
      * @default '@media (pointer: fine)'

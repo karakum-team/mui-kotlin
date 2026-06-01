@@ -12,6 +12,7 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.*
 import react.dom.events.ReactEventHandler
 import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
@@ -34,17 +35,17 @@ external interface ModalSlots {
      * The component that renders the root.
      * @default 'div'
      */
-    var root: react.ElementType<*>?
+    var root: ElementType<*>?
 
     /**
      * The component that renders the backdrop.
      */
-    var backdrop: react.ElementType<*>?
+    var backdrop: ElementType<*>?
 }
 
 external interface ModalOwnProps :
-    react.PropsWithChildren,
-    react.PropsWithClassName,
+    PropsWithChildren,
+    PropsWithClassName,
     PropsWithSx {
     /**
      * A backdrop component. This prop enables custom backdrop rendering.
@@ -60,7 +61,7 @@ external interface ModalOwnProps :
      *   zIndex: -1,
      * })
      */
-    var BackdropComponent: react.ElementType<BackdropProps>?
+    var BackdropComponent: ElementType<BackdropProps>?
 
     /**
      * Props applied to the [`Backdrop`](https://mui.com/material-ui/api/backdrop/) element.
@@ -71,7 +72,7 @@ external interface ModalOwnProps :
     /**
      * A single child content element.
      */
-    override var children: react.ReactNode? /* React.ReactElement<unknown> */
+    override var children: ReactNode? /* React.ReactElement<unknown> */
 
     /**
      * Override or extend the styles applied to the component.
@@ -99,8 +100,8 @@ external interface ModalOwnProps :
     var components: Components?
 
     interface Components {
-        var Root: react.ElementType<*>?
-        var Backdrop: react.ElementType<*>?
+        var Root: ElementType<*>?
+        var Backdrop: ElementType<*>?
     }
 
     /**
@@ -114,8 +115,8 @@ external interface ModalOwnProps :
     var componentsProps: ComponentsProps?
 
     interface ComponentsProps {
-        var root: react.Props? /* SlotComponentProps<'div', ModalComponentsPropsOverrides, ModalOwnerState> */
-        var backdrop: react.Props? /* SlotComponentProps<typeof Backdrop, ModalComponentsPropsOverrides, ModalOwnerState> */
+        var root: Props? /* SlotComponentProps<'div', ModalComponentsPropsOverrides, ModalOwnerState> */
+        var backdrop: Props? /* SlotComponentProps<typeof Backdrop, ModalComponentsPropsOverrides, ModalOwnerState> */
     }
 
     /**
@@ -233,8 +234,8 @@ external interface ModalOwnProps :
     var slotProps: SlotProps?
 
     interface SlotProps {
-        var root: react.Props? /* SlotComponentProps<'div', ModalComponentsPropsOverrides, ModalOwnerState> */
-        var backdrop: react.Props? /* SlotComponentProps<typeof Backdrop, ModalComponentsPropsOverrides, ModalOwnerState> */
+        var root: Props? /* SlotComponentProps<'div', ModalComponentsPropsOverrides, ModalOwnerState> */
+        var backdrop: Props? /* SlotComponentProps<typeof Backdrop, ModalComponentsPropsOverrides, ModalOwnerState> */
     }
 
     /**
@@ -265,4 +266,4 @@ external interface ModalOwnProps :
  * - [Modal API](https://v6.mui.com/material-ui/api/modal/)
  */
 @JsName("default")
-external val Modal: react.FC<ModalProps>
+external val Modal: FC<ModalProps>

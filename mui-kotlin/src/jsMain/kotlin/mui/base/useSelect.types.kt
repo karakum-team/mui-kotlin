@@ -2,6 +2,9 @@
 
 package mui.base
 
+import react.Props
+import react.Ref
+import react.RefCallback
 import react.dom.events.ChangeEvent
 import react.dom.events.MouseEvent
 import web.dom.Element
@@ -44,7 +47,7 @@ external interface UseSelectParameters<OptionValue, Multiple> {
     /**
      * The ref of the trigger button element.
      */
-    var buttonRef: react.Ref<Element>?
+    var buttonRef: Ref<Element>?
 
     /**
      * The `id` attribute of the listbox element.
@@ -54,7 +57,7 @@ external interface UseSelectParameters<OptionValue, Multiple> {
     /**
      * The ref of the listbox element.
      */
-    var listboxRef: react.Ref<Element>?
+    var listboxRef: Ref<Element>?
 
     /**
      * If `true`, the end user can select multiple values.
@@ -147,7 +150,7 @@ external interface UseSelectReturnValue<Value, Multiple> {
     /**
      * Ref to the button slot DOM node.
      */
-    var buttonRef: react.RefCallback<Element>?
+    var buttonRef: RefCallback<Element>?
 
     /**
      * If `true`, the select is disabled.
@@ -165,21 +168,21 @@ external interface UseSelectReturnValue<Value, Multiple> {
      * @param externalProps event handlers for the button slot
      * @returns props that should be spread on the button slot
      */
-    var getButtonProps: react.Props /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseSelectButtonSlotProps<ExternalProps> */
+    var getButtonProps: Props /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseSelectButtonSlotProps<ExternalProps> */
 
     /**
      * Resolver for the hidden input slot's props.
      * @param externalProps event handlers for the hidden input slot
      * @returns HTML input attributes that should be spread on the hidden input slot
      */
-    var getHiddenInputProps: react.Props /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseSelectHiddenInputSlotProps<ExternalProps> */
+    var getHiddenInputProps: Props /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseSelectHiddenInputSlotProps<ExternalProps> */
 
     /**
      * Resolver for the listbox slot's props.
      * @param externalProps event handlers for the listbox slot
      * @returns props that should be spread on the listbox slot
      */
-    var getListboxProps: react.Props /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseSelectListboxSlotProps<ExternalProps> */
+    var getListboxProps: Props /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseSelectListboxSlotProps<ExternalProps> */
 
     /**
      * A function that returns the metadata of an option with a given value.
@@ -202,7 +205,7 @@ external interface UseSelectReturnValue<Value, Multiple> {
     /**
      * Ref to the listbox slot DOM node.
      */
-    var listboxRef: react.RefCallback<Element>?
+    var listboxRef: RefCallback<Element>?
 
     /**
      * If `true`, the listbox is open.

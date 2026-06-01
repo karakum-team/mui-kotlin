@@ -14,9 +14,11 @@ import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
 import mui.system.Union
+import react.*
 import react.dom.events.ChangeEventHandler
 import react.dom.events.FocusEventHandler
 import web.dom.ElementId
+import web.html.HTMLElement
 import web.html.InputType
 
 typealias TextFieldProps = BaseTextFieldProps
@@ -30,43 +32,43 @@ external interface TextFieldSlots {
      * The component that renders the root.
      * @default FormControl
      */
-    var root: react.ElementType<*>
+    var root: ElementType<*>
 
     /**
      * The component that renders the input.
      * @default OutlinedInput
      */
-    var input: react.ElementType<*>
+    var input: ElementType<*>
 
     /**
      * The component that renders the input's label.
      * @default InputLabel
      */
-    var inputLabel: react.ElementType<*>
+    var inputLabel: ElementType<*>
 
     /**
      * The html input element.
      * @default 'input'
      */
-    var htmlInput: react.ElementType<*>
+    var htmlInput: ElementType<*>
 
     /**
      * The component that renders the helper text.
      * @default FormHelperText
      */
-    var formHelperText: react.ElementType<*>
+    var formHelperText: ElementType<*>
 
     /**
      * The component that renders the select.
      * @default Select
      */
-    var select: react.ElementType<*>
+    var select: ElementType<*>
 }
 
 external interface BaseTextFieldProps :
     StandardProps,
     FormControlProps,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * This prop helps users to fill forms faster, especially on mobile devices.
@@ -84,7 +86,7 @@ external interface BaseTextFieldProps :
     /**
      * @ignore
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -131,7 +133,7 @@ external interface BaseTextFieldProps :
     /**
      * The helper text content.
      */
-    var helperText: react.ReactNode?
+    var helperText: ReactNode?
 
     /**
      * The id of the `input` element.
@@ -155,12 +157,12 @@ external interface BaseTextFieldProps :
     /**
      * Pass a ref to the `input` element.
      */
-    var inputRef: react.Ref<*>?
+    var inputRef: Ref<*>?
 
     /**
      * The label content.
      */
-    var label: react.ReactNode?
+    var label: ReactNode?
 
     /**
      * If `true`, a `textarea` element is rendered instead of an input.
@@ -173,9 +175,9 @@ external interface BaseTextFieldProps :
      */
     var name: String?
 
-    var onBlur: FocusEventHandler<web.html.HTMLElement>?
+    var onBlur: FocusEventHandler<HTMLElement>?
 
-    var onFocus: FocusEventHandler<web.html.HTMLElement>?
+    var onFocus: FocusEventHandler<HTMLElement>?
 
     /**
      * The short hint displayed in the `input` before the user enters a value.
@@ -246,7 +248,7 @@ external interface StandardTextFieldProps :
      * @param {object} event The event source of the callback.
      * You can pull out the new value by accessing `event.target.value` (string).
      */
-    var onChange: ChangeEventHandler<web.html.HTMLElement, *>?
+    var onChange: ChangeEventHandler<HTMLElement, *>?
 
     /**
      * The variant to use.
@@ -272,7 +274,7 @@ external interface FilledTextFieldProps :
      * @param {object} event The event source of the callback.
      * You can pull out the new value by accessing `event.target.value` (string).
      */
-    var onChange: ChangeEventHandler<web.html.HTMLElement, *>?
+    var onChange: ChangeEventHandler<HTMLElement, *>?
 
     /**
      * The variant to use.
@@ -298,7 +300,7 @@ external interface OutlinedTextFieldProps :
      * @param {object} event The event source of the callback.
      * You can pull out the new value by accessing `event.target.value` (string).
      */
-    var onChange: ChangeEventHandler<web.html.HTMLElement, *>?
+    var onChange: ChangeEventHandler<HTMLElement, *>?
 
     /**
      * The variant to use.
@@ -359,4 +361,4 @@ external interface OutlinedTextFieldProps :
  * - inherits [FormControl API](https://v6.mui.com/material-ui/api/form-control/)
  */
 @JsName("default")
-external val TextField: react.FC<TextFieldProps>
+external val TextField: FC<TextFieldProps>

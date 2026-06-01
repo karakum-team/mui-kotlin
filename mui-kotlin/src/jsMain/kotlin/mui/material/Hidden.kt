@@ -4,11 +4,15 @@
 
 package mui.material
 
-external interface HiddenProps : react.PropsWithChildren {
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
+
+external interface HiddenProps : PropsWithChildren {
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Specify which implementation to use.  'js' is the default, 'css' works better for
@@ -110,4 +114,4 @@ external interface HiddenProps : react.PropsWithChildren {
  * @deprecated The Hidden component was deprecated in Material UI v5. To learn more, see [the Hidden section](https://mui.com/material-ui/migration/v5-component-changes/#hidden) of the migration docs.
  */
 @JsName("default")
-external val Hidden: react.FC<HiddenProps>
+external val Hidden: FC<HiddenProps>

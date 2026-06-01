@@ -8,6 +8,7 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.*
 import react.dom.events.FocusEventHandler
 import react.dom.html.ButtonHTMLAttributes
 import web.cssom.ClassName
@@ -19,13 +20,13 @@ external interface ButtonBaseProps :
     PropsWithComponent
 
 external interface ButtonBaseOwnProps :
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * A ref for imperative actions.
      * It currently only supports `focusVisible()` action.
      */
-    var action: react.Ref<ButtonBaseActions>?
+    var action: Ref<ButtonBaseActions>?
 
     /**
      * If `true`, the ripples are centered.
@@ -37,7 +38,7 @@ external interface ButtonBaseOwnProps :
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -85,7 +86,7 @@ external interface ButtonBaseOwnProps :
      * The component used to render a link when the `href` prop is provided.
      * @default 'a'
      */
-    var LinkComponent: react.ElementType<*>?
+    var LinkComponent: ElementType<*>?
 
     /**
      * Callback fired when the component is focused with a keyboard.
@@ -111,7 +112,7 @@ external interface ButtonBaseOwnProps :
     /**
      * A ref that points to the `TouchRipple` element.
      */
-    var touchRippleRef: react.Ref<TouchRippleActions>?
+    var touchRippleRef: Ref<TouchRippleActions>?
 }
 
 external interface ButtonBaseActions {
@@ -132,4 +133,4 @@ external interface ButtonBaseActions {
  * - [ButtonBase API](https://v6.mui.com/material-ui/api/button-base/)
  */
 @JsName("default")
-external val ButtonBase: react.FC<ButtonBaseProps>
+external val ButtonBase: FC<ButtonBaseProps>

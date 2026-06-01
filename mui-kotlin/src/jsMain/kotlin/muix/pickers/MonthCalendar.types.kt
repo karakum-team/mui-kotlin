@@ -5,10 +5,13 @@ package muix.pickers
 import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
+import react.ElementType
+import react.Props
+import react.PropsWithClassName
 import web.cssom.ClassName
 
 external interface MonthCalendarProps<TDate> :
-    react.PropsWithClassName,
+    PropsWithClassName,
     PropsWithSx {
     var autoFocus: Boolean?
 
@@ -87,14 +90,14 @@ external interface MonthCalendarSlots {
      * Button displayed to render a single month in the `month` view.
      * @default MonthCalendarButton
      */
-    var monthButton: react.ElementType<*>?
+    var monthButton: ElementType<*>?
 }
 
-external interface MonthCalendarSlotProps : react.Props {
-    var monthButton: react.Props?
+external interface MonthCalendarSlotProps : Props {
+    var monthButton: Props?
 }
 
-external interface ExportedMonthCalendarProps : react.Props {
+external interface ExportedMonthCalendarProps : Props {
     /**
      * Months rendered per row.
      * @default 3

@@ -2,6 +2,7 @@
 
 package mui.base
 
+import react.*
 import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
 import web.html.HTMLDivElement
@@ -13,12 +14,12 @@ external interface TabPanelProps :
 external interface TabPanelRootSlotPropsOverrides
 
 external interface TabPanelOwnProps :
-    react.PropsWithChildren,
-    react.PropsWithClassName {
+    PropsWithChildren,
+    PropsWithClassName {
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     override var className: ClassName?
 
@@ -43,7 +44,7 @@ external interface TabPanelOwnProps :
     var slotProps: SlotProps?
 
     interface SlotProps {
-        var root: react.Props? /* SlotComponentProps<'div', TabPanelRootSlotPropsOverrides, TabPanelOwnerState> */
+        var root: Props? /* SlotComponentProps<'div', TabPanelRootSlotPropsOverrides, TabPanelOwnerState> */
     }
 }
 
@@ -52,5 +53,5 @@ external interface TabPanelSlots {
      * The component that renders the root.
      * @default 'div'
      */
-    var root: react.ElementType<*>?
+    var root: ElementType<*>?
 }

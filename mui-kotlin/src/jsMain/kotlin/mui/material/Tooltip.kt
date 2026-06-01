@@ -13,6 +13,7 @@ import mui.material.transitions.TransitionProps
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.*
 import react.dom.events.SyntheticEvent
 import react.dom.html.HTMLAttributes
 import web.dom.ElementId
@@ -23,7 +24,7 @@ external interface TooltipProps :
     StandardProps,
     HTMLAttributes<HTMLDivElement>,
     TooltipSlotsAndSlotProps,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * If `true`, adds an arrow to the tooltip.
@@ -34,7 +35,7 @@ external interface TooltipProps :
     /**
      * Tooltip reference element.
      */
-    override var children: react.ReactNode? /* React.ReactElement<unknown, any> */
+    override var children: ReactNode? /* React.ReactElement<unknown, any> */
 
     /**
      * Override or extend the styles applied to the component.
@@ -51,10 +52,10 @@ external interface TooltipProps :
     var components: Components?
 
     interface Components {
-        var Popper: react.ElementType<*>? /* React.ElementType<PopperProps> */
-        var Transition: react.ElementType<*>?
-        var Tooltip: react.ElementType<*>?
-        var Arrow: react.ElementType<*>?
+        var Popper: ElementType<*>? /* React.ElementType<PopperProps> */
+        var Transition: ElementType<*>?
+        var Tooltip: ElementType<*>?
+        var Arrow: ElementType<*>?
     }
 
     /**
@@ -68,12 +69,12 @@ external interface TooltipProps :
     var componentsProps: ComponentsProps?
 
     interface ComponentsProps {
-        var popper: react.Props? /* Partial<PopperProps> & TooltipComponentsPropsOverrides */
-        var transition: react.Props? /* TransitionProps & TooltipComponentsPropsOverrides */
-        var tooltip: react.Props? /* React.HTMLProps<HTMLDivElement> &
+        var popper: Props? /* Partial<PopperProps> & TooltipComponentsPropsOverrides */
+        var transition: Props? /* TransitionProps & TooltipComponentsPropsOverrides */
+        var tooltip: Props? /* React.HTMLProps<HTMLDivElement> &
   MUIStyledCommonProps &
   TooltipComponentsPropsOverrides */
-        var arrow: react.Props? /* React.HTMLProps<HTMLSpanElement> &
+        var arrow: Props? /* React.HTMLProps<HTMLSpanElement> &
   MUIStyledCommonProps &
   TooltipComponentsPropsOverrides */
     }
@@ -183,7 +184,7 @@ external interface TooltipProps :
      * The component used for the popper.
      * @deprecated use the `slots.popper` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
-    var PopperComponent: react.ComponentType<PopperProps>?
+    var PopperComponent: ComponentType<PopperProps>?
 
     /**
      * Props applied to the [`Popper`](https://mui.com/material-ui/api/popper/) element.
@@ -200,14 +201,14 @@ external interface TooltipProps :
     /**
      * Tooltip title. Zero-length titles string, undefined, null and false are never displayed.
      */
-    var title: react.ReactNode
+    var title: ReactNode
 
     /**
      * The component used for the transition.
      * [Follow this guide](https://mui.com/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
      * @deprecated use the `slots.transition` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
-    var TransitionComponent: react.ComponentType<*>?
+    var TransitionComponent: ComponentType<*>?
 
     /**
      * Props applied to the transition element.
@@ -233,27 +234,27 @@ external interface TooltipSlots {
      * The component used for the popper.
      * @default Popper
      */
-    var popper: react.ElementType<*>
+    var popper: ElementType<*>
 
     /**
      * The component used for the transition.
      * [Follow this guide](https://mui.com/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
      * @default Grow
      */
-    var transition: react.ElementType<*>
+    var transition: ElementType<*>
 
     /**
      * The component used for the tooltip.
      */
-    var tooltip: react.ElementType<*>
+    var tooltip: ElementType<*>
 
     /**
      * The component used for the arrow.
      */
-    var arrow: react.ElementType<*>
+    var arrow: ElementType<*>
 }
 
-external interface TooltipSlotProps : react.Props {
+external interface TooltipSlotProps : Props {
     /** TS: SlotProps< React.ElementType<PopperProps>, TooltipPopperSlotPropsOverrides, TooltipOwnerState > */
     var popper: PopperProps?
 
@@ -267,7 +268,7 @@ external interface TooltipSlotProps : react.Props {
     var arrow: HTMLAttributes<HTMLSpanElement>?
 }
 
-external interface TooltipSlotsAndSlotProps : react.Props {
+external interface TooltipSlotsAndSlotProps : Props {
     var slots: TooltipSlots?
 
     var slotProps: TooltipSlotProps?
@@ -286,4 +287,4 @@ external interface TooltipOwnerState
  * - [Tooltip API](https://v6.mui.com/material-ui/api/tooltip/)
  */
 @JsName("default")
-external val Tooltip: react.FC<TooltipProps>
+external val Tooltip: FC<TooltipProps>

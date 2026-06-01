@@ -10,6 +10,7 @@ import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.system.Union
 import mui.types.PropsWithComponent
+import react.*
 import react.dom.events.SyntheticEvent
 import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
@@ -36,7 +37,7 @@ external interface SliderOwnerState : SliderProps {
 }
 
 external interface SliderOwnProps :
-    react.PropsWithClassName,
+    PropsWithClassName,
     PropsWithSx {
     /**
      * The label of the slider.
@@ -71,14 +72,14 @@ external interface SliderOwnProps :
     var components: Components?
 
     interface Components {
-        var Root: react.ElementType<*>?
-        var Track: react.ElementType<*>?
-        var Rail: react.ElementType<*>?
-        var Thumb: react.ElementType<*>?
-        var Mark: react.ElementType<*>?
-        var MarkLabel: react.ElementType<*>?
-        var ValueLabel: react.ElementType<*>?
-        var Input: react.ElementType<*>?
+        var Root: ElementType<*>?
+        var Track: ElementType<*>?
+        var Rail: ElementType<*>?
+        var Thumb: ElementType<*>?
+        var Mark: ElementType<*>?
+        var MarkLabel: ElementType<*>?
+        var ValueLabel: ElementType<*>?
+        var Input: ElementType<*>?
     }
 
     /**
@@ -92,18 +93,18 @@ external interface SliderOwnProps :
     var componentsProps: ComponentsProps?
 
     interface ComponentsProps {
-        var root: react.Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> */
-        var track: react.Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> */
-        var rail: react.Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> */
-        var thumb: react.Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> */
-        var mark: react.Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> */
-        var markLabel: react.Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> */
-        var valueLabel: react.Props? /* SlotComponentProps<
+        var root: Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> */
+        var track: Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> */
+        var rail: Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> */
+        var thumb: Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> */
+        var mark: Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> */
+        var markLabel: Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> */
+        var valueLabel: Props? /* SlotComponentProps<
   typeof SliderValueLabelComponent,
   SliderComponentsPropsOverrides,
   SliderOwnerState
 > */
-        var input: react.Props? /* SlotComponentProps<'input', SliderComponentsPropsOverrides, SliderOwnerState> */
+        var input: Props? /* SlotComponentProps<'input', SliderComponentsPropsOverrides, SliderOwnerState> */
     }
 
     /**
@@ -231,18 +232,18 @@ external interface SliderOwnProps :
     var slotProps: SlotProps?
 
     interface SlotProps {
-        var root: react.Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> */
-        var track: react.Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> */
-        var rail: react.Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> */
-        var thumb: react.Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> */
-        var mark: react.Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> */
-        var markLabel: react.Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> */
-        var valueLabel: react.Props? /* SlotComponentProps<
+        var root: Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> */
+        var track: Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> */
+        var rail: Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> */
+        var thumb: Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> */
+        var mark: Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> */
+        var markLabel: Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> */
+        var valueLabel: Props? /* SlotComponentProps<
   typeof SliderValueLabelComponent,
   SliderComponentsPropsOverrides,
   SliderOwnerState
 > */
-        var input: react.Props? /* SlotComponentProps<'input', SliderComponentsPropsOverrides, SliderOwnerState> */
+        var input: Props? /* SlotComponentProps<'input', SliderComponentsPropsOverrides, SliderOwnerState> */
     }
 
     /**
@@ -253,14 +254,14 @@ external interface SliderOwnProps :
     var slots: Slots?
 
     interface Slots {
-        var root: react.ElementType<*>?
-        var track: react.ElementType<*>?
-        var rail: react.ElementType<*>?
-        var thumb: react.ElementType<*>?
-        var mark: react.ElementType<*>?
-        var markLabel: react.ElementType<*>?
-        var valueLabel: react.ElementType<*>?
-        var input: react.ElementType<*>?
+        var root: ElementType<*>?
+        var track: ElementType<*>?
+        var rail: ElementType<*>?
+        var thumb: ElementType<*>?
+        var mark: ElementType<*>?
+        var markLabel: ElementType<*>?
+        var valueLabel: ElementType<*>?
+        var input: ElementType<*>?
     }
 
     /**
@@ -322,20 +323,20 @@ external interface SliderOwnProps :
      *   return x;
      * }
      */
-    var valueLabelFormat: String? /* or (value: Number, index: Number) -> react.ReactNode*/
+    var valueLabelFormat: String? /* or (value: Number, index: Number) -> ReactNode*/
 }
 
 @Suppress("VIRTUAL_MEMBER_HIDDEN")
 external interface SliderValueLabelProps :
     HTMLAttributes<HTMLSpanElement>,
-    react.PropsWithChildren {
-    override var children: react.ReactNode? /* React.ReactElement<unknown> */
+    PropsWithChildren {
+    override var children: ReactNode? /* React.ReactElement<unknown> */
 
     var index: Number
 
     var open: Boolean
 
-    var value: react.ReactNode
+    var value: ReactNode
 }
 
 /**
@@ -349,4 +350,4 @@ external interface SliderValueLabelProps :
  * - [Slider API](https://v6.mui.com/material-ui/api/slider/)
  */
 @JsName("default")
-external val Slider: react.FC<SliderProps>
+external val Slider: FC<SliderProps>

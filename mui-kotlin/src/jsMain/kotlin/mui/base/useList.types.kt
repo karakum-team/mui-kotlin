@@ -4,6 +4,9 @@ package mui.base
 
 import js.array.ReadonlyArray
 import mui.system.Union
+import react.Props
+import react.Ref
+import react.RefCallback
 import react.dom.events.SyntheticEvent
 import web.dom.Element
 import web.html.HTMLElement
@@ -27,7 +30,7 @@ external interface UseListParameters<ItemValue, State, CustomAction, CustomActio
      *
      * @default {}
      */
-    var controlledProps: react.Props? /* Partial<State> */
+    var controlledProps: Props? /* Partial<State> */
 
     /**
      * If `true`, it will be possible to highlight disabled items.
@@ -82,7 +85,7 @@ external interface UseListParameters<ItemValue, State, CustomAction, CustomActio
     /**
      * Ref to the list root DOM element.
      */
-    var rootRef: react.Ref<Element>?
+    var rootRef: Ref<Element>?
 
     /**
      * Callback fired when the selected value changes.
@@ -193,9 +196,9 @@ external interface UseListReturnValue {
      * @param externalProps additional props for the root slot
      * @returns props that should be spread on the root slot
      */
-    var getRootProps: react.Props /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseListRootSlotProps<ExternalProps> */
+    var getRootProps: Props /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseListRootSlotProps<ExternalProps> */
 
-    var rootRef: react.RefCallback<Element>?
+    var rootRef: RefCallback<Element>?
 
     var state: Any? /* State */
 }

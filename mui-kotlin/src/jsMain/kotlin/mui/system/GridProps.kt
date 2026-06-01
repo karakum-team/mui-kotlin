@@ -2,17 +2,20 @@
 
 package mui.system
 
+import react.PropsWithChildren
+import react.ReactNode
+
 external interface GridProps :
     GridBaseProps,
     PropsWithSx {
     override var sx: SxProps<Theme>?
 }
 
-external interface GridBaseProps : react.PropsWithChildren {
+external interface GridBaseProps : PropsWithChildren {
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * The number of columns.

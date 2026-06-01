@@ -8,6 +8,7 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.FC
 import react.dom.html.LiHTMLAttributes
 import web.html.HTMLLIElement
 
@@ -80,4 +81,4 @@ external interface MenuItemOwnProps :
  * - inherits [ButtonBase API](https://v6.mui.com/material-ui/api/button-base/)
  */
 @JsName("default")
-external val MenuItem: react.FC<MenuItemProps>
+external val MenuItem: FC<MenuItemProps>

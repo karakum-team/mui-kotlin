@@ -2,6 +2,8 @@
 
 package mui.system
 
+import web.cssom.MediaQueryList
+
 external interface UseMediaQueryOptions {
     /**
      * As `window.matchMedia()` is unavailable on the server,
@@ -14,7 +16,7 @@ external interface UseMediaQueryOptions {
      * You can provide your own implementation of matchMedia.
      * This can be used for handling an iframe content window.
      */
-    var matchMedia: ((query: String) -> web.cssom.MediaQueryList)?
+    var matchMedia: ((query: String) -> MediaQueryList)?
 
     /**
      * To perform the server-side hydration, the hook needs to render twice.

@@ -7,6 +7,9 @@ package mui.material
 import mui.material.styles.Theme
 import mui.system.*
 import mui.types.PropsWithComponent
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
@@ -75,12 +78,12 @@ external interface RegularBreakpoints {
 external interface GridOwnProps :
     SystemProps<Theme>,
     Breakpoints,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -166,4 +169,4 @@ external interface GridOwnProps :
  * @deprecated Use the [`Grid2`](https://mui.com/material-ui/react-grid2/) component instead.
  */
 @JsName("default")
-external val Grid: react.FC<GridProps>
+external val Grid: FC<GridProps>

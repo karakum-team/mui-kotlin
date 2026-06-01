@@ -8,6 +8,7 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.*
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
@@ -15,12 +16,12 @@ external interface ListItemTextProps :
     StandardProps,
     HTMLAttributes<HTMLDivElement>,
     ListItemTextSlotsAndSlotProps,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * Alias for the `primary` prop.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -46,7 +47,7 @@ external interface ListItemTextProps :
     /**
      * The main content element.
      */
-    var primary: react.ReactNode?
+    var primary: ReactNode?
 
     /**
      * These props will be forwarded to the primary typography component
@@ -58,7 +59,7 @@ external interface ListItemTextProps :
     /**
      * The secondary content element.
      */
-    var secondary: react.ReactNode?
+    var secondary: ReactNode?
 
     /**
      * These props will be forwarded to the secondary typography component
@@ -78,22 +79,22 @@ external interface ListItemTextSlots {
      * The component that renders the root slot.
      * @default 'div'
      */
-    var root: react.ElementType<*>?
+    var root: ElementType<*>?
 
     /**
      * The component that renders the primary slot.
      * @default Typography
      */
-    var primary: react.ElementType<*>?
+    var primary: ElementType<*>?
 
     /**
      * The component that renders the secondary slot.
      * @default Typography
      */
-    var secondary: react.ElementType<*>?
+    var secondary: ElementType<*>?
 }
 
-external interface ListItemTextSlotProps : react.Props {
+external interface ListItemTextSlotProps : Props {
     /** TS: SlotProps<'div', {}, ListItemTextOwnerState> */
     var root: HTMLAttributes<HTMLDivElement>?
 
@@ -104,7 +105,7 @@ external interface ListItemTextSlotProps : react.Props {
     var secondary: TypographyProps?
 }
 
-external interface ListItemTextSlotsAndSlotProps : react.Props {
+external interface ListItemTextSlotsAndSlotProps : Props {
     var slots: ListItemTextSlots?
 
     var slotProps: ListItemTextSlotProps?
@@ -123,4 +124,4 @@ external interface ListItemTextOwnerState
  * - [ListItemText API](https://v6.mui.com/material-ui/api/list-item-text/)
  */
 @JsName("default")
-external val ListItemText: react.FC<ListItemTextProps>
+external val ListItemText: FC<ListItemTextProps>

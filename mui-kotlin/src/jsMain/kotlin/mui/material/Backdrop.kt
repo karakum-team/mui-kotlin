@@ -9,6 +9,7 @@ import mui.material.transitions.TransitionProps
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.*
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
@@ -22,21 +23,21 @@ external interface BackdropSlots {
      * The component that renders the root.
      * @default 'div'
      */
-    var root: react.ElementType<*>
+    var root: ElementType<*>
 
     /**
      * The component that renders the transition.
      * [Follow this guide](https://mui.com/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
      * @default Fade
      */
-    var transition: react.ElementType<*>
+    var transition: ElementType<*>
 }
 
 external interface BackdropComponentsPropsOverrides
 
 external interface BackdropTransitionSlotPropsOverrides
 
-external interface BackdropSlotProps : react.Props {
+external interface BackdropSlotProps : Props {
     /** TS: SlotProps<'div', BackdropComponentsPropsOverrides, BackdropOwnerState> */
     var root: HTMLAttributes<HTMLDivElement>?
 
@@ -44,7 +45,7 @@ external interface BackdropSlotProps : react.Props {
     var transition: TransitionProps?
 }
 
-external interface BackdropSlotsAndSlotProps : react.Props {
+external interface BackdropSlotsAndSlotProps : Props {
     var slots: BackdropSlots?
 
     var slotProps: BackdropSlotProps?
@@ -53,12 +54,12 @@ external interface BackdropSlotsAndSlotProps : react.Props {
 external interface BackdropOwnProps :
     FadeProps,
     BackdropSlotsAndSlotProps,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * The components used for each slot inside.
@@ -70,7 +71,7 @@ external interface BackdropOwnProps :
     var components: Components?
 
     interface Components {
-        var Root: react.ElementType<*>?
+        var Root: ElementType<*>?
     }
 
     /**
@@ -84,7 +85,7 @@ external interface BackdropOwnProps :
     var componentsProps: ComponentsProps?
 
     interface ComponentsProps {
-        var root: react.Props? /* React.HTMLAttributes<HTMLDivElement> & BackdropComponentsPropsOverrides */
+        var root: Props? /* React.HTMLAttributes<HTMLDivElement> & BackdropComponentsPropsOverrides */
     }
 
     /**
@@ -121,7 +122,7 @@ external interface BackdropOwnProps :
      * @default Fade
      * @deprecated Use `slots.transition` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
-    var TransitionComponent: react.ComponentType<*>?
+    var TransitionComponent: ComponentType<*>?
 }
 
 external interface BackdropOwnerState
@@ -138,4 +139,4 @@ external interface BackdropOwnerState
  * - inherits [Fade API](https://v6.mui.com/material-ui/api/fade/)
  */
 @JsName("default")
-external val Backdrop: react.FC<BackdropProps>
+external val Backdrop: FC<BackdropProps>

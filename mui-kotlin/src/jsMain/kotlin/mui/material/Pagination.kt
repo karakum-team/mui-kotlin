@@ -9,12 +9,15 @@ import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
 import mui.system.Union
+import react.FC
+import react.ReactNode
 import react.dom.html.HTMLAttributes
+import web.html.HTMLElement
 
 external interface PaginationProps :
     UsePaginationProps,
     StandardProps,
-    HTMLAttributes<web.html.HTMLElement>,
+    HTMLAttributes<HTMLElement>,
     PropsWithSx {
     /**
      * Override or extend the styles applied to the component.
@@ -51,7 +54,7 @@ external interface PaginationProps :
      * @returns {ReactNode}
      * @default (item) => <PaginationItem {...item} />
      */
-    var renderItem: ((params: PaginationRenderItemParams) -> react.ReactNode)?
+    var renderItem: ((params: PaginationRenderItemParams) -> ReactNode)?
 
     /**
      * The shape of the pagination items.
@@ -105,4 +108,4 @@ external interface PaginationPropsColorOverrides
  * - [Pagination API](https://v6.mui.com/material-ui/api/pagination/)
  */
 @JsName("default")
-external val Pagination: react.FC<PaginationProps>
+external val Pagination: FC<PaginationProps>

@@ -12,6 +12,9 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 
 external interface StepButtonProps :
     StepButtonOwnProps,
@@ -19,13 +22,13 @@ external interface StepButtonProps :
     ButtonBaseProps
 
 external interface StepButtonOwnProps :
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx,
     ButtonBaseProps {
     /**
      * Can be a `StepLabel` or a node to place inside `StepLabel` as children.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -35,12 +38,12 @@ external interface StepButtonOwnProps :
     /**
      * The icon displayed by the step label.
      */
-    var icon: react.ReactNode?
+    var icon: ReactNode?
 
     /**
      * The optional node to display.
      */
-    var optional: react.ReactNode?
+    var optional: ReactNode?
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
@@ -60,4 +63,4 @@ external interface StepButtonOwnProps :
  * - inherits [ButtonBase API](https://v6.mui.com/material-ui/api/button-base/)
  */
 @JsName("default")
-external val StepButton: react.FC<StepButtonProps>
+external val StepButton: FC<StepButtonProps>

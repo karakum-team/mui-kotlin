@@ -12,16 +12,19 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 
 external interface TimelineContentProps :
     StandardProps,
     mui.material.TypographyProps,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -46,4 +49,4 @@ external interface TimelineContentProps :
  * - inherits [Typography API](https://v6.mui.com/material-ui/api/typography/)
  */
 @JsName("default")
-external val TimelineContent: react.FC<TimelineContentProps>
+external val TimelineContent: FC<TimelineContentProps>

@@ -2,6 +2,8 @@
 
 package mui.base
 
+import react.ElementType
+import react.Props
 import react.dom.events.SyntheticEvent
 import react.dom.html.ButtonHTMLAttributes
 import web.html.HTMLButtonElement
@@ -32,7 +34,7 @@ external interface TabOwnProps :
     override var slotProps: ButtonOwnProps.SlotProps?
 
     interface SlotProps {
-        var root: react.Props? /* SlotComponentProps<'button', TabRootSlotPropsOverrides, TabOwnerState> */
+        var root: Props? /* SlotComponentProps<'button', TabRootSlotPropsOverrides, TabOwnerState> */
     }
 
     /**
@@ -48,5 +50,5 @@ external interface TabSlots {
      * The component that renders the root.
      * @default 'button'
      */
-    var root: react.ElementType<*>?
+    var root: ElementType<*>?
 }

@@ -9,19 +9,21 @@ import mui.material.transitions.TransitionProps
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.*
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
+import web.html.HTMLElement
 
 external interface StepContentProps :
     StandardProps,
     HTMLAttributes<HTMLDivElement>,
     StepContentSlotsAndSlotProps,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -39,7 +41,7 @@ external interface StepContentProps :
      * @default Collapse
      * @deprecated Use `slots.transition` instead. This prop will be removed in v7. [How to migrate](/material-ui/migration/migrating-from-deprecated-apis/).
      */
-    var TransitionComponent: react.ComponentType<*>?
+    var TransitionComponent: ComponentType<*>?
 
     /**
      * Adjust the duration of the content expand transition.
@@ -64,15 +66,15 @@ external interface StepContentSlots {
      * [Follow this guide](https://mui.com/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
      * @default Collapse
      */
-    var transition: react.ComponentType<*>?
+    var transition: ComponentType<*>?
 }
 
-external interface StepContentSlotProps : react.Props {
+external interface StepContentSlotProps : Props {
     /** TS: SlotComponentProps<React.ElementType, CollapseProps, StepContentOwnerState> */
-    var transition: HTMLAttributes<web.html.HTMLElement>?
+    var transition: HTMLAttributes<HTMLElement>?
 }
 
-external interface StepContentSlotsAndSlotProps : react.Props {
+external interface StepContentSlotsAndSlotProps : Props {
     var slots: StepContentSlots?
 
     var slotProps: StepContentSlotProps?
@@ -91,4 +93,4 @@ external interface StepContentOwnerState
  * - [StepContent API](https://v6.mui.com/material-ui/api/step-content/)
  */
 @JsName("default")
-external val StepContent: react.FC<StepContentProps>
+external val StepContent: FC<StepContentProps>

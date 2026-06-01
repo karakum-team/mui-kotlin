@@ -3,12 +3,15 @@
 package muix.pickers
 
 import js.array.ReadonlyArray
+import react.ElementType
+import react.Props
+import react.Ref
 import react.dom.html.HTMLAttributes
 import web.dom.Element
 import web.html.HTMLElement
 import web.html.HTMLSpanElement
 
-external interface PickersSectionListProps : react.Props {
+external interface PickersSectionListProps : Props {
     /**
      * Overridable component slots.
      */
@@ -26,23 +29,23 @@ external interface PickersSectionListProps : react.Props {
 }
 
 external interface PickersSectionListSlots {
-    var root: react.ElementType<*>
+    var root: ElementType<*>
 
-    var section: react.ElementType<*>
+    var section: ElementType<*>
 
-    var sectionSeparator: react.ElementType<*>
+    var sectionSeparator: ElementType<*>
 
-    var sectionContent: react.ElementType<*>
+    var sectionContent: ElementType<*>
 }
 
-external interface PickersSectionListSlotProps : react.Props {
-    var root: react.Props?
+external interface PickersSectionListSlotProps : Props {
+    var root: Props?
 
-    var section: react.Props?
+    var section: Props?
 
-    var sectionSeparator: react.Props?
+    var sectionSeparator: Props?
 
-    var sectionContent: react.Props?
+    var sectionContent: Props?
 }
 
 external interface PickersSectionElement {
@@ -65,14 +68,14 @@ external interface PickersSectionListRef {
     var getSectionIndexFromDOMElement: (element: Element?) -> Number?
 }
 
-external interface ExportedPickersSectionListProps : react.Props {
+external interface ExportedPickersSectionListProps : Props {
     /**
      * The elements to render.
      * Each element contains the prop to edit a section of the value.
      */
     var elements: ReadonlyArray<PickersSectionElement>
 
-    var sectionListRef: react.Ref<PickersSectionListRef>
+    var sectionListRef: Ref<PickersSectionListRef>
 
     /**
      * If true, the whole element is editable.

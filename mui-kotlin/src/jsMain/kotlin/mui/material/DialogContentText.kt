@@ -12,6 +12,7 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.FC
 
 external interface DialogContentTextProps :
     DialogContentTextOwnProps,
@@ -43,4 +44,4 @@ external interface DialogContentTextOwnProps :
  * - inherits [Typography API](https://v6.mui.com/material-ui/api/typography/)
  */
 @JsName("default")
-external val DialogContentText: react.FC<DialogContentTextProps>
+external val DialogContentText: FC<DialogContentTextProps>

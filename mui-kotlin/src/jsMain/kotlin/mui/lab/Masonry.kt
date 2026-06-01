@@ -9,6 +9,9 @@ import mui.system.PropsWithSx
 import mui.system.ResponsiveStyleValue
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
@@ -18,12 +21,12 @@ external interface MasonryProps :
     PropsWithComponent
 
 external interface MasonryOwnProps :
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -80,4 +83,4 @@ external interface MasonryOwnProps :
  * - [Masonry API](https://v6.mui.com/material-ui/api/masonry/)
  */
 @JsName("default")
-external val Masonry: react.FC<MasonryProps>
+external val Masonry: FC<MasonryProps>

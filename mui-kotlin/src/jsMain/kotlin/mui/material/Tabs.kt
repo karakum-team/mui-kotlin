@@ -8,6 +8,7 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.*
 import react.dom.events.SyntheticEvent
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
@@ -40,52 +41,52 @@ external interface TabsSlots {
      * The component used for the popper.
      * @default div
      */
-    var root: react.ElementType<*>
+    var root: ElementType<*>
 
     /**
      * The component used for the scroller.
      * @default div
      */
-    var scroller: react.ElementType<*>
+    var scroller: ElementType<*>
 
     /**
      * The component used for the flex container.
      * @default div
      */
-    var list: react.ElementType<*>
+    var list: ElementType<*>
 
     /**
      * The component used for the scroller.
      * @default ScrollbarSize
      */
-    var scrollbar: react.ElementType<*>
+    var scrollbar: ElementType<*>
 
     /**
      * The component used for the tab indicator.
      * @default span
      */
-    var indicator: react.ElementType<*>
+    var indicator: ElementType<*>
 
     /**
      * The component used for the scroll button.
      * @default TabScrollButton
      */
-    var scrollButtons: react.ElementType<*>
+    var scrollButtons: ElementType<*>
 
     /**
      * The component used for the start scroll button icon.
      * @default KeyboardArrowLeft
      */
-    var startScrollButtonIcon: react.ElementType<*>
+    var startScrollButtonIcon: ElementType<*>
 
     /**
      * The component used for the end scroll button icon.
      * @default KeyboardArrowRight
      */
-    var endScrollButtonIcon: react.ElementType<*>
+    var endScrollButtonIcon: ElementType<*>
 }
 
-external interface TabsSlotsAndSlotProps : react.Props {
+external interface TabsSlotsAndSlotProps : Props {
     var slots: TabsSlots?
 
     var slotProps: Any?
@@ -109,7 +110,7 @@ external interface TabsOwnerState : TabsProps {
 
 external interface TabsOwnProps :
     TabsSlotsAndSlotProps,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * Callback fired when the component mounts.
@@ -119,7 +120,7 @@ external interface TabsOwnProps :
      * @param {object} actions This object contains all possible actions
      * that can be triggered programmatically.
      */
-    var action: react.Ref<TabsActions>?
+    var action: Ref<TabsActions>?
 
     /**
      * If `true`, the scroll buttons aren't forced hidden on mobile.
@@ -148,7 +149,7 @@ external interface TabsOwnProps :
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -180,7 +181,7 @@ external interface TabsOwnProps :
      * @deprecated use the `slots.scrollButtons` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      * @default TabScrollButton
      */
-    var ScrollButtonComponent: react.ElementType<*>?
+    var ScrollButtonComponent: ElementType<*>?
 
     /**
      * Determine behavior of scroll buttons when tabs are set to scroll:
@@ -206,7 +207,7 @@ external interface TabsOwnProps :
      * @deprecated use the `slotProps.indicator` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      * @default  {}
      */
-    var TabIndicatorProps: react.Props? /* React.HTMLAttributes<HTMLDivElement> & { sx?: SxProps<Theme>; } */
+    var TabIndicatorProps: Props? /* React.HTMLAttributes<HTMLDivElement> & { sx?: SxProps<Theme>; } */
 
     /**
      * Props applied to the [`TabScrollButton`](https://mui.com/material-ui/api/tab-scroll-button/) element.
@@ -268,4 +269,4 @@ external interface TabsActions {
  * - [Tabs API](https://v6.mui.com/material-ui/api/tabs/)
  */
 @JsName("default")
-external val Tabs: react.FC<TabsProps>
+external val Tabs: FC<TabsProps>

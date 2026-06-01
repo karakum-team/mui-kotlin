@@ -13,12 +13,13 @@ import mui.material.transitions.TransitionProps
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.*
 import web.dom.Element
 
 external interface MenuProps :
     StandardProps,
     PopoverProps,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * An HTML element, or a function that returns one.
@@ -38,7 +39,7 @@ external interface MenuProps :
     /**
      * Menu contents, normally `MenuItem`s.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -120,34 +121,34 @@ external interface MenuSlots {
      * The component used for the popper.
      * @default Modal
      */
-    var root: react.ElementType<*>
+    var root: ElementType<*>
 
     /**
      * The component used for the paper.
      * @default PopoverPaper
      */
-    var paper: react.ElementType<*>
+    var paper: ElementType<*>
 
     /**
      * The component used for the list.
      * @default MenuList
      */
-    var list: react.ElementType<*>
+    var list: ElementType<*>
 
     /**
      * The component used for the transition slot.
      * @default Grow
      */
-    var transition: react.ElementType<*>
+    var transition: ElementType<*>
 
     /**
      * The component used for the backdrop slot.
      * @default Backdrop
      */
-    var backdrop: react.ElementType<*>
+    var backdrop: ElementType<*>
 }
 
-external interface MenuSlotProps : react.Props {
+external interface MenuSlotProps : Props {
     /** TS: SlotProps<React.ElementType<ModalProps>, MenuRootSlotPropsOverrides, MenuOwnerState> */
     var root: ModalProps?
 
@@ -164,7 +165,7 @@ external interface MenuSlotProps : react.Props {
     var backdrop: BackdropProps?
 }
 
-external interface MenuSlotsAndSlotProps : react.Props {
+external interface MenuSlotsAndSlotProps : Props {
     var slots: MenuSlots?
 
     var slotProps: MenuSlotProps?
@@ -185,4 +186,4 @@ external interface MenuOwnerState
  * - inherits [Popover API](https://v6.mui.com/material-ui/api/popover/)
  */
 @JsName("default")
-external val Menu: react.FC<MenuProps>
+external val Menu: FC<MenuProps>

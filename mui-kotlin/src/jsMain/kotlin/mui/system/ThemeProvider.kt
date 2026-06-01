@@ -4,11 +4,15 @@
 
 package mui.system
 
-external interface ThemeProviderProps : react.PropsWithChildren {
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
+
+external interface ThemeProviderProps : PropsWithChildren {
     /**
      * Your component tree.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * The design system's unique id for getting the corresponded theme when there are multiple design systems.
@@ -29,4 +33,4 @@ external interface ThemeProviderProps : react.PropsWithChildren {
  * - [ThemeProvider API](https://mui.com/material-ui/customization/theming/#themeprovider)
  */
 @JsName("default")
-external val ThemeProvider: react.FC<ThemeProviderProps>
+external val ThemeProvider: FC<ThemeProviderProps>

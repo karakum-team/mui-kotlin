@@ -8,11 +8,15 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.ElementType
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 
 external interface TableCellProps :
     StandardProps,
     TableCellBaseProps,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * Set the text-align on the table cell content.
@@ -26,7 +30,7 @@ external interface TableCellProps :
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -37,7 +41,7 @@ external interface TableCellProps :
      * The component used for the root node.
      * Either a string to use a HTML element or a component.
      */
-    var component: react.ElementType<*>?
+    var component: ElementType<*>?
 
     /**
      * Sets the padding applied to the cell.
@@ -90,4 +94,4 @@ external interface TableCellPropsVariantOverrides
  * - [TableCell API](https://v6.mui.com/material-ui/api/table-cell/)
  */
 @JsName("default")
-external val TableCell: react.FC<TableCellProps>
+external val TableCell: FC<TableCellProps>

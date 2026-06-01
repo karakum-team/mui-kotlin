@@ -4,6 +4,7 @@
 
 package mui.material
 
+import react.FC
 import react.dom.events.SyntheticEvent
 
 external interface StartActionOptions {
@@ -25,4 +26,4 @@ external interface TouchRippleActions {
 
 
 @JsName("default")
-external val TouchRipple: react.FC<TouchRippleProps>
+external val TouchRipple: FC<TouchRippleProps>

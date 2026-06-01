@@ -9,7 +9,7 @@ import web.events.EventTarget
 external interface UseScrollTriggerOptions {
     var disableHysteresis: Boolean?
 
-    var target: EventTarget /* Node? or web.window.Window? */?
+    var target: EventTarget /* Node? or Window? */?
 
     var threshold: Number?
 }

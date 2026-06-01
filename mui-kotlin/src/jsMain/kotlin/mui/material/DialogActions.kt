@@ -8,18 +8,21 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
 external interface DialogActionsProps :
     StandardProps,
     HTMLAttributes<HTMLDivElement>,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -49,4 +52,4 @@ external interface DialogActionsProps :
  * - [DialogActions API](https://v6.mui.com/material-ui/api/dialog-actions/)
  */
 @JsName("default")
-external val DialogActions: react.FC<DialogActionsProps>
+external val DialogActions: FC<DialogActionsProps>

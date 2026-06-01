@@ -12,6 +12,7 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.FC
 
 external interface FilledInputProps :
     StandardProps,
@@ -54,4 +55,4 @@ external interface FilledInputProps :
  * - inherits [InputBase API](https://v6.mui.com/material-ui/api/input-base/)
  */
 @JsName("default")
-external val FilledInput: react.FC<FilledInputProps>
+external val FilledInput: FC<FilledInputProps>

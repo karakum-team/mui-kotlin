@@ -8,10 +8,12 @@
 
 package muix.pickers
 
+import react.FC
+import react.Props
 import react.dom.events.MouseEvent
 import web.html.HTMLButtonElement
 
-external interface PickersDayProps<TDate> : react.Props {
+external interface PickersDayProps<TDate> : Props {
     /**
      * Override or extend the styles applied to the component.
      */
@@ -76,7 +78,7 @@ external interface PickersDayProps<TDate> : react.Props {
     var today: Boolean?
 }
 
-external interface ExportedPickersDayProps : react.Props {
+external interface ExportedPickersDayProps : Props {
     /**
      * If `true`, today's date is rendering without highlighting with circle.
      * @default false
@@ -97,4 +99,4 @@ external interface ExportedPickersDayProps : react.Props {
 }
 
 
-external val PickersDay: react.FC<PickersDayProps<*>>
+external val PickersDay: FC<PickersDayProps<*>>

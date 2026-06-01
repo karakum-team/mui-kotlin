@@ -2,6 +2,7 @@
 
 package mui.base
 
+import react.Props
 import react.dom.aria.AriaRole
 import react.dom.events.FocusEventHandler
 import react.dom.events.MouseEventHandler
@@ -49,7 +50,7 @@ external interface UseSnackbarParameters {
     var resumeHideDuration: Number?
 }
 
-external interface UseSnackbarRootSlotOwnProps : react.Props {
+external interface UseSnackbarRootSlotOwnProps : Props {
     var onBlur: FocusEventHandler<*>
 
     var onFocus: FocusEventHandler<*>
@@ -67,7 +68,7 @@ external interface UseSnackbarReturnValue {
      * @param externalProps props for the root slot
      * @returns props that should be spread on the root slot
      */
-    var getRootProps: react.Props /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseSnackbarRootSlotProps<ExternalProps> */
+    var getRootProps: Props /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseSnackbarRootSlotProps<ExternalProps> */
 
     /**
      * Callback fired when a "click away" event is detected.

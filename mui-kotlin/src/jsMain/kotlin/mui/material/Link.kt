@@ -8,6 +8,9 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.html.AnchorHTMLAttributes
 import web.html.HTMLAnchorElement
 
@@ -18,12 +21,12 @@ external interface LinkProps :
 
 external interface LinkOwnProps :
     LinkBaseProps,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -72,4 +75,4 @@ external interface LinkOwnProps :
  * - inherits [Typography API](https://v6.mui.com/material-ui/api/typography/)
  */
 @JsName("default")
-external val Link: react.FC<LinkProps>
+external val Link: FC<LinkProps>

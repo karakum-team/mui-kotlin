@@ -13,6 +13,10 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.ElementType
+import react.FC
+import react.Props
+import react.ReactNode
 import react.dom.events.SyntheticEvent
 import react.dom.html.HTMLAttributes
 import react.dom.html.LabelHTMLAttributes
@@ -44,28 +48,28 @@ external interface RatingSlots {
      * The component used for the root slot.
      * @default 'span'
      */
-    var root: react.ElementType<*>
+    var root: ElementType<*>
 
     /**
      * The component used for the label slot.
      * @default 'label'
      */
-    var label: react.ElementType<*>
+    var label: ElementType<*>
 
     /**
      * The component used for the icon slot.
      * @default 'span'
      */
-    var icon: react.ElementType<*>
+    var icon: ElementType<*>
 
     /**
      * The component used fo r the decimal slot.
      * @default 'span'
      */
-    var decimal: react.ElementType<*>
+    var decimal: ElementType<*>
 }
 
-external interface RatingSlotProps : react.Props {
+external interface RatingSlotProps : Props {
     /** TS: SlotProps<'span', RatingRootSlotPropsOverrides, RatingOwnerState> */
     var root: HTMLAttributes<HTMLSpanElement>?
 
@@ -79,7 +83,7 @@ external interface RatingSlotProps : react.Props {
     var decimal: HTMLAttributes<HTMLSpanElement>?
 }
 
-external interface RatingSlotsAndSlotProps : react.Props {
+external interface RatingSlotsAndSlotProps : Props {
     var slots: RatingSlots?
 
     var slotProps: RatingSlotProps?
@@ -109,13 +113,13 @@ external interface RatingOwnProps :
      * The icon to display when empty.
      * @default <StarBorder fontSize="inherit" />
      */
-    var emptyIcon: react.ReactNode?
+    var emptyIcon: ReactNode?
 
     /**
      * The label read when the rating input is empty.
      * @default 'Empty'
      */
-    var emptyLabelText: react.ReactNode?
+    var emptyLabelText: ReactNode?
 
     /**
      * Accepts a function which returns a string value that provides a user-friendly name for the current value of the rating.
@@ -140,7 +144,7 @@ external interface RatingOwnProps :
      * The icon to display.
      * @default <Star fontSize="inherit" />
      */
-    var icon: react.ReactNode?
+    var icon: ReactNode?
 
     /**
      * The component containing the icon.
@@ -150,7 +154,7 @@ external interface RatingOwnProps :
      *   return <span {...other} />;
      * }
      */
-    var IconContainerComponent: react.ElementType<IconContainerProps>?
+    var IconContainerComponent: ElementType<IconContainerProps>?
 
     /**
      * Maximum rating.
@@ -221,4 +225,4 @@ external interface RatingOwnerState
  * - [Rating API](https://v6.mui.com/material-ui/api/rating/)
  */
 @JsName("default")
-external val Rating: react.FC<RatingProps>
+external val Rating: FC<RatingProps>

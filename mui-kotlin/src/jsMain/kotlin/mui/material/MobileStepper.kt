@@ -12,6 +12,10 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.ElementType
+import react.FC
+import react.Props
+import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
@@ -30,7 +34,7 @@ external interface MobileStepperProps :
     /**
      * A back button element. For instance, it can be a `Button` or an `IconButton`.
      */
-    var backButton: react.ReactNode
+    var backButton: ReactNode
 
     /**
      * Override or extend the styles applied to the component.
@@ -46,7 +50,7 @@ external interface MobileStepperProps :
     /**
      * A next button element. For instance, it can be a `Button` or an `IconButton`.
      */
-    var nextButton: react.ReactNode
+    var nextButton: ReactNode
 
     /**
      * Set the positioning type.
@@ -76,25 +80,25 @@ external interface MobileStepperSlots {
      * The component that renders the root slot.
      * @default Paper
      */
-    var root: react.ElementType<*>
+    var root: ElementType<*>
 
     /**
      * The component that renders the progress slot.
      * @default LinearProgress
      */
-    var progress: react.ElementType<*>
+    var progress: ElementType<*>
 
     /**
      * The component that renders the dots slot.
      * @default 'div'
      */
-    var dots: react.ElementType<*>
+    var dots: ElementType<*>
 
     /**
      * The component that renders the dot slot.
      * @default 'div'
      */
-    var dot: react.ElementType<*>
+    var dot: ElementType<*>
 }
 
 external interface MobileStepperRootSlotPropsOverrides
@@ -105,7 +109,7 @@ external interface MobileStepperDotsSlotPropsOverrides
 
 external interface MobileStepperDotSlotPropsOverrides
 
-external interface MobileStepperSlotProps : react.Props {
+external interface MobileStepperSlotProps : Props {
     /** TS: SlotProps< React.ElementType<PaperProps>, MobileStepperRootSlotPropsOverrides, MobileStepperOwnerState > */
     var root: PaperProps?
 
@@ -119,7 +123,7 @@ external interface MobileStepperSlotProps : react.Props {
     var dot: HTMLAttributes<HTMLDivElement>?
 }
 
-external interface MobileStepperSlotsAndSlotProps : react.Props {
+external interface MobileStepperSlotsAndSlotProps : Props {
     var slots: MobileStepperSlots?
 
     var slotProps: MobileStepperSlotProps?
@@ -139,4 +143,4 @@ external interface MobileStepperOwnerState
  * - inherits [Paper API](https://v6.mui.com/material-ui/api/paper/)
  */
 @JsName("default")
-external val MobileStepper: react.FC<MobileStepperProps>
+external val MobileStepper: FC<MobileStepperProps>

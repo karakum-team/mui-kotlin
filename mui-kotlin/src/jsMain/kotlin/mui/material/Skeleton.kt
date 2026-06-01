@@ -8,6 +8,9 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLSpanElement
 
@@ -19,7 +22,7 @@ external interface SkeletonProps :
 external interface SkeletonPropsVariantOverrides
 
 external interface SkeletonOwnProps :
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * The animation.
@@ -31,7 +34,7 @@ external interface SkeletonOwnProps :
     /**
      * Optional children to infer width and height from.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -73,4 +76,4 @@ external interface SkeletonOwnProps :
  * - [Skeleton API](https://v6.mui.com/material-ui/api/skeleton/)
  */
 @JsName("default")
-external val Skeleton: react.FC<SkeletonProps>
+external val Skeleton: FC<SkeletonProps>

@@ -13,6 +13,10 @@ import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
 import mui.system.Union
+import react.ElementType
+import react.FC
+import react.Props
+import react.ReactNode
 import react.dom.events.SyntheticEvent
 
 external interface AlertProps :
@@ -23,7 +27,7 @@ external interface AlertProps :
     /**
      * The action to display. It renders after the message, at the end of the alert.
      */
-    var action: react.ReactNode?
+    var action: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -55,8 +59,8 @@ external interface AlertProps :
     var components: Components?
 
     interface Components {
-        var CloseButton: react.ElementType<*>?
-        var CloseIcon: react.ElementType<*>?
+        var CloseButton: ElementType<*>?
+        var CloseIcon: ElementType<*>?
     }
 
     /**
@@ -70,8 +74,8 @@ external interface AlertProps :
     var componentsProps: ComponentsProps?
 
     interface ComponentsProps {
-        var closeButton: react.Props? /* IconButtonProps */
-        var closeIcon: react.Props? /* SvgIconProps */
+        var closeButton: Props? /* IconButtonProps */
+        var closeIcon: Props? /* SvgIconProps */
     }
 
     /**
@@ -85,7 +89,7 @@ external interface AlertProps :
      * Unless provided, the icon is mapped to the value of the `severity` prop.
      * Set to `false` to remove the `icon`.
      */
-    var icon: react.ReactNode?
+    var icon: ReactNode?
 
     /**
      * The ARIA role attribute of the element.
@@ -143,37 +147,37 @@ external interface AlertSlots {
      * The component that renders the root slot.
      * @default Paper
      */
-    var root: react.ElementType<*>
+    var root: ElementType<*>
 
     /**
      * The component that renders the icon slot.
      * @default div
      */
-    var icon: react.ElementType<*>
+    var icon: ElementType<*>
 
     /**
      * The component that renders the message slot.
      * @default div
      */
-    var message: react.ElementType<*>
+    var message: ElementType<*>
 
     /**
      * The component that renders the action slot.
      * @default div
      */
-    var action: react.ElementType<*>
+    var action: ElementType<*>
 
     /**
      * The component that renders the close button.
      * @default IconButton
      */
-    var closeButton: react.ElementType<*>
+    var closeButton: ElementType<*>
 
     /**
      * The component that renders the close icon.
      * @default svg
      */
-    var closeIcon: react.ElementType<*>
+    var closeIcon: ElementType<*>
 }
 
 /**
@@ -188,4 +192,4 @@ external interface AlertSlots {
  * - inherits [Paper API](https://v6.mui.com/material-ui/api/paper/)
  */
 @JsName("default")
-external val Alert: react.FC<AlertProps>
+external val Alert: FC<AlertProps>

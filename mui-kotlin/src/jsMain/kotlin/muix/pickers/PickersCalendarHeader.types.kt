@@ -8,10 +8,13 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.system.Union
+import react.ElementType
+import react.Props
+import react.PropsWithClassName
 import web.cssom.ClassName
 
 external interface PickersCalendarHeaderProps<TDate> :
-    react.PropsWithClassName,
+    PropsWithClassName,
     PropsWithSx {
     /**
      * Overridable component slots.
@@ -63,19 +66,19 @@ external interface PickersCalendarHeaderSlots {
      * Button displayed to switch between different calendar views.
      * @default IconButton
      */
-    var switchViewButton: react.ElementType<*>?
+    var switchViewButton: ElementType<*>?
 
     /**
      * Icon displayed in the SwitchViewButton. Rotated by 180° when the open view is `year`.
      * @default ArrowDropDown
      */
-    var switchViewIcon: react.ElementType<*>?
+    var switchViewIcon: ElementType<*>?
 }
 
 external interface PickersCalendarHeaderSlotPropsOverrides
 
-external interface PickersCalendarHeaderSlotProps<TDate> : react.Props {
-    var switchViewButton: react.Props?
+external interface PickersCalendarHeaderSlotProps<TDate> : Props {
+    var switchViewButton: Props?
 
-    var switchViewIcon: react.Props?
+    var switchViewIcon: Props?
 }

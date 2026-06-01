@@ -12,6 +12,10 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.ElementType
+import react.FC
+import react.Props
+import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLSpanElement
 
@@ -40,7 +44,7 @@ external interface SpeedDialActionProps :
     /**
      * The icon to display in the SpeedDial Fab.
      */
-    var icon: react.ReactNode?
+    var icon: ReactNode?
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
@@ -64,7 +68,7 @@ external interface SpeedDialActionProps :
      * Label to display in the tooltip.
      * @deprecated Use `slotProps.tooltip.title` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
-    var tooltipTitle: react.ReactNode?
+    var tooltipTitle: ReactNode?
 
     /**
      * Make the tooltip always visible when the SpeedDial is open.
@@ -79,25 +83,25 @@ external interface SpeedDialActionSlots {
      * The component that renders the fab.
      * @default Fab
      */
-    var fab: react.ElementType<*>?
+    var fab: ElementType<*>?
 
     /**
      * The component that renders the tooltip.
      * @default Tooltip
      */
-    var tooltip: react.ElementType<*>?
+    var tooltip: ElementType<*>?
 
     /**
      * The component that renders the static tooltip.
      * @default 'span'
      */
-    var staticTooltip: react.ElementType<*>?
+    var staticTooltip: ElementType<*>?
 
     /**
      * The component that renders the static tooltip label.
      * @default 'span'
      */
-    var staticTooltipLabel: react.ElementType<*>?
+    var staticTooltipLabel: ElementType<*>?
 }
 
 external interface SpeedDialActionFabSlotPropsOverrides
@@ -108,7 +112,7 @@ external interface SpeedDialActionStaticTooltipSlotPropsOverrides
 
 external interface SpeedDialActionStaticTooltipLabelSlotPropsOverrides
 
-external interface SpeedDialActionSlotProps : react.Props {
+external interface SpeedDialActionSlotProps : Props {
     /** TS: SlotProps< React.ElementType<FabProps>, SpeedDialActionFabSlotPropsOverrides, SpeedDialActionOwnerState > */
     var fab: FabProps?
 
@@ -122,7 +126,7 @@ external interface SpeedDialActionSlotProps : react.Props {
     var staticTooltipLabel: HTMLAttributes<HTMLSpanElement>?
 }
 
-external interface SpeedDialActionSlotsAndSlotProps : react.Props {
+external interface SpeedDialActionSlotsAndSlotProps : Props {
     var slots: SpeedDialActionSlots?
 
     var slotProps: SpeedDialActionSlotProps?
@@ -142,4 +146,4 @@ external interface SpeedDialActionOwnerState
  * - inherits [Tooltip API](https://v6.mui.com/material-ui/api/tooltip/)
  */
 @JsName("default")
-external val SpeedDialAction: react.FC<SpeedDialActionProps>
+external val SpeedDialAction: FC<SpeedDialActionProps>

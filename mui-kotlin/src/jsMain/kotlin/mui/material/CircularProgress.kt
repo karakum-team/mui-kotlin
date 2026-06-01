@@ -8,6 +8,7 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.FC
 import react.dom.html.HTMLAttributes
 import web.html.HTMLSpanElement
 
@@ -89,4 +90,4 @@ external interface CircularProgressPropsVariantOverrides
  * - [CircularProgress API](https://v6.mui.com/material-ui/api/circular-progress/)
  */
 @JsName("default")
-external val CircularProgress: react.FC<CircularProgressProps>
+external val CircularProgress: FC<CircularProgressProps>

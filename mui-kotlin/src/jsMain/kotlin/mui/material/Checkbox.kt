@@ -12,6 +12,10 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.ElementType
+import react.FC
+import react.Props
+import react.ReactNode
 import react.dom.events.ChangeEvent
 import react.dom.html.InputHTMLAttributes
 import web.dom.ElementId
@@ -30,7 +34,7 @@ external interface CheckboxProps :
      * The icon to display when the component is checked.
      * @default <CheckBoxIcon />
      */
-    var checkedIcon: react.ReactNode?
+    var checkedIcon: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -61,7 +65,7 @@ external interface CheckboxProps :
      * The icon to display when the component is unchecked.
      * @default <CheckBoxOutlineBlankIcon />
      */
-    var icon: react.ReactNode?
+    var icon: ReactNode?
 
     /**
      * The id of the `input` element.
@@ -81,7 +85,7 @@ external interface CheckboxProps :
      * The icon to display when the component is indeterminate.
      * @default <IndeterminateCheckBoxIcon />
      */
-    var indeterminateIcon: react.ReactNode?
+    var indeterminateIcon: ReactNode?
 
     /**
      * Callback fired when the state is changed.
@@ -129,16 +133,16 @@ external interface CheckboxSlots {
      * The component that renders the root slot.
      * @default SwitchBase
      */
-    var root: react.ElementType<*>
+    var root: ElementType<*>
 
     /**
      * The component that renders the input slot.
      * @default SwitchBase's input
      */
-    var input: react.ElementType<*>
+    var input: ElementType<*>
 }
 
-external interface CheckboxSlotProps : react.Props {
+external interface CheckboxSlotProps : Props {
     /** TS: SlotProps< React.ElementType<SwitchBaseProps>, CheckboxRootSlotPropsOverrides, CheckboxOwnerState > */
     var root: SwitchBaseProps?
 
@@ -146,7 +150,7 @@ external interface CheckboxSlotProps : react.Props {
     var input: InputHTMLAttributes<HTMLInputElement>?
 }
 
-external interface CheckboxSlotsAndSlotProps : react.Props {
+external interface CheckboxSlotsAndSlotProps : Props {
     var slots: CheckboxSlots?
 
     var slotProps: CheckboxSlotProps?
@@ -167,4 +171,4 @@ external interface CheckboxOwnerState
  * - inherits [ButtonBase API](https://v6.mui.com/material-ui/api/button-base/)
  */
 @JsName("default")
-external val Checkbox: react.FC<CheckboxProps>
+external val Checkbox: FC<CheckboxProps>

@@ -4,12 +4,16 @@
 
 package mui.base
 
+import react.FC
+import react.PropsWithChildren
+import react.PropsWithClassName
+import react.ReactNode
 import web.cssom.ClassName
 
 external interface CssTransitionProps :
-    react.PropsWithChildren,
-    react.PropsWithClassName {
-    override var children: react.ReactNode?
+    PropsWithChildren,
+    PropsWithClassName {
+    override var children: ReactNode?
 
     override var className: ClassName?
 
@@ -46,4 +50,4 @@ external interface CssTransitionProps :
  *
  * - [CssTransition API](https://mui.com/base-ui/react-transitions/components-api/#css-transition)
  */
-external val CssTransition: react.FC<CssTransitionProps>
+external val CssTransition: FC<CssTransitionProps>

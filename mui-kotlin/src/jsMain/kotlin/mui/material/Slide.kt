@@ -5,11 +5,14 @@
 package mui.material
 
 import mui.material.transitions.TransitionProps
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import web.dom.Element
 
 external interface SlideProps :
     TransitionProps,
-    react.PropsWithChildren {
+    PropsWithChildren {
     /**
      * Perform the enter transition when it first mounts if `in` is also `true`.
      * Set this to `false` to disable this behavior.
@@ -20,7 +23,7 @@ external interface SlideProps :
     /**
      * A single child content element.
      */
-    override var children: react.ReactNode? /* React.ReactElement<unknown, any> */
+    override var children: ReactNode? /* React.ReactElement<unknown, any> */
 
     /**
      * An HTML element, or a function that returns one.
@@ -75,4 +78,4 @@ external interface SlideProps :
  * - inherits [Transition API](https://reactcommunity.org/react-transition-group/transition/#Transition-props)
  */
 @JsName("default")
-external val Slide: react.FC<SlideProps>
+external val Slide: FC<SlideProps>

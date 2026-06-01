@@ -13,13 +13,14 @@ import mui.material.transitions.TransitionProps
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.*
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
 external interface DrawerProps :
     StandardProps,
     ModalProps,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * Side from which the drawer will appear.
@@ -30,7 +31,7 @@ external interface DrawerProps :
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -114,35 +115,35 @@ external interface DrawerSlots {
      * The component used for the root when the variant is `temporary`.
      * @default Modal
      */
-    var root: react.ElementType<*>
+    var root: ElementType<*>
 
     /**
      * The component used for the Modal backdrop.
      * @default Backdrop
      */
-    var backdrop: react.ElementType<*>
+    var backdrop: ElementType<*>
 
     /**
      * The component used for the root element when the variant is `permanent` or `persistent`.
      * @default div
      */
-    var docked: react.ElementType<*>
+    var docked: ElementType<*>
 
     /**
      * The component used for the paper.
      * @default Paper
      */
-    var paper: react.ElementType<*>
+    var paper: ElementType<*>
 
     /**
      * The component used for the transition.
      * [Follow this guide](https://mui.com/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
      * @default Slide
      */
-    var transition: react.ElementType<*>
+    var transition: ElementType<*>
 }
 
-external interface DrawerSlotProps : react.Props {
+external interface DrawerSlotProps : Props {
     /** TS: SlotProps<React.ElementType<ModalProps>, DrawerRootSlotPropsOverrides, DrawerOwnerState> */
     var root: ModalProps?
 
@@ -159,7 +160,7 @@ external interface DrawerSlotProps : react.Props {
     var transition: TransitionProps?
 }
 
-external interface DrawerSlotsAndSlotProps : react.Props {
+external interface DrawerSlotsAndSlotProps : Props {
     var slots: DrawerSlots?
 
     var slotProps: DrawerSlotProps?
@@ -180,4 +181,4 @@ external interface DrawerOwnerState
  * - [Drawer API](https://v6.mui.com/material-ui/api/drawer/)
  */
 @JsName("default")
-external val Drawer: react.FC<DrawerProps>
+external val Drawer: FC<DrawerProps>

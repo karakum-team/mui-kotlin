@@ -12,18 +12,22 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.ElementType
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.events.ChangeEventHandler
 
 external interface NativeSelectProps :
     StandardProps,
     InputProps,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * The option elements to populate the select with.
      * Can be some `<option>` elements.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -35,7 +39,7 @@ external interface NativeSelectProps :
      * The icon that displays the arrow.
      * @default ArrowDropDownIcon
      */
-    var IconComponent: react.ElementType<*>?
+    var IconComponent: ElementType<*>?
 
     /**
      * An `Input` element; does not have to be a material-ui specific `Input`.
@@ -85,4 +89,4 @@ external interface NativeSelectProps :
  * - inherits [Input API](https://v6.mui.com/material-ui/api/input/)
  */
 @JsName("default")
-external val NativeSelect: react.FC<NativeSelectProps>
+external val NativeSelect: FC<NativeSelectProps>

@@ -8,6 +8,8 @@
 
 package mui.material
 
+import react.ElementType
+import react.FC
 import react.dom.events.ReactEventHandler
 
 external interface SwipeableDrawerProps :
@@ -105,7 +107,7 @@ external interface SwipeableDrawerSlots {
      * The component used for the swipeArea slot.
      * @default div
      */
-    var swipeArea: react.ElementType<*>?
+    var swipeArea: ElementType<*>?
 }
 
 /**
@@ -120,4 +122,4 @@ external interface SwipeableDrawerSlots {
  * - inherits [Drawer API](https://v6.mui.com/material-ui/api/drawer/)
  */
 @JsName("default")
-external val SwipeableDrawer: react.FC<SwipeableDrawerProps>
+external val SwipeableDrawer: FC<SwipeableDrawerProps>

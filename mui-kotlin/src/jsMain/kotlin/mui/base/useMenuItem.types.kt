@@ -2,6 +2,9 @@
 
 package mui.base
 
+import react.Props
+import react.Ref
+import react.RefCallback
 import react.dom.events.MouseEventHandler
 import web.dom.Element
 import web.dom.ElementId
@@ -23,7 +26,7 @@ external interface UseMenuItemParameters {
 
     var onClick: MouseEventHandler<*>?
 
-    var rootRef: react.Ref<Element>
+    var rootRef: Ref<Element>
 
     /**
      * If `true`, the menu item won't receive focus when the mouse moves over it.
@@ -39,7 +42,7 @@ external interface UseMenuItemReturnValue {
      * @param externalProps event handlers for the root slot
      * @returns props that should be spread on the root slot
      */
-    var getRootProps: react.Props /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseMenuItemRootSlotProps<ExternalProps> */
+    var getRootProps: Props /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseMenuItemRootSlotProps<ExternalProps> */
 
     /**
      * If `true`, the component is disabled.
@@ -64,7 +67,7 @@ external interface UseMenuItemReturnValue {
     /**
      * The ref to the component's root DOM element.
      */
-    var rootRef: react.RefCallback<Element>?
+    var rootRef: RefCallback<Element>?
 
     /**
      * Total number of items in the menu.

@@ -13,6 +13,9 @@ import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
@@ -25,7 +28,7 @@ external interface StepperProps :
 
 external interface StepperOwnProps :
     PaperProps,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * Set the active step (zero based index).
@@ -44,7 +47,7 @@ external interface StepperOwnProps :
     /**
      * Two or more `<Step />` components.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -86,4 +89,4 @@ external interface StepperOwnProps :
  * - [Stepper API](https://v6.mui.com/material-ui/api/stepper/)
  */
 @JsName("default")
-external val Stepper: react.FC<StepperProps>
+external val Stepper: FC<StepperProps>

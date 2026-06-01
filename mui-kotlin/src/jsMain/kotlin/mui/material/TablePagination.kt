@@ -9,11 +9,16 @@ import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.system.Union
 import mui.types.PropsWithComponent
+import react.ElementType
+import react.FC
+import react.Props
+import react.ReactNode
 import react.dom.events.ChangeEventHandler
 import react.dom.events.MouseEvent
 import react.dom.html.HTMLAttributes
 import web.html.HTMLButtonElement
 import web.html.HTMLDivElement
+import web.html.HTMLElement
 
 external interface TablePaginationProps :
     TablePaginationOwnProps,
@@ -51,46 +56,46 @@ external interface TablePaginationSlots {
      * [Follow this guide](https://mui.com/material-ui/api/table-cell/#props) to learn more about the requirements for this component.
      * @default TableCell
      */
-    var root: react.ElementType<*>
+    var root: ElementType<*>
 
     /**
      * The component that renders the toolbar slot.
      * [Follow this guide](https://mui.com/material-ui/api/toolbar/#props) to learn more about the requirements for this component.
      * @default Toolbar
      */
-    var toolbar: react.ElementType<*>
+    var toolbar: ElementType<*>
 
     /**
      * The tag that renders the spacer slot.
      * @default 'div'
      */
-    var spacer: react.ElementType<*>
+    var spacer: ElementType<*>
 
     /**
      * The tag that renders the selectLabel slot.
      * @default 'p'
      */
-    var selectLabel: react.ElementType<*>
+    var selectLabel: ElementType<*>
 
     /**
      * The component that renders the select slot.
      * [Follow this guide](https://mui.com/material-ui/api/select/#props) to learn more about the requirements for this component.
      * @default Select
      */
-    var select: react.ElementType<*>
+    var select: ElementType<*>
 
     /**
      * The component that renders the select slot.
      * [Follow this guide](https://mui.com/material-ui/api/menu-item/#props) to learn more about the requirements for this component.
      * @default MenuItem
      */
-    var menuItem: react.ElementType<*>
+    var menuItem: ElementType<*>
 
     /**
      * The tag that renders the displayedRows slot.
      * @default 'p'
      */
-    var displayedRows: react.ElementType<*>
+    var displayedRows: ElementType<*>
 
     /**
      * The slots that passed to the actions slot.
@@ -98,7 +103,7 @@ external interface TablePaginationSlots {
     var actions: Any? /* TablePaginationActionsSlots */
 }
 
-external interface TablePaginationSlotProps : react.Props {
+external interface TablePaginationSlotProps : Props {
     /** TS: SlotProps< React.ElementType<TableCellProps>, TablePaginationRootSlotPropsOverrides, TablePaginationOwnerState > */
     var root: TableCellProps?
 
@@ -124,7 +129,7 @@ external interface TablePaginationSlotProps : react.Props {
     var actions: Any?
 }
 
-external interface TablePaginationSlotsAndSlotProps : react.Props {
+external interface TablePaginationSlotsAndSlotProps : Props {
     var slots: TablePaginationSlots?
 
     var slotProps: TablePaginationSlotProps?
@@ -138,7 +143,7 @@ external interface TablePaginationOwnProps :
      * Either a string to use a HTML element or a component.
      * @default TablePaginationActions
      */
-    var ActionsComponent: react.ElementType<TablePaginationActionsProps>?
+    var ActionsComponent: ElementType<TablePaginationActionsProps>?
 
     /**
      * Props applied to the back arrow [`IconButton`](https://mui.com/material-ui/api/icon-button/) component.
@@ -188,7 +193,7 @@ external interface TablePaginationOwnProps :
      *   return `${from}–${to} of ${count !== -1 ? count : `more than ${to}`}`;
      * }
      */
-    var labelDisplayedRows: ((paginationInfo: LabelDisplayedRowsArgs) -> react.ReactNode)?
+    var labelDisplayedRows: ((paginationInfo: LabelDisplayedRowsArgs) -> ReactNode)?
 
     /**
      * Customize the rows per page label.
@@ -196,7 +201,7 @@ external interface TablePaginationOwnProps :
      * For localization purposes, you can use the provided [translations](https://mui.com/material-ui/guides/localization/).
      * @default 'Rows per page:'
      */
-    var labelRowsPerPage: react.ReactNode?
+    var labelRowsPerPage: ReactNode?
 
     /**
      * Props applied to the next arrow [`IconButton`](https://mui.com/material-ui/api/icon-button/) element.
@@ -219,7 +224,7 @@ external interface TablePaginationOwnProps :
      *
      * @param {React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>} event The event source of the callback.
      */
-    var onRowsPerPageChange: ChangeEventHandler<web.html.HTMLElement, *>?
+    var onRowsPerPageChange: ChangeEventHandler<HTMLElement, *>?
 
     /**
      * The zero-based index of the current page.
@@ -285,4 +290,4 @@ external interface TablePaginationOwnerState
  * - inherits [TableCell API](https://v6.mui.com/material-ui/api/table-cell/)
  */
 @JsName("default")
-external val TablePagination: react.FC<TablePaginationProps>
+external val TablePagination: FC<TablePaginationProps>

@@ -5,6 +5,7 @@
 package mui.material
 
 import mui.system.BoxProps
+import react.FC
 
 /**
  *
@@ -17,4 +18,4 @@ import mui.system.BoxProps
  * - [Box API](https://v6.mui.com/material-ui/api/box/)
  */
 @JsName("default")
-external val Box: react.FC<BoxProps>
+external val Box: FC<BoxProps>

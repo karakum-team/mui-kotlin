@@ -4,11 +4,16 @@
 
 package mui.material
 
-external interface ClickAwayListenerProps : react.PropsWithChildren {
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
+import web.uievents.UIEvent
+
+external interface ClickAwayListenerProps : PropsWithChildren {
     /**
      * The wrapped element.
      */
-    override var children: react.ReactNode? /* react.ReactElement<*>? */
+    override var children: ReactNode? /* ReactElement<*>? */
 
     /**
      * If `true`, the React tree is ignored and only the DOM tree is considered.
@@ -26,7 +31,7 @@ external interface ClickAwayListenerProps : react.PropsWithChildren {
     /**
      * Callback fired when a "click away" event is detected.
      */
-    var onClickAway: (event: web.uievents.UIEvent) -> Unit
+    var onClickAway: (event: UIEvent) -> Unit
 
     /**
      * The touch event to listen to. You can disable the listener by providing `false`.
@@ -48,4 +53,4 @@ external interface ClickAwayListenerProps : react.PropsWithChildren {
  *
  * - [ClickAwayListener API](https://v6.mui.com/material-ui/api/click-away-listener/)
  */
-external val ClickAwayListener: react.FC<ClickAwayListenerProps>
+external val ClickAwayListener: FC<ClickAwayListenerProps>

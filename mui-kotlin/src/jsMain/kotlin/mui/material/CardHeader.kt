@@ -11,6 +11,10 @@ package mui.material
 import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
+import react.ElementType
+import react.FC
+import react.Props
+import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
@@ -35,42 +39,42 @@ external interface CardHeaderSlots {
      * The component that renders the root slot.
      * @default 'div'
      */
-    var root: react.ElementType<*>
+    var root: ElementType<*>
 
     /**
      * The component that renders the avatar slot.
      * @default 'div'
      */
-    var avatar: react.ElementType<*>
+    var avatar: ElementType<*>
 
     /**
      * The component that renders the action slot.
      * @default 'div'
      */
-    var action: react.ElementType<*>
+    var action: ElementType<*>
 
     /**
      * The component that renders the content slot.
      * @default 'div'
      */
-    var content: react.ElementType<*>
+    var content: ElementType<*>
 
     /**
      * The component that renders the title slot (as long as disableTypography is not `true`).
      * [Follow this guide](https://mui.com/material-ui/api/typography/#props) to learn more about the requirements for this component.
      * @default Typography
      */
-    var title: react.ElementType<*>
+    var title: ElementType<*>
 
     /**
      * The component that renders the subheader slot (as long as disableTypography is not `true`).
      * [Follow this guide](https://mui.com/material-ui/api/typography/#props) to learn more about the requirements for this component.
      * @default Typography
      */
-    var subheader: react.ElementType<*>
+    var subheader: ElementType<*>
 }
 
-external interface CardHeaderSlotProps : react.Props {
+external interface CardHeaderSlotProps : Props {
     /** TS: SlotProps<'div', CardHeaderRootSlotPropsOverrides, CardHeaderOwnerState> */
     var root: HTMLAttributes<HTMLDivElement>?
 
@@ -90,7 +94,7 @@ external interface CardHeaderSlotProps : react.Props {
     var subheader: TypographyProps?
 }
 
-external interface CardHeaderSlotsAndSlotProps : react.Props {
+external interface CardHeaderSlotsAndSlotProps : Props {
     var slots: CardHeaderSlots?
 
     var slotProps: CardHeaderSlotProps?
@@ -102,12 +106,12 @@ external interface CardHeaderOwnProps :
     /**
      * The action to display in the card header.
      */
-    var action: react.ReactNode?
+    var action: ReactNode?
 
     /**
      * The Avatar element to display.
      */
-    var avatar: react.ReactNode?
+    var avatar: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -126,7 +130,7 @@ external interface CardHeaderOwnProps :
     /**
      * The content of the component.
      */
-    var subheader: react.ReactNode?
+    var subheader: ReactNode?
 
     /**
      * These props will be forwarded to the subheader
@@ -143,7 +147,7 @@ external interface CardHeaderOwnProps :
     /**
      * The content of the component.
      */
-    override var title: react.ReactNode?
+    override var title: ReactNode?
 
     /**
      * These props will be forwarded to the title
@@ -166,4 +170,4 @@ external interface CardHeaderOwnerState
  * - [CardHeader API](https://v6.mui.com/material-ui/api/card-header/)
  */
 @JsName("default")
-external val CardHeader: react.FC<CardHeaderProps>
+external val CardHeader: FC<CardHeaderProps>

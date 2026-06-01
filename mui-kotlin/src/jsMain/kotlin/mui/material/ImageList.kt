@@ -8,22 +8,26 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.html.HTMLAttributes
+import web.html.HTMLUListElement
 
 external interface ImageListProps :
     ImageListOwnProps,
-    HTMLAttributes<web.html.HTMLUListElement>,
+    HTMLAttributes<HTMLUListElement>,
     PropsWithComponent
 
 external interface ImageListPropsVariantOverrides
 
 external interface ImageListOwnProps :
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * The content of the component, normally `ImageListItem`s.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -71,4 +75,4 @@ external interface ImageListOwnProps :
  * - [ImageList API](https://v6.mui.com/material-ui/api/image-list/)
  */
 @JsName("default")
-external val ImageList: react.FC<ImageListProps>
+external val ImageList: FC<ImageListProps>

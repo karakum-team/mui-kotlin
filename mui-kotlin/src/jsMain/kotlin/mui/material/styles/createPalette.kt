@@ -4,6 +4,8 @@
 
 package mui.material.styles
 
+import web.cssom.Color
+
 external interface Color {
     var `50`: String
 
@@ -35,37 +37,37 @@ external interface Color {
 }
 
 external interface CommonColors {
-    var black: web.cssom.Color
+    var black: Color
 
-    var white: web.cssom.Color
+    var white: Color
 }
 
 external interface TypeText {
-    var primary: web.cssom.Color
+    var primary: Color
 
-    var secondary: web.cssom.Color
+    var secondary: Color
 
-    var disabled: web.cssom.Color
+    var disabled: Color
 }
 
 external interface TypeAction {
-    var active: web.cssom.Color
+    var active: Color
 
-    var hover: web.cssom.Color
+    var hover: Color
 
     var hoverOpacity: Number
 
-    var selected: web.cssom.Color
+    var selected: Color
 
     var selectedOpacity: Number
 
-    var disabled: web.cssom.Color
+    var disabled: Color
 
     var disabledOpacity: Number
 
-    var disabledBackground: web.cssom.Color
+    var disabledBackground: Color
 
-    var focus: web.cssom.Color
+    var focus: Color
 
     var focusOpacity: Number
 
@@ -79,23 +81,23 @@ external interface TypeBackground {
 }
 
 external interface SimplePaletteColorOptions {
-    var light: web.cssom.Color?
+    var light: Color?
 
-    var main: web.cssom.Color
+    var main: Color
 
-    var dark: web.cssom.Color?
+    var dark: Color?
 
-    var contrastText: web.cssom.Color?
+    var contrastText: Color?
 }
 
 external interface PaletteColor {
-    var light: web.cssom.Color
+    var light: Color
 
-    var main: web.cssom.Color
+    var main: Color
 
-    var dark: web.cssom.Color
+    var dark: Color
 
-    var contrastText: web.cssom.Color
+    var contrastText: Color
 }
 
 external interface TypeObject {

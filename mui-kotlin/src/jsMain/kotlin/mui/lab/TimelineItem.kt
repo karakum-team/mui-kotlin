@@ -8,13 +8,16 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
 external interface TimelineItemProps :
     StandardProps,
     HTMLAttributes<HTMLDivElement>,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * The position where the timeline's item should appear.
@@ -24,7 +27,7 @@ external interface TimelineItemProps :
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -48,4 +51,4 @@ external interface TimelineItemProps :
  * - [TimelineItem API](https://v6.mui.com/material-ui/api/timeline-item/)
  */
 @JsName("default")
-external val TimelineItem: react.FC<TimelineItemProps>
+external val TimelineItem: FC<TimelineItemProps>

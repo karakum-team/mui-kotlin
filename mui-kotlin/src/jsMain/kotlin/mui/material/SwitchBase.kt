@@ -9,6 +9,7 @@
 package mui.material
 
 import mui.system.StandardProps
+import react.*
 import react.dom.events.ChangeEvent
 import react.dom.html.InputHTMLAttributes
 import web.dom.ElementId
@@ -26,7 +27,7 @@ external interface SwitchBaseProps :
      */
     var checked: Boolean?
 
-    var checkedIcon: react.ReactNode
+    var checkedIcon: ReactNode
 
     /**
      * Override or extend the styles applied to the component.
@@ -64,7 +65,7 @@ external interface SwitchBaseProps :
      */
     var edge: SwitchBaseEdge?
 
-    var icon: react.ReactNode
+    var icon: ReactNode
 
     /**
      * The id of the `input` element.
@@ -81,7 +82,7 @@ external interface SwitchBaseProps :
      * Pass a ref to the `input` element.
      * @deprecated Use `slotProps.input.ref` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
-    var inputRef: react.Ref<*>?
+    var inputRef: Ref<*>?
 
     /**
      * Name attribute of the `input` element.
@@ -120,16 +121,16 @@ external interface SwitchBaseSlots {
      * The component that renders the root slot.
      * @default ButtonBase
      */
-    var root: react.ElementType<*>
+    var root: ElementType<*>
 
     /**
      * The component that renders the input slot.
      * @default 'input'
      */
-    var input: react.ElementType<*>
+    var input: ElementType<*>
 }
 
-external interface SwitchBaseSlotProps : react.Props {
+external interface SwitchBaseSlotProps : Props {
     /** TS: SlotProps<React.ElementType<ButtonBaseProps>, {}, SwitchBaseOwnerState> */
     var root: ButtonBaseProps?
 
@@ -137,7 +138,7 @@ external interface SwitchBaseSlotProps : react.Props {
     var input: InputHTMLAttributes<HTMLInputElement>?
 }
 
-external interface SwitchBaseSlotsAndSlotProps : react.Props {
+external interface SwitchBaseSlotsAndSlotProps : Props {
     var slots: SwitchBaseSlots?
 
     var slotProps: SwitchBaseSlotProps?
@@ -147,4 +148,4 @@ external interface SwitchBaseOwnerState
 
 
 @JsName("default")
-external val SwitchBase: react.FC<SwitchBaseProps>
+external val SwitchBase: FC<SwitchBaseProps>

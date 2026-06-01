@@ -5,8 +5,9 @@ package mui.material
 import react.dom.html.TdAlign
 import react.dom.html.TdHTMLAttributes
 import seskar.js.JsValue
+import web.html.HTMLTableCellElement
 
-typealias TableCellBaseProps = TdHTMLAttributes<web.html.HTMLTableCellElement>
+typealias TableCellBaseProps = TdHTMLAttributes<HTMLTableCellElement>
 
 sealed external interface SortDirection {
     companion object {

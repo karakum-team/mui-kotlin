@@ -8,6 +8,7 @@
 
 package mui.material
 
+import react.FC
 import react.dom.events.ChangeEvent
 import web.html.HTMLInputElement
 
@@ -51,4 +52,4 @@ external interface RadioGroupProps :
  * - inherits [FormGroup API](https://v6.mui.com/material-ui/api/form-group/)
  */
 @JsName("default")
-external val RadioGroup: react.FC<RadioGroupProps>
+external val RadioGroup: FC<RadioGroupProps>

@@ -9,6 +9,7 @@ import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.system.Union
 import mui.types.PropsWithComponent
+import react.*
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
@@ -22,10 +23,10 @@ external interface AvatarGroupPropsVariantOverrides
 external interface AvatarGroupComponentsPropsOverrides
 
 external interface AvatarGroupSlots {
-    var surplus: react.ElementType<*>
+    var surplus: ElementType<*>
 }
 
-external interface AvatarGroupSlotProps : react.Props {
+external interface AvatarGroupSlotProps : Props {
     /** TS: React.ComponentPropsWithRef<typeof Avatar> & AvatarGroupComponentsPropsOverrides */
     var additionalAvatar: Any?
 
@@ -33,7 +34,7 @@ external interface AvatarGroupSlotProps : react.Props {
     var surplus: Any?
 }
 
-external interface AvatarGroupSlotsAndSlotProps : react.Props {
+external interface AvatarGroupSlotsAndSlotProps : Props {
     var slots: AvatarGroupSlots?
 
     var slotProps: AvatarGroupSlotProps?
@@ -41,12 +42,12 @@ external interface AvatarGroupSlotsAndSlotProps : react.Props {
 
 external interface AvatarGroupOwnProps :
     AvatarGroupSlotsAndSlotProps,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * The avatars to stack.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -57,7 +58,7 @@ external interface AvatarGroupOwnProps :
      * The component used for the root node.
      * Either a string to use a HTML element or a component.
      */
-    var component: react.ElementType<*>?
+    var component: ElementType<*>?
 
     /**
      * The extra props for the slot components.
@@ -70,7 +71,7 @@ external interface AvatarGroupOwnProps :
     var componentsProps: ComponentsProps?
 
     interface ComponentsProps {
-        var additionalAvatar: react.Props? /* React.ComponentPropsWithRef<typeof Avatar> &
+        var additionalAvatar: Props? /* React.ComponentPropsWithRef<typeof Avatar> &
   AvatarGroupComponentsPropsOverrides */
     }
 
@@ -85,7 +86,7 @@ external interface AvatarGroupOwnProps :
      * @param {number} surplus number of extra avatars
      * @returns {React.ReactNode} custom element to display
      */
-    var renderSurplus: ((surplus: Number) -> react.ReactNode)?
+    var renderSurplus: ((surplus: Number) -> ReactNode)?
 
     /**
      * Spacing between avatars.
@@ -124,4 +125,4 @@ external interface AvatarGroupOwnerState
  * - [AvatarGroup API](https://v6.mui.com/material-ui/api/avatar-group/)
  */
 @JsName("default")
-external val AvatarGroup: react.FC<AvatarGroupProps>
+external val AvatarGroup: FC<AvatarGroupProps>

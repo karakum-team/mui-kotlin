@@ -13,6 +13,7 @@ import mui.material.transitions.TransitionProps
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.*
 import react.dom.events.ReactEventHandler
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
@@ -20,7 +21,7 @@ import web.html.HTMLDivElement
 external interface DialogProps :
     StandardProps,
     ModalProps,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * The id(s) of the element(s) that describe the dialog.
@@ -42,7 +43,7 @@ external interface DialogProps :
     /**
      * Dialog children, usually the included sub-components.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -100,7 +101,7 @@ external interface DialogProps :
      * The component used to render the body of the dialog.
      * @default Paper
      */
-    var PaperComponent: react.ComponentType<PaperProps>?
+    var PaperComponent: ComponentType<PaperProps>?
 
     /**
      * Props applied to the [`Paper`](https://mui.com/material-ui/api/paper/) element.
@@ -126,7 +127,7 @@ external interface DialogProps :
      * @default Fade
      * @deprecated Use `slots.transition` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
-    var TransitionComponent: react.ComponentType<*>?
+    var TransitionComponent: ComponentType<*>?
 
     /**
      * The duration for the transition, in milliseconds.
@@ -152,28 +153,28 @@ external interface DialogSlots {
      * [Follow this guide](/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
      * @default Collapse
      */
-    var transition: react.ElementType<*>?
+    var transition: ElementType<*>?
 
     /**
      * The component that renders the paper.
      * @default Paper
      */
-    var paper: react.ElementType<*>?
+    var paper: ElementType<*>?
 
     /**
      * The component that renders the container.
      */
-    var container: react.ElementType<*>?
+    var container: ElementType<*>?
 
     /**
      * The component that renders the backdrop.
      */
-    var backdrop: react.ElementType<*>?
+    var backdrop: ElementType<*>?
 
     /**
      * The component that renders the root.
      */
-    var root: react.ElementType<*>?
+    var root: ElementType<*>?
 }
 
 external interface DialogTransitionSlotPropsOverrides
@@ -186,7 +187,7 @@ external interface DialogBackdropSlotPropsOverrides
 
 external interface DialogRootSlotPropsOverrides
 
-external interface DialogSlotProps : react.Props {
+external interface DialogSlotProps : Props {
     /** TS: SlotProps<React.ElementType<ModalProps>, DialogRootSlotPropsOverrides, DialogOwnerState> */
     var root: ModalProps?
 
@@ -203,7 +204,7 @@ external interface DialogSlotProps : react.Props {
     var paper: PaperProps?
 }
 
-external interface DialogSlotsAndSlotProps : react.Props {
+external interface DialogSlotsAndSlotProps : Props {
     var slots: DialogSlots?
 
     var slotProps: DialogSlotProps?
@@ -224,4 +225,4 @@ external interface DialogOwnerState
  * - inherits [Modal API](https://v6.mui.com/material-ui/api/modal/)
  */
 @JsName("default")
-external val Dialog: react.FC<DialogProps>
+external val Dialog: FC<DialogProps>

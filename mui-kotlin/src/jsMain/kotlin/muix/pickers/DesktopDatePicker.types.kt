@@ -2,7 +2,9 @@
 
 package muix.pickers
 
-external interface DesktopDatePickerProps<TDate, TEnableAccessibleFieldDOMStructure> : react.Props {
+import react.Props
+
+external interface DesktopDatePickerProps<TDate, TEnableAccessibleFieldDOMStructure> : Props {
     /**
      * Overridable component slots.
      * @default {}

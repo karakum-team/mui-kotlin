@@ -2,6 +2,7 @@
 
 package mui.base
 
+import react.*
 import web.cssom.ClassName
 
 external interface OptionProps<OptionValue> :
@@ -12,14 +13,14 @@ external interface OptionProps<OptionValue> :
 external interface OptionRootSlotPropsOverrides
 
 external interface OptionOwnProps<OptionValue> :
-    react.PropsWithChildren,
-    react.PropsWithClassName {
+    PropsWithChildren,
+    PropsWithClassName {
     /**
      * The value of the option.
      */
     var value: OptionValue
 
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * If `true`, the option will be disabled.
@@ -36,7 +37,7 @@ external interface OptionOwnProps<OptionValue> :
     var slotProps: SlotProps?
 
     interface SlotProps {
-        var root: react.Props? /* SlotComponentProps<'li', OptionRootSlotPropsOverrides, OptionOwnerState<OptionValue>> */
+        var root: Props? /* SlotComponentProps<'li', OptionRootSlotPropsOverrides, OptionOwnerState<OptionValue>> */
     }
 
     /**
@@ -58,5 +59,5 @@ external interface OptionSlots {
      * The component that renders the root.
      * @default 'li'
      */
-    var root: react.ElementType<*>?
+    var root: ElementType<*>?
 }

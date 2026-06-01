@@ -12,11 +12,15 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.svg.SVGAttributes
+import web.svg.SVGSVGElement
 
 external interface SvgIconProps :
     SvgIconOwnProps,
-    SVGAttributes<web.svg.SVGSVGElement>,
+    SVGAttributes<SVGSVGElement>,
     PropsWithComponent
 
 external interface SvgIconPropsSizeOverrides
@@ -24,13 +28,13 @@ external interface SvgIconPropsSizeOverrides
 external interface SvgIconPropsColorOverrides
 
 external interface SvgIconOwnProps :
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx,
-    SVGAttributes<web.svg.SVGSVGElement> {
+    SVGAttributes<SVGSVGElement> {
     /**
      * Node passed into the SVG element.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -107,4 +111,4 @@ external interface SvgIconOwnProps :
  * - [SvgIcon API](https://v6.mui.com/material-ui/api/svg-icon/)
  */
 @JsName("default")
-external val SvgIcon: react.FC<SvgIconProps>
+external val SvgIcon: FC<SvgIconProps>

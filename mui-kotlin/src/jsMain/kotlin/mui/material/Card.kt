@@ -12,6 +12,7 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.FC
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
@@ -55,4 +56,4 @@ external interface CardOwnProps :
  */
 
 @JsName("default")
-external val Card: react.FC<CardProps>
+external val Card: FC<CardProps>

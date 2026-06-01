@@ -2,7 +2,9 @@
 
 package mui.system
 
-external interface InitColorSchemeScriptProps : react.Props {
+import react.Props
+
+external interface InitColorSchemeScriptProps : Props {
     /**
      * The default mode when the storage is empty (user's first visit).
      * @default 'system'

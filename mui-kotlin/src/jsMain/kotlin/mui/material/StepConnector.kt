@@ -8,6 +8,7 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.FC
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
@@ -37,4 +38,4 @@ external interface StepConnectorProps :
  * - [StepConnector API](https://v6.mui.com/material-ui/api/step-connector/)
  */
 @JsName("default")
-external val StepConnector: react.FC<StepConnectorProps>
+external val StepConnector: FC<StepConnectorProps>

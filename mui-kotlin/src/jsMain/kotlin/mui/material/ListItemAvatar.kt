@@ -8,18 +8,21 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
 external interface ListItemAvatarProps :
     StandardProps,
     HTMLAttributes<HTMLDivElement>,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * The content of the component, normally an `Avatar`.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -44,4 +47,4 @@ external interface ListItemAvatarProps :
  * - [ListItemAvatar API](https://v6.mui.com/material-ui/api/list-item-avatar/)
  */
 @JsName("default")
-external val ListItemAvatar: react.FC<ListItemAvatarProps>
+external val ListItemAvatar: FC<ListItemAvatarProps>

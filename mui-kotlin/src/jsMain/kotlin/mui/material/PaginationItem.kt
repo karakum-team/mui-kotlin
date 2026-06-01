@@ -8,8 +8,13 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.ElementType
+import react.FC
+import react.Props
+import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
+import web.html.HTMLElement
 
 external interface PaginationItemProps :
     PaginationItemOwnProps,
@@ -23,30 +28,30 @@ external interface PaginationItemPropsSizeOverrides
 external interface PaginationItemPropsColorOverrides
 
 external interface PaginationItemSlots {
-    var first: react.ElementType<*>
+    var first: ElementType<*>
 
-    var last: react.ElementType<*>
+    var last: ElementType<*>
 
-    var next: react.ElementType<*>
+    var next: ElementType<*>
 
-    var previous: react.ElementType<*>
+    var previous: ElementType<*>
 }
 
-external interface PaginationItemSlotProps : react.Props {
+external interface PaginationItemSlotProps : Props {
     /** TS: SlotProps<React.ElementType<React.HTMLProps<HTMLElement>>, {}, PaginationItemOwnerState> */
-    var first: HTMLAttributes<web.html.HTMLElement>?
+    var first: HTMLAttributes<HTMLElement>?
 
     /** TS: SlotProps<React.ElementType<React.HTMLProps<HTMLElement>>, {}, PaginationItemOwnerState> */
-    var last: HTMLAttributes<web.html.HTMLElement>?
+    var last: HTMLAttributes<HTMLElement>?
 
     /** TS: SlotProps<React.ElementType<React.HTMLProps<HTMLElement>>, {}, PaginationItemOwnerState> */
-    var next: HTMLAttributes<web.html.HTMLElement>?
+    var next: HTMLAttributes<HTMLElement>?
 
     /** TS: SlotProps< React.ElementType<React.HTMLProps<HTMLElement>>, {}, PaginationItemOwnerState > */
-    var previous: HTMLAttributes<web.html.HTMLElement>?
+    var previous: HTMLAttributes<HTMLElement>?
 }
 
-external interface PaginationItemSlotsAndSlotProps : react.Props {
+external interface PaginationItemSlotsAndSlotProps : Props {
     var slots: PaginationItemSlots?
 
     var slotProps: PaginationItemSlotProps?
@@ -82,10 +87,10 @@ external interface PaginationItemOwnProps :
     var components: Components?
 
     interface Components {
-        var first: react.ElementType<*>?
-        var last: react.ElementType<*>?
-        var next: react.ElementType<*>?
-        var previous: react.ElementType<*>?
+        var first: ElementType<*>?
+        var last: ElementType<*>?
+        var next: ElementType<*>?
+        var previous: ElementType<*>?
     }
 
     /**
@@ -97,7 +102,7 @@ external interface PaginationItemOwnProps :
     /**
      * The current page number.
      */
-    var page: react.ReactNode?
+    var page: ReactNode?
 
     /**
      * If `true` the pagination item is selected.
@@ -146,4 +151,4 @@ external interface PaginationItemOwnProps :
  * - [PaginationItem API](https://v6.mui.com/material-ui/api/pagination-item/)
  */
 @JsName("default")
-external val PaginationItem: react.FC<PaginationItemProps>
+external val PaginationItem: FC<PaginationItemProps>

@@ -8,6 +8,9 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.html.ButtonHTMLAttributes
 import web.html.HTMLButtonElement
 
@@ -23,12 +26,12 @@ external interface ButtonPropsColorOverrides
 external interface ButtonPropsSizeOverrides
 
 external interface ButtonOwnProps :
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -64,7 +67,7 @@ external interface ButtonOwnProps :
     /**
      * Element placed after the children.
      */
-    var endIcon: react.ReactNode?
+    var endIcon: ReactNode?
 
     /**
      * If `true`, the button will take up the full width of its container.
@@ -91,7 +94,7 @@ external interface ButtonOwnProps :
      * By default, it renders a `CircularProgress` that is labeled by the button itself.
      * @default <CircularProgress color="inherit" size={16} />
      */
-    var loadingIndicator: react.ReactNode?
+    var loadingIndicator: ReactNode?
 
     /**
      * The loading indicator can be positioned on the start, end, or the center of the button.
@@ -109,7 +112,7 @@ external interface ButtonOwnProps :
     /**
      * Element placed before the children.
      */
-    var startIcon: react.ReactNode?
+    var startIcon: ReactNode?
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
@@ -136,4 +139,4 @@ external interface ButtonOwnProps :
  * - inherits [ButtonBase API](https://v6.mui.com/material-ui/api/button-base/)
  */
 @JsName("default")
-external val Button: react.FC<ButtonProps>
+external val Button: FC<ButtonProps>

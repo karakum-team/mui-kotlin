@@ -9,6 +9,9 @@ import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.system.SystemProps
 import mui.types.PropsWithComponent
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLSpanElement
 
@@ -23,7 +26,7 @@ external interface TypographyPropsColorOverrides
 
 external interface TypographyOwnProps :
     SystemProps<Theme>,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * Set the text-align on the component.
@@ -34,7 +37,7 @@ external interface TypographyOwnProps :
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -128,4 +131,4 @@ external interface TypographyOwnProps :
  * - [Typography API](https://v6.mui.com/material-ui/api/typography/)
  */
 @JsName("default")
-external val Typography: react.FC<TypographyProps>
+external val Typography: FC<TypographyProps>

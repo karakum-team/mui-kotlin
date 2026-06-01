@@ -12,6 +12,9 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.ElementType
+import react.FC
+import react.Props
 import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
 import web.html.HTMLSpanElement
@@ -26,16 +29,16 @@ external interface CardActionAreaSlots {
      * The component that renders the root.
      * @default ButtonBase
      */
-    var root: react.ElementType<*>
+    var root: ElementType<*>
 
     /**
      * The component that renders the focusHighlight.
      * @default span
      */
-    var focusHighlight: react.ElementType<*>
+    var focusHighlight: ElementType<*>
 }
 
-external interface CardActionAreaSlotProps : react.Props {
+external interface CardActionAreaSlotProps : Props {
     /** TS: SlotProps<React.ElementType<ButtonBaseProps>, {}, CardActionAreaOwnerState> */
     var root: ButtonBaseProps?
 
@@ -43,7 +46,7 @@ external interface CardActionAreaSlotProps : react.Props {
     var focusHighlight: HTMLAttributes<HTMLSpanElement>?
 }
 
-external interface CardActionAreaSlotsAndSlotProps : react.Props {
+external interface CardActionAreaSlotsAndSlotProps : Props {
     var slots: CardActionAreaSlots?
 
     var slotProps: CardActionAreaSlotProps?
@@ -79,4 +82,4 @@ external interface CardActionAreaOwnProps :
  * - inherits [ButtonBase API](https://v6.mui.com/material-ui/api/button-base/)
  */
 @JsName("default")
-external val CardActionArea: react.FC<CardActionAreaProps>
+external val CardActionArea: FC<CardActionAreaProps>

@@ -2,6 +2,7 @@
 
 package mui.base
 
+import react.RefCallback
 import react.dom.events.ChangeEventHandler
 import react.dom.events.FocusEventHandler
 import react.dom.html.HTMLAttributes
@@ -75,7 +76,7 @@ external interface UseSwitchReturnValue {
     /**
      * Ref to the input slot's DOM node.
      */
-    var inputRef: react.RefCallback<HTMLInputElement>?
+    var inputRef: RefCallback<HTMLInputElement>?
 
     /**
      * If `true`, the component will be read only.

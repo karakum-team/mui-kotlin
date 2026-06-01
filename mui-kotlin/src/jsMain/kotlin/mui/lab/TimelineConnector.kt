@@ -8,18 +8,21 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLSpanElement
 
 external interface TimelineConnectorProps :
     StandardProps,
     HTMLAttributes<HTMLSpanElement>,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -43,4 +46,4 @@ external interface TimelineConnectorProps :
  * - [TimelineConnector API](https://v6.mui.com/material-ui/api/timeline-connector/)
  */
 @JsName("default")
-external val TimelineConnector: react.FC<TimelineConnectorProps>
+external val TimelineConnector: FC<TimelineConnectorProps>

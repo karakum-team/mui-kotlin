@@ -13,6 +13,7 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.*
 import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
 import web.html.HTMLSpanElement
@@ -35,16 +36,16 @@ external interface BadgeSlots {
      * The component that renders the root.
      * @default span
      */
-    var root: react.ElementType<*>
+    var root: ElementType<*>
 
     /**
      * The component that renders the badge.
      * @default span
      */
-    var badge: react.ElementType<*>
+    var badge: ElementType<*>
 }
 
-external interface BadgeSlotProps : react.Props {
+external interface BadgeSlotProps : Props {
     /** TS: SlotProps<'span', BadgeRootSlotPropsOverrides, BadgeOwnerState> */
     var root: HTMLAttributes<HTMLSpanElement>?
 
@@ -52,7 +53,7 @@ external interface BadgeSlotProps : react.Props {
     var badge: HTMLAttributes<HTMLSpanElement>?
 }
 
-external interface BadgeSlotsAndSlotProps : react.Props {
+external interface BadgeSlotsAndSlotProps : Props {
     var slots: BadgeSlots?
 
     var slotProps: BadgeSlotProps?
@@ -66,8 +67,8 @@ external interface BadgeOrigin {
 
 external interface BadgeOwnProps :
     BadgeSlotsAndSlotProps,
-    react.PropsWithChildren,
-    react.PropsWithClassName,
+    PropsWithChildren,
+    PropsWithClassName,
     PropsWithSx {
     /**
      * The anchor of the badge.
@@ -81,12 +82,12 @@ external interface BadgeOwnProps :
     /**
      * The content rendered within the badge.
      */
-    var badgeContent: react.ReactNode?
+    var badgeContent: ReactNode?
 
     /**
      * The badge will be added relative to this node.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -126,8 +127,8 @@ external interface BadgeOwnProps :
     var components: Components?
 
     interface Components {
-        var Root: react.ElementType<*>?
-        var Badge: react.ElementType<*>?
+        var Root: ElementType<*>?
+        var Badge: ElementType<*>?
     }
 
     /**
@@ -178,4 +179,4 @@ external interface BadgeOwnProps :
  * - [Badge API](https://v6.mui.com/material-ui/api/badge/)
  */
 @JsName("default")
-external val Badge: react.FC<BadgeProps>
+external val Badge: FC<BadgeProps>

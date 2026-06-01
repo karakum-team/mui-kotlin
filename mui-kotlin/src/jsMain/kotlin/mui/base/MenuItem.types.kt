@@ -2,6 +2,7 @@
 
 package mui.base
 
+import react.*
 import react.dom.events.MouseEventHandler
 import react.dom.html.LiHTMLAttributes
 import web.cssom.ClassName
@@ -14,10 +15,10 @@ external interface MenuItemProps :
 external interface MenuItemRootSlotPropsOverrides
 
 external interface MenuItemOwnProps :
-    react.PropsWithChildren,
-    react.PropsWithClassName,
+    PropsWithChildren,
+    PropsWithClassName,
     LiHTMLAttributes<HTMLLIElement> {
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     override var className: ClassName?
 
@@ -43,7 +44,7 @@ external interface MenuItemOwnProps :
     var slotProps: SlotProps?
 
     interface SlotProps {
-        var root: react.Props? /* SlotComponentProps<'li', MenuItemRootSlotPropsOverrides, MenuItemOwnerState> */
+        var root: Props? /* SlotComponentProps<'li', MenuItemRootSlotPropsOverrides, MenuItemOwnerState> */
     }
 
     /**
@@ -65,7 +66,7 @@ external interface MenuItemSlots {
      * The component that renders the root.
      * @default 'li'
      */
-    var root: react.ElementType<*>?
+    var root: ElementType<*>?
 }
 
 external interface MenuItemState {

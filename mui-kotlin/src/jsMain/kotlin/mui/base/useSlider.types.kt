@@ -3,6 +3,10 @@
 package mui.base
 
 import js.array.ReadonlyArray
+import react.Props
+import react.ReactNode
+import react.Ref
+import react.RefCallback
 import react.dom.events.SyntheticEvent
 import web.dom.Element
 import web.events.Event
@@ -91,7 +95,7 @@ external interface UseSliderParameters {
     /**
      * The ref attached to the root of the Slider.
      */
-    var rootRef: react.Ref<Element>?
+    var rootRef: Ref<Element>?
 
     /**
      * A transformation function, to change the scale of the slider.
@@ -134,7 +138,7 @@ external interface UseSliderParameters {
 external interface Mark {
     var value: Number
 
-    var label: react.ReactNode?
+    var label: ReactNode?
 }
 
 external interface UseSliderReturnValue {
@@ -151,7 +155,7 @@ external interface UseSliderReturnValue {
     /**
      * Returns the `offset` and `leap` methods to calculate the positioning styles based on the slider axis.
      */
-    var axisProps: react.Props /* { [key in Axis]: AxisProps<key>; } */
+    var axisProps: Props /* { [key in Axis]: AxisProps<key>; } */
 
     /**
      * If `true`, the slider is being dragged.
@@ -168,21 +172,21 @@ external interface UseSliderReturnValue {
      * @param externalProps props for the hidden input slot
      * @returns props that should be spread on the hidden input slot
      */
-    var getHiddenInputProps: react.Props /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseSliderHiddenInputProps<ExternalProps> */
+    var getHiddenInputProps: Props /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseSliderHiddenInputProps<ExternalProps> */
 
     /**
      * Resolver for the root slot's props.
      * @param externalProps props for the root slot
      * @returns props that should be spread on the root slot
      */
-    var getRootProps: react.Props /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseSliderRootSlotProps<ExternalProps> */
+    var getRootProps: Props /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseSliderRootSlotProps<ExternalProps> */
 
     /**
      * Resolver for the thumb slot's props.
      * @param externalProps props for the thumb slot
      * @returns props that should be spread on the thumb slot
      */
-    var getThumbProps: react.Props /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseSliderThumbSlotProps<ExternalProps> */
+    var getThumbProps: Props /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseSliderThumbSlotProps<ExternalProps> */
 
     /**
      * Resolver for the thumb slot's style prop.
@@ -209,7 +213,7 @@ external interface UseSliderReturnValue {
     /**
      * Ref to the root slot's DOM node.
      */
-    var rootRef: react.RefCallback<Element>?
+    var rootRef: RefCallback<Element>?
 
     /**
      * The track leap for the current value of the slider.

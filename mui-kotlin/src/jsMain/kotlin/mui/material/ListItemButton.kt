@@ -8,6 +8,9 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
@@ -17,7 +20,7 @@ external interface ListItemButtonProps :
     PropsWithComponent
 
 external interface ListItemButtonBaseProps :
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * Defines the `align-items` style property.
@@ -36,7 +39,7 @@ external interface ListItemButtonBaseProps :
      * The content of the component if a `ListItemSecondaryAction` is used it must
      * be the last child.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -94,4 +97,4 @@ external interface ListItemButtonOwnProps
  * - inherits [ButtonBase API](https://v6.mui.com/material-ui/api/button-base/)
  */
 @JsName("default")
-external val ListItemButton: react.FC<ListItemButtonProps>
+external val ListItemButton: FC<ListItemButtonProps>

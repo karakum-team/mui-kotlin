@@ -4,11 +4,15 @@
 
 package mui.lab
 
-external interface TabContextProps : react.PropsWithChildren {
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
+
+external interface TabContextProps : PropsWithChildren {
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * The value of the currently selected `Tab`.
@@ -33,4 +37,4 @@ external interface TabContextValue {
  * - [TabContext API](https://v6.mui.com/material-ui/api/tab-context/)
  */
 @JsName("default")
-external val TabContext: react.FC<TabContextProps>
+external val TabContext: FC<TabContextProps>

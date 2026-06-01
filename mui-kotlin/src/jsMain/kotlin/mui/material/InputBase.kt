@@ -12,6 +12,7 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.*
 import react.dom.events.ChangeEventHandler
 import react.dom.events.FocusEventHandler
 import react.dom.events.KeyboardEventHandler
@@ -19,6 +20,7 @@ import react.dom.events.ReactEventHandler
 import react.dom.html.HTMLAttributes
 import web.dom.ElementId
 import web.html.HTMLDivElement
+import web.html.HTMLElement
 
 external interface InputBaseProps :
     StandardProps,
@@ -61,8 +63,8 @@ external interface InputBaseProps :
     var components: Components?
 
     interface Components {
-        var Root: react.ElementType<*>?
-        var Input: react.ElementType<*>?
+        var Root: ElementType<*>?
+        var Input: ElementType<*>?
     }
 
     /**
@@ -76,8 +78,8 @@ external interface InputBaseProps :
     var componentsProps: ComponentsProps?
 
     interface ComponentsProps {
-        var root: react.Props? /* React.HTMLAttributes<HTMLDivElement> & InputBaseComponentsPropsOverrides */
-        var input: react.Props? /* React.InputHTMLAttributes<HTMLInputElement> & InputBaseComponentsPropsOverrides */
+        var root: Props? /* React.HTMLAttributes<HTMLDivElement> & InputBaseComponentsPropsOverrides */
+        var input: Props? /* React.InputHTMLAttributes<HTMLInputElement> & InputBaseComponentsPropsOverrides */
     }
 
     /**
@@ -101,7 +103,7 @@ external interface InputBaseProps :
     /**
      * End `InputAdornment` for this component.
      */
-    var endAdornment: react.ReactNode?
+    var endAdornment: ReactNode?
 
     /**
      * If `true`, the `input` will indicate an error.
@@ -125,7 +127,7 @@ external interface InputBaseProps :
      * Either a string to use a HTML element or a component.
      * @default 'input'
      */
-    var inputComponent: react.ElementType<InputBaseComponentProps>?
+    var inputComponent: ElementType<InputBaseComponentProps>?
 
     /**
      * [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
@@ -136,7 +138,7 @@ external interface InputBaseProps :
     /**
      * Pass a ref to the `input` element.
      */
-    var inputRef: react.Ref<*>?
+    var inputRef: Ref<*>?
 
     /**
      * If `dense`, will adjust vertical spacing. This is normally obtained via context from
@@ -161,7 +163,7 @@ external interface InputBaseProps :
      *
      * Notice that the first argument (event) might be undefined.
      */
-    var onBlur: FocusEventHandler<web.html.HTMLElement>?
+    var onBlur: FocusEventHandler<HTMLElement>?
 
     /**
      * Callback fired when the value is changed.
@@ -169,18 +171,18 @@ external interface InputBaseProps :
      * @param {React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>} event The event source of the callback.
      * You can pull out the new value by accessing `event.target.value` (string).
      */
-    var onChange: ChangeEventHandler<web.html.HTMLElement, *>?
+    var onChange: ChangeEventHandler<HTMLElement, *>?
 
-    var onFocus: FocusEventHandler<web.html.HTMLElement>?
+    var onFocus: FocusEventHandler<HTMLElement>?
 
-    var onKeyDown: KeyboardEventHandler<web.html.HTMLElement>?
+    var onKeyDown: KeyboardEventHandler<HTMLElement>?
 
-    var onKeyUp: KeyboardEventHandler<web.html.HTMLElement>?
+    var onKeyUp: KeyboardEventHandler<HTMLElement>?
 
     /**
      * Callback fired when the `input` doesn't satisfy its constraints.
      */
-    var onInvalid: ReactEventHandler<web.html.HTMLElement>?
+    var onInvalid: ReactEventHandler<HTMLElement>?
 
     /**
      * The short hint displayed in the `input` before the user enters a value.
@@ -240,9 +242,9 @@ external interface InputBaseProps :
     var slotProps: SlotProps?
 
     interface SlotProps {
-        var root: react.Props? /* React.HTMLAttributes<HTMLDivElement> &
+        var root: Props? /* React.HTMLAttributes<HTMLDivElement> &
   InputBaseComponentsPropsOverrides & { sx */
-        var input: react.Props? /* React.InputHTMLAttributes<HTMLInputElement> &
+        var input: Props? /* React.InputHTMLAttributes<HTMLInputElement> &
   InputBaseComponentsPropsOverrides & { sx */
     }
 
@@ -256,14 +258,14 @@ external interface InputBaseProps :
     var slots: Slots?
 
     interface Slots {
-        var root: react.ElementType<*>?
-        var input: react.ElementType<*>?
+        var root: ElementType<*>?
+        var input: ElementType<*>?
     }
 
     /**
      * Start `InputAdornment` for this component.
      */
-    var startAdornment: react.ReactNode?
+    var startAdornment: ReactNode?
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
@@ -289,7 +291,7 @@ external interface InputBasePropsColorOverrides
 external interface InputBaseComponentsPropsOverrides
 
 external interface InputBaseComponentProps :
-    HTMLAttributes<web.html.HTMLElement>
+    HTMLAttributes<HTMLElement>
 
 /**
  * `InputBase` contains as few styles as possible.
@@ -305,4 +307,4 @@ external interface InputBaseComponentProps :
  * - [InputBase API](https://v6.mui.com/material-ui/api/input-base/)
  */
 @JsName("default")
-external val InputBase: react.FC<InputBaseProps>
+external val InputBase: FC<InputBaseProps>

@@ -4,10 +4,14 @@
 
 package mui.material.styles
 
-external interface ThemeProviderProps : react.PropsWithChildren {
-    override var children: react.ReactNode?
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
+
+external interface ThemeProviderProps : PropsWithChildren {
+    override var children: ReactNode?
     var theme: Any? /* Partial<Theme> | ((outerTheme: Theme) => Theme) */
 }
 
 @JsName("default")
-external val ThemeProvider: react.FC<ThemeProviderProps>
+external val ThemeProvider: FC<ThemeProviderProps>

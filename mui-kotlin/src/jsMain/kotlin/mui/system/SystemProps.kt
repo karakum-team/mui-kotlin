@@ -2,5 +2,7 @@
 
 package mui.system
 
+import react.Props
+
 @Suppress("UNUSED_TYPEALIAS_PARAMETER")
-typealias SystemProps<T> = react.Props
+typealias SystemProps<T> = Props

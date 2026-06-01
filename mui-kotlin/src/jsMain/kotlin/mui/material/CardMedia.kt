@@ -8,18 +8,21 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 
 external interface CardMediaProps :
     CardMediaOwnProps,
     PropsWithComponent
 
 external interface CardMediaOwnProps :
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -57,4 +60,4 @@ external interface CardMediaOwnProps :
  * - [CardMedia API](https://v6.mui.com/material-ui/api/card-media/)
  */
 @JsName("default")
-external val CardMedia: react.FC<CardMediaProps>
+external val CardMedia: FC<CardMediaProps>

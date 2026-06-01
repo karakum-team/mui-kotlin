@@ -2,10 +2,12 @@
 
 package mui.base
 
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.events.SyntheticEvent
 
-external interface DropdownProps : react.PropsWithChildren {
-    override var children: react.ReactNode?
+external interface DropdownProps : PropsWithChildren {
+    override var children: ReactNode?
 
     /**
      * If `true`, the dropdown is initially open.

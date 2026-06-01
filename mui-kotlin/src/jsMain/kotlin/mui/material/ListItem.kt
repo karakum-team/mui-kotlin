@@ -8,6 +8,7 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.*
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
@@ -18,7 +19,7 @@ external interface ListItemProps :
 external interface ListItemComponentsPropsOverrides
 
 external interface ListItemBaseProps :
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * Defines the `align-items` style property.
@@ -30,7 +31,7 @@ external interface ListItemBaseProps :
      * The content of the component if a `ListItemSecondaryAction` is used it must
      * be the last child.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -42,7 +43,7 @@ external interface ListItemBaseProps :
      * @default 'li'
      * @deprecated Use the `component` or `slots.root` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
-    var ContainerComponent: react.ElementType<HTMLAttributes<HTMLDivElement>>?
+    var ContainerComponent: ElementType<HTMLAttributes<HTMLDivElement>>?
 
     /**
      * Props applied to the container component if used.
@@ -79,7 +80,7 @@ external interface ListItemBaseProps :
     /**
      * The element to display at the end of ListItem.
      */
-    var secondaryAction: react.ReactNode?
+    var secondaryAction: ReactNode?
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
@@ -98,7 +99,7 @@ external interface ListItemOwnProps :
     var components: Components?
 
     interface Components {
-        var Root: react.ElementType<*>?
+        var Root: ElementType<*>?
     }
 
     /**
@@ -111,7 +112,7 @@ external interface ListItemOwnProps :
     var componentsProps: ComponentsProps?
 
     interface ComponentsProps {
-        var root: react.Props? /* React.HTMLAttributes<HTMLDivElement> & ListItemComponentsPropsOverrides */
+        var root: Props? /* React.HTMLAttributes<HTMLDivElement> & ListItemComponentsPropsOverrides */
     }
 
     /**
@@ -123,7 +124,7 @@ external interface ListItemOwnProps :
     var slotProps: SlotProps?
 
     interface SlotProps {
-        var root: react.Props? /* React.HTMLAttributes<HTMLDivElement> & ListItemComponentsPropsOverrides */
+        var root: Props? /* React.HTMLAttributes<HTMLDivElement> & ListItemComponentsPropsOverrides */
     }
 
     /**
@@ -134,7 +135,7 @@ external interface ListItemOwnProps :
     var slots: Slots?
 
     interface Slots {
-        var root: react.ElementType<*>?
+        var root: ElementType<*>?
     }
 }
 
@@ -151,4 +152,4 @@ external interface ListItemOwnProps :
  * - [ListItem API](https://v6.mui.com/material-ui/api/list-item/)
  */
 @JsName("default")
-external val ListItem: react.FC<ListItemProps>
+external val ListItem: FC<ListItemProps>

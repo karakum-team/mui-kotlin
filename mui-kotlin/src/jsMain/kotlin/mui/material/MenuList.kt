@@ -5,14 +5,18 @@
 package mui.material
 
 import mui.types.PropsWithComponent
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.html.HTMLAttributes
+import web.html.HTMLUListElement
 
 external interface MenuListProps :
     MenuListOwnProps,
-    HTMLAttributes<web.html.HTMLUListElement>,
+    HTMLAttributes<HTMLUListElement>,
     PropsWithComponent
 
-external interface MenuListOwnProps : react.PropsWithChildren {
+external interface MenuListOwnProps : PropsWithChildren {
     /**
      * If `true`, will focus the `[role="menu"]` container and move into tab order.
      * @default false
@@ -29,7 +33,7 @@ external interface MenuListOwnProps : react.PropsWithChildren {
     /**
      * MenuList contents, normally `MenuItem`s.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * If `true`, will allow focus on disabled items.
@@ -67,4 +71,4 @@ external interface MenuListOwnProps : react.PropsWithChildren {
  * - inherits [List API](https://v6.mui.com/material-ui/api/list/)
  */
 @JsName("default")
-external val MenuList: react.FC<MenuListProps>
+external val MenuList: FC<MenuListProps>

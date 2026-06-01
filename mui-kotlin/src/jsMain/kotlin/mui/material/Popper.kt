@@ -9,6 +9,8 @@ import mui.base.PopperProps
 import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
+import react.ElementType
+import react.FC
 
 external interface PopperProps :
     PropsWithSx,
@@ -17,7 +19,7 @@ external interface PopperProps :
      * The component used for the root node.
      * Either a string to use a HTML element or a component.
      */
-    var component: react.ElementType<*>?
+    var component: ElementType<*>?
 
     /**
      * The components used for each slot inside the Popper.
@@ -29,7 +31,7 @@ external interface PopperProps :
     var components: Components?
 
     interface Components {
-        var Root: react.ElementType<*>?
+        var Root: ElementType<*>?
     }
 
     /**
@@ -59,4 +61,4 @@ external interface PopperProps :
  * - [Popper API](https://v6.mui.com/material-ui/api/popper/)
  */
 @JsName("default")
-external val Popper: react.FC<PopperProps>
+external val Popper: FC<PopperProps>

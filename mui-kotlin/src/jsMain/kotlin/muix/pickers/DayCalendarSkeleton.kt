@@ -7,6 +7,7 @@ package muix.pickers
 import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
+import react.FC
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
@@ -33,4 +34,4 @@ external interface DayCalendarSkeletonProps :
  *
  * - [CalendarPickerSkeleton API](https://mui.com/x/api/date-pickers/calendar-picker-skeleton/)
  */
-external val DayCalendarSkeleton: react.FC<DayCalendarSkeletonProps>
+external val DayCalendarSkeleton: FC<DayCalendarSkeletonProps>

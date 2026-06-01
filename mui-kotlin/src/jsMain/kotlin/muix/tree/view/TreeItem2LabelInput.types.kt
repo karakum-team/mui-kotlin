@@ -3,12 +3,13 @@
 package muix.tree.view
 
 import mui.system.Union
+import react.Props
 import react.dom.events.ChangeEventHandler
 import react.dom.events.FocusEventHandler
 import react.dom.events.KeyboardEventHandler
 import web.html.HTMLInputElement
 
-external interface TreeItem2LabelInputProps : react.Props {
+external interface TreeItem2LabelInputProps : Props {
     var value: String?
 
     /**

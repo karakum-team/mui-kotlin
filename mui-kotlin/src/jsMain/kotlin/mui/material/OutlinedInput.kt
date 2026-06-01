@@ -12,6 +12,10 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.ElementType
+import react.FC
+import react.Props
+import react.ReactNode
 import react.dom.html.FieldsetHTMLAttributes
 import web.html.HTMLFieldSetElement
 
@@ -28,7 +32,7 @@ external interface OutlinedInputProps :
      * The label of the `input`. It is only used for layout. The actual labelling
      * is handled by `InputLabel`.
      */
-    var label: react.ReactNode?
+    var label: ReactNode?
 
     /**
      * If `true`, the outline is notched to accommodate the label.
@@ -46,15 +50,15 @@ external interface OutlinedInputSlots {
      * The component that renders the notchedOutline slot.
      * @default NotchedOutline
      */
-    var notchedOutline: react.ElementType<*>
+    var notchedOutline: ElementType<*>
 }
 
-external interface OutlinedInputSlotProps : react.Props {
+external interface OutlinedInputSlotProps : Props {
     /** TS: SlotProps<'fieldset', {}, OutlinedInputOwnerState> */
     var notchedOutline: FieldsetHTMLAttributes<HTMLFieldSetElement>?
 }
 
-external interface OutlinedInputSlotsAndSlotProps : react.Props {
+external interface OutlinedInputSlotsAndSlotProps : Props {
     var slots: OutlinedInputSlots?
 
     var slotProps: OutlinedInputSlotProps?
@@ -74,4 +78,4 @@ external interface OutlinedInputOwnerState
  * - inherits [InputBase API](https://v6.mui.com/material-ui/api/input-base/)
  */
 @JsName("default")
-external val OutlinedInput: react.FC<OutlinedInputProps>
+external val OutlinedInput: FC<OutlinedInputProps>

@@ -2,7 +2,10 @@
 
 package mui.base
 
+import react.Props
+import react.Ref
 import web.dom.ElementId
+import web.html.HTMLElement
 
 external interface UseTabPanelParameters {
     /**
@@ -13,7 +16,7 @@ external interface UseTabPanelParameters {
     /**
      * The ref of the TabPanel.
      */
-    var rootRef: react.Ref<web.html.HTMLElement>?
+    var rootRef: Ref<HTMLElement>?
 
     /**
      * The value of the TabPanel. It will be shown when the Tab with the corresponding value is selected.
@@ -32,7 +35,7 @@ external interface UseTabPanelReturnValue {
      * @param externalProps additional props for the root slot
      * @returns props that should be spread on the root slot
      */
-    var getRootProps: react.Props /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseTabPanelRootSlotProps<ExternalProps> */
+    var getRootProps: Props /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseTabPanelRootSlotProps<ExternalProps> */
 
-    var rootRef: react.Ref<web.html.HTMLElement>
+    var rootRef: Ref<HTMLElement>
 }

@@ -8,6 +8,9 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.events.SyntheticEvent
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
@@ -18,12 +21,12 @@ external interface BottomNavigationProps :
     PropsWithComponent
 
 external interface BottomNavigationOwnProps :
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -67,4 +70,4 @@ external interface BottomNavigationOwnProps :
  * - [BottomNavigation API](https://v6.mui.com/material-ui/api/bottom-navigation/)
  */
 @JsName("default")
-external val BottomNavigation: react.FC<BottomNavigationProps>
+external val BottomNavigation: FC<BottomNavigationProps>

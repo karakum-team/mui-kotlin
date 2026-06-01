@@ -8,6 +8,7 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.*
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 import web.html.HTMLSpanElement
@@ -16,12 +17,12 @@ external interface StepLabelProps :
     StandardProps,
     HTMLAttributes<HTMLDivElement>,
     StepLabelSlotsAndSlotProps,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * In most cases will simply be a string containing a title for the label.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -36,7 +37,7 @@ external interface StepLabelProps :
     var componentsProps: ComponentsProps?
 
     interface ComponentsProps {
-        var label: react.Props? /* React.HTMLProps<HTMLSpanElement> */
+        var label: Props? /* React.HTMLProps<HTMLSpanElement> */
     }
 
     /**
@@ -48,18 +49,18 @@ external interface StepLabelProps :
     /**
      * Override the default label of the step icon.
      */
-    var icon: react.ReactNode?
+    var icon: ReactNode?
 
     /**
      * The optional node to display.
      */
-    var optional: react.ReactNode?
+    var optional: ReactNode?
 
     /**
      * The component to render in place of the [`StepIcon`](https://mui.com/material-ui/api/step-icon/).
      * @deprecated Use `slots.stepIcon` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
-    var StepIconComponent: react.ElementType<StepIconProps>?
+    var StepIconComponent: ElementType<StepIconProps>?
 
     /**
      * Props applied to the [`StepIcon`](https://mui.com/material-ui/api/step-icon/) element.
@@ -78,21 +79,21 @@ external interface StepLabelSlots {
      * The component that renders the root.
      * @default span
      */
-    var root: react.ElementType<*>
+    var root: ElementType<*>
 
     /**
      * The component that renders the label.
      * @default span
      */
-    var label: react.ElementType<*>
+    var label: ElementType<*>
 
     /**
      * The component to render in place of the [`StepIcon`](https://mui.com/material-ui/api/step-icon/).
      */
-    var stepIcon: react.ElementType<*>
+    var stepIcon: ElementType<*>
 }
 
-external interface StepLabelSlotProps : react.Props {
+external interface StepLabelSlotProps : Props {
     /** TS: SlotProps<'span', {}, StepLabelOwnerState> */
     var root: HTMLAttributes<HTMLSpanElement>?
 
@@ -103,7 +104,7 @@ external interface StepLabelSlotProps : react.Props {
     var stepIcon: StepIconProps?
 }
 
-external interface StepLabelSlotsAndSlotProps : react.Props {
+external interface StepLabelSlotsAndSlotProps : Props {
     var slots: StepLabelSlots?
 
     var slotProps: StepLabelSlotProps?
@@ -122,4 +123,4 @@ external interface StepLabelOwnerState
  * - [StepLabel API](https://v6.mui.com/material-ui/api/step-label/)
  */
 @JsName("default")
-external val StepLabel: react.FC<StepLabelProps>
+external val StepLabel: FC<StepLabelProps>

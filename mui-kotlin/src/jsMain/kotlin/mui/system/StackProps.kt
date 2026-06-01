@@ -2,6 +2,9 @@
 
 package mui.system
 
+import react.PropsWithChildren
+import react.ReactNode
+
 external interface StackProps :
     StackBaseProps,
     PropsWithSx {
@@ -11,11 +14,11 @@ external interface StackProps :
     override var sx: SxProps<Theme>?
 }
 
-external interface StackBaseProps : react.PropsWithChildren {
+external interface StackBaseProps : PropsWithChildren {
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Defines the `flex-direction` style property.
@@ -33,7 +36,7 @@ external interface StackBaseProps : react.PropsWithChildren {
     /**
      * Add an element between each child.
      */
-    var divider: react.ReactNode?
+    var divider: ReactNode?
 
     /**
      * If `true`, the CSS flexbox `gap` is used instead of applying `margin` to children.

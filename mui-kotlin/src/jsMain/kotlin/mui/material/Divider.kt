@@ -8,6 +8,9 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLHRElement
 
@@ -19,7 +22,7 @@ external interface DividerProps :
 external interface DividerPropsVariantOverrides
 
 external interface DividerOwnProps :
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * Absolutely position the element.
@@ -30,7 +33,7 @@ external interface DividerOwnProps :
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -87,4 +90,4 @@ external interface DividerOwnProps :
  * - [Divider API](https://v6.mui.com/material-ui/api/divider/)
  */
 @JsName("default")
-external val Divider: react.FC<DividerProps>
+external val Divider: FC<DividerProps>

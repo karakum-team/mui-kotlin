@@ -8,6 +8,9 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
@@ -17,7 +20,7 @@ external interface InputAdornmentProps :
     PropsWithComponent
 
 external interface InputAdornmentOwnProps :
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * Override or extend the styles applied to the component.
@@ -27,7 +30,7 @@ external interface InputAdornmentOwnProps :
     /**
      * The content of the component, normally an `IconButton` or string.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Disable pointer events on the root.
@@ -71,4 +74,4 @@ external interface InputAdornmentOwnProps :
  * - [InputAdornment API](https://v6.mui.com/material-ui/api/input-adornment/)
  */
 @JsName("default")
-external val InputAdornment: react.FC<InputAdornmentProps>
+external val InputAdornment: FC<InputAdornmentProps>

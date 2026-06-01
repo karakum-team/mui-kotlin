@@ -8,6 +8,7 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.*
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
@@ -21,19 +22,19 @@ external interface AccordionSummarySlots {
      * The component that renders the root slot.
      * @default ButtonBase
      */
-    var root: react.ElementType<*>
+    var root: ElementType<*>
 
     /**
      * The component that renders the content slot.
      * @default div
      */
-    var content: react.ElementType<*>
+    var content: ElementType<*>
 
     /**
      * The component that renders the expand icon wrapper slot.
      * @default div
      */
-    var expandIconWrapper: react.ElementType<*>
+    var expandIconWrapper: ElementType<*>
 }
 
 external interface AccordionSummaryRootSlotPropsOverrides
@@ -42,7 +43,7 @@ external interface AccordionSummaryContentSlotPropsOverrides
 
 external interface AccordionSummaryExpandIconWrapperSlotPropsOverrides
 
-external interface AccordionSummarySlotProps : react.Props {
+external interface AccordionSummarySlotProps : Props {
     /** TS: SlotProps< React.ElementType<ButtonBaseProps>, AccordionSummaryRootSlotPropsOverrides, AccordionSummaryOwnerState > */
     var root: ButtonBaseProps?
 
@@ -53,7 +54,7 @@ external interface AccordionSummarySlotProps : react.Props {
     var expandIconWrapper: HTMLAttributes<HTMLDivElement>?
 }
 
-external interface AccordionSummarySlotsAndSlotProps : react.Props {
+external interface AccordionSummarySlotsAndSlotProps : Props {
     var slots: AccordionSummarySlots?
 
     var slotProps: AccordionSummarySlotProps?
@@ -61,9 +62,9 @@ external interface AccordionSummarySlotsAndSlotProps : react.Props {
 
 external interface AccordionSummaryOwnProps :
     AccordionSummarySlotsAndSlotProps,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -73,7 +74,7 @@ external interface AccordionSummaryOwnProps :
     /**
      * The icon to display as the expand indicator.
      */
-    var expandIcon: react.ReactNode?
+    var expandIcon: ReactNode?
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
@@ -95,4 +96,4 @@ external interface AccordionSummaryOwnerState
  * - inherits [ButtonBase API](https://v6.mui.com/material-ui/api/button-base/)
  */
 @JsName("default")
-external val AccordionSummary: react.FC<AccordionSummaryProps>
+external val AccordionSummary: FC<AccordionSummaryProps>

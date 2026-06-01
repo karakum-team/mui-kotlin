@@ -2,4 +2,6 @@
 
 package mui.material
 
-external interface TablePaginationBaseProps : react.Props
+import react.Props
+
+external interface TablePaginationBaseProps : Props

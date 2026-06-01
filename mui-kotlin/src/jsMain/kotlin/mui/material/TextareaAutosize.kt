@@ -4,6 +4,8 @@
 
 package mui.material
 
+import react.FC
+
 /**
  *
  * Demos:
@@ -15,4 +17,4 @@ package mui.material
  * - [TextareaAutosize API](https://v6.mui.com/material-ui/api/textarea-autosize/)
  */
 @JsName("default")
-external val TextareaAutosize: react.FC<TextareaAutosizeProps>
+external val TextareaAutosize: FC<TextareaAutosizeProps>

@@ -2,14 +2,19 @@
 
 package mui.base
 
+import react.ElementType
+import react.Props
+import react.ReactNode
 import react.dom.events.ChangeEventHandler
 import react.dom.events.MouseEvent
 import react.dom.html.HTMLAttributes
 import web.html.HTMLButtonElement
+import web.html.HTMLElement
+import web.html.HTMLTableCellElement
 
 external interface TablePaginationProps :
     TablePaginationOwnProps,
-    HTMLAttributes<web.html.HTMLTableCellElement>
+    HTMLAttributes<HTMLTableCellElement>
 
 external interface LabelDisplayedRowsArgs {
     var from: Number
@@ -37,7 +42,7 @@ external interface TablePaginationToolbarSlotPropsOverrides
 
 external interface TablePaginationSpacerSlotPropsOverrides
 
-external interface TablePaginationOwnProps : react.Props {
+external interface TablePaginationOwnProps : Props {
     /**
      * @ignore
      */
@@ -57,14 +62,14 @@ external interface TablePaginationOwnProps : react.Props {
     var slotProps: SlotProps?
 
     interface SlotProps {
-        var root: react.Props? /* SlotComponentProps<'td', TablePaginationRootSlotPropsOverrides, TablePaginationOwnerState> */
-        var actions: react.Props? /* SlotComponentProps<typeof TablePaginationActions, TablePaginationActionsSlotPropsOverrides, TablePaginationOwnerState> */
-        var select: react.Props? /* SlotComponentProps<'select', TablePaginationSelectSlotPropsOverrides, TablePaginationOwnerState> */
-        var selectLabel: react.Props? /* SlotComponentProps<'p', TablePaginationSelectLabelSlotPropsOverrides, TablePaginationOwnerState> */
-        var menuItem: react.Props? /* SlotComponentProps<'option', TablePaginationMenuItemSlotPropsOverrides, TablePaginationOwnerState> */
-        var displayedRows: react.Props? /* SlotComponentProps<'p', TablePaginationDisplayedRowsSlotPropsOverrides, TablePaginationOwnerState> */
-        var toolbar: react.Props? /* SlotComponentProps<'div', TablePaginationToolbarSlotPropsOverrides, TablePaginationOwnerState> */
-        var spacer: react.Props? /* SlotComponentProps<'div', TablePaginationSpacerSlotPropsOverrides, TablePaginationOwnerState> */
+        var root: Props? /* SlotComponentProps<'td', TablePaginationRootSlotPropsOverrides, TablePaginationOwnerState> */
+        var actions: Props? /* SlotComponentProps<typeof TablePaginationActions, TablePaginationActionsSlotPropsOverrides, TablePaginationOwnerState> */
+        var select: Props? /* SlotComponentProps<'select', TablePaginationSelectSlotPropsOverrides, TablePaginationOwnerState> */
+        var selectLabel: Props? /* SlotComponentProps<'p', TablePaginationSelectLabelSlotPropsOverrides, TablePaginationOwnerState> */
+        var menuItem: Props? /* SlotComponentProps<'option', TablePaginationMenuItemSlotPropsOverrides, TablePaginationOwnerState> */
+        var displayedRows: Props? /* SlotComponentProps<'p', TablePaginationDisplayedRowsSlotPropsOverrides, TablePaginationOwnerState> */
+        var toolbar: Props? /* SlotComponentProps<'div', TablePaginationToolbarSlotPropsOverrides, TablePaginationOwnerState> */
+        var spacer: Props? /* SlotComponentProps<'div', TablePaginationSpacerSlotPropsOverrides, TablePaginationOwnerState> */
     }
 
     /**
@@ -96,7 +101,7 @@ external interface TablePaginationOwnProps : react.Props {
      *   return `${from}–${to} of ${count !== -1 ? count : `more than ${to}`}`;
      * }
      */
-    var labelDisplayedRows: ((paginationInfo: LabelDisplayedRowsArgs) -> react.ReactNode)?
+    var labelDisplayedRows: ((paginationInfo: LabelDisplayedRowsArgs) -> ReactNode)?
 
     /**
      * Id of the label element within the pagination.
@@ -109,7 +114,7 @@ external interface TablePaginationOwnProps : react.Props {
      * For localization purposes, you can use the provided [translations](https://mui.com/material-ui/guides/localization/).
      * @default 'Rows per page:'
      */
-    var labelRowsPerPage: react.ReactNode?
+    var labelRowsPerPage: ReactNode?
 
     /**
      * Callback fired when the page is changed.
@@ -124,7 +129,7 @@ external interface TablePaginationOwnProps : react.Props {
      *
      * @param {React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>} event The event source of the callback.
      */
-    var onRowsPerPageChange: ChangeEventHandler<web.html.HTMLElement, *>?
+    var onRowsPerPageChange: ChangeEventHandler<HTMLElement, *>?
 
     /**
      * The zero-based index of the current page.
@@ -160,47 +165,47 @@ external interface TablePaginationSlots {
      * The component that renders the root.
      * @default 'td'
      */
-    var root: react.ElementType<*>?
+    var root: ElementType<*>?
 
     /**
      * The component that renders the actions.
      * @default TablePaginationActions
      */
-    var actions: react.ElementType<*>?
+    var actions: ElementType<*>?
 
     /**
      * The component that renders the select.
      * @default 'select'
      */
-    var select: react.ElementType<*>?
+    var select: ElementType<*>?
 
     /**
      * The component that renders the select label.
      * @default 'p'
      */
-    var selectLabel: react.ElementType<*>?
+    var selectLabel: ElementType<*>?
 
     /**
      * The component that renders the menu item.
      * @default 'option'
      */
-    var menuItem: react.ElementType<*>?
+    var menuItem: ElementType<*>?
 
     /**
      * The component that renders the displayed rows.
      * @default 'p'
      */
-    var displayedRows: react.ElementType<*>?
+    var displayedRows: ElementType<*>?
 
     /**
      * The component that renders the toolbar.
      * @default 'div'
      */
-    var toolbar: react.ElementType<*>?
+    var toolbar: ElementType<*>?
 
     /**
      * The component that renders the spacer.
      * @default 'div'
      */
-    var spacer: react.ElementType<*>?
+    var spacer: ElementType<*>?
 }

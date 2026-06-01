@@ -13,6 +13,10 @@ import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
 import mui.system.Union
+import react.ElementType
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.events.ChangeEvent
 import react.dom.events.SyntheticEvent
 import react.dom.html.HTMLAttributes
@@ -23,7 +27,7 @@ import web.html.HTMLInputElement
 external interface SelectProps<Value> :
     StandardProps,
     InputProps,
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * If `true`, the width of the popover will automatically be set according to the items inside the
@@ -38,7 +42,7 @@ external interface SelectProps<Value> :
      *
      * ⚠️The `MenuItem` elements **must** be direct descendants when `native` is false.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -74,7 +78,7 @@ external interface SelectProps<Value> :
      * The icon that displays the arrow.
      * @default ArrowDropDownIcon
      */
-    var IconComponent: react.ElementType<*>?
+    var IconComponent: ElementType<*>?
 
     /**
      * The `id` of the wrapper element or the `select` element when `native`.
@@ -95,7 +99,7 @@ external interface SelectProps<Value> :
     /**
      * See [OutlinedInput#label](https://mui.com/material-ui/api/outlined-input/#props)
      */
-    var label: react.ReactNode?
+    var label: ReactNode?
 
     /**
      * The ID of an element that acts as an additional label. The Select will
@@ -128,7 +132,7 @@ external interface SelectProps<Value> :
      * **Warning**: This is a generic event, not a change event, unless the change event is caused by browser autofill.
      * @param {object} [child] The react element that was selected when `native` is `false` (default).
      */
-    var onChange: ((event: ChangeEvent<HTMLInputElement, *>, child: react.ReactNode) -> Unit)?
+    var onChange: ((event: ChangeEvent<HTMLInputElement, *>, child: ReactNode) -> Unit)?
 
     /**
      * Callback fired when the component requests to be closed.
@@ -159,7 +163,7 @@ external interface SelectProps<Value> :
      * @param {any} value The `value` provided to the component.
      * @returns {ReactNode}
      */
-    var renderValue: ((value: Value) -> react.ReactNode)?
+    var renderValue: ((value: Value) -> ReactNode)?
 
     /**
      * Props applied to the clickable div element.
@@ -226,4 +230,4 @@ external interface OutlinedSelectProps :
  * - inherits [OutlinedInput API](https://v6.mui.com/material-ui/api/outlined-input/)
  */
 @JsName("default")
-external val Select: react.FC<SelectProps<*>>
+external val Select: FC<SelectProps<*>>

@@ -10,6 +10,9 @@ import mui.system.ResponsiveStyleValue
 import mui.system.SxProps
 import mui.system.Union
 import mui.types.PropsWithComponent
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
@@ -20,11 +23,11 @@ external interface Grid2Props :
     override var sx: SxProps<Theme>?
 }
 
-external interface GridBaseProps : react.PropsWithChildren {
+external interface GridBaseProps : PropsWithChildren {
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * The number of columns.
@@ -123,4 +126,4 @@ external interface GridBaseProps : react.PropsWithChildren {
  * - [Grid2 API](https://v6.mui.com/material-ui/api/grid-2/)
  */
 @JsName("default")
-external val Grid2: react.FC<Grid2Props>
+external val Grid2: FC<Grid2Props>

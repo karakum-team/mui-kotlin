@@ -12,9 +12,13 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.events.MouseEvent
 import react.dom.html.ButtonHTMLAttributes
 import web.html.HTMLButtonElement
+import web.html.HTMLElement
 
 external interface ToggleButtonProps :
     ToggleButtonOwnProps,
@@ -27,13 +31,13 @@ external interface ToggleButtonPropsSizeOverrides
 external interface ToggleButtonPropsColorOverrides
 
 external interface ToggleButtonOwnProps :
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx,
     ButtonBaseProps {
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -72,7 +76,7 @@ external interface ToggleButtonOwnProps :
      * @param {React.MouseEvent<HTMLElement>} event The event source of the callback.
      * @param {any} value of the selected button.
      */
-    var onChange: ((event: MouseEvent<web.html.HTMLElement, *>, value: Any) -> Unit)?
+    var onChange: ((event: MouseEvent<HTMLElement, *>, value: Any) -> Unit)?
 
     /**
      * Callback fired when the button is clicked.
@@ -80,7 +84,7 @@ external interface ToggleButtonOwnProps :
      * @param {React.MouseEvent<HTMLElement>} event The event source of the callback.
      * @param {any} value of the selected button.
      */
-    var onClick: ((event: MouseEvent<web.html.HTMLElement, *>, value: Any) -> Unit)?
+    var onClick: ((event: MouseEvent<HTMLElement, *>, value: Any) -> Unit)?
 
     /**
      * If `true`, the button is rendered in an active state.
@@ -118,4 +122,4 @@ external interface ToggleButtonOwnProps :
  * - inherits [ButtonBase API](https://v6.mui.com/material-ui/api/button-base/)
  */
 @JsName("default")
-external val ToggleButton: react.FC<ToggleButtonProps>
+external val ToggleButton: FC<ToggleButtonProps>

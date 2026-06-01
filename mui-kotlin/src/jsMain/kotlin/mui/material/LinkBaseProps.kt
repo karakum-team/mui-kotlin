@@ -2,4 +2,6 @@
 
 package mui.material
 
-external interface LinkBaseProps : react.Props
+import react.Props
+
+external interface LinkBaseProps : Props

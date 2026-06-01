@@ -2,10 +2,15 @@
 
 package mui.base
 
+import react.Props
+import react.Ref
+import react.RefCallback
+import react.StateSetter
 import react.dom.aria.AriaRole
 import react.dom.events.FocusEventHandler
 import react.dom.events.MouseEventHandler
 import web.dom.Element
+import web.dom.TagName
 import web.html.ButtonType
 import web.html.HTMLElement
 
@@ -26,7 +31,7 @@ external interface UseButtonParameters {
 
     var onFocusVisible: FocusEventHandler<*>?
 
-    var rootRef: react.Ref<Element>?
+    var rootRef: Ref<Element>?
 
     var tabIndex: Int?
 
@@ -42,10 +47,10 @@ external interface UseButtonParameters {
      * The HTML element, e.g.'button', 'a' etc
      * @default ''
      */
-    var rootElementName: web.dom.TagName<out HTMLElement>?
+    var rootElementName: TagName<out HTMLElement>?
 }
 
-external interface UseButtonRootSlotOwnProps : react.Props {
+external interface UseButtonRootSlotOwnProps : Props {
     // var `aria-disabled`: Any? /* React.AriaAttributes['aria-disabled'] */
 
     var disabled: Boolean?
@@ -75,7 +80,7 @@ external interface UseButtonReturnValue {
      * @param externalProps additional props for the root slot
      * @returns props that should be spread on the root slot
      */
-    var getRootProps: react.Props /* <ExternalProps extends Record<string, any> = {}>(externalProps?: ExternalProps) => UseButtonRootSlotProps<ExternalProps> */
+    var getRootProps: Props /* <ExternalProps extends Record<string, any> = {}>(externalProps?: ExternalProps) => UseButtonRootSlotProps<ExternalProps> */
 
     /**
      * If `true`, the component is being focused using keyboard.
@@ -85,7 +90,7 @@ external interface UseButtonReturnValue {
     /**
      * Callback for setting the `focusVisible` param.
      */
-    var setFocusVisible: react.StateSetter<Boolean>
+    var setFocusVisible: StateSetter<Boolean>
 
     /**
      * If `true`, the component is active (pressed).
@@ -95,5 +100,5 @@ external interface UseButtonReturnValue {
     /**
      * A ref to the component's root DOM element.
      */
-    var rootRef: react.RefCallback<Element>?
+    var rootRef: RefCallback<Element>?
 }

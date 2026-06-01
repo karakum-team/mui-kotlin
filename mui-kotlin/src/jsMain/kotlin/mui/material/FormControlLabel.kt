@@ -8,6 +8,7 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
+import react.*
 import react.dom.events.SyntheticEvent
 import react.dom.html.LabelHTMLAttributes
 import web.html.HTMLLabelElement
@@ -35,7 +36,7 @@ external interface FormControlLabelProps :
     var componentsProps: ComponentsProps?
 
     interface ComponentsProps {
-        var typography: react.Props? /* TypographyProps */
+        var typography: Props? /* TypographyProps */
     }
 
     /**
@@ -56,12 +57,12 @@ external interface FormControlLabelProps :
     /**
      * Pass a ref to the `input` element.
      */
-    var inputRef: react.Ref<*>?
+    var inputRef: Ref<*>?
 
     /**
      * A text or an element to be used in an enclosing label element.
      */
-    var label: react.ReactNode
+    var label: ReactNode
 
     /**
      * The position of the label.
@@ -101,15 +102,15 @@ external interface FormControlLabelSlots {
      * This is unused if `disableTypography` is true.
      * @default Typography
      */
-    var typography: react.ElementType<*>
+    var typography: ElementType<*>
 }
 
-external interface FormControlLabelSlotProps : react.Props {
+external interface FormControlLabelSlotProps : Props {
     /** TS: SlotProps<typeof Typography, {}, FormControlLabelProps> */
     var typography: TypographyProps?
 }
 
-external interface FormControlLabelSlotsAndSlotProps : react.Props {
+external interface FormControlLabelSlotsAndSlotProps : Props {
     var slots: FormControlLabelSlots?
 
     var slotProps: FormControlLabelSlotProps?
@@ -130,4 +131,4 @@ external interface FormControlLabelSlotsAndSlotProps : react.Props {
  * - [FormControlLabel API](https://v6.mui.com/material-ui/api/form-control-label/)
  */
 @JsName("default")
-external val FormControlLabel: react.FC<FormControlLabelProps>
+external val FormControlLabel: FC<FormControlLabelProps>

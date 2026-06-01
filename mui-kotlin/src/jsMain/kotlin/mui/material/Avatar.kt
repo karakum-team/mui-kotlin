@@ -8,6 +8,7 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.*
 import react.dom.html.HTMLAttributes
 import react.dom.html.ImgHTMLAttributes
 import web.html.HTMLDivElement
@@ -24,24 +25,24 @@ external interface AvatarSlots {
      * [Follow this guide](https://mui.com/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
      * @default Collapse
      */
-    var img: react.ComponentType<*>
+    var img: ComponentType<*>
 }
 
 external interface AvatarPropsVariantOverrides
 
-external interface AvatarSlotProps : react.Props {
+external interface AvatarSlotProps : Props {
     /** TS: SlotProps< React.ElementType<React.ImgHTMLAttributes<HTMLImageElement>>, {}, AvatarOwnProps > */
     var img: Any?
 }
 
-external interface AvatarSlotsAndSlotProps : react.Props {
+external interface AvatarSlotsAndSlotProps : Props {
     var slots: AvatarSlots?
 
     var slotProps: AvatarSlotProps?
 }
 
 external interface AvatarOwnProps :
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * Used in combination with `src` or `srcSet` to
@@ -53,7 +54,7 @@ external interface AvatarOwnProps :
      * Used to render icon or text elements inside the Avatar if `src` is not set.
      * This can be an element, or just a string.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -106,4 +107,4 @@ external interface AvatarOwnProps :
  * - [Avatar API](https://v6.mui.com/material-ui/api/avatar/)
  */
 @JsName("default")
-external val Avatar: react.FC<AvatarProps>
+external val Avatar: FC<AvatarProps>

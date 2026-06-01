@@ -12,6 +12,8 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.FC
+import react.ReactNode
 import react.dom.html.ButtonHTMLAttributes
 import web.html.HTMLButtonElement
 
@@ -60,7 +62,7 @@ external interface TabOwnProps :
     /**
      * The label element.
      */
-    var label: react.ReactNode?
+    var label: ReactNode?
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
@@ -92,4 +94,4 @@ external interface TabOwnProps :
  * - inherits [ButtonBase API](https://v6.mui.com/material-ui/api/button-base/)
  */
 @JsName("default")
-external val Tab: react.FC<TabProps>
+external val Tab: FC<TabProps>

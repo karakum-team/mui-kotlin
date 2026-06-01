@@ -2,6 +2,7 @@
 
 package mui.base
 
+import react.*
 import react.dom.events.SyntheticEvent
 import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
@@ -14,12 +15,12 @@ external interface TabsProps :
 external interface TabsRootSlotPropsOverrides
 
 external interface TabsOwnProps :
-    react.PropsWithChildren,
-    react.PropsWithClassName {
+    PropsWithChildren,
+    PropsWithClassName {
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * The value of the currently selected `Tab`.
@@ -64,7 +65,7 @@ external interface TabsOwnProps :
     var slotProps: SlotProps?
 
     interface SlotProps {
-        var root: react.Props? /* SlotComponentProps<'div', TabsRootSlotPropsOverrides, TabsOwnerState> */
+        var root: Props? /* SlotComponentProps<'div', TabsRootSlotPropsOverrides, TabsOwnerState> */
     }
 
     /**
@@ -80,5 +81,5 @@ external interface TabsSlots {
      * The component that renders the root.
      * @default 'div'
      */
-    var root: react.ElementType<*>?
+    var root: ElementType<*>?
 }

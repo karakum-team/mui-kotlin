@@ -5,10 +5,11 @@
 package mui.material
 
 import js.array.ReadonlyArray
+import react.Props
 import react.dom.events.ChangeEvent
 import react.dom.events.ReactEventHandler
 
-external interface UsePaginationProps : react.Props {
+external interface UsePaginationProps : Props {
     /**
      * Number of always visible pages at the beginning and end.
      * @default 1
@@ -82,7 +83,7 @@ external interface UsePaginationProps : react.Props {
     var siblingCount: Number?
 }
 
-external interface UsePaginationItem : react.Props {
+external interface UsePaginationItem : Props {
     var onClick: ReactEventHandler<*>
 
     var type: UsePaginationItemType

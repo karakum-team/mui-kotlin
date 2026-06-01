@@ -5,6 +5,7 @@
 package mui.lab
 
 import mui.types.PropsWithComponent
+import react.FC
 
 external interface TabListProps :
     mui.material.TabsProps,
@@ -22,4 +23,4 @@ external interface TabListProps :
  * - inherits [Tabs API](https://v6.mui.com/material-ui/api/tabs/)
  */
 @JsName("default")
-external val TabList: react.FC<TabListProps>
+external val TabList: FC<TabListProps>

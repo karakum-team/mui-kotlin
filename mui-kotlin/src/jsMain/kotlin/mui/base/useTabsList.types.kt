@@ -2,13 +2,16 @@
 
 package mui.base
 
+import react.Props
+import react.Ref
+import react.RefCallback
 import web.dom.Element
 
 external interface UseTabsListParameters {
     /**
      * Ref to the root element.
      */
-    var rootRef: react.Ref<Element>
+    var rootRef: Ref<Element>
 }
 
 external interface UseTabsListReturnValue {
@@ -28,7 +31,7 @@ external interface UseTabsListReturnValue {
      * @param externalProps props for the root slot
      * @returns props that should be spread on the root slot
      */
-    var getRootProps: react.Props /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseTabsListRootSlotProps<ExternalProps> */
+    var getRootProps: Props /* <ExternalProps extends Record<string, unknown> = {}>(externalProps?: ExternalProps) => UseTabsListRootSlotProps<ExternalProps> */
 
     /**
      * The value of the currently highlighted tab.
@@ -45,7 +48,7 @@ external interface UseTabsListReturnValue {
      */
     var orientation: Orientation
 
-    var rootRef: react.RefCallback<Element>?
+    var rootRef: RefCallback<Element>?
 
     /**
      * The value of the currently selected tab.

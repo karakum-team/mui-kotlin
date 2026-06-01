@@ -8,11 +8,13 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.*
 import react.dom.html.HTMLAttributes
+import web.html.HTMLElement
 
 external interface BreadcrumbsProps :
     BreadcrumbsOwnProps,
-    HTMLAttributes<web.html.HTMLElement>,
+    HTMLAttributes<HTMLElement>,
     PropsWithComponent
 
 external interface BreadcrumbsCollapsedIconSlotPropsOverrides
@@ -22,12 +24,12 @@ external interface BreadcrumbsOwnerState : BreadcrumbsProps {
 }
 
 external interface BreadcrumbsOwnProps :
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -42,7 +44,7 @@ external interface BreadcrumbsOwnProps :
     var slots: Slots?
 
     interface Slots {
-        var CollapsedIcon: react.ElementType<*>?
+        var CollapsedIcon: ElementType<*>?
     }
 
     /**
@@ -52,7 +54,7 @@ external interface BreadcrumbsOwnProps :
     var slotProps: SlotProps?
 
     interface SlotProps {
-        var collapsedIcon: react.Props? /* SlotComponentProps<
+        var collapsedIcon: Props? /* SlotComponentProps<
   typeof SvgIcon,
   BreadcrumbsCollapsedIconSlotPropsOverrides,
   BreadcrumbsOwnerState
@@ -91,7 +93,7 @@ external interface BreadcrumbsOwnProps :
      * Custom separator node.
      * @default '/'
      */
-    var separator: react.ReactNode?
+    var separator: ReactNode?
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
@@ -111,4 +113,4 @@ external interface BreadcrumbsOwnProps :
  * - inherits [Typography API](https://v6.mui.com/material-ui/api/typography/)
  */
 @JsName("default")
-external val Breadcrumbs: react.FC<BreadcrumbsProps>
+external val Breadcrumbs: FC<BreadcrumbsProps>

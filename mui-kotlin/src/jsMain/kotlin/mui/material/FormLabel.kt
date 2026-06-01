@@ -8,6 +8,9 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.html.LabelHTMLAttributes
 import web.html.HTMLLabelElement
 
@@ -19,12 +22,12 @@ external interface FormLabelProps :
 external interface FormLabelPropsColorOverrides
 
 external interface FormLabelOwnProps :
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -82,4 +85,4 @@ external interface FormLabelOwnProps :
  * - [FormLabel API](https://v6.mui.com/material-ui/api/form-label/)
  */
 @JsName("default")
-external val FormLabel: react.FC<FormLabelProps>
+external val FormLabel: FC<FormLabelProps>

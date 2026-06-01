@@ -3,6 +3,8 @@
 package mui.base
 
 import js.array.ReadonlyArray
+import react.Props
+import react.RefObject
 import react.dom.events.SyntheticEvent
 import react.dom.html.HTMLAttributes
 import react.dom.html.InputHTMLAttributes
@@ -39,7 +41,7 @@ external interface AutocompleteGroupedOption {
     var options: Any? /* Value[] */
 }
 
-external interface UseAutocompleteProps<Value> : react.Props {
+external interface UseAutocompleteProps<Value> : Props {
     /**
      * @internal The prefix of the state class name, temporary for Joy UI
      * @default 'Mui'
@@ -51,7 +53,7 @@ external interface UseAutocompleteProps<Value> : react.Props {
      * Temporary for Joy UI because the parent listbox is the document object
      * TODO v6: Normalize the logic and remove this param.
      */
-    var unstable_isActiveElementInListbox: ((listbox: react.RefObject<HTMLElement>) -> Boolean)?
+    var unstable_isActiveElementInListbox: ((listbox: RefObject<HTMLElement>) -> Boolean)?
 
     /**
      * If `true`, the portion of the selected suggestion that the user hasn't typed,

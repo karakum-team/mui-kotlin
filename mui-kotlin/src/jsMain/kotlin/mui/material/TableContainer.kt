@@ -8,6 +8,9 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
@@ -17,12 +20,12 @@ external interface TableContainerProps :
     PropsWithComponent
 
 external interface TableContainerOwnProps :
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx {
     /**
      * The content of the component, normally `Table`.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -46,4 +49,4 @@ external interface TableContainerOwnProps :
  * - [TableContainer API](https://v6.mui.com/material-ui/api/table-container/)
  */
 @JsName("default")
-external val TableContainer: react.FC<TableContainerProps>
+external val TableContainer: FC<TableContainerProps>

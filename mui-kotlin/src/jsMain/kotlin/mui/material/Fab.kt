@@ -12,6 +12,9 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.html.ButtonHTMLAttributes
 import web.html.HTMLButtonElement
 
@@ -28,13 +31,13 @@ external interface FabPropsSizeOverrides
 external interface FabPropsColorOverrides
 
 external interface FabOwnProps :
-    react.PropsWithChildren,
+    PropsWithChildren,
     PropsWithSx,
     ButtonBaseProps {
     /**
      * The content of the component.
      */
-    override var children: react.ReactNode?
+    override var children: ReactNode?
 
     /**
      * Override or extend the styles applied to the component.
@@ -103,4 +106,4 @@ external interface FabOwnProps :
  * - inherits [ButtonBase API](https://v6.mui.com/material-ui/api/button-base/)
  */
 @JsName("default")
-external val Fab: react.FC<FabProps>
+external val Fab: FC<FabProps>
