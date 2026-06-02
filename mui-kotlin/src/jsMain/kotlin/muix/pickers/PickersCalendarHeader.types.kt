@@ -75,8 +75,6 @@ external interface PickersCalendarHeaderSlots {
     var switchViewIcon: ElementType<*>?
 }
 
-external interface PickersCalendarHeaderSlotPropsOverrides
-
 external interface PickersCalendarHeaderSlotProps<TDate> : Props {
     var switchViewButton: Props?
 

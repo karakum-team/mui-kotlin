@@ -1057,6 +1057,13 @@ private fun resolveImportedFqns(
             !line.trimStart().startsWith("import ") && pattern.containsMatchIn(line)
         }
         if (!anyNonImportMatch) continue
+        // Skip when the file declares a local type with the same short name — replacement would
+        // shadow the local declaration with the imported one (e.g. createPalette.kt declares
+        // `external interface Color`, which intentionally hides `web.cssom.Color`).
+        val localDeclRegex = Regex(
+            """(?:(?:sealed )?external (?:interface|class)|typealias)\s+""" + Regex.escape(shortName) + """(?![A-Za-z0-9_])"""
+        )
+        if (localDeclRegex.containsMatchIn(rewritten)) continue
         rewritten = rewritten.lineSequence().joinToString("\n") { line ->
             if (line.trimStart().startsWith("import ")) line
             else pattern.replace(line, shortName)

@@ -1,6 +1,50 @@
 package karakum.mui
 
 internal fun String.toFunctionType(): String? {
+    // TS generic function `<T extends X = Y>(args) => ResultType<T>` — Kotlin function types
+    // don't support generic params, so drop the leading `<...>` declaration. The param name
+    // remains in arg/return positions: in arg → Any (lost info), in return generics → `*`
+    // (star projection).
+    if (startsWith("<")) {
+        var depth = 0
+        var end = -1
+        for (i in indices) {
+            when (this[i]) {
+                '<' -> depth++
+                '>' -> {
+                    depth--; if (depth == 0) {
+                        end = i; break
+                    }
+                }
+            }
+        }
+        if (end < 0 || end + 1 >= length) return null
+        val genericDecl = substring(1, end)
+        val rest = substring(end + 1).trimStart()
+        if (!rest.startsWith("(")) return null
+        val arrowIdx = rest.indexOf(" => ")
+        if (arrowIdx < 0) return null
+        val paramNames = genericDecl.split(",")
+            .map { it.trim().substringBefore(" ").substringBefore("=").trim() }
+            .filter { it.isNotEmpty() }
+        val argsPart = rest.substring(0, arrowIdx)
+        val returnPart = rest.substring(arrowIdx)
+        // Generic param (e.g. `ExternalProps extends Record<string, any> = {}`) typically stands
+        // for a React props bag (slot props). Substitute with `react.Props` in both arg and return
+        // positions so consumers can pass through their own props objects. The IMPORTED_FQNS
+        // post-processing shortens `react.Props` → `Props` and adds the `import` at top of file.
+        val argsClean = paramNames.fold(argsPart) { acc, p ->
+            acc.replace(Regex("(?<![A-Za-z0-9_])" + Regex.escape(p) + "(?![A-Za-z0-9_])"), "react.Props")
+        }
+        val returnClean = paramNames.fold(returnPart) { acc, p ->
+            acc.replace(Regex("(?<![A-Za-z0-9_])" + Regex.escape(p) + "(?![A-Za-z0-9_])"), "*")
+        }
+            // Use*SlotProps / Use*InputProps are TS type aliases not generated as Kotlin types —
+            // collapse to `react.Props` so the function type stays a props-style return.
+            .replace(Regex("""Use\w+Props<\*>"""), "react.Props")
+        return "$argsClean$returnClean".toFunctionType()
+    }
+
     if (!startsWith("("))
         return null
 
@@ -51,6 +95,7 @@ internal fun String.toFunctionType(): String? {
         )
         .replace(": Event", ": Event")
         .replace("?: any", ": Any?")
+        .replace("?: react.Props", ": react.Props?")
         .replace("?: string", ": String?")
         .replace("?: boolean", ": Boolean?")
         .replace("React.ReactNode", "react.ReactNode")

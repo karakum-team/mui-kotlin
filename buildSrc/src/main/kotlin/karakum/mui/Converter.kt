@@ -812,6 +812,11 @@ private fun findAdditionalProps(
                                 .joinToString(", ", "<", ">")
                         } else ""
                     } else ""
+                    // Empty `*Overrides` interfaces (CheckboxPropsSizeOverrides, AlertCloseButtonSlotPropsOverrides,
+                    // etc.) are TS declaration-merging hooks for theme extensions. They have no runtime
+                    // meaning in Kotlin — drop them.
+                    if (interfaceName.endsWith("Overrides"))
+                        return@mapNotNull null
                     return@mapNotNull "external interface $interfaceName$typeParams"
                 }
             }
@@ -907,14 +912,6 @@ private fun findAdditionalProps(
         when (interfaceName) {
             "RichTreeViewPropsBase",
                 -> propsBody = propsBody.replace("override var sx:", "var sx:")
-
-            "CommonColors",
-            "PaletteColor",
-            "TypeText",
-            "TypeAction",
-            "SimplePaletteColorOptions",
-            "PaletteAugmentColorOptions",
-                -> propsBody = propsBody.replace(": String", ": web.cssom.Color")
         }
 
         when (parentType) {
@@ -961,6 +958,7 @@ private fun findAdditionalProps(
             "SelectOptionDefinition",
             "UseOptionParameters",
             "AutocompleteChangeDetails",
+            "AutocompleteGroupedOption",
             "UseAutocompleteRenderedOption",
             "UseAutocompleteReturnValue",
             "CreateFilterOptionsConfig",
