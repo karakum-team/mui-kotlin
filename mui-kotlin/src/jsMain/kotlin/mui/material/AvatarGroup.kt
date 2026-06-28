@@ -67,7 +67,7 @@ external interface AvatarGroupOwnProps :
     var componentsProps: ComponentsProps?
 
     interface ComponentsProps {
-        var additionalAvatar: Props? /* (React.ComponentPropsWithRef<typeof Avatar> & AvatarGroupComponentsPropsOverrides) | undefined */
+        var additionalAvatar: Props? /* React.ComponentPropsWithRef<typeof Avatar> & AvatarGroupComponentsPropsOverrides */
     }
 
     /**

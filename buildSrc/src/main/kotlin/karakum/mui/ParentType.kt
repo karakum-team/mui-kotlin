@@ -3,11 +3,18 @@ package karakum.mui
 internal fun findParentType(
     content: String,
 ): String? {
-    if (" extends " !in content)
-        return null
+    // v6 keeps `extends` mid-line (` extends `); v7 sometimes starts the clause at column 0 on its
+    // own line (`\nextends `) after a comment, e.g. StepIcon's `// TODO v7: …` line. Accept both so
+    // the inheritance isn't silently dropped (→ `react.Props`).
+    val extendsMarker = when {
+        " extends " in content -> " extends "
+        content.startsWith("extends ") -> "extends "
+        "\nextends " in content -> "\nextends "
+        else -> return null
+    }
 
     val parentSource = content
-        .substringAfter(" extends ")
+        .substringAfter(extendsMarker)
         .substringBefore(" {\n")
         .substringBefore(" {}")
         .substringAfter("\n> extends ")

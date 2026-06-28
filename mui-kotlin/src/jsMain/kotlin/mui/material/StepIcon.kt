@@ -6,11 +6,17 @@ package mui.material
 
 import mui.material.styles.Theme
 import mui.system.PropsWithSx
+import mui.system.StandardProps
 import mui.system.SxProps
 import react.FC
 import react.ReactNode
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
-external interface StepIconProps : PropsWithSx {
+external interface StepIconProps :
+    StandardProps,
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithSx {
     /**
      * Whether this step is active.
      * @default false

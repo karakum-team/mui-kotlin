@@ -64,6 +64,11 @@ internal fun convertDefinitions(
 
     val (content, defaultUnions) = definitionFile.readText()
         .replace("\r\n", "\n")
+        // Ensure a trailing newline. Body extractors cut the last member at the `;\n}\n` boundary;
+        // a file whose final interface ends with `;\n}` at EOF (no trailing newline — e.g. @mui/system
+        // StackProps' StackOwnerState) would otherwise leak the closing brace into the members and
+        // collapse them all into one `Any? /* … */`.
+        .let { if (it.endsWith("\n")) it else "$it\n" }
         .adaptRawContent()
         .removeInlineClasses()
         .removeDeprecated()
@@ -637,8 +642,12 @@ private fun findMapProps(
             sequenceOf(
                 // todo remove when mui migrates on DefaultComponent generic in all places
                 str.substringAfter(" D extends React.ElementType = '", ""),
-                str.substringAfter(" DefaultComponent extends React.ElementType = '", ""),
-                str.substringAfter(" RootComponent extends React.ElementType = '", ""),
+                // v7 collapses the TypeMap header to one line; when the default-component generic is
+                // the FIRST param it sits right after `<` with no leading space (Modal/Slider). Match
+                // the (distinctive, multi-word) param name without requiring a leading space so the
+                // intrinsic element — and thus `HTMLAttributes<…>` — is not dropped.
+                str.substringAfter("DefaultComponent extends React.ElementType = '", ""),
+                str.substringAfter("RootComponent extends React.ElementType = '", ""),
             ).maxByOrNull { it.length }!!
         }
 
@@ -647,7 +656,7 @@ private fun findMapProps(
     if (intrinsicType.isEmpty()) {
         intrinsicType = propsContent
             .substringBefore(" {\n")
-            .substringAfter(" RootComponentType extends React.ElementType = '", "")
+            .substringAfter("RootComponentType extends React.ElementType = '", "")
             .substringBefore("'", "")
     }
 
@@ -731,10 +740,15 @@ private fun findMapProps(
 
     val hasComponent = ": OverridableComponent<" in content
             || "&\n  OverridableComponent<" in content
+            // Slider exposes polymorphism via a type alias (`type SliderComponent = OverridableComponent<…>`)
+            // and `declare const Slider: SliderType`, so the `: OverridableComponent<` form never appears.
+            || "= OverridableComponent<" in content
             // ButtonBase-derived components are polymorphic too (`<Button component={…}>`); v7 declares
             // them `declare const X: ExtendButtonBase<XTypeMap>`. Without this they lose `PropsWithComponent`
             // (their `… & { component?: React.ElementType }` signal is stripped by dropInlineIntersections).
             || ": ExtendButtonBase<" in content
+            // List-derived components (MenuList) are declared `declare const X: ExtendList<XTypeMap>`.
+            || ": ExtendList<" in content
             || "& {\n  component?: React.ElementType;\n};" in content
 
     return if (membersContent.isNotEmpty()) {

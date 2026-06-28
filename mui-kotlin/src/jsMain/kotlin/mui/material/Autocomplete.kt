@@ -62,10 +62,10 @@ external interface AutocompleteProps<Value> :
     var componentsProps: ComponentsProps?
 
     interface ComponentsProps {
-        var clearIndicator: Props? /* Partial<IconButtonProps> | undefined */
-        var paper: Props? /* PaperProps | undefined */
-        var popper: Props? /* Partial<PopperProps> | undefined */
-        var popupIndicator: Props? /* Partial<IconButtonProps> | undefined */
+        var clearIndicator: IconButtonProps?
+        var paper: PaperProps?
+        var popper: PopperProps?
+        var popupIndicator: IconButtonProps?
     }
 
     /**
@@ -275,7 +275,7 @@ external interface AutocompleteRenderInputParams : Props {
 
     var InputLabelProps: Props /* ReturnType<ReturnType<typeof useAutocomplete>['getInputLabelProps']> */
 
-    var InputProps: Any
+    var InputProps: Props
 
     var inputProps: Props /* ReturnType<ReturnType<typeof useAutocomplete>['getInputProps']> */
 }

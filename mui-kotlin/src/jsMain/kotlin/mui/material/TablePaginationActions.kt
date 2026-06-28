@@ -7,7 +7,6 @@ package mui.material
 import mui.system.Union
 import react.ElementType
 import react.FC
-import react.Props
 import react.PropsWithClassName
 import react.dom.events.MouseEvent
 import react.dom.html.HTMLAttributes
@@ -68,14 +67,14 @@ external interface TablePaginationActionsProps :
     var slotProps: SlotProps?
 
     interface SlotProps {
-        var firstButton: Props? /* Partial<IconButtonProps> | undefined */
-        var lastButton: Props? /* Partial<IconButtonProps> | undefined */
-        var nextButton: Props? /* Partial<IconButtonProps> | undefined */
-        var previousButton: Props? /* Partial<IconButtonProps> | undefined */
-        var firstButtonIcon: Props? /* Partial<SvgIconProps> | undefined */
-        var lastButtonIcon: Props? /* Partial<SvgIconProps> | undefined */
-        var nextButtonIcon: Props? /* Partial<SvgIconProps> | undefined */
-        var previousButtonIcon: Props? /* Partial<SvgIconProps> | undefined */
+        var firstButton: IconButtonProps?
+        var lastButton: IconButtonProps?
+        var nextButton: IconButtonProps?
+        var previousButton: IconButtonProps?
+        var firstButtonIcon: SvgIconProps?
+        var lastButtonIcon: SvgIconProps?
+        var nextButtonIcon: SvgIconProps?
+        var previousButtonIcon: SvgIconProps?
     }
 
     var slots: TablePaginationActionsSlots?

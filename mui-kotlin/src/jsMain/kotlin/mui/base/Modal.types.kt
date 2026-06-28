@@ -136,8 +136,8 @@ external interface ModalOwnProps : PropsWithChildren {
     var slotProps: SlotProps?
 
     interface SlotProps {
-        var root: Props? /* SlotComponentProps<'div', ModalRootSlotPropsOverrides, ModalOwnerState> */
-        var backdrop: Props? /* SlotComponentProps<'div', ModalBackdropSlotPropsOverrides, ModalOwnerState> */
+        var root: Props?
+        var backdrop: Props?
     }
 
     /**

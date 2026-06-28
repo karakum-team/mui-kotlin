@@ -52,10 +52,10 @@ external interface TooltipProps :
     var components: Components?
 
     interface Components {
-        var Popper: ElementType<*>? /* React.ElementType<PopperProps> | undefined */
-        var Transition: ElementType<*>? /* React.ElementType | undefined */
-        var Tooltip: ElementType<*>? /* React.ElementType | undefined */
-        var Arrow: ElementType<*>? /* React.ElementType | undefined */
+        var Popper: ElementType<PopperProps>?
+        var Transition: ElementType<*>?
+        var Tooltip: ElementType<*>?
+        var Arrow: ElementType<*>?
     }
 
     /**
@@ -69,10 +69,10 @@ external interface TooltipProps :
     var componentsProps: ComponentsProps?
 
     interface ComponentsProps {
-        var popper: Props? /* (Partial<PopperProps> & TooltipComponentsPropsOverrides) | undefined */
-        var transition: Props? /* (TransitionProps & TooltipComponentsPropsOverrides) | undefined */
-        var tooltip: Props? /* (React.HTMLProps<HTMLDivElement> & MUIStyledCommonProps & TooltipComponentsPropsOverrides) | undefined */
-        var arrow: Props? /* (React.HTMLProps<HTMLSpanElement> & MUIStyledCommonProps & TooltipComponentsPropsOverrides) | undefined */
+        var popper: Props? /* Partial<PopperProps> & TooltipComponentsPropsOverrides */
+        var transition: Props? /* TransitionProps & TooltipComponentsPropsOverrides */
+        var tooltip: Props? /* React.HTMLProps<HTMLDivElement> & MUIStyledCommonProps & TooltipComponentsPropsOverrides */
+        var arrow: Props? /* React.HTMLProps<HTMLSpanElement> & MUIStyledCommonProps & TooltipComponentsPropsOverrides */
     }
 
     /**

@@ -36,7 +36,7 @@ external interface TransitionsOptions {
 
     var duration: Duration?
 
-    var create: ((props: ReadonlyArray<String>, options: Any?) -> String)?
+    var create: ((props: ReadonlyArray<String>, options: TransitionCreateOptions?) -> Transition)?
 
     var getAutoHeightDuration: ((height: Number) -> Number)?
 }

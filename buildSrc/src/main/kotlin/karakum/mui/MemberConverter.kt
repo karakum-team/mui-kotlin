@@ -29,18 +29,44 @@ internal fun convertMembers(
 private fun convertMember(
     source: String,
 ): String {
-    val delimiter = if (!source.startsWith("// ")) "*/\n" else "\n"
+    // Peel ONLY the member's leading documentation (a `/** … */` block and/or `//` lines),
+    // then convert the whole remainder as a single property. The property body may itself
+    // contain `*/\n` — v7 gives inline object-literal values (`componentsProps`/`slotProps`)
+    // their own inner JSDoc — and those inner docs must stay with the property so
+    // kotlinType()/componentInterface()/stripInlineDocs() can strip them. Splitting on every
+    // `*/\n` here used to tear such a member apart into an empty interface plus a leaked member.
+    val comments = mutableListOf<String>()
+    var rest = source
 
-    return source.splitToSequence(delimiter)
-        .map {
-            when {
-                it.startsWith("/**") -> "$it*/"
-
-                it.startsWith("//") -> it
-
-                else -> convertProperty(it)
+    while (true) {
+        val trimmed = rest.trimStart()
+        when {
+            trimmed.startsWith("/**") -> {
+                val end = rest.indexOf("*/")
+                if (end < 0) break
+                comments += rest.substring(0, end + 2).trimStart()
+                rest = rest.substring(end + 2).removePrefix("\n")
             }
+
+            trimmed.startsWith("//") -> {
+                val nl = rest.indexOf("\n")
+                if (nl < 0) {
+                    comments += rest.trimStart()
+                    rest = ""
+                } else {
+                    comments += rest.substring(0, nl).trimStart()
+                    rest = rest.substring(nl + 1)
+                }
+            }
+
+            else -> break
         }
+    }
+
+    val property = rest.trimStart().takeIf { it.isNotEmpty() }?.let { convertProperty(it) } ?: ""
+
+    return (comments + property)
+        .filter { it.isNotEmpty() }
         .joinToString("\n")
 }
 

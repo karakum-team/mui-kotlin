@@ -71,7 +71,7 @@ external interface TabsSlots {
 external interface TabsSlotsAndSlotProps : Props {
     var slots: TabsSlots?
 
-    var slotProps: Any?
+    var slotProps: Props?
 }
 
 external interface TabsOwnerState : TabsProps {

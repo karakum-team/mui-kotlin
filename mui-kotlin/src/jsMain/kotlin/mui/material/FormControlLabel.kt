@@ -35,10 +35,9 @@ external interface FormControlLabelProps :
      */
     var componentsProps: ComponentsProps?
 
-    interface ComponentsProps
-
-    var typography: Any? /* TypographyProps | undefined;
-} */
+    interface ComponentsProps {
+        var typography: TypographyProps?
+    }
 
     /**
      * A control element. For instance, it can be a `Radio`, a `Switch` or a `Checkbox`.

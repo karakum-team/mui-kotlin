@@ -115,8 +115,8 @@ external interface InputOwnProps :
     var slotProps: SlotProps?
 
     interface SlotProps {
-        var root: Props? /* SlotComponentProps<'div', InputRootSlotPropsOverrides, InputOwnerState> */
-        var input: Props? /* SlotComponentProps<'input', InputInputSlotPropsOverrides, InputOwnerState> */
+        var root: Props?
+        var input: Props?
     }
 
     /**

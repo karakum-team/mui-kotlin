@@ -42,7 +42,7 @@ external interface BreadcrumbsOwnProps :
     var slots: Slots?
 
     interface Slots {
-        var CollapsedIcon: ElementType<*>? /* React.ElementType | undefined */
+        var CollapsedIcon: ElementType<*>?
     }
 
     /**
@@ -51,9 +51,9 @@ external interface BreadcrumbsOwnProps :
      */
     var slotProps: SlotProps?
 
-    interface SlotProps
-
-    var collapsedIcon: Props?
+    interface SlotProps {
+        var collapsedIcon: Props?
+    }
 
     /**
      * Override the default label for the expand button.

@@ -99,7 +99,7 @@ external interface ListItemOwnProps :
     var components: Components?
 
     interface Components {
-        var Root: ElementType<*>? /* React.ElementType | undefined */
+        var Root: ElementType<*>?
     }
 
     /**
@@ -112,7 +112,7 @@ external interface ListItemOwnProps :
     var componentsProps: ComponentsProps?
 
     interface ComponentsProps {
-        var root: Props? /* (React.HTMLAttributes<HTMLDivElement> & ListItemComponentsPropsOverrides) | undefined */
+        var root: Props? /* React.HTMLAttributes<HTMLDivElement> & ListItemComponentsPropsOverrides */
     }
 
     /**
@@ -124,8 +124,8 @@ external interface ListItemOwnProps :
     var slotProps: SlotProps?
 
     interface SlotProps {
-        var root: Props? /* (React.HTMLAttributes<HTMLDivElement> & ListItemComponentsPropsOverrides) | undefined */
-        var secondaryAction: Props? /* SlotProps<React.ElementType<React.HTMLAttributes<HTMLDivElement>>, ListItemSecondaryActionSlotPropsOverrides, ListItemOwnerState> | undefined */
+        var root: Props? /* React.HTMLAttributes<HTMLDivElement> & ListItemComponentsPropsOverrides */
+        var secondaryAction: Props? /* SlotProps<React.ElementType<React.HTMLAttributes<HTMLDivElement>>, ListItemSecondaryActionSlotPropsOverrides, ListItemOwnerState> */
     }
 
     /**
@@ -136,8 +136,8 @@ external interface ListItemOwnProps :
     var slots: Slots?
 
     interface Slots {
-        var root: ElementType<*>? /* React.ElementType | undefined */
-        var secondaryAction: ElementType<*>? /* React.ElementType | undefined */
+        var root: ElementType<*>?
+        var secondaryAction: ElementType<*>?
     }
 }
 

@@ -51,8 +51,9 @@ external interface StackBaseProps : PropsWithChildren {
 }
 
 external interface StackOwnerState {
-    var direction: Any? /* StackProps['direction'];
-  spacing: StackProps['spacing'];
-  useFlexGap: boolean;
-} */
+    var direction: Any /* StackProps['direction'] */
+
+    var spacing: Any /* StackProps['spacing'] */
+
+    var useFlexGap: Boolean
 }

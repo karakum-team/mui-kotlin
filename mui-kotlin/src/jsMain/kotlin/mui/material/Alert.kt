@@ -15,7 +15,6 @@ import mui.system.SxProps
 import mui.system.Union
 import react.ElementType
 import react.FC
-import react.Props
 import react.ReactNode
 import react.dom.events.SyntheticEvent
 
@@ -59,8 +58,8 @@ external interface AlertProps :
     var components: Components?
 
     interface Components {
-        var CloseButton: ElementType<*>? /* React.ElementType | undefined */
-        var CloseIcon: ElementType<*>? /* React.ElementType | undefined */
+        var CloseButton: ElementType<*>?
+        var CloseIcon: ElementType<*>?
     }
 
     /**
@@ -74,8 +73,8 @@ external interface AlertProps :
     var componentsProps: ComponentsProps?
 
     interface ComponentsProps {
-        var closeButton: Props? /* IconButtonProps | undefined */
-        var closeIcon: Props? /* SvgIconProps | undefined */
+        var closeButton: IconButtonProps?
+        var closeIcon: SvgIconProps?
     }
 
     /**

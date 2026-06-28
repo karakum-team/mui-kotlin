@@ -97,10 +97,10 @@ external interface PaginationItemOwnProps :
     var components: Components?
 
     interface Components {
-        var first: ElementType<*>? /* React.ElementType | undefined */
-        var last: ElementType<*>? /* React.ElementType | undefined */
-        var next: ElementType<*>? /* React.ElementType | undefined */
-        var previous: ElementType<*>? /* React.ElementType | undefined */
+        var first: ElementType<*>?
+        var last: ElementType<*>?
+        var next: ElementType<*>?
+        var previous: ElementType<*>?
     }
 
     /**

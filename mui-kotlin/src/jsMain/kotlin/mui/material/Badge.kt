@@ -19,6 +19,7 @@ import web.html.HTMLSpanElement
 
 external interface BadgeProps :
     BadgeOwnProps,
+    HTMLAttributes<HTMLSpanElement>,
     PropsWithComponent
 
 external interface BadgeSlots {
@@ -105,7 +106,7 @@ external interface BadgeOwnProps :
      *
      * @default {}
      */
-    var componentsProps: Any?
+    var componentsProps: Props?
 
     /**
      * The components used for each slot inside.
@@ -117,8 +118,8 @@ external interface BadgeOwnProps :
     var components: Components?
 
     interface Components {
-        var Root: ElementType<*>? /* React.ElementType | undefined */
-        var Badge: ElementType<*>? /* React.ElementType | undefined */
+        var Root: ElementType<*>?
+        var Badge: ElementType<*>?
     }
 
     /**

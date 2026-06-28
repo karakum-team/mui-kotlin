@@ -34,8 +34,8 @@ external interface TabScrollButtonProps :
     var slots: Slots?
 
     interface Slots {
-        var StartScrollButtonIcon: ElementType<*>? /* React.ElementType | undefined */
-        var EndScrollButtonIcon: ElementType<*>? /* React.ElementType | undefined */
+        var StartScrollButtonIcon: ElementType<*>?
+        var EndScrollButtonIcon: ElementType<*>?
     }
 
     /**
@@ -46,8 +46,8 @@ external interface TabScrollButtonProps :
     var slotProps: SlotProps?
 
     interface SlotProps {
-        var startScrollButtonIcon: Props? /* SlotComponentProps<typeof SvgIcon, TabScrollButtonStartIconSlotPropsOverrides, TabScrollButtonOwnerState> | undefined */
-        var endScrollButtonIcon: Props? /* SlotComponentProps<typeof SvgIcon, TabScrollButtonEndIconSlotPropsOverrides, TabScrollButtonOwnerState> | undefined */
+        var startScrollButtonIcon: Props?
+        var endScrollButtonIcon: Props?
     }
 
     /**

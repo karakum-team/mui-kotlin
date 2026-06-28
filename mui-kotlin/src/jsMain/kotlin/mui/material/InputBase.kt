@@ -63,8 +63,8 @@ external interface InputBaseProps :
     var components: Components?
 
     interface Components {
-        var Root: ElementType<*>? /* React.ElementType | undefined */
-        var Input: ElementType<*>? /* React.ElementType | undefined */
+        var Root: ElementType<*>?
+        var Input: ElementType<*>?
     }
 
     /**
@@ -78,8 +78,8 @@ external interface InputBaseProps :
     var componentsProps: ComponentsProps?
 
     interface ComponentsProps {
-        var root: Props? /* (React.HTMLAttributes<HTMLDivElement> & InputBaseComponentsPropsOverrides) | undefined */
-        var input: Props? /* (React.InputHTMLAttributes<HTMLInputElement> & InputBaseComponentsPropsOverrides) | undefined */
+        var root: Props? /* React.HTMLAttributes<HTMLDivElement> & InputBaseComponentsPropsOverrides */
+        var input: Props? /* React.InputHTMLAttributes<HTMLInputElement> & InputBaseComponentsPropsOverrides */
     }
 
     /**
@@ -234,8 +234,8 @@ external interface InputBaseProps :
     var slotProps: SlotProps?
 
     interface SlotProps {
-        var root: Props? /* (React.HTMLAttributes<HTMLDivElement> & InputBaseComponentsPropsOverrides) | undefined */
-        var input: Props? /* (React.InputHTMLAttributes<HTMLInputElement> & InputBaseComponentsPropsOverrides) | undefined */
+        var root: Props? /* React.HTMLAttributes<HTMLDivElement> & InputBaseComponentsPropsOverrides */
+        var input: Props? /* React.InputHTMLAttributes<HTMLInputElement> & InputBaseComponentsPropsOverrides */
     }
 
     /**
@@ -248,8 +248,8 @@ external interface InputBaseProps :
     var slots: Slots?
 
     interface Slots {
-        var root: ElementType<*>? /* React.ElementType | undefined */
-        var input: ElementType<*>? /* React.ElementType | undefined */
+        var root: ElementType<*>?
+        var input: ElementType<*>?
     }
 
     /**

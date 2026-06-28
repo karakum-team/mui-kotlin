@@ -36,10 +36,9 @@ external interface StepLabelProps :
      */
     var componentsProps: ComponentsProps?
 
-    interface ComponentsProps
-
-    var label: Any? /* React.HTMLProps<HTMLSpanElement> | undefined;
-} */
+    interface ComponentsProps {
+        var label: Props? /* React.HTMLProps<HTMLSpanElement> */
+    }
 
     /**
      * If `true`, the step is marked as failed.

@@ -46,14 +46,14 @@ external interface TablePaginationOwnProps : Props {
     var slotProps: SlotProps?
 
     interface SlotProps {
-        var root: Props? /* SlotComponentProps<'td', TablePaginationRootSlotPropsOverrides, TablePaginationOwnerState> */
-        var actions: Props? /* SlotComponentProps<typeof TablePaginationActions, TablePaginationActionsSlotPropsOverrides, TablePaginationOwnerState> */
-        var select: Props? /* SlotComponentProps<'select', TablePaginationSelectSlotPropsOverrides, TablePaginationOwnerState> */
-        var selectLabel: Props? /* SlotComponentProps<'p', TablePaginationSelectLabelSlotPropsOverrides, TablePaginationOwnerState> */
-        var menuItem: Props? /* SlotComponentProps<'option', TablePaginationMenuItemSlotPropsOverrides, TablePaginationOwnerState> */
-        var displayedRows: Props? /* SlotComponentProps<'p', TablePaginationDisplayedRowsSlotPropsOverrides, TablePaginationOwnerState> */
-        var toolbar: Props? /* SlotComponentProps<'div', TablePaginationToolbarSlotPropsOverrides, TablePaginationOwnerState> */
-        var spacer: Props? /* SlotComponentProps<'div', TablePaginationSpacerSlotPropsOverrides, TablePaginationOwnerState> */
+        var root: Props?
+        var actions: Props?
+        var select: Props?
+        var selectLabel: Props?
+        var menuItem: Props?
+        var displayedRows: Props?
+        var toolbar: Props?
+        var spacer: Props?
     }
 
     /**

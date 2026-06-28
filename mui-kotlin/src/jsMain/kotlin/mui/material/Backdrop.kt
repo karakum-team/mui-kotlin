@@ -67,7 +67,7 @@ external interface BackdropOwnProps :
     var components: Components?
 
     interface Components {
-        var Root: ElementType<*>? /* React.ElementType | undefined */
+        var Root: ElementType<*>?
     }
 
     /**
@@ -81,7 +81,7 @@ external interface BackdropOwnProps :
     var componentsProps: ComponentsProps?
 
     interface ComponentsProps {
-        var root: Props? /* (React.HTMLAttributes<HTMLDivElement> & BackdropComponentsPropsOverrides) | undefined */
+        var root: Props? /* React.HTMLAttributes<HTMLDivElement> & BackdropComponentsPropsOverrides */
     }
 
     /**

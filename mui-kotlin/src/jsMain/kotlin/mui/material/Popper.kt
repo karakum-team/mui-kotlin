@@ -9,6 +9,7 @@ import mui.system.PropsWithSx
 import mui.system.SxProps
 import react.ElementType
 import react.FC
+import react.Props
 
 external interface PopperProps :
     PropsWithSx,
@@ -29,7 +30,7 @@ external interface PopperProps :
     var components: Components?
 
     interface Components {
-        var Root: ElementType<*>? /* React.ElementType | undefined */
+        var Root: ElementType<*>?
     }
 
     /**
@@ -38,7 +39,7 @@ external interface PopperProps :
      * @deprecated use the `slotProps` prop instead. This prop will be removed in a future major release. [How to migrate](/material-ui/migration/migrating-from-deprecated-apis/).
      * @default {}
      */
-    var componentsProps: Any?
+    var componentsProps: Props?
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

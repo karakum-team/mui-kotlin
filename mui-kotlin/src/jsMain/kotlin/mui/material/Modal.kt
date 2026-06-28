@@ -13,11 +13,14 @@ import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
 import react.*
+import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
 import web.dom.Element
+import web.html.HTMLDivElement
 
 external interface ModalProps :
     ModalOwnProps,
+    HTMLAttributes<HTMLDivElement>,
     PropsWithComponent
 
 external interface ModalOwnerState : ModalProps {
@@ -91,8 +94,8 @@ external interface ModalOwnProps :
     var components: Components?
 
     interface Components {
-        var Root: ElementType<*>? /* React.ElementType | undefined */
-        var Backdrop: ElementType<*>? /* React.ElementType | undefined */
+        var Root: ElementType<*>?
+        var Backdrop: ElementType<*>?
     }
 
     /**
@@ -106,8 +109,8 @@ external interface ModalOwnProps :
     var componentsProps: ComponentsProps?
 
     interface ComponentsProps {
-        var root: Props? /* SlotComponentProps<'div', ModalComponentsPropsOverrides, ModalOwnerState> | undefined */
-        var backdrop: Props? /* SlotComponentProps<typeof Backdrop, ModalComponentsPropsOverrides, ModalOwnerState> | undefined */
+        var root: Props?
+        var backdrop: Props?
     }
 
     /**
@@ -219,8 +222,8 @@ external interface ModalOwnProps :
     var slotProps: SlotProps?
 
     interface SlotProps {
-        var root: Props? /* SlotComponentProps<'div', ModalComponentsPropsOverrides, ModalOwnerState> | undefined */
-        var backdrop: Props? /* SlotComponentProps<typeof Backdrop, ModalComponentsPropsOverrides, ModalOwnerState> | undefined */
+        var root: Props?
+        var backdrop: Props?
     }
 
     /**

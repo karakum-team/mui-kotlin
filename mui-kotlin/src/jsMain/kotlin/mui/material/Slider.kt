@@ -9,6 +9,7 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.system.Union
+import mui.types.PropsWithComponent
 import react.*
 import react.dom.events.SyntheticEvent
 import react.dom.html.HTMLAttributes
@@ -17,7 +18,9 @@ import web.events.Event
 import web.html.HTMLSpanElement
 
 external interface SliderProps :
-    SliderOwnProps
+    SliderOwnProps,
+    HTMLAttributes<HTMLSpanElement>,
+    PropsWithComponent
 
 external interface SliderOwnerState : SliderProps {
     var dragging: Boolean
@@ -63,14 +66,14 @@ external interface SliderOwnProps :
     var components: Components?
 
     interface Components {
-        var Root: ElementType<*>? /* React.ElementType | undefined */
-        var Track: ElementType<*>? /* React.ElementType | undefined */
-        var Rail: ElementType<*>? /* React.ElementType | undefined */
-        var Thumb: ElementType<*>? /* React.ElementType | undefined */
-        var Mark: ElementType<*>? /* React.ElementType | undefined */
-        var MarkLabel: ElementType<*>? /* React.ElementType | undefined */
-        var ValueLabel: ElementType<*>? /* React.ElementType | undefined */
-        var Input: ElementType<*>? /* React.ElementType | undefined */
+        var Root: ElementType<*>?
+        var Track: ElementType<*>?
+        var Rail: ElementType<*>?
+        var Thumb: ElementType<*>?
+        var Mark: ElementType<*>?
+        var MarkLabel: ElementType<*>?
+        var ValueLabel: ElementType<*>?
+        var Input: ElementType<*>?
     }
 
     /**
@@ -84,14 +87,14 @@ external interface SliderOwnProps :
     var componentsProps: ComponentsProps?
 
     interface ComponentsProps {
-        var root: Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> | undefined */
-        var track: Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> | undefined */
-        var rail: Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> | undefined */
-        var thumb: Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> | undefined */
-        var mark: Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> | undefined */
-        var markLabel: Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> | undefined */
-        var valueLabel: Props? /* SlotComponentProps<typeof SliderValueLabelComponent, SliderComponentsPropsOverrides, SliderOwnerState> | undefined */
-        var input: Props? /* SlotComponentProps<'input', SliderComponentsPropsOverrides, SliderOwnerState> | undefined */
+        var root: Props?
+        var track: Props?
+        var rail: Props?
+        var thumb: Props?
+        var mark: Props?
+        var markLabel: Props?
+        var valueLabel: Props?
+        var input: Props?
     }
 
     /**
@@ -219,14 +222,14 @@ external interface SliderOwnProps :
     var slotProps: SlotProps?
 
     interface SlotProps {
-        var root: Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> | undefined */
-        var track: Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> | undefined */
-        var rail: Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> | undefined */
-        var thumb: Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> | undefined */
-        var mark: Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> | undefined */
-        var markLabel: Props? /* SlotComponentProps<'span', SliderComponentsPropsOverrides, SliderOwnerState> | undefined */
-        var valueLabel: Props? /* SlotComponentProps<typeof SliderValueLabelComponent, SliderComponentsPropsOverrides, SliderOwnerState> | undefined */
-        var input: Props? /* SlotComponentProps<'input', SliderComponentsPropsOverrides, SliderOwnerState> | undefined */
+        var root: Props?
+        var track: Props?
+        var rail: Props?
+        var thumb: Props?
+        var mark: Props?
+        var markLabel: Props?
+        var valueLabel: Props?
+        var input: Props?
     }
 
     /**
@@ -237,14 +240,14 @@ external interface SliderOwnProps :
     var slots: Slots?
 
     interface Slots {
-        var root: ElementType<*>? /* React.ElementType | undefined */
-        var track: ElementType<*>? /* React.ElementType | undefined */
-        var rail: ElementType<*>? /* React.ElementType | undefined */
-        var thumb: ElementType<*>? /* React.ElementType | undefined */
-        var mark: ElementType<*>? /* React.ElementType | undefined */
-        var markLabel: ElementType<*>? /* React.ElementType | undefined */
-        var valueLabel: ElementType<*>? /* React.ElementType | undefined */
-        var input: ElementType<*>? /* React.ElementType | undefined */
+        var root: ElementType<*>?
+        var track: ElementType<*>?
+        var rail: ElementType<*>?
+        var thumb: ElementType<*>?
+        var mark: ElementType<*>?
+        var markLabel: ElementType<*>?
+        var valueLabel: ElementType<*>?
+        var input: ElementType<*>?
     }
 
     /**
