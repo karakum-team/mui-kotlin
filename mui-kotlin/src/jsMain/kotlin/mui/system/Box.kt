@@ -19,6 +19,7 @@ external interface BoxProps :
 external interface CustomSystemProps
 
 external interface BoxOwnProps :
+    SystemProps<Theme>,
     PropsWithChildren,
     PropsWithSx {
     override var children: ReactNode?

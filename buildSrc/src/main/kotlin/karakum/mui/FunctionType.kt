@@ -199,6 +199,7 @@ internal fun String.toFunctionType(): String? {
         .replace("string | undefined", "String?")
         .replace("SelectOption<Value> | undefined", "SelectOption<Value>?")
         .replace("string", "String")
+        .replace("Record<String, any>", "Record<String, *>")
         .replace("boolean", "Boolean")
         .replace("number", "Number")
         .replace("void", "Unit")

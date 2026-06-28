@@ -1139,11 +1139,6 @@ private fun props(
     if (propsName == "AppBarProps" || propsName == "AccordionProps")
         baseInterfaces += "PaperProps"
 
-    if (propsName == "TreeViewProps")
-        baseInterfaces += "SimpleTreeViewProps"
-
-    if (propsName == "RichTreeViewProps")
-        baseInterfaces += "RichTreeViewPropsBase"
 
     if (
     // TODO: Commented props has conflicts by intrinsic types

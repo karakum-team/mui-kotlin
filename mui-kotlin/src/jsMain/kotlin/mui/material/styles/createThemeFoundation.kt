@@ -2,6 +2,10 @@
 
 package mui.material.styles
 
+import js.array.ReadonlyArray
+import js.objects.Record
+import mui.system.Union
+
 external interface Opacity {
     var inputPlaceholder: Number
 
@@ -296,4 +300,59 @@ external interface ThemeVars {
     var zIndex: ZIndex
 }
 
-external interface CssVarsTheme
+external interface CssVarsTheme : ColorSystem {
+    var colorSchemes: Any? /* Partial<Record<SupportedColorScheme, ColorSystem>> */
+
+    var rootSelector: String
+
+    var colorSchemeSelector: Union /* 'media' | 'class' | 'data' | string */
+
+    var cssVarPrefix: String
+
+    var defaultColorScheme: Any? /* SupportedColorScheme */
+
+    var vars: Any? /* ThemeVars */
+
+    var getCssVar: (field: String /* ThemeCssVar */) -> String
+
+    var getColorSchemeSelector: (colorScheme: String /* SupportedColorScheme */) -> String
+
+    var generateThemeVars: () -> ThemeVars
+
+    var generateStyleSheets: () -> Array<Record<String, *>>
+
+    var generateSpacing: () -> Any /* SystemTheme['spacing'] */
+
+    var spacing: Any /* SystemTheme['spacing'] */
+
+    var breakpoints: Any /* SystemTheme['breakpoints'] */
+
+    var shape: Shape
+
+    var typography: Any? /* TypographyVariants */
+
+    var transitions: Transitions
+
+    var shadows: Any? /* Shadows */
+
+    var mixins: Mixins
+
+    var zIndex: ZIndex
+
+    var direction: Any /* SystemTheme['direction'] */
+
+    /**
+     * A function to determine if the key, value should be attached as CSS Variable
+     * `keys` is an array that represents the object path keys.
+     *  Ex, if the theme is { foo: { bar: 'var(--test)' } }
+     *  then, keys = ['foo', 'bar']
+     *        value = 'var(--test)'
+     */
+    var shouldSkipGeneratingVar: (keys: ReadonlyArray<String>, value: Any /* String | Number */) -> Boolean
+
+    var unstable_sxConfig: Any? /* SxConfig */
+
+    var unstable_sx: (props: Any /* SxProps<CssVarsTheme> */) -> Any /* CSSObject from `@mui/styled-engine` */
+
+    var applyStyles: Any? /* ApplyStyles<SupportedColorScheme> */
+}

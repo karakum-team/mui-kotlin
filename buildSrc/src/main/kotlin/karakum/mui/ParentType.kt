@@ -3,21 +3,30 @@ package karakum.mui
 internal fun findParentType(
     content: String,
 ): String? {
-    // v6 keeps `extends` mid-line (` extends `); v7 sometimes starts the clause at column 0 on its
-    // own line (`\nextends `) after a comment, e.g. StepIcon's `// TODO v7: …` line. Accept both so
-    // the inheritance isn't silently dropped (→ `react.Props`).
-    val extendsMarker = when {
-        " extends " in content -> " extends "
-        content.startsWith("extends ") -> "extends "
-        "\nextends " in content -> "\nextends "
-        else -> return null
+    // Find " extends " or "\nextends " at angle-bracket / paren depth 0 so that type-parameter
+    // bounds like `<T extends Bar>` don't shadow the real inheritance clause.
+    // v6 keeps `extends` mid-line; v7 sometimes starts the clause at column 0 after a comment.
+    val (extendsMarker, extendsAt) = run {
+        var depth = 0
+        for (i in content.indices) {
+            when (content[i]) {
+                '<', '(' -> depth++
+                '>', ')' -> depth--
+                ' ' -> if (depth == 0 && content.startsWith(" extends ", i))
+                    return@run " extends " to i
+
+                '\n' -> if (depth == 0 && content.startsWith("\nextends ", i))
+                    return@run "\nextends " to i
+            }
+        }
+        if (content.startsWith("extends ")) return@run "extends " to 0
+        return null
     }
 
     val parentSource = content
-        .substringAfter(extendsMarker)
+        .substring(extendsAt + extendsMarker.length)
         .substringBefore(" {\n")
         .substringBefore(" {}")
-        .substringAfter("\n> extends ")
 
     if ("<TDate>" in parentSource)
         return null
@@ -129,19 +138,16 @@ internal fun findParentType(
         else -> {
             // Fallback: accept simple identifiers (possibly with single-level generic).
             // Also handles multi-parent extends lists (e.g. `DrawerProps, SwipeableDrawerSlotsAndSlotProps`).
-            // All-or-nothing: if any parent looks suspicious, return null and let the caller
-            // default to react.Props — better to lose some inheritance than emit unresolved refs.
+            // Filter-and-keep: drop rejected parents (INTERNAL_REJECTED_PARENTS / utility prefixes) but
+            // keep the rest. This lets interfaces with mixed lists (e.g. RichTreeViewPropsBase +
+            // RichTreeViewPluginParameters) keep their valid parent while dropping the internal one.
             val parents = parentSource.depthAwareSplit(',')
                 .map { it.trim() }
-                .filter { it.isNotEmpty() }
-            when {
-                parents.isEmpty() -> null
-                parents.all { it.isAcceptableParent() } -> when (parents.size) {
-                    1 -> parents[0]
-                    else -> parents.joinToString(",\n", "\n")
-                }
-
-                else -> null
+                .filter { it.isNotEmpty() && it.isAcceptableParent() }
+            when (parents.size) {
+                0 -> null
+                1 -> parents[0]
+                else -> parents.joinToString(",\n", "\n")
             }
         }
     }
@@ -162,13 +168,33 @@ private val INTERNAL_REJECTED_PARENTS = setOf(
     "BasePopperProps",
     "DialogActionsProps",
     "PickersArrowSwitcherSlots",
+    "PickersArrowSwitcherSlotProps",
     "CssContainerQueries",
     "NormalCssProperties",
     "StyledComponentProps",
     "RichTreeViewPluginSlots",
     "RichTreeViewPluginSlotProps",
+    "RichTreeViewPluginParameters",
     "SimpleTreeViewPluginSlots",
     "SimpleTreeViewPluginSlotProps",
+    "SimpleTreeViewPluginParameters",
+    // MUI-X pickers: internal/cross-platform base types not suitable as Kotlin parents.
+    "BaseDateTimePickerProps",
+    "BaseTimePickerProps",
+    "MobileOnlyPickerProps",
+    // Responsive picker interfaces (DatePicker / DateTimePicker / TimePicker) extend both Desktop* and
+    // Mobile* variants and re-declare slots/slotProps with narrower types. Kotlin can't override with
+    // an incompatible type, so reject all Desktop*/Mobile* picker parents; the responsive interface
+    // remains self-contained with its own members.
+    "DesktopDatePickerProps",
+    "MobileDatePickerProps",
+    "DesktopDateTimePickerProps",
+    "MobileDateTimePickerProps",
+    "DesktopTimePickerProps",
+    "MobileTimePickerProps",
+    // DateTimePickerProps also extends ExportedYearCalendarProps which defines yearsPerRow;
+    // DateTimePickerProps re-declares it with the same type but Kotlin still requires override.
+    "ExportedYearCalendarProps",
 )
 
 private fun String.isAcceptableParent(): Boolean {

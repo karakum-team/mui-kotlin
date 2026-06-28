@@ -11,7 +11,8 @@ import web.dom.Element
 import web.html.HTMLElement
 import web.html.HTMLSpanElement
 
-external interface PickersSectionListProps : Props {
+external interface PickersSectionListProps :
+    ExportedPickersSectionListProps {
     /**
      * Overridable component slots.
      */

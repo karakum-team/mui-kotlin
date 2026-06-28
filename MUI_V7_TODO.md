@@ -17,22 +17,7 @@
 
 ## ОТЛОЖЕНО — сделать в другой итерации (триггеры)
 
-- **[TODO] `CssVarsTheme` застаблен пустым** (`adapters/CreateThemeFoundation.kt`). Член-сплиттер
-  (`MemberConverter.convertMembers`) не разбивает тело этого интерфейса (смесь indexed-access
-  `SystemTheme['spacing']`, безаргументных стрелок `() => X`, и rest-параметра `...vars`) — сырой TS
-  утекал в Kotlin. Стаб эмитит `external interface CssVarsTheme : ColorSystem` без членов. ПРАВИЛЬНЫЙ
-  фикс — починить convertMembers на этих формах, тогда вернуть члены. До этого `theme.vars/colorSchemes`
-  через `CssVarsTheme` недоступны. **Триггер:** отдельная итерация по `convertMembers`.
-- **[TODO] Общий depth-aware `findParentType`. ТРИГГЕР: делать ПРИ БАМПЕ ВЕРСИЙ mui-x** (`mui-x-* = 7.28.0`).
-  `findParentType` (`ParentType.kt`) использует `substringAfter(" extends ")`, который на v7-интерфейсах
-  с generic-bound'ами (`<T extends X>`) хватает баунд вместо списка родителей. Общий depth-aware фикс
-  (искать ` extends ` на глубине угловых скобок 0) чинит это, НО вскрывает латентные родители mui-x
-  picker'ов/treeview (`MobileOnlyPickerProps`, `BaseTimePickerProps`, `BaseDateTimePickerProps`,
-  `PickersArrowSwitcherSlotProps` не сгенерены; override `yearsPerRow`/`slots`/`slotProps` в DatePicker;
-  type-args у `SimpleTreeViewProps`) → ~12 регрессий. Пока (material) пофикшено точечно адаптерами
-  (`adaptListItemText`, `adaptAutocomplete`). **При v7-бампе mui-x:** применить общий depth-aware фикс +
-  убрать точечные адаптеры (срез generic-баундов у Autocomplete/ListItemText) + reject перечисленные
-  mui-x родители (в `INTERNAL_REJECTED_PARENTS`) и доделать их override/type-args.
+*Нет активных TODO. Оба пункта закрыты 2026-06-28.*
 
 ## Восстановление качества типов (done 2026-06-27)
 
@@ -143,4 +128,9 @@ sed -E 's|.*/kotlin/||; s/:[0-9]+:[0-9]+ .*//' /tmp/err.txt | sort | uniq -c | s
 3. Регрессия: не-v7 код сверить с upstream `JetBrains/kotlin-wrappers/kotlin-mui-*` (на 6.5) — НЕ делалось.
 4. ✅ Новые v7-исключения/стабы задокументированы здесь.
 5. Smoke (не запускалось): `./gradlew :playground:jsViteDev` → http://localhost:5173/.
-6. Вернуть члены `CssVarsTheme` после фикса `convertMembers`; общий depth-aware `findParentType` — при v7-бампе mui-x.
+6. ✅ `CssVarsTheme` — члены восстановлены (21 член) через точечные адаптеры в `CreateThemeFoundation.kt`
+   (indexed-access→dynamic, rest-param срезан, ThemeCssVar/SupportedColorScheme/SxProps → String/Any).
+   Depth-aware `findParentType` применён (2026-06-28); точечные адаптеры Autocomplete/ListItemText упрощены;
+   6 внутренних mui-x родителей добавлены в `INTERNAL_REJECTED_PARENTS` (BaseDateTimePickerProps,
+   BaseTimePickerProps, MobileOnlyPickerProps, PickersArrowSwitcherSlotProps, RichTreeViewPluginParameters,
+   DesktopDatePickerProps, MobileDatePickerProps). Компиляция зелёная.

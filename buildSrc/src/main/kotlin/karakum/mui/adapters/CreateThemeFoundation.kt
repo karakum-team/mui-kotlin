@@ -1,35 +1,20 @@
 package karakum.mui.adapters
 
-// STOPGAP (v7). `createThemeFoundation.d.ts` declares:
-//   export interface CssVarsTheme extends ColorSystem { colorSchemes; …; getCssVar: (…, ...vars) => …; … }
-// The member converter fails to split this particular body (a mix of indexed-access types like
-// `SystemTheme['spacing']`, no-arg arrows `() => ThemeVars`, and a rest param `...vars`), so the raw
-// TS body leaks into the generated Kotlin and produces a syntax error (unclosed comment / missing brace).
-//
-// Until the splitter is fixed, empty the interface body — `external interface CssVarsTheme : ColorSystem`
-// still compiles and keeps the type and its parent for references elsewhere. The individual members are
-// lost (acceptable: upstream kotlin-wrappers is still on 6.5, no v7 reference exists). See MUI_V7_TODO.md.
-fun String.adaptCreateThemeFoundation(): String {
-    val header = "export interface CssVarsTheme extends ColorSystem {"
-    val start = indexOf(header)
-    if (start < 0) return this
-
-    // Brace-balanced scan from the opening `{` to its match. The only braces inside the body live in a
-    // JSDoc example (`{ foo: { bar } }`) and are themselves balanced, so the scan lands on the real close.
-    val open = start + header.length - 1
-    var depth = 0
-    var end = -1
-    var i = open
-    while (i < length) {
-        when (this[i]) {
-            '{' -> depth++
-            '}' -> if (--depth == 0) {
-                end = i; break
-            }
-        }
-        i++
-    }
-    if (end < 0) return this
-
-    return substring(0, open) + "{\n}" + substring(end + 1)
-}
+// Fixes `CssVarsTheme` from `createThemeFoundation.d.ts` so the member converter can process its body.
+// Patterns that would produce invalid Kotlin if left unchanged:
+//   • generateSpacing return type  () => SystemTheme['spacing']  — toFunctionType() bypasses kotlinType(),
+//     so the indexed-access type would pass through raw; replace only the function-return occurrence.
+//     Standalone members (spacing / breakpoints / direction) are handled by kotlinType() line 642.
+//   • Rest parameter  getCssVar: (field: ThemeCssVar, ...vars: ThemeCssVar[]) => string
+//   • ThemeCssVar / SupportedColorScheme — TS type aliases not generated as Kotlin types; only the
+//     usage positions (`: ThemeCssVar`) are replaced, not the type declaration itself.
+//   • Inline record type  generateStyleSheets: () => Array<Record<string, any>>  (handled in FunctionType.kt)
+fun String.adaptCreateThemeFoundation(): String =
+    // generateSpacing returns an indexed-access type via toFunctionType(); replace only that occurrence.
+    replace("=> SystemTheme['spacing']", "=> Any /* SystemTheme['spacing'] */")
+        .replace(", ...vars: ThemeCssVar[])", ")")
+        // Only replace usage sites (`: ThemeCssVar`), not the type declaration `type ThemeCssVar = …`.
+        .replace(": ThemeCssVar", ": String /* ThemeCssVar */")
+        .replace("(colorScheme: SupportedColorScheme)", "(colorScheme: String /* SupportedColorScheme */)")
+        // SxProps is from @mui/system but not imported in this generated file; collapse to Any.
+        .replace("SxProps<CssVarsTheme>", "Any /* SxProps<CssVarsTheme> */")

@@ -11,6 +11,6 @@ export interface TreeViewSlotProps extends SimpleTreeViewSlotProps {
 export type SingleSelectTreeViewProps = SimpleTreeViewProps<false>;
 export type MultiSelectTreeViewProps = SimpleTreeViewProps<true>;
 """,
-        newValue = """export interface TreeViewProps<Multiple extends boolean | undefined> extends SimpleTreeViewProps<Multiple> {
+        newValue = """export interface TreeViewProps<Multiple extends boolean | undefined> extends SimpleTreeViewProps {
 }""",
     )

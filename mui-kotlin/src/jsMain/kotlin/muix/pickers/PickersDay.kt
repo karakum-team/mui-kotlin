@@ -13,7 +13,8 @@ import react.Props
 import react.dom.events.MouseEvent
 import web.html.HTMLButtonElement
 
-external interface PickersDayProps<TDate> : Props {
+external interface PickersDayProps<TDate> :
+    ExportedPickersDayProps {
     /**
      * Override or extend the styles applied to the component.
      */
