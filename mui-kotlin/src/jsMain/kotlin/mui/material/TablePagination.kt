@@ -30,9 +30,9 @@ external interface LabelDisplayedRowsArgs {
 
     var to: Number
 
-    var count: Number
+    var count: Int
 
-    var page: Number
+    var page: Int
 }
 
 external interface TablePaginationSlots {
@@ -148,7 +148,7 @@ external interface TablePaginationOwnProps :
      *
      * To enable server side pagination for an unknown number of items, provide -1.
      */
-    var count: Number
+    var count: Int
 
     /**
      * If `true`, the component is disabled.
@@ -214,14 +214,14 @@ external interface TablePaginationOwnProps :
     /**
      * The zero-based index of the current page.
      */
-    var page: Number
+    var page: Int
 
     /**
      * The number of rows per page.
      *
      * Set -1 to display all the rows.
      */
-    var rowsPerPage: Number
+    var rowsPerPage: Int
 
     /**
      * Customizes the options of the rows per page select field. If less than two options are

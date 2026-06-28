@@ -43,7 +43,7 @@ external interface AppBarOwnProps :
      * It accepts values between 0 and 24 inclusive.
      * @default 4
      */
-    var elevation: Number?
+    var elevation: Int?
 
     /**
      * If true, the `color` prop is applied in dark mode.

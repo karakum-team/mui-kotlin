@@ -37,7 +37,7 @@ external interface PaperOwnProps :
      * It accepts values between 0 and 24 inclusive.
      * @default 1
      */
-    var elevation: Number?
+    var elevation: Int?
 
     /**
      * If `true`, rounded corners are disabled.

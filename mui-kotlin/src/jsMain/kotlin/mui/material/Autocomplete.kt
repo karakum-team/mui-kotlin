@@ -134,7 +134,7 @@ external interface AutocompleteProps<Value> :
      * Set `-1` to disable the limit.
      * @default -1
      */
-    var limitTags: Number?
+    var limitTags: Int?
 
     /**
      * Text to display when there are no options.

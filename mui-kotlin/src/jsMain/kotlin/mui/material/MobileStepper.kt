@@ -29,7 +29,7 @@ external interface MobileStepperProps :
      * Defines which dot is highlighted when the variant is 'dots'.
      * @default 0
      */
-    var activeStep: Number?
+    var activeStep: Int?
 
     /**
      * A back button element. For instance, it can be a `Button` or an `IconButton`.
@@ -61,7 +61,7 @@ external interface MobileStepperProps :
     /**
      * The total steps.
      */
-    var steps: Number
+    var steps: Int
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

@@ -43,7 +43,7 @@ external interface DrawerProps :
      * The elevation of the drawer.
      * @default 16
      */
-    var elevation: Number?
+    var elevation: Int?
 
     /**
      * Props applied to the [`Modal`](https://mui.com/material-ui/api/modal/) element.

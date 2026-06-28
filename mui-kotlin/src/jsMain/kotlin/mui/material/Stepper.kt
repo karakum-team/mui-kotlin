@@ -35,7 +35,7 @@ external interface StepperOwnProps :
      * Set to -1 to disable all the steps.
      * @default 0
      */
-    var activeStep: Number?
+    var activeStep: Int?
 
     /**
      * If set to 'true' and orientation is horizontal,

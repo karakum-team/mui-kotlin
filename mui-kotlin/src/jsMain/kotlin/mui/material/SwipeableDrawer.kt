@@ -55,7 +55,7 @@ external interface SwipeableDrawerProps :
      * Specified as percent (0-1) of the width of the drawer
      * @default 0.52
      */
-    var hysteresis: Number?
+    var hysteresis: Double?
 
     /**
      * Defines, from which (average) velocity on, the swipe is

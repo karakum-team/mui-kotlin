@@ -98,7 +98,7 @@ external interface AvatarGroupOwnProps :
      * The total number of avatars. Used for calculating the number of extra avatars.
      * @default children.length
      */
-    var total: Number?
+    var total: Int?
 
     /**
      * The variant to use.

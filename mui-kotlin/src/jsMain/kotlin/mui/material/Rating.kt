@@ -177,7 +177,7 @@ external interface RatingOwnProps :
      * The minimum increment value change allowed.
      * @default 1
      */
-    var precision: Number?
+    var precision: Double?
 
     /**
      * Removes all hover effects and pointer events.

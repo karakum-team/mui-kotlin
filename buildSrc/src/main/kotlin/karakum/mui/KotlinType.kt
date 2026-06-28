@@ -100,6 +100,47 @@ private val KNOWN_TYPE_PREFIX_MAP = mapOf(
     "SlotComponentProps" to "react.Props",
 )
 
+private val NUMBER_AS_INT_PROPERTIES = setOf(
+    // Animation delays (ms)
+    "enterDelay", "enterNextDelay", "enterTouchDelay",
+    "leaveDelay", "leaveTouchDelay",
+    // Auto-hide timings (ms)
+    "autoHideDuration", "resumeHideDuration",
+    // Pagination
+    "count", "page", "rowsPerPage", "defaultPage",
+    "boundaryCount", "siblingCount",
+    // Steppers
+    "activeStep", "steps",
+    // Counters
+    "limitTags",
+    "itemsAfterCollapse", "itemsBeforeCollapse", "maxItems",
+    "total",
+    // Grid layout
+    "cols", "defaultColumns",
+    // Elevation (0–24)
+    "elevation",
+    // Date pickers
+    "yearsPerRow", "monthsPerRow",
+    // Slider internal index
+    "focusedThumbIndex",
+    // Textarea row count (minRows/maxRows handled separately)
+    "rows",
+)
+
+private val NUMBER_AS_DOUBLE_PROPERTIES = setOf(
+    // Opacity ratios (0.0–1.0)
+    "hoverOpacity", "selectedOpacity", "disabledOpacity",
+    "focusOpacity", "activatedOpacity",
+    // Palette contrast threshold (WCAG ratio)
+    "contrastThreshold",
+    // SwipeableDrawer velocity/ratio
+    "hysteresis",
+    // Rating precision (0.5 or 1.0)
+    "precision",
+    // CircularProgress stroke width
+    "thickness",
+)
+
 private val STANDARD_TYPE_MAP = mapOf(
     "any" to "Any",
     "object" to "Any",
@@ -307,6 +348,12 @@ internal fun kotlinType(
 
     if (type == "number" && name == "tabIndex")
         return "Int"
+
+    if (type == "number" && name in NUMBER_AS_INT_PROPERTIES)
+        return "Int"
+
+    if (type == "number" && name in NUMBER_AS_DOUBLE_PROPERTIES)
+        return "Double"
 
     if (type == "string" && name != null && name.endsWith("ClassName"))
         return "ClassName"

@@ -30,7 +30,7 @@ external interface TablePaginationActionsProps :
 
     override var className: ClassName?
 
-    var count: Number
+    var count: Int
 
     /**
      * If `true`, the component is disabled.
@@ -56,9 +56,9 @@ external interface TablePaginationActionsProps :
 
     var onPageChange: (event: MouseEvent<HTMLButtonElement, *>?, page: Number) -> Unit
 
-    var page: Number
+    var page: Int
 
-    var rowsPerPage: Number
+    var rowsPerPage: Int
 
     var showFirstButton: Boolean
 

@@ -112,19 +112,19 @@ external interface TooltipProps :
      * This prop won't impact the enter touch delay (`enterTouchDelay`).
      * @default 100
      */
-    var enterDelay: Number?
+    var enterDelay: Int?
 
     /**
      * The number of milliseconds to wait before showing the tooltip when one was already recently opened.
      * @default 0
      */
-    var enterNextDelay: Number?
+    var enterNextDelay: Int?
 
     /**
      * The number of milliseconds a user must touch the element before showing the tooltip.
      * @default 700
      */
-    var enterTouchDelay: Number?
+    var enterTouchDelay: Int?
 
     /**
      * If `true`, the tooltip follow the cursor over the wrapped element.
@@ -143,13 +143,13 @@ external interface TooltipProps :
      * This prop won't impact the leave touch delay (`leaveTouchDelay`).
      * @default 0
      */
-    var leaveDelay: Number?
+    var leaveDelay: Int?
 
     /**
      * The number of milliseconds after the user stops touching an element before hiding the tooltip.
      * @default 1500
      */
-    var leaveTouchDelay: Number?
+    var leaveTouchDelay: Int?
 
     /**
      * Callback fired when the component requests to be closed.

@@ -110,7 +110,7 @@ external interface SnackbarProps :
      * If `autoHideDuration` prop is specified but `resumeHideDuration` isn't,
      * we default to `autoHideDuration / 2` ms.
      */
-    var resumeHideDuration: Number?
+    var resumeHideDuration: Int?
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

@@ -36,13 +36,13 @@ external interface ImageListItemOwnProps :
      * Width of the item in number of grid columns.
      * @default 1
      */
-    var cols: Number?
+    var cols: Int?
 
     /**
      * Height of the item in number of grid rows.
      * @default 1
      */
-    var rows: Number?
+    var rows: Int?
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

@@ -42,7 +42,7 @@ external interface MasonryOwnProps :
     /**
      * The default number of columns of the component. This is provided for server-side rendering.
      */
-    var defaultColumns: Number?
+    var defaultColumns: Int?
 
     /**
      * The default height of the component in px. This is provided for server-side rendering.

@@ -27,7 +27,7 @@ external interface SliderOwnerState : SliderProps {
 
     var marked: Boolean
 
-    var focusedThumbIndex: Number
+    var focusedThumbIndex: Int
 }
 
 external interface SliderOwnProps :

@@ -108,7 +108,7 @@ external interface PopoverProps :
      * The elevation of the popover.
      * @default 8
      */
-    var elevation: Number?
+    var elevation: Int?
 
     /**
      * Specifies how close to the edge of the window the popover can appear.

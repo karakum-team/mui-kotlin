@@ -36,7 +36,7 @@ external interface ImageListOwnProps :
      * Number of columns.
      * @default 2
      */
-    var cols: Number?
+    var cols: Int?
 
     /**
      * The gap between items in px.

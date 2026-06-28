@@ -60,7 +60,7 @@ external interface CircularProgressProps :
      * The thickness of the circle.
      * @default 3.6
      */
-    var thickness: Number?
+    var thickness: Double?
 
     /**
      * The value of the progress indicator for the determinate variant.
