@@ -58,10 +58,15 @@ internal fun findDefaultUnions(
     var newContent = content
 
     findUnionSource(newContent, "color") { original, source ->
-        if (source.startsWith("'")) {
+        // Only build a `<Name>Color` enum from a clean string-literal union.
+        // v7 Typography.color mixes literals with a template-literal member
+        // (`` `text${Capitalize<keyof TypeText>}` ``); leave those for the
+        // `OverridableStringUnion<…>` → `Any?` fallback in KotlinType instead.
+        if (source.startsWith("'") && "`" !in source) {
             val colorName = "${name}Color"
             newContent = newContent.replaceFirst(original, colorName)
-            unions += convertUnion("$colorName = $source")!!
+            unions += convertUnion("$colorName = $source")
+                ?: error("convertUnion null (color): name=$name source=[$source]")
         } else if (source == "AlertColor") {
             newContent = newContent.replaceFirst(original, source)
         }
@@ -97,7 +102,8 @@ internal fun findDefaultUnions(
                 .replaceFirst("\n$original", " $className")
                 .replaceFirst(" $original", " $className")
                 .replaceFirst("<$original", "<$className")
-            unions += convertUnion("$className = $source")!!
+            unions += convertUnion("$className = $source")
+                ?: error("DIAG convertUnion null: name=$name property=$property className=$className source=[$source]")
         }
     }
 
@@ -127,6 +133,10 @@ private fun findUnionSource(
         content.substringAfter("  $property: ", ""),
     ).filter { it.isNotEmpty() }
         .map { it.substringBefore(";\n") }
+        // v7 surfaces optional members as `… | undefined`. Strip it BEFORE unwrapping
+        // `ResponsiveStyleValue<…>`, otherwise the string ends with `undefined` (not `>`) and the
+        // unwrap silently no-ops — leaving the literal union unrecognized (e.g. Stack `direction`).
+        .map { it.removeSuffix(" | undefined") }
         .map { it.removeSurrounding("ResponsiveStyleValue<", ">") }
         .firstOrNull()
         ?: return
@@ -142,6 +152,9 @@ private fun findUnionSource(
             "'onClick' | 'onMouseDown' | 'onMouseUp' | 'onPointerDown' | 'onPointerUp'"
         )
         .replace("ClickAwayTouchEventHandler", "'onTouchStart' | 'onTouchEnd'")
+        // v7 surfaces optional members explicitly (e.g. `'left' | 'right' | undefined`);
+        // drop the `undefined` member so the generated union stays a clean literal enum.
+        .replace(" | undefined", "")
         .trim()
 
     if (source.startsWith("| '"))

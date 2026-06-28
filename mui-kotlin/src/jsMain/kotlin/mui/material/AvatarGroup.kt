@@ -26,7 +26,7 @@ external interface AvatarGroupSlotProps : Props {
     /** TS: React.ComponentPropsWithRef<typeof Avatar> & AvatarGroupComponentsPropsOverrides */
     var additionalAvatar: Any?
 
-    /** TS: SlotProps< React.ElementType<React.ComponentPropsWithRef<typeof Avatar>>, AvatarGroupComponentsPropsOverrides, AvatarGroupOwnerState > */
+    /** TS: SlotProps<React.ElementType<React.ComponentPropsWithRef<typeof Avatar>>, AvatarGroupComponentsPropsOverrides, AvatarGroupOwnerState> */
     var surplus: Any?
 }
 
@@ -62,13 +62,12 @@ external interface AvatarGroupOwnProps :
      *
      * This prop is an alias for the `slotProps` prop.
      *
-     * @deprecated use the `slotProps` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
+     * @deprecated use the `slotProps` prop instead. This prop will be removed in a future major release. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      */
     var componentsProps: ComponentsProps?
 
     interface ComponentsProps {
-        var additionalAvatar: Props? /* React.ComponentPropsWithRef<typeof Avatar> &
-  AvatarGroupComponentsPropsOverrides */
+        var additionalAvatar: Props? /* (React.ComponentPropsWithRef<typeof Avatar> & AvatarGroupComponentsPropsOverrides) | undefined */
     }
 
     /**
@@ -114,11 +113,11 @@ external interface AvatarGroupOwnerState
  *
  * Demos:
  *
- * - [Avatar](https://v6.mui.com/material-ui/react-avatar/)
+ * - [Avatar](https://v7.mui.com/material-ui/react-avatar/)
  *
  * API:
  *
- * - [AvatarGroup API](https://v6.mui.com/material-ui/api/avatar-group/)
+ * - [AvatarGroup API](https://v7.mui.com/material-ui/api/avatar-group/)
  */
 @JsName("default")
 external val AvatarGroup: FC<AvatarGroupProps>

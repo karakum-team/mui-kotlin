@@ -57,4 +57,10 @@ internal val VAR_TYPE_MISMATCH_ON_OVERRIDE_FIX_REQUIRED = setOf(
     "DialogContentText",
     "TabScrollButton",
     "Rating",
+
+    // v7: typed `onChange`/`onClose` callbacks narrow the parent's (Modal/Paper) wider type.
+    "Accordion", // classes: AccordionClasses? vs PaperClasses?
+    "Dialog", // onClose
+    "Drawer", // onClose
+    "Popover", // onClose
 )

@@ -11,8 +11,12 @@ internal fun fixOverrides(
 
         "Autocomplete",
             -> content
+            // AutocompleteProps inherits disabled/readOnly from UseAutocompleteProps (restored as a
+            // parent for v7, see ParentType.kt) — own redeclarations must override.
             .override("disabled")
             .override("readOnly")
+            // onKeyDown is redeclared over the one inherited via StandardProps → HTMLAttributes → DOMAttributes.
+            .override("onKeyDown")
             .replace("var key: Number", "override var key: react.Key? /* Key */")
 
         "Rating",

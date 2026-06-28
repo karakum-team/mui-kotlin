@@ -112,9 +112,7 @@ external interface ModalOwnProps : PropsWithChildren {
      * @param {object} event The event source of the callback.
      * @param {string} reason Can be: `"escapeKeyDown"`, `"backdropClick"`.
      */
-    var onClose: Any? /* {
-    bivarianceHack(event: {}, reason: 'backdropClick' | 'escapeKeyDown'): void;
-}['bivarianceHack'] */
+    var onClose: ((event: Any, reason: String) -> Unit)?
 
     /**
      * A function called when a transition enters.

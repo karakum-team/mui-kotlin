@@ -39,5 +39,13 @@ external interface LocalizationProviderProps<TDate, TLocale> : PropsWithChildren
     var localeText: Any? /* PickersInputLocaleText<TDate> */
 }
 
+external interface MuiPickersAdapterContextValue {
+    var defaultDates: Any
+
+    var utils: Any? /* MuiPickersAdapter<TDate> */
+
+    var localeText: Any /* PickersInputLocaleText<TDate> */
+}
+
 
 external val LocalizationProvider: FC<LocalizationProviderProps<*, *>>

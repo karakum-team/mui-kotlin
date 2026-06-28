@@ -56,30 +56,30 @@ external interface InputBaseProps :
     /**
      * The components used for each slot inside.
      *
-     * @deprecated use the `slots` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
+     * @deprecated use the `slots` prop instead. This prop will be removed in a future major release. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      *
      * @default {}
      */
     var components: Components?
 
     interface Components {
-        var Root: ElementType<*>?
-        var Input: ElementType<*>?
+        var Root: ElementType<*>? /* React.ElementType | undefined */
+        var Input: ElementType<*>? /* React.ElementType | undefined */
     }
 
     /**
      * The extra props for the slot components.
      * You can override the existing props or add new ones.
      *
-     * @deprecated use the `slotProps` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
+     * @deprecated use the `slotProps` prop instead. This prop will be removed in a future major release. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      *
      * @default {}
      */
     var componentsProps: ComponentsProps?
 
     interface ComponentsProps {
-        var root: Props? /* React.HTMLAttributes<HTMLDivElement> & InputBaseComponentsPropsOverrides */
-        var input: Props? /* React.InputHTMLAttributes<HTMLInputElement> & InputBaseComponentsPropsOverrides */
+        var root: Props? /* (React.HTMLAttributes<HTMLDivElement> & InputBaseComponentsPropsOverrides) | undefined */
+        var input: Props? /* (React.InputHTMLAttributes<HTMLInputElement> & InputBaseComponentsPropsOverrides) | undefined */
     }
 
     /**
@@ -130,7 +130,7 @@ external interface InputBaseProps :
     var inputComponent: ElementType<InputBaseComponentProps>?
 
     /**
-     * [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
+     * [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#attributes) applied to the `input` element.
      * @default {}
      */
     var inputProps: InputBaseComponentProps?
@@ -201,15 +201,7 @@ external interface InputBaseProps :
      */
     var required: Boolean?
 
-    var renderSuffix: Any? /* (state: {
-  disabled?: boolean;
-  error?: boolean;
-  filled?: boolean;
-  focused?: boolean;
-  margin?: 'dense' | 'none' | 'normal';
-  required?: boolean;
-  startAdornment?: React.ReactNode;
-}) => React.ReactNode */
+    var renderSuffix: ((state: Any) -> ReactNode)?
 
     /**
      * Number of rows to display when multiline option is set to true.
@@ -242,10 +234,8 @@ external interface InputBaseProps :
     var slotProps: SlotProps?
 
     interface SlotProps {
-        var root: Props? /* React.HTMLAttributes<HTMLDivElement> &
-  InputBaseComponentsPropsOverrides & { sx */
-        var input: Props? /* React.InputHTMLAttributes<HTMLInputElement> &
-  InputBaseComponentsPropsOverrides & { sx */
+        var root: Props? /* (React.HTMLAttributes<HTMLDivElement> & InputBaseComponentsPropsOverrides) | undefined */
+        var input: Props? /* (React.InputHTMLAttributes<HTMLInputElement> & InputBaseComponentsPropsOverrides) | undefined */
     }
 
     /**
@@ -258,8 +248,8 @@ external interface InputBaseProps :
     var slots: Slots?
 
     interface Slots {
-        var root: ElementType<*>?
-        var input: ElementType<*>?
+        var root: ElementType<*>? /* React.ElementType | undefined */
+        var input: ElementType<*>? /* React.ElementType | undefined */
     }
 
     /**
@@ -273,7 +263,7 @@ external interface InputBaseProps :
     override var sx: SxProps<Theme>?
 
     /**
-     * Type of the `input` element. It should be [a valid HTML5 input type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types).
+     * Type of the `input` element. It should be [a valid HTML5 input type](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#input_types).
      * @default 'text'
      */
     var type: String?
@@ -294,11 +284,11 @@ external interface InputBaseComponentProps :
  *
  * Demos:
  *
- * - [Text Field](https://v6.mui.com/material-ui/react-text-field/)
+ * - [Text Field](https://v7.mui.com/material-ui/react-text-field/)
  *
  * API:
  *
- * - [InputBase API](https://v6.mui.com/material-ui/api/input-base/)
+ * - [InputBase API](https://v7.mui.com/material-ui/api/input-base/)
  */
 @JsName("default")
 external val InputBase: FC<InputBaseProps>

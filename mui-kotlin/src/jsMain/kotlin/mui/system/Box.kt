@@ -35,6 +35,7 @@ external interface BoxOwnProps :
  *
  * - [Box (Joy UI)](https://mui.com/joy-ui/react-box/)
  * - [Box (Material UI)](https://mui.com/material-ui/react-box/)
+ * - [Menubar (Material UI)](https://mui.com/material-ui/react-menubar/)
  * - [Box (MUI System)](https://mui.com/system/react-box/)
  *
  * API:

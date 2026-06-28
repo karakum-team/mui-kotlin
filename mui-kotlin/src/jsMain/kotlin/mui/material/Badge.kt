@@ -19,7 +19,6 @@ import web.html.HTMLSpanElement
 
 external interface BadgeProps :
     BadgeOwnProps,
-    HTMLAttributes<HTMLSpanElement>,
     PropsWithComponent
 
 external interface BadgeSlots {
@@ -102,24 +101,24 @@ external interface BadgeOwnProps :
      * The extra props for the slot components.
      * You can override the existing props or add new ones.
      *
-     * @deprecated use the `slotProps` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
+     * @deprecated use the `slotProps` prop instead. This prop will be removed in a future major release. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      *
      * @default {}
      */
-    var componentsProps: mui.base.BadgeOwnProps.SlotProps?
+    var componentsProps: Any?
 
     /**
      * The components used for each slot inside.
      *
-     * @deprecated use the `slots` prop instead. This prop will be removed in v7. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
+     * @deprecated use the `slots` prop instead. This prop will be removed in a future major release. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.
      *
      * @default {}
      */
     var components: Components?
 
     interface Components {
-        var Root: ElementType<*>?
-        var Badge: ElementType<*>?
+        var Root: ElementType<*>? /* React.ElementType | undefined */
+        var Badge: ElementType<*>? /* React.ElementType | undefined */
     }
 
     /**
@@ -162,12 +161,12 @@ external interface BadgeOwnProps :
  *
  * Demos:
  *
- * - [Avatar](https://v6.mui.com/material-ui/react-avatar/)
- * - [Badge](https://v6.mui.com/material-ui/react-badge/)
+ * - [Avatar](https://v7.mui.com/material-ui/react-avatar/)
+ * - [Badge](https://v7.mui.com/material-ui/react-badge/)
  *
  * API:
  *
- * - [Badge API](https://v6.mui.com/material-ui/api/badge/)
+ * - [Badge API](https://v7.mui.com/material-ui/api/badge/)
  */
 @JsName("default")
 external val Badge: FC<BadgeProps>

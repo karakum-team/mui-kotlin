@@ -7,7 +7,6 @@ package muix.tree.view
 import web.cssom.ClassName
 
 sealed external interface TreeViewClasses {
-    /** Styles applied to the root element. */
     val root: ClassName
 }
 

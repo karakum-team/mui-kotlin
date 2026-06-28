@@ -855,13 +855,11 @@ private fun generate(
     if (extensionsBody.isNotEmpty() && componentName != "Stepper") {
         val fileName = "$componentName.ext"
 
-        val finalBody = when (componentName) {
-            "createTypography" -> extensionsBody.replace("Variant", "TypographyVariant")
-            else -> extensionsBody
-        }
-
+        // NB: v6 named this union `Variant` and renamed it here to `TypographyVariant`. v7 already
+        // declares `export type TypographyVariant`, so no rename is needed (doing it would double the
+        // prefix → `TypographyTypographyVariant`).
         targetDir.resolve("$fileName.kt")
-            .writeText(fileContent(body = finalBody, pkg = pkg))
+            .writeText(fileContent(body = extensionsBody, pkg = pkg))
     }
 
     if (componentName == "RadioGroup")

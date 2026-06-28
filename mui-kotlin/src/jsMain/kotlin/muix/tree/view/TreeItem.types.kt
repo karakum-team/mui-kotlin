@@ -10,6 +10,7 @@ import react.dom.events.FocusEventHandler
 import react.dom.events.KeyboardEventHandler
 import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
+import web.html.HTMLElement
 import web.html.HTMLLIElement
 
 external interface TreeItemProps :
@@ -52,7 +53,7 @@ external interface TreeItemProps :
      * Props applied to ContentComponent.
      * @deprecated Consider using the `<TreeItem2 />` component or the `useTreeItem2` hook instead. For more details, see https://mui.com/x/react-tree-view/tree-item-customization/.
      */
-    var ContentProps: Props? /* React.HTMLAttributes<HTMLElement> & { ref?: React.Ref<HTMLElement>; } */
+    var ContentProps: HTMLAttributes<HTMLElement>?
 
     /**
      * If `true`, the item is disabled.

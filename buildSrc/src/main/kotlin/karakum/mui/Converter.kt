@@ -37,6 +37,10 @@ private fun getClassesContent(
     source: String,
 ): String = source
     .substringBefore("\n}\n")
+    // v7 adds JSDoc to inline `classes` objects (e.g. TreeItemContent). Drop the doc blocks so only
+    // `name: string;` lines remain; otherwise doc lines leak verbatim into the generated interface.
+    .replace(Regex("""/\*\*.*?\*/""", RegexOption.DOT_MATCHES_ALL), "")
+    .replace(Regex("""\n\s*\n"""), "\n")
     .trimIndent()
     .splitToSequence("\n")
     .map {
@@ -65,6 +69,11 @@ internal fun convertDefinitions(
         .removeDeprecated()
         .removeExtendsEmptyObject()
         .replace("(inProps: ", "(props: ")
+        // v7 declares some components as `React.JSXElementConstructor<Props>` instead of the
+        // v6 `React.ComponentType<Props>` (e.g. internal/SwitchBase). Normalize so findComponent's
+        // ComponentType path matches; otherwise the `const1` prefix fallback mis-extracts the
+        // comment and leaks the whole raw body into the output.
+        .replace("React.JSXElementConstructor<", "React.ComponentType<")
         .replace(
             "interface PopperProps extends Omit<BasePopperProps, 'direction'>",
             "interface PopperProps extends BasePopperProps",
@@ -174,7 +183,10 @@ internal fun convertDefinitions(
         findComponent(name, propsName, fun2Declaration, content),
         findComponent(name, propsName, fun3Declaration, content),
         findComponent(name, propsName, fun4Declaration, content),
-        findComponent(name, propsName, typeDeclaration, content, "ComponentType"),
+        // v7 declares function components as `declare const X: React.JSXElementConstructor<XProps>`
+        // (normalized to `React.ComponentType<…>` above). These are function components — emit `FC`
+        // (as v6 did), not `ComponentType`. No v7 component is natively declared `React.ComponentType`.
+        findComponent(name, propsName, typeDeclaration, content, "FC"),
         findComponent(name, propsName, const1Declaration, content),
         findComponent(name, propsName, const2Declaration, content),
     ).take(1)
@@ -680,6 +692,12 @@ private fun findMapProps(
             sequenceOf(
                 "mui.material.ButtonProps".takeIf { name == "LoadingButton" },
                 "${name}OwnProps",
+                // v7 wires slots/slotProps into the TypeMap props intersection
+                // (`props: AdditionalProps & XxxOwnProps & XxxSlotsAndSlotProps`) rather than via the
+                // OwnProps `extends`. Carry the generated `XxxSlotsAndSlotProps` interface as a parent so
+                // `slots`/`slotProps` are exposed (e.g. Chip). The interface is emitted by
+                // convertSlotsAndSlotPropsAliases; skip when it was dropped to avoid a Modal/Popover diamond.
+                "${name}SlotsAndSlotProps".takeIf { "& ${name}SlotsAndSlotProps" in propsContent },
                 intrinsicProps,
             ).filterNotNull().joinToString(",\n", "\n")
         }
@@ -713,6 +731,10 @@ private fun findMapProps(
 
     val hasComponent = ": OverridableComponent<" in content
             || "&\n  OverridableComponent<" in content
+            // ButtonBase-derived components are polymorphic too (`<Button component={…}>`); v7 declares
+            // them `declare const X: ExtendButtonBase<XTypeMap>`. Without this they lose `PropsWithComponent`
+            // (their `… & { component?: React.ElementType }` signal is stripped by dropInlineIntersections).
+            || ": ExtendButtonBase<" in content
             || "& {\n  component?: React.ElementType;\n};" in content
 
     return if (membersContent.isNotEmpty()) {
@@ -1258,6 +1280,13 @@ private fun findComponent(
         comment = comment
             .substringAfterLast(";\n")
             .substringAfterLast("}\n")
+
+    // The `substringAfterLast(...)` chain above returns the ENTIRE prefix when its delimiter is
+    // absent (e.g. v7 internal/SwitchBase, whose `declare const` has no preceding JSDoc and whose
+    // body has no `};\n`/`\n\n` marker). Guard against dumping the whole raw body as a "comment":
+    // a real doc comment is a trailing JSDoc block.
+    if (!comment.trimEnd().endsWith("*/"))
+        comment = ""
 
     if (name == "PickersActionBar")
         comment = ""

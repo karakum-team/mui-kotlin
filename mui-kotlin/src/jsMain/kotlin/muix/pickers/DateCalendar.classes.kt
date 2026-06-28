@@ -7,10 +7,7 @@ package muix.pickers
 import web.cssom.ClassName
 
 sealed external interface DateCalendarClasses {
-    /** Styles applied to the root element. */
     val root: ClassName
-
-    /** Styles applied to the transition group element. */
     val viewTransitionContainer: ClassName
 }
 

@@ -82,11 +82,11 @@ external interface StepperOwnProps :
  *
  * Demos:
  *
- * - [Stepper](https://v6.mui.com/material-ui/react-stepper/)
+ * - [Stepper](https://v7.mui.com/material-ui/react-stepper/)
  *
  * API:
  *
- * - [Stepper API](https://v6.mui.com/material-ui/api/stepper/)
+ * - [Stepper API](https://v7.mui.com/material-ui/api/stepper/)
  */
 @JsName("default")
 external val Stepper: FC<StepperProps>

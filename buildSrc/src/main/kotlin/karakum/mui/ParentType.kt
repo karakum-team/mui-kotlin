@@ -52,15 +52,24 @@ internal fun findParentType(
     }
 
     if (parentSource.startsWith("UseAutocompleteProps<")) {
-        val (first, second) = parentSource.split(",\n    ")
-        return sequenceOf(
-            "mui.base." + first.replace(", Multiple, DisableClearable, FreeSolo", ""),
-            parseStandardProps(second),
-        ).joinToString(",", "\n")
+        // v7 emits the parents on a single line (`UseAutocompleteProps<…>, StandardProps<…>,
+        // AutocompleteSlotsAndSlotProps<…>`) rather than the old `,\n    ` split. Use a depth-aware
+        // split so commas inside the generics are ignored, keep only the two parents we can map
+        // (UseAutocompleteProps collapsed to `<Value>`, and StandardProps), and drop the internal
+        // AutocompleteSlotsAndSlotProps (its slots/slotProps are emitted via findAdditionalProps).
+        val parts = parentSource.depthAwareSplit(',').map { it.trim() }
+        val first = "mui.base." + parts.first().substringBefore("<") + "<Value>"
+        val standard = parts.drop(1).firstOrNull { it.startsWith("StandardProps<") }
+        return sequenceOf(first, standard?.let(::parseStandardProps))
+            .filterNotNull()
+            .joinToString(",", "\n")
     }
 
     if (parentSource.startsWith("UsePaginationProps")) {
-        val (first, second) = parentSource.split(",\n    ")
+        // v7 moved Pagination into `@mui/material` and emits the parents on a single line
+        // (`UsePaginationProps, StandardProps<...>`) instead of the old `,\n    ` split.
+        // Use a depth-aware split so the comma inside `StandardProps<...>` is ignored.
+        val (first, second) = parentSource.depthAwareSplit(',').map { it.trim() }
         return sequenceOf(
             first,
             parseStandardProps(second),

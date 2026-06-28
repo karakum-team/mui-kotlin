@@ -6,17 +6,11 @@ package mui.material
 
 import mui.material.styles.Theme
 import mui.system.PropsWithSx
-import mui.system.StandardProps
 import mui.system.SxProps
 import react.FC
 import react.ReactNode
-import react.dom.html.HTMLAttributes
-import web.html.HTMLDivElement
 
-external interface StepIconProps :
-    StandardProps,
-    HTMLAttributes<HTMLDivElement>,
-    PropsWithSx {
+external interface StepIconProps : PropsWithSx {
     /**
      * Whether this step is active.
      * @default false
@@ -55,12 +49,12 @@ external interface StepIconProps :
  *
  * Demos:
  *
- * - [Stepper](https://v6.mui.com/material-ui/react-stepper/)
+ * - [Stepper](https://v7.mui.com/material-ui/react-stepper/)
  *
  * API:
  *
- * - [StepIcon API](https://v6.mui.com/material-ui/api/step-icon/)
- * - inherits [SvgIcon API](https://v6.mui.com/material-ui/api/svg-icon/)
+ * - [StepIcon API](https://v7.mui.com/material-ui/api/step-icon/)
+ * - inherits [SvgIcon API](https://v7.mui.com/material-ui/api/svg-icon/)
  */
 @JsName("default")
 external val StepIcon: FC<StepIconProps>

@@ -7,7 +7,6 @@ package mui.material
 import web.cssom.ClassName
 
 sealed external interface DialogTitleClasses {
-    /** Styles applied to the root element. */
     val root: ClassName
 }
 

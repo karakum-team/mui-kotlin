@@ -5,6 +5,22 @@ fun String.adaptComponentsAndSlots(): String {
     return cleanupFormControlLabelSlots()
         .cleanupStepLabelSlots()
         .cleanupBadgeOwnSlots()
+        .cleanupDeprecatedComponentsProps()
+}
+
+// v7 types the deprecated `componentsProps` of Badge/Popper as an indexed-access of the own props'
+// `slotProps` member (`BadgeOwnProps['slotProps']`, `BasePopperProps['slotProps']`). The generator
+// renders an indexed access as a member reference (`BadgeOwnProps.SlotProps`), but no such nested
+// `SlotProps` type exists, so it is unresolved. The prop is deprecated; collapse it to `any` (same
+// `Any?` other deprecated `componentsProps` end up as).
+private fun String.cleanupDeprecatedComponentsProps(): String {
+    return replace(
+        "componentsProps?: BadgeOwnProps['slotProps'] | undefined;",
+        "componentsProps?: any;",
+    ).replace(
+        "componentsProps?: BasePopperProps['slotProps'] | undefined;",
+        "componentsProps?: any;",
+    )
 }
 
 private fun String.cleanupFormControlLabelSlots(): String {

@@ -1,5 +1,39 @@
 package karakum.mui
 
+// Replace every balanced inline object literal `{ … }` with `Any`. v7 inlines config/return
+// objects directly into callback signatures (e.g. `(state: { … }) => ReactNode`,
+// `(query) => { matches: boolean }`, `options?: Partial<{ … }>`); Kotlin function types can't
+// express anonymous object types, so collapse them to `Any`.
+private fun String.collapseInlineObjects(): String {
+    if ('{' !in this) return this
+
+    val sb = StringBuilder()
+    var i = 0
+    while (i < length) {
+        if (this[i] == '{') {
+            var depth = 0
+            var j = i
+            while (j < length) {
+                when (this[j]) {
+                    '{' -> depth++
+                    '}' -> if (--depth == 0) break
+                }
+                j++
+            }
+            if (j < length) {
+                sb.append("Any")
+                i = j + 1
+                continue
+            }
+            sb.append(this, i, length)
+            break
+        }
+        sb.append(this[i])
+        i++
+    }
+    return sb.toString()
+}
+
 internal fun String.toFunctionType(): String? {
     // TS generic function `<T extends X = Y>(args) => ResultType<T>` — Kotlin function types
     // don't support generic params, so drop the leading `<...>` declaration. The param name
@@ -48,6 +82,12 @@ internal fun String.toFunctionType(): String? {
     if (!startsWith("("))
         return null
 
+    // A real function type must have an arrow. Parenthesized non-functions (e.g. `(A & B)`,
+    // `(A | B)`) also start with `(` — let them fall through to the `Any? /* … */` fallback
+    // instead of being mangled by the string replacements below.
+    if (" => " !in this)
+        return null
+
     if (startsWith("(state: {"))
         return null
 
@@ -71,6 +111,10 @@ internal fun String.toFunctionType(): String? {
         .replace(
             "React.KeyboardEvent<HTMLButtonElement>",
             "react.dom.events.KeyboardEvent<web.html.HTMLButtonElement>"
+        )
+        .replace(
+            "React.KeyboardEvent<HTMLDivElement>",
+            "react.dom.events.KeyboardEvent<web.html.HTMLDivElement>"
         )
         .replace("React.MouseEvent<HTMLElement>", "react.dom.events.MouseEvent<web.html.HTMLElement, *>")
         .replace("React.HTMLAttributes<HTMLLIElement>", "react.dom.html.HTMLAttributes<web.html.HTMLLIElement>")
@@ -143,6 +187,10 @@ internal fun String.toFunctionType(): String? {
         .replace("ItemValue[]", "ReadonlyArray<ItemValue>")
         .replace("OptionValue[]", "ReadonlyArray<OptionValue>")
         .replace("Value[]", "ReadonlyArray<Value>")
+        // `string | string[]` (e.g. createTransitions `create`'s `props` arg) — a single value or a
+        // list. Collapse to `ReadonlyArray<String>` (as v6 did) BEFORE the generic `string[]` rule,
+        // otherwise it becomes `String | ReadonlyArray<String>` and gets widened to `Any` at line ~208.
+        .replace("string | string[]", "ReadonlyArray<String>")
         .replace("string[]", "ReadonlyArray<String>")
         .replace("number | string | boolean", "Any /* String or Number or Boolean */")
         .replace("number | string", "Any /* number | string */")
@@ -156,4 +204,11 @@ internal fun String.toFunctionType(): String? {
         .replace("void", "Unit")
         .replace("object", "Any")
         .replace(": any", ": Any")
+        // Collapse any inline object literals left after the specific `<{}>` / `{ matches }`
+        // replaces above (e.g. `(state: { … })`, `options?: Partial<{ … }>`), then tidy the
+        // resulting `Partial<Any>` / optional-param / union-param forms into valid Kotlin.
+        .collapseInlineObjects()
+        .replace("Partial<Any>", "Any")
+        .replace(": String | ReadonlyArray<String>", ": Any /* String | ReadonlyArray<String> */")
+        .replace("?: Any", ": Any?")
 }

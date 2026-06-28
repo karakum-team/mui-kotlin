@@ -31,9 +31,6 @@ internal fun convertUnion(
     if (body.startsWith("Omit<TableCellProps,"))
         return "typealias $name = TableCellBaseProps /* $body */"
 
-    if (body.startsWith("StandardProps<React.HTMLAttributes<HTMLElement>> & {"))
-        return "external interface $name : ${findParentType(" extends " + body.replace("> & {", "> {"))}"
-
     if ((!body.startsWith("'") || !body.endsWith("'")) && body.substringAfterLast("| ").toIntOrNull() == null)
         return null
 

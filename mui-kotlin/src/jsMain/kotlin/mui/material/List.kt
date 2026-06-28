@@ -7,7 +7,6 @@ package mui.material
 import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
-import mui.types.PropsWithComponent
 import react.FC
 import react.PropsWithChildren
 import react.ReactNode
@@ -16,8 +15,7 @@ import web.html.HTMLUListElement
 
 external interface ListProps :
     ListOwnProps,
-    HTMLAttributes<HTMLUListElement>,
-    PropsWithComponent
+    HTMLAttributes<HTMLUListElement>
 
 external interface ListOwnProps :
     PropsWithChildren,
@@ -61,12 +59,13 @@ external interface ListOwnProps :
  *
  * Demos:
  *
- * - [Lists](https://v6.mui.com/material-ui/react-list/)
- * - [Transfer List](https://v6.mui.com/material-ui/react-transfer-list/)
+ * - [Lists](https://v7.mui.com/material-ui/react-list/)
+ * - [Menubar](https://v7.mui.com/material-ui/react-menubar/)
+ * - [Transfer List](https://v7.mui.com/material-ui/react-transfer-list/)
  *
  * API:
  *
- * - [List API](https://v6.mui.com/material-ui/api/list/)
+ * - [List API](https://v7.mui.com/material-ui/api/list/)
  */
 @JsName("default")
 external val List: FC<ListProps>

@@ -293,6 +293,15 @@ internal fun kotlinType(
     type: String,
     name: String? = null,
 ): String {
+    // v7 appends an explicit `| undefined` to optional members (callbacks, unions, etc.).
+    // Optionality is already encoded by the `?:` marker (see MemberConverter.convertProperty),
+    // so drop the redundant trailing union member. This both fixes function types like
+    // `((…) => void) | undefined` and restores the v6-shaped strings the rules below match on.
+    // The function was wrapped in grouping parens only to attach `| undefined` (`((…) => …) | undefined`);
+    // once that's gone the outer pair is redundant and would otherwise double up as `(((…)->…))?`.
+    if (type.endsWith(" | undefined"))
+        return kotlinType(unwrapRedundantParens(type.removeSuffix(" | undefined")), name)
+
     if (type in KNOWN_TYPES)
         return type
 
@@ -369,14 +378,35 @@ internal fun kotlinType(
         return "Any /* TabsContextValue */"
 
     // For system theme interfaces
-    if (name == "palette" && type.startsWith("Record<"))
-        return "Any? /* ${STANDARD_TYPE_MAP.getValue(type)} */"
+    // v7 widened this to `Record<string, any> | undefined`; strip the optional suffix
+    // before the map lookup and fall back to the raw type so we never throw on a miss.
+    if (name == "palette" && type.startsWith("Record<")) {
+        val baseType = type.removeSuffix(" | undefined")
+        return "Any? /* ${STANDARD_TYPE_MAP[baseType] ?: baseType} */"
+    }
 
     if (name == "dateAdapter")
         return "$DATE_ADAPTER /* $type */"
 
     STANDARD_TYPE_MAP[type]
         ?.also { return it }
+
+    // v7 inline object-literal member types (e.g. Breadcrumbs/StepLabel/FormControlLabel `slotProps`):
+    // no Kotlin structural equivalent — widen to `Any?`. Strip inner doc-comments and collapse
+    // whitespace so we never emit a nested (and therefore unclosed) `/* … */`.
+    // EXCEPTION: `classes`/`components`/`componentsProps`/`slots`/`slotProps` have dedicated
+    // nested-interface handlers below; and a `*Props`-named member (e.g. useSlider `axisProps`) is a
+    // props bag — let it reach the `react.Props` handler instead of widening to `Any?`.
+    if (type.startsWith("{") &&
+        name !in STRUCTURED_INLINE_MEMBER_NAMES &&
+        !(name != null && name.endsWith("Props"))
+    ) {
+        val oneLine = type
+            .replace(Regex("""/\*.*?\*/""", RegexOption.DOT_MATCHES_ALL), "")
+            .replace(Regex("""\s+"""), " ")
+            .trim()
+        return "Any? /* $oneLine */"
+    }
 
     type.toFunctionType()
         ?.also { return it }
@@ -463,8 +493,14 @@ internal fun kotlinType(
         return "react.dom.events.$handlerType"
     }
 
-    val propsType = type.removeSurrounding("React.JSXElementConstructor<", ">")
-    if (propsType != type) {
+    // `React.JSXElementConstructor<X>` and `React.ComponentType<X>` (the former is normalized to the
+    // latter for const declarations, but member types like Dialog `TransitionComponent` reach here as
+    // either). v7 often intersects the arg (`<TransitionProps & { children: … }>`); dropInlineIntersections
+    // already reduced it to the base props type. Emit `react.ComponentType<X>`, falling back to `<*>`.
+    val ctorPrefix = listOf("React.JSXElementConstructor<", "React.ComponentType<")
+        .firstOrNull { type.startsWith(it) }
+    if (ctorPrefix != null) {
+        val propsType = type.removeSurrounding(ctorPrefix, ">")
         val typeParameter = propsType
             .takeIf { it.endsWith("Props") }
             ?.let { STANDARD_TYPE_MAP[it] ?: it }
@@ -521,7 +557,10 @@ internal fun kotlinType(
             .map { it.trimStart() }
             .joinToString(" ")
 
-        if (comment == "Variant | 'inherit', TypographyPropsVariantOverrides")
+        // v7 renamed the first union member `Variant` → `TypographyVariant`; accept both.
+        if (comment == "Variant | 'inherit', TypographyPropsVariantOverrides" ||
+            comment == "TypographyVariant | 'inherit', TypographyPropsVariantOverrides"
+        )
             return "mui.material.styles.TypographyVariant"
 
         // TODO: Don't understand why need this check. Should work without. Try to remove
@@ -546,7 +585,7 @@ internal fun kotlinType(
     }
 
     // TODO: Remove when MUI completes migration to slots
-    if ((name == "components" || name == "componentsProps") && type.startsWith("{\n") && "/**" !in type) {
+    if ((name == "components" || name == "componentsProps") && type.startsWith("{\n")) {
         val interfaceName = name.replaceFirstChar(Char::titlecase)
         val defaultType = if (name == "components") "react.ElementType<*>" else "react.Props"
         return interfaceName + "\n\n" + componentInterface(interfaceName, type, defaultType)
@@ -554,7 +593,7 @@ internal fun kotlinType(
 
     // TODO: Need to process `SlotProps` interface separately from parent interface
     if (name == "slots" || name == "slotProps") {
-        return if (!type.startsWith("{\n") || "/**" in type) {
+        return if (!type.startsWith("{\n")) {
             type
                 .replace("<OptionValue, Multiple>", "")
                 .replace("<TValue>", "")
@@ -575,19 +614,65 @@ internal fun kotlinType(
     return "Any? /* $type */"
 }
 
+// Member names with a dedicated nested-interface handler in kotlinType — their inline-object value
+// must NOT be widened to `Any?` by the generic `{`-fallback.
+private val STRUCTURED_INLINE_MEMBER_NAMES = setOf(
+    "classes", "components", "componentsProps", "slots", "slotProps",
+)
+
+// If `type` is fully wrapped in one redundant outer paren pair, unwrap it once. v7 wraps members in
+// grouping parens to attach `| undefined` — `((args) => ret)` (function) or `(ImgHTMLAttributes<…>)`
+// (after the `& { sx }` intersection is dropped). Once the `| undefined` is gone the pair is redundant
+// and would otherwise double up (`(((…)->…))?`) or hide the base type from STANDARD_TYPE_MAP lookup.
+// Detects the wrapper by checking the first `(` matches the last char; leaves `(args) => ret`
+// (first `(` closes mid-string) untouched.
+private fun unwrapRedundantParens(type: String): String {
+    if (!type.startsWith("(") || !type.endsWith(")")) return type
+    var depth = 0
+    for (i in type.indices) {
+        when (type[i]) {
+            '(' -> depth++
+            ')' -> {
+                depth--
+                // First `(` closed before the end → not a whole-string wrapper.
+                if (depth == 0 && i != type.lastIndex) return type
+            }
+        }
+    }
+    return type.substring(1, type.length - 1)
+}
+
+// Remove JSDoc blocks (`/** … */`) and any now-empty lines from an inline-object source, so the
+// member-by-member parsers below (`split("?: ")` etc.) see only `name?: type;` lines. v7 added docs
+// to many inline slot/component objects that v6 didn't have.
+private fun stripInlineDocs(source: String): String =
+    source
+        .replace(Regex("""/\*\*.*?\*/""", RegexOption.DOT_MATCHES_ALL), "")
+        .replace(Regex("""\n\s*\n"""), "\n")
+
 private fun componentInterface(
     sourceName: String,
     source: String,
     defaultType: String,
 ): String {
-    val body = source
+    val body = stripInlineDocs(source)
         .removeSurrounding("{\n", ";\n}")
         .trimIndent()
         .replace(";\n}", "\n}")
         .replace(";\n  ", "\n  ")
         .splitToSequence(";\n")
-        .joinToString("\n") { line ->
-            val (name, typeSource) = line.split("?: ")
+        .map { it.trim() }
+        .filter { it.isNotEmpty() }
+        .mapNotNull { line ->
+            // Members are `name?: type` (optional) or, rarely, `name: type`. Split on the first
+            // separator; skip anything without one (residual blank/brace lines after doc-stripping).
+            val sep = when {
+                "?: " in line -> "?: "
+                ": " in line -> ": "
+                else -> return@mapNotNull null
+            }
+            val name = line.substringBefore(sep)
+            val typeSource = line.substringAfter(sep)
             val type = STANDARD_TYPE_MAP[typeSource]
                 ?.let { "$it?" }
             // Fallback: if STANDARD_TYPE_MAP misses but the typeSource is a simple `XxxProps`
@@ -598,6 +683,7 @@ private fun componentInterface(
 
             "var $name: $type"
         }
+        .joinToString("\n")
 
     return "interface $sourceName {\n$body\n}"
 }

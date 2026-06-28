@@ -42,7 +42,7 @@ external interface BreadcrumbsOwnProps :
     var slots: Slots?
 
     interface Slots {
-        var CollapsedIcon: ElementType<*>?
+        var CollapsedIcon: ElementType<*>? /* React.ElementType | undefined */
     }
 
     /**
@@ -51,13 +51,9 @@ external interface BreadcrumbsOwnProps :
      */
     var slotProps: SlotProps?
 
-    interface SlotProps {
-        var collapsedIcon: Props? /* SlotComponentProps<
-  typeof SvgIcon,
-  BreadcrumbsCollapsedIconSlotPropsOverrides,
-  BreadcrumbsOwnerState
-> */
-    }
+    interface SlotProps
+
+    var collapsedIcon: Props?
 
     /**
      * Override the default label for the expand button.
@@ -103,12 +99,12 @@ external interface BreadcrumbsOwnProps :
  *
  * Demos:
  *
- * - [Breadcrumbs](https://v6.mui.com/material-ui/react-breadcrumbs/)
+ * - [Breadcrumbs](https://v7.mui.com/material-ui/react-breadcrumbs/)
  *
  * API:
  *
- * - [Breadcrumbs API](https://v6.mui.com/material-ui/api/breadcrumbs/)
- * - inherits [Typography API](https://v6.mui.com/material-ui/api/typography/)
+ * - [Breadcrumbs API](https://v7.mui.com/material-ui/api/breadcrumbs/)
+ * - inherits [Typography API](https://v7.mui.com/material-ui/api/typography/)
  */
 @JsName("default")
 external val Breadcrumbs: FC<BreadcrumbsProps>

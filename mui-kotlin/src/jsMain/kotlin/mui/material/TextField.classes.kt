@@ -7,7 +7,6 @@ package mui.material
 import web.cssom.ClassName
 
 sealed external interface TextFieldClasses {
-    /** Styles applied to the root element. */
     val root: ClassName
 }
 
