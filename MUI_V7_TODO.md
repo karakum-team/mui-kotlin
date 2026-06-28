@@ -7,8 +7,8 @@
 ## Текущее состояние
 
 - **Версии** (`gradle.properties`): `mui-material/system/icons = 7.3.11`, `mui-lab = 7.0.1-beta.25`.
-  `mui-base = 5.0.0-beta.70` (frozen, осознанно — см. `MUI_V6_TODO.md`), `mui-x-* = 7.28.0` (НЕ трогаем,
-  отдельный шаг позже).
+  `mui-base = 5.0.0-beta.70` (frozen, осознанно — см. `MUI_V6_TODO.md`),
+  `mui-x-date-pickers = 7.29.4`, `mui-x-tree-view = 7.29.10` (смигрировано 2026-06-28).
 - **`generateDeclarations` — зелёный**, 596 `.kt`.
 - **`compileKotlinJs`: 0 ошибок** (было 1050 → ~20 → 0).
 - **`:playground:compileKotlinJs`: 0 ошибок.**
