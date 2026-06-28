@@ -7,6 +7,7 @@ package mui.lab
 import web.cssom.ClassName
 
 sealed external interface TimelineConnectorClasses {
+    /** Styles applied to the root element. */
     val root: ClassName
 }
 

@@ -7,7 +7,10 @@ package mui.material
 import web.cssom.ClassName
 
 sealed external interface BackdropClasses {
+    /** Styles applied to the root element. */
     val root: ClassName
+
+    /** Styles applied to the root element if `invisible={true}`. */
     val invisible: ClassName
 }
 

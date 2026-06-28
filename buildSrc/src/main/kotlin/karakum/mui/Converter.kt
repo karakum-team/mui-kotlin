@@ -30,17 +30,18 @@ internal fun convertInlineClasses(
     classesName: String,
     source: String,
 ): String {
-    return "interface $classesName \n${getClassesContent(source)}"
+    // v7 adds JSDoc inside inline `classes` object literals (e.g. TreeItemContent). Strip them so
+    // only `name: string;` lines reach getClassesContent; otherwise the doc text leaks verbatim.
+    val stripped = source
+        .replace(Regex("""/\*\*.*?\*/""", RegexOption.DOT_MATCHES_ALL), "")
+        .replace(Regex("""\n\s*\n"""), "\n")
+    return "interface $classesName \n${getClassesContent(stripped)}"
 }
 
 private fun getClassesContent(
     source: String,
 ): String = source
     .substringBefore("\n}\n")
-    // v7 adds JSDoc to inline `classes` objects (e.g. TreeItemContent). Drop the doc blocks so only
-    // `name: string;` lines remain; otherwise doc lines leak verbatim into the generated interface.
-    .replace(Regex("""/\*\*.*?\*/""", RegexOption.DOT_MATCHES_ALL), "")
-    .replace(Regex("""\n\s*\n"""), "\n")
     .trimIndent()
     .splitToSequence("\n")
     .map {

@@ -7,6 +7,7 @@ package mui.lab
 import web.cssom.ClassName
 
 sealed external interface MasonryClasses {
+    /** Styles applied to the root element. */
     val root: ClassName
 }
 

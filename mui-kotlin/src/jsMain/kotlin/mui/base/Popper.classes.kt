@@ -7,6 +7,7 @@ package mui.base
 import web.cssom.ClassName
 
 sealed external interface PopperClasses {
+    /** Class name applied to the root element. */
     val root: ClassName
 }
 

@@ -7,7 +7,10 @@ package mui.material
 import web.cssom.ClassName
 
 sealed external interface ListItemSecondaryActionClasses {
+    /** Styles applied to the root element. */
     val root: ClassName
+
+    /** Styles applied to the root element when the parent `ListItem` has `disableGutters={true}`. */
     val disableGutters: ClassName
 }
 
