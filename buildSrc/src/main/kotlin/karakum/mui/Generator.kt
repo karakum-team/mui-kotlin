@@ -135,10 +135,11 @@ private val STYLE_TRANSITION_CREATE_OPTIONS = """
 external interface TransitionCreateOptions {
     var duration: Number?
     var easing: String?
-    var delay: Number?    
+    var delay: Number?
 }
 """.trimIndent()
 
+// language=kotlin
 // language=kotlin
 private val MATERIAL_SIZE = """
 sealed external interface Size {
@@ -415,7 +416,8 @@ private fun generateMaterialDeclarations(
                 "useTouchRipple",
                 "useAutocomplete",
                 "DefaultPropsProvider",
-                "useLazyRipple"
+                "useLazyRipple",
+                "GridLegacy",
             )
         }
         .filter { it.name != "StyledEngineProvider" }

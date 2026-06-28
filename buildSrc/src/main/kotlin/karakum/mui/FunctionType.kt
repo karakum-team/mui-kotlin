@@ -156,7 +156,7 @@ internal fun String.toFunctionType(): String? {
         )
         .replace(
             "AutocompleteOwnerState<Value, Multiple, DisableClearable, FreeSolo, ChipComponent>",
-            "AutocompleteProps<Value> /* AutocompleteOwnerState<Value> */"
+            "AutocompleteOwnerState<Value>"
         )
         .replace("UseSwitchInputSlotProps", "Any /* UseSwitchInputSlotProps */")
         .replace(

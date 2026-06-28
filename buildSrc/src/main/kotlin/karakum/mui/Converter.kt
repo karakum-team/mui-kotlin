@@ -47,8 +47,8 @@ private fun getClassesContent(
     .map {
         val name = it.removeSuffix(": string;").removeSuffix("?")
         if (name == it) return@map it
-        val line = "val $name: ClassName"
-        if (name.startsWith("'")) "    // $line" else line
+        val kotlinName = if (name.startsWith("'")) "`${name.removeSurrounding("'")}`" else name
+        "val $kotlinName: ClassName"
     }
     .joinToString("\n")
 
@@ -119,6 +119,20 @@ internal fun convertDefinitions(
         // interface so the generator emits `slots?: XxxSlots` and `slotProps?: ...` fields.
         // Inner SlotProps typing is collapsed to `any` for now (see MUI_V6_TODO.md).
         .convertSlotsAndSlotPropsAliases()
+        // AutocompleteOwnerState is a type alias `= AutocompleteProps<...>;` in the version
+        // the generator processes (intersection body is absent). Convert it to an interface
+        // so findAdditionalProps picks it up with the correct parent type.
+        .replace(
+            Regex("""export type AutocompleteOwnerState<[^>]+> = AutocompleteProps<[^>]+>;"""),
+            "export interface AutocompleteOwnerState<Value> extends AutocompleteProps<Value> {\n" +
+                    "  expanded: boolean;\n" +
+                    "  focused: boolean;\n" +
+                    "  hasClearIcon: boolean;\n" +
+                    "  hasPopupIcon: boolean;\n" +
+                    "  inputFocused: boolean;\n" +
+                    "  popupOpen: boolean;\n" +
+                    "}\n"
+        )
         // Components that extend Modal/Popover/InputBase already inherit `slots`/`slotProps`
         // of the parent's types. Their own `XxxSlotsAndSlotProps` would create a diamond
         // (Kotlin's invariant `var` rejects `ModalSlots? vs DialogSlots?`). Drop the
@@ -380,6 +394,183 @@ private fun String.convertExportSlotsAndSlotPropsAliases(): String {
         cursor = endOfDecl
     }
     if (cursor < length) result.append(this, cursor, length)
+    return result.toString()
+}
+
+/**
+ * Converts `export type XxxOwnerState<T1, T2, ...> = XxxProps<T1, T2, ...> & { ... };` to
+ * `export interface XxxOwnerState<T1> extends XxxProps<T1> { unique_fields }`.
+ *
+ * Fields are filtered to keep only those unique to OwnerState:
+ *  - fields already declared in any same-file interface are dropped (they're inherited)
+ *  - fields whose type references generic params beyond the first (T2, T3, ...) are dropped
+ *    because we simplify to a single-param interface
+ */
+private fun String.buildInterfaceFieldNames(): Set<String> {
+    val names = mutableSetOf<String>()
+    val content = this
+    val delimiters = listOf("export interface ", "interface ")
+    var searchFrom = 0
+
+    while (searchFrom < content.length) {
+        val (startPos, delimLen) = delimiters
+            .mapNotNull { d ->
+                val p = content.indexOf(d, searchFrom).takeIf { it >= 0 } ?: return@mapNotNull null
+                p to d.length
+            }
+            .minByOrNull { it.first } ?: break
+
+        // Find opening brace (skip generic params and extends clause at depth 0)
+        var bracePos = -1
+        var depth = 0
+        for (i in startPos + delimLen until content.length) {
+            when (content[i]) {
+                '<', '(' -> depth++
+                '>', ')' -> depth--
+                '{' -> if (depth == 0) {
+                    bracePos = i; break
+                }
+            }
+        }
+        if (bracePos < 0) break
+
+        // Find matching closing brace
+        var closePos = -1
+        var closeDepth = 1
+        for (i in bracePos + 1 until content.length) {
+            when (content[i]) {
+                '{' -> closeDepth++
+                '}' -> if (--closeDepth == 0) {
+                    closePos = i; break
+                }
+            }
+        }
+        if (closePos < 0) break
+
+        // Extract direct members: exactly 2-space indent (depth 1 within body)
+        val body = content.substring(bracePos + 1, closePos)
+        for (line in body.lines()) {
+            if (line.length < 3 || line[0] != ' ' || line[1] != ' ' || line[2] == ' ') continue
+            val trimmed = line.trimStart()
+            if (trimmed.isEmpty() || trimmed.startsWith("/")) continue
+            val fieldName = trimmed
+                .substringBefore("?:")
+                .substringBefore(": ")
+                .substringBefore("(")
+                .trim()
+            if (fieldName.isNotEmpty() && fieldName.all { c -> c.isLetterOrDigit() || c == '_' }) {
+                names.add(fieldName)
+            }
+        }
+
+        searchFrom = closePos + 1
+    }
+    return names
+}
+
+private fun String.convertIntersectionAliases(): String {
+    if (" & {\n" !in this) return this
+
+    val existingFieldNames = buildInterfaceFieldNames()
+    val result = StringBuilder()
+    var cursor = 0
+
+    while (cursor < length) {
+        val typeStart = indexOf("export type ", cursor).takeIf { it >= 0 } ?: break
+        val lineEnd = indexOf('\n', typeStart).takeIf { it >= 0 } ?: break
+        val firstLine = substring(typeStart + "export type ".length, lineEnd)
+
+        // Must be: Name<params> = Base<params> & {  (line ends with " & {")
+        if (!firstLine.endsWith(" & {") || " = " !in firstLine) {
+            result.append(this, cursor, typeStart + "export type ".length)
+            cursor = typeStart + "export type ".length
+            continue
+        }
+
+        // Find " = " at angle-bracket depth 0 — generic param defaults like
+        // `ChipComponent extends React.ElementType = Default` also contain " = " inside the
+        // type param list, so a plain indexOf would find the wrong occurrence.
+        val eqIdx = run {
+            var depth = 0
+            var found = -1
+            for (i in 0 until firstLine.length - 2) {
+                when (firstLine[i]) {
+                    '<' -> depth++
+                    '>' -> depth--
+                }
+                if (depth == 0 && firstLine.startsWith(" = ", i)) {
+                    found = i; break
+                }
+            }
+            found
+        }
+        if (eqIdx < 0) {
+            result.append(this, cursor, typeStart + "export type ".length)
+            cursor = typeStart + "export type ".length
+            continue
+        }
+        val nameWithParams = firstLine.substring(0, eqIdx).trim()
+        val baseTypeDecl = firstLine.substring(eqIdx + 3).removeSuffix(" & {").trim()
+
+        val simpleName = nameWithParams.substringBefore("<")
+        val allParams = if ("<" in nameWithParams) {
+            nameWithParams.substringAfter("<").substringBeforeLast(">")
+                .split(",")
+                .map { it.trim().substringBefore(" ").substringBefore("=").trim() }
+                .filter { it.isNotEmpty() }
+        } else emptyList()
+
+        if (allParams.isEmpty()) {
+            result.append(this, cursor, typeStart + "export type ".length)
+            cursor = typeStart + "export type ".length
+            continue
+        }
+
+        val firstParam = allParams.first()
+        val otherParams = allParams.drop(1).toSet()
+        val baseTypeName = baseTypeDecl.substringBefore("<")
+
+        val bodyStart = lineEnd + 1
+        val bodyEnd = indexOf("\n};", bodyStart).takeIf { it >= 0 } ?: run {
+            result.append(this, cursor, typeStart + "export type ".length)
+            cursor = typeStart + "export type ".length
+            return@run -1
+        }
+        if (bodyEnd < 0) continue
+
+        val body = substring(bodyStart, bodyEnd)
+        val filteredLines = body.lines().filter { line ->
+            val trimmed = line.trimStart()
+            if (trimmed.isEmpty()) return@filter false
+            val fieldName = trimmed
+                .substringBefore("?:")
+                .substringBefore(": ")
+                .substringBefore("(")
+                .trim()
+            if (fieldName in existingFieldNames) return@filter false
+            if (otherParams.isNotEmpty()) {
+                val fieldType = if (": " in trimmed) trimmed.substringAfter(": ") else ""
+                if (otherParams.any { param ->
+                        Regex("(?<![A-Za-z0-9_])${Regex.escape(param)}(?![A-Za-z0-9_])").containsMatchIn(fieldType)
+                    }) return@filter false
+            }
+            true
+        }
+
+        if (filteredLines.isEmpty()) {
+            result.append(this, cursor, typeStart)
+            cursor = bodyEnd + "\n};".length
+            continue
+        }
+
+        result.append(this, cursor, typeStart)
+        result.append("export interface $simpleName<$firstParam> extends $baseTypeName<$firstParam> {\n")
+        result.append(filteredLines.joinToString("\n"))
+        result.append("\n}")
+        cursor = bodyEnd + "\n};".length
+    }
+
+    if (cursor < length) result.append(this, cursor)
     return result.toString()
 }
 
@@ -1001,6 +1192,9 @@ private fun findAdditionalProps(
             "CreateFilterOptionsConfig",
             "FilterOptionsState",
                 -> declaration += "<Value>"
+
+            "AutocompleteOwnerState",
+                -> declaration = declaration.replaceFirst(":", "<Value>:")
 
             "BrowserAutofillAction",
                 -> declaration += "<OptionValue>"

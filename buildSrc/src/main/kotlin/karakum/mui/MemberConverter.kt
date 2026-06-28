@@ -135,10 +135,7 @@ private fun convertProperty(
     }
 
     val modifier = if (": Readonly<" in source) "val" else "var"
-    var declaration = "$modifier $name: $fullType"
-    if ("-" in name) {
-        declaration = "    // $declaration"
-    }
+    val declaration = "$modifier $name: $fullType"
 
     return declaration
 }

@@ -90,6 +90,7 @@ private val KNOWN_TYPE_SUFFIXES = setOf(
     "Variant",
     "Color",
     "Size",
+    "Channel",
 ) + UNION_PROPERTIES
     .map {
         @Suppress("DEPRECATION")
