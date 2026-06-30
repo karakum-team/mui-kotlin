@@ -3,9 +3,9 @@
 package muix.pickers
 
 import js.array.ReadonlyArray
-import react.Props
 
-external interface TimeClockProps<TDate, TView> : Props {
+external interface TimeClockProps :
+    ExportedTimeClockProps {
     /**
      * Available views.
      * @default ['hours', 'minutes']
@@ -32,7 +32,8 @@ external interface TimeClockProps<TDate, TView> : Props {
     var showViewSwitcher: Boolean?
 }
 
-external interface ExportedTimeClockProps : Props {
+external interface ExportedTimeClockProps :
+    ExportedBaseClockProps {
     /**
      * Display ampm controls under the clock (instead of in the toolbar).
      * @default false

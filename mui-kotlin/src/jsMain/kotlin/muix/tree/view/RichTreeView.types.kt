@@ -4,9 +4,7 @@ package muix.tree.view
 
 import mui.material.styles.Theme
 import mui.system.SxProps
-import react.ComponentType
 import react.ElementType
-import react.Props
 import react.Ref
 import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
@@ -27,37 +25,22 @@ external interface RichTreeViewProps :
     var slotProps: RichTreeViewSlotProps?
 
     /**
-     * The ref object that allows Tree View manipulation. Can be instantiated with `useTreeViewApiRef()`.
+     * The ref object that allows Tree View manipulation. Can be instantiated with `useRichTreeViewApiRef()`.
      */
     var apiRef: Ref<*>?
-
-    /**
-     * Unstable features, breaking changes might be introduced.
-     * For each feature, if the flag is not explicitly set to `true`,
-     * the feature will be fully disabled and any property / method call will not have any effect.
-     */
-    var experimentalFeatures: Any? /* TreeViewExperimentalFeatures<RichTreeViewPluginSignatures> */
 }
 
-external interface RichTreeViewSlots {
+external interface RichTreeViewSlots :
+    TreeViewSlots,
+    RichTreeViewItemsSlots {
     /**
      * Element rendered at the root.
      * @default RichTreeViewRoot
      */
     var root: ElementType<*>?
-
-    /**
-     * Custom component for the item.
-     * @default TreeItem.
-     */
-    var item: ComponentType<TreeItemProps>?
 }
 
-external interface RichTreeViewSlotProps : Props {
-    var root: Props?
-
-    var item: Props?
-}
+external interface RichTreeViewSlotProps<R, Multiple>
 
 external interface RichTreeViewPropsBase : HTMLAttributes<HTMLUListElement> {
     override var className: ClassName?

@@ -15,4 +15,9 @@ fun String.adaptSlider(): String {
 
     return replace(": Value | undefined", ": number | number[] | undefined") // defaultValue, value
         .replace("value: Value", "value: number | number[]") // onChange / onChangeCommitted callbacks
+        // v9 types the `valueLabel` slot as `SlotComponentProps<typeof SliderValueLabelComponent, …>`.
+        // `SliderValueLabelComponent` is an internal component with no exported props type, so the
+        // `typeof X → XProps` slot mapping synthesizes an unresolved `SliderValueLabelComponentProps`.
+        // It renders a `<span>`, like the sibling mark/markLabel slots — map it to that.
+        .replace("SlotComponentProps<typeof SliderValueLabelComponent,", "SlotComponentProps<'span',")
 }

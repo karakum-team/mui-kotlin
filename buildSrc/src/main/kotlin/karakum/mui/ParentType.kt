@@ -195,6 +195,24 @@ private val INTERNAL_REJECTED_PARENTS = setOf(
     // DateTimePickerProps also extends ExportedYearCalendarProps which defines yearsPerRow;
     // DateTimePickerProps re-declares it with the same type but Kotlin still requires override.
     "ExportedYearCalendarProps",
+    // MUI-X v9: internal validation / timezone / form / clock base prop interfaces that aren't exported
+    // as standalone types (they live in internals), so they can't be Kotlin parents. The concrete props
+    // interfaces remain self-contained with their own members.
+    "BaseDateValidationProps",
+    "YearValidationProps",
+    "MonthValidationProps",
+    "MonthValidationOptions",
+    "DayValidationProps",
+    "TimeValidationProps",
+    "DateTimeValidationProps",
+    "TimezoneProps",
+    "FormProps",
+    "BaseClockProps",
+    "BaseDatePickerProps",
+    "BaseDateTimePickerProps2",
+    "DesktopOnlyPickerProps",
+    "DigitalTimePickerProps",
+    "ExportedPickersArrowSwitcherProps",
 )
 
 private fun String.isAcceptableParent(): Boolean {

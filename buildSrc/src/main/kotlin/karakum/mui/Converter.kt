@@ -17,6 +17,15 @@ internal fun convertClasses(
     val source = content.substringAfter("export interface $classesName {\n", "")
 
     if (source.isEmpty()) {
+        // v9: SimpleTreeView/RichTreeView declare `export interface XxxClasses extends Omit<TreeViewClasses,
+        // '…'> {}` — an empty body narrowing an INTERNAL base (`TreeViewClasses` lives under `internals/`
+        // and isn't generated). Emit an empty marker interface so `classes` typing resolves; the individual
+        // class-name members are not expanded for now (see MUI_V9_TODO).
+        if ("export interface $classesName extends " in content) {
+            return "sealed external interface $classesName\n" +
+                    "\n" +
+                    "external val ${classesName.replaceFirstChar(Char::lowercase)}: $classesName\n"
+        }
         check(classesName == "ContainerClasses" || classesName == "StackClasses")
         return "typealias $classesName = mui.system.$classesName"
     }
@@ -266,13 +275,86 @@ private fun String.removeInlineClasses(): String =
  * extends this interface. Inner SlotProps typing is collapsed to `any` for now.
  */
 private fun String.convertSlotsAndSlotPropsAliases(): String {
+    // v9 parameterizes many `XxxSlotsAndSlotProps<…>` aliases (e.g. ListItemText, CardHeader). Strip the
+    // generic param block from the alias name and from `extends` references so the marker-based converter
+    // below still recognizes `XxxSlotsAndSlotProps = CreateSlotsAndSlotProps<…>` and emits the named
+    // interface; the params only fed `XxxProps<Param>` slot members, which collapse to `XxxProps` anyway.
+    val deParametrized = stripSlotsAndSlotPropsTypeParams()
     // Some `XxxSlotsAndSlotProps` aliases are declared without `export ` (e.g. SwitchBase) —
     // normalize them so the export-prefix logic below catches both forms.
-    val normalized = replace(
+    val normalized = deParametrized.replace(
         Regex("""(\A|\n)type (\w+SlotsAndSlotProps\s*=\s*CreateSlotsAndSlotProps)"""),
         "$1export type $2"
     )
     return normalized.convertExportSlotsAndSlotPropsAliases()
+}
+
+// Remove the generic type-param block that v9 added after `XxxSlotsAndSlotProps` (both the alias
+// declaration `XxxSlotsAndSlotProps<…> = …` and `extends XxxSlotsAndSlotProps<…>` references), while
+// preserving the RHS `CreateSlotsAndSlotProps<…>` whose `<…>` carries the real slot definition.
+//
+// GUARD: only strip when every top-level param name ends with `TypographyComponent`. Those params only
+// feed `TypographyProps<Param>` slot members, which the generator already collapses to `TypographyProps`
+// (ListItemText, CardHeader). Aliases whose param is used meaningfully — e.g. TextField's
+// `TextFieldSlotsAndSlotProps<InputPropsType>`, where the param is the `input` slot's element type —
+// must keep their params, so they are left untouched.
+private fun String.stripSlotsAndSlotPropsTypeParams(): String {
+    val token = "SlotsAndSlotProps<"
+    val sb = StringBuilder()
+    var i = 0
+    while (i < length) {
+        val idx = indexOf(token, i)
+        if (idx < 0) {
+            sb.append(this, i, length)
+            break
+        }
+        val ltPos = idx + token.length - 1 // index of '<'
+        val nameEnd = idx + "SlotsAndSlotProps".length
+        var wordStart = idx
+        while (wordStart > 0 && (this[wordStart - 1].isLetterOrDigit() || this[wordStart - 1] == '_')) wordStart--
+        // find balanced close of the `<…>` after the name
+        var depth = 0
+        var j = ltPos
+        while (j < length) {
+            when (this[j]) {
+                '<' -> depth++
+                '>' -> depth--
+            }
+            j++
+            if (depth == 0) break
+        }
+        val isCreate = substring(wordStart, nameEnd) == "CreateSlotsAndSlotProps"
+        val paramNames = topLevelCommaSplit(substring(ltPos + 1, j - 1))
+            .map { it.trim().substringBefore(' ').substringBefore('=').trim() }
+            .filter { it.isNotEmpty() }
+        val onlyTypographyParams = paramNames.isNotEmpty() && paramNames.all { it.endsWith("TypographyComponent") }
+        if (!isCreate && onlyTypographyParams) {
+            sb.append(this, i, ltPos) // drop the `<…>` param block
+        } else {
+            sb.append(this, i, j) // keep as-is (RHS CreateSlotsAndSlotProps, or meaningful params)
+        }
+        i = j
+    }
+    return sb.toString()
+}
+
+// Split on top-level commas only (commas inside <…>, (…), {…} are ignored).
+private fun topLevelCommaSplit(s: String): List<String> {
+    val parts = mutableListOf<String>()
+    var depth = 0
+    var start = 0
+    for (k in s.indices) {
+        when (s[k]) {
+            '<', '(', '{' -> depth++
+            '>', ')', '}' -> depth--
+            ',' -> if (depth == 0) {
+                parts += s.substring(start, k)
+                start = k + 1
+            }
+        }
+    }
+    parts += s.substring(start)
+    return parts
 }
 
 private fun String.convertExportSlotsAndSlotPropsAliases(): String {

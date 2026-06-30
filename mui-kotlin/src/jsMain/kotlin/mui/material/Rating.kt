@@ -198,11 +198,11 @@ external interface RatingOwnerState
  *
  * Demos:
  *
- * - [Rating](https://v7.mui.com/material-ui/react-rating/)
+ * - [Rating](https://mui.com/material-ui/react-rating/)
  *
  * API:
  *
- * - [Rating API](https://v7.mui.com/material-ui/api/rating/)
+ * - [Rating API](https://mui.com/material-ui/api/rating/)
  */
 @JsName("default")
 external val Rating: FC<RatingProps>

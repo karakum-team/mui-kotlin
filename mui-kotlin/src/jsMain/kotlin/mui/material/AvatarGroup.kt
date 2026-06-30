@@ -23,9 +23,6 @@ external interface AvatarGroupSlots {
 }
 
 external interface AvatarGroupSlotProps : Props {
-    /** TS: React.ComponentPropsWithRef<typeof Avatar> & AvatarGroupComponentsPropsOverrides */
-    var additionalAvatar: Any?
-
     /** TS: SlotProps<React.ElementType<React.ComponentPropsWithRef<typeof Avatar>>, AvatarGroupComponentsPropsOverrides, AvatarGroupOwnerState> */
     var surplus: Any?
 }
@@ -99,11 +96,11 @@ external interface AvatarGroupOwnerState
  *
  * Demos:
  *
- * - [Avatar](https://v7.mui.com/material-ui/react-avatar/)
+ * - [Avatar](https://mui.com/material-ui/react-avatar/)
  *
  * API:
  *
- * - [AvatarGroup API](https://v7.mui.com/material-ui/api/avatar-group/)
+ * - [AvatarGroup API](https://mui.com/material-ui/api/avatar-group/)
  */
 @JsName("default")
 external val AvatarGroup: FC<AvatarGroupProps>

@@ -91,6 +91,7 @@ internal fun findDefaultFunction(
         .replace("?: UseMediaQueryOptions", ": UseMediaQueryOptions? = definedExternally")
         .replace("?: UseScrollTriggerOptions", ": UseScrollTriggerOptions? = definedExternally")
         .replace("?: UseInputParameters", ": UseInputParameters? = definedExternally")
+        .replace("?: MotionOptions", ": MotionOptions? = definedExternally")
         .replace("?: UseSnackbarParameters", ": UseSnackbarParameters? = definedExternally")
         .replace(": boolean", ": Boolean")
         .replace(": string", ": String")

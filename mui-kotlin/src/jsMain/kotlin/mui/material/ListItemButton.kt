@@ -36,8 +36,7 @@ external interface ListItemButtonBaseProps :
     var autoFocus: Boolean?
 
     /**
-     * The content of the component if a `ListItemSecondaryAction` is used it must
-     * be the last child.
+     * The content of the component.
      */
     override var children: ReactNode?
 
@@ -89,13 +88,13 @@ external interface ListItemButtonOwnProps
  *
  * Demos:
  *
- * - [Lists](https://v7.mui.com/material-ui/react-list/)
- * - [Menubar](https://v7.mui.com/material-ui/react-menubar/)
+ * - [Lists](https://mui.com/material-ui/react-list/)
+ * - [Menubar](https://mui.com/material-ui/react-menubar/)
  *
  * API:
  *
- * - [ListItemButton API](https://v7.mui.com/material-ui/api/list-item-button/)
- * - inherits [ButtonBase API](https://v7.mui.com/material-ui/api/button-base/)
+ * - [ListItemButton API](https://mui.com/material-ui/api/list-item-button/)
+ * - inherits [ButtonBase API](https://mui.com/material-ui/api/button-base/)
  */
 @JsName("default")
 external val ListItemButton: FC<ListItemButtonProps>

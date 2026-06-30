@@ -25,6 +25,13 @@ internal fun fixOverrides(
             // from react.dom.html.HTMLAttributes via RatingProps. Widen to Any? to match.
             .replace("var defaultValue: Number?", "var defaultValue: Any? /* Number */")
 
+        "ButtonBase",
+            -> content
+            // v9 added `type?: string` to ButtonBaseOwnProps. In ButtonBaseProps it collides with
+            // `type: ButtonType?` inherited from ButtonHTMLAttributes. The HTML attribute already
+            // provides it correctly, so drop the OwnProps redeclaration.
+            .replace("var type: String?", "")
+
         "BottomNavigationAction",
             -> content
             .override("classes")

@@ -441,7 +441,7 @@ internal fun kotlinType(
     // literal in STANDARD_TYPE_MAP no longer matches; without this it falls to `toFunctionType()`
     // which degrades `Partial<{…}>` → `Any?` and `string` → `String`. Match by shape instead.
     // (`Transitions.create` uses the `typeof create` map entry and is unaffected.)
-    if (name == "create" && type.endsWith("=> string") &&
+    if (name == "create" && "=> string" in type &&
         "duration" in type && "easing" in type && "delay" in type
     )
         return "(props: ReadonlyArray<String>, options: TransitionCreateOptions?) -> web.cssom.Transition"
