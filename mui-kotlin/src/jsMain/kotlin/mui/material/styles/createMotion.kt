@@ -5,11 +5,11 @@
 package mui.material.styles
 
 external interface Motion {
-    var reducedMotion: String /* 'never' | 'system' | 'always' */
+    var reducedMotion: ReducedMotionMode
 }
 
 external interface MotionOptions {
-    var reducedMotion: String? /* 'never' | 'system' | 'always' */
+    var reducedMotion: ReducedMotionMode?
 }
 
 @JsName("default")

@@ -1,7 +1,10 @@
 // Automatically generated - do not modify!
 
+@file:JsModule("@mui/system/ThemeProvider")
+
 package mui.system
 
+import react.FC
 import react.PropsWithChildren
 import react.ReactNode
 
@@ -21,3 +24,6 @@ external interface ThemeProviderProps : PropsWithChildren {
      */
     var theme: Any? /* Partial<Theme> | ((outerTheme: Theme) => Theme) */
 }
+
+@JsName("default")
+external val ThemeProvider: FC<ThemeProviderProps>

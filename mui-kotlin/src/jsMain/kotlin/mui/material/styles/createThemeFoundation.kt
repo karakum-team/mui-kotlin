@@ -331,7 +331,7 @@ external interface CssVarsTheme : ColorSystem {
 
     var typography: Any? /* TypographyVariants */
 
-    var motion: Any? /* Motion */
+    var motion: Motion
 
     var transitions: Transitions
 

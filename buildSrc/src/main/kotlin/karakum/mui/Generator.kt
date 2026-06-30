@@ -394,7 +394,19 @@ private fun generateSystemDeclarations(
 
     directories.asSequence()
         .filter { it.name.isComponentName() || it.name.isHookName() }
-        .filter { it.name !in setOf("useThemeProps", "RtlProvider", "DefaultPropsProvider", "useThemeWithoutDefault") }
+        // ThemeProvider is hand-written below: v9 made it generic (`ThemeProviderProps<Theme>` +
+        // `function ThemeProvider<T>(…)`), which the converter can't turn into a component `val` — it
+        // emitted only the props interface, dropping `external val ThemeProvider`. Mirror the material
+        // ThemeProvider stub instead (see generateStyleDeclarations).
+        .filter {
+            it.name !in setOf(
+                "useThemeProps",
+                "RtlProvider",
+                "DefaultPropsProvider",
+                "useThemeWithoutDefault",
+                "ThemeProvider"
+            )
+        }
         .map { it.resolve("${it.name}.d.ts") }
         .flatMap { component ->
             val dir = component.parentFile
@@ -434,6 +446,39 @@ private fun generateSystemDeclarations(
         targetDir.resolve("$name.kt")
             .writeText(fileContent(body = body, pkg = Package.system))
     }
+
+    // v9 `@mui/system/ThemeProvider` is still exported, but as a generic function
+    // (`ThemeProviderProps<Theme = DefaultTheme>` + `function ThemeProvider<T>(…)`) which the converter
+    // can't recognize as a component — it emitted only the props interface and dropped the `val`. Emit a
+    // minimal stub (props + val), mirroring the material ThemeProvider stub in generateStyleDeclarations.
+    targetDir.resolve("ThemeProvider.kt")
+        .writeText(
+            fileContent(
+                annotations = "@file:JsModule(\"@mui/system/ThemeProvider\")",
+                body = """
+                    external interface ThemeProviderProps : react.PropsWithChildren {
+                        /**
+                         * Your component tree.
+                         */
+                        override var children: react.ReactNode?
+
+                        /**
+                         * The design system's unique id for getting the corresponded theme when there are multiple design systems.
+                         */
+                        var themeId: String?
+
+                        /**
+                         * A theme object. You can provide a function to extend the outer theme.
+                         */
+                        var theme: Any? /* Partial<Theme> | ((outerTheme: Theme) => Theme) */
+                    }
+
+                    @JsName("default")
+                    external val ThemeProvider: react.FC<ThemeProviderProps>
+                """.trimIndent(),
+                pkg = Package.system,
+            )
+        )
 }
 
 private fun generateMaterialDeclarations(

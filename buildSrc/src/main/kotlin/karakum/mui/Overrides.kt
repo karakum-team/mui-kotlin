@@ -35,8 +35,12 @@ internal fun fixOverrides(
             -> content
             // v9 added `type?: string` to ButtonBaseOwnProps. In ButtonBaseProps it collides with
             // `type: ButtonType?` inherited from ButtonHTMLAttributes. The HTML attribute already
-            // provides it correctly, so drop the OwnProps redeclaration.
-            .replace("var type: String?", "")
+            // provides it correctly, so drop the OwnProps redeclaration — together with its leading
+            // JSDoc block, which a bare `var type` removal would otherwise leave orphaned before `}`.
+            .replace(
+                Regex("""\n? *(?:/\*\*(?:(?!\*/)[\s\S])*?\*/)?\s*var type: String\?"""),
+                "",
+            )
 
         "BottomNavigationAction",
             -> content

@@ -69,6 +69,13 @@ private val KNOWN_TYPES = setOf(
     "Transitions",
     "ZIndex",
 
+    // Material v9 additions (createMotion.d.ts): the `Motion` interface (createMotion.kt) and its
+    // `ReducedMotionMode` string-union (createMotion.ext.kt) are both generated in mui.material.styles —
+    // keep their NAMES on members instead of widening `motion` to `Any?` / inlining the literal union on
+    // `reducedMotion`. (Motion is new in v9, so it was missing from this set.)
+    "Motion",
+    "ReducedMotionMode",
+
     "MixinsOptions",
     "PaletteOptions",
     "TransitionsOptions",
@@ -162,9 +169,6 @@ private val STANDARD_TYPE_MAP = mapOf(
     "SlideTransitionProps" to "Any",
     // MUI-X v9 `TimeViewWithMeridiem = TimeView | 'meridiem'` is a string union → String.
     "TimeViewWithMeridiem" to "String /* 'hours' | 'minutes' | 'seconds' | 'meridiem' */",
-    // Material v9 `ReducedMotionMode = 'never' | 'system' | 'always'` (createMotion.d.ts) — a string-literal
-    // union the generator drops as a type alias; preserve the allowed values like TimeViewWithMeridiem.
-    "ReducedMotionMode" to "String /* 'never' | 'system' | 'always' */",
     // NB: `PickerValidDate` / `PickerValue` / `PickerOwnerState` are kept as NAMED types (PICKERS_STUBS),
     // not widened here — see Generator.PICKERS_STUBS. Generic params `TDate` / `TView` / `TSectionValue`
     // are preserved on their declaring interfaces, not widened to Any.
