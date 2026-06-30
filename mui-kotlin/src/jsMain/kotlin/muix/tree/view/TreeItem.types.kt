@@ -44,7 +44,6 @@ external interface TreeItemProps :
 
     /**
      * The component used to render the content of the item.
-     * @deprecated Consider using the `<TreeItem2 />` component or the `useTreeItem2` hook instead. For more details, see https://mui.com/x/react-tree-view/tree-item-customization/.
      * @default TreeItemContent
      */
     @Deprecated("Consider using the `<TreeItem2 />` component or the `useTreeItem2` hook instead. For more details, see https://mui.com/x/react-tree-view/tree-item-customization/.")
@@ -52,7 +51,6 @@ external interface TreeItemProps :
 
     /**
      * Props applied to ContentComponent.
-     * @deprecated Consider using the `<TreeItem2 />` component or the `useTreeItem2` hook instead. For more details, see https://mui.com/x/react-tree-view/tree-item-customization/.
      */
     @Deprecated("Consider using the `<TreeItem2 />` component or the `useTreeItem2` hook instead. For more details, see https://mui.com/x/react-tree-view/tree-item-customization/.")
     var ContentProps: HTMLAttributes<HTMLElement>?
