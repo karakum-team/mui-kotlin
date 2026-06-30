@@ -17,6 +17,7 @@ import mui.system.SxProps
 import mui.system.Union
 import react.*
 import react.dom.html.HTMLAttributes
+import web.dom.ElementId
 import web.html.HTMLDivElement
 
 external interface DialogProps :
@@ -28,13 +29,13 @@ external interface DialogProps :
      * The id(s) of the element(s) that describe the dialog.
      */
     @JsName("aria-describedby")
-    var ariaDescribedby: String?
+    var ariaDescribedBy: ElementId?
 
     /**
      * The id(s) of the element(s) that label the dialog.
      */
     @JsName("aria-labelledby")
-    var ariaLabelledby: String?
+    var ariaLabelledBy: ElementId?
 
     /**
      * Informs assistive technologies that the element is modal.
@@ -42,7 +43,7 @@ external interface DialogProps :
      * @default true
      */
     @JsName("aria-modal")
-    var ariaModal: Any? /* boolean | 'true' | 'false' */
+    var ariaModal: Boolean?
 
     /**
      * Dialog children, usually the included sub-components.

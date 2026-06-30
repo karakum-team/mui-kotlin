@@ -170,7 +170,7 @@ external interface ModalRootSlotProps :
 
 external interface ModalBackdropSlotProps : PropsWithChildren {
     @JsName("aria-hidden")
-    var ariaHidden: Any /* React.AriaAttributes['aria-hidden'] */
+    var ariaHidden: Boolean
 
     override var children: ReactNode?
 

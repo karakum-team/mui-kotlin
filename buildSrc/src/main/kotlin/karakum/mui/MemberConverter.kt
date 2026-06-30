@@ -90,10 +90,9 @@ private fun convertProperty(
     if (name == "ref" || name == "}")
         return ""
 
-    val type = kotlinType(
-        source.substringAfter(":").removePrefix(" "),
-        name,
-    )
+    val jsName = if (rawNameToken.startsWith("'")) rawNameToken.removeSurrounding("'") else null
+    val type = ARIA_ATTR_TYPES[jsName]
+        ?: kotlinType(source.substringAfter(":").removePrefix(" "), name)
 
     if (name == "children") {
         if (type == "react.ReactNode") {
@@ -152,7 +151,7 @@ private fun kotlinName(name: String): String =
 
         name.startsWith("'") -> {
             val raw = name.removeSurrounding("'")
-            raw.split("-").mapIndexed { i, s ->
+            ARIA_ATTR_NAMES[raw] ?: raw.split("-").mapIndexed { i, s ->
                 val part = if (i == 0) s else s.replaceFirstChar { it.uppercaseChar() }
                 if (i == 0) part.dropWhile { !it.isLetter() && it != '_' } else part
             }.joinToString("")
@@ -163,3 +162,99 @@ private fun kotlinName(name: String): String =
 
         else -> name
     }
+
+// Canonical Kotlin types for ARIA attributes, matching AriaAttributes.kt in kotlin-react-dom.
+private val ARIA_ATTR_TYPES = mapOf(
+    // ElementId (typealias String) — ID-reference attributes
+    "aria-activedescendant" to "ElementId",
+    "aria-controls" to "ElementId",
+    "aria-describedby" to "ElementId",
+    "aria-details" to "ElementId",
+    "aria-errormessage" to "ElementId",
+    "aria-flowto" to "ElementId",
+    "aria-labelledby" to "ElementId",
+    // Boolean attributes
+    "aria-atomic" to "Boolean",
+    "aria-busy" to "Boolean",
+    "aria-disabled" to "Boolean",
+    "aria-expanded" to "Boolean",
+    "aria-grabbed" to "Boolean",
+    "aria-hidden" to "Boolean",
+    "aria-modal" to "Boolean",
+    "aria-multiline" to "Boolean",
+    "aria-multiselectable" to "Boolean",
+    "aria-readonly" to "Boolean",
+    "aria-required" to "Boolean",
+    "aria-selected" to "Boolean",
+    // Int attributes
+    "aria-colcount" to "Int",
+    "aria-colindex" to "Int",
+    "aria-colspan" to "Int",
+    "aria-level" to "Int",
+    "aria-posinset" to "Int",
+    "aria-rowcount" to "Int",
+    "aria-rowindex" to "Int",
+    "aria-rowspan" to "Int",
+    "aria-setsize" to "Int",
+    // Double attributes
+    "aria-valuemax" to "Double",
+    "aria-valuemin" to "Double",
+    "aria-valuenow" to "Double",
+)
+
+// Canonical Kotlin names for ARIA attributes, matching AriaAttributes.kt in kotlin-react-dom.
+private val ARIA_ATTR_NAMES = mapOf(
+    "aria-activedescendant" to "ariaActiveDescendant",
+    "aria-atomic" to "ariaAtomic",
+    "aria-autocomplete" to "ariaAutoComplete",
+    "aria-braillelabel" to "ariaBrailleLabel",
+    "aria-brailleroledescription" to "ariaBrailleRoleDescription",
+    "aria-busy" to "ariaBusy",
+    "aria-checked" to "ariaChecked",
+    "aria-colcount" to "ariaColCount",
+    "aria-colindex" to "ariaColIndex",
+    "aria-colindextext" to "ariaColIndexText",
+    "aria-colspan" to "ariaColSpan",
+    "aria-controls" to "ariaControls",
+    "aria-current" to "ariaCurrent",
+    "aria-describedby" to "ariaDescribedBy",
+    "aria-description" to "ariaDescription",
+    "aria-details" to "ariaDetails",
+    "aria-disabled" to "ariaDisabled",
+    "aria-dropeffect" to "ariaDropEffect",
+    "aria-errormessage" to "ariaErrorMessage",
+    "aria-expanded" to "ariaExpanded",
+    "aria-flowto" to "ariaFlowTo",
+    "aria-grabbed" to "ariaGrabbed",
+    "aria-haspopup" to "ariaHasPopup",
+    "aria-hidden" to "ariaHidden",
+    "aria-invalid" to "ariaInvalid",
+    "aria-keyshortcuts" to "ariaKeyShortcuts",
+    "aria-label" to "ariaLabel",
+    "aria-labelledby" to "ariaLabelledBy",
+    "aria-level" to "ariaLevel",
+    "aria-live" to "ariaLive",
+    "aria-modal" to "ariaModal",
+    "aria-multiline" to "ariaMultiline",
+    "aria-multiselectable" to "ariaMultiSelectable",
+    "aria-orientation" to "ariaOrientation",
+    "aria-owns" to "ariaOwns",
+    "aria-placeholder" to "ariaPlaceholder",
+    "aria-posinset" to "ariaPosInSet",
+    "aria-pressed" to "ariaPressed",
+    "aria-readonly" to "ariaReadOnly",
+    "aria-relevant" to "ariaRelevant",
+    "aria-required" to "ariaRequired",
+    "aria-roledescription" to "ariaRoleDescription",
+    "aria-rowcount" to "ariaRowCount",
+    "aria-rowindex" to "ariaRowIndex",
+    "aria-rowindextext" to "ariaRowIndexText",
+    "aria-rowspan" to "ariaRowSpan",
+    "aria-selected" to "ariaSelected",
+    "aria-setsize" to "ariaSetSize",
+    "aria-sort" to "ariaSort",
+    "aria-valuemax" to "ariaValueMax",
+    "aria-valuemin" to "ariaValueMin",
+    "aria-valuenow" to "ariaValueNow",
+    "aria-valuetext" to "ariaValueText",
+)

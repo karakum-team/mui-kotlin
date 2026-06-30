@@ -11,6 +11,7 @@ import mui.types.PropsWithComponent
 import react.*
 import react.dom.events.SyntheticEvent
 import react.dom.html.HTMLAttributes
+import web.dom.ElementId
 import web.html.HTMLDivElement
 
 external interface TabsProps :
@@ -121,7 +122,7 @@ external interface TabsOwnProps :
      * An id or list of ids separated by a space that label the Tabs.
      */
     @JsName("aria-labelledby")
-    var ariaLabelledby: String?
+    var ariaLabelledBy: ElementId?
 
     /**
      * If `true`, the tabs are centered.

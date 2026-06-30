@@ -27,7 +27,7 @@ external interface InputBaseProps :
     HTMLAttributes<HTMLDivElement>,
     PropsWithSx {
     @JsName("aria-describedby")
-    var ariaDescribedby: String?
+    var ariaDescribedBy: ElementId?
 
     /**
      * This prop helps users to fill forms faster, especially on mobile devices.

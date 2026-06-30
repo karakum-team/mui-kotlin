@@ -14,6 +14,7 @@ import react.*
 import react.dom.events.SyntheticEvent
 import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
+import web.dom.ElementId
 import web.events.Event
 import web.html.HTMLSpanElement
 
@@ -43,13 +44,13 @@ external interface SliderOwnProps :
      * The id of the element containing a label for the slider.
      */
     @JsName("aria-labelledby")
-    var ariaLabelledby: String?
+    var ariaLabelledBy: ElementId?
 
     /**
      * A string value that provides a user-friendly name for the current value of the slider.
      */
     @JsName("aria-valuetext")
-    var ariaValuetext: String?
+    var ariaValueText: String?
 
     /**
      * The color of the component.
