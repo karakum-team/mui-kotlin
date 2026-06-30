@@ -63,7 +63,18 @@ private fun convertMember(
         }
     }
 
-    val property = rest.trimStart().takeIf { it.isNotEmpty() }?.let { convertProperty(it) } ?: ""
+    val deprecatedAnnotation = comments
+        .firstOrNull { "@deprecated" in it }
+        ?.substringAfter("@deprecated")
+        ?.lines()?.first()?.trim()
+        ?.removePrefix("* ")?.trim()
+        ?.takeIf { it.isNotEmpty() }
+        ?.let { msg -> "@Deprecated(\"${msg.replace("\"", "\\\"")}\")\n" }
+        ?: if (comments.any { "@deprecated" in it }) "@Deprecated\n" else ""
+
+    val property = rest.trimStart().takeIf { it.isNotEmpty() }
+        ?.let { deprecatedAnnotation + convertProperty(it) }
+        ?: ""
 
     return (comments + property)
         .filter { it.isNotEmpty() }
@@ -78,9 +89,11 @@ private fun convertProperty(
     if (source == CSS_RECORD)
         return "// $CSS_RECORD"
 
-    val name = source.substringBefore(":")
-        .removeSuffix("?")
-        .let { kotlinName(it) }
+    val rawNameToken = source.substringBefore(":").removeSuffix("?")
+    val jsNameAnnotation = if (rawNameToken.startsWith("'"))
+        "@JsName(\"${rawNameToken.removeSurrounding("'")}\")\n"
+    else ""
+    val name = kotlinName(rawNameToken)
 
     if (name == "ref" || name == "}")
         return ""
@@ -135,15 +148,23 @@ private fun convertProperty(
     }
 
     val modifier = if (": Readonly<" in source) "val" else "var"
-    val declaration = "$modifier $name: $fullType"
+    val declaration = jsNameAnnotation + "$modifier $name: $fullType"
 
     return declaration
 }
 
 private fun kotlinName(name: String): String =
     when {
-        name == "in" || name.startsWith("'") ->
-            "`${name.removeSurrounding("'")}`"
+        name == "in" ->
+            "`in`"
+
+        name.startsWith("'") -> {
+            val raw = name.removeSurrounding("'")
+            raw.split("-").mapIndexed { i, s ->
+                val part = if (i == 0) s else s.replaceFirstChar { it.uppercaseChar() }
+                if (i == 0) part.dropWhile { !it.isLetter() && it != '_' } else part
+            }.joinToString("")
+        }
 
         name.isNotEmpty() && name[0].isDigit() ->
             "`$name`"

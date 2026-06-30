@@ -47,8 +47,16 @@ private fun getClassesContent(
     .map {
         val name = it.removeSuffix(": string;").removeSuffix("?")
         if (name == it) return@map it
-        val kotlinName = if (name.startsWith("'")) "`${name.removeSurrounding("'")}`" else name
-        "val $kotlinName: ClassName"
+        if (name.startsWith("'")) {
+            val jsName = name.removeSurrounding("'")
+            val camelCase = jsName.split("-").mapIndexed { i, s ->
+                val part = if (i == 0) s else s.replaceFirstChar { it.uppercaseChar() }
+                if (i == 0) part.dropWhile { !it.isLetter() && it != '_' } else part
+            }.joinToString("")
+            "@JsName(\"$jsName\")\nval $camelCase: ClassName"
+        } else {
+            "val $name: ClassName"
+        }
     }
     .joinToString("\n")
 
