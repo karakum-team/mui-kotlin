@@ -37,7 +37,7 @@ external interface TimeValidationProps : Props {
      * Step over minutes.
      * @default 1
      */
-    var minutesStep: Number?
+    var minutesStep: Int?
 
     /**
      * Disable specific time.

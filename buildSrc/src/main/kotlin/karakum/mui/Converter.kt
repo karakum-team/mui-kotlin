@@ -93,7 +93,6 @@ internal fun convertDefinitions(
         .let { if (it.endsWith("\n")) it else "$it\n" }
         .adaptRawContent()
         .removeInlineClasses()
-        .removeDeprecated()
         .removeExtendsEmptyObject()
         .replace("(inProps: ", "(props: ")
         // v7 declares some components as `React.JSXElementConstructor<Props>` instead of the
@@ -795,13 +794,6 @@ private fun parseInlineSlotProps(inline: String): List<Pair<String, String>> {
         if (i < inline.length && inline[i] == ';') i++
     }
     return out
-}
-
-private fun String.removeDeprecated(): String {
-    if ("interface MuiMediaQuery" !in this)
-        return this
-
-    return substringAfter(substringBefore("export interface UseMediaQueryOptions {"))
 }
 
 private fun String.removeExtendsEmptyObject(): String {

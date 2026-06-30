@@ -45,7 +45,6 @@ fun String.adaptRawContent(): String = this
     // Those inner `;\n` + doc-comments break member/comment splitting. Replace the object value
     // with `any` so the member converts to `Any?`.
     .dropMemberValueObjects()
-    .adaptComponentsAndSlots()
     .adaptClasses()
     .adaptOption()
     .adaptSelect()

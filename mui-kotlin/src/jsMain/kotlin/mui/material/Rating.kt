@@ -140,7 +140,7 @@ external interface RatingOwnProps :
      * Maximum rating.
      * @default 5
      */
-    var max: Number?
+    var max: Double?
 
     /**
      * The name attribute of the radio `input` elements.

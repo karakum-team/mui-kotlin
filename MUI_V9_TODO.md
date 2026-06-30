@@ -104,12 +104,39 @@ Phase 5b reached green but degraded types (widened to `Any`, dropped inheritance
 calendars + clocks + PickerDay + PickersCalendarHeader + fields + adapters) and tree-view
 (SimpleTreeView / RichTreeView / TreeItem / TreeItemLabelInput + icons/provider/hook).
 
+## Phase 4 — type-quality / reviewer pass (DONE)
+
+The kotlin-wrappers reviewer pass over core/material/system (mui-x was polished in 5b/5c). Both projects stay
+at **0 errors**. Findings refined the original task premises:
+
+- **Diff regressions (sub-task 1): none.** The v9-vs-v7 output diff has no `dynamic`, no `(((…)))`, no
+  `: react.Props`-only lost parents, and no named-type→`Any?` collapse where v7 had a real type. The diff is
+  dominated by doc-URL rewrites (`v7.mui.com` → `mui.com`), the intentional Phase-5 picker de-genericization,
+  the excluded lab `TreeView`/`TreeItem`, and new v9 props landing as `Any?`. **NB:** a fresh
+  `generateDeclarations` no longer reproduces the committed Step-3 output byte-for-byte (≈524-file dep-drift
+  nondeterminism), so the *committed* output — not a re-run — is the diff baseline.
+    - **Fixed one real lost-enum:** `createMotion`'s `reducedMotion` was `Any? /* ReducedMotionMode */`. v9
+      defines `type ReducedMotionMode = 'never' | 'system' | 'always'` (a string-literal union the generator
+      drops as an alias). Added `ReducedMotionMode` to `KotlinType.STANDARD_TYPE_MAP` (mirrors
+      `TimeViewWithMeridiem`) → now `String /* 'never' | 'system' | 'always' */`.
+    - Left as-is (correct): `Motion` in `createThemeFoundation` stays `Any? /* Motion */` (cross-module type not
+      imported into that generated file — same limitation as `SxProps`/`ThemeCssVar` there); transition
+      `addEndListener` and Autocomplete `input` are new v9 indexed-access/slot members where `Any?` is the
+      convention.
+- **Dead deprecated-coping code (sub-task 2): all removed.** Every trigger string is gone from the v9 `.d.ts`,
+  so the code was inert. Deleted `adapters/ComponentsAndSlots.kt` in full (its four `cleanup*` branches +
+  `adaptComponentsAndSlots()`, dropped from `Adapter.adaptRawContent`) and `Converter.removeDeprecated()` +
+  its call (it actually stripped a `MuiMediaQuery` block, which no longer exists in v9 — the task mis-named
+  it). Verified inert: with the deletions, output is **byte-identical** to the pristine generator (diffed two
+  fresh regenerations, not against the committed nondeterministic baseline).
+- **Data tables (sub-task 3): ARIA no-op, numerics extended.** v9 adds no new uncovered `aria-*` to
+  Stepper/StepButton/Tabs (only `aria-label`/`aria-labelledby`, already mapped via dashed `@JsName`) — ARIA
+  tables unchanged, but verified. There is **no** material/lab `NumberField` in this v9. Added to
+  `KotlinType.kt`: `minutesStep`, `fixedWeekNumber` → `NUMBER_AS_INT_PROPERTIES`; `min`, `max` →
+  `NUMBER_AS_DOUBLE_PROPERTIES` (continuous bounds on CircularProgress/LinearProgress/Slider — all sites now
+  `Double?`, none want integer).
+
 ## Remaining work (post-green)
 
-1. **Type-quality / review-remark polish** (the kotlin-wrappers reviewer pass). Diff generated v9 output vs the
-   committed v7 output (`git diff mui-kotlin/src/jsMain/kotlin/`) and look for regressions (named interfaces
-   collapsing to `Any?`, stray `(((…)))`, lost enums, `ComponentType` vs `FC`). Audit the v7 deprecated-coping
-   adapters (`adapters/ComponentsAndSlots.kt` `cleanupDeprecatedComponentsProps()`, `removeDeprecated()`) — v9
-   deleted the deprecated props at source, so much of that is now dead code. Extend `ARIA_ATTR_*` /
-   `NUMBER_AS_INT/DOUBLE_PROPERTIES` for new v9 members (Stepper/Tabs ARIA, NumberField).
-2. Align `mui-icons-material` to `9.1.2` (currently `9.1.1`) for consistency, if desired.
+1. Align `mui-icons-material` to `9.1.2` (currently `9.1.1`) for consistency, if desired.
+2. `@mui/base` → Base UI migration — see `FUTURE_IMPROVEMENTS.md`.

@@ -33,13 +33,13 @@ external interface LinearProgressProps :
      * The maximum value for the progress indicator for the determinate and buffer variants.
      * @default 100
      */
-    var max: Number?
+    var max: Double?
 
     /**
      * The minimum value for the progress indicator for the determinate and buffer variants.
      * @default 0
      */
-    var min: Number?
+    var min: Double?
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.

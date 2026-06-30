@@ -57,7 +57,7 @@ external interface AvatarGroupOwnProps :
      * Max avatars to show before +x.
      * @default 5
      */
-    var max: Number?
+    var max: Double?
 
     /**
      * custom renderer of extraAvatars

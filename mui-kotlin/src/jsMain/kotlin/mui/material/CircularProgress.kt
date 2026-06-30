@@ -47,13 +47,13 @@ external interface CircularProgressProps :
      * The maximum value for the progress indicator for the determinate variant.
      * @default 100
      */
-    var max: Number?
+    var max: Double?
 
     /**
      * The minimum value for the progress indicator for the determinate variant.
      * @default 0
      */
-    var min: Number?
+    var min: Double?
 
     /**
      * The size of the component.

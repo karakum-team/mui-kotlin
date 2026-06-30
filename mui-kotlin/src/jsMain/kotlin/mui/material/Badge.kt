@@ -108,7 +108,7 @@ external interface BadgeOwnProps :
      * Max count to show.
      * @default 99
      */
-    var max: Number?
+    var max: Double?
 
     /**
      * Wrapped shape the badge should overlap.

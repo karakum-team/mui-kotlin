@@ -128,6 +128,10 @@ private val NUMBER_AS_INT_PROPERTIES = setOf(
     "elevation",
     // Date pickers
     "yearsPerRow", "monthsPerRow",
+    // Minute increment for time pickers/clocks (@default 1)
+    "minutesStep",
+    // Fixed week count rendered by DayCalendar (e.g. 6 for Gregorian)
+    "fixedWeekNumber",
     // Slider internal index
     "focusedThumbIndex",
     // Textarea row count (minRows/maxRows handled separately)
@@ -146,6 +150,8 @@ private val NUMBER_AS_DOUBLE_PROPERTIES = setOf(
     "precision",
     // CircularProgress stroke width
     "thickness",
+    // Continuous value bounds (Circular/LinearProgress, Slider) — may be fractional
+    "min", "max",
 )
 
 private val STANDARD_TYPE_MAP = mapOf(
@@ -156,6 +162,9 @@ private val STANDARD_TYPE_MAP = mapOf(
     "SlideTransitionProps" to "Any",
     // MUI-X v9 `TimeViewWithMeridiem = TimeView | 'meridiem'` is a string union → String.
     "TimeViewWithMeridiem" to "String /* 'hours' | 'minutes' | 'seconds' | 'meridiem' */",
+    // Material v9 `ReducedMotionMode = 'never' | 'system' | 'always'` (createMotion.d.ts) — a string-literal
+    // union the generator drops as a type alias; preserve the allowed values like TimeViewWithMeridiem.
+    "ReducedMotionMode" to "String /* 'never' | 'system' | 'always' */",
     // NB: `PickerValidDate` / `PickerValue` / `PickerOwnerState` are kept as NAMED types (PICKERS_STUBS),
     // not widened here — see Generator.PICKERS_STUBS. Generic params `TDate` / `TView` / `TSectionValue`
     // are preserved on their declaring interfaces, not widened to Any.
