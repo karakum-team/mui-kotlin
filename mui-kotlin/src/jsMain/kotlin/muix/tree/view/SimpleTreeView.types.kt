@@ -45,7 +45,7 @@ external interface SimpleTreeViewProps :
     var apiRef: Ref<*>?
 }
 
-external interface SimpleTreeViewSlots : TreeViewSlots {
+external interface SimpleTreeViewSlots {
     /**
      * Element rendered at the root.
      * @default SimpleTreeViewRoot
@@ -53,7 +53,6 @@ external interface SimpleTreeViewSlots : TreeViewSlots {
     var root: ElementType<*>?
 }
 
-external interface SimpleTreeViewSlotProps :
-    TreeViewSlotProps {
+external interface SimpleTreeViewSlotProps : Props {
     var root: Props?
 }

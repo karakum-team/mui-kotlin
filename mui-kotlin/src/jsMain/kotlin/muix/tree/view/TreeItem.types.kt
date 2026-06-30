@@ -14,7 +14,6 @@ import web.cssom.ClassName
 import web.html.HTMLLIElement
 
 external interface TreeItemProps :
-    UseTreeItemParameters,
     PropsWithClassName,
     PropsWithSx {
     override var className: ClassName?
@@ -46,7 +45,7 @@ external interface TreeItemProps :
      * Use the `onItemFocus` callback on the tree if you need to monitor an item's focus.
      */
     @Deprecated("See documentation")
-    override var onFocus: FocusEventHandler<HTMLLIElement>?
+    var onFocus: FocusEventHandler<HTMLLIElement>?
 
     /**
      * Callback fired when the item root is blurred.
@@ -56,10 +55,10 @@ external interface TreeItemProps :
     /**
      * Callback fired when a key is pressed on the keyboard and the tree is in focus.
      */
-    override var onKeyDown: KeyboardEventHandler<HTMLLIElement>?
+    var onKeyDown: KeyboardEventHandler<HTMLLIElement>?
 }
 
-external interface TreeItemSlots : TreeItemIconSlots {
+external interface TreeItemSlots {
     /**
      * The component that renders the root.
      * @default TreeItemRoot
@@ -125,8 +124,7 @@ external interface TreeItemSlots : TreeItemIconSlots {
     var loadingIcon: ElementType<*>?
 }
 
-external interface TreeItemSlotProps :
-    TreeItemIconSlotProps {
+external interface TreeItemSlotProps : Props {
     var root: Props?
 
     var content: Props?

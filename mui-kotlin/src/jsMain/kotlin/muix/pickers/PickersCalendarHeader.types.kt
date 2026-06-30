@@ -27,7 +27,7 @@ external interface PickersCalendarHeaderProps :
      */
     var slotProps: PickersCalendarHeaderSlotProps?
 
-    var currentMonth: Any? /* PickerValidDate */
+    var currentMonth: PickerValidDate
 
     var disabled: Boolean?
 
@@ -74,7 +74,7 @@ external interface PickersCalendarHeaderSlots {
     var switchViewIcon: ElementType<*>?
 }
 
-external interface PickersCalendarHeaderSlotProps<TDate> : Props {
+external interface PickersCalendarHeaderSlotProps : Props {
     var switchViewButton: Props?
 
     var switchViewIcon: Props?

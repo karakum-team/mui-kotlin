@@ -20,4 +20,4 @@ external interface MobileDateTimePickerProps : Props {
 
 external interface MobileDateTimePickerSlots
 
-external interface MobileDateTimePickerSlotProps
+external interface MobileDateTimePickerSlotProps : Props

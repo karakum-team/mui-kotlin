@@ -9,6 +9,12 @@ internal fun fixOverrides(
             -> content
             .override("classes")
 
+        // v9: ExportedDateCalendarProps now extends ExportedDayCalendarProps (restored), which also
+        // declares renderLoading — the own redeclaration must override.
+        "DateCalendar",
+            -> content
+            .override("renderLoading")
+
         "Autocomplete",
             -> content
             // AutocompleteProps inherits disabled/readOnly from UseAutocompleteProps (restored as a
@@ -138,14 +144,14 @@ internal fun fixOverrides(
 
         "TreeItem",
             -> content
-            .override("onKeyDown")
+            // v9: TreeItemProps's parents (`Omit<UseTreeItemParameters,'rootRef'>` and
+            // `Omit<React.HTMLAttributes<HTMLLIElement>,'onFocus'>`) are both dropped, so there is no
+            // supertype to override — onKeyDown/onFocus must be PLAIN members (like onBlur already is).
+            // onFocus is `null` in TS ("This prop isn't supported") → keep the @Deprecated note, no override.
             .replace(
                 "var onFocus: Nothing?",
-                "@Deprecated(\"See documentation\")\noverride var onFocus: react.dom.events.FocusEventHandler<web.html.HTMLLIElement>?"
+                "@Deprecated(\"See documentation\")\nvar onFocus: react.dom.events.FocusEventHandler<web.html.HTMLLIElement>?"
             )
-            // TS source has `disabled: boolean` (non-optional) in TreeItem2OwnProps, but parent
-            // TreeItemProps has `disabled?: boolean`. Align nullability AND add override.
-            .replace("\nvar disabled: Boolean\n", "\noverride var disabled: Boolean?\n")
 
         "SpeedDial",
             -> content

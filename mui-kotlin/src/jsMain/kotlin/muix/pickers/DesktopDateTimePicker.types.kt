@@ -32,4 +32,4 @@ external interface DesktopDateTimePickerProps : Props {
 
 external interface DesktopDateTimePickerSlots
 
-external interface DesktopDateTimePickerSlotProps
+external interface DesktopDateTimePickerSlotProps : Props

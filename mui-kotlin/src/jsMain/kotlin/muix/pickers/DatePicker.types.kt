@@ -39,4 +39,4 @@ external interface DatePickerProps : Props {
 
 external interface DatePickerSlots
 
-external interface DatePickerSlotProps
+external interface DatePickerSlotProps : Props

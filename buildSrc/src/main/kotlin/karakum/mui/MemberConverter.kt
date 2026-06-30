@@ -81,6 +81,11 @@ private fun convertProperty(
     if (source == CSS_RECORD)
         return "// $CSS_RECORD"
 
+    // TS index signatures (e.g. MUI-X v9's `[x: `data-${string}`]: string;`) have no Kotlin equivalent
+    // on an external interface — drop them.
+    if (source.trimStart().startsWith("["))
+        return ""
+
     val rawNameToken = source.substringBefore(":").removeSuffix("?")
     val jsNameAnnotation = if (rawNameToken.startsWith("'"))
         "@JsName(\"${rawNameToken.removeSurrounding("'")}\")\n"

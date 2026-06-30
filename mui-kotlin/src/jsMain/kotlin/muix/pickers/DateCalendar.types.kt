@@ -13,26 +13,25 @@ import web.cssom.ClassName
 
 external interface DateCalendarProps :
     ExportedDateCalendarProps,
-    ExportedUseViewsOptions<PickerValue, DateView>,
     PropsWithClassName,
     PropsWithSx {
     /**
      * The selected value.
      * Used when the component is controlled.
      */
-    var value: Any? /* PickerValidDate */
+    var value: PickerValidDate?
 
     /**
      * The default selected value.
      * Used when the component is not controlled.
      */
-    var defaultValue: Any? /* PickerValidDate */
+    var defaultValue: PickerValidDate?
 
     /**
      * The date used to generate the new value when both `value` and `defaultValue` are empty.
      * @default The closest valid date using the validation props, except callbacks such as `shouldDisableDate`.
      */
-    var referenceDate: Any? /* PickerValidDate */
+    var referenceDate: PickerValidDate?
 
     override var className: ClassName?
 
@@ -63,7 +62,7 @@ external interface DateCalendarSlots :
     PickersCalendarHeaderSlots,
     DayCalendarSlots,
     MonthCalendarSlots,
-    YearCalendarSlots<TDate> {
+    YearCalendarSlots {
     /**
      * Custom component for calendar header.
      * Check the [PickersCalendarHeader](https://mui.com/x/api/date-pickers/pickers-calendar-header/) component.
@@ -72,7 +71,7 @@ external interface DateCalendarSlots :
     var calendarHeader: ElementType<PickersCalendarHeaderProps>?
 }
 
-external interface DateCalendarSlotProps<TDate> :
+external interface DateCalendarSlotProps :
     PickersCalendarHeaderSlotProps,
     DayCalendarSlotProps,
     MonthCalendarSlotProps,
@@ -80,10 +79,9 @@ external interface DateCalendarSlotProps<TDate> :
     var calendarHeader: Props?
 }
 
-external interface ExportedDateCalendarProps<TDate> :
+external interface ExportedDateCalendarProps :
     ExportedDayCalendarProps,
-    ExportedMonthCalendarProps,
-    ExportedValidateDateProps {
+    ExportedMonthCalendarProps {
     /**
      * If `true`, disable heavy animations.
      * @default `@media(prefers-reduced-motion: reduce)` || `navigator.userAgent` matches Android <10 or iOS <13
@@ -95,7 +93,7 @@ external interface ExportedDateCalendarProps<TDate> :
      * @returns {React.ReactNode} The node to render when loading.
      * @default () => <span>…</span>
      */
-    var renderLoading: (() -> ReactNode)?
+    override var renderLoading: (() -> ReactNode)?
 
     /**
      * Callback fired on year change.

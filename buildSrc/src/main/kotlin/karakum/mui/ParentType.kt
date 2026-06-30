@@ -62,6 +62,7 @@ internal fun findParentType(
         return when {
             result == "SystemThemeOptions" -> "mui.system.ThemeOptions"
             result == "ExtendMui<ButtonBaseProps>" -> "mui.material.ButtonBaseProps"
+            result == "ButtonBaseProps" -> "mui.material.ButtonBaseProps"
             result.startsWith("StandardProps<") -> parseStandardProps(result)
             else -> result
         }
@@ -213,6 +214,18 @@ private val INTERNAL_REJECTED_PARENTS = setOf(
     "DesktopOnlyPickerProps",
     "DigitalTimePickerProps",
     "ExportedPickersArrowSwitcherProps",
+    "ExportedUseViewsOptions",
+    "ExportedValidateDateProps",
+    "ExportedBaseClockProps",
+    "UseTreeItemParameters",
+    // v9 x-tree-view moved these slot bases into `internals/` — not generated, so the emitted
+    // `SimpleTreeViewSlots`/`RichTreeViewSlots`/`TreeItem*` slot interfaces can't extend them.
+    "TreeViewSlots",
+    "TreeViewSlotProps",
+    "RichTreeViewItemsSlots",
+    "TreeItemIconSlots",
+    "TreeItemIconSlotProps",
+    "PickerDayOwnerStateBase",
 )
 
 private fun String.isAcceptableParent(): Boolean {

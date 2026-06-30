@@ -27,4 +27,4 @@ external interface TimePickerProps : Props {
 
 external interface TimePickerSlots
 
-external interface TimePickerSlotProps
+external interface TimePickerSlotProps : Props

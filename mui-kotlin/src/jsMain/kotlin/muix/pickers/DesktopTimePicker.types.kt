@@ -26,4 +26,4 @@ external interface DesktopTimePickerProps : Props {
 
 external interface DesktopTimePickerSlots
 
-external interface DesktopTimePickerSlotProps
+external interface DesktopTimePickerSlotProps : Props

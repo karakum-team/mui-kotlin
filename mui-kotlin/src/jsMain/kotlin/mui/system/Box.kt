@@ -6,6 +6,7 @@ package mui.system
 
 import mui.types.PropsWithComponent
 import react.FC
+import react.Props
 import react.PropsWithChildren
 import react.ReactNode
 import react.dom.html.HTMLAttributes
@@ -16,7 +17,7 @@ external interface BoxProps :
     HTMLAttributes<HTMLDivElement>,
     PropsWithComponent
 
-external interface CustomSystemProps
+external interface CustomSystemProps : Props
 
 external interface BoxOwnProps :
     PropsWithChildren,

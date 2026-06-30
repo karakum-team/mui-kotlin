@@ -7,6 +7,16 @@ import karakum.mui.adapters.treeview.adaptTreeItem
 import karakum.mui.adapters.treeview.adaptTreeView
 
 fun String.adaptRawContent(): String = this
+    // MUI-X v9 `PickerDayProps extends ExportedPickerDayProps, Omit<ButtonBaseProps, …8 members…>`.
+    // PickerDay re-declares those 8 handlers with an extra `day` argument (e.g.
+    // `onKeyDown?: (event, day) => void`), so they CANNOT override ButtonBase's `DOMAttributes` handlers
+    // (different arity) — meaning PickerDayProps can't extend ButtonBaseProps in Kotlin's invariant model.
+    // The `Omit` exists precisely because of those incompatible refinements; drop the whole parent and let
+    // PickerDay keep its own handlers as plain members. (It loses the non-refined ButtonBase props.)
+    .replace(
+        ", Omit<ButtonBaseProps, 'classes' | 'onFocus' | 'onBlur' | 'onKeyDown' | 'onMouseDown' | 'onClick' | 'onMouseEnter' | 'LinkComponent'>",
+        "",
+    )
     // MUI v6 occasionally puts `; // line comment` on the same line as a property's terminating
     // semicolon (e.g. Typography.color). The generator splits members by `;\n` and gets confused
     // when the `;` is not immediately followed by `\n`. Strip the line comment first.

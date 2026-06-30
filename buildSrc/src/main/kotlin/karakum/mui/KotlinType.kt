@@ -32,8 +32,14 @@ private val KNOWN_TYPES = setOf(
     "Value",
     "TDate",
     "TValue",
+    "TSectionValue",
     "TOption",
     "OptionValue",
+    // MUI-X v9 named model types (defined as aliases/interface in PICKERS_STUBS) — keep their NAME on
+    // members (e.g. `var value: PickerValidDate?`) instead of falling back to `Any? /* PickerValidDate */`.
+    "PickerValidDate",
+    "PickerValue",
+    "PickerOwnerState",
     "ItemValue",
     "CustomActionContext",
     "TLibFormatToken",
@@ -145,6 +151,14 @@ private val NUMBER_AS_DOUBLE_PROPERTIES = setOf(
 private val STANDARD_TYPE_MAP = mapOf(
     "any" to "Any",
     "object" to "Any",
+    // MUI-X v9 internal transition slot type (from DateCalendar/PickersSlideTransition) — not a public
+    // API type; widen to Any (it surfaces only on the internal DayCalendar's `TransitionProps` slot).
+    "SlideTransitionProps" to "Any",
+    // MUI-X v9 `TimeViewWithMeridiem = TimeView | 'meridiem'` is a string union → String.
+    "TimeViewWithMeridiem" to "String /* 'hours' | 'minutes' | 'seconds' | 'meridiem' */",
+    // NB: `PickerValidDate` / `PickerValue` / `PickerOwnerState` are kept as NAMED types (PICKERS_STUBS),
+    // not widened here — see Generator.PICKERS_STUBS. Generic params `TDate` / `TView` / `TSectionValue`
+    // are preserved on their declaring interfaces, not widened to Any.
     "string | number" to "Any /* String or Number */",
     "string | number | false" to "Any /* String or Number or Boolean /* false */ */",
     "string | number | null" to "Any /* String or Number */",
@@ -184,7 +198,8 @@ private val STANDARD_TYPE_MAP = mapOf(
     "readonly TimeView[]" to "ReadonlyArray<String /* 'hours' | 'minutes' | 'seconds' */>",
     "readonly 'hours'[]" to "ReadonlyArray<String /* 'hours' */>",
     "readonly TimeViewWithMeridiem[]" to "ReadonlyArray<String /* 'hours' | 'minutes' | 'seconds' | 'meridiem' */>",
-    "readonly TView[]" to "ReadonlyArray<TView>",
+    // v9 TimeClock `views?: readonly TView[]` where `TView extends TimeViewWithMeridiem` (string union).
+    "readonly TView[]" to "ReadonlyArray<String /* 'hours' | 'minutes' | 'seconds' | 'meridiem' */>",
     "Breakpoint[]" to "ReadonlyArray<Breakpoint>",
     "PickersActionBarAction[]" to "ReadonlyArray<PickersActionBarAction>",
     "UsePaginationItem[]" to "ReadonlyArray<UsePaginationItem>",

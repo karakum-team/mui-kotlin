@@ -184,6 +184,24 @@ internal fun convertDefinitions(
             "extends Omit<React.HTMLAttributes<HTMLDivElement>, 'contentEditable'>",
             "extends React.HTMLAttributes<HTMLDivElement>",
         )
+        // MUI-X v9 `RichTreeViewSlotProps<R, Multiple>` is generic in source, but the wrapper widens its
+        // generics away and references it param-less (`slotProps?: RichTreeViewSlotProps`). Strip the
+        // params from both the declaration and the usage so they agree.
+        .replace(
+            "RichTreeViewSlotProps<R, Multiple>",
+            "RichTreeViewSlotProps",
+        )
+        .replace(
+            "RichTreeViewSlotProps<R extends {}, Multiple extends boolean | undefined>",
+            "RichTreeViewSlotProps",
+        )
+        // MUI-X v9 `MuiEvent<T>` (from @mui/x-internals) just decorates the wrapped DOM event with a
+        // `defaultMuiPrevented` flag — unwrap to the inner event so it converts to a normal handler.
+        // (PickerDay `onClick?: (event: MuiEvent<React.MouseEvent<HTMLButtonElement>>) => void`.)
+        .replace(
+            "MuiEvent<React.MouseEvent<HTMLButtonElement>>",
+            "React.MouseEvent<HTMLButtonElement>",
+        )
         .let { findDefaultUnions(name, it) }
 
     val declarations = mutableListOf<String>()
@@ -1135,7 +1153,12 @@ private fun findAdditionalProps(
                     // meaning in Kotlin — drop them.
                     if (interfaceName.endsWith("Overrides"))
                         return@mapNotNull null
-                    return@mapNotNull "external interface $interfaceName$typeParams"
+                    // An empty-body interface's `extends` is intentionally dropped here: its parents are
+                    // usually internal/non-generated (DigitalClockOnlyProps, BaseDatePickerSlots, …) and
+                    // keeping them yields unresolved references. A props-like interface still needs a
+                    // `react.Props` base so any `FC<…Props>` built on it satisfies the `P : Props` bound.
+                    val propsBase = if (interfaceName.endsWith("Props")) " : react.Props" else ""
+                    return@mapNotNull "external interface $interfaceName$typeParams$propsBase"
                 }
             }
         }
@@ -1293,8 +1316,12 @@ private fun findAdditionalProps(
             "UseSelectMultiParameters",
             "UseSelectSingleResult",
             "UseSelectMultiResult",
-            "MultiSectionDigitalClockOption",
                 -> declaration += "<TValue>"
+
+            // v9 declares `MultiSectionDigitalClockOption<TSectionValue extends number | string>` — keep
+            // the real param name (TSectionValue ∈ KNOWN_TYPES) so `value`/callbacks stay typed, not Any.
+            "MultiSectionDigitalClockOption",
+                -> declaration += "<TSectionValue>"
 
             "ListState",
                 -> declaration += "<ItemValue>"
@@ -1330,7 +1357,7 @@ private fun findAdditionalProps(
             "SelectProps",
                 -> declaration = declaration.replaceFirst(":", "<TValue>: SelectProps<TValue>")
 
-            "DateCalendarSlots",
+            // NB: v9 made DateCalendarSlots non-generic (TDate removed) — no longer add `<TDate>`.
             "DatePickerSlots",
             "DateTimePickerSlots",
             "DesktopDatePickerSlots",
@@ -1348,9 +1375,8 @@ private fun findAdditionalProps(
             "ExportedMonthPickerProps",
             "ExportedYearPickerProps",
             "BaseDateRangePickerProps",
-            "DateCalendarSlotProps",
-            "ExportedDateCalendarProps",
-            "PickersCalendarHeaderSlotProps",
+                // NB: v9 made DateCalendarSlotProps / ExportedDateCalendarProps / PickersCalendarHeaderSlotProps
+                // non-generic (TDate removed) — no longer inject `<TDate>`.
                 -> declaration = declaration.replaceFirst(":", "<TDate>:")
 
             "DatePickerSlotProps",
@@ -1599,29 +1625,14 @@ private fun findComponent(
 
         "MultiSelectProps",
         "OptionProps",
-        "DateCalendarProps",
         "DateTimeFieldProps",
-        "DigitalClockProps",
-        "MonthCalendarProps",
-        "MultiSectionDigitalClockProps",
-        "PickersCalendarHeaderProps",
-        "YearCalendarProps",
             -> "$propsName<*>"
 
-        "DatePickerProps",
-        "DateTimePickerProps",
-        "DesktopDatePickerProps",
-        "DesktopDateTimePickerProps",
-        "DesktopTimePickerProps",
-        "LocalizationProviderProps",
-        "MobileDatePickerProps",
-        "TimeClockProps",
-        "TimePickerProps",
-            -> "$propsName<*, *>"
-
-        "MobileDateTimePickerProps",
-        "MobileTimePickerProps",
-            -> "$propsName<*, *, *>"
+        // NB: MUI-X v9 removed the `TDate` generic from most picker props (they now use the global
+        // `PickerValidDate`), so they are non-generic and fall through to `else -> propsName`:
+        // DatePickerProps / TimePickerProps / DateTimePickerProps, Desktop*/Mobile* variants,
+        // LocalizationProviderProps, MonthCalendarProps, YearCalendarProps, DigitalClockProps,
+        // MultiSectionDigitalClockProps, TimeClockProps, PickersCalendarHeaderProps.
 
         // TODO: Remove when `TreeItem` will be removed from `@mui/lab`
         "TreeItemProps",

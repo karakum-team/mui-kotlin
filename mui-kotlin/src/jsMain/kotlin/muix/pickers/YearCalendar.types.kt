@@ -44,19 +44,19 @@ external interface YearCalendarProps :
      * The selected value.
      * Used when the component is controlled.
      */
-    var value: Any? /* PickerValidDate */
+    var value: PickerValidDate?
 
     /**
      * The default selected value.
      * Used when the component is not controlled.
      */
-    var defaultValue: Any? /* PickerValidDate */
+    var defaultValue: PickerValidDate?
 
     /**
      * The date used to generate the new value when both `value` and `defaultValue` are empty.
      * @default The closest valid year using the validation props, except callbacks such as `shouldDisableYear`.
      */
-    var referenceDate: Any? /* PickerValidDate */
+    var referenceDate: PickerValidDate?
 
     /**
      * Callback fired when the value changes.

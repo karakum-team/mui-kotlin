@@ -172,14 +172,42 @@ private val TRANSITIONS_STUBS = """
 external interface TransitionProps: react.Props
 """.trimIndent()
 
+// PickerValidDate:
+//  MUI-X v9 opaque date model types (from @mui/x-date-pickers/models). `PickerValidDate` is a conditional
+//  type (`keyof PickerValidDateLookup extends never ? any : …`) resolved by the configured date adapter via
+//  module augmentation — `Any` is the faithful default. Kept as NAMED aliases so signatures read
+//  `PickerValidDate` / `PickerValue`, not bare `Any`.
+
+// PickerOwnerState:
+//  Shared owner-state of every Picker subcomponent (from @mui/x-date-pickers/models). Restored as a real
+//  interface so DigitalClockOwnerState / MonthButtonOwnerState / … keep extending it.
 // language=kotlin
 private val PICKERS_STUBS = """
 typealias PickerSelectionState = String
 
 typealias PickerOnChangeFn<TDate> = (
-    date: TDate?, 
+    date: TDate?,
     selectionState: PickerSelectionState?,
 ) -> Unit
+
+typealias PickerValidDate = Any
+
+typealias PickerValue = Any?
+
+typealias PickerVariant = String
+
+typealias PickerOrientation = String
+
+typealias TimeView = String /* 'hours' | 'minutes' | 'seconds' */
+
+external interface PickerOwnerState {
+    var isPickerValueEmpty: Boolean
+    var isPickerOpen: Boolean
+    var isPickerDisabled: Boolean
+    var isPickerReadOnly: Boolean
+    var pickerVariant: PickerVariant
+    var pickerOrientation: PickerOrientation
+}
 """.trimIndent()
 
 private val CALENDAR_PICKER_VIEW = convertUnion("CalendarPickerView = 'year' | 'day' | 'month'")!!
@@ -219,7 +247,13 @@ private val EXCLUDED_TYPES = setOf(
     "StaticDateRangePicker",
 
     // TODO: fix
-    "Timeline"
+    "Timeline",
+
+    // MUI-X v9: lab no longer re-exports these tree-view components cleanly — the generated lab
+    // re-export points at `muix.tree.view.TreeViewProps`, which v9 x-tree-view no longer provides
+    // (see MUI_V9_TODO.md).
+    "TreeView",
+    "TreeItem",
 )
 
 private enum class Package(
@@ -613,7 +647,11 @@ private fun generateTreeViewDeclarations(
     directories.asSequence()
         .filter { it.name.isComponentName() || it.name.isHookName() }
         .filter { !it.resolve("${it.name}.d.ts").readText().startsWith("export { default } from ") }
-        .filter { it.name !in setOf("TreeItem2", "TreeItem2Icon", "TreeItem2Provider", "useTreeItem2") }
+        .filter {
+            it.name !in setOf(
+                "TreeItem2", "TreeItem2Icon", "TreeItem2Provider", "useTreeItem2",
+            )
+        }
         .onEach {
             when (it.name) {
                 "TreeItem" -> {
@@ -624,7 +662,7 @@ private fun generateTreeViewDeclarations(
                     generate(typesFile, targetDir, Package.treeView)
                 }
 
-                "TreeView", "SimpleTreeView", "RichTreeView", "TreeItem2LabelInput", "TreeItem2DragAndDropOverlay" -> {
+                "TreeView", "SimpleTreeView", "RichTreeView", "TreeItemLabelInput", "TreeItem2DragAndDropOverlay" -> {
                     val typesFile = it.resolve("${it.name}.types.d.ts")
                     generate(typesFile, targetDir, Package.treeView)
                 }
@@ -674,6 +712,7 @@ private fun generatePickersDeclarations(
                     "MobileTimePicker",
                     "MonthCalendar",
                     "MultiSectionDigitalClock",
+                    "PickerDay",
                     "PickersCalendarHeader",
                     "PickersLayout",
                     "PickersSectionList",
@@ -688,6 +727,16 @@ private fun generatePickersDeclarations(
                 generate(typesFile, targetDir, Package.pickers)
             }
         }
+
+    // MUI-X v9: type-only source files living OUTSIDE the component directories that the picker props
+    // aggregate via `extends` (DayCalendar slots + day props, date-validation props, view options).
+    // Generating them restores the inheritance that would otherwise be dropped. See MUI_V9_TODO.md "5c".
+    sequenceOf(
+        "DateCalendar/DayCalendar.d.ts",
+    ).forEach { rel ->
+        val file = typesDir.resolve(rel)
+        if (file.exists()) generate(file, targetDir, Package.pickers)
+    }
 
     sequenceOf(
         "Stubs" to PICKERS_STUBS,

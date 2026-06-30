@@ -198,6 +198,8 @@ internal fun String.toFunctionType(): String? {
         .replace("number | number[]", "ReadonlyArray<Number>")
         .replace("string | undefined", "String?")
         .replace("SelectOption<Value> | undefined", "SelectOption<Value>?")
+        // MUI-X v9 `PickerValidDate` / `PickerValue` are kept as NAMED types (PICKERS_STUBS); generic
+        // params (`TSectionValue` / `TView`) are preserved on their declaring interfaces — no widening here.
         .replace("string", "String")
         .replace("Record<String, any>", "Record<String, *>")
         .replace("boolean", "Boolean")

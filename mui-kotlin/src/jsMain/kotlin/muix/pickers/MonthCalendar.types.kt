@@ -18,7 +18,7 @@ external interface MonthCalendarProps :
 
     override var className: ClassName?
 
-    var currentMonth: Any? /* PickerValidDate */
+    var currentMonth: PickerValidDate?
 
     /**
      * Override or extend the styles applied to the component.
@@ -46,19 +46,19 @@ external interface MonthCalendarProps :
      * The selected value.
      * Used when the component is controlled.
      */
-    var value: Any? /* PickerValidDate */
+    var value: PickerValidDate?
 
     /**
      * The default selected value.
      * Used when the component is not controlled.
      */
-    var defaultValue: Any? /* PickerValidDate */
+    var defaultValue: PickerValidDate?
 
     /**
      * The date used to generate the new value when both `value` and `defaultValue` are empty.
      * @default The closest valid month using the validation props, except callbacks such as `shouldDisableMonth`.
      */
-    var referenceDate: Any? /* PickerValidDate */
+    var referenceDate: PickerValidDate?
 
     /**
      * Callback fired when the value changes.

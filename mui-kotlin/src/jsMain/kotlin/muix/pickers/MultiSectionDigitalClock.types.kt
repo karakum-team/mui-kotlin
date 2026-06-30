@@ -32,7 +32,7 @@ external interface MultiSectionDigitalClockProps :
     var slotProps: MultiSectionDigitalClockSlotProps?
 }
 
-external interface MultiSectionDigitalClockOption<TValue> {
+external interface MultiSectionDigitalClockOption<TSectionValue> {
     var isDisabled: ((value: TSectionValue) -> Boolean)?
 
     var isSelected: (value: TSectionValue) -> Boolean
@@ -41,14 +41,14 @@ external interface MultiSectionDigitalClockOption<TValue> {
 
     var label: String
 
-    var value: Any? /* TSectionValue */
+    var value: TSectionValue
 
     var ariaLabel: String
 }
 
-external interface ExportedMultiSectionDigitalClockProps
+external interface ExportedMultiSectionDigitalClockProps : Props
 
-external interface MultiSectionDigitalClockViewProps<TSectionValue>
+external interface MultiSectionDigitalClockViewProps<TSectionValue> : Props
 
 external interface MultiSectionDigitalClockSlots {
     /**

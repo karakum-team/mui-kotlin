@@ -32,7 +32,7 @@ external interface DigitalClockProps :
     var slotProps: DigitalClockSlotProps?
 }
 
-external interface ExportedDigitalClockProps
+external interface ExportedDigitalClockProps : Props
 
 external interface DigitalClockSlots {
     /**
@@ -54,7 +54,7 @@ external interface DigitalClockOwnerState : PickerOwnerState {
 }
 
 external interface DigitalClockItemProps : Props {
-    var itemValue: Any? /* PickerValidDate */
+    var itemValue: PickerValidDate
 
     var formattedValue: String
 
@@ -67,6 +67,4 @@ external interface DigitalClockItemProps : Props {
     var readOnly: Boolean?
 
     var tabIndex: Int
-
-    var [x: Any? /* `data-${string}`]: string */
 }

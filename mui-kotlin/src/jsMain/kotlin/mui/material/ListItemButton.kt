@@ -9,6 +9,7 @@ import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
 import react.FC
+import react.Props
 import react.PropsWithChildren
 import react.ReactNode
 import react.dom.html.HTMLAttributes
@@ -82,7 +83,7 @@ external interface ListItemButtonBaseProps :
     override var sx: SxProps<Theme>?
 }
 
-external interface ListItemButtonOwnProps
+external interface ListItemButtonOwnProps : Props
 
 /**
  *

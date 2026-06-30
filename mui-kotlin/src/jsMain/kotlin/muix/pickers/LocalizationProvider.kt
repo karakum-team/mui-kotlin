@@ -48,4 +48,4 @@ external interface PickersAdapterContextValue {
 }
 
 
-external val LocalizationProvider: FC<LocalizationProviderProps<*, *>>
+external val LocalizationProvider: FC<LocalizationProviderProps>
