@@ -71,6 +71,10 @@ private fun getClassesContent(
 
 internal fun convertDefinitions(
     definitionFile: File,
+    // When true, emit only the type declarations (interfaces / type aliases) and skip component `val`s.
+    // Used for type-only source files (e.g. MUI-X v9 `internals/…`, `validation/…`) generated solely to
+    // restore inheritance — their `declare const X: Validator/Context/Memo<…>` would emit broken vals.
+    typesOnly: Boolean = false,
 ): ConversionResult {
     // MUI v6 sometimes uses `Component/index.d.ts` instead of `Component/Component.d.ts`.
     // Derive the component name from the parent directory in that case.
@@ -232,23 +236,25 @@ internal fun convertDefinitions(
     val const1Declaration = "declare const $name: "
     val const2Declaration = "export default _default"
 
-    declarations += listOfNotNull(
-        findComponent(name, propsName, fun0Declaration, content),
-        findComponent(name, propsName, fun1Declaration, content),
-        findComponent(name, propsName, fun2Declaration, content),
-        findComponent(name, propsName, fun3Declaration, content),
-        findComponent(name, propsName, fun4Declaration, content),
-        // v7 declares function components as `declare const X: React.JSXElementConstructor<XProps>`
-        // (normalized to `React.ComponentType<…>` above). These are function components — emit `FC`
-        // (as v6 did), not `ComponentType`. No v7 component is natively declared `React.ComponentType`.
-        findComponent(name, propsName, typeDeclaration, content, "FC"),
-        findComponent(name, propsName, const1Declaration, content),
-        findComponent(name, propsName, const2Declaration, content),
-    ).take(1)
+    if (!typesOnly) {
+        declarations += listOfNotNull(
+            findComponent(name, propsName, fun0Declaration, content),
+            findComponent(name, propsName, fun1Declaration, content),
+            findComponent(name, propsName, fun2Declaration, content),
+            findComponent(name, propsName, fun3Declaration, content),
+            findComponent(name, propsName, fun4Declaration, content),
+            // v7 declares function components as `declare const X: React.JSXElementConstructor<XProps>`
+            // (normalized to `React.ComponentType<…>` above). These are function components — emit `FC`
+            // (as v6 did), not `ComponentType`. No v7 component is natively declared `React.ComponentType`.
+            findComponent(name, propsName, typeDeclaration, content, "FC"),
+            findComponent(name, propsName, const1Declaration, content),
+            findComponent(name, propsName, const2Declaration, content),
+        ).take(1)
 
-    declarations += listOfNotNull(
-        findDefaultFunction(name, content)
-    )
+        declarations += listOfNotNull(
+            findDefaultFunction(name, content)
+        )
+    }
 
     // MUI v6 re-declares Grid* union types in each Grid variant file.
     // Keep them only in the canonical Grid.d.ts; skip in Grid2/PigmentGrid.
@@ -1157,8 +1163,19 @@ private fun findAdditionalProps(
                     // usually internal/non-generated (DigitalClockOnlyProps, BaseDatePickerSlots, …) and
                     // keeping them yields unresolved references. A props-like interface still needs a
                     // `react.Props` base so any `FC<…Props>` built on it satisfies the `P : Props` bound.
-                    val propsBase = if (interfaceName.endsWith("Props")) " : react.Props" else ""
-                    return@mapNotNull "external interface $interfaceName$typeParams$propsBase"
+                    // EXCEPTION: a few whitelisted aggregators whose parents ARE generated (e.g. v9
+                    // `ExportedValidateDateProps extends DayValidationProps, …, BaseDateValidationProps {}`
+                    // from internals/models/validation) — keep their real inheritance.
+                    val base = when {
+                        // The 4 validation parents are generated (internals/models/validation.d.ts → validation.kt)
+                        // and carry minDate/maxDate/shouldDisable*; keep this aggregate's inheritance.
+                        interfaceName == "ExportedValidateDateProps"
+                            -> ":\nDayValidationProps,\nMonthValidationProps,\nYearValidationProps,\nBaseDateValidationProps"
+
+                        interfaceName.endsWith("Props") -> " : react.Props"
+                        else -> ""
+                    }
+                    return@mapNotNull "external interface $interfaceName$typeParams$base"
                 }
             }
         }

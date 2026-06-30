@@ -7,6 +7,10 @@ import karakum.mui.adapters.treeview.adaptTreeItem
 import karakum.mui.adapters.treeview.adaptTreeView
 
 fun String.adaptRawContent(): String = this
+    // MUI-X v9 `internals/models/validation.d.ts` declares `FutureAndPastValidationProps` WITHOUT `export`
+    // (the generator skips non-exported interfaces), yet Base{Date,Time}ValidationProps extend it for
+    // `disablePast`/`disableFuture`. Export it so those fields survive in the generated parents.
+    .replace("\ninterface FutureAndPastValidationProps {", "\nexport interface FutureAndPastValidationProps {")
     // MUI-X v9 `PickerDayProps extends ExportedPickerDayProps, Omit<ButtonBaseProps, …8 members…>`.
     // PickerDay re-declares those 8 handlers with an extra `day` argument (e.g.
     // `onKeyDown?: (event, day) => void`), so they CANNOT override ButtonBase's `DOMAttributes` handlers

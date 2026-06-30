@@ -58,7 +58,7 @@ external interface TreeItemProps :
     var onKeyDown: KeyboardEventHandler<HTMLLIElement>?
 }
 
-external interface TreeItemSlots {
+external interface TreeItemSlots : TreeItemIconSlots {
     /**
      * The component that renders the root.
      * @default TreeItemRoot
@@ -124,7 +124,8 @@ external interface TreeItemSlots {
     var loadingIcon: ElementType<*>?
 }
 
-external interface TreeItemSlotProps : Props {
+external interface TreeItemSlotProps :
+    TreeItemIconSlotProps {
     var root: Props?
 
     var content: Props?

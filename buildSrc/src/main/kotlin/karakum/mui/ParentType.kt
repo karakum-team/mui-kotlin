@@ -215,16 +215,11 @@ private val INTERNAL_REJECTED_PARENTS = setOf(
     "DigitalTimePickerProps",
     "ExportedPickersArrowSwitcherProps",
     "ExportedUseViewsOptions",
-    "ExportedValidateDateProps",
     "ExportedBaseClockProps",
     "UseTreeItemParameters",
-    // v9 x-tree-view moved these slot bases into `internals/` — not generated, so the emitted
-    // `SimpleTreeViewSlots`/`RichTreeViewSlots`/`TreeItem*` slot interfaces can't extend them.
-    "TreeViewSlots",
-    "TreeViewSlotProps",
+    // v9 internal RichTreeViewItems component type — its `<TProps>`/Ref/slot-override shape doesn't
+    // translate; kept rejected so RichTreeViewSlots just loses this one parent (keeps TreeViewSlots).
     "RichTreeViewItemsSlots",
-    "TreeItemIconSlots",
-    "TreeItemIconSlotProps",
     "PickerDayOwnerStateBase",
 )
 

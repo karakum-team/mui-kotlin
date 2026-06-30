@@ -66,6 +66,34 @@ causes so nothing mui-x is excluded anymore (lab `TreeView`/`TreeItem` aside —
   ButtonBase's, so it can't extend `ButtonBaseProps` in Kotlin's invariant model. PickerDay keeps its own
   refined handlers; it loses only the *non-refined* ButtonBase props (component/ripple/etc.).
 
+### Phase 5c — type-quality pass on the restored components (no more `Any`/lost inheritance)
+
+Phase 5b reached green but degraded types (widened to `Any`, dropped inheritance). Phase 5c restores them:
+
+- **Opaque model types are NAMED, not `Any`** (`PICKERS_STUBS` + `KNOWN_TYPES`): `PickerValidDate`/`PickerValue`
+  → `typealias`; `PickerOwnerState` → real `interface`; `PickerVariant`/`PickerOrientation`/`TimeView`/`DateView`
+  → named aliases. So members read `var value: PickerValidDate?`, `var day: PickerValidDate`, and
+  `DigitalClockOwnerState`/`MonthButtonOwnerState`/`YearButtonOwnerState` extend `PickerOwnerState` again.
+- **Generics preserved**: `MultiSectionDigitalClockOption<TSectionValue>` with `value: TSectionValue`
+  (`TSectionValue` added to `KNOWN_TYPES`); `TimeClock` `views: ReadonlyArray<String /* TimeViewWithMeridiem */>`.
+- **PickerDay** `day` + handlers are `PickerValidDate` (precise), not `Any`.
+- **Inheritance restored via type-only generation** — new `typesOnly` flag on `generate()`/`convertDefinitions`
+  emits interfaces without the broken `declare const` vals. Generated type-only sources:
+    - `DateCalendar/DayCalendar.d.ts` → `ExportedDayCalendarProps` (loading/renderLoading) + DayCalendar slots.
+    - `internals/models/validation.d.ts` + `validation/validateDate.d.ts` → `ExportedValidateDateProps` now
+      extends `Day/Month/Year/BaseDateValidationProps` (so `minDate`/`maxDate`/`shouldDisable*` reach DateCalendar).
+      `FutureAndPastValidationProps` is force-`export`ed in `adaptRawContent` (it's a non-exported `interface`).
+    - tree-view `internals/TreeViewProvider/TreeViewStyleContext.d.ts` (`TreeViewSlots`/`SlotProps`) +
+      `TreeItemIcon/TreeItemIcon.types.d.ts` (`TreeItemIconSlots`/`SlotProps`) → `SimpleTreeViewSlots`/
+      `RichTreeViewSlots : TreeViewSlots` and `TreeItemSlots : TreeItemIconSlots` restored.
+
+**Known partial limitations (documented, deliberately not generated):**
+
+- DateCalendar loses only `views`/`openTo`/`onViewChange` — they come from internal `ExportedUseViewsOptions`,
+  whose sibling `UseViewsOptions.onChange` has optional function-type params Kotlin can't express.
+- `RichTreeViewSlots` keeps `TreeViewSlots` but not `RichTreeViewItemsSlots` — the internal `RichTreeViewItems`
+  type drags in a `<TProps>` generic / `Ref` / slot overrides that don't translate.
+
 ## Excluded components
 
 - **lab `TreeView` / `TreeItem`** (`EXCLUDED_TYPES`) — v9 `@mui/x-tree-view` exposes no plain `TreeView`

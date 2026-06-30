@@ -81,7 +81,8 @@ external interface DateCalendarSlotProps :
 
 external interface ExportedDateCalendarProps :
     ExportedDayCalendarProps,
-    ExportedMonthCalendarProps {
+    ExportedMonthCalendarProps,
+    ExportedValidateDateProps {
     /**
      * If `true`, disable heavy animations.
      * @default `@media(prefers-reduced-motion: reduce)` || `navigator.userAgent` matches Android <10 or iOS <13

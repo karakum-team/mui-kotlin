@@ -200,6 +200,8 @@ typealias PickerOrientation = String
 
 typealias TimeView = String /* 'hours' | 'minutes' | 'seconds' */
 
+typealias DateView = String /* 'year' | 'month' | 'day' */
+
 external interface PickerOwnerState {
     var isPickerValueEmpty: Boolean
     var isPickerOpen: Boolean
@@ -671,6 +673,22 @@ private fun generateTreeViewDeclarations(
         .filter { it.name != "TreeItem2DragAndDropOverlay" }
         .map { it.resolve("${it.name}.d.ts") }
         .forEach { generate(it, targetDir, Package.treeView) }
+
+    // MUI-X v9: type-only `internals/` slot bases that the public slot interfaces extend
+    // (SimpleTreeViewSlots/RichTreeViewSlots → TreeViewSlots; TreeItemSlots → TreeItemIconSlots, …).
+    // Generated with typesOnly to restore that inheritance without emitting their `declare const`
+    // Context/Memo vals. See MUI_V9_TODO.md "5c".
+    // NB: `internals/components/RichTreeViewItems.d.ts` (RichTreeViewItemsSlots) is NOT generated — the
+    // file's internal `RichTreeViewItemsProps` drags in a `<TProps>` generic, a `Ref<…>` and slot
+    // overrides that don't translate. RichTreeViewItemsSlots stays rejected; RichTreeViewSlots keeps its
+    // TreeViewSlots inheritance but not RichTreeViewItemsSlots. See MUI_V9_TODO.md "5c".
+    sequenceOf(
+        "internals/TreeViewProvider/TreeViewStyleContext.d.ts",
+        "TreeItemIcon/TreeItemIcon.types.d.ts",
+    ).forEach { rel ->
+        val file = typesDir.resolve(rel)
+        if (file.exists()) generate(file, targetDir, Package.treeView, typesOnly = true)
+    }
 }
 
 private fun generatePickersDeclarations(
@@ -731,11 +749,17 @@ private fun generatePickersDeclarations(
     // MUI-X v9: type-only source files living OUTSIDE the component directories that the picker props
     // aggregate via `extends` (DayCalendar slots + day props, date-validation props, view options).
     // Generating them restores the inheritance that would otherwise be dropped. See MUI_V9_TODO.md "5c".
+    // NB: `internals/hooks/useViews.d.ts` (ExportedUseViewsOptions → views/openTo) is intentionally NOT
+    // generated: the sibling `UseViewsOptions.onChange` has optional function-type params
+    // (`selectionState?: …`) that Kotlin function types can't express. ExportedUseViewsOptions stays in
+    // INTERNAL_REJECTED_PARENTS; DateCalendar loses only `views`/`openTo`/`onViewChange`. See MUI_V9_TODO.
     sequenceOf(
         "DateCalendar/DayCalendar.d.ts",
+        "internals/models/validation.d.ts",
+        "validation/validateDate.d.ts",
     ).forEach { rel ->
         val file = typesDir.resolve(rel)
-        if (file.exists()) generate(file, targetDir, Package.pickers)
+        if (file.exists()) generate(file, targetDir, Package.pickers, typesOnly = true)
     }
 
     sequenceOf(
@@ -815,6 +839,7 @@ private fun generate(
     targetDir: File,
     pkg: Package,
     fullPath: Boolean = false,
+    typesOnly: Boolean = false,
 ) {
     // MUI v6 sometimes ships only `<Component>/index.d.ts` (e.g. useMediaQuery, OverridableComponent).
     // Fall back to it when the standard `<Component>.d.ts` is missing.
@@ -828,7 +853,7 @@ private fun generate(
         actualFile.name == "index.d.ts" -> actualFile.parentFile.name
         else -> actualFile.name.removeSuffix(".d.ts")
     }
-    val (body, extensions) = convertDefinitions(actualFile)
+    val (body, extensions) = convertDefinitions(actualFile, typesOnly = typesOnly)
 
     val subpackage = when {
         pkg == Package.materialStyles

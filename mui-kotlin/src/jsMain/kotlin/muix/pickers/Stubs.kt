@@ -19,6 +19,8 @@ typealias PickerOrientation = String
 
 typealias TimeView = String /* 'hours' | 'minutes' | 'seconds' */
 
+typealias DateView = String /* 'year' | 'month' | 'day' */
+
 external interface PickerOwnerState {
     var isPickerValueEmpty: Boolean
     var isPickerOpen: Boolean

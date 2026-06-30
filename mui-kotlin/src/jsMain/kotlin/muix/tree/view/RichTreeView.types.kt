@@ -31,7 +31,7 @@ external interface RichTreeViewProps :
     var apiRef: Ref<*>?
 }
 
-external interface RichTreeViewSlots {
+external interface RichTreeViewSlots : TreeViewSlots {
     /**
      * Element rendered at the root.
      * @default RichTreeViewRoot
