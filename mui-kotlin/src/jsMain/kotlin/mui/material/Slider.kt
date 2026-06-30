@@ -60,47 +60,6 @@ external interface SliderOwnProps :
     var color: SliderColor?
 
     /**
-     * The components used for each slot inside.
-     *
-     *
-     * @default {}
-     */
-    @Deprecated("use the `slots` prop instead. This prop will be removed in a future major release. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.")
-    var components: Components?
-
-    interface Components {
-        var Root: ElementType<*>?
-        var Track: ElementType<*>?
-        var Rail: ElementType<*>?
-        var Thumb: ElementType<*>?
-        var Mark: ElementType<*>?
-        var MarkLabel: ElementType<*>?
-        var ValueLabel: ElementType<*>?
-        var Input: ElementType<*>?
-    }
-
-    /**
-     * The extra props for the slot components.
-     * You can override the existing props or add new ones.
-     *
-     *
-     * @default {}
-     */
-    @Deprecated("use the `slotProps` prop instead. This prop will be removed in a future major release. See [Migrating from deprecated APIs](https://mui.com/material-ui/migration/migrating-from-deprecated-apis/) for more details.")
-    var componentsProps: ComponentsProps?
-
-    interface ComponentsProps {
-        var root: Props?
-        var track: Props?
-        var rail: Props?
-        var thumb: Props?
-        var mark: Props?
-        var markLabel: Props?
-        var valueLabel: Props?
-        var input: Props?
-    }
-
-    /**
      * Override or extend the styles applied to the component.
      */
     var classes: SliderClasses?

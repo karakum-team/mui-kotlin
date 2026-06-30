@@ -63,35 +63,12 @@ private fun convertMember(
         }
     }
 
-    val deprecatedAnnotation = comments
-        .firstOrNull { "@deprecated" in it }
-        ?.substringAfter("@deprecated")
-        ?.lines()?.first()?.trim()
-        ?.removePrefix("* ")?.trim()
-        ?.takeIf { it.isNotEmpty() }
-        ?.let { msg -> "@Deprecated(\"${msg.replace("\"", "\\\"")}\")\n" }
-        ?: if (comments.any { "@deprecated" in it }) "@Deprecated\n" else ""
+    if (comments.any { "@deprecated" in it })
+        return ""
 
-    val cleanedComments = if (deprecatedAnnotation.isEmpty()) {
-        comments
-    } else {
-        comments.mapNotNull { comment ->
-            if ("@deprecated" !in comment) return@mapNotNull comment
-            val filtered = comment.lines().filter { "@deprecated" !in it }
-            // Drop the comment entirely if nothing meaningful remains beyond /** and */
-            val hasContent = filtered.any { line ->
-                val t = line.trim()
-                t.isNotEmpty() && t != "/**" && t != "*/" && t != "*"
-            }
-            if (hasContent) filtered.joinToString("\n") else null
-        }
-    }
+    val property = rest.trimStart().takeIf { it.isNotEmpty() }?.let { convertProperty(it) } ?: ""
 
-    val property = rest.trimStart().takeIf { it.isNotEmpty() }
-        ?.let { deprecatedAnnotation + convertProperty(it) }
-        ?: ""
-
-    return (cleanedComments + property)
+    return (comments + property)
         .filter { it.isNotEmpty() }
         .joinToString("\n")
 }

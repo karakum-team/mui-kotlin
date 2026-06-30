@@ -10,7 +10,6 @@ import react.dom.events.FocusEventHandler
 import react.dom.events.KeyboardEventHandler
 import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
-import web.html.HTMLElement
 import web.html.HTMLLIElement
 
 external interface TreeItemProps :
@@ -41,19 +40,6 @@ external interface TreeItemProps :
      * @default {}
      */
     var slotProps: TreeItemSlotProps?
-
-    /**
-     * The component used to render the content of the item.
-     * @default TreeItemContent
-     */
-    @Deprecated("Consider using the `<TreeItem2 />` component or the `useTreeItem2` hook instead. For more details, see https://mui.com/x/react-tree-view/tree-item-customization/.")
-    var ContentComponent: ComponentType<TreeItemContentProps>?
-
-    /**
-     * Props applied to ContentComponent.
-     */
-    @Deprecated("Consider using the `<TreeItem2 />` component or the `useTreeItem2` hook instead. For more details, see https://mui.com/x/react-tree-view/tree-item-customization/.")
-    var ContentProps: HTMLAttributes<HTMLElement>?
 
     /**
      * If `true`, the item is disabled.
