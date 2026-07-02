@@ -893,6 +893,14 @@ private fun generate(
         if (indexFallback != null && indexFallback.exists()) indexFallback else definitionFile
     } else definitionFile
 
+    // Upstream may drop a hook/component's `.d.ts` between versions while it's still listed by
+    // the caller (e.g. a directory scan or a hardcoded name) — nothing to convert, so bail out
+    // instead of writing a stub or crashing on the missing-file read below.
+    if (!actualFile.exists()) {
+        println("Skipping generation for ${definitionFile.path}: no declaration file found")
+        return
+    }
+
     val componentName = when {
         actualFile.name == "shared.d.ts" -> "CalendarPickerView"
         actualFile.name == "index.d.ts" -> actualFile.parentFile.name
@@ -938,8 +946,13 @@ private fun generate(
             else -> body
         }
 
-        targetDir.resolve("$componentName.kt")
-            .writeText(fileContent(annotations.joinToString("\n\n"), finalBody, pkg))
+        // Source `.d.ts` may be missing (removed upstream) or parse to no declarations at all
+        // (e.g. a generic signature the converter can't translate) — either way there's nothing
+        // to emit, so skip writing a stub file that's just a `package` line.
+        if (finalBody.isNotBlank()) {
+            targetDir.resolve("$componentName.kt")
+                .writeText(fileContent(annotations.joinToString("\n\n"), finalBody, pkg))
+        }
     }
 
     // MUI v6 Tooltip uses `placement?: PopperProps['placement']` — no standalone enum to
