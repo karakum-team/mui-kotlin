@@ -185,8 +185,8 @@ external interface TransitionProps: react.Props
 private val PICKERS_STUBS = """
 typealias PickerSelectionState = String
 
-typealias PickerOnChangeFn<TDate> = (
-    date: TDate?,
+typealias PickerOnChangeFn = (
+    date: PickerValidDate?,
     selectionState: PickerSelectionState?,
 ) -> Unit
 

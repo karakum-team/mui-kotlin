@@ -45,7 +45,7 @@ private val KNOWN_TYPES = setOf(
     "TLibFormatToken",
     "ReadonlyArray<T>",
     "ReadonlyArray<Value>",
-    "PickerOnChangeFn<TDate>",
+    "PickerOnChangeFn",
     "CalendarPickerView",
 
     "AlertColor",
@@ -514,6 +514,18 @@ internal fun kotlinType(
             else -> raw
         }
         return "ReadonlyArray<$elem>"
+    }
+
+    // `(X | null)[]`, `(A | B)[]`, etc. — an array whose element type is parenthesized (unions,
+    // nullable elements). The bare-identifier regex above only covers `\w+[]`; here we strip the
+    // trailing `[]`, unwrap the redundant outer parens around the element type, and recursively
+    // convert it — so e.g. `(PickerValidDate | null)[]` becomes `ReadonlyArray<PickerValidDate?>`
+    // instead of falling through to the `Any? /* … */` catch-all below.
+    if (type.endsWith("[]")) {
+        val element = type.removeSuffix("[]")
+        val unwrapped = unwrapRedundantParens(element)
+        if (unwrapped != element)
+            return "ReadonlyArray<${kotlinType(unwrapped, name)}>"
     }
 
     if ((name == "minRows" || name == "maxRows") && type == "string | number")
