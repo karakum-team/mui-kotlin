@@ -108,10 +108,19 @@ private fun convertProperty(
             return "$CHILDREN /* react.ReactElement<*>? */"
         }
 
-        // Fallback type with ReactNode/ReactElement in the original TS — still treat as React children.
+        // Fallback type with ReactNode/ReactElement in the original TS — still treat as React children,
+        // but only if one of the union's own arms is a node type. Base UI's `Slider.Value` (and
+        // `Meter.Value` / `Progress.Value`) declare
+        // `null | ((formattedValues, values) => React.ReactNode)`: the node is what the callback
+        // *returns*, and the component reads nothing else —
+        // `typeof children === 'function' ? children(…) : defaultDisplayValue`. Typing that as React
+        // children got it exactly backwards, permitting the plain node the component ignores and
+        // rejecting the callback it exists for.
         if (type.startsWith("Any? /*") && ("ReactNode" in type || "ReactElement" in type)) {
             val comment = type.substringAfter("Any? /* ").removeSuffix(" */")
-            return "$CHILDREN /* $comment */"
+
+            if (comment.depthAwareSplit('|').any { REACT_NODE_ARM.matches(it.trim()) })
+                return "$CHILDREN /* $comment */"
         }
     }
 
@@ -263,3 +272,9 @@ private val ARIA_ATTR_NAMES = mapOf(
     "aria-valuenow" to "ariaValueNow",
     "aria-valuetext" to "ariaValueText",
 )
+
+// A union arm that is itself a React node, as opposed to one that merely produces one. Matched against
+// the TypeScript, so both the qualified and the bare spelling occur; `null` / `undefined` arms fall
+// through, which is what makes a callback-only union recognizable.
+private val REACT_NODE_ARM =
+    Regex("""(?:React\.)?(?:ReactNode|ReactChild|ReactElement(?:<[^()]*>)?|JSX\.Element)""")

@@ -7,12 +7,9 @@
 
 package baseui
 
-import react.PropsWithChildren
-import react.ReactNode
-
-external interface SliderValueProps : BaseUiOutputProps, PropsWithChildren {
-    override var children:
-        ReactNode? /* null | ((formattedValues: readonly string[], values: readonly number[]) => React.ReactNode) */
+external interface SliderValueProps : BaseUiOutputProps {
+    var children:
+        Any? /* null | ((formattedValues: readonly string[], values: readonly number[]) => React.ReactNode) */
 }
 
 external interface SliderValueState : SliderRootState

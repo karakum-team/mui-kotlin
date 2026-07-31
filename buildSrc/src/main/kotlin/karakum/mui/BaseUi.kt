@@ -483,25 +483,10 @@ private val GENERIC_INTERFACE = Regex(
     setOf(RegexOption.MULTILINE, RegexOption.DOT_MATCHES_ALL),
 )
 
-private fun String.depthAwareSplitOnComma(): List<String> {
-    val parts = mutableListOf<String>()
-    var depth = 0
-    var start = 0
-
-    for (i in indices) {
-        when (this[i]) {
-            '<', '(', '{' -> depth++
-            '>', ')', '}' -> depth--
-            ',' -> if (depth == 0) {
-                parts += substring(start, i)
-                start = i + 1
-            }
-        }
-    }
-    parts += substring(start)
-
-    return parts.map { it.trim() }.filter { it.isNotEmpty() }
-}
+private fun String.depthAwareSplitOnComma(): List<String> =
+    depthAwareSplit(',')
+        .map { it.trim() }
+        .filter { it.isNotEmpty() }
 
 /**
  * Rewrites references to an interface declared *inside* a namespace to the hand-written stub standing in
