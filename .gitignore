@@ -2,6 +2,8 @@
 build/
 node_modules/
 dist/
+.kotlin/
+.DS_Store
 
 # IDEA ignore list
 **/.idea/*
