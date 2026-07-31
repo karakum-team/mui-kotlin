@@ -7,12 +7,16 @@ are in `base-ui-plan.md` / `base-ui-plan-review.md`; both were written before `b
 **Target version:** `base-ui-react.version=1.6.0` (published 2026-06-18). Pinned deliberately — Base UI
 had breaking changes across 1.x.
 
+**Where this stands:** one module (`menu`) of the 44 is generated end to end and renders in a browser.
+The next module is the thing to do; the open gaps below are all things `menu` survives without, and
+none of them blocks adding a second module. `BASE_UI_MODULES` in `Generator.kt` is the allow-list.
+
 ## Done
 
 - **P0** — dependency + generator plumbing. `generateKotlinDeclarations` takes the `node_modules` root
   instead of `build/js/node_modules/@mui`; `Package` carries a `scope` so `moduleDeclaration` no longer
   hardcodes `@mui`.
-- **P1/P2 (partial)** — `menu` module: 19 own parts + the shared `Separator`, types only, compiling.
+- **P1/P2** — `menu` module: 19 own parts + the shared `Separator`, plus the values to render them.
   (`index.parts.d.ts` lists 22 bindings: those 20 components plus the non-component `Handle` /
   `createHandle`.) `:mui-kotlin` and `:playground` both green.
 - **Namespace object** — `baseui/Menu.kt`: `external object Menu` under
@@ -29,7 +33,16 @@ had breaking changes across 1.x.
   hand-written `FloatingPortalProps : BaseUiDivProps` stub, dropping the use-site type argument the way
   `EVENT_DETAILS_ALIAS` does. `MenuPortalProps` gets `children`, `container` and the div attributes back,
   and the canonical `Root > Trigger + Portal > Positioner > Popup` tree can finally be written. The table
-  is where `AriaCombobox.Props` / `.Actions` go when combobox and autocomplete are added.
+  is where `AriaCombobox.Props` / `.Actions` go when combobox and autocomplete are added. A rewrite that
+  silently stops matching would put the parent straight back in the bin, so `unusedNamespaceStubs`
+  reports any stub that no generated declaration ended up referring to.
+- **Playground sample** — `playground/src/jsMain/kotlin/BaseUiMenu.kt`, wired into `App.kt`. Mounts all
+  20 members of the namespace object and uses both arms of every value-or-callback prop. Driven in a
+  browser once: the portal lands in `<body>`, the popup's class flips `--closed` ↔ `--open` and its
+  `min-width` 8rem ↔ 16rem while Base UI's own inline styles survive alongside, highlight follows the
+  arrow keys, checkbox and radio round-trip, the submenu opens a second portal, the backdrop reports
+  `close:outside-press`, console clean. CI runs `./gradlew build`, which compiles `:playground`, so the
+  sample is an enforced guard from here on — see "What only the sample can catch" below.
 
 ## Facts that contradict the plan documents
 
@@ -68,6 +81,14 @@ struck through — because what it decided (the props stay `Any?`) is still wort
    `align` because the member name is in `UnionFinder.kt::UNION_PROPERTIES`, and `Orientation` because a
    MUI `KNOWN_TYPES` entry (`KotlinType.kt:54`) happens to share the name — while `IMPORTED_FQNS` also
    carries `mui.base.Orientation`. Worth making deliberate before it bites.
+
+   Sharpened since: `Side` and `TransitionStatus` appear in the generated tree **only inside `/* … */`
+   markers**, never in a type position, so `baseui/Side.kt` and `baseui/TransitionStatus.kt` are dead
+   declarations that nothing can reach. Two things the playground sample established about the widened
+   members meanwhile: a seskar union still *assigns* to one
+   (`orientation = MenuRootOrientation.vertical` on `Menu.Root` compiles and works), and *reading* one
+   yields the bare JS string, so `"bui-positioner--${state.side}"` produces `--bottom` — which also means
+   a rename upstream would quietly produce `--null` instead of failing.
 6. **The alias map is built only from part files, not the whole package.** Enough for `menu`, but
    combobox and autocomplete each lose 3 references (`AriaCombobox.ChangeEventDetails`,
    `.ChangeEventReason`, `.HighlightEventDetails`), tooltip and toast lose `FloatingPortalLite.Props`,
@@ -80,15 +101,24 @@ struck through — because what it decided (the props stay `Any?`) is still wort
    namespace is dropped silently rather than flattened. That is what cost `MenuPortal` its parent (now
    closed, see Done), and `resolveNamespaceStubs` works around it one entry at a time rather than fixing
    the flattening. Outside `internals/` and `floating-ui-react/` there is exactly one such namespace
-   (`AriaCombobox`), so it is latent for now; it should at least log.
+   (`AriaCombobox`), so it is latent for now. Still unlogged: the new `unusedNamespaceStubs` only notices
+   when a *known* stub stops being referenced, not when a namespace member is dropped in the first place,
+   which is the failure that has to be found by hand today.
 8. **`instant` is typed `mui.system.Union`** (= `String`) in `MenuPopup` / `MenuViewport` — both a
    `hard_rules` #6 violation (a string-literal union that should be sealed) and the only `mui.*`
-   dependency in `baseui`, which should not exist. Emit a per-part sealed type instead.
+   dependency left in `baseui` (two `import mui.system.Union` lines, nothing else), which should not
+   exist. Emit a per-part sealed type instead. Note `MenuPositionerState.instant` comes out as plain
+   `String` and that is *correct*: upstream declares that one `string | undefined`, not as the literal
+   union — the two shapes differ in Base UI itself, so do not "fix" them into one.
 9. **`UseAnchorPositioningSharedParameters` is an empty stub.** Upstream it is ~60 anchor-positioning
    props (side, align, offsets, collision handling) shared by every Positioner part, in
-   `utils/useAnchorPositioning.d.ts`. Generating it type-only would restore real API surface.
+   `utils/useAnchorPositioning.d.ts`. Generating it type-only would restore real API surface. Confirmed
+   in the browser: `Menu.Positioner` accepts no `side` / `align` / `sideOffset` at all, so every menu is
+   stuck on the defaults (`bottom` / `center`, zero offset). This is the largest missing surface left.
 10. **`BaseUiDivProps['onClick']` indexed-access types stay `Any?`** (4 members, `MenuItem` /
-   `MenuLinkItem`). Resolvable by substituting the parent member's type.
+   `MenuLinkItem`). Resolvable by substituting the parent member's type. Until then a call site has to
+   annotate the parameter itself — the sample writes `onClick = { _: MouseEvent<*, *> -> … }`, which is
+   the real runtime type and assigns to `Any?` fine.
 11. ~~**`className` / `style` / `render` are `Any?`**~~ — done. The props stay `Any?` (each is a
    value-or-callback union over the part's own state type, which the per-tag parent shared by 126 parts
    cannot name), and the callback arm now has a typed spelling in `<Part>.ext.kt`:
@@ -100,9 +130,13 @@ struck through — because what it decided (the props stay `Any?`) is still wort
    `HTMLProps = HTMLAttributes<any> & { ref }` — the per-tag third argument of `BaseUIComponentProps` is
    never used anywhere in the package, so even `MenuLinkItem`'s `<a>` gets plain `HTMLAttributes`
    upstream. Three limits worth knowing:
-   - **The marker is looked for in the part's own `extends` list only.** A part inheriting the props
-     through *another part's* props would get nothing. In 1.6.0 that is `AlertDialogTriggerProps` and
-     `ToastManagerPositionerProps`, both via `Omit<…>`, which the converter drops anyway — so it is
+   - **The marker is looked for in the part's own `extends` list only**, against a hand-maintained
+     alternation (`ELEMENT_PROPS_MARKER` = the 17 `BaseUi<Tag>Props` plus `FloatingPortalProps`). There is
+     no transitive resolution, because `declarationParents` reads one file's body and that body does not
+     contain its parents' declarations — so every stub that stands in for an element-props parent has to
+     be added to the alternation by hand, or its part silently loses the helpers. A part inheriting the
+     props through *another part's* props gets nothing either. In 1.6.0 that is `AlertDialogTriggerProps`
+     and `ToastManagerPositionerProps`, both via `Omit<…>`, which the converter drops anyway — so it is
      latent, but it will surface with `alert-dialog` and `toast`.
    - **A generic props declaration is skipped**, which today is nobody: `MenuTriggerProps<Payload>` is
      generic upstream and gets helpers only because gap 4 strips the parameter. Closing gap 4 would
@@ -114,8 +148,11 @@ struck through — because what it decided (the props stay `Any?`) is still wort
      `render { props, _ -> hr.create { +props } }` — `react.Props` declares
      `inline operator fun Props?.unaryPlus()` over `Object.assign`, and the repository already uses it
      (`playground/src/jsMain/kotlin/MyAutocomplete.kt:19`). Caveat, now in the generated KDoc: `+props`
-     copies `children` too, so a builder that uses it must not add children of its own — React reports
-     "Both `children` source options used" and ignores one of them.
+     copies `children` too, so a builder that uses it must not add children of its own — the wrappers'
+     `jsx` reports "Both `children` source options used" and keeps the builder's. The *element* arm
+     (`render = span.create { … }`) is merged by Base UI itself; confirmed in the browser, where a
+     `GroupLabel` rendered that way still came out with the `id` and `role` its group's
+     `aria-labelledby` points at.
 12. **`VIRTUAL_MEMBER_HIDDEN` and `VAR_TYPE_MISMATCH_ON_OVERRIDE` are suppressed package-wide.**
    Justified — Base UI re-declares inherited props, and `WithBaseUIEvent<T>` re-types every inherited
    DOM handler — but a real `override` would be better than a blanket suppress.
@@ -152,11 +189,7 @@ struck through — because what it decided (the props stay `Any?`) is still wort
 
 `menu` is the vertical slice; `BASE_UI_MODULES` in `Generator.kt` is the allow-list to extend.
 
-- A playground sample per module, starting with `menu`. It carries more weight here than samples usually
-  do: `:mui-kotlin:compileKotlinJs` only proves the declarations type-check among themselves, not that
-  `className { … }` at a call site resolves to the extension function rather than to the inherited
-  `className: Any?` property, and not that the namespace object's 20 keys exist at runtime. Neither is
-  guarded by anything else.
+- A playground sample per module as modules land — `menu` has one. See "What only the sample can catch".
 - Utils and the 13 flat modules: `use-render`, `merge-props`, `csp-provider`, `direction-provider`,
   `button`, `separator`, `input`, `form`, `toggle`, `toggle-group`, `radio-group`, `checkbox-group`,
   `menubar`, `unstable-use-media-query`.
@@ -164,9 +197,52 @@ struck through — because what it decided (the props stay `Any?`) is still wort
   tabs, tooltip, dialog, popover, number-field, checkbox, radio). Three need their own design:
   imperative Toast (`createToastManager` / `useToastManager`), generic `Select<Value>` / `Combobox`,
   and `Form` / `Field` validation.
+
+  Which to take second is a real choice, not an ordering detail. `dialog` and `popover` reuse `menu`'s
+  whole machinery (portal, positioner, popup, backdrop) and would mostly re-exercise what already works;
+  `tooltip` and `toast` are the first to need `FloatingPortalLite.Props` in the stub table (gap 6);
+  `combobox` and `autocomplete` are the largest and the first to hit gaps 4, 6 and 13 at once. Adding a
+  cheap one proves the pipeline generalizes; adding an expensive one finds the next real gap.
 - `@mui/base` stays generated and frozen. Only two generated files depend on it —
   `mui/material/Snackbar.kt` (`ClickAwayListenerProps`) and `mui/material/Autocomplete.kt`
   (`UseAutocompleteProps`) — so retiring it later is cheap.
+
+## What only the sample can catch
+
+`:mui-kotlin:compileKotlinJs` type-checks the declarations against each other. Three things it cannot
+see, all of which the sample does, and all of which CI now enforces because `./gradlew build` compiles
+`:playground`:
+
+- **Call-site resolution of the `.ext.kt` helpers.** `className { … }` has to resolve to the extension
+  function and not to the inherited `className: Any?` property it shadows. Nothing in `mui-kotlin`
+  exercises that, since the helpers are only usable from outside.
+- **That the namespace object's keys exist at runtime.** `external object Menu { val Popup: … }` compiles
+  whatever the module actually exports; only mounting a part proves the mapping. The sample mounts all
+  20, so a key that stops existing takes the page down rather than failing at some user's call site.
+- **That hand-written stubs still match upstream.** `FloatingPortalProps.container` is spelled by hand;
+  passing it once from the sample is what would notice a rename. Same for the shape of the state types
+  the helpers close over.
+
+Two caveats for whoever extends the sample. `Menu.Viewport` is not decoration — mounting it sets
+`hasViewport`, which switches the positioner to its `adaptiveOrigin` middleware, and it is meant to wrap
+the popup's content rather than sit beside it. And a sibling sample (`SliderStylization`) lays an
+absolutely positioned element over the whole viewport, so anything interactive needs its own
+`position: relative; z-index: 1` or its clicks land in the slider — `document.elementFromPoint` is how
+that gets diagnosed.
+
+## Repository note: running the playground
+
+`./gradlew :playground:jsViteDev` in the background, then `http://localhost:5173/` (vite's default port;
+its root is the generated `kotlin` directory).
+
+**`:playground:compileKotlinJs` alone does not update what the dev server serves.** The bundle vite reads
+is produced by `:playground:jsDevelopmentExecutableCompileSync`, so a code change needs that task and
+then a page reload — otherwise the browser keeps showing the previous build, which looks exactly like the
+change not working.
+
+Do not run `:mui-kotlin:generateDeclarations` on its own either: spotless hangs off the
+`compileKotlinJs` chain, so a standalone run leaves the whole generated tree unformatted and `git status`
+shows hundreds of files of pure formatting churn. Finish with `:mui-kotlin:compileKotlinJs`.
 
 ## Repository note: the generated tree is now reproducible
 
