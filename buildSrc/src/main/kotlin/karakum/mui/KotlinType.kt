@@ -359,6 +359,20 @@ private val STANDARD_TYPE_MAP = mapOf(
     "PickersInputLocaleText<TDate>" to "Any /* PickersInputLocaleText<TDate> */",
 )
 
+/**
+ * Whether [kotlinType] would resolve this bare name to a type of its own instead of leaving it unknown.
+ *
+ * Both tables it consults were built for the MUI target, and a Base UI declaration's *type parameter*
+ * can happen to share a name with one of their entries — `Value` is `Autocomplete`'s value parameter
+ * here and `SliderRootProps`' in Base UI. Since type parameters are dropped from the emitted declaration
+ * (BASE_UI_TODO.md gap 4), such a name resolves to the MUI type and the reference does not compile.
+ * See `substituteTypeParameterBounds` in BaseUi.kt, which is the only caller.
+ */
+internal fun isKnownTypeName(
+    name: String,
+): Boolean =
+    name in KNOWN_TYPES || KNOWN_TYPE_SUFFIXES.any { name.endsWith(it) }
+
 internal fun kotlinType(
     type: String,
     name: String? = null,

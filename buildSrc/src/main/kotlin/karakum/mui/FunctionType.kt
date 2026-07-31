@@ -91,7 +91,7 @@ internal fun String.toFunctionType(): String? {
     if (startsWith("(state: {"))
         return null
 
-    return replace(" => ", "->")
+    val converted = replace(" => ", "->")
         .replace("{\n    matches: boolean;\n}", DYNAMIC)
         .replace("MouseEvent | TouchEvent", "web.uievents.UIEvent")
         .replace("React.MouseEvent | React.KeyboardEvent | React.FocusEvent", "react.dom.events.SyntheticEvent<*, *>")
@@ -214,4 +214,50 @@ internal fun String.toFunctionType(): String? {
         .replace("Partial<Any>", "Any")
         .replace(": String | ReadonlyArray<String>", ": Any /* String | ReadonlyArray<String> */")
         .replace("?: Any", ": Any?")
+
+    if (converted.isKotlinFunctionType())
+        return converted
+
+    // The whole callback is widened, not just the offending parameter — coarse, but it keeps the
+    // TypeScript readable at the call site. Logged because it is the one widening on this path that
+    // nothing else reports: every other Base UI loss prints from `BaseUi.kt` or `generate`.
+    println("Function type left untranslated, widened: $this")
+
+    return "Any? /* $this */"
 }
+
+/**
+ * Whether the conversion above actually landed on Kotlin, rather than leaving TypeScript in place.
+ *
+ * The replacements are a curated list built against the shapes the MUI packages use; a shape not on it
+ * passes through untouched, and the result is emitted as if it were Kotlin. Three such shapes reach
+ * here from Base UI, and each is a parse error — the generated file stops being Kotlin at all, which is
+ * how they were found (ktfmt refused to format it):
+ *
+ *     value: Value extends Number ? Number : Value        // conditional type (Base UI `slider`)
+ *     ->ReadonlyArray<String>? | Promise<…>               // union in return position (Base UI `field`)
+ *     value: unknown                                      // TS-only keyword
+ *
+ * The caller cannot be relied on to recover: `kotlinType` does fall through to an `Any?`-with-marker
+ * catch-all, but only past a dozen further handlers, one of which returns its argument verbatim for any
+ * type ending in `Props` / `Actions` / `Size` / … — so a rejected function type could come back out as
+ * raw TypeScript. The marker is therefore produced here.
+ *
+ * Marker spans are excluded before the check: the replacements above deliberately record the TypeScript
+ * they replaced, and that text is not code. (No inline example — Kotlin nests block comments.)
+ */
+private fun String.isKotlinFunctionType(): Boolean {
+    val code = replace(COMMENT_SPAN, "")
+
+    return '|' !in code &&
+            !code.contains(" extends ") &&
+            !NON_KOTLIN_KEYWORD.containsMatchIn(code)
+}
+
+private val COMMENT_SPAN = Regex("""/\*.*?\*/""", RegexOption.DOT_MATCHES_ALL)
+
+// Both keywords do occur in the packages' `.d.ts`, but in the conditional-type machinery of type
+// aliases rather than in member types, so neither has reached a converted function type so far. Listed
+// together so the check stays closed over the TS-only type keywords rather than over the one that
+// happens to occur today.
+private val NON_KOTLIN_KEYWORD = Regex("""\b(?:unknown|never)\b""")

@@ -851,6 +851,28 @@ private fun generatePickersDeclarations(
 // than scanning the `exports` map, so that what is generated stays reviewable as the target grows.
 private val BASE_UI_MODULES = setOf(
     "menu",
+    "slider",
+)
+
+/**
+ * `.d.ts` generated for their declarations alone, without their module being in [BASE_UI_MODULES].
+ *
+ * A part can inherit from a declaration that lives in another module: `SliderRootState extends
+ * FieldRootState`, and `FieldRootState` is declared in `field/`. Unlike the dotted namespace members
+ * that [NAMESPACE_STUBS] stands in for, a bare identifier passes `isAcceptableParent`, so the parent is
+ * *kept* and the generated Kotlin fails to compile against a name that was never emitted.
+ *
+ * Generating the file it comes from is preferable to a hand-written stub: the declaration stays the
+ * upstream one, and when the module does join [BASE_UI_MODULES] the file is deduplicated by path in
+ * [generateBaseUiDeclarations] rather than colliding with a stub of the same name. The file is
+ * converted exactly as a part is, `.ext.kt` helpers included; what it does *not* get is the namespace
+ * object, which is built per module and so needs the module itself to be listed.
+ *
+ * `FieldRootState` is inherited by 17 declarations across 12 modules (checkbox, switch, radio, select,
+ * number-field, combobox, …), so this entry pays for itself well beyond `slider`.
+ */
+private val BASE_UI_EXTRA_FILES = setOf(
+    "field/root/FieldRoot.d.ts",
 )
 
 private val BASE_UI_SIDE =
@@ -1005,13 +1027,14 @@ private fun generateBaseUiDeclarations(
 
     val modules = baseUiModules(typesDir, BASE_UI_MODULES)
 
-    val files = modules
-        .flatMap { it.parts }
+    val extraFiles = BASE_UI_EXTRA_FILES.map { typesDir.resolve(it).normalize() }
+
+    val files = (modules.flatMap { it.parts }.map { it.file } + extraFiles)
         // A part file can be referenced more than once: `store/MenuHandle.d.ts` backs both `Handle` and
         // `createHandle`, and shared parts (`../separator/Separator.d.ts`) are re-exported by several
-        // modules.
-        .distinctBy { it.file.absolutePath }
-        .map { it.file }
+        // modules. An entry of `BASE_UI_EXTRA_FILES` whose module has since been added is a duplicate of
+        // that module's own part file, and drops out here.
+        .distinctBy { it.absolutePath }
 
     // Built over the whole file set up front: namespace references cross files (`MenuSubmenuRoot.d.ts`
     // extends `MenuRoot.Props`), so a per-file map would leave those unresolved.

@@ -402,10 +402,105 @@ internal fun adaptBaseUiContent(
         .dropCallSignatureInterfaces()
         .expandEmptyInterfaceBodies()
         .flattenBaseUiNamespaces(aliases)
+        .substituteTypeParameterBounds()
         .interfaceEventDetails()
         .resolveNamespaceStubs()
         .resolveComponentProps()
         .arrowifyMethodSignatures()
+
+/**
+ * Replaces a member whose type *is* one of its declaration's own type parameters with what upstream
+ * bounds that parameter to.
+ *
+ * The converter drops type parameters from the declaration it emits (BASE_UI_TODO.md gap 4), which
+ * leaves every member that mentioned one referring to a name that is no longer declared. That is
+ * ordinarily harmless: an unknown name widens to `Any?` with the TypeScript recorded beside it, which is
+ * what `MenuRootProps.payload` gets and is why `Payload` needs nothing here. It stops being harmless when
+ * the name happens to be one [isKnownTypeName] answers for — `Value` is `Autocomplete`'s value parameter
+ * in the MUI target and `SliderRootProps<Value extends number | readonly number[]>`'s in Base UI — and
+ * the member then resolves against a type from the other package. Only those names are substituted, so
+ * the rewrite touches exactly the declarations that would otherwise fail to compile.
+ *
+ * The replacement is the `extends` bound, or the parameter's own default when it declares no bound
+ * (`RadioGroupProps<Value = any>`). Either is what the parameter meant at that position anyway, and says
+ * more than its name would have: `value: Any?` with `number | readonly number[]` recorded beside it.
+ *
+ * Deliberately limited to the whole-member-type position. A parameter also appears inside larger
+ * expressions — in `slider`, `(value: Value extends number ? number : Value, …) => void` — and those
+ * have no Kotlin form whatever the parameter resolves to, so they are widened whole either way.
+ * Substituting there would only replace upstream's own text in the marker with
+ * `number | readonly number[] extends number ? …`.
+ */
+private fun String.substituteTypeParameterBounds(): String =
+    GENERIC_INTERFACE.replace(this) { match ->
+        val (header, parameters, body) = match.destructured
+
+        val substitutions = parameters.depthAwareSplitOnComma()
+            .mapNotNull { parameter ->
+                // `Value extends number | readonly number[] = number | readonly number[]` — the name comes
+                // before both clauses, either of which may be absent.
+                val name = parameter.substringBefore(" extends ").substringBefore(" = ").trim()
+                if (name.isEmpty() || !isKnownTypeName(name))
+                    return@mapNotNull null
+
+                val bound = parameter.substringAfter(" extends ", "").substringBefore(" = ").trim()
+                val default = parameter.substringAfter(" = ", "").trim()
+
+                when (val replacement = bound.ifEmpty { default }) {
+                    // Neither clause: nothing to put in its place, and the member will resolve to the
+                    // other package's type. No such parameter exists in 1.6.0 — logged rather than
+                    // handled, since the failure is a compile error whose cause is not obvious.
+                    "" -> {
+                        println("Base UI: ${header.substringAfterLast(' ')} type parameter '$name' has no bound to substitute")
+                        null
+                    }
+
+                    else -> name to replacement
+                }
+            }
+
+        if (substitutions.isEmpty()) return@replace match.value
+
+        val substituted = substitutions.fold(body) { acc, (name, replacement) ->
+            acc.replace(wholeMemberType(name), replacement)
+        }
+
+        "$header<$parameters>$substituted"
+    }
+
+// The parameter as a whole member type: `defaultValue?: Value | undefined;`. Anchored on the `: ` that
+// opens the type and on the `;` that closes the member, so an occurrence anywhere else — a function
+// parameter, a type argument, an arm of a conditional — is left alone.
+private fun wholeMemberType(name: String): Regex =
+    Regex("""(?<=: )${Regex.escape(name)}(?=(?: \| undefined)?;)""")
+
+// `export interface X<params> …body…\n}` — the body runs to the first line-initial `}`, which is where
+// every declaration in these files ends (`expandEmptyInterfaceBodies` has already given the empty ones
+// a body of their own by this point).
+private val GENERIC_INTERFACE = Regex(
+    """^(export interface \w+)<((?:[^<>]|<[^<>]*>)*)>(.*?\n})""",
+    setOf(RegexOption.MULTILINE, RegexOption.DOT_MATCHES_ALL),
+)
+
+private fun String.depthAwareSplitOnComma(): List<String> {
+    val parts = mutableListOf<String>()
+    var depth = 0
+    var start = 0
+
+    for (i in indices) {
+        when (this[i]) {
+            '<', '(', '{' -> depth++
+            '>', ')', '}' -> depth--
+            ',' -> if (depth == 0) {
+                parts += substring(start, i)
+                start = i + 1
+            }
+        }
+    }
+    parts += substring(start)
+
+    return parts.map { it.trim() }.filter { it.isNotEmpty() }
+}
 
 /**
  * Rewrites references to an interface declared *inside* a namespace to the hand-written stub standing in
