@@ -65,4 +65,4 @@ external interface MenuCheckboxItemState {
     var checked: Boolean
 }
 
-external interface MenuCheckboxItemChangeEventDetails : BaseUIChangeEventDetails
+external interface MenuCheckboxItemChangeEventDetails : MenuRootChangeEventDetails

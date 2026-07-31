@@ -77,4 +77,4 @@ external interface ThumbMetadata {
     var inputId: Any /* LabelableContext['controlId'] */
 }
 
-external interface SliderThumbState
+external interface SliderThumbState : SliderRootState

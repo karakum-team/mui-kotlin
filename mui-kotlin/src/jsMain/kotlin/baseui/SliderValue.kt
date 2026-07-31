@@ -15,4 +15,4 @@ external interface SliderValueProps : BaseUiOutputProps, PropsWithChildren {
         ReactNode? /* null | ((formattedValues: readonly string[], values: readonly number[]) => React.ReactNode) */
 }
 
-external interface SliderValueState
+external interface SliderValueState : SliderRootState

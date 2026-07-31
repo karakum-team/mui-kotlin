@@ -80,6 +80,11 @@ internal fun convertDefinitions(
     // keeping it a parameter avoids touching the MUI conversion path (45 `@mui` files also declare
     // namespaces, of a different shape).
     preprocess: ((String) -> String)? = null,
+    // Whether an interface with an empty body keeps the parents it declares. Off for `@mui/*`, where
+    // those parents are usually internal types that were never generated; on for Base UI, where they are
+    // generated siblings and dropping them costs the declaration everything it has. See
+    // [findAdditionalProps].
+    keepEmptyBodyParents: Boolean = false,
 ): ConversionResult {
     // MUI v6 sometimes uses `Component/index.d.ts` instead of `Component/Component.d.ts`.
     // Derive the component name from the parent directory in that case.
@@ -223,7 +228,7 @@ internal fun convertDefinitions(
     findMapProps(name, propsName, content)
         ?.also(declarations::add)
 
-    val additionalInterfaces = findAdditionalProps(propsName, content)
+    val additionalInterfaces = findAdditionalProps(propsName, content, keepEmptyBodyParents)
     val functionInterfaces = additionalInterfaces
         .filter { "interface Spacing {" in it }
 
@@ -1085,6 +1090,7 @@ private val EXCLUDED_PREFIXES = setOf(
 private fun findAdditionalProps(
     propsName: String,
     content: String,
+    keepEmptyBodyParents: Boolean = false,
 ): List<String> {
     var delimiters = arrayOf("export interface ", "export default interface ")
     if ("interface BaseTheme" in content)
@@ -1157,27 +1163,34 @@ private fun findAdditionalProps(
                     // meaning in Kotlin — drop them.
                     if (interfaceName.endsWith("Overrides"))
                         return@mapNotNull null
-                    // An empty-body interface's `extends` is intentionally dropped here: its parents are
-                    // usually internal/non-generated (DigitalClockOnlyProps, BaseDatePickerSlots, …) and
-                    // keeping them yields unresolved references. A props-like interface still needs a
-                    // `react.Props` base so any `FC<…Props>` built on it satisfies the `P : Props` bound.
-                    // EXCEPTION: a few whitelisted aggregators whose parents ARE generated (e.g. v9
-                    // `ExportedValidateDateProps extends DayValidationProps, …, BaseDateValidationProps {}`
-                    // from internals/models/validation) — keep their real inheritance.
+                    // An empty-body interface's `extends` is intentionally dropped here: in `@mui/*` its
+                    // parents are usually internal/non-generated (DigitalClockOnlyProps,
+                    // BaseDatePickerSlots, …) and keeping them yields unresolved references. A props-like
+                    // interface still needs a `react.Props` base so any `FC<…Props>` built on it satisfies
+                    // the `P : Props` bound.
+                    // EXCEPTIONS: `keepEmptyBodyParents` for the whole Base UI target, plus a whitelisted
+                    // v9 aggregator whose parents ARE generated
+                    // (`ExportedValidateDateProps extends DayValidationProps, …` from
+                    // internals/models/validation) — both keep their real inheritance.
                     val base = when {
                         // The 4 validation parents are generated (internals/models/validation.d.ts → validation.kt)
                         // and carry minDate/maxDate/shouldDisable*; keep this aggregate's inheritance.
                         interfaceName == "ExportedValidateDateProps"
                             -> ":\nDayValidationProps,\nMonthValidationProps,\nYearValidationProps,\nBaseDateValidationProps"
 
-                        // Base UI event-details types, which `interfaceEventDetails` (BaseUi.kt) turns
-                        // from type aliases into interfaces. Three of them alias another details type
-                        // verbatim and so have an empty body — dropping their `extends` would leave a
-                        // marker interface, and the handler argument it types would expose neither
-                        // `reason`/`event` nor `cancel()`, which is the only reason the type exists.
-                        // No `@mui/*` package declares an interface with this suffix.
-                        interfaceName.endsWith("EventDetails")
-                            -> " : BaseUIChangeEventDetails"
+                        // Base UI: the declared parent is a generated sibling, so it is read off the
+                        // source like a non-empty interface's would be. What it restores is the whole of
+                        // the declaration — `SliderControlState extends SliderRootState {}` has no members
+                        // of its own, so without the parent the state a `className { state -> … }` helper
+                        // closes over is empty. 39 of the package's 67 `<Part>State` declarations have
+                        // this shape. It also covers the event-details interfaces `interfaceEventDetails`
+                        // (BaseUi.kt) produces from a verbatim alias, which name a *specific* parent
+                        // (`MenuCheckboxItemChangeEventDetails` aliases `MenuRoot.ChangeEventDetails`, not
+                        // the shared base) — reading it means they keep `preventUnmountOnClose`.
+                        keepEmptyBodyParents
+                            -> findParentType(body)
+                                ?.let { " : $it" }
+                                ?: if (propsLike) " : react.Props" else ""
 
                         interfaceName.endsWith("Props") -> " : react.Props"
                         else -> ""

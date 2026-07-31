@@ -44,4 +44,4 @@ external interface MenuRadioGroupState {
     var disabled: Boolean
 }
 
-external interface MenuRadioGroupChangeEventDetails : BaseUIChangeEventDetails
+external interface MenuRadioGroupChangeEventDetails : MenuRootChangeEventDetails

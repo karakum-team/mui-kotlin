@@ -1184,7 +1184,12 @@ private fun generate(
         actualFile.name == "index.d.ts" -> actualFile.parentFile.name
         else -> actualFile.name.removeSuffix(".d.ts")
     }
-    val (body, extensions) = convertDefinitions(actualFile, typesOnly = typesOnly, preprocess = preprocess)
+    val (body, extensions) = convertDefinitions(
+        actualFile,
+        typesOnly = typesOnly,
+        preprocess = preprocess,
+        keepEmptyBodyParents = pkg == Package.baseUi,
+    )
 
     val subpackage = when {
         pkg == Package.materialStyles

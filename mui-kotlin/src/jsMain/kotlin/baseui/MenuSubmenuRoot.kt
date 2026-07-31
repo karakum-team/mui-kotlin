@@ -28,4 +28,4 @@ external interface MenuSubmenuRootProps : MenuRootProps, PropsWithChildren {
 
 external interface MenuSubmenuRootState
 
-external interface MenuSubmenuRootChangeEventDetails : BaseUIChangeEventDetails
+external interface MenuSubmenuRootChangeEventDetails : MenuRootChangeEventDetails
