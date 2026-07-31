@@ -75,6 +75,11 @@ internal fun convertDefinitions(
     // Used for type-only source files (e.g. MUI-X v9 `internals/…`, `validation/…`) generated solely to
     // restore inheritance — their `declare const X: Validator/Context/Memo<…>` would emit broken vals.
     typesOnly: Boolean = false,
+    // Applied to the raw `.d.ts` text before any of the shared adaptation below. Used by the Base UI
+    // target to flatten its `Component.Part.Props` namespace aliases, which no `@mui/*` package has —
+    // keeping it a parameter avoids touching the MUI conversion path (45 `@mui` files also declare
+    // namespaces, of a different shape).
+    preprocess: ((String) -> String)? = null,
 ): ConversionResult {
     // MUI v6 sometimes uses `Component/index.d.ts` instead of `Component/Component.d.ts`.
     // Derive the component name from the parent directory in that case.
@@ -91,6 +96,7 @@ internal fun convertDefinitions(
         // StackProps' StackOwnerState) would otherwise leak the closing brace into the members and
         // collapse them all into one `Any? /* … */`.
         .let { if (it.endsWith("\n")) it else "$it\n" }
+        .let { preprocess?.invoke(it) ?: it }
         .adaptRawContent()
         .removeInlineClasses()
         .removeExtendsEmptyObject()
@@ -1163,6 +1169,15 @@ private fun findAdditionalProps(
                         // and carry minDate/maxDate/shouldDisable*; keep this aggregate's inheritance.
                         interfaceName == "ExportedValidateDateProps"
                             -> ":\nDayValidationProps,\nMonthValidationProps,\nYearValidationProps,\nBaseDateValidationProps"
+
+                        // Base UI event-details types, which `interfaceEventDetails` (BaseUi.kt) turns
+                        // from type aliases into interfaces. Three of them alias another details type
+                        // verbatim and so have an empty body — dropping their `extends` would leave a
+                        // marker interface, and the handler argument it types would expose neither
+                        // `reason`/`event` nor `cancel()`, which is the only reason the type exists.
+                        // No `@mui/*` package declares an interface with this suffix.
+                        interfaceName.endsWith("EventDetails")
+                            -> " : BaseUIChangeEventDetails"
 
                         interfaceName.endsWith("Props") -> " : react.Props"
                         else -> ""

@@ -278,6 +278,11 @@ private enum class Package(
 
     dateioCore("", "dateio.core", scope = "@date-io"),
 
+    // Base UI is a standalone library, not part of MUI, so it gets its own top-level package rather
+    // than living under `mui.*`. `id` is empty because the npm subpath is the module name
+    // (`@base-ui/react/menu`), which is appended per module — see `baseUiModuleDeclaration`.
+    baseUi("", "baseui", scope = "@base-ui/react"),
+
     ;
 
     val id = id ?: name
@@ -304,6 +309,7 @@ fun generateKotlinDeclarations(
     generateTreeViewDeclarations(muiDir.resolve("x-tree-view"), sourceDir)
     generatePickersDeclarations(muiDir.resolve("x-date-pickers"), sourceDir)
     generateDeteioDeclarations(nodeModulesDir.resolve("@date-io/core"), sourceDir)
+    generateBaseUiDeclarations(nodeModulesDir.resolve("@base-ui/react"), sourceDir)
 }
 
 private fun generateTypesDeclarations(
@@ -840,6 +846,183 @@ private fun generatePickersDeclarations(
     }
 }
 
+// Base UI modules covered so far, out of the 44 public ones. Kept as an explicit allow-list rather
+// than scanning the `exports` map, so that what is generated stays reviewable as the target grows.
+private val BASE_UI_MODULES = setOf(
+    "menu",
+)
+
+private val BASE_UI_SIDE =
+    convertUnion("Side = 'top' | 'bottom' | 'left' | 'right' | 'inline-end' | 'inline-start'")!!
+private val BASE_UI_ALIGN = convertUnion("Align = 'start' | 'center' | 'end'")!!
+private val BASE_UI_ORIENTATION = convertUnion("Orientation = 'horizontal' | 'vertical'")!!
+
+// `TransitionStatus` is `'starting' | 'ending' | 'idle' | undefined`; the `undefined` arm is the
+// optionality of the member, expressed in Kotlin by the `?` on its type.
+private val BASE_UI_TRANSITION_STATUS =
+    convertUnion("TransitionStatus = 'starting' | 'ending' | 'idle'")!!
+
+// Types shared by every Base UI part that cannot be translated from their `.d.ts` and so are written
+// by hand. Each one states why.
+// language=kotlin
+private val BASE_UI_STUBS = """
+/**
+ * `internals/types.d.ts`. Marker parents carrying a single prop; declared twice upstream purely to
+ * document opposite defaults (`nativeButton` defaults to `true` for [NativeButtonProps] and to
+ * `false` for [NonNativeButtonProps]).
+ */
+external interface NativeButtonProps {
+    var nativeButton: Boolean?
+}
+
+external interface NonNativeButtonProps {
+    var nativeButton: Boolean?
+}
+
+/**
+ * `internals/createBaseUIEventDetails.d.ts`. Upstream this is a conditional type over a mapped
+ * reason-to-native-event table (`Reason extends string ? BaseUIChangeEventDetail<Reason, …> : never`),
+ * which has no Kotlin equivalent — so the members are spelled out here instead.
+ *
+ * `reason` is left as `String`: the reason sets are per-component (`MenuRootChangeEventReason` and
+ * friends are `typeof REASONS.x` unions over `internals/reason-parts.d.ts`), so narrowing it here would
+ * be wrong for every other component.
+ */
+external interface BaseUIChangeEventDetails {
+    var reason: String
+    var event: web.events.Event
+    var isCanceled: Boolean
+    var isPropagationAllowed: Boolean
+    var trigger: web.dom.Element?
+
+    fun cancel()
+    fun allowPropagation()
+}
+
+external interface BaseUIGenericEventDetails {
+    var reason: String
+    var event: web.events.Event
+}
+
+/**
+ * `utils/useAnchorPositioning.d.ts`. The real interface is ~60 anchor-positioning props (side, align,
+ * offsets, collision handling) shared by every Positioner part. Generating it is deferred, so
+ * Positioner props currently inherit nothing from it — see BASE_UI_TODO.md.
+ */
+external interface UseAnchorPositioningSharedParameters
+""".trimIndent()
+
+// Kotlin counterpart of Base UI's `BaseUIComponentProps<ElementType, State>` — see
+// `resolveComponentProps` in BaseUi.kt for why it cannot be converted from the `.d.ts`.
+//
+// One interface per intrinsic tag Base UI actually passes (17 in 1.6.0, `div` alone in 126 places).
+// Each extends the same `react.dom.html.*` attributes the MUI target already maps tags to
+// (IntrinsicType.kt) and adds the three props Base UI replaces them with:
+//
+//   className?: string | ((state: State) => string | undefined)
+//   style?: React.CSSProperties | ((state: State) => React.CSSProperties | undefined)
+//   render?: React.ReactElement | ((props: HTMLProps, state: State) => React.ReactElement)
+//
+// `className` and `style` widen the inherited members, so the file suppresses
+// VAR_TYPE_MISMATCH_ON_OVERRIDE. They stay `Any?` because each is a value-or-callback union over the
+// part's own state type, which this shared parent does not know; the generated `<Part>.ext.kt` helpers
+// give the state-typed form. `render` is `Any?` for the same reason.
+// language=kotlin
+private val BASE_UI_ELEMENT_PROPS = sequenceOf(
+    "a" to "AnchorHTMLAttributes<web.html.HTMLAnchorElement>",
+    "button" to "ButtonHTMLAttributes<web.html.HTMLButtonElement>",
+    "div" to "HTMLAttributes<web.html.HTMLDivElement>",
+    "fieldset" to "FieldsetHTMLAttributes<web.html.HTMLFieldSetElement>",
+    "form" to "FormHTMLAttributes<web.html.HTMLFormElement>",
+    // h1–h6: only `h1`/`h2`/`h3` appear as a single literal tag; h4–h6 exist solely inside the
+    // union-tag form (`BaseUIComponentProps<'h1' | … | 'h6', State>`), which resolves to the first arm.
+    // They are declared anyway so the set is closed under that union.
+    "h1" to "HTMLAttributes<web.html.HTMLElement>",
+    "h2" to "HTMLAttributes<web.html.HTMLElement>",
+    "h3" to "HTMLAttributes<web.html.HTMLElement>",
+    "h4" to "HTMLAttributes<web.html.HTMLElement>",
+    "h5" to "HTMLAttributes<web.html.HTMLElement>",
+    "h6" to "HTMLAttributes<web.html.HTMLElement>",
+    "img" to "ImgHTMLAttributes<web.html.HTMLImageElement>",
+    "input" to "InputHTMLAttributes<web.html.HTMLInputElement>",
+    "label" to "LabelHTMLAttributes<web.html.HTMLLabelElement>",
+    "li" to "LiHTMLAttributes<web.html.HTMLLIElement>",
+    "nav" to "HTMLAttributes<web.html.HTMLElement>",
+    "output" to "HTMLAttributes<web.html.HTMLElement>",
+    "p" to "HTMLAttributes<web.html.HTMLParagraphElement>",
+    "span" to "HTMLAttributes<web.html.HTMLSpanElement>",
+    "ul" to "HTMLAttributes<web.html.HTMLUListElement>",
+).joinToString("\n\n") { (tag, attributes) ->
+    val name = "BaseUi" + tag.replaceFirstChar(Char::uppercase) + "Props"
+
+    """
+    /** Base UI props for a rendered `<$tag>` element. */
+    external interface $name : react.dom.html.$attributes {
+        override var className: Any? /* string | ((state) => string | undefined) */
+        override var style: Any? /* CSSProperties | ((state) => CSSProperties | undefined) */
+        var render: Any? /* ReactElement | ((props: HTMLProps, state) => ReactElement) */
+    }
+    """.trimIndent()
+}
+
+private fun generateBaseUiDeclarations(
+    typesDir: File,
+    sourceDir: File,
+) {
+    if (!typesDir.exists()) {
+        println("Skipping Base UI generation: ${typesDir.path} not found")
+        return
+    }
+
+    // One flat `baseui` package, mirroring how `mui.material` keeps its whole surface flat. Base UI's
+    // own declaration names are already module-prefixed (`MenuPopupProps`, `SelectPopupProps`), so the
+    // only shared name is `Separator`, which really is one component reused by several modules.
+    val targetDir = sourceDir.resolve("baseui")
+        .also { it.mkdirs() }
+
+    val files = baseUiModules(typesDir, BASE_UI_MODULES)
+        .flatMap { it.parts }
+        // A part file can be referenced more than once: `store/MenuHandle.d.ts` backs both `Handle` and
+        // `createHandle`, and shared parts (`../separator/Separator.d.ts`) are re-exported by several
+        // modules.
+        .distinctBy { it.file.absolutePath }
+        .map { it.file }
+
+    // Built over the whole file set up front: namespace references cross files (`MenuSubmenuRoot.d.ts`
+    // extends `MenuRoot.Props`), so a per-file map would leave those unresolved.
+    val aliases = buildBaseUiAliases(files)
+
+    files.forEach { file ->
+        generate(
+            definitionFile = file,
+            targetDir = targetDir,
+            pkg = Package.baseUi,
+            typesOnly = true,
+            preprocess = { adaptBaseUiContent(it, aliases) },
+        )
+    }
+
+    sequenceOf(
+        "Side" to BASE_UI_SIDE,
+        "Align" to BASE_UI_ALIGN,
+        "Orientation" to BASE_UI_ORIENTATION,
+        "TransitionStatus" to BASE_UI_TRANSITION_STATUS,
+        "Stubs" to BASE_UI_STUBS,
+    ).forEach { (name, body) ->
+        targetDir.resolve("$name.kt")
+            .writeText(fileContent(body = body, pkg = Package.baseUi))
+    }
+
+    targetDir.resolve("ElementProps.kt")
+        .writeText(
+            fileContent(
+                annotations = "@file:Suppress(\"VAR_TYPE_MISMATCH_ON_OVERRIDE\")",
+                body = BASE_UI_ELEMENT_PROPS,
+                pkg = Package.baseUi,
+            )
+        )
+}
+
 private fun generateDeteioDeclarations(
     typesDir: File,
     sourceDir: File,
@@ -890,6 +1073,7 @@ private fun generate(
     pkg: Package,
     fullPath: Boolean = false,
     typesOnly: Boolean = false,
+    preprocess: ((String) -> String)? = null,
 ) {
     // MUI v6 sometimes ships only `<Component>/index.d.ts` (e.g. useMediaQuery, OverridableComponent).
     // Fall back to it when the standard `<Component>.d.ts` is missing.
@@ -911,7 +1095,7 @@ private fun generate(
         actualFile.name == "index.d.ts" -> actualFile.parentFile.name
         else -> actualFile.name.removeSuffix(".d.ts")
     }
-    val (body, extensions) = convertDefinitions(actualFile, typesOnly = typesOnly)
+    val (body, extensions) = convertDefinitions(actualFile, typesOnly = typesOnly, preprocess = preprocess)
 
     val subpackage = when {
         pkg == Package.materialStyles
@@ -939,9 +1123,26 @@ private fun generate(
     run {
         val suppressKeys = mutableListOf<String>()
         if (componentName in OVERRIDE_FIX_REQUIRED) suppressKeys += "VIRTUAL_MEMBER_HIDDEN"
+        // Base UI parts routinely re-declare an inherited prop to give it a narrower type or their own
+        // documentation (`MenuSubmenuRootProps` re-states `onOpenChange` and `closeParentOnEsc` from
+        // `MenuRootProps`). Emitting a real `override` needs the parent's member types, which the
+        // Override machinery only resolves for MUI shapes — suppressed package-wide for now, see
+        // BASE_UI_TODO.md.
+        //
+        // VAR_TYPE_MISMATCH_ON_OVERRIDE for the same reason plus one of Base UI's own: every DOM event
+        // handler inherited through `BaseUIComponentProps` is re-typed by the `WithBaseUIEvent<T>` mapped
+        // type, which adds `preventBaseUIHandler` to the event. A part that re-declares such a handler
+        // (`MenuItemProps.onClick`) therefore legitimately widens the plain DOM signature.
+        if (pkg == Package.baseUi) {
+            suppressKeys += "VIRTUAL_MEMBER_HIDDEN"
+            suppressKeys += "VAR_TYPE_MISMATCH_ON_OVERRIDE"
+        }
         if (componentName in VAR_TYPE_MISMATCH_ON_OVERRIDE_FIX_REQUIRED) suppressKeys += "VAR_TYPE_MISMATCH_ON_OVERRIDE"
         if (suppressKeys.isNotEmpty() && componentName != "TextField") {
-            annotations += "@file:Suppress(\n" + suppressKeys.joinToString(",\n") { "\"$it\"" } + ",\n)"
+            // `distinct()`: the two MUI sets are keyed by bare component name, and Base UI part files
+            // named `Input` / `RadioGroup` collide with entries there — without it the Base UI branch
+            // above would emit a duplicate key, which `@Suppress` rejects.
+            annotations += "@file:Suppress(\n" + suppressKeys.distinct().joinToString(",\n") { "\"$it\"" } + ",\n)"
         }
     }
 
