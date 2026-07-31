@@ -21,6 +21,7 @@ private val App = FC {
     MyAutocomplete()
     Pickers()
     SliderStylization()
+    BaseUiMenu()
 }
 
 private fun main() {
