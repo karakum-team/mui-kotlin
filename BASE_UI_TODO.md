@@ -12,8 +12,9 @@ had breaking changes across 1.x.
 - **P0** — dependency + generator plumbing. `generateKotlinDeclarations` takes the `node_modules` root
   instead of `build/js/node_modules/@mui`; `Package` carries a `scope` so `moduleDeclaration` no longer
   hardcodes `@mui`.
-- **P1/P2 (partial)** — `menu` module: 20 parts + `Separator`, types only, compiling.
-  `:mui-kotlin` and `:playground` both green.
+- **P1/P2 (partial)** — `menu` module: 19 own parts + the shared `Separator`, types only, compiling.
+  (`index.parts.d.ts` lists 22 bindings: those 20 components plus the non-component `Handle` /
+  `createHandle`.) `:mui-kotlin` and `:playground` both green.
 - **Namespace object** — `baseui/Menu.kt`: `external object Menu` under
   `@file:JsModule("@base-ui/react/menu")`, one `val <Alias>: FC<<Part>Props>` per part, synthesized from
   `index.parts.d.ts`. This is the module's only value export, so it is the only way to reach a part at
@@ -21,6 +22,8 @@ had breaking changes across 1.x.
   recorded in the object's KDoc rather than dropped silently. The namespace name is read from
   `export * as Menu` in `index.d.ts` rather than derived from the module id — `otp-field` exports
   `OTPField`, which kebab-to-Pascal would get wrong.
+- **State-typed `.ext.kt` helpers** — `className` / `style` / `render` as callbacks over the part's own
+  state type, for the 17 `menu` parts that render an element. See gap 11.
 
 ## Facts that contradict the plan documents
 
@@ -31,14 +34,15 @@ had breaking changes across 1.x.
   via `export type *` only. Only the `Menu` namespace object is a value export. Flat *types* are real
   declarations and are what we generate. `hard_rules` #10 in `.claude/agents/mui-code-review.md` was
   corrected accordingly.
-- **44 public modules** (31 with `index.parts.d.ts`, 13 flat), ~190 public parts — not "37 components".
-  `combobox` (28) and `autocomplete` (23) are larger than `menu` (21).
+- **44 public modules** (31 with `index.parts.d.ts`, 13 flat), 283 bindings across the 31 — not
+  "37 components". `combobox` (28) and `autocomplete` (23) are larger than `menu` (22).
 - **Base UI `.d.ts` have no trailing newline**, which matters to every regex that anchors on `\n}\n`.
 
 ## Open gaps in the generated `menu` output
 
 Ordered by how much API they cost. The numbers are stable identifiers, not positions: gap 1 (the missing
-namespace object) is closed and its entry removed, so the list starts at 2.
+namespace object) is closed and its entry removed, so the list starts at 2. Gap 11 is closed too, but its
+entry is kept — struck through — because what it decided (the props stay `Any?`) is still worth knowing.
 
 2. **`MenuPortalProps` lost its parent, so `Menu.Portal` has no `children` — this is now the one thing
    keeping `menu` from rendering.** Upstream it extends `FloatingPortal.Props<MenuPortalState>`, declared
@@ -103,10 +107,29 @@ namespace object) is closed and its entry removed, so the list starts at 2.
    `utils/useAnchorPositioning.d.ts`. Generating it type-only would restore real API surface.
 10. **`BaseUiDivProps['onClick']` indexed-access types stay `Any?`** (4 members, `MenuItem` /
    `MenuLinkItem`). Resolvable by substituting the parent member's type.
-11. **`className` / `style` / `render` are `Any?`** — 51 of the 70 widened members. This is intentional
-   (each is a value-or-callback union over the part's own state type, which the shared per-tag parent
-   cannot know), but the state-typed ergonomic helpers in `<Part>.ext.kt` are **not written yet**, so
-   today there is no type-safe way to pass a callback.
+11. ~~**`className` / `style` / `render` are `Any?`**~~ — done. The props stay `Any?` (each is a
+   value-or-callback union over the part's own state type, which the per-tag parent shared by 126 parts
+   cannot name), and the callback arm now has a typed spelling in `<Part>.ext.kt`:
+   `className { state -> … }`, `style { state -> … }`, `render { props, state -> … }`. 17 of the 20
+   `menu` parts get them — `MenuRoot` and `MenuSubmenuRoot` render no element and have no such props,
+   and `MenuPortal` should have them but does not, for the reason in gap 2. The value arm needs no
+   helper: `className = ClassName("popup")` already assigns to `Any?`. `render`'s `props` parameter is
+   typed `HTMLAttributes<HTMLElement>`, which is exactly Base UI's own
+   `HTMLProps = HTMLAttributes<any> & { ref }` — the per-tag third argument of `BaseUIComponentProps` is
+   never used anywhere in the package, so even `MenuLinkItem`'s `<a>` gets plain `HTMLAttributes`
+   upstream. Three limits worth knowing:
+   - **The marker is looked for in the part's own `extends` list only.** A part inheriting the props
+     through *another part's* props would get nothing. In 1.6.0 that is `AlertDialogTriggerProps` and
+     `ToastManagerPositionerProps`, both via `Omit<…>`, which the converter drops anyway — so it is
+     latent, but it will surface with `alert-dialog` and `toast`.
+   - **A generic props declaration is skipped**, which today is nobody: `MenuTriggerProps<Payload>` is
+     generic upstream and gets helpers only because gap 4 strips the parameter. Closing gap 4 would
+     remove `MenuTrigger.ext.kt` — a source-breaking removal for consumers — unless the helpers learn to
+     carry the parameter at the same time. 12 of the package's 192 element-rendering props are generic.
+   - **`render` does not merge.** `useRenderElement` calls `render(props, state)` and takes the result as
+     it is (only the non-callback arm is merged), so a callback that ignores `props` silently drops
+     `ref`, the event handlers and the `data-*` state attributes. Kotlin has no props spread, and no
+     ergonomic way to apply them is provided yet.
 12. **`VIRTUAL_MEMBER_HIDDEN` and `VAR_TYPE_MISMATCH_ON_OVERRIDE` are suppressed package-wide.**
    Justified — Base UI re-declares inherited props, and `WithBaseUIEvent<T>` re-types every inherited
    DOM handler — but a real `override` would be better than a blanket suppress.
@@ -144,7 +167,13 @@ namespace object) is closed and its entry removed, so the list starts at 2.
 `menu` is the vertical slice; `BASE_UI_MODULES` in `Generator.kt` is the allow-list to extend.
 
 - `Menu.Portal`'s lost parent (gap 2) — without it the module still cannot be rendered, so it comes
-  before adding any further module. Then `.ext.kt` state helpers (gap 11) and a playground sample.
+  before adding any further module, and a playground sample can only follow it. The sample matters more
+  than it looks: `:mui-kotlin:compileKotlinJs` only proves the declarations type-check, not that
+  `className { … }` at a call site resolves to the extension function rather than to the inherited
+  `className: Any?` property. That was verified by hand with a throwaway sample and is currently guarded
+  by nothing. A sample that compiles is possible today (`Menu.Positioner { Menu.Popup { … } }` without
+  the portal), but it would throw `<Menu.Portal> is missing` the moment it rendered, so it was left out
+  rather than committed as dead code.
 - Utils and the 13 flat modules: `use-render`, `merge-props`, `csp-provider`, `direction-provider`,
   `button`, `separator`, `input`, `form`, `toggle`, `toggle-group`, `radio-group`, `checkbox-group`,
   `menubar`, `unstable-use-media-query`.

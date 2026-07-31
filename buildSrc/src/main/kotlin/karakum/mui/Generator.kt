@@ -1235,14 +1235,23 @@ private fun generate(
         else -> extensions
     }
 
-    if (extensionsBody.isNotEmpty() && componentName != "Stepper") {
+    // A Base UI part additionally gets state-typed accessors for the three props whose type the shared
+    // per-tag parent cannot express.
+    val allExtensions = if (pkg == Package.baseUi)
+        sequenceOf(extensionsBody, baseUiStateHelpers(componentName, body))
+            .filter { it.isNotEmpty() }
+            .joinToString("\n\n")
+    else
+        extensionsBody
+
+    if (allExtensions.isNotEmpty() && componentName != "Stepper") {
         val fileName = "$componentName.ext"
 
         // NB: v6 named this union `Variant` and renamed it here to `TypographyVariant`. v7 already
         // declares `export type TypographyVariant`, so no rename is needed (doing it would double the
         // prefix → `TypographyTypographyVariant`).
         targetDir.resolve("$fileName.kt")
-            .writeText(fileContent(body = extensionsBody, pkg = pkg))
+            .writeText(fileContent(body = allExtensions, pkg = pkg))
     }
 
     if (componentName == "RadioGroup")

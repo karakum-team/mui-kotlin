@@ -228,6 +228,125 @@ private val DECLARED_INTERFACE =
     Regex("""^(?:sealed )?external interface (\w+)""", RegexOption.MULTILINE)
 
 /**
+ * State-typed accessors for the three props Base UI puts on every element it renders, emitted into the
+ * part's `.ext.kt`.
+ *
+ * `className`, `style` and `render` are `Any?` on the shared per-tag parents (`BaseUiDivProps` and its 16
+ * siblings): each is a value-or-callback union over the *part's* state type, which a parent shared by 126
+ * parts cannot name. The value arm needs nothing — `className = ClassName("popup")` assigns to `Any?`
+ * as it is. The callback arm is what has no type-safe spelling otherwise, and is what these add:
+ *
+ *     Menu.Popup {
+ *         className { state -> if (state.open) ClassName("open") else ClassName("closed") }
+ *     }
+ *
+ * Emitted only for a part that renders an element — i.e. whose props extend one of the `BaseUi<Tag>Props`
+ * markers — and only if its state type was generated. `MenuRoot` and `MenuSubmenuRoot` render nothing and
+ * have no such props, so they get nothing; `MenuPortal` is *supposed* to have them and does not, because
+ * its parent was lost (see BASE_UI_TODO.md).
+ */
+internal fun baseUiStateHelpers(
+    componentName: String,
+    body: String,
+): String {
+    val props = "${componentName}Props"
+    val state = "${componentName}State"
+
+    // No props declaration at all: the file holds no part props (`MenuHandle.d.ts`). Not worth a line of
+    // log — unlike the two cases below, where a part that looks like it should get helpers does not.
+    val parents = declarationParents(props, body)
+        ?: return ""
+
+    // The concrete marker, so that the documentation can point at the interface the prop is declared on.
+    val marker = ELEMENT_PROPS_MARKER.find(parents)?.value
+    if (marker == null) {
+        // Parents come one per line at this point; collapsed so the log stays one line per part.
+        val extends = parents.replace(WHITESPACE, " ").trim()
+        println("Base UI: $props extends no BaseUi<Tag>Props ($extends), no state helpers")
+        return ""
+    }
+
+    if (!DECLARED_INTERFACE.findAll(body).any { it.groupValues[1] == state }) {
+        println("Base UI: no generated $state, no state helpers for $props")
+        return ""
+    }
+
+    return """
+/**
+ * The state-dependent arm of `$props.className`, upstream
+ * `string | ((state: $state) => string | undefined)`.
+ *
+ * The prop itself is `Any?`: it is declared on [$marker], shared by every part that renders this tag,
+ * which cannot name the state type. Assign a [web.cssom.ClassName] directly when the class does not
+ * depend on state.
+ */
+fun $props.className(
+block: (state: $state) -> web.cssom.ClassName?,
+) {
+className = block
+}
+
+/**
+ * The state-dependent arm of `$props.style`, upstream
+ * `CSSProperties | ((state: $state) => CSSProperties | undefined)`. See [$props.className].
+ */
+fun $props.style(
+block: (state: $state) -> react.CSSProperties?,
+) {
+style = block
+}
+
+/**
+ * The callback arm of `$props.render`, upstream
+ * `ReactElement | ((props: HTMLProps, state: $state) => ReactElement)`.
+ *
+ * `props` are the ones Base UI expects to be spread onto the element the callback returns; upstream types
+ * them as its own `HTMLProps`, which is `HTMLAttributes<any> & { ref }`. Assign a [react.ReactElement]
+ * directly to render a fixed element instead.
+ *
+ * Base UI does not merge them for you — `useRenderElement` calls `render(props, state)` and uses the
+ * result as it is — so whatever the callback leaves out is lost, `ref` and the `data-*` state attributes
+ * included. Only the non-callback arm gets merged.
+ */
+fun $props.render(
+block: (props: react.dom.html.HTMLAttributes<web.html.HTMLElement>, state: $state) -> react.ReactElement<*>,
+) {
+render = block
+}
+""".trim()
+}
+
+/**
+ * The `extends` list of a generated `external interface`, or `null` when it declares none.
+ *
+ * Matched against the body as the converter emits it, which is neither indented nor line-wrapped the way
+ * the committed tree is — that is spotless' work and it runs later. Two consequences: the colon has no
+ * space before it (`MenuPopupProps: `), and each parent sits on its own line, so the list has to be read
+ * across newlines up to the opening brace.
+ *
+ * Deliberately does not match a declaration carrying type parameters (`MenuRootProps<Payload>:`): were
+ * generics preserved one day (BASE_UI_TODO.md gap 4), whatever is built on top of this would need the
+ * parameter too, and getting nothing is the safe outcome until it does.
+ */
+private fun declarationParents(
+    name: String,
+    body: String,
+): String? =
+    Regex("""^(?:sealed )?external interface ${Regex.escape(name)}\s*:([^{]*)\{""", RegexOption.MULTILINE)
+        .find(body)
+        ?.groupValues?.get(1)
+        // A parentless declaration is emitted with no body at all (`external interface MenuPortalState`),
+        // in which case the match above would have run on to the next declaration's brace.
+        ?.takeIf { "external " !in it }
+
+// `BaseUiDivProps`, `BaseUiSpanProps`, … — the per-tag parents from `BASE_UI_ELEMENT_PROPS`, and the only
+// parents that carry `className` / `style` / `render`. `Ui`, not `UI`: `BaseUIChangeEventDetails` is a
+// stub, not a marker, and must not match.
+private val ELEMENT_PROPS_MARKER = Regex("""\bBaseUi\w+Props\b""")
+
+private val WHITESPACE = Regex("""\s+""")
+
+/**
  * Rewrites `Component.Part`-style namespace references to the flat declarations they alias, then drops
  * the namespace blocks.
  *
