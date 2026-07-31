@@ -403,6 +403,7 @@ internal fun adaptBaseUiContent(
         .expandEmptyInterfaceBodies()
         .flattenBaseUiNamespaces(aliases)
         .substituteTypeParameterBounds()
+        .interfaceStateAliases()
         .interfaceEventDetails()
         .resolveNamespaceStubs()
         .resolveComponentProps()
@@ -600,6 +601,34 @@ private val INTERFACE_BLOCK = Regex("""^export interface (\w+) \{\n(.*?)\n}\n"""
 private val CALL_SIGNATURE = Regex("""^\s*(?:<[^>]*>)?\([^\n]*\):""", RegexOption.MULTILINE)
 
 /**
+ * Turns a part's state type into an interface when upstream declares it as an alias of another part's:
+ *
+ *     export type SliderLabelState = SliderRoot.State;
+ *
+ * The converter emits nothing for a bare type alias, so `SliderLabelState` did not exist — and with it
+ * missing, [baseUiStateHelpers] found no state type and `Slider.Label` silently lost its
+ * `className` / `style` / `render` helpers. Every other part declares its state as an interface, which
+ * is why this only surfaced with the second module.
+ *
+ * Modelled as inheritance rather than a Kotlin `typealias`, which is what [interfaceEventDetails] does
+ * with the identical shape one alias over. A subtype is not the same type, but nothing here depends on
+ * the distinction: the state object only ever arrives as a callback parameter, and its members are what
+ * that callback reads.
+ *
+ * Scoped to the `State`-to-`State` shape, both sides being the names of part declarations. The two
+ * occurrences in 1.6.0 are `SliderLabel` and `SelectLabel`; the target is usually in another file, so
+ * there is nothing local to check it against beyond the name.
+ */
+private fun String.interfaceStateAliases(): String =
+    STATE_ALIAS.replace(this) { match ->
+        val (name, target) = match.destructured
+
+        "export interface $name extends $target {\n}\n"
+    }
+
+private val STATE_ALIAS = Regex("""^export type (\w+State) = (\w+State);\n""", RegexOption.MULTILINE)
+
+/**
  * Turns the `…EventDetails` type aliases into interfaces, which is what the converter can emit.
  *
  * Runs after [flattenBaseUiNamespaces], so the right-hand side is already a flat name. Three shapes
@@ -759,4 +788,9 @@ private val NAMESPACE_BLOCK = Regex("""export declare namespace (\w+) \{\n(.*?)\
 // The target is captured without its own type arguments (see flattenBaseUiNamespaces).
 // The optional `<…>` is the alias' own parameter list, which may carry defaults containing `=`
 // (`type Props<Payload = unknown> = …`), so it is matched up to its closing angle bracket.
-private val NAMESPACE_ALIAS = Regex("""\n\s*type (\w+)(?:<[^>]*>)?\s*=\s*([A-Za-z0-9_.]+)""")
+//
+// `(?:^|\n)`, not `\n`: `NAMESPACE_BLOCK` captures the body starting *at* its first member, so anchoring
+// on a preceding newline dropped that member from every block — `MenuPopup.Props` and `MenuRoot.State`
+// among them. Nothing referred to a first member until `slider`, whose `SliderLabelProps` is declared
+// against `SliderLabel.State`.
+private val NAMESPACE_ALIAS = Regex("""(?:^|\n)\s*type (\w+)(?:<[^>]*>)?\s*=\s*([A-Za-z0-9_.]+)""")
