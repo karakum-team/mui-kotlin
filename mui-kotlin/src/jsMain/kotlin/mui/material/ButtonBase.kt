@@ -8,45 +8,39 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
-import react.*
+import react.ElementType
+import react.FC
+import react.PropsWithChildren
+import react.ReactNode
+import react.Ref
 import react.dom.events.FocusEventHandler
 import react.dom.html.ButtonHTMLAttributes
 import web.cssom.ClassName
 import web.html.HTMLButtonElement
 
 external interface ButtonBaseProps :
-    ButtonBaseOwnProps,
-    ButtonHTMLAttributes<HTMLButtonElement>,
-    PropsWithComponent
+    ButtonBaseOwnProps, ButtonHTMLAttributes<HTMLButtonElement>, PropsWithComponent
 
-external interface ButtonBaseOwnProps :
-    PropsWithChildren,
-    PropsWithSx {
-    /**
-     * A ref for imperative actions.
-     * It currently only supports `focusVisible()` action.
-     */
+external interface ButtonBaseOwnProps : PropsWithChildren, PropsWithSx {
+    /** A ref for imperative actions. It currently only supports `focusVisible()` action. */
     var action: Ref<ButtonBaseActions>?
 
     /**
-     * If `true`, the ripples are centered.
-     * They won't start at the cursor interaction position.
+     * If `true`, the ripples are centered. They won't start at the cursor interaction position.
+     *
      * @default false
      */
     var centerRipple: Boolean?
 
-    /**
-     * The content of the component.
-     */
+    /** The content of the component. */
     override var children: ReactNode?
 
-    /**
-     * Override or extend the styles applied to the component.
-     */
+    /** Override or extend the styles applied to the component. */
     var classes: ButtonBaseClasses?
 
     /**
      * If `true`, the component is disabled.
+     *
      * @default false
      */
     var disabled: Boolean?
@@ -54,72 +48,68 @@ external interface ButtonBaseOwnProps :
     /**
      * If `true`, the ripple effect is disabled.
      *
-     * ⚠️ Without a ripple there is no styling for :focus-visible by default. Be sure
-     * to highlight the element by applying separate styles with the `.Mui-focusVisible` class.
+     * ⚠️ Without a ripple there is no styling for :focus-visible by default. Be sure to highlight
+     * the element by applying separate styles with the `.Mui-focusVisible` class.
+     *
      * @default false
      */
     var disableRipple: Boolean?
 
     /**
      * If `true`, the touch ripple effect is disabled.
+     *
      * @default false
      */
     var disableTouchRipple: Boolean?
 
     /**
      * If `true`, the base button will have a keyboard focus ripple.
+     *
      * @default false
      */
     var focusRipple: Boolean?
 
     /**
-     * This prop can help identify which element has keyboard focus.
-     * The class name will be applied when the element gains the focus through keyboard interaction.
-     * It's a polyfill for the [CSS :focus-visible selector](https://drafts.csswg.org/selectors-4/#the-focus-visible-pseudo).
-     * The rationale for using this feature [is explained here](https://github.com/WICG/focus-visible/blob/HEAD/explainer.md).
-     * A [polyfill can be used](https://github.com/WICG/focus-visible) to apply a `focus-visible` class to other components
-     * if needed.
+     * This prop can help identify which element has keyboard focus. The class name will be applied
+     * when the element gains the focus through keyboard interaction. It's a polyfill for the
+     * [CSS :focus-visible selector](https://drafts.csswg.org/selectors-4/#the-focus-visible-pseudo).
+     * The rationale for using this feature
+     * [is explained here](https://github.com/WICG/focus-visible/blob/HEAD/explainer.md). A
+     * [polyfill can be used](https://github.com/WICG/focus-visible) to apply a `focus-visible`
+     * class to other components if needed.
      */
     var focusVisibleClassName: ClassName?
 
     /**
      * The component used to render a link when the `href` prop is provided.
+     *
      * @default 'a'
      */
     var LinkComponent: ElementType<*>?
 
     /**
-     * Whether the custom component is expected to render a native `<button>` element
-     * when passing a React component to the `component` or `slots` prop.
+     * Whether the custom component is expected to render a native `<button>` element when passing a
+     * React component to the `component` or `slots` prop.
      */
     var nativeButton: Boolean?
 
     /**
-     * Callback fired when the component is focused with a keyboard.
-     * We trigger a `onFocus` callback too.
+     * Callback fired when the component is focused with a keyboard. We trigger a `onFocus` callback
+     * too.
      */
     var onFocusVisible: FocusEventHandler<*>?
 
-    /**
-     * The system prop that allows defining system overrides as well as additional CSS styles.
-     */
+    /** The system prop that allows defining system overrides as well as additional CSS styles. */
     override var sx: SxProps<Theme>?
 
-    /**
-     * @default 0
-     */
+    /** @default 0 */
     var tabIndex: Int?
 
-    /**
-     * Props applied to the `TouchRipple` element.
-     */
+    /** Props applied to the `TouchRipple` element. */
     var TouchRippleProps: Any? /* Partial<TouchRippleProps> */
 
-    /**
-     * A ref that points to the `TouchRipple` element.
-     */
+    /** A ref that points to the `TouchRipple` element. */
     var touchRippleRef: Ref<TouchRippleActions>?
-
 }
 
 external interface ButtonBaseActions {
@@ -127,9 +117,8 @@ external interface ButtonBaseActions {
 }
 
 /**
- * `ButtonBase` contains as few styles as possible.
- * It aims to be a simple building block for creating a button.
- * It contains a load of style reset and some focus/ripple logic.
+ * `ButtonBase` contains as few styles as possible. It aims to be a simple building block for
+ * creating a button. It contains a load of style reset and some focus/ripple logic.
  *
  * Demos:
  *
@@ -139,5 +128,4 @@ external interface ButtonBaseActions {
  *
  * - [ButtonBase API](https://mui.com/material-ui/api/button-base/)
  */
-@JsName("default")
-external val ButtonBase: FC<ButtonBaseProps>
+@JsName("default") external val ButtonBase: FC<ButtonBaseProps>

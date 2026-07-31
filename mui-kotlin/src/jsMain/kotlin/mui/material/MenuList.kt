@@ -12,44 +12,45 @@ import react.dom.html.HTMLAttributes
 import web.html.HTMLUListElement
 
 external interface MenuListProps :
-    MenuListOwnProps,
-    HTMLAttributes<HTMLUListElement>,
-    PropsWithComponent
+    MenuListOwnProps, HTMLAttributes<HTMLUListElement>, PropsWithComponent
 
 external interface MenuListOwnProps : PropsWithChildren {
     /**
      * If `true`, will focus the `[role="menu"]` container and move into tab order.
+     *
      * @default false
      */
     var autoFocus: Boolean?
 
     /**
-     * If `true`, will focus the first menuitem if `variant="menu"` or selected item
-     * if `variant="selectedMenu"`.
+     * If `true`, will focus the first menuitem if `variant="menu"` or selected item if
+     * `variant="selectedMenu"`.
+     *
      * @default false
      */
     var autoFocusItem: Boolean?
 
-    /**
-     * MenuList contents, normally `MenuItem`s.
-     */
+    /** MenuList contents, normally `MenuItem`s. */
     override var children: ReactNode?
 
     /**
      * If `true`, will allow focus on disabled items.
+     *
      * @default false
      */
     var disabledItemsFocusable: Boolean?
 
     /**
      * If `true`, the menu items will not wrap focus.
+     *
      * @default false
      */
     var disableListWrap: Boolean?
 
     /**
-     * The variant to use. Use `menu` to prevent selected items from impacting the initial focus
-     * and the vertical alignment relative to the anchor element.
+     * The variant to use. Use `menu` to prevent selected items from impacting the initial focus and
+     * the vertical alignment relative to the anchor element.
+     *
      * @default 'selectedMenu'
      */
     var variant: MenuListVariant?
@@ -57,9 +58,9 @@ external interface MenuListOwnProps : PropsWithChildren {
 
 /**
  * A permanently displayed menu following https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/.
- * It's exposed to help customization of the [`Menu`](https://mui.com/material-ui/api/menu/) component if you
- * use it separately you need to move focus into the component manually. Once
- * the focus is placed inside the component it is fully keyboard accessible.
+ * It's exposed to help customization of the [`Menu`](https://mui.com/material-ui/api/menu/)
+ * component if you use it separately you need to move focus into the component manually. Once the
+ * focus is placed inside the component it is fully keyboard accessible.
  *
  * Demos:
  *
@@ -70,5 +71,4 @@ external interface MenuListOwnProps : PropsWithChildren {
  * - [MenuList API](https://mui.com/material-ui/api/menu-list/)
  * - inherits [List API](https://mui.com/material-ui/api/list/)
  */
-@JsName("default")
-external val MenuList: FC<MenuListProps>
+@JsName("default") external val MenuList: FC<MenuListProps>

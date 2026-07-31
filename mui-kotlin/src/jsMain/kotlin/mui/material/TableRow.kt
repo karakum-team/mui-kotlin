@@ -15,44 +15,36 @@ import react.dom.html.HTMLAttributes
 import web.html.HTMLTableRowElement
 
 external interface TableRowProps :
-    TableRowOwnProps,
-    HTMLAttributes<HTMLTableRowElement>,
-    PropsWithComponent
+    TableRowOwnProps, HTMLAttributes<HTMLTableRowElement>, PropsWithComponent
 
-external interface TableRowOwnProps :
-    PropsWithChildren,
-    PropsWithSx {
-    /**
-     * Should be valid `<tr>` children such as `TableCell`.
-     */
+external interface TableRowOwnProps : PropsWithChildren, PropsWithSx {
+    /** Should be valid `<tr>` children such as `TableCell`. */
     override var children: ReactNode?
 
-    /**
-     * Override or extend the styles applied to the component.
-     */
+    /** Override or extend the styles applied to the component. */
     var classes: TableRowClasses?
 
     /**
      * If `true`, the table row will shade on hover.
+     *
      * @default false
      */
     var hover: Boolean?
 
     /**
      * If `true`, the table row will have the selected shading.
+     *
      * @default false
      */
     var selected: Boolean?
 
-    /**
-     * The system prop that allows defining system overrides as well as additional CSS styles.
-     */
+    /** The system prop that allows defining system overrides as well as additional CSS styles. */
     override var sx: SxProps<Theme>?
 }
 
 /**
- * Will automatically set dynamic row height
- * based on the material table element parent (head, body, etc).
+ * Will automatically set dynamic row height based on the material table element parent (head, body,
+ * etc).
  *
  * Demos:
  *
@@ -62,5 +54,4 @@ external interface TableRowOwnProps :
  *
  * - [TableRow API](https://mui.com/material-ui/api/table-row/)
  */
-@JsName("default")
-external val TableRow: FC<TableRowProps>
+@JsName("default") external val TableRow: FC<TableRowProps>

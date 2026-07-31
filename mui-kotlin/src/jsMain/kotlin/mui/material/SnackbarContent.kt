@@ -1,10 +1,7 @@
 // Automatically generated - do not modify!
 
 @file:JsModule("@mui/material/SnackbarContent")
-
-@file:Suppress(
-    "VIRTUAL_MEMBER_HIDDEN",
-)
+@file:Suppress("VIRTUAL_MEMBER_HIDDEN")
 
 package mui.material
 
@@ -16,39 +13,28 @@ import react.FC
 import react.ReactNode
 import react.dom.aria.AriaRole
 
-external interface SnackbarContentProps :
-    StandardProps,
-    PaperProps,
-    PropsWithSx {
-    /**
-     * The action to display. It renders after the message, at the end of the snackbar.
-     */
+external interface SnackbarContentProps : StandardProps, PaperProps, PropsWithSx {
+    /** The action to display. It renders after the message, at the end of the snackbar. */
     var action: ReactNode?
 
-    /**
-     * Override or extend the styles applied to the component.
-     */
+    /** Override or extend the styles applied to the component. */
     var classes: SnackbarContentClasses?
 
-    /**
-     * The message to display.
-     */
+    /** The message to display. */
     var message: ReactNode?
 
     /**
      * The ARIA role attribute of the element.
+     *
      * @default 'alert'
      */
     var role: AriaRole?
 
-    /**
-     * The system prop that allows defining system overrides as well as additional CSS styles.
-     */
+    /** The system prop that allows defining system overrides as well as additional CSS styles. */
     override var sx: SxProps<Theme>?
 }
 
 /**
- *
  * Demos:
  *
  * - [Snackbar](https://mui.com/material-ui/react-snackbar/)
@@ -58,5 +44,4 @@ external interface SnackbarContentProps :
  * - [SnackbarContent API](https://mui.com/material-ui/api/snackbar-content/)
  * - inherits [Paper API](https://mui.com/material-ui/api/paper/)
  */
-@JsName("default")
-external val SnackbarContent: FC<SnackbarContentProps>
+@JsName("default") external val SnackbarContent: FC<SnackbarContentProps>

@@ -6,13 +6,8 @@ import seskar.js.JsValue
 
 sealed external interface ClockPickerView {
     companion object {
-        @JsValue("hours")
-        val hours: ClockPickerView
-
-        @JsValue("minutes")
-        val minutes: ClockPickerView
-
-        @JsValue("seconds")
-        val seconds: ClockPickerView
+        @JsValue("hours") val hours: ClockPickerView
+        @JsValue("minutes") val minutes: ClockPickerView
+        @JsValue("seconds") val seconds: ClockPickerView
     }
 }

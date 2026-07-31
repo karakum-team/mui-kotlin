@@ -7,7 +7,6 @@ package mui.system
 import react.FC
 
 /**
- *
  * Demos:
  *
  * - [Grid (Material UI)](https://mui.com/material-ui/react-grid/)
@@ -16,5 +15,4 @@ import react.FC
  *
  * - [Grid API](https://mui.com/system/api/grid/)
  */
-@JsName("default")
-external val Grid: FC<GridProps>
+@JsName("default") external val Grid: FC<GridProps>

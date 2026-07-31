@@ -8,62 +8,72 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
-import react.*
+import react.ElementType
+import react.FC
+import react.Props
+import react.PropsWithChildren
+import react.ReactNode
+import react.Ref
 import react.dom.events.SyntheticEvent
 import react.dom.html.HTMLAttributes
 import web.dom.ElementId
 import web.html.HTMLDivElement
 
-external interface TabsProps :
-    TabsOwnProps,
-    HTMLAttributes<HTMLDivElement>,
-    PropsWithComponent
+external interface TabsProps : TabsOwnProps, HTMLAttributes<HTMLDivElement>, PropsWithComponent
 
 external interface TabsSlots {
     /**
      * The component used for the popper.
+     *
      * @default div
      */
     var root: ElementType<*>
 
     /**
      * The component used for the scroller.
+     *
      * @default div
      */
     var scroller: ElementType<*>
 
     /**
      * The component used for the flex container.
+     *
      * @default div
      */
     var list: ElementType<*>
 
     /**
      * The component used for the scroller.
+     *
      * @default ScrollbarSize
      */
     var scrollbar: ElementType<*>
 
     /**
      * The component used for the tab indicator.
+     *
      * @default span
      */
     var indicator: ElementType<*>
 
     /**
      * The component used for the scroll button.
+     *
      * @default TabScrollButton
      */
     var scrollButtons: ElementType<*>
 
     /**
      * The component used for the start scroll button icon.
+     *
      * @default KeyboardArrowLeft
      */
     var startScrollButtonIcon: ElementType<*>
 
     /**
      * The component used for the end scroll button icon.
+     *
      * @default KeyboardArrowRight
      */
     var endScrollButtonIcon: ElementType<*>
@@ -91,58 +101,46 @@ external interface TabsOwnerState : TabsProps {
     var scrollButtonsHideMobile: Boolean
 }
 
-external interface TabsOwnProps :
-    TabsSlotsAndSlotProps,
-    PropsWithChildren,
-    PropsWithSx {
+external interface TabsOwnProps : TabsSlotsAndSlotProps, PropsWithChildren, PropsWithSx {
     /**
-     * Callback fired when the component mounts.
-     * This is useful when you want to trigger an action programmatically.
-     * It supports two actions: `updateIndicator()` and `updateScrollButtons()`
+     * Callback fired when the component mounts. This is useful when you want to trigger an action
+     * programmatically. It supports two actions: `updateIndicator()` and `updateScrollButtons()`
      *
-     * @param {object} actions This object contains all possible actions
-     * that can be triggered programmatically.
+     * @param {object} actions This object contains all possible actions that can be triggered
+     *   programmatically.
      */
     var action: Ref<TabsActions>?
 
     /**
-     * If `true`, the scroll buttons aren't forced hidden on mobile.
-     * By default the scroll buttons are hidden on mobile and takes precedence over `scrollButtons`.
+     * If `true`, the scroll buttons aren't forced hidden on mobile. By default the scroll buttons
+     * are hidden on mobile and takes precedence over `scrollButtons`.
+     *
      * @default false
      */
     var allowScrollButtonsMobile: Boolean?
 
-    /**
-     * The label for the Tabs as a string.
-     */
-    @JsName("aria-label")
-    var ariaLabel: String?
+    /** The label for the Tabs as a string. */
+    @JsName("aria-label") var ariaLabel: String?
+
+    /** An id or list of ids separated by a space that label the Tabs. */
+    @JsName("aria-labelledby") var ariaLabelledBy: ElementId?
 
     /**
-     * An id or list of ids separated by a space that label the Tabs.
-     */
-    @JsName("aria-labelledby")
-    var ariaLabelledBy: ElementId?
-
-    /**
-     * If `true`, the tabs are centered.
-     * This prop is intended for large views.
+     * If `true`, the tabs are centered. This prop is intended for large views.
+     *
      * @default false
      */
     var centered: Boolean?
 
-    /**
-     * The content of the component.
-     */
+    /** The content of the component. */
     override var children: ReactNode?
 
-    /**
-     * Override or extend the styles applied to the component.
-     */
+    /** Override or extend the styles applied to the component. */
     var classes: TabsClasses?
 
     /**
      * Determines the color of the indicator.
+     *
      * @default 'primary'
      */
     var indicatorColor: TabsIndicatorColor?
@@ -150,13 +148,15 @@ external interface TabsOwnProps :
     /**
      * Callback fired when the value changes.
      *
-     * @param {React.SyntheticEvent} event The event source of the callback. **Warning**: This is a generic event not a change event.
+     * @param {React.SyntheticEvent} event The event source of the callback. **Warning**: This is a
+     *   generic event not a change event.
      * @param {any} value We default to the index of the child (number)
      */
     var onChange: ((event: SyntheticEvent<*, *>, value: Any) -> Unit)?
 
     /**
      * The component orientation (layout flow direction).
+     *
      * @default 'horizontal'
      */
     var orientation: Orientation?
@@ -168,62 +168,61 @@ external interface TabsOwnProps :
      * - `true` will always present them.
      * - `false` will never present them.
      *
-     * By default the scroll buttons are hidden on mobile.
-     * This behavior can be disabled with `allowScrollButtonsMobile`.
+     * By default the scroll buttons are hidden on mobile. This behavior can be disabled with
+     * `allowScrollButtonsMobile`.
+     *
      * @default 'auto'
      */
     var scrollButtons: TabsScrollButtons?
 
-    /**
-     * If `true` the selected tab changes on focus. Otherwise it only
-     * changes on activation.
-     */
+    /** If `true` the selected tab changes on focus. Otherwise it only changes on activation. */
     var selectionFollowsFocus: Boolean?
 
     /**
      * Determines the color of the `Tab`.
+     *
      * @default 'primary'
      */
     var textColor: TabsTextColor?
 
     /**
-     * The value of the currently selected `Tab`.
-     * If you don't want any selected `Tab`, you can set this prop to `false`.
+     * The value of the currently selected `Tab`. If you don't want any selected `Tab`, you can set
+     * this prop to `false`.
      */
     var value: Any?
 
     /**
-     *  Determines additional display behavior of the tabs:
+     * Determines additional display behavior of the tabs:
      *
-     *  - `scrollable` will invoke scrolling properties and allow for horizontally
-     *  scrolling (or swiping) of the tab bar.
-     *  - `fullWidth` will make the tabs grow to use all the available space,
-     *  which should be used for small views, like on mobile.
-     *  - `standard` will render the default state.
+     * - `scrollable` will invoke scrolling properties and allow for horizontally scrolling (or
+     *   swiping) of the tab bar.
+     * - `fullWidth` will make the tabs grow to use all the available space, which should be used
+     *   for small views, like on mobile.
+     * - `standard` will render the default state.
+     *
      * @default 'standard'
      */
     var variant: TabsVariant?
 
     /**
-     * If `true`, the scrollbar is visible. It can be useful when displaying
-     * a long vertical list of tabs.
+     * If `true`, the scrollbar is visible. It can be useful when displaying a long vertical list of
+     * tabs.
+     *
      * @default false
      */
     var visibleScrollbar: Boolean?
 
-    /**
-     * The system prop that allows defining system overrides as well as additional CSS styles.
-     */
+    /** The system prop that allows defining system overrides as well as additional CSS styles. */
     override var sx: SxProps<Theme>?
 }
 
 external interface TabsActions {
     fun updateIndicator()
+
     fun updateScrollButtons()
 }
 
 /**
- *
  * Demos:
  *
  * - [Tabs](https://mui.com/material-ui/react-tabs/)
@@ -232,5 +231,4 @@ external interface TabsActions {
  *
  * - [Tabs API](https://mui.com/material-ui/api/tabs/)
  */
-@JsName("default")
-external val Tabs: FC<TabsProps>
+@JsName("default") external val Tabs: FC<TabsProps>

@@ -7,7 +7,6 @@ package mui.system
 import react.FC
 
 /**
- *
  * Demos:
  *
  * - [Container (Material UI)](https://mui.com/material-ui/react-container/)
@@ -17,5 +16,4 @@ import react.FC
  *
  * - [Container API](https://mui.com/system/api/container/)
  */
-@JsName("default")
-external val Container: FC<ContainerProps>
+@JsName("default") external val Container: FC<ContainerProps>

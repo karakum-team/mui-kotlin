@@ -1,17 +1,13 @@
 // Automatically generated - do not modify!
 
 @file:JsModule("@mui/base/Snackbar")
-
-@file:Suppress(
-    "VIRTUAL_MEMBER_HIDDEN",
-)
+@file:Suppress("VIRTUAL_MEMBER_HIDDEN")
 
 package mui.base
 
 import react.FC
 
 /**
- *
  * Demos:
  *
  * - [Snackbar](https://mui.com/base-ui/react-snackbar/)

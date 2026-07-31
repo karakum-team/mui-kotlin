@@ -4,5 +4,4 @@
 
 package mui.material.styles
 
-@JsName("default")
-external fun <T : Theme> useTheme(): T
+@JsName("default") external fun <T : Theme> useTheme(): T

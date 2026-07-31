@@ -285,7 +285,8 @@ external interface ColorSystem {
 external interface ThemeVars {
     var font: Any? /* ExtractTypographyTokens<TypographyVariants> */
 
-    var palette: Any? /* Omit<ColorSystem['palette'], 'colorScheme' | 'mode' | 'contrastThreshold' | 'tonalOffset' | 'getContrastText' | 'augmentColor'> */
+    var palette:
+        Any? /* Omit<ColorSystem['palette'], 'colorScheme' | 'mode' | 'contrastThreshold' | 'tonalOffset' | 'getContrastText' | 'augmentColor'> */
 
     var opacity: Any? /* Opacity */
 
@@ -344,17 +345,17 @@ external interface CssVarsTheme : ColorSystem {
     var direction: Any /* SystemTheme['direction'] */
 
     /**
-     * A function to determine if the key, value should be attached as CSS Variable
-     * `keys` is an array that represents the object path keys.
-     *  Ex, if the theme is { foo: { bar: 'var(--test)' } }
-     *  then, keys = ['foo', 'bar']
-     *        value = 'var(--test)'
+     * A function to determine if the key, value should be attached as CSS Variable `keys` is an
+     * array that represents the object path keys. Ex, if the theme is { foo: { bar: 'var(--test)' }
+     * } then, keys = ['foo', 'bar'] value = 'var(--test)'
      */
-    var shouldSkipGeneratingVar: (keys: ReadonlyArray<String>, value: Any /* String | Number */) -> Boolean
+    var shouldSkipGeneratingVar:
+        (keys: ReadonlyArray<String>, value: Any /* String | Number */) -> Boolean
 
     var unstable_sxConfig: Any? /* SxConfig */
 
-    var unstable_sx: (props: Any /* SxProps<CssVarsTheme> */) -> Any /* CSSObject from `@mui/styled-engine` */
+    var unstable_sx:
+        (props: Any /* SxProps<CssVarsTheme> */) -> Any /* CSSObject from `@mui/styled-engine` */
 
     var applyStyles: Any? /* ApplyStyles<SupportedColorScheme> */
 }

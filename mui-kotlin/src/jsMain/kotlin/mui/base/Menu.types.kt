@@ -3,51 +3,43 @@
 package mui.base
 
 import js.array.ReadonlyArray
-import react.*
+import react.ElementType
+import react.Props
+import react.PropsWithChildren
+import react.PropsWithClassName
+import react.ReactNode
+import react.Ref
 import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
 import web.html.HTMLDivElement
 
-external interface MenuProps :
-    MenuOwnProps,
-    HTMLAttributes<HTMLDivElement>
+external interface MenuProps : MenuOwnProps, HTMLAttributes<HTMLDivElement>
 
 external interface MenuActions {
-    /**
-     * Dispatches an action that can cause a change to the menu's internal state.
-     */
+    /** Dispatches an action that can cause a change to the menu's internal state. */
     fun dispatch(action: Any /* ListAction<string> */)
 
-    /**
-     * Resets the highlighted item.
-     */
+    /** Resets the highlighted item. */
     fun resetHighlight()
 }
 
-external interface MenuOwnProps :
-    PropsWithChildren,
-    PropsWithClassName {
-    /**
-     * A ref with imperative actions that can be performed on the menu.
-     */
+external interface MenuOwnProps : PropsWithChildren, PropsWithClassName {
+    /** A ref with imperative actions that can be performed on the menu. */
     var actions: Ref<MenuActions>?
 
-    /**
-     * The element based on which the menu is positioned.
-     */
+    /** The element based on which the menu is positioned. */
     var anchor: Any? /* PopupProps['anchor'] */
 
     override var children: ReactNode?
 
     override var className: ClassName?
 
-    /**
-     * Function called when the items displayed in the menu change.
-     */
+    /** Function called when the items displayed in the menu change. */
     var onItemsChange: ((items: ReadonlyArray<String>) -> Unit)?
 
     /**
      * The props used for each slot inside the Menu.
+     *
      * @default {}
      */
     var slotProps: SlotProps?
@@ -58,8 +50,9 @@ external interface MenuOwnProps :
     }
 
     /**
-     * The components used for each slot inside the Menu.
-     * Either a string to use a HTML element or a component.
+     * The components used for each slot inside the Menu. Either a string to use a HTML element or a
+     * component.
+     *
      * @default {}
      */
     var slots: MenuSlots?
@@ -68,12 +61,14 @@ external interface MenuOwnProps :
 external interface MenuSlots {
     /**
      * The component that renders the popup element.
+     *
      * @default 'div'
      */
     var root: ElementType<*>?
 
     /**
      * The component that renders the listbox.
+     *
      * @default 'ul'
      */
     var listbox: ElementType<*>?

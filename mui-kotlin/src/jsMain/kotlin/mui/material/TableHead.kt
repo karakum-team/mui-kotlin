@@ -15,31 +15,20 @@ import react.dom.html.HTMLAttributes
 import web.html.HTMLTableSectionElement
 
 external interface TableHeadProps :
-    TableHeadOwnProps,
-    HTMLAttributes<HTMLTableSectionElement>,
-    PropsWithComponent
+    TableHeadOwnProps, HTMLAttributes<HTMLTableSectionElement>, PropsWithComponent
 
-external interface TableHeadOwnProps :
-    PropsWithChildren,
-    PropsWithSx {
-    /**
-     * The content of the component, normally `TableRow`.
-     */
+external interface TableHeadOwnProps : PropsWithChildren, PropsWithSx {
+    /** The content of the component, normally `TableRow`. */
     override var children: ReactNode?
 
-    /**
-     * Override or extend the styles applied to the component.
-     */
+    /** Override or extend the styles applied to the component. */
     var classes: TableHeadClasses?
 
-    /**
-     * The system prop that allows defining system overrides as well as additional CSS styles.
-     */
+    /** The system prop that allows defining system overrides as well as additional CSS styles. */
     override var sx: SxProps<Theme>?
 }
 
 /**
- *
  * Demos:
  *
  * - [Table](https://mui.com/material-ui/react-table/)
@@ -48,5 +37,4 @@ external interface TableHeadOwnProps :
  *
  * - [TableHead API](https://mui.com/material-ui/api/table-head/)
  */
-@JsName("default")
-external val TableHead: FC<TableHeadProps>
+@JsName("default") external val TableHead: FC<TableHeadProps>

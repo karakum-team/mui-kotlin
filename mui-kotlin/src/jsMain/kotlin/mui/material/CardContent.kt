@@ -15,31 +15,20 @@ import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
 external interface CardContentProps :
-    CardContentOwnProps,
-    HTMLAttributes<HTMLDivElement>,
-    PropsWithComponent
+    CardContentOwnProps, HTMLAttributes<HTMLDivElement>, PropsWithComponent
 
-external interface CardContentOwnProps :
-    PropsWithChildren,
-    PropsWithSx {
-    /**
-     * The content of the component.
-     */
+external interface CardContentOwnProps : PropsWithChildren, PropsWithSx {
+    /** The content of the component. */
     override var children: ReactNode?
 
-    /**
-     * Override or extend the styles applied to the component.
-     */
+    /** Override or extend the styles applied to the component. */
     var classes: CardContentClasses?
 
-    /**
-     * The system prop that allows defining system overrides as well as additional CSS styles.
-     */
+    /** The system prop that allows defining system overrides as well as additional CSS styles. */
     override var sx: SxProps<Theme>?
 }
 
 /**
- *
  * Demos:
  *
  * - [Card](https://mui.com/material-ui/react-card/)
@@ -48,5 +37,4 @@ external interface CardContentOwnProps :
  *
  * - [CardContent API](https://mui.com/material-ui/api/card-content/)
  */
-@JsName("default")
-external val CardContent: FC<CardContentProps>
+@JsName("default") external val CardContent: FC<CardContentProps>

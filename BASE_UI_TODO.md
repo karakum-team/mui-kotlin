@@ -122,12 +122,27 @@ Ordered by how much API they cost.
   `mui/material/Snackbar.kt` (`ClickAwayListenerProps`) and `mui/material/Autocomplete.kt`
   (`UseAutocompleteProps`) — so retiring it later is cheap.
 
-## Repository note
+## Repository note: the generated tree is now reproducible
 
-The committed `mui-kotlin/src/jsMain/kotlin` tree is **IDE-formatted and not reproducible from the
-generator**: the generator emits unindented code with explicit imports, and there is no formatter in the
-build (no ktlint, no spotless). A full regeneration therefore reports ~523 changed files under `mui/*`
-that carry no semantic change — verified by normalizing whitespace and line order, the only differences
-are collapsed star imports and dropped unused imports. Commits in this series discard that churn and
-keep only `baseui/*`, so `baseui/*` is unformatted while `mui/*` stays formatted. Adding a formatter to
-the build would make the tree reproducible and remove the churn for good.
+It previously was not. The generator emits Kotlin with no indentation and `X:` instead of `X :`, and
+readable output depended on running an IDE reformat by hand — so the committed tree could not be
+reproduced from the generator, and every regeneration showed ~520 files of pure formatting churn that
+masked real changes.
+
+Spotless now formats `src/jsMain/kotlin` as part of the pipeline
+(`generateDeclarations` → `spotlessApply` → `compileKotlinJs`), so **a regeneration produces a
+byte-identical tree** — verified by hashing it across two `--rerun-tasks` runs. A non-empty diff under
+`mui-kotlin/src/jsMain/kotlin` now means something actually changed, and is worth reading.
+
+It uses **ktfmt**, not ktlint. ktlint enforces a style policy that generated code cannot satisfy at the
+source: it rejects the inline `/* … */` markers recording the original TypeScript type
+(`var side: Any? /* Side */`) and the lowercase `@JsValue` union members whose names must mirror the
+JavaScript API — 47 unfixable violations. Suppressing those rules still left 3551 KDoc blocks with the
+opening `/**` at column 0, because ktlint indents a comment's continuation lines but not its first line.
+ktfmt has no rules to satisfy and reformats comments too.
+
+`isEnforceCheck = false`: a `spotlessCheck` wired into `check` could run before the sources exist. The
+tree is kept formatted by construction instead.
+
+Only `mui-kotlin/src/jsMain/kotlin` is in scope — hand-written code (`buildSrc`, `playground`) is
+deliberately left alone so that adding the formatter did not reformat anything a human wrote.

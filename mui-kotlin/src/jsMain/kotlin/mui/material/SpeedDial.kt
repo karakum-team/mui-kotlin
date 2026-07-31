@@ -18,21 +18,14 @@ import web.html.HTMLDivElement
 import web.html.Hidden
 
 external interface SpeedDialProps :
-    StandardProps,
-    HTMLAttributes<HTMLDivElement>,
-    PropsWithChildren,
-    PropsWithSx {
-    /**
-     * SpeedDialActions to display when the SpeedDial is `open`.
-     */
+    StandardProps, HTMLAttributes<HTMLDivElement>, PropsWithChildren, PropsWithSx {
+    /** SpeedDialActions to display when the SpeedDial is `open`. */
     override var children: ReactNode?
 
-    /**
-     * Override or extend the styles applied to the component.
-     */
+    /** Override or extend the styles applied to the component. */
     var classes: SpeedDialClasses?
 
-    /**
+    /*
      * The aria-label of the button element.
      * Also used to provide the `id` for the `SpeedDial` element and its children.
      */
@@ -40,25 +33,28 @@ external interface SpeedDialProps :
 
     /**
      * The direction the actions open relative to the floating action button.
+     *
      * @default 'up'
      */
     var direction: SpeedDialDirection?
 
     /**
      * If `true`, the SpeedDial is hidden.
+     *
      * @default false
      */
     override var hidden: Hidden?
 
     /**
      * Props applied to the [`Fab`](https://mui.com/material-ui/api/fab/) element.
+     *
      * @default {}
      */
     var FabProps: FabProps?
 
     /**
-     * The icon to display in the SpeedDial Fab. The `SpeedDialIcon` component
-     * provides a default Icon with animation.
+     * The icon to display in the SpeedDial Fab. The `SpeedDialIcon` component provides a default
+     * Icon with animation.
      */
     var icon: ReactNode?
 
@@ -78,28 +74,21 @@ external interface SpeedDialProps :
      */
     var onOpen: ((event: SyntheticEvent<*, *>, reason: OpenReason) -> Unit)?
 
-    /**
-     * If `true`, the component is shown.
-     */
+    /** If `true`, the component is shown. */
     var open: Boolean?
 
-    /**
-     * The icon to display in the SpeedDial Fab when the SpeedDial is open.
-     */
+    /** The icon to display in the SpeedDial Fab when the SpeedDial is open. */
     var openIcon: ReactNode?
 
-    /**
-     * The system prop that allows defining system overrides as well as additional CSS styles.
-     */
+    /** The system prop that allows defining system overrides as well as additional CSS styles. */
     override var sx: SxProps<Theme>?
 
     /**
-     * The duration for the transition, in milliseconds.
-     * You may specify a single timeout for all transitions, or individually with an object.
-     * @default {
-     *   enter: theme.transitions.duration.enteringScreen,
-     *   exit: theme.transitions.duration.leavingScreen,
-     * }
+     * The duration for the transition, in milliseconds. You may specify a single timeout for all
+     * transitions, or individually with an object.
+     *
+     * @default { enter: theme.transitions.duration.enteringScreen, exit:
+     *   theme.transitions.duration.leavingScreen, }
      */
     var transitionDuration: Any? /* TransitionProps['timeout'] */
 }
@@ -107,13 +96,16 @@ external interface SpeedDialProps :
 external interface SpeedDialSlots {
     /**
      * The component that renders the root slot.
+     *
      * @default 'div'
      */
     var root: ElementType<*>
 
     /**
      * The component that renders the transition.
-     * [Follow this guide](/material-ui/transitions/#transition-slots) to learn more about the requirements for this component.
+     * [Follow this guide](/material-ui/transitions/#transition-slots) to learn more about the
+     * requirements for this component.
+     *
      * @default Zoom
      */
     var transition: ElementType<*>
@@ -122,7 +114,6 @@ external interface SpeedDialSlots {
 external interface SpeedDialOwnerState
 
 /**
- *
  * Demos:
  *
  * - [Speed Dial](https://mui.com/material-ui/react-speed-dial/)
@@ -131,5 +122,4 @@ external interface SpeedDialOwnerState
  *
  * - [SpeedDial API](https://mui.com/material-ui/api/speed-dial/)
  */
-@JsName("default")
-external val SpeedDial: FC<SpeedDialProps>
+@JsName("default") external val SpeedDial: FC<SpeedDialProps>

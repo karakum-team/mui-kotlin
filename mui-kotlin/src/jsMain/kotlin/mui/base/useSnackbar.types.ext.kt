@@ -6,13 +6,8 @@ import seskar.js.JsValue
 
 sealed external interface SnackbarCloseReason {
     companion object {
-        @JsValue("timeout")
-        val timeout: SnackbarCloseReason
-
-        @JsValue("clickaway")
-        val clickaway: SnackbarCloseReason
-
-        @JsValue("escapeKeyDown")
-        val escapeKeyDown: SnackbarCloseReason
+        @JsValue("timeout") val timeout: SnackbarCloseReason
+        @JsValue("clickaway") val clickaway: SnackbarCloseReason
+        @JsValue("escapeKeyDown") val escapeKeyDown: SnackbarCloseReason
     }
 }

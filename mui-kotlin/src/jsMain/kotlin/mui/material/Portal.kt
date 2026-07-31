@@ -7,8 +7,8 @@ package mui.material
 import react.FC
 
 /**
- * Portals provide a first-class way to render children into a DOM node
- * that exists outside the DOM hierarchy of the parent component.
+ * Portals provide a first-class way to render children into a DOM node that exists outside the DOM
+ * hierarchy of the parent component.
  *
  * Demos:
  *
@@ -18,5 +18,4 @@ import react.FC
  *
  * - [Portal API](https://mui.com/material-ui/api/portal/)
  */
-@JsName("default")
-external val Portal: FC<PortalProps>
+@JsName("default") external val Portal: FC<PortalProps>

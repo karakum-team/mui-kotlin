@@ -9,7 +9,6 @@ import web.cssom.ClassName
 sealed external interface GridClasses {
     /** Styles applied to the root element. */
     val root: ClassName
-
     /** Styles applied to the root element if `container={true}`. */
     val container: ClassName
 }

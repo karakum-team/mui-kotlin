@@ -12,26 +12,18 @@ import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
-external interface BoxProps :
-    BoxOwnProps,
-    HTMLAttributes<HTMLDivElement>,
-    PropsWithComponent
+external interface BoxProps : BoxOwnProps, HTMLAttributes<HTMLDivElement>, PropsWithComponent
 
 external interface CustomSystemProps : Props
 
-external interface BoxOwnProps :
-    PropsWithChildren,
-    PropsWithSx {
+external interface BoxOwnProps : PropsWithChildren, PropsWithSx {
     override var children: ReactNode?
 
-    /**
-     * The system prop that allows defining system overrides as well as additional CSS styles.
-     */
+    /** The system prop that allows defining system overrides as well as additional CSS styles. */
     override var sx: SxProps<Theme>?
 }
 
 /**
- *
  * Demos:
  *
  * - [Box (Material UI)](https://mui.com/material-ui/react-box/)
@@ -42,5 +34,4 @@ external interface BoxOwnProps :
  *
  * - [Box API](https://mui.com/system/api/box/)
  */
-@JsName("default")
-external val Box: FC<BoxProps>
+@JsName("default") external val Box: FC<BoxProps>

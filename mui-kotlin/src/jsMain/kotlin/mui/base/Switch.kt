@@ -1,10 +1,7 @@
 // Automatically generated - do not modify!
 
 @file:JsModule("@mui/base/Switch")
-
-@file:Suppress(
-    "VIRTUAL_MEMBER_HIDDEN",
-)
+@file:Suppress("VIRTUAL_MEMBER_HIDDEN")
 
 package mui.base
 

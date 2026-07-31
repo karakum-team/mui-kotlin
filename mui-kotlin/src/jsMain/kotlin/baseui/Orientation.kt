@@ -4,11 +4,9 @@ package baseui
 
 import seskar.js.JsValue
 
-        sealed external interface Orientation {
-            companion object {
-                @JsValue("horizontal")
-val horizontal: Orientation
-@JsValue("vertical")
-val vertical: Orientation
-            }
-        }
+sealed external interface Orientation {
+    companion object {
+        @JsValue("horizontal") val horizontal: Orientation
+        @JsValue("vertical") val vertical: Orientation
+    }
+}

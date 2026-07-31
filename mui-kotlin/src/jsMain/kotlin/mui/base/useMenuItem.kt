@@ -4,7 +4,4 @@
 
 package mui.base
 
-@JsName("default")
-external fun useMenuItem(
-    params: UseMenuItemParameters,
-): UseMenuItemReturnValue
+@JsName("default") external fun useMenuItem(params: UseMenuItemParameters): UseMenuItemReturnValue

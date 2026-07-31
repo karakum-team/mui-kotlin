@@ -17,3 +17,14 @@ jobs:
       - name: Build
         run: |
           ./gradlew build
+
+      # `build` regenerates and reformats mui-kotlin/src/jsMain/kotlin from scratch, so the committed
+      # tree must come out byte-identical. A diff here means either the declarations were not
+      # regenerated after a generator or dependency change, or something reformatted them by hand —
+      # the IDE's Kotlin style (120 columns) does not match ktfmt's kotlinlangStyle (100).
+      #
+      # spotlessCheck cannot serve as this gate: Spotless skips the check task when spotlessApply has
+      # already run in the same build, so it would always pass.
+      - name: Verify generated declarations are up to date
+        run: |
+          git diff --exit-code -- mui-kotlin/src/jsMain/kotlin

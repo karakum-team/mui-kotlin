@@ -7,7 +7,6 @@ package mui.base
 import react.FC
 
 /**
- *
  * Demos:
  *
  * - [Textarea Autosize](https://mui.com/base-ui/react-textarea-autosize/)
@@ -15,6 +14,7 @@ import react.FC
  *
  * API:
  *
- * - [TextareaAutosize API](https://mui.com/base-ui/react-textarea-autosize/components-api/#textarea-autosize)
+ * - [TextareaAutosize
+ *   API](https://mui.com/base-ui/react-textarea-autosize/components-api/#textarea-autosize)
  */
 external val TextareaAutosize: FC<TextareaAutosizeProps>

@@ -15,13 +15,9 @@ import react.dom.html.HTMLAttributes
 import web.html.HTMLParagraphElement
 
 external interface FormHelperTextProps :
-    FormHelperTextOwnProps,
-    HTMLAttributes<HTMLParagraphElement>,
-    PropsWithComponent
+    FormHelperTextOwnProps, HTMLAttributes<HTMLParagraphElement>, PropsWithComponent
 
-external interface FormHelperTextOwnProps :
-    PropsWithChildren,
-    PropsWithSx {
+external interface FormHelperTextOwnProps : PropsWithChildren, PropsWithSx {
     /**
      * The content of the component.
      *
@@ -29,29 +25,19 @@ external interface FormHelperTextOwnProps :
      */
     override var children: ReactNode?
 
-    /**
-     * Override or extend the styles applied to the component.
-     */
+    /** Override or extend the styles applied to the component. */
     var classes: FormHelperTextClasses?
 
-    /**
-     * If `true`, the helper text should be displayed in a disabled state.
-     */
+    /** If `true`, the helper text should be displayed in a disabled state. */
     var disabled: Boolean?
 
-    /**
-     * If `true`, helper text should be displayed in an error state.
-     */
+    /** If `true`, helper text should be displayed in an error state. */
     var error: Boolean?
 
-    /**
-     * If `true`, the helper text should use filled classes key.
-     */
+    /** If `true`, the helper text should use filled classes key. */
     var filled: Boolean?
 
-    /**
-     * If `true`, the helper text should use focused classes key.
-     */
+    /** If `true`, the helper text should use focused classes key. */
     var focused: Boolean?
 
     /**
@@ -60,24 +46,17 @@ external interface FormHelperTextOwnProps :
      */
     var margin: FormHelperTextMargin?
 
-    /**
-     * If `true`, the helper text should use required classes key.
-     */
+    /** If `true`, the helper text should use required classes key. */
     var required: Boolean?
 
-    /**
-     * The system prop that allows defining system overrides as well as additional CSS styles.
-     */
+    /** The system prop that allows defining system overrides as well as additional CSS styles. */
     override var sx: SxProps<Theme>?
 
-    /**
-     * The variant to use.
-     */
+    /** The variant to use. */
     var variant: FormHelperTextVariant?
 }
 
 /**
- *
  * Demos:
  *
  * - [Number Field](https://mui.com/material-ui/react-number-field/)
@@ -87,5 +66,4 @@ external interface FormHelperTextOwnProps :
  *
  * - [FormHelperText API](https://mui.com/material-ui/api/form-helper-text/)
  */
-@JsName("default")
-external val FormHelperText: FC<FormHelperTextProps>
+@JsName("default") external val FormHelperText: FC<FormHelperTextProps>

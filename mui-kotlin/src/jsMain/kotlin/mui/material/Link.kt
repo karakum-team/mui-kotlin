@@ -15,55 +15,47 @@ import react.dom.html.AnchorHTMLAttributes
 import web.html.HTMLAnchorElement
 
 external interface LinkProps :
-    LinkOwnProps,
-    AnchorHTMLAttributes<HTMLAnchorElement>,
-    PropsWithComponent
+    LinkOwnProps, AnchorHTMLAttributes<HTMLAnchorElement>, PropsWithComponent
 
-external interface LinkOwnProps :
-    LinkBaseProps,
-    PropsWithChildren,
-    PropsWithSx {
-    /**
-     * The content of the component.
-     */
+external interface LinkOwnProps : LinkBaseProps, PropsWithChildren, PropsWithSx {
+    /** The content of the component. */
     override var children: ReactNode?
 
-    /**
-     * Override or extend the styles applied to the component.
-     */
+    /** Override or extend the styles applied to the component. */
     var classes: LinkClasses?
 
     /**
      * The color of the link.
+     *
      * @default 'primary'
      */
     var color: Any? /* TypographyOwnProps['color'] | 'inherit' */
 
-    /**
-     * The system prop that allows defining system overrides as well as additional CSS styles.
-     */
+    /** The system prop that allows defining system overrides as well as additional CSS styles. */
     override var sx: SxProps<Theme>?
 
     /**
-     * `classes` prop applied to the [`Typography`](https://mui.com/material-ui/api/typography/) element.
+     * `classes` prop applied to the [`Typography`](https://mui.com/material-ui/api/typography/)
+     * element.
      */
     var TypographyClasses: TypographyClasses?
 
     /**
      * Controls when the link should have an underline.
+     *
      * @default 'always'
      */
     var underline: LinkUnderline?
 
     /**
      * Applies the theme typography styles.
+     *
      * @default 'inherit'
      */
     var variant: Any? /* TypographyOwnProps['variant'] */
 }
 
 /**
- *
  * Demos:
  *
  * - [Breadcrumbs](https://mui.com/material-ui/react-breadcrumbs/)
@@ -74,5 +66,4 @@ external interface LinkOwnProps :
  * - [Link API](https://mui.com/material-ui/api/link/)
  * - inherits [Typography API](https://mui.com/material-ui/api/typography/)
  */
-@JsName("default")
-external val Link: FC<LinkProps>
+@JsName("default") external val Link: FC<LinkProps>

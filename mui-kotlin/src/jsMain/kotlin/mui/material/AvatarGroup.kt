@@ -9,21 +9,26 @@ import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.system.Union
 import mui.types.PropsWithComponent
-import react.*
+import react.ElementType
+import react.FC
+import react.Props
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
 external interface AvatarGroupProps :
-    AvatarGroupOwnProps,
-    HTMLAttributes<HTMLDivElement>,
-    PropsWithComponent
+    AvatarGroupOwnProps, HTMLAttributes<HTMLDivElement>, PropsWithComponent
 
 external interface AvatarGroupSlots {
     var surplus: ElementType<*>
 }
 
 external interface AvatarGroupSlotProps : Props {
-    /** TS: SlotProps<React.ElementType<React.ComponentPropsWithRef<typeof Avatar>>, AvatarGroupComponentsPropsOverrides, AvatarGroupOwnerState> */
+    /**
+     * TS: SlotProps<React.ElementType<React.ComponentPropsWithRef<typeof Avatar>>,
+     * AvatarGroupComponentsPropsOverrides, AvatarGroupOwnerState>
+     */
     var surplus: Any?
 }
 
@@ -34,33 +39,28 @@ external interface AvatarGroupSlotsAndSlotProps : Props {
 }
 
 external interface AvatarGroupOwnProps :
-    AvatarGroupSlotsAndSlotProps,
-    PropsWithChildren,
-    PropsWithSx {
-    /**
-     * The avatars to stack.
-     */
+    AvatarGroupSlotsAndSlotProps, PropsWithChildren, PropsWithSx {
+    /** The avatars to stack. */
     override var children: ReactNode?
 
-    /**
-     * Override or extend the styles applied to the component.
-     */
+    /** Override or extend the styles applied to the component. */
     var classes: AvatarGroupClasses?
 
     /**
-     * The component used for the root node.
-     * Either a string to use a HTML element or a component.
+     * The component used for the root node. Either a string to use a HTML element or a component.
      */
     var component: ElementType<*>?
 
     /**
      * Max avatars to show before +x.
+     *
      * @default 5
      */
     var max: Double?
 
     /**
      * custom renderer of extraAvatars
+     *
      * @param {number} surplus number of extra avatars
      * @returns {React.ReactNode} custom element to display
      */
@@ -68,23 +68,24 @@ external interface AvatarGroupOwnProps :
 
     /**
      * Spacing between avatars.
+     *
      * @default 'medium'
      */
     var spacing: Union? /* 'small' | 'medium' | number */
 
-    /**
-     * The system prop that allows defining system overrides as well as additional CSS styles.
-     */
+    /** The system prop that allows defining system overrides as well as additional CSS styles. */
     override var sx: SxProps<Theme>?
 
     /**
      * The total number of avatars. Used for calculating the number of extra avatars.
+     *
      * @default children.length
      */
     var total: Int?
 
     /**
      * The variant to use.
+     *
      * @default 'circular'
      */
     var variant: AvatarGroupVariant?
@@ -93,7 +94,6 @@ external interface AvatarGroupOwnProps :
 external interface AvatarGroupOwnerState
 
 /**
- *
  * Demos:
  *
  * - [Avatar](https://mui.com/material-ui/react-avatar/)
@@ -102,5 +102,4 @@ external interface AvatarGroupOwnerState
  *
  * - [AvatarGroup API](https://mui.com/material-ui/api/avatar-group/)
  */
-@JsName("default")
-external val AvatarGroup: FC<AvatarGroupProps>
+@JsName("default") external val AvatarGroup: FC<AvatarGroupProps>

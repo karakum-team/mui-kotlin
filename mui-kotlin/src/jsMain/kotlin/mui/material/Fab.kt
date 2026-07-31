@@ -1,10 +1,7 @@
 // Automatically generated - do not modify!
 
 @file:JsModule("@mui/material/Fab")
-
-@file:Suppress(
-    "VAR_TYPE_MISMATCH_ON_OVERRIDE",
-)
+@file:Suppress("VAR_TYPE_MISMATCH_ON_OVERRIDE")
 
 package mui.material
 
@@ -22,74 +19,66 @@ external interface FabProps :
     FabOwnProps,
     ButtonHTMLAttributes<HTMLButtonElement>,
     PropsWithComponent,
-    ButtonBaseProps
+    mui.material.ButtonBaseProps
 
-external interface FabOwnProps :
-    PropsWithChildren,
-    PropsWithSx,
-    ButtonBaseProps {
-    /**
-     * The content of the component.
-     */
+external interface FabOwnProps : PropsWithChildren, PropsWithSx, ButtonBaseProps {
+    /** The content of the component. */
     override var children: ReactNode?
 
-    /**
-     * Override or extend the styles applied to the component.
-     */
+    /** Override or extend the styles applied to the component. */
     override var classes: FabClasses?
 
     /**
-     * The color of the component.
-     * It supports both default and custom theme colors, which can be added as shown in the
+     * The color of the component. It supports both default and custom theme colors, which can be
+     * added as shown in the
      * [palette customization guide](https://mui.com/material-ui/customization/palette/#custom-colors).
+     *
      * @default 'default'
      */
     var color: FabColor?
 
     /**
      * If `true`, the component is disabled.
+     *
      * @default false
      */
     override var disabled: Boolean?
 
     /**
-     * If `true`, the  keyboard focus ripple is disabled.
+     * If `true`, the keyboard focus ripple is disabled.
+     *
      * @default false
      */
     var disableFocusRipple: Boolean?
 
-    /**
-     * If `true`, the ripple effect is disabled.
-     */
+    /** If `true`, the ripple effect is disabled. */
     override var disableRipple: Boolean?
 
     /**
-     * The URL to link to when the button is clicked.
-     * If defined, an `a` element will be used as the root node.
+     * The URL to link to when the button is clicked. If defined, an `a` element will be used as the
+     * root node.
      */
     var href: String?
 
     /**
-     * The size of the component.
-     * `small` is equivalent to the dense button styling.
+     * The size of the component. `small` is equivalent to the dense button styling.
+     *
      * @default 'large'
      */
     var size: Size?
 
     /**
      * The variant to use.
+     *
      * @default 'circular'
      */
     var variant: FabVariant?
 
-    /**
-     * The system prop that allows defining system overrides as well as additional CSS styles.
-     */
+    /** The system prop that allows defining system overrides as well as additional CSS styles. */
     override var sx: SxProps<Theme>?
 }
 
 /**
- *
  * Demos:
  *
  * - [Floating Action Button](https://mui.com/material-ui/react-floating-action-button/)
@@ -99,5 +88,4 @@ external interface FabOwnProps :
  * - [Fab API](https://mui.com/material-ui/api/fab/)
  * - inherits [ButtonBase API](https://mui.com/material-ui/api/button-base/)
  */
-@JsName("default")
-external val Fab: FC<FabProps>
+@JsName("default") external val Fab: FC<FabProps>

@@ -12,20 +12,18 @@ import web.html.HTMLElement
 import web.html.HTMLInputElement
 
 external interface UseInputParameters {
-    /**
-     * The default value. Use when the component is not controlled.
-     */
+    /** The default value. Use when the component is not controlled. */
     var defaultValue: Any?
 
     /**
-     * If `true`, the component is disabled.
-     * The prop defaults to the value (`false`) inherited from the parent FormControl component.
+     * If `true`, the component is disabled. The prop defaults to the value (`false`) inherited from
+     * the parent FormControl component.
      */
     var disabled: Boolean?
 
     /**
-     * If `true`, the `input` will indicate an error by setting the `aria-invalid` attribute.
-     * The prop defaults to the value (`false`) inherited from the parent FormControl component.
+     * If `true`, the `input` will indicate an error by setting the `aria-invalid` attribute. The
+     * prop defaults to the value (`false`) inherited from the parent FormControl component.
      */
     var error: Boolean?
 
@@ -40,8 +38,8 @@ external interface UseInputParameters {
     var inputRef: Ref<HTMLInputElement /* or HTMLTextAreaElement*/>?
 
     /**
-     * If `true`, the `input` element is required.
-     * The prop defaults to the value (`false`) inherited from the parent FormControl component.
+     * If `true`, the `input` element is required. The prop defaults to the value (`false`)
+     * inherited from the parent FormControl component.
      */
     var required: Boolean?
 
@@ -53,8 +51,7 @@ external interface UseInputRootSlotOwnProps : Props {
 }
 
 external interface UseInputInputSlotOwnProps : Props {
-    @JsName("aria-invalid")
-    var ariaInvalid: Any /* React.AriaAttributes['aria-invalid'] */
+    @JsName("aria-invalid") var ariaInvalid: Any /* React.AriaAttributes['aria-invalid'] */
 
     var defaultValue: Any? /* string | number | readonly string[] */
 
@@ -72,28 +69,21 @@ external interface UseInputInputSlotOwnProps : Props {
 }
 
 external interface UseInputReturnValue {
-    /**
-     * If `true`, the component will be disabled.
-     */
+    /** If `true`, the component will be disabled. */
     var disabled: Boolean
 
-    /**
-     * If `true`, the `input` will indicate an error by setting the `aria-invalid` attribute.
-     */
+    /** If `true`, the `input` will indicate an error by setting the `aria-invalid` attribute. */
     var error: Boolean
 
-    /**
-     * If `true`, the `input` will be focused.
-     */
+    /** If `true`, the `input` will be focused. */
     var focused: Boolean
 
-    /**
-     * Return value from the `useFormControlContext` hook.
-     */
+    /** Return value from the `useFormControlContext` hook. */
     var formControlContext: Any? /* FormControlState */
 
     /**
      * Resolver for the input slot's props.
+     *
      * @param externalProps props for the input slot
      * @returns props that should be spread on the input slot
      */
@@ -101,6 +91,7 @@ external interface UseInputReturnValue {
 
     /**
      * Resolver for the root slot's props.
+     *
      * @param externalProps props for the root slot
      * @returns props that should be spread on the root slot
      */
@@ -108,13 +99,9 @@ external interface UseInputReturnValue {
 
     var inputRef: RefCallback<HTMLInputElement /* or HTMLTextAreaElement*/>?
 
-    /**
-     * If `true`, the `input` will indicate that it's required.
-     */
+    /** If `true`, the `input` will indicate that it's required. */
     var required: Boolean
 
-    /**
-     * The `value` of the `input` element.
-     */
+    /** The `value` of the `input` element. */
     var value: Any
 }

@@ -7,7 +7,6 @@ package mui.system
 import react.FC
 
 /**
- *
  * Demos:
  *
  * - [Stack (Material UI)](https://mui.com/material-ui/react-stack/)
@@ -17,5 +16,4 @@ import react.FC
  *
  * - [Stack API](https://mui.com/system/api/stack/)
  */
-@JsName("default")
-external val Stack: FC<StackProps>
+@JsName("default") external val Stack: FC<StackProps>

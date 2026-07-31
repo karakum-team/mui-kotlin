@@ -9,7 +9,6 @@ import web.cssom.ClassName
 sealed external interface TimeClockClasses {
     /** Styles applied to the root element. */
     val root: ClassName
-
     /** Styles applied to the arrowSwitcher element. */
     val arrowSwitcher: ClassName
 }

@@ -7,17 +7,17 @@ package mui.base
 import react.FC
 
 /**
- * Provides context such as filled/focused/error/required for form inputs.
- * Relying on the context provides high flexibility and ensures that the state always stays
- * consistent across the children of the `FormControl`.
- * This context is used by the following components:
+ * Provides context such as filled/focused/error/required for form inputs. Relying on the context
+ * provides high flexibility and ensures that the state always stays consistent across the children
+ * of the `FormControl`. This context is used by the following components:
  *
- * *   FormLabel
- * *   FormHelperText
- * *   Input
- * *   InputLabel
+ * * FormLabel
+ * * FormHelperText
+ * * Input
+ * * InputLabel
  *
- * You can find one composition example below and more going to [the demos](https://mui.com/material-ui/react-text-field/#components).
+ * You can find one composition example below and more going to
+ * [the demos](https://mui.com/material-ui/react-text-field/#components).
  *
  * ```jsx
  * <FormControl>

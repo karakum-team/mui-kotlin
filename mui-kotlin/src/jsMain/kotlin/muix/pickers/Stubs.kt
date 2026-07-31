@@ -4,10 +4,11 @@ package muix.pickers
 
 typealias PickerSelectionState = String
 
-typealias PickerOnChangeFn = (
-    date: PickerValidDate?,
-    selectionState: PickerSelectionState?,
-) -> Unit
+typealias PickerOnChangeFn =
+    (
+        date: PickerValidDate?,
+        selectionState: PickerSelectionState?,
+    ) -> Unit
 
 typealias PickerValidDate = Any
 

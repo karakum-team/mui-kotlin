@@ -9,14 +9,10 @@ import react.PropsWithChildren
 import react.ReactNode
 
 external interface TabContextProps : PropsWithChildren {
-    /**
-     * The content of the component.
-     */
+    /** The content of the component. */
     override var children: ReactNode?
 
-    /**
-     * The value of the currently selected `Tab`.
-     */
+    /** The value of the currently selected `Tab`. */
     var value: Any /* String or Number */
 }
 
@@ -27,7 +23,6 @@ external interface TabContextValue {
 }
 
 /**
- *
  * Demos:
  *
  * - [Tabs](https://mui.com/material-ui/react-tabs/)
@@ -36,5 +31,4 @@ external interface TabContextValue {
  *
  * - [TabContext API](https://mui.com/material-ui/api/tab-context/)
  */
-@JsName("default")
-external val TabContext: FC<TabContextProps>
+@JsName("default") external val TabContext: FC<TabContextProps>

@@ -6,5 +6,4 @@ package muix.pickers
 
 import react.FC
 
-
 external val YearCalendar: FC<YearCalendarProps>

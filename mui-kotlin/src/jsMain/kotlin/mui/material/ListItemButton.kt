@@ -16,77 +16,73 @@ import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
 external interface ListItemButtonProps :
-    ListItemButtonOwnProps,
-    HTMLAttributes<HTMLDivElement>,
-    PropsWithComponent
+    ListItemButtonOwnProps, HTMLAttributes<HTMLDivElement>, PropsWithComponent
 
-external interface ListItemButtonBaseProps :
-    PropsWithChildren,
-    PropsWithSx {
+external interface ListItemButtonBaseProps : PropsWithChildren, PropsWithSx {
     /**
      * Defines the `align-items` style property.
+     *
      * @default 'center'
      */
     var alignItems: ListItemButtonAlignItems?
 
     /**
-     * If `true`, the list item is focused during the first mount.
-     * Focus will also be triggered if the value changes from false to true.
+     * If `true`, the list item is focused during the first mount. Focus will also be triggered if
+     * the value changes from false to true.
+     *
      * @default false
      */
     var autoFocus: Boolean?
 
-    /**
-     * The content of the component.
-     */
+    /** The content of the component. */
     override var children: ReactNode?
 
-    /**
-     * Override or extend the styles applied to the component.
-     */
+    /** Override or extend the styles applied to the component. */
     var classes: ListItemButtonClasses?
 
     /**
-     * If `true`, compact vertical padding designed for keyboard and mouse input is used.
-     * The prop defaults to the value inherited from the parent List component.
+     * If `true`, compact vertical padding designed for keyboard and mouse input is used. The prop
+     * defaults to the value inherited from the parent List component.
+     *
      * @default false
      */
     var dense: Boolean?
 
     /**
      * If `true`, the component is disabled.
+     *
      * @default false
      */
     var disabled: Boolean?
 
     /**
      * If `true`, the left and right padding is removed.
+     *
      * @default false
      */
     var disableGutters: Boolean?
 
     /**
      * If `true`, a 1px light border is added to the bottom of the list item.
+     *
      * @default false
      */
     var divider: Boolean?
 
     /**
      * Use to apply selected styling.
+     *
      * @default false
      */
     var selected: Boolean?
 
-    /**
-     * The system prop that allows defining system overrides as well as additional CSS styles.
-     */
+    /** The system prop that allows defining system overrides as well as additional CSS styles. */
     override var sx: SxProps<Theme>?
 }
 
 external interface ListItemButtonOwnProps : Props
 
 /**
- *
  * Demos:
  *
  * - [Lists](https://mui.com/material-ui/react-list/)
@@ -97,5 +93,4 @@ external interface ListItemButtonOwnProps : Props
  * - [ListItemButton API](https://mui.com/material-ui/api/list-item-button/)
  * - inherits [ButtonBase API](https://mui.com/material-ui/api/button-base/)
  */
-@JsName("default")
-external val ListItemButton: FC<ListItemButtonProps>
+@JsName("default") external val ListItemButton: FC<ListItemButtonProps>

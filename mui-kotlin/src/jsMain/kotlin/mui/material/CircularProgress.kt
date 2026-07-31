@@ -13,77 +13,77 @@ import react.dom.html.HTMLAttributes
 import web.html.HTMLSpanElement
 
 external interface CircularProgressProps :
-    StandardProps,
-    HTMLAttributes<HTMLSpanElement>,
-    PropsWithSx {
-    /**
-     * Override or extend the styles applied to the component.
-     */
+    StandardProps, HTMLAttributes<HTMLSpanElement>, PropsWithSx {
+    /** Override or extend the styles applied to the component. */
     var classes: CircularProgressClasses?
 
     /**
-     * The color of the component.
-     * It supports both default and custom theme colors, which can be added as shown in the
+     * The color of the component. It supports both default and custom theme colors, which can be
+     * added as shown in the
      * [palette customization guide](https://mui.com/material-ui/customization/palette/#custom-colors).
+     *
      * @default 'primary'
      */
     var color: CircularProgressColor?
 
     /**
-     * If `true`, the shrink animation is disabled.
-     * This only works if variant is `indeterminate`.
+     * If `true`, the shrink animation is disabled. This only works if variant is `indeterminate`.
+     *
      * @default false
      */
     var disableShrink: Boolean?
 
     /**
-     * If `true`, a track circle slot is mounted to show a subtle background for the progress.
-     * The `size` and `thickness` apply to the track slot to be consistent with the progress circle.
+     * If `true`, a track circle slot is mounted to show a subtle background for the progress. The
+     * `size` and `thickness` apply to the track slot to be consistent with the progress circle.
+     *
      * @default false
      */
     var enableTrackSlot: Boolean?
 
     /**
      * The maximum value for the progress indicator for the determinate variant.
+     *
      * @default 100
      */
     var max: Double?
 
     /**
      * The minimum value for the progress indicator for the determinate variant.
+     *
      * @default 0
      */
     var min: Double?
 
     /**
-     * The size of the component.
-     * If using a number, the pixel unit is assumed.
-     * If using a string, you need to provide the CSS unit, for example '3rem'.
+     * The size of the component. If using a number, the pixel unit is assumed. If using a string,
+     * you need to provide the CSS unit, for example '3rem'.
+     *
      * @default 40
      */
     var size: Any? /* number | string */
 
-    /**
-     * The system prop that allows defining system overrides as well as additional CSS styles.
-     */
+    /** The system prop that allows defining system overrides as well as additional CSS styles. */
     override var sx: SxProps<Theme>?
 
     /**
      * The thickness of the circle.
+     *
      * @default 3.6
      */
     var thickness: Double?
 
     /**
-     * The value of the progress indicator for the determinate variant.
-     * Value between `min` and `max`.
+     * The value of the progress indicator for the determinate variant. Value between `min` and
+     * `max`.
+     *
      * @default props.min ?? 0
      */
     var value: Number?
 
     /**
-     * The variant to use.
-     * Use indeterminate when there is no progress value.
+     * The variant to use. Use indeterminate when there is no progress value.
+     *
      * @default 'indeterminate'
      */
     var variant: CircularProgressVariant?
@@ -92,9 +92,9 @@ external interface CircularProgressProps :
 /**
  * ## ARIA
  *
- * If the progress bar is describing the loading progress of a particular region of a page,
- * you should use `aria-describedby` to point to the progress bar, and set the `aria-busy`
- * attribute to `true` on that region until it has finished loading.
+ * If the progress bar is describing the loading progress of a particular region of a page, you
+ * should use `aria-describedby` to point to the progress bar, and set the `aria-busy` attribute to
+ * `true` on that region until it has finished loading.
  *
  * Demos:
  *
@@ -104,5 +104,4 @@ external interface CircularProgressProps :
  *
  * - [CircularProgress API](https://mui.com/material-ui/api/circular-progress/)
  */
-@JsName("default")
-external val CircularProgress: FC<CircularProgressProps>
+@JsName("default") external val CircularProgress: FC<CircularProgressProps>

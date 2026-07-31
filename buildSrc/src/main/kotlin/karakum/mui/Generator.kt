@@ -1150,7 +1150,7 @@ private fun generate(
         val finalBody = when {
             componentName == "createTransitions" -> body + "\n\n" + STYLE_TRANSITION_CREATE_OPTIONS
             else -> body
-        }
+        }.demoteOrphanKdoc()
 
         // Source `.d.ts` may be missing (removed upstream) or parse to no declarations at all
         // (e.g. a generic signature the converter can't translate) — either way there's nothing
@@ -1218,6 +1218,24 @@ private fun generate(
             .writeText(fileContent(annotations = annotation, body = classes, pkg = pkg))
     }
 }
+
+/**
+ * Turns a KDoc block into a plain block comment when the declaration it documented was commented out by
+ * an override (`Overrides.kt` does this for `SpeedDial.ariaLabel`, which the ARIA machinery supplies
+ * instead).
+ *
+ * A KDoc attached to nothing reads as a mistake, and the formatter treats it as live documentation —
+ * ktfmt reflows KDoc but leaves plain block comments alone, so demoting also keeps the upstream wording
+ * intact. Demoting rather than deleting keeps that documentation next to the commented-out member, which
+ * is why it was left in place at all.
+ *
+ * Matched by shape rather than by the documentation text so that rewording upstream cannot silently turn
+ * the fix off.
+ */
+private fun String.demoteOrphanKdoc(): String =
+    ORPHAN_KDOC.replace(this) { it.value.replaceFirst("/**", "/*") }
+
+private val ORPHAN_KDOC = Regex("""/\*\*\n(?: \*.*\n)+ \*/\n(?=/\* (?:override )?var )""")
 
 private fun fileContent(
     annotations: String = "",

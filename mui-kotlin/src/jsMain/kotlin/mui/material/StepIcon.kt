@@ -13,46 +13,39 @@ import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
-external interface StepIconProps :
-    StandardProps,
-    HTMLAttributes<HTMLDivElement>,
-    PropsWithSx {
+external interface StepIconProps : StandardProps, HTMLAttributes<HTMLDivElement>, PropsWithSx {
     /**
      * Whether this step is active.
+     *
      * @default false
      */
     var active: Boolean?
 
-    /**
-     * Override or extend the styles applied to the component.
-     */
+    /** Override or extend the styles applied to the component. */
     var classes: StepIconClasses?
 
     /**
      * Mark the step as completed. Is passed to child components.
+     *
      * @default false
      */
     var completed: Boolean?
 
     /**
      * If `true`, the step is marked as failed.
+     *
      * @default false
      */
     var error: Boolean?
 
-    /**
-     * The label displayed in the step icon.
-     */
+    /** The label displayed in the step icon. */
     var icon: ReactNode
 
-    /**
-     * The system prop that allows defining system overrides as well as additional CSS styles.
-     */
+    /** The system prop that allows defining system overrides as well as additional CSS styles. */
     override var sx: SxProps<Theme>?
 }
 
 /**
- *
  * Demos:
  *
  * - [Stepper](https://mui.com/material-ui/react-stepper/)
@@ -62,5 +55,4 @@ external interface StepIconProps :
  * - [StepIcon API](https://mui.com/material-ui/api/step-icon/)
  * - inherits [SvgIcon API](https://mui.com/material-ui/api/svg-icon/)
  */
-@JsName("default")
-external val StepIcon: FC<StepIconProps>
+@JsName("default") external val StepIcon: FC<StepIconProps>

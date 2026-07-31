@@ -6,47 +6,23 @@ import seskar.js.JsValue
 
 sealed external interface SvgIconColor {
     companion object {
-        @JsValue("inherit")
-        val inherit: SvgIconColor
-
-        @JsValue("action")
-        val action: SvgIconColor
-
-        @JsValue("disabled")
-        val disabled: SvgIconColor
-
-        @JsValue("primary")
-        val primary: SvgIconColor
-
-        @JsValue("secondary")
-        val secondary: SvgIconColor
-
-        @JsValue("error")
-        val error: SvgIconColor
-
-        @JsValue("info")
-        val info: SvgIconColor
-
-        @JsValue("success")
-        val success: SvgIconColor
-
-        @JsValue("warning")
-        val warning: SvgIconColor
+        @JsValue("inherit") val inherit: SvgIconColor
+        @JsValue("action") val action: SvgIconColor
+        @JsValue("disabled") val disabled: SvgIconColor
+        @JsValue("primary") val primary: SvgIconColor
+        @JsValue("secondary") val secondary: SvgIconColor
+        @JsValue("error") val error: SvgIconColor
+        @JsValue("info") val info: SvgIconColor
+        @JsValue("success") val success: SvgIconColor
+        @JsValue("warning") val warning: SvgIconColor
     }
 }
 
 sealed external interface SvgIconSize {
     companion object {
-        @JsValue("inherit")
-        val inherit: SvgIconSize
-
-        @JsValue("large")
-        val large: SvgIconSize
-
-        @JsValue("medium")
-        val medium: SvgIconSize
-
-        @JsValue("small")
-        val small: SvgIconSize
+        @JsValue("inherit") val inherit: SvgIconSize
+        @JsValue("large") val large: SvgIconSize
+        @JsValue("medium") val medium: SvgIconSize
+        @JsValue("small") val small: SvgIconSize
     }
 }

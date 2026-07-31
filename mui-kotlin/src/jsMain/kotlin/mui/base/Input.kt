@@ -1,17 +1,13 @@
 // Automatically generated - do not modify!
 
 @file:JsModule("@mui/base/Input")
-
-@file:Suppress(
-    "VIRTUAL_MEMBER_HIDDEN",
-)
+@file:Suppress("VIRTUAL_MEMBER_HIDDEN")
 
 package mui.base
 
 import react.FC
 
 /**
- *
  * Demos:
  *
  * - [Input](https://mui.com/base-ui/react-input/)

@@ -7,7 +7,6 @@ package muix.tree.view
 import react.FC
 
 /**
- *
  * Demos:
  *
  * - [Tree View](https://mui.com/x/react-tree-view/)

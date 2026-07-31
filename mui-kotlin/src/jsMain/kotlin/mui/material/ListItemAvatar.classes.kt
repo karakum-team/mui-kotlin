@@ -9,8 +9,9 @@ import web.cssom.ClassName
 sealed external interface ListItemAvatarClasses {
     /** Styles applied to the root element. */
     val root: ClassName
-
-    /** Styles applied to the root element when the parent `ListItem` uses `alignItems="flex-start"`. */
+    /**
+     * Styles applied to the root element when the parent `ListItem` uses `alignItems="flex-start"`.
+     */
     val alignItemsFlexStart: ClassName
 }
 

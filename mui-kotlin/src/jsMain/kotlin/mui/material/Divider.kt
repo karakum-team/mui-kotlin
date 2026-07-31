@@ -14,63 +14,57 @@ import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLHRElement
 
-external interface DividerProps :
-    DividerOwnProps,
-    HTMLAttributes<HTMLHRElement>,
-    PropsWithComponent
+external interface DividerProps : DividerOwnProps, HTMLAttributes<HTMLHRElement>, PropsWithComponent
 
-external interface DividerOwnProps :
-    PropsWithChildren,
-    PropsWithSx {
+external interface DividerOwnProps : PropsWithChildren, PropsWithSx {
     /**
      * Absolutely position the element.
+     *
      * @default false
      */
     var absolute: Boolean?
 
-    /**
-     * The content of the component.
-     */
+    /** The content of the component. */
     override var children: ReactNode?
 
-    /**
-     * Override or extend the styles applied to the component.
-     */
+    /** Override or extend the styles applied to the component. */
     var classes: DividerClasses?
 
     /**
-     * If `true`, a vertical divider will have the correct height when used in flex container.
-     * (By default, a vertical divider will have a calculated height of `0px` if it is the child of a flex container.)
+     * If `true`, a vertical divider will have the correct height when used in flex container. (By
+     * default, a vertical divider will have a calculated height of `0px` if it is the child of a
+     * flex container.)
+     *
      * @default false
      */
     var flexItem: Boolean?
 
     /**
      * The component orientation.
+     *
      * @default 'horizontal'
      */
     var orientation: Orientation?
 
-    /**
-     * The system prop that allows defining system overrides as well as additional CSS styles.
-     */
+    /** The system prop that allows defining system overrides as well as additional CSS styles. */
     override var sx: SxProps<Theme>?
 
     /**
      * The text alignment.
+     *
      * @default 'center'
      */
     var textAlign: DividerTextAlign?
 
     /**
      * The variant to use.
+     *
      * @default 'fullWidth'
      */
     var variant: DividerVariant?
 }
 
 /**
- *
  * Demos:
  *
  * - [Divider](https://mui.com/material-ui/react-divider/)
@@ -81,5 +75,4 @@ external interface DividerOwnProps :
  *
  * - [Divider API](https://mui.com/material-ui/api/divider/)
  */
-@JsName("default")
-external val Divider: FC<DividerProps>
+@JsName("default") external val Divider: FC<DividerProps>

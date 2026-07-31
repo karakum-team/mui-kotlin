@@ -13,6 +13,4 @@ external interface MotionOptions {
 }
 
 @JsName("default")
-external fun createMotion(
-    inputMotion: MotionOptions? = definedExternally,
-): Motion
+external fun createMotion(inputMotion: MotionOptions? = definedExternally): Motion

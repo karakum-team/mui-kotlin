@@ -1,10 +1,7 @@
 // Automatically generated - do not modify!
 
 @file:JsModule("@mui/material/ImageListItemBar")
-
-@file:Suppress(
-    "VIRTUAL_MEMBER_HIDDEN",
-)
+@file:Suppress("VIRTUAL_MEMBER_HIDDEN")
 
 package mui.material
 
@@ -18,50 +15,41 @@ import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
 external interface ImageListItemBarProps :
-    StandardProps,
-    HTMLAttributes<HTMLDivElement>,
-    PropsWithSx {
+    StandardProps, HTMLAttributes<HTMLDivElement>, PropsWithSx {
     /**
-     * An IconButton element to be used as secondary action target
-     * (primary action target is the item itself).
+     * An IconButton element to be used as secondary action target (primary action target is the
+     * item itself).
      */
     var actionIcon: ReactNode?
 
     /**
      * Position of secondary action IconButton.
+     *
      * @default 'right'
      */
     var actionPosition: ActionPosition?
 
-    /**
-     * Override or extend the styles applied to the component.
-     */
+    /** Override or extend the styles applied to the component. */
     var classes: ImageListItemBarClasses?
 
     /**
      * Position of the title bar.
+     *
      * @default 'bottom'
      */
     var position: ImageListItemBarPosition?
 
-    /**
-     * String or element serving as subtitle (support text).
-     */
+    /** String or element serving as subtitle (support text). */
     var subtitle: ReactNode?
 
-    /**
-     * The system prop that allows defining system overrides as well as additional CSS styles.
-     */
+    /** The system prop that allows defining system overrides as well as additional CSS styles. */
     override var sx: SxProps<Theme>?
 
-    /**
-     * Title to be displayed.
-     */
+    /** Title to be displayed. */
     var title: ReactNode?
 }
 
 /**
- *
  * Demos:
  *
  * - [Image List](https://mui.com/material-ui/react-image-list/)
@@ -70,5 +58,4 @@ external interface ImageListItemBarProps :
  *
  * - [ImageListItemBar API](https://mui.com/material-ui/api/image-list-item-bar/)
  */
-@JsName("default")
-external val ImageListItemBar: FC<ImageListItemBarProps>
+@JsName("default") external val ImageListItemBar: FC<ImageListItemBarProps>

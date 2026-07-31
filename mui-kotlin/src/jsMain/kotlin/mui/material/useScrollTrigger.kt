@@ -15,6 +15,4 @@ external interface UseScrollTriggerOptions {
 }
 
 @JsName("default")
-external fun useScrollTrigger(
-    options: UseScrollTriggerOptions? = definedExternally,
-): Boolean
+external fun useScrollTrigger(options: UseScrollTriggerOptions? = definedExternally): Boolean

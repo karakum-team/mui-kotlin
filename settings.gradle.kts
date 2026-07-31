@@ -17,6 +17,9 @@ dependencyResolutionManagement {
 
             val seskarVersion = extra["seskar.version"] as String
             plugin("seskar", "io.github.turansky.seskar").version(seskarVersion)
+
+            val spotlessVersion = extra["spotless.version"] as String
+            plugin("spotless", "com.diffplug.spotless").version(spotlessVersion)
         }
 
         create("kotlinWrappers") {

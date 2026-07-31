@@ -8,30 +8,26 @@ import web.dom.ElementId
 import web.html.HTMLElement
 
 external interface UseTabPanelParameters {
-    /**
-     * The id of the TabPanel.
-     */
+    /** The id of the TabPanel. */
     var id: ElementId?
 
-    /**
-     * The ref of the TabPanel.
-     */
+    /** The ref of the TabPanel. */
     var rootRef: Ref<HTMLElement>?
 
     /**
-     * The value of the TabPanel. It will be shown when the Tab with the corresponding value is selected.
+     * The value of the TabPanel. It will be shown when the Tab with the corresponding value is
+     * selected.
      */
     var value: Any? /* number | string */
 }
 
 external interface UseTabPanelReturnValue {
-    /**
-     * If `true`, it indicates that the tab panel will be hidden.
-     */
+    /** If `true`, it indicates that the tab panel will be hidden. */
     var hidden: Boolean
 
     /**
      * Resolver for the root slot's props.
+     *
      * @param externalProps additional props for the root slot
      * @returns props that should be spread on the root slot
      */

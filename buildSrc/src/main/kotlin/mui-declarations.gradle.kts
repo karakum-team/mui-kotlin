@@ -8,6 +8,12 @@ tasks {
     val generateDeclarations by registering {
         dependsOn(":kotlinNpmInstall")
 
+        // The task declares no outputs (it must re-run on every build), so Gradle cannot infer that it
+        // conflicts with `clean` deleting the very directory it writes. Without this, `./gradlew clean
+        // build` may legally generate first and clean afterwards, leaving an empty source tree and a
+        // failure far from its cause.
+        mustRunAfter("clean")
+
         doLast {
             // Root of the npm tree rather than `@mui` itself: the generator already reaches outside
             // that scope for `@date-io/core`, and `@base-ui/react` is added as a target next.
