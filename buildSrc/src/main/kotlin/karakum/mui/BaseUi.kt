@@ -240,10 +240,9 @@ private val DECLARED_INTERFACE =
  *         className { state -> if (state.open) ClassName("open") else ClassName("closed") }
  *     }
  *
- * Emitted only for a part that renders an element — i.e. whose props extend one of the `BaseUi<Tag>Props`
- * markers — and only if its state type was generated. `MenuRoot` and `MenuSubmenuRoot` render nothing and
- * have no such props, so they get nothing; `MenuPortal` is *supposed* to have them and does not, because
- * its parent was lost (see BASE_UI_TODO.md).
+ * Emitted only for a part that renders an element — i.e. whose props extend one of the
+ * [ELEMENT_PROPS_MARKER] interfaces — and only if its state type was generated. In `menu` that is 18 of
+ * the 20 parts; `MenuRoot` and `MenuSubmenuRoot` render nothing and so have no such props to type.
  */
 internal fun baseUiStateHelpers(
     componentName: String,
@@ -276,9 +275,9 @@ internal fun baseUiStateHelpers(
  * The state-dependent arm of `$props.className`, upstream
  * `string | ((state: $state) => string | undefined)`.
  *
- * The prop itself is `Any?`: it is declared on [$marker], shared by every part that renders this tag,
- * which cannot name the state type. Assign a [web.cssom.ClassName] directly when the class does not
- * depend on state.
+ * The prop itself is `Any?`: it is inherited through [$marker] from a parent shared by every part that
+ * renders this tag, which cannot name one part's state type. Assign a [web.cssom.ClassName] directly
+ * when the class does not depend on state.
  */
 fun $props.className(
 block: (state: $state) -> web.cssom.ClassName?,
@@ -300,13 +299,19 @@ style = block
  * The callback arm of `$props.render`, upstream
  * `ReactElement | ((props: HTMLProps, state: $state) => ReactElement)`.
  *
- * `props` are the ones Base UI expects to be spread onto the element the callback returns; upstream types
- * them as its own `HTMLProps`, which is `HTMLAttributes<any> & { ref }`. Assign a [react.ReactElement]
- * directly to render a fixed element instead.
+ * `props` are the ones Base UI expects on the element the callback returns; upstream types them as its
+ * own `HTMLProps`, which is `HTMLAttributes<any> & { ref }`. Assign a [react.ReactElement] directly to
+ * render a fixed element instead.
  *
- * Base UI does not merge them for you — `useRenderElement` calls `render(props, state)` and uses the
- * result as it is — so whatever the callback leaves out is lost, `ref` and the `data-*` state attributes
- * included. Only the non-callback arm gets merged.
+ * Applying them is the callback's job — `useRenderElement` calls `render(props, state)` and takes the
+ * result as it is, merging nothing, so a callback that ignores `props` drops `ref` and the `data-*`
+ * state attributes with them. `+props` inside the element builder does it (`Object.assign` underneath):
+ *
+ *     render { props, _ -> hr.create { +props } }
+ *
+ * That copies `children` as well, so a builder using it must not also add children of its own: the
+ * wrappers' `jsx` reports "Both `children` source options used" and keeps the builder's, dropping the
+ * ones that came in through `props`.
  */
 fun $props.render(
 block: (props: react.dom.html.HTMLAttributes<web.html.HTMLElement>, state: $state) -> react.ReactElement<*>,
@@ -339,10 +344,12 @@ private fun declarationParents(
         // in which case the match above would have run on to the next declaration's brace.
         ?.takeIf { "external " !in it }
 
-// `BaseUiDivProps`, `BaseUiSpanProps`, … — the per-tag parents from `BASE_UI_ELEMENT_PROPS`, and the only
-// parents that carry `className` / `style` / `render`. `Ui`, not `UI`: `BaseUIChangeEventDetails` is a
-// stub, not a marker, and must not match.
-private val ELEMENT_PROPS_MARKER = Regex("""\bBaseUi\w+Props\b""")
+// The interfaces that carry `className` / `style` / `render`: the per-tag parents from
+// `BASE_UI_ELEMENT_PROPS` (`BaseUiDivProps`, `BaseUiSpanProps`, …) plus the hand-written stubs that
+// extend one of them. `Ui`, not `UI`: `BaseUIChangeEventDetails` is a stub, not a marker, and must not
+// match. Listed rather than resolved transitively — `declarationParents` reads one file's body, which
+// does not contain the parents' own declarations.
+private val ELEMENT_PROPS_MARKER = Regex("""\b(?:BaseUi\w+Props|FloatingPortalProps)\b""")
 
 private val WHITESPACE = Regex("""\s+""")
 
@@ -396,8 +403,73 @@ internal fun adaptBaseUiContent(
         .expandEmptyInterfaceBodies()
         .flattenBaseUiNamespaces(aliases)
         .interfaceEventDetails()
+        .resolveNamespaceStubs()
         .resolveComponentProps()
         .arrowifyMethodSignatures()
+
+/**
+ * Rewrites references to an interface declared *inside* a namespace to the hand-written stub standing in
+ * for it.
+ *
+ * [flattenBaseUiNamespaces] resolves the `type Props = MenuPopupProps` members of a namespace, which is
+ * every namespace in the part files. A handful of namespaces elsewhere in the package instead declare
+ * their member as an `interface` with a body — there is no flat declaration to redirect to, because the
+ * namespace member *is* the declaration:
+ *
+ *     export declare namespace FloatingPortal {
+ *       interface Props<TState> extends BaseUIComponentProps<'div', TState> {
+ *         container?: UseFloatingPortalNodeProps['container'] | undefined;
+ *       }
+ *     }
+ *
+ * Left alone, `MenuPortalProps extends FloatingPortal.Props<MenuPortalState>` loses its parent entirely:
+ * a dotted name is not an identifier, so `ParentType.isAcceptableParent` drops it and the props end up
+ * extending nothing but `react.Props` — no `children`, no `className`, no div attributes. All of those
+ * come from `BaseUIComponentProps<'div', …>`, which the stub extends in the one form Kotlin can express.
+ *
+ * The use-site type argument is dropped, as [EVENT_DETAILS_ALIAS] and [resolveComponentProps] also do:
+ * it only parameterizes the state type, the stubs are not generic, and [flattenBaseUiNamespaces] would
+ * otherwise preserve it and produce `FloatingPortalProps<MenuPortalState>`.
+ */
+private fun String.resolveNamespaceStubs(): String =
+    NAMESPACE_STUBS.entries.fold(this) { content, (reference, stub) ->
+        stubReference(reference).replace(content, stub)
+    }
+
+// One level of nesting is tolerated in the argument list, as `COMPONENT_PROPS` does: the next entry due
+// here is `AriaCombobox.Props`, whose only use site is
+// `Omit<AriaCombobox.Props<Value, ModeFromMultiple<Multiple>>, …>`. The lookbehind keeps a longer dotted
+// path from being rewritten through its tail (no such path exists in 1.6.0, but the table is meant to
+// grow), and the lookahead keeps `FloatingPortal.PropsSomething` from matching.
+private fun stubReference(reference: String): Regex =
+    Regex(
+        """(?<![A-Za-z0-9_.])""" + Regex.escape(reference) +
+                """(?:<(?:[^<>]|<[^<>]*>)*>)?(?![A-Za-z0-9_])"""
+    )
+
+// `<Namespace>.<Member>` → the stub in `BASE_UI_STUBS` that replaces it. `AriaCombobox.Props` and
+// `.Actions` have the same shape and will need entries here when combobox / autocomplete are added.
+private val NAMESPACE_STUBS = mapOf(
+    "FloatingPortal.Props" to "FloatingPortalProps",
+)
+
+/**
+ * The stubs from [NAMESPACE_STUBS] that no generated declaration ended up referring to.
+ *
+ * A rewrite that stops matching is otherwise invisible: the reference just fails
+ * `ParentType.isAcceptableParent` again and the props silently go back to extending nothing but
+ * `react.Props`, taking `children` with them — which is the whole regression this machinery exists to
+ * prevent. Upstream renaming or reshaping the namespace member is the way that happens.
+ */
+internal fun unusedNamespaceStubs(
+    bodies: Iterable<String>,
+): List<String> {
+    val referenced = bodies.flatMapTo(mutableSetOf()) { body ->
+        NAMESPACE_STUBS.values.filter { stub -> Regex("""\b$stub\b""").containsMatchIn(body) }
+    }
+
+    return NAMESPACE_STUBS.values.filter { it !in referenced }
+}
 
 /**
  * `export interface MenuGroupLabelProps extends BaseUIComponentProps<'div', MenuGroupLabelState> {}`

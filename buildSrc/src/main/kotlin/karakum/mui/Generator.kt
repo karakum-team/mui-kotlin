@@ -911,6 +911,28 @@ external interface BaseUIGenericEventDetails {
  * Positioner props currently inherit nothing from it — see BASE_UI_TODO.md.
  */
 external interface UseAnchorPositioningSharedParameters
+
+/**
+ * `floating-ui-react/components/FloatingPortal.d.ts`, where it is `interface Props<TState>` declared
+ * inside the `FloatingPortal` namespace — a shape with no flat declaration to redirect to, and one
+ * `floating-ui-react/` is not generated from at all. Written by hand so that `MenuPortalProps`, which
+ * extends it, keeps a parent; see `resolveNamespaceStubs` in BaseUi.kt.
+ *
+ * Upstream it is `BaseUIComponentProps<'div', TState>` plus `container`, so extending
+ * [BaseUiDivProps] reproduces the whole surface — `children` above all, without which a portal cannot
+ * hold the popup it exists to move.
+ */
+external interface FloatingPortalProps : BaseUiDivProps {
+    /**
+     * A parent element to render the portal element into.
+     *
+     * `Any?` rather than the usual narrowing to the dominant arm: the union is
+     * `HTMLElement | ShadowRoot | RefObject<HTMLElement | ShadowRoot | null> | null`, and `ShadowRoot`
+     * is not an `Element` while the ref arm is not a node at all, so every candidate narrowing would be
+     * wrong for two of the four.
+     */
+    var container: Any? /* HTMLElement | ShadowRoot | React.RefObject<HTMLElement | ShadowRoot | null> | null */
+}
 """.trimIndent()
 
 // Kotlin counterpart of Base UI's `BaseUIComponentProps<ElementType, State>` — see
@@ -1026,6 +1048,9 @@ private fun generateBaseUiDeclarations(
                 pkg = Package.baseUi,
             )
         )
+
+    for (stub in unusedNamespaceStubs(bodies))
+        println("Base UI: nothing referred to the $stub stub — has its upstream declaration changed?")
 
     // The namespace objects are what makes the types above renderable, and go last: a part is exposed
     // only if its props type is among the ones just written.

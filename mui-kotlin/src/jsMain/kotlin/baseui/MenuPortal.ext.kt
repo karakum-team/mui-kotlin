@@ -9,28 +9,28 @@ import web.cssom.ClassName
 import web.html.HTMLElement
 
 /**
- * The state-dependent arm of `MenuArrowProps.className`, upstream `string | ((state:
- * MenuArrowState) => string | undefined)`.
+ * The state-dependent arm of `MenuPortalProps.className`, upstream `string | ((state:
+ * MenuPortalState) => string | undefined)`.
  *
- * The prop itself is `Any?`: it is inherited through [BaseUiDivProps] from a parent shared by every
- * part that renders this tag, which cannot name one part's state type. Assign a [ClassName]
+ * The prop itself is `Any?`: it is inherited through [FloatingPortalProps] from a parent shared by
+ * every part that renders this tag, which cannot name one part's state type. Assign a [ClassName]
  * directly when the class does not depend on state.
  */
-fun MenuArrowProps.className(block: (state: MenuArrowState) -> ClassName?) {
+fun MenuPortalProps.className(block: (state: MenuPortalState) -> ClassName?) {
     className = block
 }
 
 /**
- * The state-dependent arm of `MenuArrowProps.style`, upstream `CSSProperties | ((state:
- * MenuArrowState) => CSSProperties | undefined)`. See [MenuArrowProps.className].
+ * The state-dependent arm of `MenuPortalProps.style`, upstream `CSSProperties | ((state:
+ * MenuPortalState) => CSSProperties | undefined)`. See [MenuPortalProps.className].
  */
-fun MenuArrowProps.style(block: (state: MenuArrowState) -> CSSProperties?) {
+fun MenuPortalProps.style(block: (state: MenuPortalState) -> CSSProperties?) {
     style = block
 }
 
 /**
- * The callback arm of `MenuArrowProps.render`, upstream `ReactElement | ((props: HTMLProps, state:
- * MenuArrowState) => ReactElement)`.
+ * The callback arm of `MenuPortalProps.render`, upstream `ReactElement | ((props: HTMLProps, state:
+ * MenuPortalState) => ReactElement)`.
  *
  * `props` are the ones Base UI expects on the element the callback returns; upstream types them as
  * its own `HTMLProps`, which is `HTMLAttributes<any> & { ref }`. Assign a [ReactElement] directly
@@ -47,8 +47,8 @@ fun MenuArrowProps.style(block: (state: MenuArrowState) -> CSSProperties?) {
  * wrappers' `jsx` reports "Both `children` source options used" and keeps the builder's, dropping
  * the ones that came in through `props`.
  */
-fun MenuArrowProps.render(
-    block: (props: HTMLAttributes<HTMLElement>, state: MenuArrowState) -> ReactElement<*>
+fun MenuPortalProps.render(
+    block: (props: HTMLAttributes<HTMLElement>, state: MenuPortalState) -> ReactElement<*>
 ) {
     render = block
 }

@@ -7,9 +7,7 @@
 
 package baseui
 
-import react.Props
-
-external interface MenuPortalProps : Props {
+external interface MenuPortalProps : FloatingPortalProps {
     /**
      * Whether to keep the portal mounted in the DOM while the popup is hidden.
      *
