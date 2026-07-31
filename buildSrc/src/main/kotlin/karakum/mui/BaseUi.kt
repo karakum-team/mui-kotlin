@@ -600,35 +600,64 @@ private val INTERFACE_BLOCK = Regex("""^export interface (\w+) \{\n(.*?)\n}\n"""
 private val CALL_SIGNATURE = Regex("""^\s*(?:<[^>]*>)?\([^\n]*\):""", RegexOption.MULTILINE)
 
 /**
- * Turns the `…ChangeEventDetails` / `…HighlightEventDetails` type aliases into interfaces, which is
- * what the converter can emit.
+ * Turns the `…EventDetails` type aliases into interfaces, which is what the converter can emit.
  *
- * Runs after [flattenBaseUiNamespaces], so the right-hand side is already a flat name. Two shapes
- * occur, and both become an interface extending the aliased type:
+ * Runs after [flattenBaseUiNamespaces], so the right-hand side is already a flat name. Three shapes
+ * occur, and all become an interface extending the aliased type:
  *
  *     export type MenuRootChangeEventDetails = BaseUIChangeEventDetails<MenuRootChangeEventReason> & {
  *       preventUnmountOnClose(): void;
  *     };
  *     export type MenuRadioGroupChangeEventDetails = MenuRootChangeEventDetails;
+ *     export type SliderRootCommitEventDetails = BaseUIGenericEventDetails<SliderRootCommitEventReason>;
  *
- * As TS type aliases neither form is emitted: the first is an intersection, and `BaseUIChangeEventDetails`
- * itself is a conditional type over a mapped reason→event table that cannot be translated at all (it is
- * provided as a hand-written stub instead). Modelling them as inheritance keeps `reason` / `event` /
- * `cancel()` reachable, which is the whole point of the type at a call site.
+ * As TS type aliases none of them are emitted: the first is an intersection, and the two
+ * `BaseUI*EventDetails` bases are conditional types over a mapped reason→event table that cannot be
+ * translated at all (they are provided as hand-written stubs instead). Modelling them as inheritance
+ * keeps `reason` / `event` / `cancel()` reachable, which is the whole point of the type at a call site.
+ *
+ * The alias name is matched on the `EventDetails` suffix alone. It used to require `Change` or
+ * `Highlight` before it, which silently dropped the whole declaration for the other four kinds the
+ * package uses — `Commit` (`slider`, `number-field`), `Submit` (`form`), `Invalid` and `Complete`
+ * (`otp-field`) — leaving the handler that takes one pointing at a type that was never emitted.
+ *
+ * The base's *first* type argument is dropped: it names the reason union, which parameterizes nothing
+ * the stub declares. A *second* argument is not a parameterization at all but a bag of extra fields that
+ * upstream intersects in (`BaseUIChangeEventDetails<Reason, CustomProperties>`), so it becomes a second
+ * parent — otherwise `SliderRootChangeEventDetails` loses `activeThumbIndex` and the
+ * `SliderRootChangeEventCustomProperties` that carries it is generated with nothing referring to it.
  */
 private fun String.interfaceEventDetails(): String =
     EVENT_DETAILS_ALIAS.replace(this) { match ->
-        val (name, parent, members) = match.destructured
+        val (name, base, typeArguments, members) = match.destructured
+
+        val second = typeArguments.depthAwareSplitOnComma().getOrNull(1)
+        val customProperties = when {
+            second == null -> null
+
+            // Declared in this file, so the converter will emit it and Kotlin can name it. `combobox`
+            // passes an inline object literal instead (`BaseUIGenericEventDetails<Reason, { … }>`),
+            // which has no Kotlin form and no name to extend.
+            "export interface $second " in this || "export interface $second\n" in this -> second
+
+            else -> {
+                println("Base UI: $name drops the extra properties of $base<…, $second>")
+                null
+            }
+        }
+
+        val parents = listOfNotNull(base, customProperties).joinToString(", ")
 
         // The closing brace must start its own line: the shared member extractor cuts bodies at the
         // `\n}` boundary, and a brace trailing the last member makes it run on into whatever follows.
-        "export interface $name extends $parent {${members.trimEnd()}\n}\n"
+        "export interface $name extends $parents {${members.trimEnd()}\n}\n"
     }
 
-// `export type X(Change|Highlight)EventDetails = Parent<…>[ & { members }];`
-// The parent's own type arguments are dropped: the stub is not generic (see BASE_UI_STUBS).
+// `export type XEventDetails = Base<args>[ & { members }];` — the arguments are captured rather than
+// skipped so the second one can be kept (see above); one level of nesting is tolerated in them, as
+// `COMPONENT_PROPS` does.
 private val EVENT_DETAILS_ALIAS = Regex(
-    """^export type (\w+(?:Change|Highlight)EventDetails) = (\w+)(?:<[^>]*>)?(?: & \{(.*?)\n})?;\n""",
+    """^export type (\w+EventDetails) = (\w+)(?:<((?:[^<>]|<[^<>]*>)*)>)?(?: & \{(.*?)\n})?;\n""",
     setOf(RegexOption.MULTILINE, RegexOption.DOT_MATCHES_ALL),
 )
 

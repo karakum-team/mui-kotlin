@@ -192,4 +192,7 @@ external interface SliderRootChangeEventCustomProperties {
     var activeThumbIndex: Number
 }
 
-external interface SliderRootChangeEventDetails : BaseUIChangeEventDetails
+external interface SliderRootChangeEventDetails :
+    BaseUIChangeEventDetails, SliderRootChangeEventCustomProperties
+
+external interface SliderRootCommitEventDetails : BaseUIGenericEventDetails
