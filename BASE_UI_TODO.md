@@ -14,6 +14,13 @@ had breaking changes across 1.x.
   hardcodes `@mui`.
 - **P1/P2 (partial)** — `menu` module: 20 parts + `Separator`, types only, compiling.
   `:mui-kotlin` and `:playground` both green.
+- **Namespace object** — `baseui/Menu.kt`: `external object Menu` under
+  `@file:JsModule("@base-ui/react/menu")`, one `val <Alias>: FC<<Part>Props>` per part, synthesized from
+  `index.parts.d.ts`. This is the module's only value export, so it is the only way to reach a part at
+  runtime. `Handle` / `createHandle` are not components and have no props type; they are logged and
+  recorded in the object's KDoc rather than dropped silently. The namespace name is read from
+  `export * as Menu` in `index.d.ts` rather than derived from the module id — `otp-field` exports
+  `OTPField`, which kebab-to-Pascal would get wrong.
 
 ## Facts that contradict the plan documents
 
@@ -30,23 +37,34 @@ had breaking changes across 1.x.
 
 ## Open gaps in the generated `menu` output
 
-Ordered by how much API they cost.
+Ordered by how much API they cost. The numbers are stable identifiers, not positions: gap 1 (the missing
+namespace object) is closed and its entry removed, so the list starts at 2.
 
-1. **No namespace object yet — the module has no values.** Only types are generated. `external object
-   Menu { val Root: FC<MenuRootProps>; … }` under `@file:JsModule("@base-ui/react/menu")` is still to
-   be synthesized from `index.parts.d.ts` (already parsed into `BaseUiPart`, including the aliases).
-   Until then nothing is renderable. Pitfall found in review: `Package.baseUi` has `id = ""`, and
-   `generate()` derives `subpackage` as `null` for this package, so a naive `moduleDeclaration` call
-   would emit `@file:JsModule("@base-ui/react")` instead of `.../menu`. The module segment has to be
-   passed explicitly.
-2. **`MenuPortalProps` lost its parent, so `Menu.Portal` has no `children`.** Upstream it extends
-   `FloatingPortal.Props<MenuPortalState>`, declared as an `interface` *inside* a namespace
-   (`floating-ui-react/components/FloatingPortal.d.ts`). `buildBaseUiAliases` only collects `type`
-   members, so the reference is never flattened and `ParentType.isAcceptableParent()` drops it (a dotted
-   name is not an identifier). Cost: `container`, plus everything inherited from
-   `BaseUIComponentProps<'div', …>` — `children`, `className`, `style`, `render`, all div attributes.
-   A Portal without `children` cannot render. `AriaCombobox.Props` / `.Actions` have the same shape and
-   will hit combobox and autocomplete.
+2. **`MenuPortalProps` lost its parent, so `Menu.Portal` has no `children` — this is now the one thing
+   keeping `menu` from rendering.** Upstream it extends `FloatingPortal.Props<MenuPortalState>`, declared
+   as an `interface` *inside* a namespace (`floating-ui-react/components/FloatingPortal.d.ts`).
+   `buildBaseUiAliases` only collects `type` members, so the reference is never flattened and
+   `ParentType.isAcceptableParent()` drops it (a dotted name is not an identifier). Cost: `container`,
+   plus everything inherited from `BaseUIComponentProps<'div', …>` — `children`, `className`, `style`,
+   `render`, all div attributes. `AriaCombobox.Props` / `.Actions` have the same shape and will hit
+   combobox and autocomplete.
+
+   Measured with the namespace object in place: `Menu.Root { Menu.Trigger { +"Open" } }` and
+   `Menu.Positioner { Menu.Popup { Menu.Item { … } } }` compile, but wrapping the positioner in
+   `Menu.Portal { … }` does not — *"`ElementType<P>.invoke(noinline block: P.() -> Unit)` cannot be
+   called in this context with an implicit receiver"*, because `MenuPortalProps : Props` never reaches
+   `PropsWithChildren` (the other 19 parts get there through `DOMAttributes`). And the Portal is not
+   optional: `useMenuPortalContext()`, which `MenuPositioner` calls, throws
+   `Base UI: <Menu.Portal> is missing.` So the canonical `Root > Trigger + Portal > Positioner > Popup`
+   tree cannot be assembled from Kotlin at all, which is also why there is no `menu` sample in the
+   playground yet.
+
+   Two facts for whoever fixes it: `FloatingPortal.Props<TState>` adds only `container` over
+   `BaseUIComponentProps<'div', TState>`, so a hand-written `FloatingPortalProps : BaseUiDivProps` stub
+   would restore the whole surface; and the flattening must drop the *use-site* type argument
+   (`FloatingPortal.Props<MenuPortalState>` → `FloatingPortalProps`, not
+   `FloatingPortalProps<MenuPortalState>`) — the same thing `EVENT_DETAILS_ALIAS` already does for the
+   event-details stubs — or else the stub has to be generic in a state type it does not use.
 3. **Members declared `T | undefined` without `?` come out non-null.** Base UI writes optional props
    this way in 137 places; MUI always pairs `| undefined` with `?`, so `KotlinType.kt:181` /
    `KotlinType.kt:372` strip the suffix and return a non-null type. Already visible on 4 members:
@@ -92,6 +110,15 @@ Ordered by how much API they cost.
 12. **`VIRTUAL_MEMBER_HIDDEN` and `VAR_TYPE_MISMATCH_ON_OVERRIDE` are suppressed package-wide.**
    Justified — Base UI re-declares inherited props, and `WithBaseUIEvent<T>` re-types every inherited
    DOM handler — but a real `override` would be better than a blanket suppress.
+13. **`combobox` re-exports `Separator` through the module's `index.d.ts`, not the part file.**
+   `export { Separator } from "../separator/index.js"` resolves to `separator/index.d.ts`, from which
+   `generate()` takes the *parent directory* name as the component name — so it would write
+   `separator.kt`, lowercase, next to the `Separator.kt` that `menu` produces from
+   `../separator/Separator.js`. On a case-insensitive filesystem those are one file, and which of the two
+   wins depends on generation order. `menu` alone is unaffected. (`toolbar`'s other odd shape,
+   `export { type Orientation }`, is handled: `parseBaseUiParts` now drops type-only bindings, which
+   would otherwise have become an alias spelled `type Orientation` and pulled `internals/types.d.ts`
+   into the generated set.)
 
 ## Deliberately not generated
 
@@ -104,13 +131,20 @@ Ordered by how much API they cost.
   data-attribute and CSS-variable constants, and a better one than the `docs/*.md` the plan proposed.
   Not wired up yet.
 - Callable interfaces (`export interface MenuTrigger { <Payload>(props): JSX.Element }`) are dropped:
-  they type the component value, which the namespace object will express as `FC<…Props>`.
+  they type the component value, which the namespace object expresses as `FC<…Props>` instead.
+- The non-component members of a namespace object: `Menu.Handle` / `Menu.createHandle` and, in the
+  modules still to come, `Dialog.Handle`, `Toast.useToastManager` / `createToastManager`,
+  `Combobox.useFilter` / `useFilteredItems`, `DirectionProvider.useDirection`. 25 of the package's 283
+  parts are one of these — a `declare class` or a hook/factory function rather than a component — and
+  each needs its own design (see the imperative-API note under "Remaining phases"). `baseUiNamespaceObject`
+  detects them by the absence of a generated `<Part>Props` and logs each one.
 
 ## Remaining phases
 
 `menu` is the vertical slice; `BASE_UI_MODULES` in `Generator.kt` is the allow-list to extend.
 
-- Namespace objects + `.ext.kt` helpers (gaps 1 and 7 above).
+- `Menu.Portal`'s lost parent (gap 2) — without it the module still cannot be rendered, so it comes
+  before adding any further module. Then `.ext.kt` state helpers (gap 11) and a playground sample.
 - Utils and the 13 flat modules: `use-render`, `merge-props`, `csp-provider`, `direction-provider`,
   `button`, `separator`, `input`, `form`, `toggle`, `toggle-group`, `radio-group`, `checkbox-group`,
   `menubar`, `unstable-use-media-query`.

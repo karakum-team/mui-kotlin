@@ -34,6 +34,11 @@ internal data class BaseUiPart(
 internal data class BaseUiModule(
     /** npm subpath and output package segment: `menu`, `number-field` → `numberField`. */
     val id: String,
+    /**
+     * Name of the namespace object the module exports (`Menu`), or `null` for a module that exports its
+     * values directly. See [parseBaseUiNamespace].
+     */
+    val namespace: String?,
     val parts: List<BaseUiPart>,
 )
 
@@ -61,6 +66,11 @@ internal fun parseBaseUiParts(
             bindings.split(",")
                 .map { it.trim() }
                 .filter { it.isNotEmpty() }
+                // `export { type Orientation } from "../internals/types.js"` (toolbar) re-exports a type,
+                // not a part: it names no value, and its target is `internals/`, which is not generated.
+                // Left in, its "alias" would be the two words `type Orientation` — not a Kotlin
+                // identifier, and so not usable as a member name of the namespace object.
+                .filter { !it.startsWith("type ") }
                 .map { binding ->
                     val declaredName = binding.substringBefore(" as ").trim()
                     val alias = binding.substringAfter(" as ", declaredName).trim()
@@ -71,6 +81,31 @@ internal fun parseBaseUiParts(
 }
 
 private val EXPORT_CLAUSE = Regex("""export\s*\{([^}]*)}\s*from\s*"([^"]*)";""")
+
+/**
+ * Reads the name of the module's namespace object from its `index.d.ts`:
+ *
+ *     export * as Menu from "./index.parts.js";
+ *
+ * This is the only *value* the module exports (everything else in `index.d.ts` is `export type *`), so
+ * it is also the only way to reach a part at runtime — see [baseUiNamespaceObject].
+ *
+ * Read rather than derived from [BaseUiModule.id]: kebab-to-Pascal would give `OtpField` for
+ * `otp-field`, whose namespace is actually `OTPField`. `null` for the modules that export their values
+ * directly and have no namespace object — the 13 flat ones plus `csp-provider` / `direction-provider`,
+ * which do have an `index.parts.d.ts`.
+ */
+internal fun parseBaseUiNamespace(
+    indexFile: File,
+): String? {
+    if (!indexFile.exists())
+        return null
+
+    return NAMESPACE_EXPORT.find(indexFile.readText())
+        ?.groupValues?.get(1)
+}
+
+private val NAMESPACE_EXPORT = Regex("""export \* as (\w+) from "\./index\.parts\.js";""")
 
 /**
  * Discovers the public modules of `@base-ui/react` from its `exports` map keys, which is also what
@@ -101,9 +136,96 @@ internal fun baseUiModules(
                 }
             }
 
-            BaseUiModule(id = id, parts = parts.filter { it.file.exists() })
+            BaseUiModule(
+                id = id,
+                namespace = parseBaseUiNamespace(dir.resolve("index.d.ts")),
+                parts = parts.filter { it.file.exists() },
+            )
         }
         .filter { it.parts.isNotEmpty() }
+
+/**
+ * Synthesizes the module's namespace object — the values that make the generated types renderable.
+ *
+ * `menu/index.d.ts` exports its parts as one object (`export * as Menu from "./index.parts.js"`), and
+ * the package's `exports` map has no wildcard entry, so a part's own subpath
+ * (`@base-ui/react/menu/popup/MenuPopup`) is not importable at all: `Menu.Popup` is the only way to
+ * reach a part at runtime. The Kotlin counterpart is an `external object` in a file annotated
+ * `@file:JsModule("@base-ui/react/menu")`.
+ *
+ * A part is exposed as `FC<…Props>` only when that props interface is in [declaredTypes] — i.e. it
+ * actually reached the generated Kotlin. The rest are listed in the object's documentation rather than
+ * dropped in silence: in `menu` they are `Handle` (the `declare class MenuHandle`, which converts to an
+ * empty body) and its `createHandle` factory, neither of which is a component.
+ *
+ * Returns `null` for a module with no namespace object (see [parseBaseUiNamespace]).
+ */
+internal fun baseUiNamespaceObject(
+    module: BaseUiModule,
+    declaredTypes: Set<String>,
+): String? {
+    val namespace = module.namespace ?: return null
+
+    // An alias becomes a property name of the object and so must appear once — defensively, since no
+    // `index.parts.d.ts` in 1.6.0 lists one twice (a file can back two, but under different aliases:
+    // `Menu.Handle` and `Menu.createHandle` both come from `MenuHandle.d.ts`). Sorted to keep the member
+    // order independent of the order `index.parts.d.ts` happens to list the parts in.
+    val (components, unexposed) = module.parts
+        .distinctBy { it.alias }
+        .sortedBy { it.alias }
+        .partition { "${it.declaredName}Props" in declaredTypes }
+
+    // Each omission is logged as well as documented in the object: a part missing from an otherwise
+    // plausible-looking namespace object is not visible in the generated output.
+    for (part in unexposed)
+        println("Base UI $namespace: no generated ${part.declaredName}Props, '${part.alias}' not exposed")
+
+    if (components.isEmpty()) {
+        println("Skipping Base UI namespace object '$namespace': no part has a generated props type")
+        return null
+    }
+
+    val unexposedNote = if (unexposed.isEmpty()) "" else
+        "\n *\n * Omitted, having no generated props type: " +
+                unexposed.joinToString(", ") { "`${it.alias}`" } + "."
+
+    val members = components.joinToString("\n") { part ->
+        "val ${part.alias}: react.FC<${part.declaredName}Props>"
+    }
+
+    // Emitted without indentation, as every generated body is — spotless formats the tree afterwards.
+    return """
+/**
+ * `export * as $namespace` from `@base-ui/react/${module.id}` — the module's only value export.
+ *
+ * The package's `exports` map has no wildcard entry, so a part's own subpath is not importable: this
+ * object is the only way to reach a part at runtime.$unexposedNote
+ */
+external object $namespace {
+$members
+}
+""".trim()
+}
+
+/**
+ * Names of the `external interface` declarations in the given file bodies — the props and state types
+ * that made it into Kotlin, which is what [baseUiNamespaceObject] checks a part against.
+ *
+ * Read off the emitted bodies rather than the `.d.ts`: a props type can be declared upstream and still
+ * not be emitted (`ComboboxRootProps` is an `Omit<…> &` intersection, which has no Kotlin equivalent),
+ * and a namespace member referring to a type that does not exist would not compile. The hand-written
+ * bodies count too, so that a part whose props type is supplied as a stub is still exposed.
+ */
+internal fun baseUiDeclaredTypes(
+    bodies: Iterable<String>,
+): Set<String> =
+    bodies.flatMapTo(mutableSetOf()) { body ->
+        DECLARED_INTERFACE.findAll(body).map { it.groupValues[1] }
+    }
+
+// Generated bodies are emitted without indentation, so a declaration always starts its own line.
+private val DECLARED_INTERFACE =
+    Regex("""^(?:sealed )?external interface (\w+)""", RegexOption.MULTILINE)
 
 /**
  * Rewrites `Component.Part`-style namespace references to the flat declarations they alias, then drops

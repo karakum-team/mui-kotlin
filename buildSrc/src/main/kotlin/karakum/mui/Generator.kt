@@ -280,7 +280,8 @@ private enum class Package(
 
     // Base UI is a standalone library, not part of MUI, so it gets its own top-level package rather
     // than living under `mui.*`. `id` is empty because the npm subpath is the module name
-    // (`@base-ui/react/menu`), which is appended per module — see `baseUiModuleDeclaration`.
+    // (`@base-ui/react/menu`): `moduleDeclaration` is given that segment as its `subpackage` instead,
+    // see `generateBaseUiDeclarations`.
     baseUi("", "baseui", scope = "@base-ui/react"),
 
     ;
@@ -980,7 +981,9 @@ private fun generateBaseUiDeclarations(
     val targetDir = sourceDir.resolve("baseui")
         .also { it.mkdirs() }
 
-    val files = baseUiModules(typesDir, BASE_UI_MODULES)
+    val modules = baseUiModules(typesDir, BASE_UI_MODULES)
+
+    val files = modules
         .flatMap { it.parts }
         // A part file can be referenced more than once: `store/MenuHandle.d.ts` backs both `Handle` and
         // `createHandle`, and shared parts (`../separator/Separator.d.ts`) are re-exported by several
@@ -992,7 +995,7 @@ private fun generateBaseUiDeclarations(
     // extends `MenuRoot.Props`), so a per-file map would leave those unresolved.
     val aliases = buildBaseUiAliases(files)
 
-    files.forEach { file ->
+    val bodies = files.mapNotNull { file ->
         generate(
             definitionFile = file,
             targetDir = targetDir,
@@ -1002,13 +1005,15 @@ private fun generateBaseUiDeclarations(
         )
     }
 
-    sequenceOf(
+    val handWritten = listOf(
         "Side" to BASE_UI_SIDE,
         "Align" to BASE_UI_ALIGN,
         "Orientation" to BASE_UI_ORIENTATION,
         "TransitionStatus" to BASE_UI_TRANSITION_STATUS,
         "Stubs" to BASE_UI_STUBS,
-    ).forEach { (name, body) ->
+    )
+
+    handWritten.forEach { (name, body) ->
         targetDir.resolve("$name.kt")
             .writeText(fileContent(body = body, pkg = Package.baseUi))
     }
@@ -1021,6 +1026,35 @@ private fun generateBaseUiDeclarations(
                 pkg = Package.baseUi,
             )
         )
+
+    // The namespace objects are what makes the types above renderable, and go last: a part is exposed
+    // only if its props type is among the ones just written.
+    val declaredTypes = baseUiDeclaredTypes(
+        bodies + handWritten.map { (_, body) -> body } + BASE_UI_ELEMENT_PROPS
+    )
+
+    modules.forEach { module ->
+        // A flat module has no namespace object — its values are exported directly.
+        val namespace = module.namespace ?: return@forEach
+        val body = baseUiNamespaceObject(module, declaredTypes)
+            ?: return@forEach
+
+        targetDir.resolve("$namespace.kt")
+            .writeText(
+                fileContent(
+                    // `Package.baseUi.id` is empty and `generate` derives no subpackage for it, so the
+                    // module segment has to be passed here — otherwise the annotation would come out as
+                    // `@file:JsModule("@base-ui/react")` and resolve to the package root.
+                    annotations = moduleDeclaration(
+                        pkg = Package.baseUi,
+                        subpackage = module.id,
+                        componentName = null,
+                    ),
+                    body = body,
+                    pkg = Package.baseUi,
+                )
+            )
+    }
 }
 
 private fun generateDeteioDeclarations(
@@ -1067,6 +1101,13 @@ private fun moduleDeclaration(
 }
 
 
+/**
+ * Converts one `.d.ts` into the `<Component>.kt` (plus `.ext.kt` / `.classes.kt`) files it yields.
+ *
+ * Returns the declaration body that was written, or `null` when nothing was — the source is missing, or
+ * it converted to no declarations at all. Callers that need to know which types now exist use it;
+ * everyone else ignores it.
+ */
 private fun generate(
     definitionFile: File,
     targetDir: File,
@@ -1074,7 +1115,7 @@ private fun generate(
     fullPath: Boolean = false,
     typesOnly: Boolean = false,
     preprocess: ((String) -> String)? = null,
-) {
+): String? {
     // MUI v6 sometimes ships only `<Component>/index.d.ts` (e.g. useMediaQuery, OverridableComponent).
     // Fall back to it when the standard `<Component>.d.ts` is missing.
     val actualFile = if (!definitionFile.exists()) {
@@ -1087,7 +1128,7 @@ private fun generate(
     // instead of writing a stub or crashing on the missing-file read below.
     if (!actualFile.exists()) {
         println("Skipping generation for ${definitionFile.path}: no declaration file found")
-        return
+        return null
     }
 
     val componentName = when {
@@ -1146,6 +1187,7 @@ private fun generate(
         }
     }
 
+    var emittedBody: String? = null
     if (componentName != "CalendarPickerView" && componentName != "createTypography") {
         val finalBody = when {
             componentName == "createTransitions" -> body + "\n\n" + STYLE_TRANSITION_CREATE_OPTIONS
@@ -1158,6 +1200,7 @@ private fun generate(
         if (finalBody.isNotBlank()) {
             targetDir.resolve("$componentName.kt")
                 .writeText(fileContent(annotations.joinToString("\n\n"), finalBody, pkg))
+            emittedBody = finalBody
         }
     }
 
@@ -1203,7 +1246,7 @@ private fun generate(
     }
 
     if (componentName == "RadioGroup")
-        return
+        return emittedBody
 
     val classesFileName = "${componentName}Classes".replaceFirstChar(Char::lowercase)
     val classesFile = definitionFile.parentFile.resolve("$classesFileName.d.ts")
@@ -1217,6 +1260,8 @@ private fun generate(
         targetDir.resolve("$componentName.classes.kt")
             .writeText(fileContent(annotations = annotation, body = classes, pkg = pkg))
     }
+
+    return emittedBody
 }
 
 /**
