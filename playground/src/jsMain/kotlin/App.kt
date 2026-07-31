@@ -22,6 +22,7 @@ private val App = FC {
     Pickers()
     SliderStylization()
     BaseUiMenu()
+    BaseUiSlider()
 }
 
 private fun main() {
