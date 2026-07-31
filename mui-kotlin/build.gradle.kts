@@ -20,6 +20,8 @@ dependencies {
     jsMainImplementation(npmv("@mui/x-tree-view"))
     jsMainImplementation(npmv("@mui/x-date-pickers"))
 
+    jsMainImplementation(npmv("@base-ui/react"))
+
     jsMainImplementation("io.github.turansky.seskar:seskar-core:$seskarVersion")
 
     jsMainApi(kotlinWrappers.reactDom)

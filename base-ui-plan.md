@@ -35,7 +35,7 @@
 **DoD:** таблица «компонент → части → типы»; baseline-прогон karakum по одному модулю. **Риск:** объём частей велик (у Menu ~20 частей). **Сложность:** низкая.
 
 #### Phase 1 — Зависимости
-- Добавить в `gradle.properties` свойство `base-ui.version=1.6.0` (по конвенции существующих `mui-*.version`). Сохранить `mui-base.version=5.0.0-beta.70`.
+- Добавить в `gradle.properties` свойство `base-ui-react.version=1.6.0`. Имя не выбирается свободно: хелпер `npmv()` в `mui-kotlin/build.gradle.kts` выводит его из имени npm-пакета как `packageName.removePrefix("@").replace("/", "-") + ".version"`, т.е. `@base-ui/react` → `base-ui-react.version`. Сохранить `mui-base.version=5.0.0-beta.70`.
 - Обновить `package-lock.json` и `.kotlin-locks/js`, добавив `@base-ui/react` (не удаляя `@mui/base`).
 - Проверить peer-зависимости (react/react-dom) на совместимость с версиями репо.
 

@@ -261,6 +261,9 @@ private val EXCLUDED_TYPES = setOf(
 private enum class Package(
     id: String? = null,
     pkg: String? = null,
+    // npm scope the declarations are imported from. Defaults to `@mui`; Base UI lives in its own
+    // scope (`@base-ui/react`), so this must not be hardcoded in `moduleDeclaration`.
+    val scope: String = "@mui",
 ) {
     types,
     base,
@@ -273,7 +276,7 @@ private enum class Package(
     treeView("x-tree-view", "muix.tree.view"),
     lab,
 
-    dateioCore("", "dateio.core"),
+    dateioCore("", "dateio.core", scope = "@date-io"),
 
     ;
 
@@ -285,20 +288,22 @@ private enum class Package(
 }
 
 fun generateKotlinDeclarations(
-    typesDir: File,
+    nodeModulesDir: File,
     sourceDir: File,
 ) {
+    val muiDir = nodeModulesDir.resolve("@mui")
+
     generateTypesDeclarations(sourceDir)
-    generateBaseDeclarations(typesDir.resolve("base"), sourceDir)
-    generateSystemDeclarations(typesDir.resolve("system"), sourceDir)
-    generateMaterialDeclarations(typesDir.resolve("material"), sourceDir)
-    generateIconsMaterialDeclarations(typesDir.resolve("icons-material"), sourceDir)
-    generateStylesDeclarations(typesDir.resolve("material/styles"), sourceDir)
+    generateBaseDeclarations(muiDir.resolve("base"), sourceDir)
+    generateSystemDeclarations(muiDir.resolve("system"), sourceDir)
+    generateMaterialDeclarations(muiDir.resolve("material"), sourceDir)
+    generateIconsMaterialDeclarations(muiDir.resolve("icons-material"), sourceDir)
+    generateStylesDeclarations(muiDir.resolve("material/styles"), sourceDir)
     generateTransitionsDeclarations(sourceDir)
-    generateLabDeclarations(typesDir.resolve("lab"), sourceDir)
-    generateTreeViewDeclarations(typesDir.resolve("x-tree-view"), sourceDir)
-    generatePickersDeclarations(typesDir.resolve("x-date-pickers"), sourceDir)
-    generateDeteioDeclarations(typesDir.resolve("../@date-io/core"), sourceDir)
+    generateLabDeclarations(muiDir.resolve("lab"), sourceDir)
+    generateTreeViewDeclarations(muiDir.resolve("x-tree-view"), sourceDir)
+    generatePickersDeclarations(muiDir.resolve("x-date-pickers"), sourceDir)
+    generateDeteioDeclarations(nodeModulesDir.resolve("@date-io/core"), sourceDir)
 }
 
 private fun generateTypesDeclarations(
@@ -868,11 +873,11 @@ private fun moduleDeclaration(
     componentName: String?,
 ): String {
     val moduleName = sequenceOf(
-        "@mui",
+        pkg.scope,
         pkg.id,
         subpackage,
         componentName,
-    ).filterNotNull()
+    ).filter { !it.isNullOrEmpty() }
         .joinToString("/")
 
     return "@file:JsModule(\"$moduleName\")"

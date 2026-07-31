@@ -9,14 +9,16 @@ tasks {
         dependsOn(":kotlinNpmInstall")
 
         doLast {
-            val typesDir = rootProject.buildDir
-                .resolve("js/node_modules/@mui")
+            // Root of the npm tree rather than `@mui` itself: the generator already reaches outside
+            // that scope for `@date-io/core`, and `@base-ui/react` is added as a target next.
+            val nodeModulesDir = rootProject.layout.buildDirectory
+                .dir("js/node_modules").get().asFile
             val sourceDir = projectDir.resolve("src/jsMain/kotlin")
 
             delete(sourceDir)
 
             generateKotlinDeclarations(
-                typesDir = typesDir,
+                nodeModulesDir = nodeModulesDir,
                 sourceDir = sourceDir,
             )
         }
