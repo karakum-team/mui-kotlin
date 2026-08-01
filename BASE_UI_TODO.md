@@ -48,7 +48,8 @@ that already works.
     `field/`, which is not a module. `BASE_UI_EXTRA_FILES` in `Generator.kt` names such a `.d.ts` and
     converts it exactly as a part (types and `.ext.kt`, no namespace object). Preferred to a
     hand-written stub because `distinctBy` on the absolute path deduplicates it the day `field` joins
-    the allow-list, instead of colliding. 17 declarations across 12 modules inherit `FieldRootState`.
+    the allow-list, instead of colliding. 21 declarations across 12 modules inherit `FieldRootState`
+    (17 spell it `extends FieldRootState`, four go through `FieldRoot.State`).
   - **Function types that were not Kotlin.** `toFunctionType`'s replacement list is curated for MUI
     shapes and emitted whatever it did not recognize as if it were Kotlin — a TS conditional type, a
     union in return position and the `unknown` keyword all came out as text ktfmt refused to parse. It
@@ -268,6 +269,16 @@ of `slider`.
    parameter types by hand. It is the same situation `render` was in before its `.ext.kt` helper, except
    that the signature is per part rather than shared, so generating a helper means reading it out of the
    `.d.ts`. Three parts have it: `Slider.Value`, `Meter.Value`, `Progress.Value`.
+18. **`T | null | undefined` on a function type yields a doubly-nullable type.**
+   `SliderThumbProps.getAriaLabel` and `.getAriaValueText` come out
+   `(((index: Number) -> String)?)?` — the `| null` branch in `KotlinType` makes it nullable and
+   `MemberConverter`'s optional-member handling wraps it again. Cosmetic (`(A?)?` is `A?`) and the only
+   two occurrences in the tree, but it will be ported downstream as written.
+
+   The obvious fix is not right: moving `type.endsWith("?")` above the `type.startsWith("(")` branch in
+   `MemberConverter.convertProperty` would also stop wrapping a function type whose *return* is nullable
+   (`(a: X) -> Y?`), turning a nullable property into a non-null one. Telling the two apart needs the
+   paren structure, not the last character.
 
 ## Deliberately not generated
 
@@ -296,12 +307,15 @@ the allow-list to extend.
 - A playground sample per module as modules land — `menu` and `slider` have one. See "What only the
   sample can catch".
 - `field` is now half-generated: `BASE_UI_EXTRA_FILES` pulls in `field/root/FieldRoot.d.ts` for
-  `FieldRootState`, so `FieldRoot.kt` and `FieldRoot.ext.kt` exist without a `Field` namespace object.
-  Promoting `field` to a real module is a small step and unblocks the form controls (`checkbox`,
-  `switch`, `radio`, `number-field`, `select`), all of which inherit that state. Note the two-level
-  `Field.Control.Props` reference (gap 6) and that `field/index.parts.d.ts` uses `export type { … }` for
-  `FieldValidityData`, a binding shape `parseBaseUiParts` does not match at all — correctly, since it
-  names no value, but it means the type is not generated either.
+  `FieldRootState`, and the file is converted whole, so `FieldRootProps`, `FieldRootActions`,
+  `FieldValidityData` and a `FieldRoot.ext.kt` all exist — public surface with no way to render it,
+  since the `Field` namespace object is built per module and `field` is not one. Promoting it is a small
+  step and unblocks the form controls (`checkbox`, `switch`, `radio`, `number-field`, `select`), all of
+  which inherit that state. Note the two-level `Field.Control.Props` reference (gap 6); that
+  `field/index.parts.d.ts` binds `FieldValidityData` with `export type { … }`, which `parseBaseUiParts`
+  does not match at all — correctly, since it names no value, and the type arrives through the extras
+  anyway; and that `FieldValidityData.state` is upstream an inline object of 12 booleans and comes out as
+  a bare `var state: Any`, one of the few widenings in the tree carrying no marker.
 - Utils and the 13 flat modules: `use-render`, `merge-props`, `csp-provider`, `direction-provider`,
   `button`, `separator`, `input`, `form`, `toggle`, `toggle-group`, `radio-group`, `checkbox-group`,
   `menubar`, `unstable-use-media-query`.

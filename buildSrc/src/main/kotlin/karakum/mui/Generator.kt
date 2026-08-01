@@ -868,8 +868,9 @@ private val BASE_UI_MODULES = setOf(
  * converted exactly as a part is, `.ext.kt` helpers included; what it does *not* get is the namespace
  * object, which is built per module and so needs the module itself to be listed.
  *
- * `FieldRootState` is inherited by 17 declarations across 12 modules (checkbox, switch, radio, select,
- * number-field, combobox, …), so this entry pays for itself well beyond `slider`.
+ * `FieldRootState` is inherited by 21 declarations across 12 modules (checkbox, switch, radio, select,
+ * number-field, combobox, …) — 17 by that name and four through `FieldRoot.State` — so this entry pays
+ * for itself well beyond `slider`.
  */
 private val BASE_UI_EXTRA_FILES = setOf(
     "field/root/FieldRoot.d.ts",

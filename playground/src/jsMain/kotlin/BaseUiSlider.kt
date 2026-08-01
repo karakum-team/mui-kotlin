@@ -19,9 +19,9 @@ import react.useState
 import web.cssom.AlignItems
 import web.cssom.Border
 import web.cssom.Color
+import web.cssom.ClassName
 import web.cssom.Cursor
 import web.cssom.Display
-import web.cssom.ClassName
 import web.cssom.FlexDirection
 import web.cssom.FontVariantNumeric
 import web.cssom.JustifyContent
@@ -181,7 +181,8 @@ val BaseUiSlider = FC<Props> {
         }
 
         Slider.Control {
-            // `dirty` is declared by `FieldRootState`, two modules away, and reaching it at all is what
+            // `dirty` is declared by `FieldRootState`, two declarations up and in another module, and
+            // reaching it at all is what
             // this line is for. It stays `false` at runtime outside a `Field.Root`, so the modifier
             // class is not expected to appear here.
             className { state ->

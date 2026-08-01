@@ -232,7 +232,7 @@ private fun String.isAcceptableParent(): Boolean {
 
 /**
  * Splits on [delim] at bracket depth 0, so a delimiter inside `<…>`, `(…)` or `{…}` does not split.
- * Parts are returned unrimmed and possibly empty — the callers differ on what they want done with those.
+ * Parts are returned untrimmed and possibly empty — callers differ on what they want done with those.
  */
 internal fun String.depthAwareSplit(delim: Char): List<String> {
     val parts = mutableListOf<String>()
