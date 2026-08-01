@@ -7,9 +7,15 @@ are in `base-ui-plan.md` / `base-ui-plan-review.md`; both were written before `b
 **Target version:** `base-ui-react.version=1.6.0` (published 2026-06-18). Pinned deliberately — Base UI
 had breaking changes across 1.x.
 
-**Where this stands:** one module (`menu`) of the 44 is generated end to end and renders in a browser.
-The next module is the thing to do; the open gaps below are all things `menu` survives without, and
-none of them blocks adding a second module. `BASE_UI_MODULES` in `Generator.kt` is the allow-list.
+**Where this stands:** two modules of the 44 — `menu` and `slider` — are generated end to end and
+render in a browser. `BASE_UI_MODULES` in `Generator.kt` is the allow-list. The open gaps below are all
+things both modules survive without; none of them blocks adding a third.
+
+`slider` was picked as the second module for finding new defects rather than re-exercising `menu`'s
+machinery, and it did: five, none of them predictable from `menu`. Four are closed (see Done), and the
+one that is not — callbacks widened whole rather than per parameter — is gap 14. Worth repeating for
+whoever picks the third: a module that shares `menu`'s portal/positioner/popup shape mostly re-runs code
+that already works.
 
 ## Done
 
@@ -36,6 +42,45 @@ none of them blocks adding a second module. `BASE_UI_MODULES` in `Generator.kt` 
   is where `AriaCombobox.Props` / `.Actions` go when combobox and autocomplete are added. A rewrite that
   silently stops matching would put the parent straight back in the bin, so `unusedNamespaceStubs`
   reports any stub that no generated declaration ended up referring to.
+- **`slider` module** — 7 parts, no portal / positioner / backdrop, so none of `menu`'s machinery is
+  re-used. What it cost, each item a generator fix rather than a slider-specific workaround:
+  - **Cross-module declaration dependencies.** `SliderRootState extends FieldRootState`, declared in
+    `field/`, which is not a module. `BASE_UI_EXTRA_FILES` in `Generator.kt` names such a `.d.ts` and
+    converts it exactly as a part (types and `.ext.kt`, no namespace object). Preferred to a
+    hand-written stub because `distinctBy` on the absolute path deduplicates it the day `field` joins
+    the allow-list, instead of colliding. 17 declarations across 12 modules inherit `FieldRootState`.
+  - **Function types that were not Kotlin.** `toFunctionType`'s replacement list is curated for MUI
+    shapes and emitted whatever it did not recognize as if it were Kotlin — a TS conditional type, a
+    union in return position and the `unknown` keyword all came out as text ktfmt refused to parse. It
+    now checks its own output and widens to `Any?` with the TypeScript recorded, printing a line. See
+    gap 14 for what that costs.
+  - **A type parameter resolving to the other package's type.** Parameters are dropped from the emitted
+    declaration (gap 4), which is harmless while the name stays unknown — `menu`'s `Payload` — but
+    `Value` is `Autocomplete`'s parameter in `KNOWN_TYPES`, so `SliderRootProps<Value extends number |
+    readonly number[]>` produced `var value: Value?` against a MUI type. `substituteTypeParameterBounds`
+    replaces a member whose type *is* such a parameter with its bound, or its default where it declares
+    none — `radio` and `radio-group` (`<Value = any>`) will need the latter.
+  - **Empty-bodied declarations losing their parents.** `findAdditionalProps` drops the `extends` of any
+    interface with an empty body, which is right for `@mui/*` and wrong here: 39 of the package's 67
+    `<Part>State` declarations *are* nothing but an `extends`, so `SliderControlState` and its four
+    siblings came out as bare markers and the state a `className { state -> … }` helper closes over had
+    no members. Gated on the package. The same branch used to hardcode `BaseUIChangeEventDetails` as the
+    parent of anything named `<X>EventDetails`, which cost three `menu` types their real parent and
+    `preventUnmountOnClose` with it — reading the declared parent fixed both at once.
+  - **Event-details aliases outside `Change` / `Highlight`.** `Commit`, `Submit`, `Invalid` and
+    `Complete` were left as TS aliases, which emit nothing: `SliderRootCommitEventDetails` was named by
+    `onValueCommitted` and existed nowhere, and the `BaseUIGenericEventDetails` stub written for it had
+    no referrer at all. The base's second type argument, a bag of extra fields rather than a
+    parameterization, now becomes a second parent — `SliderRootChangeEventDetails.activeThumbIndex`.
+  - **`Slider.Value`'s `children` typed backwards.** The member converter treated any children type
+    *mentioning* `ReactNode` as React children, but here the node is what the callback returns and the
+    component reads nothing else. It allowed the plain node that is ignored at runtime and rejected the
+    formatting callback the part exists for. The fallback now requires an arm that *is* a node type.
+    `Meter.Value` and `Progress.Value` share the shape.
+  - **The first member of every namespace block was missing from the alias map.** `NAMESPACE_ALIAS`
+    anchored on a preceding newline, which `NAMESPACE_BLOCK`'s captured body does not have. `menu` has
+    been generated with `MenuPopup.Props`, `MenuRoot.State` and 18 others unmapped all along; nothing
+    referenced a first member until `SliderLabelProps`, declared against `SliderLabel.State`.
 - **Playground sample** — `playground/src/jsMain/kotlin/BaseUiMenu.kt`, wired into `App.kt`. Mounts all
   20 members of the namespace object and uses both arms of every value-or-callback prop. Driven in a
   browser once: the portal lands in `<body>`, the popup's class flips `--closed` ↔ `--open` and its
@@ -43,6 +88,14 @@ none of them blocks adding a second module. `BASE_UI_MODULES` in `Generator.kt` 
   arrow keys, checkbox and radio round-trip, the submenu opens a second portal, the backdrop reports
   `close:outside-press`, console clean. CI runs `./gradlew build`, which compiles `:playground`, so the
   sample is an enforced guard from here on — see "What only the sample can catch" below.
+- **Playground sample for `slider`** — `BaseUiSlider.kt`, all 7 namespace members, a controlled
+  horizontal slider and an uncontrolled vertical range. Driven in a browser: the `children` callback
+  formats (`40 of 100 (raw 40)`, `20 – 70`), keyboard and pointer report `change=keyboard@0` /
+  `change=drag@0` / `commit=drag` — the `@0` being `activeThumbIndex` through the second parent and
+  `commit` a details type that did not exist before — `state.dragging` flips two class names and the
+  `style` callback's opacity mid-drag, `state.orientation` reads as the bare string, and
+  `render { props, _ -> div.create { +props } }` carries `className` / ref / `data-*` through. One
+  expected warning, see gap 15.
 
 ## Facts that contradict the plan documents
 
@@ -57,11 +110,12 @@ none of them blocks adding a second module. `BASE_UI_MODULES` in `Generator.kt` 
   "37 components". `combobox` (28) and `autocomplete` (23) are larger than `menu` (22).
 - **Base UI `.d.ts` have no trailing newline**, which matters to every regex that anchors on `\n}\n`.
 
-## Open gaps in the generated `menu` output
+## Open gaps in the generated output
 
 Ordered by how much API they cost. The numbers are stable identifiers, not positions: gaps 1 and 2 are
 closed and their entries removed, so the list starts at 3. Gap 11 is closed too, but its entry is kept —
-struck through — because what it decided (the props stay `Any?`) is still worth knowing.
+struck through — because what it decided (the props stay `Any?`) is still worth knowing. 14–17 came out
+of `slider`.
 
 3. **Members declared `T | undefined` without `?` come out non-null.** Base UI writes optional props
    this way in 137 places; MUI always pairs `| undefined` with `?`, so `KotlinType.kt:181` /
@@ -75,6 +129,13 @@ struck through — because what it decided (the props stay `Any?`) is still wort
    MenuHandle<Payload> */`, `payload: Any? /* Payload */`, and `children` documented against `Payload`.
    `MenuHandle` itself is a `declare class` and is not generated at all (empty body → correctly skipped).
    39 interfaces across the package are generic, so this gets more expensive with every module added.
+
+   `slider` sharpened this. A dropped parameter is only *quietly* lossy while its name stays unknown to
+   `KotlinType`; when the name is one of that table's own (`Value`, `T`, `TValue`, …) the member resolves
+   to an unrelated MUI type and the tree stops compiling. `substituteTypeParameterBounds` (BaseUi.kt)
+   handles that for a member whose whole type is the parameter, using its bound or default; anywhere
+   else — `(value: Value extends number ? number : Value, …)` — the enclosing construct is widened whole
+   and upstream's own text survives in the marker.
 5. **`Side` and `TransitionStatus` widen to `Any?`** (7 members) although both enums *are* generated as
    seskar sealed types — they need `KNOWN_TYPES` entries. `MenuRootOrientation` (the per-part alias of
    `Orientation`) is likewise unresolved. Note that the two that *do* resolve only do so by accident:
@@ -96,6 +157,9 @@ struck through — because what it decided (the props stay `Any?`) is still wort
    (`context-menu`) and `Field.Control.Props` (`input`) is not expressible by the current
    `Namespace.Member` keys at all — the needed mapping already exists in `BaseUiPart(alias,
    declaredName)` as `"$Namespace.$alias" -> declaredName`.
+
+   Distinct from the alias-map bug `slider` closed (see Done): that one dropped the *first* member of
+   every block it did read. This one is about which files get read at all.
 7. **`flattenBaseUiNamespaces` deletes namespace members it could not parse.** It removes the whole
    block, and `NAMESPACE_ALIAS` only understands `type` members — so an `interface` declared inside a
    namespace is dropped silently rather than flattened. That is what cost `MenuPortal` its parent (now
@@ -106,8 +170,10 @@ struck through — because what it decided (the props stay `Any?`) is still wort
    which is the failure that has to be found by hand today.
 8. **`instant` is typed `mui.system.Union`** (= `String`) in `MenuPopup` / `MenuViewport` — both a
    `hard_rules` #6 violation (a string-literal union that should be sealed) and the only `mui.*`
-   dependency left in `baseui` (two `import mui.system.Union` lines, nothing else), which should not
-   exist. Emit a per-part sealed type instead. Note `MenuPositionerState.instant` comes out as plain
+   dependency left in `baseui` (`import mui.system.Union`, nothing else), which should not exist. Emit a
+   per-part sealed type instead. `slider` added two more: `SliderRootProps.thumbAlignment`
+   (`'center' | 'edge' | 'edge-client-only'`) and `.thumbCollisionBehavior` (`'push' | 'swap' | 'none'`),
+   so the sample has to write `thumbCollisionBehavior = "swap"` as a bare string. Note `MenuPositionerState.instant` comes out as plain
    `String` and that is *correct*: upstream declares that one `string | undefined`, not as the literal
    union — the two shapes differ in Base UI itself, so do not "fix" them into one.
 9. **`UseAnchorPositioningSharedParameters` is an empty stub.** Upstream it is ~60 anchor-positioning
@@ -118,7 +184,9 @@ struck through — because what it decided (the props stay `Any?`) is still wort
 10. **`BaseUiDivProps['onClick']` indexed-access types stay `Any?`** (4 members, `MenuItem` /
    `MenuLinkItem`). Resolvable by substituting the parent member's type. Until then a call site has to
    annotate the parameter itself — the sample writes `onClick = { _: MouseEvent<*, *> -> … }`, which is
-   the real runtime type and assigns to `Any?` fine.
+   the real runtime type and assigns to `Any?` fine. `slider` adds two more, from a different table:
+   `SliderThumbProps.'aria-valuetext'` (`React.AriaAttributes['aria-valuetext']`) and
+   `ThumbMetadata.inputId` (`LabelableContext['controlId']`).
 11. ~~**`className` / `style` / `render` are `Any?`**~~ — done. The props stay `Any?` (each is a
    value-or-callback union over the part's own state type, which the per-tag parent shared by 126 parts
    cannot name), and the callback arm now has a typed spelling in `<Part>.ext.kt`:
@@ -135,9 +203,13 @@ struck through — because what it decided (the props stay `Any?`) is still wort
      no transitive resolution, because `declarationParents` reads one file's body and that body does not
      contain its parents' declarations — so every stub that stands in for an element-props parent has to
      be added to the alternation by hand, or its part silently loses the helpers. A part inheriting the
-     props through *another part's* props gets nothing either. In 1.6.0 that is `AlertDialogTriggerProps`
-     and `ToastManagerPositionerProps`, both via `Omit<…>`, which the converter drops anyway — so it is
-     latent, but it will surface with `alert-dialog` and `toast`.
+     props through *another part's* props gets nothing either: in 1.6.0 that is `AlertDialogTriggerProps`
+     and `ToastManagerPositionerProps`, latent until `alert-dialog` and `toast`.
+
+     (An earlier revision of this entry said those two were safe because "the converter drops `Omit<…>`
+     anyway". It does not — `findParentType` unwraps `Omit<`, which is why `slider`'s three parts
+     declared `Omit<BaseUIComponentProps<'div', …>, 'id'>` keep `BaseUiDivProps` and their helpers. What
+     makes those two latent is the *indirection*, not the `Omit`.)
    - **A generic props declaration is skipped**, which today is nobody: `MenuTriggerProps<Payload>` is
      generic upstream and gets helpers only because gap 4 strips the parameter. Closing gap 4 would
      remove `MenuTrigger.ext.kt` — a source-breaking removal for consumers — unless the helpers learn to
@@ -166,6 +238,37 @@ struck through — because what it decided (the props stay `Any?`) is still wort
    would otherwise have become an alias spelled `type Orientation` and pulled `internals/types.d.ts`
    into the generated set.)
 
+14. **A function type is widened whole, not per parameter.** When `toFunctionType` cannot translate one
+   parameter, the guard added for `slider` throws the entire callback away and emits `Any?` with the
+   TypeScript in a marker. `SliderRootProps.onValueChange` and `.onValueCommitted` are the visible cost —
+   a slider's two most important props, both untyped, so the sample has to spell out
+   `{ next: Any?, details: SliderRootChangeEventDetails -> … }` and gets no arity check. The generated
+   `SliderRootChangeEventDetails` / `SliderRootCommitEventDetails` are consequently referenced from
+   markers only.
+
+   Fixing it means giving `toFunctionType` a real parameter-list parser instead of its replacement chain,
+   so each parameter and the return type can be widened independently
+   (`(value: Any? /* … */, eventDetails: SliderRootChangeEventDetails) -> Unit`). That is a change with a
+   wide MUI blast radius, hence deferred. The three shapes that trip the guard today are a conditional
+   type, a union in return position, and `unknown`; each one prints a line, so the population is visible
+   rather than guessed at.
+15. **Base UI warns about every `render` callback written in Kotlin.** It rejects a `render` function
+   whose name starts with a capital, assuming a React component was passed by mistake. Kotlin/JS names a
+   lambda after the declaration enclosing it, and a component `val` is `PascalCase` by convention, so the
+   name is `BaseUiSlider$lambda$lambda$…` and the heuristic fires. Harmless — the callback calls no
+   hooks — but it is one console warning per call site, and the `.ext.kt` helper cannot rename the
+   function it is handed. Worth a look if a cheap rename at the assignment turns out to exist.
+16. **`BASE_UI_STUBS` has no unused-stub guard.** `unusedNamespaceStubs` reports a `NAMESPACE_STUBS`
+   entry that nothing referred to, which is what catches a rewrite that silently stopped matching. The
+   hand-written declarations in `BASE_UI_STUBS` have no equivalent, and `BaseUIGenericEventDetails` sat
+   dead in the tree from the day it was written until `slider` — the alias that was supposed to reach it
+   never converted. The same check applies verbatim and would have found it.
+17. **The `children` formatting callback has no typed spelling.** `Slider.Value.children` is now honestly
+   `Any?` (see Done), which is an improvement on being wrong, but the call site still writes the
+   parameter types by hand. It is the same situation `render` was in before its `.ext.kt` helper, except
+   that the signature is per part rather than shared, so generating a helper means reading it out of the
+   `.d.ts`. Three parts have it: `Slider.Value`, `Meter.Value`, `Progress.Value`.
+
 ## Deliberately not generated
 
 - `internals/`, `floating-ui-react/`, `types/`, per-module `utils/`, and every `*Context.d.ts` —
@@ -187,9 +290,18 @@ struck through — because what it decided (the props stay `Any?`) is still wort
 
 ## Remaining phases
 
-`menu` is the vertical slice; `BASE_UI_MODULES` in `Generator.kt` is the allow-list to extend.
+`menu` is the vertical slice, `slider` the proof it generalizes; `BASE_UI_MODULES` in `Generator.kt` is
+the allow-list to extend.
 
-- A playground sample per module as modules land — `menu` has one. See "What only the sample can catch".
+- A playground sample per module as modules land — `menu` and `slider` have one. See "What only the
+  sample can catch".
+- `field` is now half-generated: `BASE_UI_EXTRA_FILES` pulls in `field/root/FieldRoot.d.ts` for
+  `FieldRootState`, so `FieldRoot.kt` and `FieldRoot.ext.kt` exist without a `Field` namespace object.
+  Promoting `field` to a real module is a small step and unblocks the form controls (`checkbox`,
+  `switch`, `radio`, `number-field`, `select`), all of which inherit that state. Note the two-level
+  `Field.Control.Props` reference (gap 6) and that `field/index.parts.d.ts` uses `export type { … }` for
+  `FieldValidityData`, a binding shape `parseBaseUiParts` does not match at all — correctly, since it
+  names no value, but it means the type is not generated either.
 - Utils and the 13 flat modules: `use-render`, `merge-props`, `csp-provider`, `direction-provider`,
   `button`, `separator`, `input`, `form`, `toggle`, `toggle-group`, `radio-group`, `checkbox-group`,
   `menubar`, `unstable-use-media-query`.
@@ -198,11 +310,15 @@ struck through — because what it decided (the props stay `Any?`) is still wort
   imperative Toast (`createToastManager` / `useToastManager`), generic `Select<Value>` / `Combobox`,
   and `Form` / `Field` validation.
 
-  Which to take second is a real choice, not an ordering detail. `dialog` and `popover` reuse `menu`'s
+  Which to take next is a real choice, not an ordering detail. `dialog` and `popover` reuse `menu`'s
   whole machinery (portal, positioner, popup, backdrop) and would mostly re-exercise what already works;
   `tooltip` and `toast` are the first to need `FloatingPortalLite.Props` in the stub table (gap 6);
-  `combobox` and `autocomplete` are the largest and the first to hit gaps 4, 6 and 13 at once. Adding a
-  cheap one proves the pipeline generalizes; adding an expensive one finds the next real gap.
+  `combobox` and `autocomplete` are the largest and the first to hit gaps 4, 6 and 13 at once.
+
+  Anything with a Positioner now makes gap 9 the gate rather than a footnote: `slider` sidestepped it by
+  having no positioner, and `select` / `popover` / `tooltip` cannot. Two smaller candidates that would
+  still break new ground: `accordion` (a `Pick<AccordionRoot.Props, …>` parent, an `'h3'` tag, and
+  `AccordionRootProps<Value = any>` — the bound-less parameter shape) and `field` itself (above).
 - `@mui/base` stays generated and frozen. Only two generated files depend on it —
   `mui/material/Snackbar.kt` (`ClickAwayListenerProps`) and `mui/material/Autocomplete.kt`
   (`UseAutocompleteProps`) — so retiring it later is cheap.
@@ -222,6 +338,13 @@ see, all of which the sample does, and all of which CI now enforces because `./g
 - **That hand-written stubs still match upstream.** `FloatingPortalProps.container` is spelled by hand;
   passing it once from the sample is what would notice a rename. Same for the shape of the state types
   the helpers close over.
+- **That a member reaches the right declaration when two are in scope.** `SliderValueProps` redeclares
+  `children` over the one it inherits from the per-tag parent, with a different type; only assigning a
+  lambda and watching Base UI call it proves the redeclaration is what a call site binds to.
+
+`slider` also showed the sample catching a plain rendering fault the DOM assertions did not: giving
+`Slider.Track` a `render` callback without a `className` produced a zero-width, invisible track. Take a
+screenshot, not only a `querySelector` dump.
 
 Two caveats for whoever extends the sample. `Menu.Viewport` is not decoration — mounting it sets
 `hasViewport`, which switches the positioner to its `adaptiveOrigin` middleware, and it is meant to wrap
