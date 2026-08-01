@@ -1027,7 +1027,15 @@ private fun generateBaseUiDeclarations(
 
     val modules = baseUiModules(typesDir, BASE_UI_MODULES)
 
-    val extraFiles = BASE_UI_EXTRA_FILES.map { typesDir.resolve(it).normalize() }
+    // Filtered for existence as a module's parts are: these paths are hand-written, so they are the
+    // first thing an upstream move breaks, and `buildBaseUiAliases` reads every file before `generate`
+    // gets its chance to report a missing one.
+    val extraFiles = BASE_UI_EXTRA_FILES
+        .map { typesDir.resolve(it).normalize() }
+        .filter { file ->
+            file.exists()
+                .also { if (!it) println("Skipping Base UI extra file: ${file.path} not found") }
+        }
 
     val files = (modules.flatMap { it.parts }.map { it.file } + extraFiles)
         // A part file can be referenced more than once: `store/MenuHandle.d.ts` backs both `Handle` and
@@ -1080,6 +1088,9 @@ private fun generateBaseUiDeclarations(
     val declaredTypes = baseUiDeclaredTypes(
         bodies + handWritten.map { (_, body) -> body } + BASE_UI_ELEMENT_PROPS
     )
+
+    for (parent in unresolvedParents(bodies, declaredTypes))
+        println("Base UI: '$parent' is named as a parent but not generated — add its file to BASE_UI_EXTRA_FILES?")
 
     modules.forEach { module ->
         // A flat module has no namespace object — its values are exported directly.

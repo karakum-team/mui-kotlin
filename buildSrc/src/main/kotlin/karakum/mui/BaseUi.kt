@@ -553,6 +553,44 @@ internal fun unusedNamespaceStubs(
 }
 
 /**
+ * Parents named by the generated declarations that no generated declaration provides.
+ *
+ * `findParentType` accepts any bare identifier, so a parent whose declaration was never emitted is kept
+ * and the tree stops compiling against a name that does not exist. The cause is never local to the
+ * error: `SliderRootState extends FieldRootState` failed because `field` was not in `BASE_UI_MODULES`,
+ * which is not something the Kotlin compiler can say. [declaredTypes] is already collected for the
+ * namespace objects, so checking against it costs a pass over the bodies.
+ *
+ * In 1.6.0 the one module set that would trip this is `combobox` / `autocomplete`, whose
+ * `AriaComboboxState` lives in a file `index.parts.d.ts` does not list — i.e. exactly what
+ * `BASE_UI_EXTRA_FILES` is for.
+ *
+ * Qualified names are skipped: they are the `react.` / `web.` / `mui.` types the converter emits
+ * directly, and nothing here declares them.
+ */
+internal fun unresolvedParents(
+    bodies: Iterable<String>,
+    declaredTypes: Set<String>,
+): List<String> =
+    bodies.flatMap { body ->
+        // Declarations are emitted unindented and back to back, so each one runs to the next. A parent
+        // list ends at the body brace, or at the end of the declaration when there is no body at all —
+        // which is the shape this check most needs to see.
+        body.split(Regex("""^(?=(?:sealed )?external interface )""", RegexOption.MULTILINE))
+            .mapNotNull { declaration ->
+                declaration
+                    .substringBefore("{")
+                    .substringAfter(':', "")
+                    .takeIf { it.isNotBlank() }
+            }
+            .flatMap { parents ->
+                parents.depthAwareSplit(',')
+                    .map { it.trim().substringBefore('<') }
+                    .filter { it.isNotEmpty() && '.' !in it && it !in declaredTypes }
+            }
+    }.distinct().sorted()
+
+/**
  * `export interface MenuGroupLabelProps extends BaseUIComponentProps<'div', MenuGroupLabelState> {}`
  * → same declaration with the body on its own lines.
  *
@@ -772,10 +810,15 @@ private val NAMESPACE_BLOCK = Regex("""export declare namespace (\w+) \{\n(.*?)\
 // `type Props<Payload = unknown> = MenuRootProps<Payload>;` → member `Props`, target `MenuRootProps`.
 // The target is captured without its own type arguments (see flattenBaseUiNamespaces).
 // The optional `<…>` is the alias' own parameter list, which may carry defaults containing `=`
-// (`type Props<Payload = unknown> = …`), so it is matched up to its closing angle bracket.
+// (`type Props<Payload = unknown> = …`), so it is matched up to its closing angle bracket — tolerating
+// one level of nesting, as `GENERIC_INTERFACE` and `EVENT_DETAILS_ALIAS` do. Without that,
+// `form`'s `type Props<FormValues extends Record<string, any> = Record<string, any>> = FormProps<…>`
+// stops at the inner `>` and maps `Form.Props` to `Record`, which is worse than not mapping it: an
+// unresolved dotted name is dropped by `isAcceptableParent`, whereas `Record` passes as an identifier.
 //
 // `(?:^|\n)`, not `\n`: `NAMESPACE_BLOCK` captures the body starting *at* its first member, so anchoring
 // on a preceding newline dropped that member from every block — `MenuPopup.Props` and `MenuRoot.State`
 // among them. Nothing referred to a first member until `slider`, whose `SliderLabelProps` is declared
 // against `SliderLabel.State`.
-private val NAMESPACE_ALIAS = Regex("""(?:^|\n)\s*type (\w+)(?:<[^>]*>)?\s*=\s*([A-Za-z0-9_.]+)""")
+private val NAMESPACE_ALIAS =
+    Regex("""(?:^|\n)\s*type (\w+)(?:<(?:[^<>]|<[^<>]*>)*>)?\s*=\s*([A-Za-z0-9_.]+)""")
