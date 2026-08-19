@@ -53,6 +53,8 @@ sealed external interface AutocompleteClasses {
     val loading: ClassName
     /** Styles applied to the no option wrapper. */
     val noOptions: ClassName
+    /** Styles applied to the status message container. */
+    val status: ClassName
     /** Styles applied to the option elements. */
     val option: ClassName
     /** Styles applied to the group's label elements. */

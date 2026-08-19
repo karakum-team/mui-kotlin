@@ -57,7 +57,8 @@ external interface MenuItemOwnProps : PropsWithSx, LiHTMLAttributes<HTMLLIElemen
     var divider: Boolean?
 
     /**
-     * If `true`, the component is selected.
+     * If `true`, the component is selected. For `menuitemcheckbox` and `menuitemradio` roles, this
+     * also drives `aria-checked`.
      *
      * @default false
      */
