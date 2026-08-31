@@ -2,19 +2,26 @@
 
 package mui.base
 
+import web.dom.Element
+import web.cssom.ClassName
 import react.ElementType
 import react.Props
 import react.PropsWithChildren
 import react.PropsWithClassName
 import react.ReactNode
 import react.dom.html.LiHTMLAttributes
-import web.cssom.ClassName
 import web.html.HTMLLIElement
 
-external interface OptionGroupProps : OptionGroupOwnProps, LiHTMLAttributes<HTMLLIElement>
+external interface OptionGroupProps :
+    OptionGroupOwnProps,
+    LiHTMLAttributes<HTMLLIElement>
 
-external interface OptionGroupOwnProps : PropsWithChildren, PropsWithClassName {
-    /** The human-readable description of the group. */
+external interface OptionGroupOwnProps :
+    PropsWithChildren,
+    PropsWithClassName {
+    /**
+     * The human-readable description of the group.
+     */
     var label: ReactNode?
 
     override var className: ClassName?
@@ -23,22 +30,19 @@ external interface OptionGroupOwnProps : PropsWithChildren, PropsWithClassName {
 
     /**
      * If `true` all the options in the group will be disabled.
-     *
      * @default false
      */
     var disabled: Boolean?
 
     /**
-     * The components used for each slot inside the OptionGroup. Either a string to use a HTML
-     * element or a component.
-     *
+     * The components used for each slot inside the OptionGroup.
+     * Either a string to use a HTML element or a component.
      * @default {}
      */
     var slots: OptionGroupSlots?
 
     /**
      * The props used for each slot inside the Input.
-     *
      * @default {}
      */
     var slotProps: SlotProps?
@@ -53,21 +57,18 @@ external interface OptionGroupOwnProps : PropsWithChildren, PropsWithClassName {
 external interface OptionGroupSlots {
     /**
      * The component that renders the root.
-     *
      * @default 'li'
      */
     var root: ElementType<*>?
 
     /**
      * The component that renders the label.
-     *
      * @default 'span'
      */
     var label: ElementType<*>?
 
     /**
      * The component that renders the list.
-     *
      * @default 'ul'
      */
     var list: ElementType<*>?

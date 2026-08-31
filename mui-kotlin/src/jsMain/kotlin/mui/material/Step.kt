@@ -4,11 +4,12 @@
 
 package mui.material
 
+import web.dom.Element
 import mui.material.styles.Theme
-import mui.system.PropsWithSx
-import mui.system.StandardProps
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import mui.system.PropsWithSx
+import mui.system.StandardProps
 import react.FC
 import react.PropsWithChildren
 import react.ReactNode
@@ -16,51 +17,66 @@ import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
 external interface StepProps :
-    StepOwnProps, HTMLAttributes<HTMLDivElement>, PropsWithComponent, StandardProps
+    StepOwnProps,
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithComponent,
+    StandardProps
 
-external interface StepOwnProps : PropsWithChildren, PropsWithSx {
-    /** Sets the step as active. Is passed to child components. */
+external interface StepOwnProps :
+    PropsWithChildren,
+    PropsWithSx {
+    /**
+     * Sets the step as active. Is passed to child components.
+     */
     var active: Boolean?
 
-    /** Should be `Step` sub-components such as `StepLabel`, `StepContent`. */
+    /**
+     * Should be `Step` sub-components such as `StepLabel`, `StepContent`.
+     */
     override var children: ReactNode?
 
-    /** Override or extend the styles applied to the component. */
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: StepClasses?
 
-    /** Mark the step as completed. Is passed to child components. */
+    /**
+     * Mark the step as completed. Is passed to child components.
+     */
     var completed: Boolean?
 
     /**
-     * If `true`, the step is disabled, will also disable the button if `StepButton` is a child of
-     * `Step`. Is passed to child components.
+     * If `true`, the step is disabled, will also disable the button if
+     * `StepButton` is a child of `Step`. Is passed to child components.
      */
     var disabled: Boolean?
 
     /**
      * Expand the step.
-     *
      * @default false
      */
     var expanded: Boolean?
 
     /**
-     * The position of the step. The prop defaults to the value inherited from the parent Stepper
-     * component.
+     * The position of the step.
+     * The prop defaults to the value inherited from the parent Stepper component.
      */
     var index: Number?
 
     /**
-     * If `true`, the Step is displayed as rendered last. The prop defaults to the value inherited
-     * from the parent Stepper component.
+     * If `true`, the Step is displayed as rendered last.
+     * The prop defaults to the value inherited from the parent Stepper component.
      */
     var last: Boolean?
 
-    /** The system prop that allows defining system overrides as well as additional CSS styles. */
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
     override var sx: SxProps<Theme>?
 }
 
 /**
+ *
  * Demos:
  *
  * - [Stepper](https://mui.com/material-ui/react-stepper/)
@@ -69,4 +85,5 @@ external interface StepOwnProps : PropsWithChildren, PropsWithSx {
  *
  * - [Step API](https://mui.com/material-ui/api/step/)
  */
-@JsName("default") external val Step: FC<StepProps>
+@JsName("default")
+external val Step: FC<StepProps>

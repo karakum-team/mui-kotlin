@@ -6,8 +6,13 @@ import seskar.js.JsValue
 
 sealed external interface ReducedMotionMode {
     companion object {
-        @JsValue("never") val never: ReducedMotionMode
-        @JsValue("system") val system: ReducedMotionMode
-        @JsValue("always") val always: ReducedMotionMode
+        @JsValue("never")
+        val never: ReducedMotionMode
+
+        @JsValue("system")
+        val system: ReducedMotionMode
+
+        @JsValue("always")
+        val always: ReducedMotionMode
     }
 }

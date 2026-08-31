@@ -7,6 +7,9 @@
 
 package baseui
 
-external interface SliderControlProps : BaseUiDivProps {}
+external interface SliderControlProps :
+    BaseUiDivProps {
+
+}
 
 external interface SliderControlState : SliderRootState

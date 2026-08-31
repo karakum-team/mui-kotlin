@@ -1343,10 +1343,13 @@ private fun generate(
  * an override (`Overrides.kt` does this for `SpeedDial.ariaLabel`, which the ARIA machinery supplies
  * instead).
  *
- * A KDoc attached to nothing reads as a mistake, and the formatter treats it as live documentation —
- * ktfmt reflows KDoc but leaves plain block comments alone, so demoting also keeps the upstream wording
- * intact. Demoting rather than deleting keeps that documentation next to the commented-out member, which
- * is why it was left in place at all.
+ * A KDoc attached to nothing reads as a mistake. Demoting rather than deleting keeps that documentation
+ * next to the commented-out member, which is why it was left in place at all.
+ *
+ * (Under ktfmt, which formatted the tree before IntelliJ IDEA's formatter took over, demoting also kept
+ * the upstream wording intact: ktfmt reflowed KDoc to a column limit but left plain block comments alone.
+ * IDEA's formatter reflows neither, so that is no longer a reason for the demotion — only the first one
+ * above is.)
  *
  * Matched by shape rather than by the documentation text so that rewording upstream cannot silently turn
  * the fix off.

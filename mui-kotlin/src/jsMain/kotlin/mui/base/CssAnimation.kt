@@ -4,41 +4,46 @@
 
 package mui.base
 
+import web.cssom.ClassName
 import react.FC
 import react.PropsWithChildren
 import react.PropsWithClassName
 import react.ReactNode
-import web.cssom.ClassName
 
-external interface CssAnimationProps : PropsWithChildren, PropsWithClassName {
+external interface CssAnimationProps :
+    PropsWithChildren,
+    PropsWithClassName {
     override var children: ReactNode?
 
     override var className: ClassName?
 
     /**
-     * The name of the CSS animation (the `animation-name` CSS property) applied to the component
-     * when the transition is requested to enter.
+     * The name of the CSS animation (the `animation-name` CSS property) applied to the component when
+     * the transition is requested to enter.
      */
     var enterAnimationName: String?
 
     /**
-     * The name of the CSS class applied to the component when the transition is requested to enter.
+     * The name of the CSS class applied to the component when the transition
+     * is requested to enter.
      */
     var enterClassName: ClassName?
 
     /**
-     * The name of the CSS animation (the `animation-name` CSS property) applied to the component
-     * when the transition is requested to exit.
+     * The name of the CSS animation (the `animation-name` CSS property) applied to the component when
+     * the transition is requested to exit.
      */
     var exitAnimationName: String?
 
     /**
-     * The name of the CSS class applied to the component when the transition is requested to exit.
+     * The name of the CSS class applied to the component when the transition
+     * is requested to exit.
      */
     var exitClassName: ClassName?
 }
 
 /**
+ *
  * Demos:
  *
  * - [Transitions](https://mui.com/base-ui/react-transitions/)

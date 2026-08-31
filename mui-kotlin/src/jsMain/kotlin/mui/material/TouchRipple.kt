@@ -4,16 +4,22 @@
 
 package mui.material
 
+import web.dom.Element
+import web.events.Event
+import web.html.HTMLElement
 import mui.system.StandardProps
 import react.FC
 import react.dom.events.SyntheticEvent
 import react.dom.html.HTMLAttributes
-import web.html.HTMLElement
 
-external interface TouchRippleProps : StandardProps, HTMLAttributes<HTMLElement> {
+external interface TouchRippleProps :
+    StandardProps,
+    HTMLAttributes<HTMLElement> {
     var center: Boolean?
 
-    /** Override or extend the styles applied to the component. */
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: TouchRippleClasses?
 }
 
@@ -31,11 +37,9 @@ external interface TouchRippleActions {
     )
 
     fun pulsate(event: SyntheticEvent<*, *> = definedExternally)
-
-    fun stop(
-        event: SyntheticEvent<*, *> = definedExternally,
-        callback: () -> Unit = definedExternally,
-    )
+    fun stop(event: SyntheticEvent<*, *> = definedExternally, callback: () -> Unit = definedExternally)
 }
 
-@JsName("default") external val TouchRipple: FC<TouchRippleProps>
+
+@JsName("default")
+external val TouchRipple: FC<TouchRippleProps>

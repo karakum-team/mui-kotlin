@@ -11,10 +11,10 @@ import react.FC
  *
  * This component can be useful in a variety of situations:
  *
- * * Escape hatch for broken dependencies not supporting SSR.
- * * Improve the time-to-first paint on the client by only rendering above the fold.
- * * Reduce the rendering time on the server.
- * * Under too heavy server load, you can turn on service degradation.
+ * *   Escape hatch for broken dependencies not supporting SSR.
+ * *   Improve the time-to-first paint on the client by only rendering above the fold.
+ * *   Reduce the rendering time on the server.
+ * *   Under too heavy server load, you can turn on service degradation.
  *
  * Demos:
  *

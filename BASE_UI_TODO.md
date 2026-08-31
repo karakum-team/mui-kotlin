@@ -52,9 +52,9 @@ that already works.
     (17 spell it `extends FieldRootState`, four go through `FieldRoot.State`).
   - **Function types that were not Kotlin.** `toFunctionType`'s replacement list is curated for MUI
     shapes and emitted whatever it did not recognize as if it were Kotlin — a TS conditional type, a
-    union in return position and the `unknown` keyword all came out as text ktfmt refused to parse. It
-    now checks its own output and widens to `Any?` with the TypeScript recorded, printing a line. See
-    gap 14 for what that costs.
+    union in return position and the `unknown` keyword all came out as text that ktfmt — the formatter
+    at the time — refused to parse. It now checks its own output and widens to `Any?` with the TypeScript
+    recorded, printing a line. See gap 14 for what that costs.
   - **A type parameter resolving to the other package's type.** Parameters are dropped from the emitted
     declaration (gap 4), which is harmless while the name stays unknown — `menu`'s `Payload` — but
     `Value` is `Autocomplete`'s parameter in `KNOWN_TYPES`, so `SliderRootProps<Value extends number |
@@ -377,7 +377,7 @@ is produced by `:playground:jsDevelopmentExecutableCompileSync`, so a code chang
 then a page reload — otherwise the browser keeps showing the previous build, which looks exactly like the
 change not working.
 
-Do not run `:mui-kotlin:generateDeclarations` on its own either: spotless hangs off the
+Do not run `:mui-kotlin:generateDeclarations` on its own either: `formatDeclarations` hangs off the
 `compileKotlinJs` chain, so a standalone run leaves the whole generated tree unformatted and `git status`
 shows hundreds of files of pure formatting churn. Finish with `:mui-kotlin:compileKotlinJs`.
 
@@ -388,20 +388,56 @@ readable output depended on running an IDE reformat by hand — so the committed
 reproduced from the generator, and every regeneration showed ~520 files of pure formatting churn that
 masked real changes.
 
-Spotless now formats `src/jsMain/kotlin` as part of the pipeline
-(`generateDeclarations` → `spotlessApply` → `compileKotlinJs`), so **a regeneration produces a
-byte-identical tree** — verified by hashing it across two `--rerun-tasks` runs. A non-empty diff under
+The pipeline now formats `src/jsMain/kotlin` itself
+(`generateDeclarations` → `formatDeclarations` → `compileKotlinJs`), so **a regeneration produces a
+byte-identical tree** — verified by hashing it across two runs. A non-empty diff under
 `mui-kotlin/src/jsMain/kotlin` now means something actually changed, and is worth reading.
 
-It uses **ktfmt**, not ktlint. ktlint enforces a style policy that generated code cannot satisfy at the
-source: it rejects the inline `/* … */` markers recording the original TypeScript type
-(`var side: Any? /* Side */`) and the lowercase `@JsValue` union members whose names must mirror the
-JavaScript API — 47 unfixable violations. Suppressing those rules still left 3551 KDoc blocks with the
-opening `/**` at column 0, because ktlint indents a comment's continuation lines but not its first line.
-ktfmt has no rules to satisfy and reformats comments too.
+The formatter is **IntelliJ IDEA's own**, run headless:
 
-`isEnforceCheck = false`: a `spotlessCheck` wired into `check` could run before the sources exist. The
-tree is kept formatted by construction instead.
+    format.sh -s gradle/idea-code-style.xml -charset UTF-8 -r -m '*.kt' <tree>
+
+so a local IDEA is a build requirement. It is found automatically in `~/Applications` and
+`/Applications`; `idea.home` (in `~/.gradle/gradle.properties`, or `-Pidea.home=…`) or `$IDEA_HOME` names
+a different one, and finding two installations is an error rather than a guess. `IDEA_PROPERTIES` points
+the spawned IDE at `build/idea-format/`, which is not optional: without it the run collides with the
+desktop IDE's locked configuration directory and dies with "Only one instance of IDEA can be run at a
+time", so a build could not be started from the IDE that has the project open. The isolation also keeps
+third-party plugins and personal settings out of the output.
+
+Because the formatter is a local application, **CI can no longer check that the committed tree is up to
+date** — no IntelliJ IDEA a Linux runner can install matches this one (newest Community is 2025.3 / build
+253, against 262 here). The workflow builds with `-Pdeclarations.skip=true`, which makes
+`generateDeclarations` and `formatDeclarations` no-ops, so it checks that the committed declarations
+compile and nothing more. The up-to-date check is now yours to run, and is the last step of a
+regeneration:
+
+    ./gradlew :mui-kotlin:compileKotlinJs && git diff --exit-code -- mui-kotlin/src/jsMain/kotlin
+
+**Reproducibility is now keyed to the IDEA build, not to a pinned library version.** An IDE upgrade can
+legitimately change the tree with no change in this repository. The build number is logged on every run
+(`Formatting 653 Kotlin file(s) with IU-262.9437.185`) so that such churn is diagnosable; the committed
+tree was produced by IU-262.
+
+**The formatter cannot insert trailing commas.** It honours `ALLOW_TRAILING_COMMA` when deciding how to
+wrap — which is why chopped lists are one element per line — but inserting the comma is a post-format
+cleanup step that the command-line entry point does not run. `IdeaFormatTask` adds it afterwards, in the
+24 files that hold such a list; without that, ⌥⌘L on those files would dirty a freshly built tree.
+
+This replaced **ktfmt** (via Spotless), which had replaced a by-hand IDE reformat. ktfmt was chosen over
+ktlint because ktlint enforces a style policy that generated code cannot satisfy at the source: it rejects
+the inline `/* … */` markers recording the original TypeScript type (`var side: Any? /* Side */`) and the
+lowercase `@JsValue` union members whose names must mirror the JavaScript API — 47 unfixable violations,
+and suppressing those rules still left 3551 KDoc blocks with the opening `/**` at column 0. ktfmt had no
+rules to satisfy. It was dropped because its layout is not the IDE's — switching changed 582 of the 653
+files — so ⌥⌘L dirtied the tree and the committed tree could not survive one. Chaining the two cannot reconcile that
+— IDEA's formatter re-indents and wraps overlong lines but never re-joins lines another tool has already
+broken, so whichever runs last does not win.
+
+Two things ktfmt did are consequently no longer done. Unused imports are left in place (`Box.kt` carries
+ten where ktfmt left seven, including a self-import from its own package) — that belongs in the generator
+and is not fixed yet. And KDoc is not reflowed to a column limit, nor are its block tags reordered, so the
+committed tree now preserves upstream's own wrapping and `@default`/`@param` order.
 
 Only `mui-kotlin/src/jsMain/kotlin` is in scope — hand-written code (`buildSrc`, `playground`) is
 deliberately left alone so that adding the formatter did not reformat anything a human wrote.

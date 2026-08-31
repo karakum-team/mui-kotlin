@@ -3,12 +3,13 @@
 package mui.base
 
 import js.array.ReadonlyArray
+import web.dom.Element
+import web.events.Event
 import react.Props
 import react.Ref
 import react.RefCallback
 import react.dom.events.ChangeEvent
 import react.dom.events.MouseEvent
-import web.dom.Element
 
 external interface SelectOptionDefinition<Value> {
     var value: Value
@@ -20,133 +21,152 @@ external interface SelectOptionDefinition<Value> {
 
 external interface UseSelectParameters<OptionValue, Multiple> {
     /**
-     * A function used to determine if two options' values are equal. By default, reference equality
-     * is used.
+     * A function used to determine if two options' values are equal.
+     * By default, reference equality is used.
      *
-     * There is a performance impact when using the `areOptionsEqual` prop (proportional to the
-     * number of options). Therefore, it's recommented to use the default reference equality
-     * comparison whenever possible.
+     * There is a performance impact when using the `areOptionsEqual` prop (proportional to the number of options).
+     * Therefore, it's recommented to use the default reference equality comparison whenever possible.
      */
     var areOptionsEqual: ((a: OptionValue, b: OptionValue) -> Boolean)?
 
     /**
      * If `true`, the select will be open by default.
-     *
      * @default false
      */
     var defaultOpen: Boolean?
 
-    /** The default selected value. Use when the component is not controlled. */
+    /**
+     * The default selected value. Use when the component is not controlled.
+     */
     var defaultValue: Any? /* SelectValue<OptionValue, Multiple> */
 
     /**
      * If `true`, the select is disabled.
-     *
      * @default false
      */
     var disabled: Boolean?
 
-    /** The ref of the trigger button element. */
+    /**
+     * The ref of the trigger button element.
+     */
     var buttonRef: Ref<Element>?
 
-    /** The `id` attribute of the listbox element. */
+    /**
+     * The `id` attribute of the listbox element.
+     */
     var listboxId: String?
 
-    /** The ref of the listbox element. */
+    /**
+     * The ref of the listbox element.
+     */
     var listboxRef: Ref<Element>?
 
     /**
-     * If `true`, the end user can select multiple values. This affects the type of the `value`,
-     * `defaultValue`, and `onChange` props.
+     * If `true`, the end user can select multiple values.
+     * This affects the type of the `value`, `defaultValue`, and `onChange` props.
      *
      * @default false
      */
     var multiple: Any? /* Multiple */
 
     /**
-     * The `name` attribute of the hidden input element. This is useful when the select is embedded
-     * in a form and you want to access the selected value in the form data.
+     * The `name` attribute of the hidden input element.
+     * This is useful when the select is embedded in a form and you want to access the selected value in the form data.
      */
     var name: String?
 
     /**
-     * If `true`, the select embedded in a form must have a selected value. Otherwise, the form
-     * submission will fail.
+     * If `true`, the select embedded in a form must have a selected value.
+     * Otherwise, the form submission will fail.
      */
     var required: Boolean?
 
-    /** Callback fired when an option is selected. */
-    var onChange:
-        Any? /* (event: React.MouseEvent | React.KeyboardEvent | React.FocusEvent | null, value: SelectValue<OptionValue, Multiple>) => void */
+    /**
+     * Callback fired when an option is selected.
+     */
+    var onChange: Any? /* (event: React.MouseEvent | React.KeyboardEvent | React.FocusEvent | null, value: SelectValue<OptionValue, Multiple>) => void */
 
-    /** Callback fired when an option is highlighted. */
-    var onHighlightChange:
-        Any? /* (event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element> | React.FocusEvent<Element, Element> | null, highlighted: OptionValue | null) => void */
+    /**
+     * Callback fired when an option is highlighted.
+     */
+    var onHighlightChange: Any? /* (event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element> | React.FocusEvent<Element, Element> | null, highlighted: OptionValue | null) => void */
 
-    /** Callback fired when the listbox is opened or closed. */
+    /**
+     * Callback fired when the listbox is opened or closed.
+     */
     var onOpenChange: ((open: Boolean) -> Unit)?
 
     /**
-     * Controls the open state of the select's listbox. This is the controlled equivalent of the
-     * `defaultOpen` prop.
+     * Controls the open state of the select's listbox.
+     * This is the controlled equivalent of the `defaultOpen` prop.
      */
     var open: Boolean?
 
     /**
-     * An alternative way to specify the options. If this parameter is set, options defined as JSX
-     * children are ignored.
+     * An alternative way to specify the options.
+     * If this parameter is set, options defined as JSX children are ignored.
      */
     var options: Any? /* ReadonlyArray<SelectOptionDefinition<OptionValue>> */
 
     /**
-     * A function to convert the currently selected value to a string. Used to set a value of a
-     * hidden input associated with the select, so that the selected value can be posted with a
-     * form.
+     * A function to convert the currently selected value to a string.
+     * Used to set a value of a hidden input associated with the select,
+     * so that the selected value can be posted with a form.
      */
-    var getSerializedValue:
-        Any? /* (option: SelectValue<SelectOption<OptionValue>, Multiple>) => React.InputHTMLAttributes<HTMLInputElement>['value'] */
+    var getSerializedValue: Any? /* (option: SelectValue<SelectOption<OptionValue>, Multiple>) => React.InputHTMLAttributes<HTMLInputElement>['value'] */
 
     /**
-     * A function used to convert the option label to a string. This is useful when labels are
-     * elements and need to be converted to plain text to enable keyboard navigation with character
-     * keys.
+     * A function used to convert the option label to a string.
+     * This is useful when labels are elements and need to be converted to plain text
+     * to enable keyboard navigation with character keys.
      *
      * @default defaultOptionStringifier
      */
     var getOptionAsString: ((option: SelectOption<OptionValue>) -> String)?
 
-    /** The selected value. Set to `null` to deselect all options. */
+    /**
+     * The selected value.
+     * Set to `null` to deselect all options.
+     */
     var value: Any? /* SelectValue<OptionValue, Multiple> */
 
     /**
-     * The name of the component using useSelect. For debugging purposes.
-     *
+     * The name of the component using useSelect.
+     * For debugging purposes.
      * @default 'useSelect'
      */
     var componentName: String?
 }
 
 external interface UseSelectReturnValue<Value, Multiple> {
-    /** If `true`, the trigger button is active (pressed). */
+    /**
+     * If `true`, the trigger button is active (pressed).
+     */
     var buttonActive: Boolean
 
-    /** If `true`, the trigger button has a visible focus. */
+    /**
+     * If `true`, the trigger button has a visible focus.
+     */
     var buttonFocusVisible: Boolean
 
-    /** Ref to the button slot DOM node. */
+    /**
+     * Ref to the button slot DOM node.
+     */
     var buttonRef: RefCallback<Element>?
 
-    /** If `true`, the select is disabled. */
+    /**
+     * If `true`, the select is disabled.
+     */
     var disabled: Boolean
 
     /**
-     * Action dispatcher for the select component. Allows to programmatically control the select.
+     * Action dispatcher for the select component.
+     * Allows to programmatically control the select.
      */
     var dispatch: (action: Any /* ListAction<Value> | SelectAction<Value> */) -> Unit
 
     /**
      * Resolver for the button slot's props.
-     *
      * @param externalProps event handlers for the button slot
      * @returns props that should be spread on the button slot
      */
@@ -154,7 +174,6 @@ external interface UseSelectReturnValue<Value, Multiple> {
 
     /**
      * Resolver for the hidden input slot's props.
-     *
      * @param externalProps event handlers for the hidden input slot
      * @returns HTML input attributes that should be spread on the hidden input slot
      */
@@ -162,7 +181,6 @@ external interface UseSelectReturnValue<Value, Multiple> {
 
     /**
      * Resolver for the listbox slot's props.
-     *
      * @param externalProps event handlers for the listbox slot
      * @returns props that should be spread on the listbox slot
      */
@@ -176,22 +194,34 @@ external interface UseSelectReturnValue<Value, Multiple> {
      */
     var getOptionMetadata: (optionValue: Value) -> SelectOption<Value>
 
-    /** A value to be passed to the `SelectProvider` component. */
+    /**
+     * A value to be passed to the `SelectProvider` component.
+     */
     var contextValue: Any? /* SelectProviderValue<Value> */
 
-    /** The value of the highlighted option. */
+    /**
+     * The value of the highlighted option.
+     */
     var highlightedOption: Value?
 
-    /** Ref to the listbox slot DOM node. */
+    /**
+     * Ref to the listbox slot DOM node.
+     */
     var listboxRef: RefCallback<Element>?
 
-    /** If `true`, the listbox is open. */
+    /**
+     * If `true`, the listbox is open.
+     */
     var open: Boolean
 
-    /** Values of all the registered options. */
+    /**
+     * Values of all the registered options.
+     */
     var options: ReadonlyArray<Value>
 
-    /** The value of the selected option(s). */
+    /**
+     * The value of the selected option(s).
+     */
     var value: Any? /* SelectValue<Value, Multiple> */
 }
 

@@ -13,10 +13,7 @@ external interface LocalizationProviderProps : PropsWithChildren {
 
     /**
      * Date library adapter class function.
-     *
-     * @see See the localization provider {@link
-     *   https://mui.com/x/react-date-pickers/quickstart/#integrate-provider-and-adapter date
-     *   adapter setup section} for more details.
+     * @see See the localization provider {@link https://mui.com/x/react-date-pickers/quickstart/#integrate-provider-and-adapter date adapter setup section} for more details.
      */
     var dateAdapter: DateAdapter? /* new (...args: any) => MuiPickersAdapter<TLocale> */
 
@@ -25,17 +22,20 @@ external interface LocalizationProviderProps : PropsWithChildren {
 
     /**
      * Date library instance you are using, if it has some global overrides
-     *
      * ```jsx
      * dateLibInstance={momentTimeZone}
      * ```
      */
     var dateLibInstance: Any?
 
-    /** Locale for the date library you are using */
+    /**
+     * Locale for the date library you are using
+     */
     var adapterLocale: Any? /* TLocale */
 
-    /** Locale for components texts */
+    /**
+     * Locale for components texts
+     */
     var localeText: Any? /* PickersInputLocaleText */
 }
 
@@ -46,5 +46,6 @@ external interface PickersAdapterContextValue {
 
     var localeText: Any? /* PickersInputLocaleText */
 }
+
 
 external val LocalizationProvider: FC<LocalizationProviderProps>

@@ -9,8 +9,8 @@ import react.FC
 /**
  * `export * as Menu` from `@base-ui/react/menu` — the module's only value export.
  *
- * The package's `exports` map has no wildcard entry, so a part's own subpath is not importable:
- * this object is the only way to reach a part at runtime.
+ * The package's `exports` map has no wildcard entry, so a part's own subpath is not importable: this
+ * object is the only way to reach a part at runtime.
  *
  * Omitted, having no generated props type: `Handle`, `createHandle`.
  */

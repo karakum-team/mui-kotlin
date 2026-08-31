@@ -24,4 +24,5 @@ import react.FC
  *
  * - [NoSsr API](https://mui.com/material-ui/api/no-ssr/)
  */
-@JsName("default") external val NoSsr: FC<NoSsrProps>
+@JsName("default")
+external val NoSsr: FC<NoSsrProps>

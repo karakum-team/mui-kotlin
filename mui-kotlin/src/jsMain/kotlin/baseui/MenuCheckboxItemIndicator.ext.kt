@@ -2,61 +2,57 @@
 
 package baseui
 
+import web.dom.Element
+import web.cssom.ClassName
+import web.html.HTMLElement
 import react.CSSProperties
 import react.ReactElement
 import react.dom.html.HTMLAttributes
-import web.cssom.ClassName
-import web.html.HTMLElement
 
 /**
- * The state-dependent arm of `MenuCheckboxItemIndicatorProps.className`, upstream `string |
- * ((state: MenuCheckboxItemIndicatorState) => string | undefined)`.
+ * The state-dependent arm of `MenuCheckboxItemIndicatorProps.className`, upstream
+ * `string | ((state: MenuCheckboxItemIndicatorState) => string | undefined)`.
  *
- * The prop itself is `Any?`: it is inherited through [BaseUiSpanProps] from a parent shared by
- * every part that renders this tag, which cannot name one part's state type. Assign a [ClassName]
- * directly when the class does not depend on state.
+ * The prop itself is `Any?`: it is inherited through [BaseUiSpanProps] from a parent shared by every part that
+ * renders this tag, which cannot name one part's state type. Assign a [ClassName] directly
+ * when the class does not depend on state.
  */
 fun MenuCheckboxItemIndicatorProps.className(
-    block: (state: MenuCheckboxItemIndicatorState) -> ClassName?
+    block: (state: MenuCheckboxItemIndicatorState) -> ClassName?,
 ) {
     className = block
 }
 
 /**
- * The state-dependent arm of `MenuCheckboxItemIndicatorProps.style`, upstream `CSSProperties |
- * ((state: MenuCheckboxItemIndicatorState) => CSSProperties | undefined)`. See
- * [MenuCheckboxItemIndicatorProps.className].
+ * The state-dependent arm of `MenuCheckboxItemIndicatorProps.style`, upstream
+ * `CSSProperties | ((state: MenuCheckboxItemIndicatorState) => CSSProperties | undefined)`. See [MenuCheckboxItemIndicatorProps.className].
  */
 fun MenuCheckboxItemIndicatorProps.style(
-    block: (state: MenuCheckboxItemIndicatorState) -> CSSProperties?
+    block: (state: MenuCheckboxItemIndicatorState) -> CSSProperties?,
 ) {
     style = block
 }
 
 /**
- * The callback arm of `MenuCheckboxItemIndicatorProps.render`, upstream `ReactElement | ((props:
- * HTMLProps, state: MenuCheckboxItemIndicatorState) => ReactElement)`.
+ * The callback arm of `MenuCheckboxItemIndicatorProps.render`, upstream
+ * `ReactElement | ((props: HTMLProps, state: MenuCheckboxItemIndicatorState) => ReactElement)`.
  *
- * `props` are the ones Base UI expects on the element the callback returns; upstream types them as
- * its own `HTMLProps`, which is `HTMLAttributes<any> & { ref }`. Assign a [ReactElement] directly
- * to render a fixed element instead.
+ * `props` are the ones Base UI expects on the element the callback returns; upstream types them as its
+ * own `HTMLProps`, which is `HTMLAttributes<any> & { ref }`. Assign a [ReactElement] directly to
+ * render a fixed element instead.
  *
- * Applying them is the callback's job — `useRenderElement` calls `render(props, state)` and takes
- * the result as it is, merging nothing, so a callback that ignores `props` drops `ref` and the
- * `data-*` state attributes with them. `+props` inside the element builder does it (`Object.assign`
- * underneath):
+ * Applying them is the callback's job — `useRenderElement` calls `render(props, state)` and takes the
+ * result as it is, merging nothing, so a callback that ignores `props` drops `ref` and the `data-*`
+ * state attributes with them. `+props` inside the element builder does it (`Object.assign` underneath):
  *
  *     render { props, _ -> hr.create { +props } }
  *
  * That copies `children` as well, so a builder using it must not also add children of its own: the
- * wrappers' `jsx` reports "Both `children` source options used" and keeps the builder's, dropping
- * the ones that came in through `props`.
+ * wrappers' `jsx` reports "Both `children` source options used" and keeps the builder's, dropping the
+ * ones that came in through `props`.
  */
 fun MenuCheckboxItemIndicatorProps.render(
-    block:
-        (props: HTMLAttributes<HTMLElement>, state: MenuCheckboxItemIndicatorState) -> ReactElement<
-                *
-            >
+    block: (props: HTMLAttributes<HTMLElement>, state: MenuCheckboxItemIndicatorState) -> ReactElement<*>,
 ) {
     render = block
 }

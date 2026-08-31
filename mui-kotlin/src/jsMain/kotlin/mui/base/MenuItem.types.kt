@@ -2,6 +2,9 @@
 
 package mui.base
 
+import web.dom.Element
+import web.cssom.ClassName
+import web.events.Event
 import react.ElementType
 import react.Props
 import react.PropsWithChildren
@@ -9,13 +12,16 @@ import react.PropsWithClassName
 import react.ReactNode
 import react.dom.events.MouseEventHandler
 import react.dom.html.LiHTMLAttributes
-import web.cssom.ClassName
 import web.html.HTMLLIElement
 
-external interface MenuItemProps : MenuItemOwnProps, LiHTMLAttributes<HTMLLIElement>
+external interface MenuItemProps :
+    MenuItemOwnProps,
+    LiHTMLAttributes<HTMLLIElement>
 
 external interface MenuItemOwnProps :
-    PropsWithChildren, PropsWithClassName, LiHTMLAttributes<HTMLLIElement> {
+    PropsWithChildren,
+    PropsWithClassName,
+    LiHTMLAttributes<HTMLLIElement> {
     override var children: ReactNode?
 
     override var className: ClassName?
@@ -24,22 +30,19 @@ external interface MenuItemOwnProps :
 
     /**
      * If `true`, the menu item will be disabled.
-     *
      * @default false
      */
     var disabled: Boolean?
 
     /**
-     * The components used for each slot inside the MenuItem. Either a string to use a HTML element
-     * or a component.
-     *
+     * The components used for each slot inside the MenuItem.
+     * Either a string to use a HTML element or a component.
      * @default {}
      */
     var slots: MenuItemSlots?
 
     /**
      * The props used for each slot inside the MenuItem.
-     *
      * @default {}
      */
     var slotProps: SlotProps?
@@ -49,7 +52,8 @@ external interface MenuItemOwnProps :
     }
 
     /**
-     * A text representation of the menu item's content. Used for keyboard text navigation matching.
+     * A text representation of the menu item's content.
+     * Used for keyboard text navigation matching.
      */
     var label: String?
 
@@ -64,7 +68,6 @@ external interface MenuItemOwnProps :
 external interface MenuItemSlots {
     /**
      * The component that renders the root.
-     *
      * @default 'li'
      */
     var root: ElementType<*>?

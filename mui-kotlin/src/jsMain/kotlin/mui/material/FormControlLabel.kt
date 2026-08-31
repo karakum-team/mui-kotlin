@@ -4,10 +4,12 @@
 
 package mui.material
 
+import web.dom.Element
+import web.events.Event
 import mui.material.styles.Theme
+import mui.system.SxProps
 import mui.system.PropsWithSx
 import mui.system.StandardProps
-import mui.system.SxProps
 import react.ElementType
 import react.FC
 import react.Props
@@ -22,30 +24,43 @@ external interface FormControlLabelProps :
     LabelHTMLAttributes<HTMLLabelElement>,
     FormControlLabelSlotsAndSlotProps,
     PropsWithSx {
-    /** If `true`, the component appears selected. */
+    /**
+     * If `true`, the component appears selected.
+     */
     var checked: Boolean?
 
-    /** Override or extend the styles applied to the component. */
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: FormControlLabelClasses?
 
-    /** A control element. For instance, it can be a `Radio`, a `Switch` or a `Checkbox`. */
+    /**
+     * A control element. For instance, it can be a `Radio`, a `Switch` or a `Checkbox`.
+     */
     var control: Any? /* React.ReactElement<unknown, any> */
 
-    /** If `true`, the control is disabled. */
+    /**
+     * If `true`, the control is disabled.
+     */
     var disabled: Boolean?
 
-    /** If `true`, the label is rendered as it is passed without an additional typography node. */
+    /**
+     * If `true`, the label is rendered as it is passed without an additional typography node.
+     */
     var disableTypography: Boolean?
 
-    /** Pass a ref to the `input` element. */
+    /**
+     * Pass a ref to the `input` element.
+     */
     var inputRef: Ref<*>?
 
-    /** A text or an element to be used in an enclosing label element. */
+    /**
+     * A text or an element to be used in an enclosing label element.
+     */
     var label: ReactNode
 
     /**
      * The position of the label.
-     *
      * @default 'end'
      */
     var labelPlacement: LabelPlacement?
@@ -55,25 +70,31 @@ external interface FormControlLabelProps :
     /**
      * Callback fired when the state is changed.
      *
-     * @param {React.SyntheticEvent} event The event source of the callback. You can pull out the
-     *   new checked state by accessing `event.target.checked` (boolean).
+     * @param {React.SyntheticEvent} event The event source of the callback.
+     * You can pull out the new checked state by accessing `event.target.checked` (boolean).
      */
     var onChange: ((event: SyntheticEvent<*, *>, checked: Boolean) -> Unit)?
 
-    /** If `true`, the label will indicate that the `input` is required. */
+    /**
+     * If `true`, the label will indicate that the `input` is required.
+     */
     var required: Boolean?
 
-    /** The system prop that allows defining system overrides as well as additional CSS styles. */
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
     override var sx: SxProps<Theme>?
 
-    /** The value of the component. */
+    /**
+     * The value of the component.
+     */
     var value: Any?
 }
 
 external interface FormControlLabelSlots {
     /**
-     * The component that renders the label. This is unused if `disableTypography` is true.
-     *
+     * The component that renders the label.
+     * This is unused if `disableTypography` is true.
      * @default Typography
      */
     var typography: ElementType<*>
@@ -91,8 +112,8 @@ external interface FormControlLabelSlotsAndSlotProps : Props {
 }
 
 /**
- * Drop-in replacement of the `Radio`, `Switch` and `Checkbox` component. Use this component if you
- * want to display an extra label.
+ * Drop-in replacement of the `Radio`, `Switch` and `Checkbox` component.
+ * Use this component if you want to display an extra label.
  *
  * Demos:
  *
@@ -104,4 +125,5 @@ external interface FormControlLabelSlotsAndSlotProps : Props {
  *
  * - [FormControlLabel API](https://mui.com/material-ui/api/form-control-label/)
  */
-@JsName("default") external val FormControlLabel: FC<FormControlLabelProps>
+@JsName("default")
+external val FormControlLabel: FC<FormControlLabelProps>

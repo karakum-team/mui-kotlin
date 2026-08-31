@@ -6,11 +6,22 @@ import seskar.js.JsValue
 
 sealed external interface SliderColor {
     companion object {
-        @JsValue("primary") val primary: SliderColor
-        @JsValue("secondary") val secondary: SliderColor
-        @JsValue("error") val error: SliderColor
-        @JsValue("info") val info: SliderColor
-        @JsValue("success") val success: SliderColor
-        @JsValue("warning") val warning: SliderColor
+        @JsValue("primary")
+        val primary: SliderColor
+
+        @JsValue("secondary")
+        val secondary: SliderColor
+
+        @JsValue("error")
+        val error: SliderColor
+
+        @JsValue("info")
+        val info: SliderColor
+
+        @JsValue("success")
+        val success: SliderColor
+
+        @JsValue("warning")
+        val warning: SliderColor
     }
 }

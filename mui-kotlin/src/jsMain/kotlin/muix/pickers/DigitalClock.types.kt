@@ -6,27 +6,27 @@ import js.array.ReadonlyArray
 import react.ComponentType
 import react.Props
 
-external interface DigitalClockProps : ExportedDigitalClockProps {
+external interface DigitalClockProps :
+    ExportedDigitalClockProps {
     /**
      * Available views.
-     *
      * @default ['hours']
      */
     var views: ReadonlyArray<String /* 'hours' */>?
 
-    /** Override or extend the styles applied to the component. */
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: DigitalClockClasses?
 
     /**
      * Overrideable component slots.
-     *
      * @default {}
      */
     var slots: DigitalClockSlots?
 
     /**
      * The props used for each component slot.
-     *
      * @default {}
      */
     var slotProps: DigitalClockSlotProps?
@@ -37,7 +37,6 @@ external interface ExportedDigitalClockProps : Props
 external interface DigitalClockSlots {
     /**
      * Component responsible for rendering a single digital clock item.
-     *
      * @default MenuItem from '@mui/material'
      */
     var digitalClockItem: ComponentType<DigitalClockItemProps>?
@@ -48,7 +47,9 @@ external interface DigitalClockSlotProps : Props {
 }
 
 external interface DigitalClockOwnerState : PickerOwnerState {
-    /** `true` if this is not the initial render of the digital clock. */
+    /**
+     * `true` if this is not the initial render of the digital clock.
+     */
     var hasDigitalClockAlreadyBeenRendered: Boolean
 }
 

@@ -6,6 +6,7 @@ package mui.system
 
 import js.array.ReadonlyArray
 import js.objects.Record
+import mui.system.Breakpoints
 
 external interface Breakpoints {
     var keys: ReadonlyArray<Breakpoint>
@@ -24,25 +25,28 @@ external interface Breakpoints {
 
     var unit: String?
 
-    /** @ignore - Do not document. */
+    /**
+     * @ignore - Do not document.
+     */
     var internal_mediaKeys: ReadonlyArray<String>
 }
 
 external interface BreakpointsOptions : Breakpoints {
     /**
-     * The increment divided by 100 used to implement exclusive breakpoints. For example, `step: 5`
-     * means that `down(500)` will result in `'(max-width: 499.95px)'`.
-     *
+     * The increment divided by 100 used to implement exclusive breakpoints.
+     * For example, `step: 5` means that `down(500)` will result in `'(max-width: 499.95px)'`.
      * @default 5
      */
     var step: Number?
 
     /**
      * The unit used for the breakpoint's values.
-     *
      * @default 'px'
      */
     override var unit: String?
 }
 
-@JsName("default") external fun createBreakpoints(breakpoints: BreakpointsOptions): Breakpoints
+@JsName("default")
+external fun createBreakpoints(
+    breakpoints: BreakpointsOptions,
+): Breakpoints

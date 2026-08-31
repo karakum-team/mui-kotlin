@@ -4,10 +4,11 @@
 
 package mui.material
 
+import web.dom.Element
 import mui.material.styles.Theme
-import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import mui.system.PropsWithSx
 import react.FC
 import react.PropsWithChildren
 import react.ReactNode
@@ -15,41 +16,49 @@ import react.dom.html.TableHTMLAttributes
 import web.html.HTMLTableElement
 
 external interface TableProps :
-    TableOwnProps, TableHTMLAttributes<HTMLTableElement>, PropsWithComponent
+    TableOwnProps,
+    TableHTMLAttributes<HTMLTableElement>,
+    PropsWithComponent
 
-external interface TableOwnProps : PropsWithChildren, PropsWithSx {
-    /** The content of the table, normally `TableHead` and `TableBody`. */
+external interface TableOwnProps :
+    PropsWithChildren,
+    PropsWithSx {
+    /**
+     * The content of the table, normally `TableHead` and `TableBody`.
+     */
     override var children: ReactNode?
 
-    /** Override or extend the styles applied to the component. */
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: TableClasses?
 
     /**
      * Allows TableCells to inherit padding of the Table.
-     *
      * @default 'normal'
      */
     var padding: TablePadding?
 
     /**
      * Allows TableCells to inherit size of the Table.
-     *
      * @default 'medium'
      */
     var size: BaseSize?
 
     /**
      * Set the header sticky.
-     *
      * @default false
      */
     var stickyHeader: Boolean?
 
-    /** The system prop that allows defining system overrides as well as additional CSS styles. */
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
     override var sx: SxProps<Theme>?
 }
 
 /**
+ *
  * Demos:
  *
  * - [Table](https://mui.com/material-ui/react-table/)
@@ -58,4 +67,5 @@ external interface TableOwnProps : PropsWithChildren, PropsWithSx {
  *
  * - [Table API](https://mui.com/material-ui/api/table/)
  */
-@JsName("default") external val Table: FC<TableProps>
+@JsName("default")
+external val Table: FC<TableProps>

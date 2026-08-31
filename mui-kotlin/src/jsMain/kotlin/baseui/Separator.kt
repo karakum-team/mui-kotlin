@@ -7,16 +7,18 @@
 
 package baseui
 
-external interface SeparatorProps : BaseUiDivProps {
+external interface SeparatorProps :
+    BaseUiDivProps {
     /**
      * The orientation of the separator.
-     *
      * @default 'horizontal'
      */
     var orientation: Orientation?
 }
 
 external interface SeparatorState {
-    /** The orientation of the separator. */
+    /**
+     * The orientation of the separator.
+     */
     var orientation: Orientation
 }

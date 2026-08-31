@@ -1,14 +1,18 @@
 // Automatically generated - do not modify!
 
 @file:JsModule("@mui/material/BottomNavigationAction")
-@file:Suppress("VAR_TYPE_MISMATCH_ON_OVERRIDE")
+
+@file:Suppress(
+    "VAR_TYPE_MISMATCH_ON_OVERRIDE",
+)
 
 package mui.material
 
+import web.dom.Element
 import mui.material.styles.Theme
-import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import mui.system.PropsWithSx
 import react.ElementType
 import react.FC
 import react.Props
@@ -18,19 +22,19 @@ import react.dom.html.HTMLAttributes
 import web.html.HTMLSpanElement
 
 external interface BottomNavigationActionProps :
-    BottomNavigationActionOwnProps, PropsWithComponent, mui.material.ButtonBaseProps
+    BottomNavigationActionOwnProps,
+    PropsWithComponent,
+    mui.material.ButtonBaseProps
 
 external interface BottomNavigationActionSlots {
     /**
      * The component that renders the root.
-     *
      * @default ButtonBase
      */
     var root: ElementType<*>
 
     /**
      * The component that renders the label.
-     *
      * @default span
      */
     var label: ElementType<*>
@@ -51,41 +55,55 @@ external interface BottomNavigationActionSlotsAndSlotProps : Props {
 }
 
 external interface BottomNavigationActionOwnProps :
-    BottomNavigationActionSlotsAndSlotProps, PropsWithChildren, PropsWithSx, ButtonBaseProps {
+    BottomNavigationActionSlotsAndSlotProps,
+    PropsWithChildren,
+    PropsWithSx,
+    ButtonBaseProps {
     /**
-     * This prop isn't supported. Use the `component` prop if you need to change the children
-     * structure.
+     * This prop isn't supported.
+     * Use the `component` prop if you need to change the children structure.
      */
     override var children: ReactNode?
 
-    /** Override or extend the styles applied to the component. */
+    /**
+     * Override or extend the styles applied to the component.
+     */
     override var classes: BottomNavigationActionClasses?
 
-    /** The icon to display. */
+    /**
+     * The icon to display.
+     */
     var icon: ReactNode?
 
-    /** The label element. */
+    /**
+     * The label element.
+     */
     var label: ReactNode?
 
     /**
-     * If `true`, the `BottomNavigationAction` will show its label. By default, only the selected
-     * `BottomNavigationAction` inside `BottomNavigation` will show its label.
+     * If `true`, the `BottomNavigationAction` will show its label.
+     * By default, only the selected `BottomNavigationAction`
+     * inside `BottomNavigation` will show its label.
      *
-     * The prop defaults to the value (`false`) inherited from the parent BottomNavigation
-     * component.
+     * The prop defaults to the value (`false`) inherited from the parent BottomNavigation component.
      */
     var showLabel: Boolean?
 
-    /** The system prop that allows defining system overrides as well as additional CSS styles. */
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
     override var sx: SxProps<Theme>?
 
-    /** You can provide your own value. Otherwise, we fallback to the child position index. */
+    /**
+     * You can provide your own value. Otherwise, we fallback to the child position index.
+     */
     override var value: Any?
 }
 
 external interface BottomNavigationActionOwnerState
 
 /**
+ *
  * Demos:
  *
  * - [Bottom Navigation](https://mui.com/material-ui/react-bottom-navigation/)
@@ -95,4 +113,5 @@ external interface BottomNavigationActionOwnerState
  * - [BottomNavigationAction API](https://mui.com/material-ui/api/bottom-navigation-action/)
  * - inherits [ButtonBase API](https://mui.com/material-ui/api/button-base/)
  */
-@JsName("default") external val BottomNavigationAction: FC<BottomNavigationActionProps>
+@JsName("default")
+external val BottomNavigationAction: FC<BottomNavigationActionProps>

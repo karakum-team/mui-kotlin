@@ -2,13 +2,21 @@
 
 package mui.material
 
+import mui.material.SlideDirection
 import seskar.js.JsValue
 
 sealed external interface SlideDirection {
     companion object {
-        @JsValue("left") val left: SlideDirection
-        @JsValue("right") val right: SlideDirection
-        @JsValue("up") val up: SlideDirection
-        @JsValue("down") val down: SlideDirection
+        @JsValue("left")
+        val left: SlideDirection
+
+        @JsValue("right")
+        val right: SlideDirection
+
+        @JsValue("up")
+        val up: SlideDirection
+
+        @JsValue("down")
+        val down: SlideDirection
     }
 }

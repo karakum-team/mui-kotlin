@@ -2,12 +2,13 @@
 
 package mui.base
 
+import web.dom.ElementId
+import web.dom.Element
+import web.events.Event
 import react.Props
 import react.Ref
 import react.RefCallback
 import react.dom.events.MouseEventHandler
-import web.dom.Element
-import web.dom.ElementId
 
 external interface MenuItemMetadata {
     var id: ElementId?
@@ -39,27 +40,38 @@ external interface UseMenuItemParameters {
 external interface UseMenuItemReturnValue {
     /**
      * Resolver for the root slot's props.
-     *
      * @param externalProps event handlers for the root slot
      * @returns props that should be spread on the root slot
      */
     var getRootProps: (externalProps: Props?) -> Props
 
-    /** If `true`, the component is disabled. */
+    /**
+     * If `true`, the component is disabled.
+     */
     var disabled: Boolean
 
-    /** If `true`, the component is being focused using keyboard. */
+    /**
+     * If `true`, the component is being focused using keyboard.
+     */
     var focusVisible: Boolean
 
-    /** If `true`, the component is being highlighted. */
+    /**
+     * If `true`, the component is being highlighted.
+     */
     var highlighted: Boolean
 
-    /** 0-based index of the item in the menu. */
+    /**
+     * 0-based index of the item in the menu.
+     */
     var index: Number
 
-    /** The ref to the component's root DOM element. */
+    /**
+     * The ref to the component's root DOM element.
+     */
     var rootRef: RefCallback<Element>?
 
-    /** Total number of items in the menu. */
+    /**
+     * Total number of items in the menu.
+     */
     var totalItemCount: Number
 }

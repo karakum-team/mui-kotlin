@@ -8,19 +8,25 @@
 package baseui
 
 import web.dom.ElementId
+import web.dom.Element
 
-external interface MenuSubmenuTriggerProps : NonNativeButtonProps, BaseUiDivProps {
+external interface MenuSubmenuTriggerProps :
+    NonNativeButtonProps,
+    BaseUiDivProps {
     var onClick: Any? /* BaseUiDivProps['onClick'] */
 
-    /** Overrides the text label to use when the item is matched during keyboard text navigation. */
+    /**
+     * Overrides the text label to use when the item is matched during keyboard text navigation.
+     */
     var label: String?
 
-    /** @ignore */
+    /**
+     * @ignore
+     */
     var id: ElementId?
 
     /**
      * Whether the component should ignore user interaction.
-     *
      * @default false
      */
     var disabled: Boolean?
@@ -29,31 +35,38 @@ external interface MenuSubmenuTriggerProps : NonNativeButtonProps, BaseUiDivProp
      * How long to wait before the menu may be opened on hover. Specified in milliseconds.
      *
      * Requires the `openOnHover` prop.
-     *
      * @default 100
      */
     var delay: Number?
 
     /**
-     * How long to wait before closing the menu that was opened on hover. Specified in milliseconds.
+     * How long to wait before closing the menu that was opened on hover.
+     * Specified in milliseconds.
      *
      * Requires the `openOnHover` prop.
-     *
      * @default 0
      */
     var closeDelay: Number?
 
-    /** Whether the menu should also open when the trigger is hovered. */
+    /**
+     * Whether the menu should also open when the trigger is hovered.
+     */
     var openOnHover: Boolean?
 }
 
 external interface MenuSubmenuTriggerState {
-    /** Whether the component should ignore user interaction. */
+    /**
+     * Whether the component should ignore user interaction.
+     */
     var disabled: Boolean
 
-    /** Whether the item is highlighted. */
+    /**
+     * Whether the item is highlighted.
+     */
     var highlighted: Boolean
 
-    /** Whether the menu is currently open. */
+    /**
+     * Whether the menu is currently open.
+     */
     var open: Boolean
 }

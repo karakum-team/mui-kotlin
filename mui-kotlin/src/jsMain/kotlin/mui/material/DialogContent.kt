@@ -4,10 +4,11 @@
 
 package mui.material
 
+import web.dom.Element
 import mui.material.styles.Theme
+import mui.system.SxProps
 import mui.system.PropsWithSx
 import mui.system.StandardProps
-import mui.system.SxProps
 import react.FC
 import react.PropsWithChildren
 import react.ReactNode
@@ -15,25 +16,34 @@ import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
 external interface DialogContentProps :
-    StandardProps, HTMLAttributes<HTMLDivElement>, PropsWithChildren, PropsWithSx {
-    /** The content of the component. */
+    StandardProps,
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithChildren,
+    PropsWithSx {
+    /**
+     * The content of the component.
+     */
     override var children: ReactNode?
 
-    /** Override or extend the styles applied to the component. */
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: DialogContentClasses?
 
     /**
      * Display the top and bottom dividers.
-     *
      * @default false
      */
     var dividers: Boolean?
 
-    /** The system prop that allows defining system overrides as well as additional CSS styles. */
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
     override var sx: SxProps<Theme>?
 }
 
 /**
+ *
  * Demos:
  *
  * - [Dialog](https://mui.com/material-ui/react-dialog/)
@@ -42,4 +52,5 @@ external interface DialogContentProps :
  *
  * - [DialogContent API](https://mui.com/material-ui/api/dialog-content/)
  */
-@JsName("default") external val DialogContent: FC<DialogContentProps>
+@JsName("default")
+external val DialogContent: FC<DialogContentProps>

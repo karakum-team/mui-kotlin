@@ -5,40 +5,46 @@ package mui.system
 import react.PropsWithChildren
 import react.ReactNode
 
-external interface StackProps : StackBaseProps, PropsWithSx {
-    /** The system prop, which allows defining system overrides as well as additional CSS styles. */
+external interface StackProps :
+    StackBaseProps,
+    PropsWithSx {
+    /**
+     * The system prop, which allows defining system overrides as well as additional CSS styles.
+     */
     override var sx: SxProps<Theme>?
 }
 
 external interface StackBaseProps : PropsWithChildren {
-    /** The content of the component. */
+    /**
+     * The content of the component.
+     */
     override var children: ReactNode?
 
     /**
-     * Defines the `flex-direction` style property. It is applied for all screen sizes.
-     *
+     * Defines the `flex-direction` style property.
+     * It is applied for all screen sizes.
      * @default 'column'
      */
     var direction: ResponsiveStyleValue<StackDirection>?
 
     /**
      * Defines the space between immediate children.
-     *
      * @default 0
      */
     var spacing: ResponsiveStyleValue<Any /* number | string */>?
 
-    /** Add an element between each child. */
+    /**
+     * Add an element between each child.
+     */
     var divider: ReactNode?
 
     /**
      * If `true`, the CSS flexbox `gap` is used instead of applying `margin` to children.
      *
-     * While CSS `gap` removes the known limitations, it is not fully supported in some browsers. We
-     * recommend checking https://caniuse.com/?search=flex%20gap before using this flag.
+     * While CSS `gap` removes the known limitations,
+     * it is not fully supported in some browsers. We recommend checking https://caniuse.com/?search=flex%20gap before using this flag.
      *
      * To enable this flag globally, follow the theme's default props configuration.
-     *
      * @default false
      */
     var useFlexGap: Boolean?

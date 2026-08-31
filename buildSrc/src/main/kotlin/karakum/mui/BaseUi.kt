@@ -193,7 +193,8 @@ internal fun baseUiNamespaceObject(
         "val ${part.alias}: react.FC<${part.declaredName}Props>"
     }
 
-    // Emitted without indentation, as every generated body is — spotless formats the tree afterwards.
+    // Emitted without indentation, as every generated body is — `formatDeclarations` lays out the tree
+    // afterwards.
     return """
 /**
  * `export * as $namespace` from `@base-ui/react/${module.id}` — the module's only value export.
@@ -325,7 +326,7 @@ render = block
  * The `extends` list of a generated `external interface`, or `null` when it declares none.
  *
  * Matched against the body as the converter emits it, which is neither indented nor line-wrapped the way
- * the committed tree is — that is spotless' work and it runs later. Two consequences: the colon has no
+ * the committed tree is — that is `formatDeclarations`' work and it runs later. Two consequences: the colon has no
  * space before it (`MenuPopupProps: `), and each parent sits on its own line, so the list has to be read
  * across newlines up to the opening brace.
  *

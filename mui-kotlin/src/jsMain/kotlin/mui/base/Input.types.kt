@@ -2,97 +2,119 @@
 
 package mui.base
 
+import web.dom.ElementId
+import web.dom.Element
+import web.html.InputType
+import web.cssom.ClassName
+import web.events.Event
 import react.ElementType
 import react.Props
 import react.PropsWithClassName
 import react.ReactNode
 import react.dom.events.KeyboardEventHandler
 import react.dom.html.HTMLAttributes
-import web.cssom.ClassName
-import web.dom.ElementId
 import web.html.HTMLInputElement
-import web.html.InputType
 
-external interface InputProps : InputOwnProps, HTMLAttributes<HTMLInputElement>
+external interface InputProps :
+    InputOwnProps,
+    HTMLAttributes<HTMLInputElement>
 
 external interface InputBaseProps : Props {
-    /** Maximum number of rows to display when multiline option is set to true. */
+    /**
+     * Maximum number of rows to display when multiline option is set to true.
+     */
     var maxRows: Number?
 
-    /** Minimum number of rows to display when multiline option is set to true. */
+    /**
+     * Minimum number of rows to display when multiline option is set to true.
+     */
     var minRows: Number?
 
     /**
      * If `true`, a `textarea` element is rendered.
-     *
      * @default false
      */
     var multiline: Boolean /* true */
 
-    /** Number of rows to display when multiline option is set to true. */
+    /**
+     * Number of rows to display when multiline option is set to true.
+     */
     var rows: Int?
 
     /**
-     * Type of the `input` element. It should be
-     * [a valid HTML5 input type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types).
-     *
+     * Type of the `input` element. It should be [a valid HTML5 input type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types).
      * @default 'text'
      */
     var type: InputType?
 }
 
-external interface InputOwnProps : InputBaseProps, PropsWithClassName {
-    @JsName("aria-describedby") var ariaDescribedBy: ElementId?
+external interface InputOwnProps :
+    InputBaseProps,
+    PropsWithClassName {
+    @JsName("aria-describedby")
+    var ariaDescribedBy: ElementId?
 
-    @JsName("aria-label") var ariaLabel: String?
+    @JsName("aria-label")
+    var ariaLabel: String?
 
-    @JsName("aria-labelledby") var ariaLabelledBy: ElementId?
+    @JsName("aria-labelledby")
+    var ariaLabelledBy: ElementId?
 
     /**
-     * This prop helps users to fill forms faster, especially on mobile devices. The name can be
-     * confusing, as it's more like an autofill. You can learn more about it
-     * [following the specification](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill).
+     * This prop helps users to fill forms faster, especially on mobile devices.
+     * The name can be confusing, as it's more like an autofill.
+     * You can learn more about it [following the specification](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill).
      */
     var autoComplete: String?
 
-    /** If `true`, the `input` element is focused during the first mount. */
+    /**
+     * If `true`, the `input` element is focused during the first mount.
+     */
     var autoFocus: Boolean?
 
-    /** Class name applied to the root element. */
+    /**
+     * Class name applied to the root element.
+     */
     override var className: ClassName?
 
-    /** Trailing adornment for this input. */
+    /**
+     * Trailing adornment for this input.
+     */
     var endAdornment: ReactNode?
 
     /**
-     * If `true`, the `input` will indicate an error by setting the `aria-invalid` attribute on the
-     * input and the `baseui--error` class on the root element. The prop defaults to the value
-     * (`false`) inherited from the parent FormControl component.
+     * If `true`, the `input` will indicate an error by setting the `aria-invalid` attribute on the input and the `baseui--error` class on the root element.
+     * The prop defaults to the value (`false`) inherited from the parent FormControl component.
      */
     var error: Boolean?
 
-    /** The id of the `input` element. */
+    /**
+     * The id of the `input` element.
+     */
     var id: ElementId?
 
-    /** Name attribute of the `input` element. */
+    /**
+     * Name attribute of the `input` element.
+     */
     var name: String?
 
     var onKeyDown: KeyboardEventHandler<HTMLInputElement>?
 
     var onKeyUp: KeyboardEventHandler<HTMLInputElement>?
 
-    /** The short hint displayed in the `input` before the user enters a value. */
+    /**
+     * The short hint displayed in the `input` before the user enters a value.
+     */
     var placeholder: String?
 
     /**
-     * It prevents the user from changing the value of the field (not from interacting with the
-     * field).
+     * It prevents the user from changing the value of the field
+     * (not from interacting with the field).
      */
     var readOnly: Boolean?
 
     /**
      * The props used for each slot inside the Input.
-     *
      * @default {}
      */
     var slotProps: SlotProps?
@@ -103,38 +125,38 @@ external interface InputOwnProps : InputBaseProps, PropsWithClassName {
     }
 
     /**
-     * The components used for each slot inside the InputBase. Either a string to use a HTML element
-     * or a component.
-     *
+     * The components used for each slot inside the InputBase.
+     * Either a string to use a HTML element or a component.
      * @default {}
      */
     var slots: InputSlots?
 
-    /** Leading adornment for this input. */
+    /**
+     * Leading adornment for this input.
+     */
     var startAdornment: ReactNode?
 
-    /** The value of the `input` element, required for a controlled component. */
+    /**
+     * The value of the `input` element, required for a controlled component.
+     */
     var value: Any?
 }
 
 external interface InputSlots {
     /**
      * The component that renders the root.
-     *
      * @default 'div'
      */
     var root: ElementType<*>?
 
     /**
      * The component that renders the input.
-     *
      * @default 'input'
      */
     var input: ElementType<*>?
 
     /**
      * The component that renders the textarea.
-     *
      * @default 'textarea'
      */
     var textarea: ElementType<*>?

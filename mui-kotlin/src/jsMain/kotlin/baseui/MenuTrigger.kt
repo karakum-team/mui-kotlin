@@ -10,48 +10,59 @@ package baseui
 import react.PropsWithChildren
 import react.ReactNode
 
-external interface MenuTriggerProps : NativeButtonProps, BaseUiButtonProps, PropsWithChildren {
+external interface MenuTriggerProps :
+    NativeButtonProps,
+    BaseUiButtonProps,
+    PropsWithChildren {
     override var children: ReactNode?
 
     /**
      * Whether the component should ignore user interaction.
-     *
      * @default false
      */
     var disabled: Boolean?
 
-    /** A handle to associate the trigger with a menu. */
+    /**
+     * A handle to associate the trigger with a menu.
+     */
     var handle: Any? /* MenuHandle<Payload> */
 
-    /** A payload to pass to the menu when it is opened. */
+    /**
+     * A payload to pass to the menu when it is opened.
+     */
     var payload: Any? /* Payload */
 
     /**
      * How long to wait before the menu may be opened on hover. Specified in milliseconds.
      *
      * Requires the `openOnHover` prop.
-     *
      * @default 100
      */
     var delay: Number?
 
     /**
-     * How long to wait before closing the menu that was opened on hover. Specified in milliseconds.
+     * How long to wait before closing the menu that was opened on hover.
+     * Specified in milliseconds.
      *
      * Requires the `openOnHover` prop.
-     *
      * @default 0
      */
     var closeDelay: Number?
 
-    /** Whether the menu should also open when the trigger is hovered. */
+    /**
+     * Whether the menu should also open when the trigger is hovered.
+     */
     var openOnHover: Boolean?
 }
 
 external interface MenuTriggerState {
-    /** Whether the menu is currently open and was opened by this trigger. */
+    /**
+     * Whether the menu is currently open and was opened by this trigger.
+     */
     var open: Boolean
 
-    /** Whether the trigger is disabled. */
+    /**
+     * Whether the trigger is disabled.
+     */
     var disabled: Boolean
 }

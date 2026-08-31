@@ -2,24 +2,33 @@
 
 package mui.base
 
+import web.dom.Element
+import web.events.Event
 import react.ElementType
 import react.Props
 import react.dom.events.SyntheticEvent
 import react.dom.html.ButtonHTMLAttributes
 import web.html.HTMLButtonElement
 
-external interface TabProps : TabOwnProps, ButtonHTMLAttributes<HTMLButtonElement>
+external interface TabProps :
+    TabOwnProps,
+    ButtonHTMLAttributes<HTMLButtonElement>
 
-external interface TabOwnProps : mui.base.ButtonOwnProps, ButtonHTMLAttributes<HTMLButtonElement> {
-    /** You can provide your own value. Otherwise, it falls back to the child position index. */
+external interface TabOwnProps :
+    mui.base.ButtonOwnProps,
+    ButtonHTMLAttributes<HTMLButtonElement> {
+    /**
+     * You can provide your own value. Otherwise, it falls back to the child position index.
+     */
     override var value: Any? /* number | string */
 
-    /** Callback invoked when new value is being set. */
+    /**
+     * Callback invoked when new value is being set.
+     */
     var onChange: ((event: SyntheticEvent<*, *>, value: Any /* Number | String */) -> Unit)?
 
     /**
      * The props used for each slot inside the Tab.
-     *
      * @default {}
      */
     override var slotProps: ButtonOwnProps.SlotProps?
@@ -29,9 +38,8 @@ external interface TabOwnProps : mui.base.ButtonOwnProps, ButtonHTMLAttributes<H
     }
 
     /**
-     * The components used for each slot inside the Tab. Either a string to use a HTML element or a
-     * component.
-     *
+     * The components used for each slot inside the Tab.
+     * Either a string to use a HTML element or a component.
      * @default {}
      */
     override var slots: ButtonSlots? /* TabSlots? */
@@ -40,7 +48,6 @@ external interface TabOwnProps : mui.base.ButtonOwnProps, ButtonHTMLAttributes<H
 external interface TabSlots {
     /**
      * The component that renders the root.
-     *
      * @default 'button'
      */
     var root: ElementType<*>?

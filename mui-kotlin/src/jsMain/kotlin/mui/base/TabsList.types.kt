@@ -2,26 +2,32 @@
 
 package mui.base
 
+import web.dom.Element
+import web.cssom.ClassName
 import react.ElementType
 import react.Props
 import react.PropsWithChildren
 import react.PropsWithClassName
 import react.ReactNode
 import react.dom.html.HTMLAttributes
-import web.cssom.ClassName
 import web.html.HTMLDivElement
 
-external interface TabsListProps : TabsListOwnProps, HTMLAttributes<HTMLDivElement>
+external interface TabsListProps :
+    TabsListOwnProps,
+    HTMLAttributes<HTMLDivElement>
 
-external interface TabsListOwnProps : PropsWithChildren, PropsWithClassName {
-    /** The content of the component. */
+external interface TabsListOwnProps :
+    PropsWithChildren,
+    PropsWithClassName {
+    /**
+     * The content of the component.
+     */
     override var children: ReactNode?
 
     override var className: ClassName?
 
     /**
      * The props used for each slot inside the TabsList.
-     *
      * @default {}
      */
     var slotProps: SlotProps?
@@ -31,9 +37,8 @@ external interface TabsListOwnProps : PropsWithChildren, PropsWithClassName {
     }
 
     /**
-     * The components used for each slot inside the TabsList. Either a string to use a HTML element
-     * or a component.
-     *
+     * The components used for each slot inside the TabsList.
+     * Either a string to use a HTML element or a component.
      * @default {}
      */
     var slots: TabsListSlots?
@@ -42,7 +47,6 @@ external interface TabsListOwnProps : PropsWithChildren, PropsWithClassName {
 external interface TabsListSlots {
     /**
      * The component that renders the root.
-     *
      * @default 'div'
      */
     var root: ElementType<*>?

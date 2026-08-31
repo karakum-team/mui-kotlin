@@ -6,7 +6,10 @@ import seskar.js.JsValue
 
 sealed external interface Orientation {
     companion object {
-        @JsValue("horizontal") val horizontal: Orientation
-        @JsValue("vertical") val vertical: Orientation
+        @JsValue("horizontal")
+        val horizontal: Orientation
+
+        @JsValue("vertical")
+        val vertical: Orientation
     }
 }

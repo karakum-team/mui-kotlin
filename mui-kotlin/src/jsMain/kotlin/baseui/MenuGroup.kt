@@ -10,8 +10,12 @@ package baseui
 import react.PropsWithChildren
 import react.ReactNode
 
-external interface MenuGroupProps : BaseUiDivProps, PropsWithChildren {
-    /** The content of the component. */
+external interface MenuGroupProps :
+    BaseUiDivProps,
+    PropsWithChildren {
+    /**
+     * The content of the component.
+     */
     override var children: ReactNode?
 }
 

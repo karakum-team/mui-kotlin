@@ -2,30 +2,34 @@
 
 package mui.base
 
+import web.dom.Element
+import web.cssom.ClassName
 import react.ElementType
 import react.Props
 import react.PropsWithClassName
 import react.dom.html.HTMLAttributes
-import web.cssom.ClassName
 import web.html.HTMLSpanElement
 
-external interface SwitchProps : SwitchOwnProps, HTMLAttributes<HTMLSpanElement>
+external interface SwitchProps :
+    SwitchOwnProps,
+    HTMLAttributes<HTMLSpanElement>
 
-external interface SwitchOwnProps : PropsWithClassName {
-    /** Class name applied to the root element. */
+external interface SwitchOwnProps :
+    PropsWithClassName {
+    /**
+     * Class name applied to the root element.
+     */
     override var className: ClassName?
 
     /**
-     * The components used for each slot inside the Switch. Either a string to use a HTML element or
-     * a component.
-     *
+     * The components used for each slot inside the Switch.
+     * Either a string to use a HTML element or a component.
      * @default {}
      */
     var slots: SwitchSlots?
 
     /**
      * The props used for each slot inside the Switch.
-     *
      * @default {}
      */
     var slotProps: SlotProps?
@@ -41,28 +45,24 @@ external interface SwitchOwnProps : PropsWithClassName {
 external interface SwitchSlots {
     /**
      * The component that renders the root.
-     *
      * @default 'span'
      */
     var root: ElementType<*>?
 
     /**
      * The component that renders the input.
-     *
      * @default 'input'
      */
     var input: ElementType<*>?
 
     /**
      * The component that renders the thumb.
-     *
      * @default 'span'
      */
     var thumb: ElementType<*>?
 
     /**
      * The component that renders the track.
-     *
      * @default 'span'
      */
     var track: ElementType<*>?

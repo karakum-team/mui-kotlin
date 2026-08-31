@@ -4,15 +4,20 @@
 
 package mui.material
 
+import web.dom.Element
+import web.html.HTMLElement
 import mui.material.transitions.TransitionProps
 import react.FC
 import react.PropsWithChildren
 import react.ReactNode
 
-external interface FadeProps : TransitionProps, PropsWithChildren {
+external interface FadeProps :
+    TransitionProps,
+    PropsWithChildren {
     /**
-     * Add a custom transition end trigger. Use it when you need custom logic to decide when the
-     * transition has ended. Note: Timeouts are still used as a fallback if provided.
+     * Add a custom transition end trigger.
+     * Use it when you need custom logic to decide when the transition has ended.
+     * Note: Timeouts are still used as a fallback if provided.
      *
      * @param {HTMLElement} node The transitioning DOM node.
      * @param {Function} done Call this when the transition has finished.
@@ -20,38 +25,41 @@ external interface FadeProps : TransitionProps, PropsWithChildren {
     var addEndListener: Any? /* TransitionProps['addEndListener'] */
 
     /**
-     * Perform the enter transition when it first mounts if `in` is also `true`. Set this to `false`
-     * to disable this behavior.
-     *
+     * Perform the enter transition when it first mounts if `in` is also `true`.
+     * Set this to `false` to disable this behavior.
      * @default true
      */
     var appear: Boolean?
 
-    /** A single child content element. */
+    /**
+     * A single child content element.
+     */
     override var children: ReactNode? /* React.ReactElement<unknown, any> */
 
     /**
      * If `true`, the transition ignores `theme.motion.reducedMotion` and keeps its normal timing.
-     *
      * @default false
      */
     var disablePrefersReducedMotion: Boolean?
 
     /**
-     * The transition timing function. You may specify a single easing or a object containing enter
-     * and exit values.
+     * The transition timing function.
+     * You may specify a single easing or a object containing enter and exit values.
      */
     var easing: Any? /* TransitionProps['easing'] */
 
-    /** If `true`, the component will transition in. */
+    /**
+     * If `true`, the component will transition in.
+     */
     var `in`: Boolean?
 
     /**
-     * The duration for the transition, in milliseconds. You may specify a single timeout for all
-     * transitions, or individually with an object.
-     *
-     * @default { enter: theme.transitions.duration.enteringScreen, exit:
-     *   theme.transitions.duration.leavingScreen, }
+     * The duration for the transition, in milliseconds.
+     * You may specify a single timeout for all transitions, or individually with an object.
+     * @default {
+     *   enter: theme.transitions.duration.enteringScreen,
+     *   exit: theme.transitions.duration.leavingScreen,
+     * }
      */
     var timeout: Any? /* TransitionProps['timeout'] */
 }
@@ -68,4 +76,5 @@ external interface FadeProps : TransitionProps, PropsWithChildren {
  * - [Fade API](https://mui.com/material-ui/api/fade/)
  * - inherits [Transition API](https://reactcommunity.org/react-transition-group/transition/#Transition-props)
  */
-@JsName("default") external val Fade: FC<FadeProps>
+@JsName("default")
+external val Fade: FC<FadeProps>

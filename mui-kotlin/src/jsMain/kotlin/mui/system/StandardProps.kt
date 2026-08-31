@@ -5,4 +5,6 @@ package mui.system
 import react.PropsWithClassName
 import react.PropsWithStyle
 
-external interface StandardProps : PropsWithStyle, PropsWithClassName
+external interface StandardProps :
+    PropsWithStyle,
+    PropsWithClassName

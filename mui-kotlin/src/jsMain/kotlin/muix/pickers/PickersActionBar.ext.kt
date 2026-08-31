@@ -6,11 +6,22 @@ import seskar.js.JsValue
 
 sealed external interface PickersActionBarAction {
     companion object {
-        @JsValue("clear") val clear: PickersActionBarAction
-        @JsValue("cancel") val cancel: PickersActionBarAction
-        @JsValue("accept") val accept: PickersActionBarAction
-        @JsValue("today") val today: PickersActionBarAction
-        @JsValue("next") val next: PickersActionBarAction
-        @JsValue("nextOrAccept") val nextOrAccept: PickersActionBarAction
+        @JsValue("clear")
+        val clear: PickersActionBarAction
+
+        @JsValue("cancel")
+        val cancel: PickersActionBarAction
+
+        @JsValue("accept")
+        val accept: PickersActionBarAction
+
+        @JsValue("today")
+        val today: PickersActionBarAction
+
+        @JsValue("next")
+        val next: PickersActionBarAction
+
+        @JsValue("nextOrAccept")
+        val nextOrAccept: PickersActionBarAction
     }
 }

@@ -1,31 +1,44 @@
 // Automatically generated - do not modify!
 
 @file:JsModule("@mui/lab/TimelineContent")
-@file:Suppress("VIRTUAL_MEMBER_HIDDEN")
+
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
 
 package mui.lab
 
 import mui.material.styles.Theme
+import mui.system.SxProps
 import mui.system.PropsWithSx
 import mui.system.StandardProps
-import mui.system.SxProps
 import react.FC
 import react.PropsWithChildren
 import react.ReactNode
 
 external interface TimelineContentProps :
-    StandardProps, mui.material.TypographyProps, PropsWithChildren, PropsWithSx {
-    /** The content of the component. */
+    StandardProps,
+    mui.material.TypographyProps,
+    PropsWithChildren,
+    PropsWithSx {
+    /**
+     * The content of the component.
+     */
     override var children: ReactNode?
 
-    /** Override or extend the styles applied to the component. */
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: TimelineContentClasses?
 
-    /** The system prop that allows defining system overrides as well as additional CSS styles. */
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
     override var sx: SxProps<Theme>?
 }
 
 /**
+ *
  * Demos:
  *
  * - [Timeline](https://mui.com/material-ui/react-timeline/)
@@ -35,4 +48,5 @@ external interface TimelineContentProps :
  * - [TimelineContent API](https://mui.com/material-ui/api/timeline-content/)
  * - inherits [Typography API](https://mui.com/material-ui/api/typography/)
  */
-@JsName("default") external val TimelineContent: FC<TimelineContentProps>
+@JsName("default")
+external val TimelineContent: FC<TimelineContentProps>

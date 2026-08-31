@@ -232,7 +232,11 @@ internal fun String.toFunctionType(): String? {
  * The replacements are a curated list built against the shapes the MUI packages use; a shape not on it
  * passes through untouched, and the result is emitted as if it were Kotlin. Three such shapes reach
  * here from Base UI, and each is a parse error — the generated file stops being Kotlin at all, which is
- * how they were found (ktfmt refused to format it):
+ * how they were found: ktfmt, which formatted the tree at the time, refused to parse the file. Do not
+ * read that as a standing safety net. IntelliJ IDEA's formatter replaced ktfmt and does not fail on a
+ * region it cannot parse — it leaves it alone and exits 0 — so a generated non-Kotlin construct now
+ * surfaces one task later, at `compileKotlinJs`, with a less pointed message. The check below is what
+ * keeps it from getting that far:
  *
  *     value: Value extends Number ? Number : Value        // conditional type (Base UI `slider`)
  *     ->ReadonlyArray<String>? | Promise<…>               // union in return position (Base UI `field`)

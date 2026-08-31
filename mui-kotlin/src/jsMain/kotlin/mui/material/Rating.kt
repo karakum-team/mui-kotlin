@@ -1,6 +1,7 @@
 // Automatically generated - do not modify!
 
 @file:JsModule("@mui/material/Rating")
+
 @file:Suppress(
     "VIRTUAL_MEMBER_HIDDEN",
     "VAR_TYPE_MISMATCH_ON_OVERRIDE",
@@ -8,10 +9,12 @@
 
 package mui.material
 
+import web.dom.Element
+import web.events.Event
 import mui.material.styles.Theme
-import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
+import mui.system.PropsWithSx
 import react.ElementType
 import react.FC
 import react.Props
@@ -22,37 +25,37 @@ import react.dom.html.LabelHTMLAttributes
 import web.html.HTMLLabelElement
 import web.html.HTMLSpanElement
 
-external interface RatingProps : RatingOwnProps, HTMLAttributes<HTMLSpanElement>, PropsWithComponent
+external interface RatingProps :
+    RatingOwnProps,
+    HTMLAttributes<HTMLSpanElement>,
+    PropsWithComponent
 
-external interface IconContainerProps : HTMLAttributes<HTMLSpanElement> {
+external interface IconContainerProps :
+    HTMLAttributes<HTMLSpanElement> {
     var value: Number
 }
 
 external interface RatingSlots {
     /**
      * The component used for the root slot.
-     *
      * @default 'span'
      */
     var root: ElementType<*>
 
     /**
      * The component used for the label slot.
-     *
      * @default 'label'
      */
     var label: ElementType<*>
 
     /**
      * The component used for the icon slot.
-     *
      * @default 'span'
      */
     var icon: ElementType<*>
 
     /**
      * The component used for the decimal slot.
-     *
      * @default 'span'
      */
     var decimal: ElementType<*>
@@ -78,83 +81,78 @@ external interface RatingSlotsAndSlotProps : Props {
     var slotProps: RatingSlotProps?
 }
 
-external interface RatingOwnProps : RatingSlotsAndSlotProps, PropsWithSx {
-    /** Override or extend the styles applied to the component. */
+external interface RatingOwnProps :
+    RatingSlotsAndSlotProps,
+    PropsWithSx {
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: RatingClasses?
 
     /**
      * The default value. Use when the component is not controlled.
-     *
      * @default null
      */
     var defaultValue: Any? /* Number */
 
     /**
      * If `true`, the component is disabled.
-     *
      * @default false
      */
     var disabled: Boolean?
 
     /**
      * The icon to display when empty.
-     *
      * @default <StarBorder fontSize="inherit" />
      */
     var emptyIcon: ReactNode?
 
     /**
      * The label read when the rating input is empty.
-     *
      * @default 'Empty'
      */
     var emptyLabelText: ReactNode?
 
     /**
-     * Accepts a function which returns a string value that provides a user-friendly name for the
-     * current value of the rating. This is important for screen reader users.
+     * Accepts a function which returns a string value that provides a user-friendly name for the current value of the rating.
+     * This is important for screen reader users.
      *
-     * For localization purposes, you can use the provided
-     * [translations](https://mui.com/material-ui/guides/localization/).
-     *
+     * For localization purposes, you can use the provided [translations](https://mui.com/material-ui/guides/localization/).
      * @param {number} value The rating label's value to format.
      * @returns {string}
-     * @default function defaultLabelText(value) { return `${value || '0'} Star${value !== 1 ? 's' :
-     *   ''}`; }
+     * @default function defaultLabelText(value) {
+     *   return `${value || '0'} Star${value !== 1 ? 's' : ''}`;
+     * }
      */
     var getLabelText: ((value: Number) -> String)?
 
     /**
      * If `true`, only the selected icon will be highlighted.
-     *
      * @default false
      */
     var highlightSelectedOnly: Boolean?
 
     /**
      * The icon to display.
-     *
      * @default <Star fontSize="inherit" />
      */
     var icon: ReactNode?
 
     /**
      * Maximum rating.
-     *
      * @default 5
      */
     var max: Double?
 
     /**
-     * The name attribute of the radio `input` elements. This input `name` should be unique within
-     * the page. Being unique within a form is insufficient since the `name` is used to generate
-     * IDs.
+     * The name attribute of the radio `input` elements.
+     * This input `name` should be unique within the page.
+     * Being unique within a form is insufficient since the `name` is used to generate IDs.
      */
     var name: String?
 
     /**
      * Callback fired when the value changes.
-     *
      * @param {React.SyntheticEvent} event The event source of the callback.
      * @param {number|null} value The new value.
      */
@@ -162,7 +160,6 @@ external interface RatingOwnProps : RatingSlotsAndSlotProps, PropsWithSx {
 
     /**
      * Callback function that is fired when the hover state changes.
-     *
      * @param {React.SyntheticEvent} event The event source of the callback.
      * @param {number} value The new value.
      */
@@ -170,35 +167,37 @@ external interface RatingOwnProps : RatingSlotsAndSlotProps, PropsWithSx {
 
     /**
      * The minimum increment value change allowed.
-     *
      * @default 1
      */
     var precision: Double?
 
     /**
      * Removes all hover effects and pointer events.
-     *
      * @default false
      */
     var readOnly: Boolean?
 
     /**
      * The size of the component.
-     *
      * @default 'medium'
      */
     var size: Size?
 
-    /** The system prop that allows defining system overrides as well as additional CSS styles. */
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
     override var sx: SxProps<Theme>?
 
-    /** The rating value. */
+    /**
+     * The rating value.
+     */
     var value: Number?
 }
 
 external interface RatingOwnerState
 
 /**
+ *
  * Demos:
  *
  * - [Rating](https://mui.com/material-ui/react-rating/)
@@ -207,4 +206,5 @@ external interface RatingOwnerState
  *
  * - [Rating API](https://mui.com/material-ui/api/rating/)
  */
-@JsName("default") external val Rating: FC<RatingProps>
+@JsName("default")
+external val Rating: FC<RatingProps>

@@ -4,4 +4,7 @@
 
 package mui.base
 
-@JsName("default") external fun useBadge(parameters: UseBadgeParameters): UseBadgeReturnValue
+@JsName("default")
+external fun useBadge(
+    parameters: UseBadgeParameters,
+): UseBadgeReturnValue
