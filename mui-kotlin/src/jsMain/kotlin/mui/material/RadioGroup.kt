@@ -1,7 +1,10 @@
 // Automatically generated - do not modify!
 
 @file:JsModule("@mui/material/RadioGroup")
-@file:Suppress("VIRTUAL_MEMBER_HIDDEN")
+
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
 
 package mui.material
 
@@ -9,13 +12,16 @@ import react.FC
 import react.dom.events.ChangeEvent
 import web.html.HTMLInputElement
 
-external interface RadioGroupProps : FormGroupProps {
-    /** The default value. Use when the component is not controlled. */
+external interface RadioGroupProps :
+    FormGroupProps {
+    /**
+     * The default value. Use when the component is not controlled.
+     */
     var defaultValue: Any?
 
     /**
-     * The name used to reference the value of the control. If you don't provide this prop, it falls
-     * back to a randomly generated name.
+     * The name used to reference the value of the control.
+     * If you don't provide this prop, it falls back to a randomly generated name.
      */
     var name: String?
 
@@ -23,16 +29,19 @@ external interface RadioGroupProps : FormGroupProps {
      * Callback fired when a radio button is selected.
      *
      * @param {React.ChangeEvent<HTMLInputElement>} event The event source of the callback.
-     * @param {string} value The value of the selected radio button. You can pull out the new value
-     *   by accessing `event.target.value` (string).
+     * @param {string} value The value of the selected radio button.
+     * You can pull out the new value by accessing `event.target.value` (string).
      */
     var onChange: ((event: ChangeEvent<HTMLInputElement, *>, value: String) -> Unit)?
 
-    /** Value of the selected radio button. The DOM API casts this to a string. */
+    /**
+     * Value of the selected radio button. The DOM API casts this to a string.
+     */
     var value: Any?
 }
 
 /**
+ *
  * Demos:
  *
  * - [Radio Group](https://mui.com/material-ui/react-radio-button/)
@@ -42,4 +51,5 @@ external interface RadioGroupProps : FormGroupProps {
  * - [RadioGroup API](https://mui.com/material-ui/api/radio-group/)
  * - inherits [FormGroup API](https://mui.com/material-ui/api/form-group/)
  */
-@JsName("default") external val RadioGroup: FC<RadioGroupProps>
+@JsName("default")
+external val RadioGroup: FC<RadioGroupProps>

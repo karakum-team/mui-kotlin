@@ -12,15 +12,23 @@ import react.FC
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
-external interface StepConnectorProps : StandardProps, HTMLAttributes<HTMLDivElement>, PropsWithSx {
-    /** Override or extend the styles applied to the component. */
+external interface StepConnectorProps :
+    StandardProps,
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithSx {
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: StepConnectorClasses?
 
-    /** The system prop that allows defining system overrides as well as additional CSS styles. */
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
     override var sx: SxProps<Theme>?
 }
 
 /**
+ *
  * Demos:
  *
  * - [Stepper](https://mui.com/material-ui/react-stepper/)
@@ -29,4 +37,5 @@ external interface StepConnectorProps : StandardProps, HTMLAttributes<HTMLDivEle
  *
  * - [StepConnector API](https://mui.com/material-ui/api/step-connector/)
  */
-@JsName("default") external val StepConnector: FC<StepConnectorProps>
+@JsName("default")
+external val StepConnector: FC<StepConnectorProps>

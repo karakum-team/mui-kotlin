@@ -1392,10 +1392,13 @@ private fun generate(
  * an override (`Overrides.kt` does this for `SpeedDial.ariaLabel`, which the ARIA machinery supplies
  * instead).
  *
- * A KDoc attached to nothing reads as a mistake, and the formatter treats it as live documentation —
- * ktfmt reflows KDoc but leaves plain block comments alone, so demoting also keeps the upstream wording
- * intact. Demoting rather than deleting keeps that documentation next to the commented-out member, which
- * is why it was left in place at all.
+ * A KDoc attached to nothing reads as a mistake. Demoting rather than deleting keeps that documentation
+ * next to the commented-out member, which is why it was left in place at all.
+ *
+ * (Under ktfmt, which formatted the tree before IntelliJ IDEA's formatter took over, demoting also kept
+ * the upstream wording intact: ktfmt reflowed KDoc to a column limit but left plain block comments alone.
+ * IDEA's formatter reflows neither, so that is no longer a reason for the demotion — only the first one
+ * above is.)
  *
  * Matched by shape rather than by the documentation text so that rewording upstream cannot silently turn
  * the fix off.
@@ -1417,6 +1420,8 @@ private fun fileContent(
         .plus(systemImports(resolvedBody, pkg))
         .plus(addedImports)
         .distinct()
+        .let { retainReferencedImports(it, resolvedBody, pkg) }
+        .let(::inIdeaImportOrder)
         .map { "import $it" }
         .joinToString("\n")
 
@@ -1430,6 +1435,87 @@ private fun fileContent(
         .joinToString("\n\n")
         .removeSuffix("\n") + "\n"
 }
+
+/**
+ * Orders imports the way IntelliJ IDEA's Optimize Imports does, because the formatter does not: `format`
+ * lays out code and leaves the import list in whatever order it was emitted, so the order has to be right
+ * when it is written.
+ *
+ * Plain lexicographic sort of the full path, uppercase before lowercase — `react.FC` sorts above
+ * `react.dom.html.HTMLAttributes`, because `F` precedes `d` in ASCII. Read off the tree as it stood before
+ * the formatter was automated, which had been through Optimize Imports by hand: of its files with more
+ * than one import, 230 are in this order and only 118 in the case-insensitive one, and every one of those
+ * 118 satisfies both.
+ *
+ * IDEA's default Kotlin layout also moves `java.**`, `javax.**` and `kotlin.**` into their own groups
+ * after everything else, separated by a blank line, and alias imports after those. The generated tree
+ * contains none of them, so that part of the layout is unimplemented and, more to the point, untested —
+ * hence the check rather than a guess at where the blank lines go.
+ */
+private fun inIdeaImportOrder(imports: List<String>): List<String> {
+    val trailing = imports.filter { fqn -> TRAILING_IMPORT_GROUPS.any(fqn::startsWith) }
+
+    check(trailing.isEmpty()) {
+        "IntelliJ IDEA sorts $trailing into trailing import groups of their own, which this does not " +
+            "reproduce — it had no reason to until now. Implement the grouping in `inIdeaImportOrder`, " +
+            "against what Optimize Imports actually emits for a file holding one."
+    }
+
+    return imports.sorted()
+}
+
+private val TRAILING_IMPORT_GROUPS = listOf("java.", "javax.", "kotlin.")
+
+/**
+ * Drops the imports the file has no use for: those naming its own package, and those whose short name is
+ * referenced nowhere in it.
+ *
+ * Both mechanisms that add imports over-produce, in ways that are cheaper to subtract here than to make
+ * precise at the source. [DEFAULT_IMPORTS] is keyed on a plain substring of the body, so `Element` fires
+ * inside `HTMLDivElement` and `Event` inside `MouseEventHandler` — 201 and 62 stray imports respectively
+ * before this ran. Its triggers are also blind to the package, so a `mui.system` file imported
+ * `mui.system.BoxProps` from itself. [resolveImportedFqns] over-produces differently: it skips `import`
+ * lines when looking for a real occurrence but not comments, so an FQN appearing only inside one of the
+ * `/* … */` markers recording the original TypeScript left an import behind with nothing to name.
+ *
+ * Filtering here rather than tightening those triggers keeps the change subtractive: a trigger that no
+ * longer fires would silently *lose* an import the file needs, whereas this can only remove one that
+ * nothing refers to. Getting it wrong is caught immediately — `compileKotlinJs` runs on the result.
+ *
+ * References are counted in code only, with comments stripped, plus KDoc links (`[Foo]`), which resolve
+ * through imports the same way code does. No import in the tree is currently reachable only from a KDoc
+ * link; they are honoured so that the first one to appear is not quietly broken.
+ *
+ * Deliberately conservative in the other direction: a short name inside a string literal counts as a
+ * reference, because telling one from code needs a lexer and the cost of keeping a stray import is a
+ * cosmetic line, not a broken build.
+ */
+private fun retainReferencedImports(
+    imports: List<String>,
+    body: String,
+    pkg: Package,
+): List<String> {
+    val referenced = referencedNames(body)
+
+    return imports.filter { fqn ->
+        fqn.substringBeforeLast(".") != pkg.pkg && fqn.substringAfterLast(".") in referenced
+    }
+}
+
+/** Every identifier appearing in [body] outside a comment, plus the targets of its KDoc links. */
+private fun referencedNames(body: String): Set<String> {
+    val comments = COMMENT.findAll(body).map { it.value }
+    val code = COMMENT.replace(body, " ")
+
+    return IDENTIFIER.findAll(code).mapTo(mutableSetOf()) { it.value }
+        .apply { comments.flatMapTo(this) { KDOC_LINK.findAll(it).map { link -> link.groupValues[1] } } }
+}
+
+// Non-greedy, so `/* A */ x /* B */` is two comments rather than one swallowing `x`. Kotlin's block
+// comments nest, which this does not model; the generator emits none that do.
+private val COMMENT = Regex("""/\*.*?\*/|//[^\n]*""", RegexOption.DOT_MATCHES_ALL)
+private val IDENTIFIER = Regex("""[A-Za-z_][A-Za-z0-9_]*""")
+private val KDOC_LINK = Regex("""\[([A-Za-z_][A-Za-z0-9_]*)""")
 
 // Cross-package types that should appear as short names in body and be imported at the top.
 // FQN is replaced with the short name (last segment after `.`); if the FQN's package matches

@@ -4,4 +4,7 @@
 
 package mui.base
 
-@JsName("default") external fun useTab(parameters: UseTabParameters): UseTabReturnValue
+@JsName("default")
+external fun useTab(
+    parameters: UseTabParameters,
+): UseTabReturnValue

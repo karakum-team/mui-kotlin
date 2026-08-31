@@ -1,7 +1,10 @@
 // Automatically generated - do not modify!
 
 @file:JsModule("@mui/material/Badge")
-@file:Suppress("VIRTUAL_MEMBER_HIDDEN")
+
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
 
 package mui.material
 
@@ -19,19 +22,20 @@ import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
 import web.html.HTMLSpanElement
 
-external interface BadgeProps : BadgeOwnProps, HTMLAttributes<HTMLSpanElement>, PropsWithComponent
+external interface BadgeProps :
+    BadgeOwnProps,
+    HTMLAttributes<HTMLSpanElement>,
+    PropsWithComponent
 
 external interface BadgeSlots {
     /**
      * The component that renders the root.
-     *
      * @default span
      */
     var root: ElementType<*>
 
     /**
      * The component that renders the badge.
-     *
      * @default span
      */
     var badge: ElementType<*>
@@ -58,75 +62,85 @@ external interface BadgeOrigin {
 }
 
 external interface BadgeOwnProps :
-    BadgeSlotsAndSlotProps, PropsWithChildren, PropsWithClassName, PropsWithSx {
+    BadgeSlotsAndSlotProps,
+    PropsWithChildren,
+    PropsWithClassName,
+    PropsWithSx {
     /**
      * The anchor of the badge.
-     *
-     * @default { vertical: 'top', horizontal: 'right', }
+     * @default {
+     *   vertical: 'top',
+     *   horizontal: 'right',
+     * }
      */
     var anchorOrigin: BadgeOrigin?
 
-    /** The content rendered within the badge. */
+    /**
+     * The content rendered within the badge.
+     */
     var badgeContent: ReactNode?
 
-    /** The badge will be added relative to this node. */
+    /**
+     * The badge will be added relative to this node.
+     */
     override var children: ReactNode?
 
-    /** Override or extend the styles applied to the component. */
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: BadgeClasses?
 
-    /** @ignore */
+    /**
+     * @ignore
+     */
     override var className: ClassName?
 
     /**
-     * The color of the component. It supports both default and custom theme colors, which can be
-     * added as shown in the
+     * The color of the component.
+     * It supports both default and custom theme colors, which can be added as shown in the
      * [palette customization guide](https://mui.com/material-ui/customization/palette/#custom-colors).
-     *
      * @default 'default'
      */
     var color: BadgeColor?
 
     /**
      * If `true`, the badge is invisible.
-     *
      * @default false
      */
     var invisible: Boolean?
 
     /**
      * Max count to show.
-     *
      * @default 99
      */
     var max: Double?
 
     /**
      * Wrapped shape the badge should overlap.
-     *
      * @default 'rectangular'
      */
     var overlap: BadgeOverlap?
 
     /**
      * Controls whether the badge is hidden when `badgeContent` is zero.
-     *
      * @default false
      */
     var showZero: Boolean?
 
-    /** The system prop that allows defining system overrides as well as additional CSS styles. */
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
     override var sx: SxProps<Theme>?
 
     /**
      * The variant to use.
-     *
      * @default 'standard'
      */
     var variant: BadgeVariant?
 }
 
 /**
+ *
  * Demos:
  *
  * - [Avatar](https://mui.com/material-ui/react-avatar/)
@@ -136,4 +150,5 @@ external interface BadgeOwnProps :
  *
  * - [Badge API](https://mui.com/material-ui/api/badge/)
  */
-@JsName("default") external val Badge: FC<BadgeProps>
+@JsName("default")
+external val Badge: FC<BadgeProps>

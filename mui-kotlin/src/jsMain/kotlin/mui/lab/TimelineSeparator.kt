@@ -15,18 +15,28 @@ import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
 external interface TimelineSeparatorProps :
-    StandardProps, HTMLAttributes<HTMLDivElement>, PropsWithChildren, PropsWithSx {
-    /** The content of the component. */
+    StandardProps,
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithChildren,
+    PropsWithSx {
+    /**
+     * The content of the component.
+     */
     override var children: ReactNode?
 
-    /** Override or extend the styles applied to the component. */
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: TimelineSeparatorClasses?
 
-    /** The system prop that allows defining system overrides as well as additional CSS styles. */
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
     override var sx: SxProps<Theme>?
 }
 
 /**
+ *
  * Demos:
  *
  * - [Timeline](https://mui.com/material-ui/react-timeline/)
@@ -35,4 +45,5 @@ external interface TimelineSeparatorProps :
  *
  * - [TimelineSeparator API](https://mui.com/material-ui/api/timeline-separator/)
  */
-@JsName("default") external val TimelineSeparator: FC<TimelineSeparatorProps>
+@JsName("default")
+external val TimelineSeparator: FC<TimelineSeparatorProps>

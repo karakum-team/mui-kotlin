@@ -15,25 +15,34 @@ import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
 external interface AccordionActionsProps :
-    StandardProps, HTMLAttributes<HTMLDivElement>, PropsWithChildren, PropsWithSx {
-    /** The content of the component. */
+    StandardProps,
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithChildren,
+    PropsWithSx {
+    /**
+     * The content of the component.
+     */
     override var children: ReactNode?
 
-    /** Override or extend the styles applied to the component. */
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: AccordionActionsClasses?
 
     /**
      * If `true`, the actions do not have additional margin.
-     *
      * @default false
      */
     var disableSpacing: Boolean?
 
-    /** The system prop that allows defining system overrides as well as additional CSS styles. */
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
     override var sx: SxProps<Theme>?
 }
 
 /**
+ *
  * Demos:
  *
  * - [Accordion](https://mui.com/material-ui/react-accordion/)
@@ -42,4 +51,5 @@ external interface AccordionActionsProps :
  *
  * - [AccordionActions API](https://mui.com/material-ui/api/accordion-actions/)
  */
-@JsName("default") external val AccordionActions: FC<AccordionActionsProps>
+@JsName("default")
+external val AccordionActions: FC<AccordionActionsProps>

@@ -1,7 +1,10 @@
 // Automatically generated - do not modify!
 
 @file:JsModule("@mui/material/Tab")
-@file:Suppress("VIRTUAL_MEMBER_HIDDEN")
+
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
 
 package mui.material
 
@@ -15,60 +18,72 @@ import react.dom.html.ButtonHTMLAttributes
 import web.html.HTMLButtonElement
 
 external interface TabProps :
-    TabOwnProps, ButtonHTMLAttributes<HTMLButtonElement>, PropsWithComponent
+    TabOwnProps,
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    PropsWithComponent
 
-external interface TabOwnProps : PropsWithSx, ButtonHTMLAttributes<HTMLButtonElement> {
+external interface TabOwnProps :
+    PropsWithSx,
+    ButtonHTMLAttributes<HTMLButtonElement> {
     /**
-     * This prop isn't supported. Use the `component` prop if you need to change the children
-     * structure.
+     * This prop isn't supported.
+     * Use the `component` prop if you need to change the children structure.
      */
     var children: Nothing?
 
-    /** Override or extend the styles applied to the component. */
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: TabClasses?
 
     /**
      * If `true`, the component is disabled.
-     *
      * @default false
      */
     var disabled: Boolean?
 
     /**
-     * If `true`, the keyboard focus ripple is disabled.
-     *
+     * If `true`, the  keyboard focus ripple is disabled.
      * @default false
      */
     var disableFocusRipple: Boolean?
 
-    /** The icon to display. */
+    /**
+     * The icon to display.
+     */
     var icon: Any? /* string | React.ReactElement<unknown> */
 
     /**
      * The position of the icon relative to the label.
-     *
      * @default 'top'
      */
     var iconPosition: IconPosition?
 
-    /** The label element. */
+    /**
+     * The label element.
+     */
     var label: ReactNode?
 
-    /** The system prop that allows defining system overrides as well as additional CSS styles. */
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
     override var sx: SxProps<Theme>?
 
-    /** You can provide your own value. Otherwise, we fallback to the child position index. */
+    /**
+     * You can provide your own value. Otherwise, we fallback to the child position index.
+     */
     override var value: Any?
 
     /**
-     * Tab labels appear in a single row. They can use a second line if needed.
-     *
+     * Tab labels appear in a single row.
+     * They can use a second line if needed.
      * @default false
      */
     var wrapped: Boolean?
 }
 
 /**
+ *
  * Demos:
  *
  * - [Tabs](https://mui.com/material-ui/react-tabs/)
@@ -78,4 +93,5 @@ external interface TabOwnProps : PropsWithSx, ButtonHTMLAttributes<HTMLButtonEle
  * - [Tab API](https://mui.com/material-ui/api/tab/)
  * - inherits [ButtonBase API](https://mui.com/material-ui/api/button-base/)
  */
-@JsName("default") external val Tab: FC<TabProps>
+@JsName("default")
+external val Tab: FC<TabProps>

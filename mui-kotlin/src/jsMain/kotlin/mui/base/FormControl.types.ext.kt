@@ -4,5 +4,4 @@ package mui.base
 
 import web.html.HTMLElement
 
-typealias NativeFormControlElement =
-    HTMLElement /* HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement */
+typealias NativeFormControlElement = HTMLElement /* HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement */

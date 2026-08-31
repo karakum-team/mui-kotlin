@@ -9,8 +9,10 @@ import web.cssom.ClassName
 sealed external interface DayCalendarSkeletonClasses {
     /** Styles applied to the root element. */
     val root: ClassName
+
     /** Styles applied to the week element. */
     val week: ClassName
+
     /** Styles applied to the day element. */
     val daySkeleton: ClassName
 }

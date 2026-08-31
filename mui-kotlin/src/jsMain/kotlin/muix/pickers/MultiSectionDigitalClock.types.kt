@@ -6,27 +6,27 @@ import js.array.ReadonlyArray
 import react.ElementType
 import react.Props
 
-external interface MultiSectionDigitalClockProps : ExportedMultiSectionDigitalClockProps {
+external interface MultiSectionDigitalClockProps :
+    ExportedMultiSectionDigitalClockProps {
     /**
      * Available views.
-     *
      * @default ['hours', 'minutes']
      */
     var views: ReadonlyArray<String /* 'hours' | 'minutes' | 'seconds' | 'meridiem' */>?
 
-    /** Override or extend the styles applied to the component. */
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: MultiSectionDigitalClockClasses?
 
     /**
      * Overrideable component slots.
-     *
      * @default {}
      */
     var slots: MultiSectionDigitalClockSlots?
 
     /**
      * The props used for each component slot.
-     *
      * @default {}
      */
     var slotProps: MultiSectionDigitalClockSlotProps?
@@ -53,7 +53,6 @@ external interface MultiSectionDigitalClockViewProps<TSectionValue> : Props
 external interface MultiSectionDigitalClockSlots {
     /**
      * Component responsible for rendering a single multi section digital clock section item.
-     *
      * @default MenuItem from '@mui/material'
      */
     var digitalClockSectionItem: ElementType<*>?

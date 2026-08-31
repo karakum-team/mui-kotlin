@@ -6,8 +6,13 @@ import seskar.js.JsValue
 
 sealed external interface TransitionStatus {
     companion object {
-        @JsValue("starting") val starting: TransitionStatus
-        @JsValue("ending") val ending: TransitionStatus
-        @JsValue("idle") val idle: TransitionStatus
+        @JsValue("starting")
+        val starting: TransitionStatus
+
+        @JsValue("ending")
+        val ending: TransitionStatus
+
+        @JsValue("idle")
+        val idle: TransitionStatus
     }
 }

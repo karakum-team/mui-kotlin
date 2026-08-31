@@ -15,42 +15,63 @@ import react.dom.html.LabelHTMLAttributes
 import web.html.HTMLLabelElement
 
 external interface FormLabelProps :
-    LabelHTMLAttributes<HTMLLabelElement>, PropsWithComponent, FormLabelOwnProps
+    LabelHTMLAttributes<HTMLLabelElement>,
+    PropsWithComponent,
+    FormLabelOwnProps
 
-external interface FormLabelOwnProps : PropsWithChildren, PropsWithSx {
-    /** The content of the component. */
+external interface FormLabelOwnProps :
+    PropsWithChildren,
+    PropsWithSx {
+    /**
+     * The content of the component.
+     */
     override var children: ReactNode?
 
-    /** Override or extend the styles applied to the component. */
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: FormLabelClasses?
 
     /**
-     * The color of the component. It supports both default and custom theme colors, which can be
-     * added as shown in the
+     * The color of the component.
+     * It supports both default and custom theme colors, which can be added as shown in the
      * [palette customization guide](https://mui.com/material-ui/customization/palette/#custom-colors).
      */
     var color: FormLabelColor?
 
-    /** If `true`, the label should be displayed in a disabled state. */
+    /**
+     * If `true`, the label should be displayed in a disabled state.
+     */
     var disabled: Boolean?
 
-    /** If `true`, the label is displayed in an error state. */
+    /**
+     * If `true`, the label is displayed in an error state.
+     */
     var error: Boolean?
 
-    /** If `true`, the label should use filled classes key. */
+    /**
+     * If `true`, the label should use filled classes key.
+     */
     var filled: Boolean?
 
-    /** If `true`, the input of this label is focused (used by `FormGroup` components). */
+    /**
+     * If `true`, the input of this label is focused (used by `FormGroup` components).
+     */
     var focused: Boolean?
 
-    /** If `true`, the label will indicate that the `input` is required. */
+    /**
+     * If `true`, the label will indicate that the `input` is required.
+     */
     var required: Boolean?
 
-    /** The system prop that allows defining system overrides as well as additional CSS styles. */
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
     override var sx: SxProps<Theme>?
 }
 
 /**
+ *
  * Demos:
  *
  * - [Checkbox](https://mui.com/material-ui/react-checkbox/)
@@ -62,4 +83,5 @@ external interface FormLabelOwnProps : PropsWithChildren, PropsWithSx {
  *
  * - [FormLabel API](https://mui.com/material-ui/api/form-label/)
  */
-@JsName("default") external val FormLabel: FC<FormLabelProps>
+@JsName("default")
+external val FormLabel: FC<FormLabelProps>

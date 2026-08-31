@@ -5,31 +5,33 @@ package mui.system
 import react.PropsWithChildren
 import react.ReactNode
 
-external interface GridProps : GridBaseProps, PropsWithSx {
+external interface GridProps :
+    GridBaseProps,
+    PropsWithSx {
     override var sx: SxProps<Theme>?
 }
 
 external interface GridBaseProps : PropsWithChildren {
-    /** The content of the component. */
+    /**
+     * The content of the component.
+     */
     override var children: ReactNode?
 
     /**
      * The number of columns.
-     *
      * @default 12
      */
     var columns: ResponsiveStyleValue<Number>?
 
     /**
-     * Defines the horizontal space between the type `item` components. It overrides the value of
-     * the `spacing` prop.
+     * Defines the horizontal space between the type `item` components.
+     * It overrides the value of the `spacing` prop.
      */
     var columnSpacing: ResponsiveStyleValue<Any /* GridSpacing */>?
 
     /**
-     * If `true`, the component will have the flex *container* behavior. You should be wrapping
-     * *items* with a *container*.
-     *
+     * If `true`, the component will have the flex *container* behavior.
+     * You should be wrapping *items* with a *container*.
      * @default false
      */
     var container: Boolean?
@@ -37,9 +39,8 @@ external interface GridBaseProps : PropsWithChildren {
     /**
      * Defines the `flex-direction` style property for the container.
      *
-     * ⚠️ Only `row` and `row-reverse` are supported. `column` and `column-reverse` are not
-     * supported, because the Grid component is designed to subdivide layouts into **columns**, not
-     * rows.
+     * ⚠️ Only `row` and `row-reverse` are supported. `column` and `column-reverse` are not supported,
+     * because the Grid component is designed to subdivide layouts into **columns**, not rows.
      *
      * For vertical layouts, use `Stack` instead.
      *
@@ -47,12 +48,15 @@ external interface GridBaseProps : PropsWithChildren {
      */
     var direction: ResponsiveStyleValue<GridDirection>?
 
-    /** Defines the offset value for the type `item` components. */
+    /**
+     * Defines the offset value for the type `item` components.
+     */
     var offset: ResponsiveStyleValue<Any /* GridOffset */>?
 
     /**
-     * The level of the grid starts from `0` and increases when the grid nests inside another grid.
-     * Nesting is defined as a container Grid being a direct child of a container Grid.
+     * The level of the grid starts from `0` and increases when the grid nests
+     * inside another grid. Nesting is defined as a container Grid being a direct
+     * child of a container Grid.
      *
      * ```js
      * <Grid container> // level 0
@@ -60,14 +64,15 @@ external interface GridBaseProps : PropsWithChildren {
      *     <Grid container> // level 2
      * ```
      *
-     * Only consecutive grid is considered nesting. A grid container will start at `0` if there are
-     * non-Grid container element above it.
+     * Only consecutive grid is considered nesting. A grid container will start at
+     * `0` if there are non-Grid container element above it.
      *
      * ```js
      * <Grid container> // level 0
      *   <div>
      *     <Grid container> // level 0
      * ```
+     *
      * ```js
      * <Grid container> // level 0
      *   <Grid>
@@ -77,25 +82,26 @@ external interface GridBaseProps : PropsWithChildren {
     var unstable_level: Number?
 
     /**
-     * Defines the vertical space between the type `item` components. It overrides the value of the
-     * `spacing` prop.
+     * Defines the vertical space between the type `item` components.
+     * It overrides the value of the `spacing` prop.
      */
     var rowSpacing: ResponsiveStyleValue<Any /* GridSpacing */>?
 
-    /** Defines the size of the the type `item` components. */
+    /**
+     * Defines the size of the the type `item` components.
+     */
     var size: ResponsiveStyleValue<Union /* 'auto' | 'grow' | number | false */>?
 
     /**
-     * Defines the space between the type `item` components. It can only be used on a type
-     * `container` component.
-     *
+     * Defines the space between the type `item` components.
+     * It can only be used on a type `container` component.
      * @default 0
      */
     var spacing: ResponsiveStyleValue<Any /* GridSpacing */>?
 
     /**
-     * Defines the `flex-wrap` style property. It's applied for all screen sizes.
-     *
+     * Defines the `flex-wrap` style property.
+     * It's applied for all screen sizes.
      * @default 'wrap'
      */
     var wrap: GridWrap?

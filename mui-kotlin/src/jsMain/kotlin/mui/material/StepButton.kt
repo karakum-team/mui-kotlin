@@ -1,7 +1,10 @@
 // Automatically generated - do not modify!
 
 @file:JsModule("@mui/material/StepButton")
-@file:Suppress("VAR_TYPE_MISMATCH_ON_OVERRIDE")
+
+@file:Suppress(
+    "VAR_TYPE_MISMATCH_ON_OVERRIDE",
+)
 
 package mui.material
 
@@ -14,26 +17,42 @@ import react.PropsWithChildren
 import react.ReactNode
 
 external interface StepButtonProps :
-    StepButtonOwnProps, PropsWithComponent, mui.material.ButtonBaseProps
+    StepButtonOwnProps,
+    PropsWithComponent,
+    mui.material.ButtonBaseProps
 
-external interface StepButtonOwnProps : PropsWithChildren, PropsWithSx, ButtonBaseProps {
-    /** Can be a `StepLabel` or a node to place inside `StepLabel` as children. */
+external interface StepButtonOwnProps :
+    PropsWithChildren,
+    PropsWithSx,
+    ButtonBaseProps {
+    /**
+     * Can be a `StepLabel` or a node to place inside `StepLabel` as children.
+     */
     override var children: ReactNode?
 
-    /** Override or extend the styles applied to the component. */
+    /**
+     * Override or extend the styles applied to the component.
+     */
     override var classes: StepButtonClasses?
 
-    /** The icon displayed by the step label. */
+    /**
+     * The icon displayed by the step label.
+     */
     var icon: ReactNode?
 
-    /** The optional node to display. */
+    /**
+     * The optional node to display.
+     */
     var optional: ReactNode?
 
-    /** The system prop that allows defining system overrides as well as additional CSS styles. */
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
     override var sx: SxProps<Theme>?
 }
 
 /**
+ *
  * Demos:
  *
  * - [Stepper](https://mui.com/material-ui/react-stepper/)
@@ -43,4 +62,5 @@ external interface StepButtonOwnProps : PropsWithChildren, PropsWithSx, ButtonBa
  * - [StepButton API](https://mui.com/material-ui/api/step-button/)
  * - inherits [ButtonBase API](https://mui.com/material-ui/api/button-base/)
  */
-@JsName("default") external val StepButton: FC<StepButtonProps>
+@JsName("default")
+external val StepButton: FC<StepButtonProps>

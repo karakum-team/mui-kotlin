@@ -23,47 +23,53 @@ external interface StepLabelProps :
     StepLabelSlotsAndSlotProps,
     PropsWithChildren,
     PropsWithSx {
-    /** In most cases will simply be a string containing a title for the label. */
+    /**
+     * In most cases will simply be a string containing a title for the label.
+     */
     override var children: ReactNode?
 
-    /** Override or extend the styles applied to the component. */
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: StepLabelClasses?
 
     /**
      * If `true`, the step is marked as failed.
-     *
      * @default false
      */
     var error: Boolean?
 
-    /** Override the default label of the step icon. */
+    /**
+     * Override the default label of the step icon.
+     */
     var icon: ReactNode?
 
-    /** The optional node to display. */
+    /**
+     * The optional node to display.
+     */
     var optional: ReactNode?
 
-    /** The system prop that allows defining system overrides as well as additional CSS styles. */
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
     override var sx: SxProps<Theme>?
 }
 
 external interface StepLabelSlots {
     /**
      * The component that renders the root.
-     *
      * @default span
      */
     var root: ElementType<*>
 
     /**
      * The component that renders the label.
-     *
      * @default span
      */
     var label: ElementType<*>
 
     /**
-     * The component to render in place of the
-     * [`StepIcon`](https://mui.com/material-ui/api/step-icon/).
+     * The component to render in place of the [`StepIcon`](https://mui.com/material-ui/api/step-icon/).
      */
     var stepIcon: ElementType<*>
 }
@@ -88,6 +94,7 @@ external interface StepLabelSlotsAndSlotProps : Props {
 external interface StepLabelOwnerState
 
 /**
+ *
  * Demos:
  *
  * - [Stepper](https://mui.com/material-ui/react-stepper/)
@@ -96,4 +103,5 @@ external interface StepLabelOwnerState
  *
  * - [StepLabel API](https://mui.com/material-ui/api/step-label/)
  */
-@JsName("default") external val StepLabel: FC<StepLabelProps>
+@JsName("default")
+external val StepLabel: FC<StepLabelProps>

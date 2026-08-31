@@ -15,20 +15,31 @@ import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
 external interface TableContainerProps :
-    TableContainerOwnProps, HTMLAttributes<HTMLDivElement>, PropsWithComponent
+    TableContainerOwnProps,
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithComponent
 
-external interface TableContainerOwnProps : PropsWithChildren, PropsWithSx {
-    /** The content of the component, normally `Table`. */
+external interface TableContainerOwnProps :
+    PropsWithChildren,
+    PropsWithSx {
+    /**
+     * The content of the component, normally `Table`.
+     */
     override var children: ReactNode?
 
-    /** Override or extend the styles applied to the component. */
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: TableContainerClasses?
 
-    /** The system prop that allows defining system overrides as well as additional CSS styles. */
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
     override var sx: SxProps<Theme>?
 }
 
 /**
+ *
  * Demos:
  *
  * - [Table](https://mui.com/material-ui/react-table/)
@@ -37,4 +48,5 @@ external interface TableContainerOwnProps : PropsWithChildren, PropsWithSx {
  *
  * - [TableContainer API](https://mui.com/material-ui/api/table-container/)
  */
-@JsName("default") external val TableContainer: FC<TableContainerProps>
+@JsName("default")
+external val TableContainer: FC<TableContainerProps>

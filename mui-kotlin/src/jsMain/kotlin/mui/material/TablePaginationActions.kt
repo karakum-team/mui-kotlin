@@ -15,8 +15,11 @@ import web.html.HTMLButtonElement
 import web.html.HTMLDivElement
 
 external interface TablePaginationActionsProps :
-    HTMLAttributes<HTMLDivElement>, PropsWithClassName {
-    /** Override or extend the styles applied to the component. */
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithClassName {
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: Any? /* unknown;{} */
 
     override var className: ClassName?
@@ -25,20 +28,16 @@ external interface TablePaginationActionsProps :
 
     /**
      * If `true`, the component is disabled.
-     *
      * @default false
      */
     var disabled: Boolean?
 
     /**
-     * Accepts a function which returns a string value that provides a user-friendly name for the
-     * current page. This is important for screen reader users.
+     * Accepts a function which returns a string value that provides a user-friendly name for the current page.
+     * This is important for screen reader users.
      *
-     * For localization purposes, you can use the provided
-     * [translations](https://mui.com/material-ui/guides/localization/).
-     *
-     * @param {string} type The link or button type to format ('first' | 'last' | 'next' |
-     *   'previous').
+     * For localization purposes, you can use the provided [translations](https://mui.com/material-ui/guides/localization/).
+     * @param {string} type The link or button type to format ('first' | 'last' | 'next' | 'previous').
      * @returns {string}
      */
     var getItemAriaLabel: (type: Union /* 'first' | 'last' | 'next' | 'previous' */) -> String
@@ -72,62 +71,55 @@ external interface TablePaginationActionsProps :
 external interface TablePaginationActionsSlots {
     /**
      * The component that renders the first button.
-     *
      * @default IconButton
      */
     var firstButton: ElementType<*>?
 
     /**
      * The component that renders the last button.
-     *
      * @default IconButton
      */
     var lastButton: ElementType<*>?
 
     /**
      * The component that renders the next button.
-     *
      * @default IconButton
      */
     var nextButton: ElementType<*>?
 
     /**
      * The component that renders the previous button.
-     *
      * @default IconButton
      */
     var previousButton: ElementType<*>?
 
     /**
      * The component that renders the first button icon.
-     *
      * @default FirstPageIcon
      */
     var firstButtonIcon: ElementType<*>?
 
     /**
      * The component that renders the last button icon.
-     *
      * @default LastPageIcon
      */
     var lastButtonIcon: ElementType<*>?
 
     /**
      * The component that renders the next button icon.
-     *
      * @default KeyboardArrowRight
      */
     var nextButtonIcon: ElementType<*>?
 
     /**
      * The component that renders the previous button icon.
-     *
      * @default KeyboardArrowLeft
      */
     var previousButtonIcon: ElementType<*>?
 }
 
 /**
+ *
  * Demos:
  *
  * - [Pagination](https://mui.com/material-ui/react-pagination/)
@@ -136,4 +128,5 @@ external interface TablePaginationActionsSlots {
  *
  * - [TablePaginationActions API](https://mui.com/material-ui/api/table-pagination-actions/)
  */
-@JsName("default") external val TablePaginationActions: FC<TablePaginationActionsProps>
+@JsName("default")
+external val TablePaginationActions: FC<TablePaginationActionsProps>

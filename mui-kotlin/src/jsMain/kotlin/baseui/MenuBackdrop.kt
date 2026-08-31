@@ -7,12 +7,19 @@
 
 package baseui
 
-external interface MenuBackdropProps : BaseUiDivProps {}
+external interface MenuBackdropProps :
+    BaseUiDivProps {
+
+}
 
 external interface MenuBackdropState {
-    /** Whether the menu is currently open. */
+    /**
+     * Whether the menu is currently open.
+     */
     var open: Boolean
 
-    /** The transition status of the component. */
+    /**
+     * The transition status of the component.
+     */
     var transitionStatus: Any? /* TransitionStatus */
 }

@@ -9,32 +9,35 @@ import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLSpanElement
 
-external interface BadgeProps : BadgeOwnProps, HTMLAttributes<HTMLSpanElement>
+external interface BadgeProps :
+    BadgeOwnProps,
+    HTMLAttributes<HTMLSpanElement>
 
 external interface BadgeOwnProps : PropsWithChildren {
-    /** The content rendered within the badge. */
+    /**
+     * The content rendered within the badge.
+     */
     var badgeContent: ReactNode?
 
-    /** The badge will be added relative to this node. */
+    /**
+     * The badge will be added relative to this node.
+     */
     override var children: ReactNode?
 
     /**
      * If `true`, the badge is invisible.
-     *
      * @default false
      */
     var invisible: Boolean?
 
     /**
      * Max count to show.
-     *
      * @default 99
      */
     var max: Double?
 
     /**
      * The props used for each slot inside the Badge.
-     *
      * @default {}
      */
     var slotProps: SlotProps?
@@ -45,16 +48,14 @@ external interface BadgeOwnProps : PropsWithChildren {
     }
 
     /**
-     * The components used for each slot inside the Badge. Either a string to use a HTML element or
-     * a component.
-     *
+     * The components used for each slot inside the Badge.
+     * Either a string to use a HTML element or a component.
      * @default {}
      */
     var slots: BadgeSlots?
 
     /**
      * Controls whether the badge is hidden when `badgeContent` is zero.
-     *
      * @default false
      */
     var showZero: Boolean?
@@ -63,14 +64,12 @@ external interface BadgeOwnProps : PropsWithChildren {
 external interface BadgeSlots {
     /**
      * The component that renders the root.
-     *
      * @default 'span'
      */
     var root: ElementType<*>?
 
     /**
      * The component that renders the badge.
-     *
      * @default 'span'
      */
     var badge: ElementType<*>?

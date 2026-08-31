@@ -7,10 +7,10 @@
 
 package baseui
 
-external interface MenuPortalProps : FloatingPortalProps {
+external interface MenuPortalProps :
+    FloatingPortalProps {
     /**
      * Whether to keep the portal mounted in the DOM while the popup is hidden.
-     *
      * @default false
      */
     var keepMounted: Boolean?

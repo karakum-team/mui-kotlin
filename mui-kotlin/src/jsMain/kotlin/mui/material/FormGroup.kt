@@ -15,27 +15,36 @@ import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
 external interface FormGroupProps :
-    StandardProps, HTMLAttributes<HTMLDivElement>, PropsWithChildren, PropsWithSx {
-    /** The content of the component. */
+    StandardProps,
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithChildren,
+    PropsWithSx {
+    /**
+     * The content of the component.
+     */
     override var children: ReactNode?
 
-    /** Override or extend the styles applied to the component. */
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: FormGroupClasses?
 
     /**
      * Display group of elements in a compact row.
-     *
      * @default false
      */
     var row: Boolean?
 
-    /** The system prop that allows defining system overrides as well as additional CSS styles. */
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
     override var sx: SxProps<Theme>?
 }
 
 /**
- * `FormGroup` wraps controls such as `Checkbox` and `Switch`. It provides compact row layout. For
- * the `Radio`, you should be using the `RadioGroup` component instead of this one.
+ * `FormGroup` wraps controls such as `Checkbox` and `Switch`.
+ * It provides compact row layout.
+ * For the `Radio`, you should be using the `RadioGroup` component instead of this one.
  *
  * Demos:
  *
@@ -46,4 +55,5 @@ external interface FormGroupProps :
  *
  * - [FormGroup API](https://mui.com/material-ui/api/form-group/)
  */
-@JsName("default") external val FormGroup: FC<FormGroupProps>
+@JsName("default")
+external val FormGroup: FC<FormGroupProps>

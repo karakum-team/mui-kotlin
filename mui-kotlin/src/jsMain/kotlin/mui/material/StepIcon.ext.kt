@@ -4,4 +4,5 @@ package mui.material
 
 import js.reflect.unsafeCast
 
-inline fun StepIconProps.asSvgIconOwnProps(): SvgIconOwnProps = js.reflect.unsafeCast(this)
+inline fun StepIconProps.asSvgIconOwnProps(): SvgIconOwnProps =
+    js.reflect.unsafeCast(this)

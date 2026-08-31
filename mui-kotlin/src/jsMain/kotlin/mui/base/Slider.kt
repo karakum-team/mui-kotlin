@@ -7,6 +7,7 @@ package mui.base
 import react.FC
 
 /**
+ *
  * Demos:
  *
  * - [Slider](https://mui.com/base-ui/react-slider/)

@@ -15,7 +15,6 @@ import react.FC
  *
  * API:
  *
- * - [TablePagination
- *   API](https://mui.com/base-ui/react-table-pagination/components-api/#table-pagination)
+ * - [TablePagination API](https://mui.com/base-ui/react-table-pagination/components-api/#table-pagination)
  */
 external val TablePagination: FC<TablePaginationProps>

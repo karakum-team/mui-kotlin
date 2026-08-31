@@ -10,8 +10,12 @@ package baseui
 import react.PropsWithChildren
 import react.ReactNode
 
-external interface MenuRadioGroupProps : BaseUiDivProps, PropsWithChildren {
-    /** The content of the component. */
+external interface MenuRadioGroupProps :
+    BaseUiDivProps,
+    PropsWithChildren {
+    /**
+     * The content of the component.
+     */
     override var children: ReactNode?
 
     /**
@@ -28,7 +32,9 @@ external interface MenuRadioGroupProps : BaseUiDivProps, PropsWithChildren {
      */
     var defaultValue: Any?
 
-    /** Function called when the selected value changes. */
+    /**
+     * Function called when the selected value changes.
+     */
     var onValueChange: ((value: Any, eventDetails: MenuRadioGroupChangeEventDetails) -> Unit)?
 
     /**
@@ -40,7 +46,9 @@ external interface MenuRadioGroupProps : BaseUiDivProps, PropsWithChildren {
 }
 
 external interface MenuRadioGroupState {
-    /** Whether the component is disabled. */
+    /**
+     * Whether the component is disabled.
+     */
     var disabled: Boolean
 }
 

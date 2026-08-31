@@ -7,18 +7,29 @@
 
 package baseui
 
-external interface MenuArrowProps : BaseUiDivProps {}
+external interface MenuArrowProps :
+    BaseUiDivProps {
+
+}
 
 external interface MenuArrowState {
-    /** Whether the menu is currently open. */
+    /**
+     * Whether the menu is currently open.
+     */
     var open: Boolean
 
-    /** The side of the anchor the component is placed on. */
+    /**
+     * The side of the anchor the component is placed on.
+     */
     var side: Side
 
-    /** The alignment of the component relative to the anchor. */
+    /**
+     * The alignment of the component relative to the anchor.
+     */
     var align: Align
 
-    /** Whether the arrow cannot be centered on the anchor. */
+    /**
+     * Whether the arrow cannot be centered on the anchor.
+     */
     var uncentered: Boolean
 }

@@ -7,6 +7,7 @@ package mui.base
 import react.FC
 
 /**
+ *
  * Demos:
  *
  * - [Menu](https://mui.com/base-ui/react-menu/)

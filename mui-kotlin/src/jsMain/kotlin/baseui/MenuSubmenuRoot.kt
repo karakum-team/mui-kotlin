@@ -10,19 +10,24 @@ package baseui
 import react.PropsWithChildren
 import react.ReactNode
 
-external interface MenuSubmenuRootProps : MenuRootProps, PropsWithChildren {
-    /** Event handler called when the menu is opened or closed. */
+external interface MenuSubmenuRootProps :
+    MenuRootProps,
+    PropsWithChildren {
+    /**
+     * Event handler called when the menu is opened or closed.
+     */
     var onOpenChange: ((open: Boolean, eventDetails: MenuSubmenuRootChangeEventDetails) -> Unit)?
 
     /**
-     * When in a submenu, determines whether pressing the Escape key closes the entire menu, or only
-     * the current child menu.
-     *
+     * When in a submenu, determines whether pressing the Escape key
+     * closes the entire menu, or only the current child menu.
      * @default false
      */
     var closeParentOnEsc: Boolean?
 
-    /** The content of the submenu. */
+    /**
+     * The content of the submenu.
+     */
     override var children: ReactNode?
 }
 

@@ -6,8 +6,13 @@ import seskar.js.JsValue
 
 sealed external interface CalendarPickerView {
     companion object {
-        @JsValue("year") val year: CalendarPickerView
-        @JsValue("day") val day: CalendarPickerView
-        @JsValue("month") val month: CalendarPickerView
+        @JsValue("year")
+        val year: CalendarPickerView
+
+        @JsValue("day")
+        val day: CalendarPickerView
+
+        @JsValue("month")
+        val month: CalendarPickerView
     }
 }

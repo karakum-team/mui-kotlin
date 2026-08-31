@@ -32,22 +32,27 @@ external interface UseOptionParameters<Value> {
 }
 
 external interface UseOptionReturnValue {
-    /** If `true`, the option is selected. */
+    /**
+     * If `true`, the option is selected.
+     */
     var selected: Boolean
 
-    /** If `true`, the option is highlighted. */
+    /**
+     * If `true`, the option is highlighted.
+     */
     var highlighted: Boolean
 
     var index: Number
 
     /**
      * Resolver for the root slot's props.
-     *
      * @param externalProps props for the root slot
      * @returns props that should be spread on the root slot
      */
     var getRootProps: (externalProps: Props?) -> Props
 
-    /** Ref to the root slot DOM node. */
+    /**
+     * Ref to the root slot DOM node.
+     */
     var rootRef: RefCallback<Element>?
 }

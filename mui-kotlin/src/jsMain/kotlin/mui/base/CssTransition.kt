@@ -10,34 +10,37 @@ import react.PropsWithClassName
 import react.ReactNode
 import web.cssom.ClassName
 
-external interface CssTransitionProps : PropsWithChildren, PropsWithClassName {
+external interface CssTransitionProps :
+    PropsWithChildren,
+    PropsWithClassName {
     override var children: ReactNode?
 
     override var className: ClassName?
 
     /**
-     * The name of the CSS class applied to the component when the transition is requested to enter.
+     * The name of the CSS class applied to the component when the transition
+     * is requested to enter.
      */
     var enterClassName: ClassName?
 
     /**
-     * The name of the CSS class applied to the component when the transition is requested to exit.
+     * The name of the CSS class applied to the component when the transition
+     * is requested to exit.
      */
     var exitClassName: ClassName?
 
     /**
-     * The name of the CSS property that is transitioned the longest (has the largest
-     * `transition-duration`) on exit. This is used to determine when the transition has ended. If
-     * not specified, the transition will be considered finished end when the first property is
-     * transitioned. If all properties have the same `transition-duration` (or there is just one
-     * transitioned property), this can be omitted.
+     * The name of the CSS property that is transitioned the longest (has the largest `transition-duration`) on exit.
+     * This is used to determine when the transition has ended.
+     * If not specified, the transition will be considered finished end when the first property is transitioned.
+     * If all properties have the same `transition-duration` (or there is just one transitioned property), this can be omitted.
      */
     var lastTransitionedPropertyOnExit: String?
 }
 
 /**
- * A utility component that hooks up to the MUI Base transitions API and applies a CSS transition to
- * its children when necessary.
+ * A utility component that hooks up to the MUI Base transitions API and
+ * applies a CSS transition to its children when necessary.
  *
  * Demos:
  *

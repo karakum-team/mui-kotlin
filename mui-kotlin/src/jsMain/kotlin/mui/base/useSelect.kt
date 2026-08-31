@@ -6,15 +6,10 @@ package mui.base
 
 @JsName("default")
 external fun <
-    OptionValue,
-    Multiple,
-> useSelect(
-    props:
-        UseSelectParameters<
-            OptionValue,
-            Multiple,
-        >
-): UseSelectReturnValue<
-    OptionValue,
-    Multiple,
->
+        OptionValue,
+        Multiple,
+        > useSelect(
+    props: UseSelectParameters<OptionValue,
+            Multiple>,
+): UseSelectReturnValue<OptionValue,
+        Multiple>

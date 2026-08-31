@@ -6,8 +6,13 @@ import seskar.js.JsValue
 
 sealed external interface SelectVariant {
     companion object {
-        @JsValue("outlined") val outlined: SelectVariant
-        @JsValue("standard") val standard: SelectVariant
-        @JsValue("filled") val filled: SelectVariant
+        @JsValue("outlined")
+        val outlined: SelectVariant
+
+        @JsValue("standard")
+        val standard: SelectVariant
+
+        @JsValue("filled")
+        val filled: SelectVariant
     }
 }

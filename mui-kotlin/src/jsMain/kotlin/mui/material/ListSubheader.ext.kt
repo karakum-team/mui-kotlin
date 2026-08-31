@@ -6,8 +6,13 @@ import seskar.js.JsValue
 
 sealed external interface ListSubheaderColor {
     companion object {
-        @JsValue("default") val default: ListSubheaderColor
-        @JsValue("primary") val primary: ListSubheaderColor
-        @JsValue("inherit") val inherit: ListSubheaderColor
+        @JsValue("default")
+        val default: ListSubheaderColor
+
+        @JsValue("primary")
+        val primary: ListSubheaderColor
+
+        @JsValue("inherit")
+        val inherit: ListSubheaderColor
     }
 }

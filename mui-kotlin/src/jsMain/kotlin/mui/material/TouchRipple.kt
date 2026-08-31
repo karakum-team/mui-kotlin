@@ -10,10 +10,14 @@ import react.dom.events.SyntheticEvent
 import react.dom.html.HTMLAttributes
 import web.html.HTMLElement
 
-external interface TouchRippleProps : StandardProps, HTMLAttributes<HTMLElement> {
+external interface TouchRippleProps :
+    StandardProps,
+    HTMLAttributes<HTMLElement> {
     var center: Boolean?
 
-    /** Override or extend the styles applied to the component. */
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: TouchRippleClasses?
 }
 
@@ -31,11 +35,9 @@ external interface TouchRippleActions {
     )
 
     fun pulsate(event: SyntheticEvent<*, *> = definedExternally)
-
-    fun stop(
-        event: SyntheticEvent<*, *> = definedExternally,
-        callback: () -> Unit = definedExternally,
-    )
+    fun stop(event: SyntheticEvent<*, *> = definedExternally, callback: () -> Unit = definedExternally)
 }
 
-@JsName("default") external val TouchRipple: FC<TouchRippleProps>
+
+@JsName("default")
+external val TouchRipple: FC<TouchRippleProps>

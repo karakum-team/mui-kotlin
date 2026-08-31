@@ -15,18 +15,28 @@ import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
 external interface AccordionDetailsProps :
-    StandardProps, HTMLAttributes<HTMLDivElement>, PropsWithChildren, PropsWithSx {
-    /** The content of the component. */
+    StandardProps,
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithChildren,
+    PropsWithSx {
+    /**
+     * The content of the component.
+     */
     override var children: ReactNode?
 
-    /** Override or extend the styles applied to the component. */
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: AccordionDetailsClasses?
 
-    /** The system prop that allows defining system overrides as well as additional CSS styles. */
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
     override var sx: SxProps<Theme>?
 }
 
 /**
+ *
  * Demos:
  *
  * - [Accordion](https://mui.com/material-ui/react-accordion/)
@@ -35,4 +45,5 @@ external interface AccordionDetailsProps :
  *
  * - [AccordionDetails API](https://mui.com/material-ui/api/accordion-details/)
  */
-@JsName("default") external val AccordionDetails: FC<AccordionDetailsProps>
+@JsName("default")
+external val AccordionDetails: FC<AccordionDetailsProps>

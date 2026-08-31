@@ -13,10 +13,10 @@ external interface TreeItemLabelInputProps : Props {
     var value: String?
 
     /**
-     * Used to determine if the target of keydown or blur events is the input and prevent the event
-     * from propagating to the root.
+     * Used to determine if the target of keydown or blur events is the input and prevent the event from propagating to the root.
      */
-    @JsName("data-element") var dataElement: Union? /* 'labelInput' */
+    @JsName("data-element")
+    var dataElement: Union? /* 'labelInput' */
 
     var onChange: ChangeEventHandler<HTMLInputElement, *>?
 

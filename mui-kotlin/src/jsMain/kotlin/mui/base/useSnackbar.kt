@@ -6,5 +6,5 @@ package mui.base
 
 @JsName("default")
 external fun useSnackbar(
-    parameters: UseSnackbarParameters? = definedExternally
+    parameters: UseSnackbarParameters? = definedExternally,
 ): UseSnackbarReturnValue

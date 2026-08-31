@@ -5,27 +5,27 @@ package muix.pickers
 import js.array.ReadonlyArray
 import react.Props
 
-external interface TimeClockProps : ExportedTimeClockProps {
+external interface TimeClockProps :
+    ExportedTimeClockProps {
     /**
      * Available views.
-     *
      * @default ['hours', 'minutes']
      */
     var views: ReadonlyArray<String /* 'hours' | 'minutes' | 'seconds' | 'meridiem' */>?
 
-    /** Override or extend the styles applied to the component. */
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: TimeClockClasses?
 
     /**
      * Overridable component slots.
-     *
      * @default {}
      */
     var slots: TimeClockSlots?
 
     /**
      * The props used for each component slot.
-     *
      * @default {}
      */
     var slotProps: TimeClockSlotProps?
@@ -36,7 +36,6 @@ external interface TimeClockProps : ExportedTimeClockProps {
 external interface ExportedTimeClockProps : Props {
     /**
      * Display ampm controls under the clock (instead of in the toolbar).
-     *
      * @default false
      */
     var ampmInClock: Boolean?

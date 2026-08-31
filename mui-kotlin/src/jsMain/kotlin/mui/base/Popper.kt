@@ -7,8 +7,7 @@ package mui.base
 import react.FC
 
 /**
- * Poppers rely on the 3rd party library [Popper.js](https://popper.js.org/docs/v2/) for
- * positioning.
+ * Poppers rely on the 3rd party library [Popper.js](https://popper.js.org/docs/v2/) for positioning.
  *
  * Demos:
  *

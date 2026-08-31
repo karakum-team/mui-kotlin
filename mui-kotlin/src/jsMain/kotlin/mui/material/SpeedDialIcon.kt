@@ -14,24 +14,38 @@ import react.dom.html.HTMLAttributes
 import web.html.HTMLSpanElement
 
 external interface SpeedDialIconProps :
-    StandardProps, HTMLAttributes<HTMLSpanElement>, PropsWithSx {
-    /** Override or extend the styles applied to the component. */
+    StandardProps,
+    HTMLAttributes<HTMLSpanElement>,
+    PropsWithSx {
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: SpeedDialIconClasses?
 
-    /** The icon to display. */
+    /**
+     * The icon to display.
+     */
     var icon: ReactNode?
 
-    /** The icon to display in the SpeedDial Floating Action Button when the SpeedDial is open. */
+    /**
+     * The icon to display in the SpeedDial Floating Action Button when the SpeedDial is open.
+     */
     var openIcon: ReactNode?
 
-    /** @ignore If `true`, the component is shown. */
+    /**
+     * @ignore
+     * If `true`, the component is shown.
+     */
     var open: Boolean?
 
-    /** The system prop that allows defining system overrides as well as additional CSS styles. */
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
     override var sx: SxProps<Theme>?
 }
 
 /**
+ *
  * Demos:
  *
  * - [Speed Dial](https://mui.com/material-ui/react-speed-dial/)
@@ -40,4 +54,5 @@ external interface SpeedDialIconProps :
  *
  * - [SpeedDialIcon API](https://mui.com/material-ui/api/speed-dial-icon/)
  */
-@JsName("default") external val SpeedDialIcon: FC<SpeedDialIconProps>
+@JsName("default")
+external val SpeedDialIcon: FC<SpeedDialIconProps>

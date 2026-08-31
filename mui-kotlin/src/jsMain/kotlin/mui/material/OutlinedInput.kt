@@ -1,7 +1,10 @@
 // Automatically generated - do not modify!
 
 @file:JsModule("@mui/material/OutlinedInput")
-@file:Suppress("VIRTUAL_MEMBER_HIDDEN")
+
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
 
 package mui.material
 
@@ -16,27 +19,35 @@ import react.ReactNode
 import react.dom.html.FieldsetHTMLAttributes
 import web.html.HTMLFieldSetElement
 
-external interface OutlinedInputProps : StandardProps, InputBaseProps, PropsWithSx {
-    /** Override or extend the styles applied to the component. */
+external interface OutlinedInputProps :
+    StandardProps,
+    InputBaseProps,
+    PropsWithSx {
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: OutlinedInputClasses?
 
     /**
-     * The label of the `input`. It is only used for layout. The actual labelling is handled by
-     * `InputLabel`.
+     * The label of the `input`. It is only used for layout. The actual labelling
+     * is handled by `InputLabel`.
      */
     var label: ReactNode?
 
-    /** If `true`, the outline is notched to accommodate the label. */
+    /**
+     * If `true`, the outline is notched to accommodate the label.
+     */
     var notched: Boolean?
 
-    /** The system prop that allows defining system overrides as well as additional CSS styles. */
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
     override var sx: SxProps<Theme>?
 }
 
 external interface OutlinedInputSlots {
     /**
      * The component that renders the notchedOutline slot.
-     *
      * @default NotchedOutline
      */
     var notchedOutline: ElementType<*>
@@ -56,6 +67,7 @@ external interface OutlinedInputSlotsAndSlotProps : Props {
 external interface OutlinedInputOwnerState
 
 /**
+ *
  * Demos:
  *
  * - [Number Field](https://mui.com/material-ui/react-number-field/)
@@ -66,4 +78,5 @@ external interface OutlinedInputOwnerState
  * - [OutlinedInput API](https://mui.com/material-ui/api/outlined-input/)
  * - inherits [InputBase API](https://mui.com/material-ui/api/input-base/)
  */
-@JsName("default") external val OutlinedInput: FC<OutlinedInputProps>
+@JsName("default")
+external val OutlinedInput: FC<OutlinedInputProps>

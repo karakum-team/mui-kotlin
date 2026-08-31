@@ -15,17 +15,24 @@ import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 
 external interface ListItemIconProps :
-    StandardProps, HTMLAttributes<HTMLDivElement>, PropsWithChildren, PropsWithSx {
+    StandardProps,
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithChildren,
+    PropsWithSx {
     /**
-     * The content of the component, normally `Icon`, `SvgIcon`, or a `@mui/icons-material` SVG icon
-     * element.
+     * The content of the component, normally `Icon`, `SvgIcon`,
+     * or a `@mui/icons-material` SVG icon element.
      */
     override var children: ReactNode?
 
-    /** Override or extend the styles applied to the component. */
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: ListItemIconClasses?
 
-    /** The system prop that allows defining system overrides as well as additional CSS styles. */
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
     override var sx: SxProps<Theme>?
 }
 
@@ -41,4 +48,5 @@ external interface ListItemIconProps :
  *
  * - [ListItemIcon API](https://mui.com/material-ui/api/list-item-icon/)
  */
-@JsName("default") external val ListItemIcon: FC<ListItemIconProps>
+@JsName("default")
+external val ListItemIcon: FC<ListItemIconProps>

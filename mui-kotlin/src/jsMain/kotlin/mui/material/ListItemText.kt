@@ -22,57 +22,63 @@ external interface ListItemTextProps :
     ListItemTextSlotsAndSlotProps,
     PropsWithChildren,
     PropsWithSx {
-    /** Alias for the `primary` prop. */
+    /**
+     * Alias for the `primary` prop.
+     */
     override var children: ReactNode?
 
-    /** Override or extend the styles applied to the component. */
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: ListItemTextClasses?
 
     /**
-     * If `true`, the children won't be wrapped by a Typography component. This can be useful to
-     * render an alternative Typography variant by wrapping the `children` (or `primary`) text, and
-     * optional `secondary` text with the Typography component.
-     *
+     * If `true`, the children won't be wrapped by a Typography component.
+     * This can be useful to render an alternative Typography variant by wrapping
+     * the `children` (or `primary`) text, and optional `secondary` text
+     * with the Typography component.
      * @default false
      */
     var disableTypography: Boolean?
 
     /**
-     * If `true`, the children are indented. This should be used if there is no left avatar or left
-     * icon.
-     *
+     * If `true`, the children are indented.
+     * This should be used if there is no left avatar or left icon.
      * @default false
      */
     var inset: Boolean?
 
-    /** The main content element. */
+    /**
+     * The main content element.
+     */
     var primary: ReactNode?
 
-    /** The secondary content element. */
+    /**
+     * The secondary content element.
+     */
     var secondary: ReactNode?
 
-    /** The system prop that allows defining system overrides as well as additional CSS styles. */
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
     override var sx: SxProps<Theme>?
 }
 
 external interface ListItemTextSlots {
     /**
      * The component that renders the root slot.
-     *
      * @default 'div'
      */
     var root: ElementType<*>?
 
     /**
      * The component that renders the primary slot.
-     *
      * @default Typography
      */
     var primary: ElementType<*>?
 
     /**
      * The component that renders the secondary slot.
-     *
      * @default Typography
      */
     var secondary: ElementType<*>?
@@ -87,6 +93,7 @@ external interface ListItemTextSlotsAndSlotProps : Props {
 external interface ListItemTextOwnerState
 
 /**
+ *
  * Demos:
  *
  * - [Lists](https://mui.com/material-ui/react-list/)
@@ -96,4 +103,5 @@ external interface ListItemTextOwnerState
  *
  * - [ListItemText API](https://mui.com/material-ui/api/list-item-text/)
  */
-@JsName("default") external val ListItemText: FC<ListItemTextProps>
+@JsName("default")
+external val ListItemText: FC<ListItemTextProps>

@@ -14,17 +14,20 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '17'
+
+      # `-Pdeclarations.skip=true` compiles the committed declarations instead of regenerating them, so
+      # this job checks that they compile — not that they are up to date.
+      #
+      # It cannot check the latter any more. The tree is laid out by IntelliJ IDEA's own formatter, and no
+      # IntelliJ IDEA a Linux runner can install matches the one that produced it: JetBrains' newest
+      # Community release is 2025.3 (build 253) against the 262 this tree was formatted with, and a
+      # formatter two majors apart would reformat everything and fail the check it was meant to serve.
+      #
+      # The up-to-date guarantee is therefore local, and is the last step of a regeneration:
+      #
+      #     ./gradlew :mui-kotlin:compileKotlinJs && git diff --exit-code -- mui-kotlin/src/jsMain/kotlin
+      #
+      # See "the generated tree is now reproducible" in BASE_UI_TODO.md.
       - name: Build
         run: |
-          ./gradlew build
-
-      # `build` regenerates and reformats mui-kotlin/src/jsMain/kotlin from scratch, so the committed
-      # tree must come out byte-identical. A diff here means either the declarations were not
-      # regenerated after a generator or dependency change, or something reformatted them by hand —
-      # the IDE's Kotlin style (120 columns) does not match ktfmt's kotlinlangStyle (100).
-      #
-      # spotlessCheck cannot serve as this gate: Spotless skips the check task when spotlessApply has
-      # already run in the same build, so it would always pass.
-      - name: Verify generated declarations are up to date
-        run: |
-          git diff --exit-code -- mui-kotlin/src/jsMain/kotlin
+          ./gradlew build -Pdeclarations.skip=true

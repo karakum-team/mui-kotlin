@@ -1,7 +1,10 @@
 // Automatically generated - do not modify!
 
 @file:JsModule("@mui/material/SvgIcon")
-@file:Suppress("VIRTUAL_MEMBER_HIDDEN")
+
+@file:Suppress(
+    "VIRTUAL_MEMBER_HIDDEN",
+)
 
 package mui.material
 
@@ -15,41 +18,50 @@ import react.ReactNode
 import react.dom.svg.SVGAttributes
 import web.svg.SVGSVGElement
 
-external interface SvgIconProps : SvgIconOwnProps, SVGAttributes<SVGSVGElement>, PropsWithComponent
+external interface SvgIconProps :
+    SvgIconOwnProps,
+    SVGAttributes<SVGSVGElement>,
+    PropsWithComponent
 
-external interface SvgIconOwnProps : PropsWithChildren, PropsWithSx, SVGAttributes<SVGSVGElement> {
-    /** Node passed into the SVG element. */
+external interface SvgIconOwnProps :
+    PropsWithChildren,
+    PropsWithSx,
+    SVGAttributes<SVGSVGElement> {
+    /**
+     * Node passed into the SVG element.
+     */
     override var children: ReactNode?
 
-    /** Override or extend the styles applied to the component. */
+    /**
+     * Override or extend the styles applied to the component.
+     */
     var classes: SvgIconClasses?
 
     /**
-     * The color of the component. It supports both default and custom theme colors, which can be
-     * added as shown in the
+     * The color of the component.
+     * It supports both default and custom theme colors, which can be added as shown in the
      * [palette customization guide](https://mui.com/material-ui/customization/palette/#custom-colors).
      * You can use the `htmlColor` prop to apply a color attribute to the SVG element.
-     *
      * @default 'inherit'
      */
     var color: SvgIconColor?
 
     /**
-     * The fontSize applied to the icon. Defaults to 24px, but can be configure to inherit font
-     * size.
-     *
+     * The fontSize applied to the icon. Defaults to 24px, but can be configure to inherit font size.
      * @default 'medium'
      */
     var fontSize: SvgIconSize?
 
-    /** Applies a color attribute to the SVG element. */
+    /**
+     * Applies a color attribute to the SVG element.
+     */
     var htmlColor: String?
 
     /**
-     * If `true`, the root node will inherit the custom `component`'s viewBox and the `viewBox` prop
-     * will be ignored. Useful when you want to reference a custom `component` and have `SvgIcon`
-     * pass that `component`'s viewBox to the root node.
-     *
+     * If `true`, the root node will inherit the custom `component`'s viewBox and the `viewBox`
+     * prop will be ignored.
+     * Useful when you want to reference a custom `component` and have `SvgIcon` pass that
+     * `component`'s viewBox to the root node.
      * @default false
      */
     var inheritViewBox: Boolean?
@@ -61,7 +73,9 @@ external interface SvgIconOwnProps : PropsWithChildren, PropsWithSx, SVGAttribut
      */
     var shapeRendering: String?
 
-    /** The system prop that allows defining system overrides as well as additional CSS styles. */
+    /**
+     * The system prop that allows defining system overrides as well as additional CSS styles.
+     */
     override var sx: SxProps<Theme>?
 
     /**
@@ -71,17 +85,18 @@ external interface SvgIconOwnProps : PropsWithChildren, PropsWithSx, SVGAttribut
     var titleAccess: String?
 
     /**
-     * Allows you to redefine what the coordinates without units mean inside an SVG element. For
-     * example, if the SVG element is 500 (width) by 200 (height), and you pass viewBox="0 0 50 20",
-     * this means that the coordinates inside the SVG will go from the top left corner (0,0) to
-     * bottom right (50,20) and each unit will be worth 10px.
-     *
+     * Allows you to redefine what the coordinates without units mean inside an SVG element.
+     * For example, if the SVG element is 500 (width) by 200 (height),
+     * and you pass viewBox="0 0 50 20",
+     * this means that the coordinates inside the SVG will go from the top left corner (0,0)
+     * to bottom right (50,20) and each unit will be worth 10px.
      * @default '0 0 24 24'
      */
     var viewBox: String?
 }
 
 /**
+ *
  * Demos:
  *
  * - [Icons](https://mui.com/material-ui/icons/)
@@ -91,4 +106,5 @@ external interface SvgIconOwnProps : PropsWithChildren, PropsWithSx, SVGAttribut
  *
  * - [SvgIcon API](https://mui.com/material-ui/api/svg-icon/)
  */
-@JsName("default") external val SvgIcon: FC<SvgIconProps>
+@JsName("default")
+external val SvgIcon: FC<SvgIconProps>
