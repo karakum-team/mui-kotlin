@@ -9,7 +9,7 @@ Migration of the generator from MUI v7 → **v9** (v8 skipped; the suite was rea
 | `@mui/material` / `@mui/system`            | `9.4.0`                                                              |
 | `@mui/icons-material`                      | `9.4.0`                                                              |
 | `@mui/lab`                                 | `9.0.0-beta.9`                                                       |
-| `@mui/x-date-pickers` / `@mui/x-tree-view` | `9.12.0`                                                             |
+| `@mui/material` / `@mui/system`            | `9.1.2`                                                              |
 | `@mui/base`                                | `5.0.0-beta.70` (frozen / deprecated — see `FUTURE_IMPROVEMENTS.md`) |
 | `@base-ui/react`                           | `1.6.0` (independent cadence — see `BASE_UI_TODO.md`)                |
 | kotlin-wrappers BOM                        | `2026.7.7`                                                           |
