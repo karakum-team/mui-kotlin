@@ -2,7 +2,6 @@
 
 package mui.base
 
-import web.dom.Element
 import web.cssom.ClassName
 import react.ElementType
 import react.Props

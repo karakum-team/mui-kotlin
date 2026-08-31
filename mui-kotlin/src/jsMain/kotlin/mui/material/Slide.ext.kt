@@ -2,7 +2,6 @@
 
 package mui.material
 
-import mui.material.SlideDirection
 import seskar.js.JsValue
 
 sealed external interface SlideDirection {

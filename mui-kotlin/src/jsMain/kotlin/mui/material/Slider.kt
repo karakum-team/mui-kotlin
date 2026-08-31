@@ -6,7 +6,6 @@ package mui.material
 
 import js.array.ReadonlyArray
 import web.dom.ElementId
-import web.dom.Element
 import web.cssom.ClassName
 import web.events.Event
 import mui.material.styles.Theme
@@ -19,7 +18,6 @@ import react.FC
 import react.Props
 import react.PropsWithChildren
 import react.PropsWithClassName
-import react.ReactElement
 import react.ReactNode
 import react.dom.events.SyntheticEvent
 import react.dom.html.HTMLAttributes

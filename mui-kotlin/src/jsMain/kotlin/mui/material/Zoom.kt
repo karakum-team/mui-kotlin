@@ -4,8 +4,6 @@
 
 package mui.material
 
-import web.dom.Element
-import web.html.HTMLElement
 import mui.material.transitions.TransitionProps
 import react.FC
 import react.PropsWithChildren

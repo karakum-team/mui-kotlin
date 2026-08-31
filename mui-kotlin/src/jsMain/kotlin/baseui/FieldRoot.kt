@@ -7,7 +7,6 @@
 
 package baseui
 
-import js.promise.Promise
 import js.array.ReadonlyArray
 
 external interface FieldRootProps :

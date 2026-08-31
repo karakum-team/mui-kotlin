@@ -2,8 +2,6 @@
 
 package muix.pickers
 
-import web.dom.Element
-import web.events.Event
 import react.Props
 import react.dom.events.MouseEvent
 import web.html.HTMLButtonElement

@@ -2,7 +2,6 @@
 
 package mui.base
 
-import web.events.Event
 import react.Props
 import react.dom.aria.AriaRole
 import react.dom.events.FocusEventHandler

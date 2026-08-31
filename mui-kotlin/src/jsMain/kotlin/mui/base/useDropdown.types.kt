@@ -2,7 +2,6 @@
 
 package mui.base
 
-import web.events.Event
 import react.dom.events.SyntheticEvent
 
 external interface UseDropdownParameters {

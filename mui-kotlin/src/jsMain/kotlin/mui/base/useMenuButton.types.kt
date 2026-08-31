@@ -2,7 +2,6 @@
 
 package mui.base
 
-import js.objects.Record
 import web.dom.Element
 import web.html.HTMLElement
 import react.Ref

@@ -4,7 +4,6 @@
 
 package mui.material
 
-import web.dom.Element
 import mui.types.PropsWithComponent
 import react.FC
 import react.PropsWithChildren

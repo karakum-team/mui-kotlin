@@ -4,9 +4,6 @@
 
 package mui.system
 
-import web.dom.Element
-import mui.system.BoxProps
-import mui.system.SystemProps
 import mui.types.PropsWithComponent
 import react.FC
 import react.Props

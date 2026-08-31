@@ -2,9 +2,7 @@
 
 package mui.base
 
-import web.dom.Element
 import web.cssom.ClassName
-import web.events.Event
 import react.ElementType
 import react.Props
 import react.PropsWithChildren

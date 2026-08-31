@@ -2,8 +2,6 @@
 
 package mui.system
 
-import web.dom.Element
-import mui.system.InitColorSchemeScriptProps
 import react.Props
 
 external interface InitColorSchemeScriptProps : Props {

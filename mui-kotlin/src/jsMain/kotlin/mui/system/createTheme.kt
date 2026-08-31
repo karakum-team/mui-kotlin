@@ -5,7 +5,6 @@
 package mui.system
 
 import js.objects.Record
-import mui.system.Breakpoints
 
 external interface Typography
 

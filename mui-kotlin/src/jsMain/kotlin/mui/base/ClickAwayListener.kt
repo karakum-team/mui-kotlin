@@ -4,11 +4,8 @@
 
 package mui.base
 
-import web.dom.Element
-import web.events.Event
 import react.FC
 import react.PropsWithChildren
-import react.ReactElement
 import react.ReactNode
 import web.uievents.UIEvent
 

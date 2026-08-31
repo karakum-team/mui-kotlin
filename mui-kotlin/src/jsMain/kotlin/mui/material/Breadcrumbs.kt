@@ -4,7 +4,6 @@
 
 package mui.material
 
-import web.dom.Element
 import web.html.HTMLElement
 import mui.material.styles.Theme
 import mui.system.SxProps

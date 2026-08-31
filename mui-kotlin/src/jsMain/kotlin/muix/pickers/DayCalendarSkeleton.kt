@@ -2,7 +2,6 @@
 
 package muix.pickers
 
-import web.dom.Element
 import mui.material.styles.Theme
 import mui.system.SxProps
 import mui.system.PropsWithSx

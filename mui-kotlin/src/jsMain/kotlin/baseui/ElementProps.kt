@@ -4,7 +4,6 @@
 
 package baseui
 
-import web.dom.Element
 import web.html.HTMLElement
 import react.dom.html.AnchorHTMLAttributes
 import react.dom.html.ButtonHTMLAttributes

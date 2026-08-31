@@ -3,10 +3,8 @@
 package mui.base
 
 import web.dom.ElementId
-import web.dom.Element
 import web.html.InputType
 import web.cssom.ClassName
-import web.events.Event
 import react.ElementType
 import react.Props
 import react.PropsWithClassName

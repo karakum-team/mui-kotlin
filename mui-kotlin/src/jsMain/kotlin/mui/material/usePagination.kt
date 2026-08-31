@@ -5,7 +5,6 @@
 package mui.material
 
 import js.array.ReadonlyArray
-import web.events.Event
 import react.Props
 import react.dom.events.ChangeEvent
 import react.dom.events.ReactEventHandler

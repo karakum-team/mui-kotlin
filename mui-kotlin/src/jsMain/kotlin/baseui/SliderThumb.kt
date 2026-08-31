@@ -7,8 +7,6 @@
 
 package baseui
 
-import web.dom.Element
-import web.events.Event
 import react.Ref
 import react.dom.events.FocusEventHandler
 import react.dom.events.KeyboardEventHandler

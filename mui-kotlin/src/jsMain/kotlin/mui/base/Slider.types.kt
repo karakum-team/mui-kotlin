@@ -2,11 +2,9 @@
 
 package mui.base
 
-import web.dom.Element
 import mui.system.Union
 import react.ElementType
 import react.Props
-import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLSpanElement
 

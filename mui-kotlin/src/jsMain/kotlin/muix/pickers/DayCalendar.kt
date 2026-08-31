@@ -4,7 +4,6 @@ package muix.pickers
 
 import mui.material.SlideDirection
 import js.array.ReadonlyArray
-import web.dom.Element
 import web.cssom.ClassName
 import react.ElementType
 import react.Props

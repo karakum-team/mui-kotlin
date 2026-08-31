@@ -2,7 +2,6 @@
 
 package mui.system
 
-import mui.system.UseMediaQueryOptions
 import web.cssom.MediaQueryList
 
 external interface UseMediaQueryOptions {

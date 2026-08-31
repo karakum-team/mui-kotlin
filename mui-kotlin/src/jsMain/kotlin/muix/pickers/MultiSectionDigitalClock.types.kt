@@ -3,7 +3,6 @@
 package muix.pickers
 
 import js.array.ReadonlyArray
-import web.dom.Element
 import react.ElementType
 import react.Props
 

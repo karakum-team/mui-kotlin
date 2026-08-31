@@ -2,8 +2,6 @@
 
 package mui.base
 
-import web.dom.Element
-import web.events.Event
 import react.RefCallback
 import react.dom.events.ChangeEventHandler
 import react.dom.events.FocusEventHandler

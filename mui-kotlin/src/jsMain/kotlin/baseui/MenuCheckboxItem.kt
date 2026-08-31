@@ -8,8 +8,6 @@
 package baseui
 
 import web.dom.ElementId
-import web.dom.Element
-import web.events.Event
 
 external interface MenuCheckboxItemProps :
     NonNativeButtonProps,

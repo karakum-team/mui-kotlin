@@ -8,7 +8,6 @@
 
 package mui.material
 
-import web.dom.Element
 import web.cssom.ClassName
 import mui.material.styles.Theme
 import mui.system.SxProps

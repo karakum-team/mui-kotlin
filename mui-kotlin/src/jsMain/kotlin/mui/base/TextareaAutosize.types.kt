@@ -2,7 +2,6 @@
 
 package mui.base
 
-import web.dom.Element
 import react.dom.html.TextareaHTMLAttributes
 import web.html.HTMLTextAreaElement
 

@@ -6,7 +6,6 @@ import popper.core.Modifier
 import js.array.ReadonlyArray
 import web.dom.Element
 import web.cssom.ClassName
-import web.html.HTMLElement
 import popper.core.Instance
 import popper.core.Options
 import popper.core.Placement

@@ -8,9 +8,6 @@
 
 package mui.material
 
-import js.objects.Record
-import web.dom.Element
-import web.events.Event
 import mui.material.styles.Theme
 import mui.system.SxProps
 import mui.system.PropsWithSx

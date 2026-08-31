@@ -4,9 +4,7 @@
 
 package mui.material
 
-import mui.material.SlideDirection
 import web.dom.Element
-import web.html.HTMLElement
 import mui.material.transitions.TransitionProps
 import react.FC
 import react.PropsWithChildren

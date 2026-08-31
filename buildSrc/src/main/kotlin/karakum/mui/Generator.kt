@@ -1371,6 +1371,7 @@ private fun fileContent(
         .plus(systemImports(resolvedBody, pkg))
         .plus(addedImports)
         .distinct()
+        .let { retainReferencedImports(it, resolvedBody, pkg) }
         .map { "import $it" }
         .joinToString("\n")
 
@@ -1384,6 +1385,57 @@ private fun fileContent(
         .joinToString("\n\n")
         .removeSuffix("\n") + "\n"
 }
+
+/**
+ * Drops the imports the file has no use for: those naming its own package, and those whose short name is
+ * referenced nowhere in it.
+ *
+ * Both mechanisms that add imports over-produce, in ways that are cheaper to subtract here than to make
+ * precise at the source. [DEFAULT_IMPORTS] is keyed on a plain substring of the body, so `Element` fires
+ * inside `HTMLDivElement` and `Event` inside `MouseEventHandler` — 201 and 62 stray imports respectively
+ * before this ran. Its triggers are also blind to the package, so a `mui.system` file imported
+ * `mui.system.BoxProps` from itself. [resolveImportedFqns] over-produces differently: it skips `import`
+ * lines when looking for a real occurrence but not comments, so an FQN appearing only inside one of the
+ * `/* … */` markers recording the original TypeScript left an import behind with nothing to name.
+ *
+ * Filtering here rather than tightening those triggers keeps the change subtractive: a trigger that no
+ * longer fires would silently *lose* an import the file needs, whereas this can only remove one that
+ * nothing refers to. Getting it wrong is caught immediately — `compileKotlinJs` runs on the result.
+ *
+ * References are counted in code only, with comments stripped, plus KDoc links (`[Foo]`), which resolve
+ * through imports the same way code does. No import in the tree is currently reachable only from a KDoc
+ * link; they are honoured so that the first one to appear is not quietly broken.
+ *
+ * Deliberately conservative in the other direction: a short name inside a string literal counts as a
+ * reference, because telling one from code needs a lexer and the cost of keeping a stray import is a
+ * cosmetic line, not a broken build.
+ */
+private fun retainReferencedImports(
+    imports: List<String>,
+    body: String,
+    pkg: Package,
+): List<String> {
+    val referenced = referencedNames(body)
+
+    return imports.filter { fqn ->
+        fqn.substringBeforeLast(".") != pkg.pkg && fqn.substringAfterLast(".") in referenced
+    }
+}
+
+/** Every identifier appearing in [body] outside a comment, plus the targets of its KDoc links. */
+private fun referencedNames(body: String): Set<String> {
+    val comments = COMMENT.findAll(body).map { it.value }
+    val code = COMMENT.replace(body, " ")
+
+    return IDENTIFIER.findAll(code).mapTo(mutableSetOf()) { it.value }
+        .apply { comments.flatMapTo(this) { KDOC_LINK.findAll(it).map { link -> link.groupValues[1] } } }
+}
+
+// Non-greedy, so `/* A */ x /* B */` is two comments rather than one swallowing `x`. Kotlin's block
+// comments nest, which this does not model; the generator emits none that do.
+private val COMMENT = Regex("""/\*.*?\*/|//[^\n]*""", RegexOption.DOT_MATCHES_ALL)
+private val IDENTIFIER = Regex("""[A-Za-z_][A-Za-z0-9_]*""")
+private val KDOC_LINK = Regex("""\[([A-Za-z_][A-Za-z0-9_]*)""")
 
 // Cross-package types that should appear as short names in body and be imported at the top.
 // FQN is replaced with the short name (last segment after `.`); if the FQN's package matches

@@ -4,9 +4,7 @@
 
 package mui.material
 
-import web.dom.Element
 import web.cssom.ClassName
-import web.events.Event
 import mui.system.Union
 import react.ElementType
 import react.FC

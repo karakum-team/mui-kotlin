@@ -7,7 +7,6 @@
 
 package baseui
 
-import web.events.Event
 import mui.system.Union
 
 external interface SliderRootProps :

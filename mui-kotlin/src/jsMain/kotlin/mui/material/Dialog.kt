@@ -10,7 +10,6 @@
 package mui.material
 
 import web.dom.ElementId
-import web.dom.Element
 import mui.material.styles.Theme
 import mui.system.SxProps
 import mui.material.transitions.TransitionProps

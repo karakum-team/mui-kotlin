@@ -3,7 +3,6 @@
 package mui.base
 
 import js.array.ReadonlyArray
-import js.objects.Record
 import web.dom.ElementId
 import web.dom.Element
 import web.html.HTMLElement

@@ -2,9 +2,6 @@
 
 package mui.base
 
-import js.array.ReadonlyArray
-import web.dom.Element
-import web.events.Event
 import web.html.HTMLElement
 import react.ElementType
 import react.Props

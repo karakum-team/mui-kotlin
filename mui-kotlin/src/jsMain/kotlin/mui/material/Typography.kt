@@ -4,8 +4,6 @@
 
 package mui.material
 
-import js.objects.Record
-import web.dom.Element
 import mui.material.styles.Theme
 import mui.system.SxProps
 import mui.types.PropsWithComponent

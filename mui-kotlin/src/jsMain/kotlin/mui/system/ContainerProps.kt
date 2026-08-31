@@ -2,7 +2,6 @@
 
 package mui.system
 
-import web.dom.Element
 import react.PropsWithChildren
 import react.ReactNode
 import react.dom.html.HTMLAttributes

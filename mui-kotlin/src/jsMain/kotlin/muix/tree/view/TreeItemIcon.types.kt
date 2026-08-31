@@ -2,7 +2,6 @@
 
 package muix.tree.view
 
-import web.dom.Element
 import react.ElementType
 import react.Props
 

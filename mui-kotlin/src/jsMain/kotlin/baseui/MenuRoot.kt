@@ -7,7 +7,6 @@
 
 package baseui
 
-import web.events.Event
 import react.PropsWithChildren
 import react.ReactNode
 

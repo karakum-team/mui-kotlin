@@ -10,9 +10,7 @@
 package mui.material
 
 import web.dom.ElementId
-import web.dom.Element
 import web.html.InputType
-import web.events.Event
 import web.html.HTMLElement
 import mui.material.styles.Theme
 import mui.system.SxProps

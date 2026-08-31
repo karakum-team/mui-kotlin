@@ -5,7 +5,6 @@
 package mui.material
 
 import web.cssom.ClassName
-import web.events.Event
 
 sealed external interface InputAdornmentClasses {
     /** Styles applied to the root element. */

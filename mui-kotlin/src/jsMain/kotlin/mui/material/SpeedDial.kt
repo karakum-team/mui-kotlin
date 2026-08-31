@@ -4,9 +4,7 @@
 
 package mui.material
 
-import web.dom.Element
 import web.html.Hidden
-import web.events.Event
 import mui.material.styles.Theme
 import mui.system.SxProps
 import mui.system.PropsWithSx

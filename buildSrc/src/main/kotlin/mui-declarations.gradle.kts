@@ -75,8 +75,9 @@ tasks {
     // lines another tool has already broken, so whichever runs last does not win. Using the IDE's own
     // formatter makes ⌥⌘L a no-op again, which is the whole point.
     //
-    // Two things ktfmt did are consequently no longer done, both deliberately out of scope here: unused
-    // imports are left in place, and KDoc is not reflowed to a column limit.
+    // One thing ktfmt did is consequently no longer done: KDoc is not reflowed to a column limit, nor are
+    // its block tags reordered, so the tree keeps upstream's own wrapping. Unused imports, which ktfmt also
+    // removed, are pruned by the generator instead — see `retainReferencedImports` in Generator.kt.
     val formatDeclarations by registering(IdeaFormatTask::class) {
         group = "build"
         description = "Reformats the generated Kotlin declarations with IntelliJ IDEA's own formatter."

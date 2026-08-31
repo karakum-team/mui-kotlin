@@ -4,12 +4,10 @@ package mui.base
 
 import web.dom.Element
 import web.cssom.ClassName
-import web.events.Event
 import react.ElementType
 import react.Props
 import react.PropsWithChildren
 import react.PropsWithClassName
-import react.ReactElement
 import react.ReactNode
 import react.dom.aria.AriaRole
 import react.dom.events.KeyboardEventHandler

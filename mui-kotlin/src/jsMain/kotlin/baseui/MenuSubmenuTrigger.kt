@@ -8,7 +8,6 @@
 package baseui
 
 import web.dom.ElementId
-import web.dom.Element
 
 external interface MenuSubmenuTriggerProps :
     NonNativeButtonProps,

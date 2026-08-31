@@ -2,7 +2,6 @@
 
 package baseui
 
-import web.dom.Element
 import web.cssom.ClassName
 import web.html.HTMLElement
 import react.CSSProperties

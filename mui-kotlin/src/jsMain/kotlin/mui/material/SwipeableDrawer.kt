@@ -8,8 +8,6 @@
 
 package mui.material
 
-import web.dom.Element
-import web.events.Event
 import react.ElementType
 import react.FC
 import react.dom.events.ReactEventHandler

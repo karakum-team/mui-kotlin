@@ -2,7 +2,6 @@
 
 package mui.base
 
-import web.events.Event
 import react.PropsWithChildren
 import react.ReactNode
 import react.dom.events.SyntheticEvent

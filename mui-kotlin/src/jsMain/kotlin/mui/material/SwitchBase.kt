@@ -9,9 +9,7 @@
 package mui.material
 
 import web.dom.ElementId
-import web.dom.Element
 import web.html.InputType
-import web.events.Event
 import mui.system.StandardProps
 import react.ElementType
 import react.FC

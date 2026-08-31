@@ -434,10 +434,19 @@ files — so ⌥⌘L dirtied the tree and the committed tree could not survive o
 — IDEA's formatter re-indents and wraps overlong lines but never re-joins lines another tool has already
 broken, so whichever runs last does not win.
 
-Two things ktfmt did are consequently no longer done. Unused imports are left in place (`Box.kt` carries
-ten where ktfmt left seven, including a self-import from its own package) — that belongs in the generator
-and is not fixed yet. And KDoc is not reflowed to a column limit, nor are its block tags reordered, so the
-committed tree now preserves upstream's own wrapping and `@default`/`@param` order.
+One thing ktfmt did is consequently no longer done: KDoc is not reflowed to a column limit, nor are its
+block tags reordered, so the committed tree preserves upstream's own wrapping and `@default`/`@param`
+order.
+
+Unused imports, which ktfmt also removed, are now pruned by the generator — `retainReferencedImports` in
+`Generator.kt` drops an import naming the file's own package, or one whose short name is referenced
+nowhere in the file. Both import mechanisms over-produce: `DEFAULT_IMPORTS` is keyed on a plain substring,
+so `Element` fired inside `HTMLDivElement` (201 times) and `Event` inside `MouseEventHandler` (62), and
+`resolveImportedFqns` skips `import` lines when looking for a real occurrence but not comments, so an FQN
+appearing only inside a `/* … */` TypeScript marker left an import behind. Pruning after the fact rather
+than tightening the triggers keeps the change subtractive: a trigger that stopped firing would silently
+lose a needed import, whereas this can only drop one nothing refers to, and `compileKotlinJs` runs on the
+result.
 
 Only `mui-kotlin/src/jsMain/kotlin` is in scope — hand-written code (`buildSrc`, `playground`) is
 deliberately left alone so that adding the formatter did not reformat anything a human wrote.

@@ -2,7 +2,6 @@
 
 package mui.base
 
-import web.events.Event
 import seskar.js.JsValue
 
 sealed external interface ClickAwayListenerMouseEvent {

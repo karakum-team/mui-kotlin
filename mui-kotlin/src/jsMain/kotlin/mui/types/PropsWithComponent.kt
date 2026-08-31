@@ -2,7 +2,6 @@
 
 package mui.types
 
-import web.dom.Element
 import react.ElementType
 import react.Props
 

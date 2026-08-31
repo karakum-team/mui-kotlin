@@ -2,8 +2,6 @@
 
 package mui.base
 
-import web.dom.Element
-import web.events.Event
 import web.html.HTMLElement
 import react.Props
 import react.Ref
@@ -12,7 +10,6 @@ import react.dom.events.ChangeEventHandler
 import react.dom.events.FocusEventHandler
 import react.dom.events.MouseEventHandler
 import web.html.HTMLInputElement
-import web.html.HTMLTextAreaElement
 
 external interface UseInputParameters {
     /**

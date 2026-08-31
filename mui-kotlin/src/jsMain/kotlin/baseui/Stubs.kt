@@ -4,7 +4,6 @@ package baseui
 
 import web.dom.Element
 import web.events.Event
-import web.html.HTMLElement
 
 /**
  * `internals/types.d.ts`. Marker parents carrying a single prop; declared twice upstream purely to

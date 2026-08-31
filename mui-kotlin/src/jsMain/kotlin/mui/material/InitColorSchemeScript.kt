@@ -2,7 +2,6 @@
 
 package mui.material
 
-import web.dom.Element
 import mui.system.InitColorSchemeScriptProps
 import mui.system.Union
 import react.Props

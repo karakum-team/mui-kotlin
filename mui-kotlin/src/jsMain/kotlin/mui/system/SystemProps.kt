@@ -2,7 +2,6 @@
 
 package mui.system
 
-import mui.system.SystemProps
 import react.Props
 
 @Suppress("UNUSED_TYPEALIAS_PARAMETER")

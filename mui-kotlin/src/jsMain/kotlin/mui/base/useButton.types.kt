@@ -4,7 +4,6 @@ package mui.base
 
 import web.dom.Element
 import web.html.ButtonType
-import web.events.Event
 import web.html.HTMLElement
 import react.Props
 import react.Ref

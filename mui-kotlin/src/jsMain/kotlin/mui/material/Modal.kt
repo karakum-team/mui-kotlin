@@ -19,7 +19,6 @@ import react.FC
 import react.Props
 import react.PropsWithChildren
 import react.PropsWithClassName
-import react.ReactElement
 import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement

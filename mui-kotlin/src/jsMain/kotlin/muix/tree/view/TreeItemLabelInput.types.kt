@@ -2,8 +2,6 @@
 
 package muix.tree.view
 
-import web.dom.Element
-import web.events.Event
 import mui.system.Union
 import react.Props
 import react.dom.events.ChangeEventHandler

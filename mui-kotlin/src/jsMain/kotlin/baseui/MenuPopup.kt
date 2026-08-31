@@ -8,8 +8,6 @@
 package baseui
 
 import web.dom.ElementId
-import web.dom.Element
-import web.html.HTMLElement
 import mui.system.Union
 import react.PropsWithChildren
 import react.ReactNode

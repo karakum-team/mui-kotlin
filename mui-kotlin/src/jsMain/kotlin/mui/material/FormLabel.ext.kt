@@ -2,7 +2,6 @@
 
 package mui.material
 
-import web.dom.Element
 import seskar.js.JsValue
 import react.dom.html.LabelHTMLAttributes
 import web.html.HTMLLabelElement
