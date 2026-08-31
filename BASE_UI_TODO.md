@@ -83,7 +83,9 @@ that already works.
     been generated with `MenuPopup.Props`, `MenuRoot.State` and 18 others unmapped all along; nothing
     referenced a first member until `SliderLabelProps`, declared against `SliderLabel.State`.
 - **Playground sample** — `playground/src/jsMain/kotlin/BaseUiMenu.kt`, wired into `App.kt`. Mounts all
-  20 members of the namespace object and uses both arms of every value-or-callback prop. Driven in a
+  20 members of the namespace object, uses both arms of every value-or-callback prop, and sets the
+  anchor-positioning props on both `Menu.Positioner` sites (`side` / `align` as seskar unions, the two
+  offsets and `collisionPadding` as the `Any?` members). Driven in a
   browser once: the portal lands in `<body>`, the popup's class flips `--closed` ↔ `--open` and its
   `min-width` 8rem ↔ 16rem while Base UI's own inline styles survive alongside, highlight follows the
   arrow keys, checkbox and radio round-trip, the submenu opens a second portal, the backdrop reports
@@ -97,6 +99,46 @@ that already works.
   `style` callback's opacity mid-drag, `state.orientation` reads as the bare string, and
   `render { props, _ -> div.create { +props } }` carries `className` / ref / `data-*` through. One
   expected warning, see gap 15.
+- **Anchor positioning** (was gap 9) — `UseAnchorPositioningSharedParameters` was an empty stub, so
+  every Positioner part accepted no `side` / `align` / `sideOffset` at all and every menu was stuck on
+  `bottom` / `center` with zero offset. `utils/useAnchorPositioning.d.ts` now goes through
+  `BASE_UI_EXTRA_FILES` and the 12 props are generated from upstream, KDoc included. Eight Positioner
+  parts inherit them; only `menu` is in the allow-list today, so the other seven arrive with the surface
+  already there. What it cost:
+  - **`Side` and `Align` were hardcoded twice.** `BASE_UI_SIDE` / `BASE_UI_ALIGN` in `Generator.kt`
+    spelled out unions that this very file declares, so generating it redeclared both. The hardcodes are
+    gone and both now come from upstream (they land in `useAnchorPositioning.ext.kt`, so `Side.kt` and
+    `Align.kt` no longer exist). A rename upstream is now a build failure rather than a silent
+    divergence. `Orientation` and `TransitionStatus` are declared elsewhere and stay hardcoded.
+  - **`Padding` resolved to nothing.** `collisionPadding: Padding` comes from `@floating-ui/utils`,
+    which is not generated, and would ordinarily widen to `Any?` with a marker the way `Middleware` and
+    `FloatingContext` do — except that `Padding` ends with one of `KNOWN_TYPE_SUFFIXES`, which is seeded
+    with the capitalized `UNION_PROPERTIES` and `padding` is one of them. `kotlinType` therefore claimed
+    to know the name and emitted it bare, against nothing. `inlineForeignAliases` (BaseUi.kt) substitutes
+    the upstream definition, giving `Any? /* number | Partial<SideObject> */`. It is the same accident
+    `substituteTypeParameterBounds` handles for type *parameters*; this is its counterpart for imported
+    names, and `Padding` is the only one of this file's eight imports it catches.
+  - **A dead union named after the file.** `findDefaultUnions` runs over the whole `.d.ts`, including
+    the two non-exported `SideFlipMode` / `SideShiftMode` interfaces, and built a
+    `useAnchorPositioningAlign` sealed type — lowercase, because unions are named for the component —
+    whose only referrer was then dropped, since the converter does not emit a non-exported interface.
+    `dropNonExportedInterfaces` removes them up front so the earlier passes agree with the later ones.
+    Three such interfaces exist across the modules generated so far, all internal helpers.
+  - **`side` had to stop being `Any?`** or the flagship prop of the fix would have been untyped; see
+    gap 5.
+
+  Driven in a browser, measured against the DOM rather than eyeballed: the popup sits exactly `8` below
+  the trigger (`sideOffset`, plain-number arm) with `data-align="start"` where the default is `center`;
+  the submenu reports `data-side="inline-end"` and sits exactly `4` right of its trigger item, which is
+  both the kebab `@JsValue("inline-end")` mapping and the *callback* arm of `sideOffset` returning from
+  Kotlin; `collisionPadding = 12` pins the popup's left edge at exactly `12` although its trigger is at
+  `8`. The state readback still works through the now-typed `Side`:
+  `bui-positioner--bottom bui-positioner--start` on the parent, `--inline-end` on the submenu. Console
+  carries only the two known warnings (emotion double-load, and gap 15's `render` name).
+
+  One prop is passed but **not** independently verified: `alignOffset = -4` is masked, because the same
+  collision shift that proves `collisionPadding` pins the left edge regardless of it. Moving the trigger
+  away from the viewport edge would expose it.
 
 ## Facts that contradict the plan documents
 
@@ -113,10 +155,10 @@ that already works.
 
 ## Open gaps in the generated output
 
-Ordered by how much API they cost. The numbers are stable identifiers, not positions: gaps 1 and 2 are
-closed and their entries removed, so the list starts at 3. Gap 11 is closed too, but its entry is kept —
-struck through — because what it decided (the props stay `Any?`) is still worth knowing. 14–17 came out
-of `slider`.
+Ordered by how much API they cost. The numbers are stable identifiers, not positions: gaps 1, 2 and 9
+are closed and their entries removed, so the list starts at 3 and skips 9. Gap 11 is closed too, but its
+entry is kept — struck through — because what it decided (the props stay `Any?`) is still worth knowing.
+14–17 came out of `slider`.
 
 3. **Members declared `T | undefined` without `?` come out non-null.** Base UI writes optional props
    this way in 137 places; MUI always pairs `| undefined` with `?`, so `KotlinType.kt:181` /
@@ -137,20 +179,38 @@ of `slider`.
    handles that for a member whose whole type is the parameter, using its bound or default; anywhere
    else — `(value: Value extends number ? number : Value, …)` — the enclosing construct is widened whole
    and upstream's own text survives in the marker.
-5. **`Side` and `TransitionStatus` widen to `Any?`** (7 members) although both enums *are* generated as
-   seskar sealed types — they need `KNOWN_TYPES` entries. `MenuRootOrientation` (the per-part alias of
-   `Orientation`) is likewise unresolved. Note that the two that *do* resolve only do so by accident:
-   `align` because the member name is in `UnionFinder.kt::UNION_PROPERTIES`, and `Orientation` because a
-   MUI `KNOWN_TYPES` entry (`KotlinType.kt:54`) happens to share the name — while `IMPORTED_FQNS` also
-   carries `mui.base.Orientation`. Worth making deliberate before it bites.
+5. **`TransitionStatus` widens to `Any?`** although the enum *is* generated as a seskar sealed type.
+   `MenuRootOrientation` (the per-part alias of `Orientation`) is likewise unresolved.
+   `baseui/TransitionStatus.kt` therefore appears in the tree **only inside a `/* … */` marker**, never
+   in a type position: a dead declaration nothing can reach.
 
-   Sharpened since: `Side` and `TransitionStatus` appear in the generated tree **only inside `/* … */`
-   markers**, never in a type position, so `baseui/Side.kt` and `baseui/TransitionStatus.kt` are dead
-   declarations that nothing can reach. Two things the playground sample established about the widened
-   members meanwhile: a seskar union still *assigns* to one
-   (`orientation = MenuRootOrientation.vertical` on `Menu.Root` compiles and works), and *reading* one
-   yields the bare JS string, so `"bui-positioner--${state.side}"` produces `--bottom` — which also means
-   a rename upstream would quietly produce `--null` instead of failing.
+   `Side` was the third of these and is closed — `"Side"` is now in `KNOWN_TYPES`, which is what the
+   anchor-positioning work needed (see Done). No `IMPORTED_FQNS` entry: it resolves package-locally
+   inside `baseui`, and no MUI declaration uses the bare name.
+
+   **`TransitionStatus` cannot take that route**, which an earlier revision of this entry got wrong by
+   prescribing a `KNOWN_TYPES` entry for both at once. `KNOWN_TYPES` is global:
+   `@mui/material/Collapse/Collapse.d.ts:95` declares `state: TransitionStatus`, and
+   `mui/material/Collapse.kt:136` currently emits `var state: Any? /* TransitionStatus */` — an entry
+   would resolve that against the `baseui` type and break the MUI tree. `Side` is safe only because no
+   MUI declaration uses the bare name, which is luck rather than design. The real fix is a Base-UI-only
+   name set: `convertDefinitions` already takes `keepEmptyBodyParents` for exactly this kind of
+   per-target behaviour (`Converter.kt:84`), and a `knownTypeNames: Set<String> = emptySet()` alongside
+   it, threaded down to `kotlinType`, would gate both names without touching a single MUI call site.
+
+   The ones that resolve without being asked to still do so by accident, and the mechanism is not what
+   an earlier revision of this entry claimed. `Align` resolves because `KNOWN_TYPE_SUFFIXES`
+   (`KotlinType.kt:98-111`) is seeded with the capitalized `UNION_PROPERTIES` and `align` is one of them
+   — *not* because of `findUnionSource`, whose `!source.startsWith("'")` guard rejects a bare `Align`.
+   `Orientation` resolves because a MUI `KNOWN_TYPES` entry (`KotlinType.kt:54`) happens to share the
+   name, while `IMPORTED_FQNS` also carries `mui.base.Orientation`. That same suffix table is what made
+   `Padding` fail to compile (see Done), so it cuts both ways.
+
+   Two things the playground sample established about a widened member meanwhile: a seskar union still
+   *assigns* to one (`orientation = MenuRootOrientation.vertical` on `Menu.Root` compiles and works),
+   and *reading* one yields the bare JS string, so `"bui-positioner--${state.side}"` produces
+   `--bottom` — which also meant a rename upstream would quietly produce `--null` instead of failing.
+   `side` is now typed, so that particular hazard is gone; `transitionStatus` still has it.
 6. **The alias map is built only from part files, not the whole package.** Enough for `menu`, but
    combobox and autocomplete each lose 3 references (`AriaCombobox.ChangeEventDetails`,
    `.ChangeEventReason`, `.HighlightEventDetails`), tooltip and toast lose `FloatingPortalLite.Props`,
@@ -174,14 +234,12 @@ of `slider`.
    dependency left in `baseui` (`import mui.system.Union`, nothing else), which should not exist. Emit a
    per-part sealed type instead. `slider` added two more: `SliderRootProps.thumbAlignment`
    (`'center' | 'edge' | 'edge-client-only'`) and `.thumbCollisionBehavior` (`'push' | 'swap' | 'none'`),
-   so the sample has to write `thumbCollisionBehavior = "swap"` as a bare string. Note `MenuPositionerState.instant` comes out as plain
+   so the sample has to write `thumbCollisionBehavior = "swap"` as a bare string. Anchor positioning
+   added one more, and it is the one that keeps the `mui.system.Union` import alive in a second file:
+   `UseAnchorPositioningSharedParameters.positionMethod` (`'absolute' | 'fixed'`).
+   Note `MenuPositionerState.instant` comes out as plain
    `String` and that is *correct*: upstream declares that one `string | undefined`, not as the literal
    union — the two shapes differ in Base UI itself, so do not "fix" them into one.
-9. **`UseAnchorPositioningSharedParameters` is an empty stub.** Upstream it is ~60 anchor-positioning
-   props (side, align, offsets, collision handling) shared by every Positioner part, in
-   `utils/useAnchorPositioning.d.ts`. Generating it type-only would restore real API surface. Confirmed
-   in the browser: `Menu.Positioner` accepts no `side` / `align` / `sideOffset` at all, so every menu is
-   stuck on the defaults (`bottom` / `center`, zero offset). This is the largest missing surface left.
 10. **`BaseUiDivProps['onClick']` indexed-access types stay `Any?`** (4 members, `MenuItem` /
    `MenuLinkItem`). Resolvable by substituting the parent member's type. Until then a call site has to
    annotate the parameter itself — the sample writes `onClick = { _: MouseEvent<*, *> -> … }`, which is
@@ -283,7 +341,9 @@ of `slider`.
 ## Deliberately not generated
 
 - `internals/`, `floating-ui-react/`, `types/`, per-module `utils/`, and every `*Context.d.ts` —
-  internal plumbing, not public API. Note `store/` is *not* excluded: `menu/store/MenuHandle.d.ts` is
+  internal plumbing, not public API. The *package-level* `utils/` is a different directory and not
+  excluded wholesale: `utils/useAnchorPositioning.d.ts` is pulled in by `BASE_UI_EXTRA_FILES` for the
+  props every Positioner inherits, and `utils/FloatingPortalLite.d.ts` is the next candidate (gap 6). Note `store/` is *not* excluded: `menu/store/MenuHandle.d.ts` is
   listed in `index.parts.d.ts` and does reach `generate()`; it produces no file only because
   `declare class` converts to an empty body.
 - `*DataAttributes.d.ts` / `*CssVars.d.ts` — **these are `declare enum`s with string values**
@@ -329,10 +389,21 @@ the allow-list to extend.
   `tooltip` and `toast` are the first to need `FloatingPortalLite.Props` in the stub table (gap 6);
   `combobox` and `autocomplete` are the largest and the first to hit gaps 4, 6 and 13 at once.
 
-  Anything with a Positioner now makes gap 9 the gate rather than a footnote: `slider` sidestepped it by
-  having no positioner, and `select` / `popover` / `tooltip` cannot. Two smaller candidates that would
-  still break new ground: `accordion` (a `Pick<AccordionRoot.Props, …>` parent, an `'h3'` tag, and
-  `AccordionRootProps<Value = any>` — the bound-less parameter shape) and `field` itself (above).
+  Anything with a Positioner used to be gated on gap 9; that is closed, and the anchor-positioning props
+  are inherited by all eight Positioner parts, so `select` / `popover` / `tooltip` / `navigation-menu` /
+  `preview-card` / `combobox` / `toast` arrive with that surface already working. Two of them will **not** inherit it at
+  all, and the failure is silent: `TooltipPositionerProps extends BaseUIComponentProps<'div', …>,
+  Omit<UseAnchorPositioningSharedParameters, 'side'>` and `ToastPositionerProps extends …, Omit<…,
+  'side' | 'anchor'>` spell the `Omit<` as the *second* parent. `findParentType`'s `Omit` branch only
+  fires when the whole parent source starts with `Omit<` (`ParentType.kt:40`) — which is why `slider`'s
+  single-parent `Omit<BaseUIComponentProps<'div', …>, 'id'>` keeps `BaseUiDivProps` — so these two fall
+  to the multi-parent split instead, where `isAcceptableParent` rejects any prefix in
+  `TS_UTILITY_PREFIXES`. The positioning parent is dropped entirely, and `unresolvedParents` cannot
+  report it: the name is filtered out, not left unresolved. First thing to check when either lands.
+
+  Two smaller candidates that would still break new ground: `accordion` (a `Pick<AccordionRoot.Props, …>`
+  parent, an `'h3'` tag, and `AccordionRootProps<Value = any>` — the bound-less parameter shape) and
+  `field` itself (above).
 - `@mui/base` stays generated and frozen. Only two generated files depend on it —
   `mui/material/Snackbar.kt` (`ClickAwayListenerProps`) and `mui/material/Autocomplete.kt`
   (`UseAutocompleteProps`) — so retiring it later is cheap.

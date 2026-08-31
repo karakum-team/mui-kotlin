@@ -52,6 +52,12 @@ private val KNOWN_TYPES = setOf(
     "GridDirection",
     "GridWrap",
     "Orientation",
+    // Base UI's `Side`, generated from `utils/useAnchorPositioning.d.ts`. Unlike `Align`, the name is
+    // not covered by KNOWN_TYPE_SUFFIXES (which is seeded with the capitalized UNION_PROPERTIES, and
+    // `align` is one of those while `side` is not), so without this entry every `side` prop and state
+    // member widens to `Any?`. No IMPORTED_FQNS entry: it resolves package-locally inside `baseui`,
+    // and no MUI declaration uses the bare name.
+    "Side",
     "PopoverReference",
     "PopperProps",
 
