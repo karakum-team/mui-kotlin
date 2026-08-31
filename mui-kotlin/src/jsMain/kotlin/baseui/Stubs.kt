@@ -49,7 +49,6 @@ external interface BaseUIGenericEventDetails {
  * Positioner props currently inherit nothing from it — see BASE_UI_TODO.md.
  */
 external interface UseAnchorPositioningSharedParameters
-
 /**
  * `floating-ui-react/components/FloatingPortal.d.ts`, where it is `interface Props<TState>` declared
  * inside the `FloatingPortal` namespace — a shape with no flat declaration to redirect to, and one

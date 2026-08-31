@@ -401,6 +401,7 @@ internal fun adaptBaseUiContent(
         // `export interface DrawerTitleState {}` directly before a callable interface and would lose
         // the State type silently.
         .dropCallSignatureInterfaces()
+        .dropNonExportedInterfaces()
         .expandEmptyInterfaceBodies()
         .flattenBaseUiNamespaces(aliases)
         .substituteTypeParameterBounds()
@@ -408,7 +409,61 @@ internal fun adaptBaseUiContent(
         .interfaceEventDetails()
         .resolveNamespaceStubs()
         .resolveComponentProps()
+        .inlineForeignAliases()
         .arrowifyMethodSignatures()
+
+/**
+ * Removes a top-level `interface` that upstream does not export.
+ *
+ * The converter already declines to emit one, so this changes no output directly — what it changes is
+ * that the *earlier* passes stop seeing it. `findDefaultUnions` builds a sealed type for every member
+ * whose name is in `UnionFinder.UNION_PROPERTIES`, and it runs over the whole file: the non-exported
+ * `SideFlipMode.align?: 'flip' | 'shift' | 'none'` in `utils/useAnchorPositioning.d.ts` produced a
+ * `useAnchorPositioningAlign` union that nothing could ever refer to, because the interface holding its
+ * only use was then dropped. A dead declaration in the public API is worse than a missing one — it is
+ * also named after the file rather than the interface, since the union is named for the component.
+ *
+ * Two such interfaces exist in the generated set, both in `utils/useAnchorPositioning.d.ts`. (A third,
+ * `slider/utils/getPushedThumbValues.d.ts`, is not reached at all — `index.parts.d.ts` does not list it.)
+ */
+private fun String.dropNonExportedInterfaces(): String =
+    NON_EXPORTED_INTERFACE.replace(this, "")
+
+// Anchored at column 0 on both ends: Base UI indents members by two spaces, so a nested object literal's
+// closing brace cannot end the match. Non-greedy, so the first line-initial `}` closes the block.
+//
+// The `{}` alternative is not redundant. It is the same hazard documented above `dropCallSignatureInterfaces`
+// — an empty body written on one line has no line-initial `}`, so a non-greedy scan would run on and take
+// the *next* declaration's brace, deleting it silently. This pass runs before `expandEmptyInterfaceBodies`,
+// so nothing else guards it. 1.6.0 has no such interface; the alternative is what keeps that from mattering.
+private val NON_EXPORTED_INTERFACE = Regex(
+    """^interface \w+[^{]*\{(?:}|.*?^})\n?""",
+    setOf(RegexOption.MULTILINE, RegexOption.DOT_MATCHES_ALL),
+)
+
+/**
+ * Replaces a type imported from a package we do not generate with the definition it stands for.
+ *
+ * Such a name ordinarily widens to `Any?` with itself recorded in a marker, which is fine — that is what
+ * `Middleware`, `FloatingContext` and `VirtualElement` get. `Padding` is the exception: it ends with one
+ * of `KotlinType.kt`'s `KNOWN_TYPE_SUFFIXES` (seeded with the capitalized `UNION_PROPERTIES`, and `padding`
+ * is one of those), so `kotlinType` claims to know it and emits the bare name — which resolves to
+ * nothing in `baseui` and fails to compile. Substituting `@floating-ui/utils`' own definition both fixes
+ * that and says more than the name would have.
+ *
+ * The same accident is what `substituteTypeParameterBounds` handles for type *parameters*; this is its
+ * counterpart for imported names.
+ */
+private fun String.inlineForeignAliases(): String =
+    FOREIGN_ALIASES.entries.fold(this) { content, (name, definition) ->
+        Regex("""(?<![\w.])${Regex.escape(name)}(?![\w])""").replace(content, definition)
+    }
+
+private val FOREIGN_ALIASES = mapOf(
+    // `@floating-ui/utils`: `number | Prettify<Partial<SideObject>>`, reached through
+    // `UseAnchorPositioningSharedParameters.collisionPadding`.
+    "Padding" to "number | Partial<SideObject>",
+)
 
 /**
  * Replaces a member whose type *is* one of its declaration's own type parameters with what upstream

@@ -6,14 +6,15 @@ Migration of the generator from MUI v7 → **v9** (v8 skipped; the suite was rea
 
 | package                                    | version                                                              |
 |--------------------------------------------|----------------------------------------------------------------------|
+| `@mui/material` / `@mui/system`            | `9.4.0`                                                              |
+| `@mui/icons-material`                      | `9.4.0`                                                              |
+| `@mui/lab`                                 | `9.0.0-beta.9`                                                       |
 | `@mui/material` / `@mui/system`            | `9.1.2`                                                              |
-| `@mui/icons-material`                      | `9.1.1` (latest published — `9.1.2` was never released)              |
-| `@mui/lab`                                 | `9.0.0-beta.5`                                                       |
-| `@mui/x-date-pickers` / `@mui/x-tree-view` | `9.7.0`                                                              |
 | `@mui/base`                                | `5.0.0-beta.70` (frozen / deprecated — see `FUTURE_IMPROVEMENTS.md`) |
-| kotlin-wrappers BOM                        | `2026.6.10`                                                          |
-| kfc                                        | `19.10.0`                                                            |
-| kotlin / seskar                            | `2.4.0` / `4.60.0` (unchanged)                                       |
+| `@base-ui/react`                           | `1.6.0` (independent cadence — see `BASE_UI_TODO.md`)                |
+| kotlin-wrappers BOM                        | `2026.7.7`                                                           |
+| kfc                                        | `19.13.0`                                                            |
+| kotlin / seskar                            | `2.4.10` / `4.62.0`                                                  |
 
 > mui-x **had** to bump together with core: `@mui/x-tree-view@7` pins its peer to `@mui/material@"^5||^6||^7"`,
 > so npm refuses to install it next to `@mui/material@9`. The whole v9 suite installs as one.
@@ -94,6 +95,56 @@ Phase 5b reached green but degraded types (widened to `Any`, dropped inheritance
 - `RichTreeViewSlots` keeps `TreeViewSlots` but not `RichTreeViewItemsSlots` — the internal `RichTreeViewItems`
   type drags in a `<TProps>` generic / `Ref` / slot overrides that don't translate.
 
+## The material theme is a hand-written stub — upstream additions do NOT flow in
+
+`mui.material.styles.Theme` / `ThemeOptions` are emitted as stubs over `mui.system.*`
+(`Generator.kt`, `generateStylesDeclarations`), because upstream splits them across
+`createThemeNoVars` / `createThemeWithVars` / `createTheme` behind TS conditional types the
+converter cannot follow. Consequence: **any member that exists only on the material theme has to
+be added to the stub by hand, and a version bump will not surface the omission** — the
+regeneration diff stays empty and `compileKotlinJs` stays green.
+
+First instance: `theme.focusVisible`, added in `@mui/material@9.4.0`. It is now on the stub
+(`FocusVisible` typealias + `Theme.focusVisible` + `ThemeOptions.focusVisible`) and exercised by
+`playground/src/jsMain/kotlin/Theming.kt`. When bumping, diff `styles/createThemeNoVars.d.ts`
+between the old and new tarball rather than trusting an empty regeneration diff.
+
+Deliberate simplification kept from before: upstream declares
+`ThemeOptions extends Omit<SystemThemeOptions, 'zIndex'>`; the stub inherits `zIndex`.
+
+`styles/focusVisible.d.ts` is intentionally NOT generated — it holds only private helpers
+(`resolveFocusVisible`, `wireFocusVisibleVars`, …), no public API.
+
+### Deep `JsModule` paths in `mui/material/styles/*` are outside the package `exports` map
+
+`@mui/material`'s `exports` field has no wildcard and no `./styles/<file>` subpaths — only
+`./styles`. Any generated declaration that carries a **runtime** value (an `external val` / `fun`)
+and points at a deep path therefore fails to resolve in a bundler that honours `exports`; Vite
+aborts its dependency scan outright. This bit `ThemeProvider`, which is now bound to the
+`@mui/material/styles` barrel, as is the new `createTheme`.
+
+This is not confined to `ThemeProvider`. An audit of every `@file:JsModule` in the generated tree
+against the owning package's `exports` map turns up **10 files on unresolvable paths, each with a
+runtime declaration**:
+
+| module path | file |
+|---|---|
+| `@mui/material/internal/SwitchBase` | `mui/material/SwitchBase.kt`, `SwitchBase.classes.kt` |
+| `@mui/material/styles/createMixins` | `mui/material/styles/createMixins.kt` |
+| `@mui/material/styles/createMotion` | `mui/material/styles/createMotion.kt` |
+| `@mui/material/styles/createPalette` | `mui/material/styles/createPalette.kt` |
+| `@mui/material/styles/createStyles` | `mui/material/styles/createStyles.kt` |
+| `@mui/material/styles/useTheme` | `mui/material/styles/useTheme.kt` |
+| `@mui/system/createBreakpoints/createBreakpoints` | `mui/system/createBreakpoints.kt` |
+| `@mui/system/createTheme/createTheme` | `mui/system/createTheme.kt` |
+| `@mui/x-date-pickers/DayCalendar` | `muix/pickers/DayCalendar.classes.kt` |
+
+None of them is imported by the playground, which is why the class of defect stayed invisible —
+an unused external declaration emits no JS import, so nothing resolves and nothing fails.
+`compileKotlinJs` cannot see any of it. Expect each to break the first time a call site touches it;
+the fix in every case is the same rebinding onto the nearest valid subpath. Deliberately **not**
+done in this bump: ten rebindings each need their own browser proof.
+
 ## Excluded components
 
 - **lab `TreeView` / `TreeItem`** (`EXCLUDED_TYPES`) — v9 `@mui/x-tree-view` exposes no plain `TreeView`
@@ -103,6 +154,48 @@ Phase 5b reached green but degraded types (widened to `Any`, dropped inheritance
 **All other mui-x components are generated and green**, including the full pickers surface (responsive +
 calendars + clocks + PickerDay + PickersCalendarHeader + fields + adapters) and tree-view
 (SimpleTreeView / RichTreeView / TreeItem / TreeItemLabelInput + icons/provider/hook).
+
+### Tree View: the behavioural props are still missing (found during the 9.8 → 9.12 bump)
+
+"Generated and green" understated one gap. Compilation could not see it because nothing in the repo
+consumed the tree-view declarations until `playground/src/jsMain/kotlin/TreeView.kt` was added.
+
+- **Fixed in the 9.12 bump:** `TreeItemProps` had neither `itemId` (which the component *requires*) nor
+  `label`. Both come from `Omit<UseTreeItemParameters, 'rootRef'>`. `useTreeItem/useTreeItem.types.d.ts`
+  is now generated `typesOnly` and `UseTreeItemParameters` left `INTERNAL_REJECTED_PARENTS`, so
+  `TreeItemProps` extends it and picks up `itemId` / `label` / `disabled` / `disableSelection` / `id`.
+    - Caveat: Kotlin also inherits `rootRef`, which the TS `Omit` removes. Harmless (React ignores it),
+      but it is one prop of over-exposure.
+- **Still missing — `items`, `multiSelect`, `expandedItems`, `selectedItems` and every selection /
+  expansion callback** on `SimpleTreeViewProps` / `RichTreeViewProps`. These sit behind
+  `UseTreeViewStoreParameters<TStore>`, declared as
+  `Omit<Parameters<TStore['updateStateFromParameters']>[0], 'isRtl'>` — an indexed access into a
+  method's parameter tuple. Resolving it needs a real TypeScript checker; this generator is
+  text-based, so no `typesOnly` trick can recover it. The only route is a hand-written stub in the
+  `PICKERS_STUBS` style (`Generator.kt`), which carries a real staleness cost and was left out of the
+  version bump deliberately. **Consequence: `RichTreeView` cannot be given its `items`, so it is not
+  usable from Kotlin; only the children-driven `SimpleTreeView` is.**
+
+### Other tree-view findings from the 9.8 → 9.12 bump
+
+- **`TreeItemProvider` newly emits, and needed its props.** 9.12 rewrote `TreeItemProvider.d.ts`'s
+  return annotation to `React.JSX.Element`, which makes `findComponent` recognise it; the emitted
+  `FC<TreeItemProviderProps>` then referenced a type nobody generated. `TreeItemProvider` was added to
+  the `.types.d.ts` branch of `generateTreeViewDeclarations`.
+- **`react.Ref<T>` has a `T : Any` bound**, like `ResponsiveStyleValue`. `React.Ref<HTMLLIElement>`
+  fell through to `Ref<Any? /* HTMLLIElement */>` and failed to compile. Fixed twice over: a precise
+  `React.Ref<HTMLLIElement>` entry in `STANDARD_TYPE_MAP`, plus the same non-null guard
+  `ResponsiveStyleValue` already had on the generic `React.Ref<…>` fallback.
+- **Six stale `INTERNAL_REJECTED_PARENTS` entries removed** — `RichTreeViewPluginSlots` /
+  `SlotProps` / `Parameters` and the three `SimpleTreeViewPlugin*` equivalents. Those identifiers
+  appear nowhere in the 9.x `.d.ts` (v9 is store-based, not plugin-based); verified inert by a
+  byte-identical regeneration before deleting.
+- **Still-dead v7-era tree-view code, not yet removed** (each verified absent from the 9.12 `.d.ts`,
+  left alone to keep the bump reviewable): the `TreeItem2` / `TreeItem2Icon` / `TreeItem2Provider` /
+  `useTreeItem2` exclusion set and the `TreeItem2DragAndDropOverlay` branches in
+  `generateTreeViewDeclarations`; `adaptTreeView()` in full (there is no `TreeView` directory in v9);
+  and the `TreeItem2Props` replacement in `adaptRichTreeView()` (its `RichTreeViewSlotProps<R, Multiple>`
+  replacement *is* still live).
 
 ## Phase 4 — type-quality / reviewer pass (DONE)
 

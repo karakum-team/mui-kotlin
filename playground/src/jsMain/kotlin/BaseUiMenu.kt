@@ -1,6 +1,8 @@
+import baseui.Align
 import baseui.Menu
 import baseui.MenuRootOrientation
 import baseui.Orientation
+import baseui.Side
 import baseui.className
 import baseui.render
 import baseui.style
@@ -170,9 +172,19 @@ val BaseUiMenu = FC<Props> {
             }
 
             Menu.Positioner {
-                // `side` / `align` are not settable — `UseAnchorPositioningSharedParameters` is an empty
-                // stub (gap 9) — but they are readable from state, so they go into the class name.
-                // `side` is `Any?` (gap 5), so a rename upstream would quietly produce `--null` here.
+                // The anchor-positioning props, inherited from `UseAnchorPositioningSharedParameters`.
+                // `side` and `align` are the generated seskar unions; the offsets and the collision
+                // padding are `Any?`, since each is a union with a callback or an object arm.
+                side = Side.bottom
+                align = Align.start
+                sideOffset = 8
+                alignOffset = -4
+                collisionPadding = 12
+                arrowPadding = 6
+                sticky = true
+
+                // The same two values read back off the state, which is how the positioner reports
+                // where it actually landed — flip `side` above and the class name follows.
                 className { state ->
                     ClassName("bui-positioner bui-positioner--${state.side} bui-positioner--${state.align}")
                 }
@@ -355,6 +367,18 @@ val BaseUiMenu = FC<Props> {
                                 className = ClassName("bui-portal bui-portal--sub")
 
                                 Menu.Positioner {
+                                    // A submenu wants the logical inline end rather than a physical
+                                    // side, so that it opens leftwards in an RTL document.
+                                    side = Side.inlineEnd
+                                    align = Align.start
+
+                                    // The callback arm of `sideOffset`, upstream `number |
+                                    // OffsetFunction`. The union has no Kotlin spelling, so the prop is
+                                    // `Any?` and both arms assign: the parent menu passes a plain
+                                    // number, this one a function. If it were not called the submenu
+                                    // would sit flush against its parent.
+                                    sideOffset = { _: Any -> 4 }
+
                                     className { state ->
                                         ClassName("bui-positioner bui-subpositioner bui-positioner--${state.side}")
                                     }

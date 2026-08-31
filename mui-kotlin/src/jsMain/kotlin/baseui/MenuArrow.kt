@@ -21,7 +21,7 @@ external interface MenuArrowState {
     /**
      * The side of the anchor the component is placed on.
      */
-    var side: Any? /* Side */
+    var side: Side
 
     /**
      * The alignment of the component relative to the anchor.

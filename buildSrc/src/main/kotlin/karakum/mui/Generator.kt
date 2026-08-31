@@ -614,13 +614,57 @@ private fun generateStylesDeclarations(
     // MUI v6 split `Theme` and `ThemeOptions` definitions across createThemeNoVars/
     // createThemeWithVars/createTheme with complex TS conditional types we skip.
     // Emit minimal stubs so downstream references resolve.
+    //
+    // Because these are stubs over `mui.system.*` rather than a conversion of
+    // createThemeNoVars.d.ts, every member that exists ONLY on the material theme has to be
+    // repeated here by hand — upstream additions do not flow in on a version bump.
+    // `focusVisible` (MUI 9.4.0) is the first such member.
+    //
+    // Simplification kept deliberate: upstream declares
+    // `ThemeOptions extends Omit<SystemThemeOptions, 'zIndex'>`, the stub inherits `zIndex`.
     targetDir.resolve("Theme.kt")
         .writeText(
             fileContent(
                 body = """
-                    external interface Theme : mui.system.Theme
+                    /**
+                     * CSS of the keyboard focus ring, spread onto the `Mui-focusVisible` state.
+                     */
+                    typealias FocusVisible = react.CSSProperties
 
-                    typealias ThemeOptions = mui.system.ThemeOptions
+                    external interface Theme : mui.system.Theme {
+                        /**
+                         * The resolved focus ring, present only when the theme opted in.
+                         * `createTheme` turns the [ThemeOptions.focusVisible] opt-in into this.
+                         */
+                        var focusVisible: FocusVisible?
+                    }
+
+                    external interface ThemeOptions : mui.system.ThemeOptions {
+                        /**
+                         * `true` for the curated default ring (solid, `palette.primary.main`,
+                         * `2px` wide, `2px` offset), or a [FocusVisible] merged over that default.
+                         * Set `outlineColor: 'transparent'` for a box-shadow-only ring.
+                         */
+                        var focusVisible: Any? /* Boolean | FocusVisible */
+                    }
+                """.trimIndent(),
+                pkg = Package.materialStyles,
+            )
+        )
+
+    // `createTheme.d.ts` is skipped by `isStyleDefinition` (TS conditional types), which left the
+    // material factory unreachable from Kotlin — only `mui.system.createTheme` existed, and that
+    // one knows nothing about `focusVisible`. Bind the barrel export instead: the package's
+    // `exports` map has no `./styles/createTheme` subpath, only `./styles`.
+    targetDir.resolve("createTheme.kt")
+        .writeText(
+            fileContent(
+                annotations = "@file:JsModule(\"@mui/material/styles\")",
+                body = """
+                    external fun createTheme(
+                        options: ThemeOptions = definedExternally,
+                        vararg args: Any,
+                    ): Theme
                 """.trimIndent(),
                 pkg = Package.materialStyles,
             )
@@ -628,17 +672,20 @@ private fun generateStylesDeclarations(
 
     // ThemeProvider.d.ts uses TS conditional types (`extends X ? {...} : {}`) that confuse
     // the generator. Emit a minimal external val + props stub here.
+    //
+    // Bound to the `@mui/material/styles` barrel, not to `styles/ThemeProvider`: the deep path is
+    // absent from the package's `exports` map (no wildcard either), so a bundler that honours
+    // `exports` refuses to resolve it — Vite fails the dependency scan outright.
     targetDir.resolve("ThemeProvider.kt")
         .writeText(
             fileContent(
-                annotations = "@file:JsModule(\"@mui/material/styles/ThemeProvider\")",
+                annotations = "@file:JsModule(\"@mui/material/styles\")",
                 body = """
                     external interface ThemeProviderProps : react.PropsWithChildren {
                         override var children: react.ReactNode?
                         var theme: Any? /* Partial<Theme> | ((outerTheme: Theme) => Theme) */
                     }
 
-                    @JsName("default")
                     external val ThemeProvider: react.FC<ThemeProviderProps>
                 """.trimIndent(),
                 pkg = Package.materialStyles,
@@ -721,7 +768,10 @@ private fun generateTreeViewDeclarations(
                     generate(typesFile, targetDir, Package.treeView)
                 }
 
-                "TreeView", "SimpleTreeView", "RichTreeView", "TreeItemLabelInput", "TreeItem2DragAndDropOverlay" -> {
+                // v9.12 rewrote TreeItemProvider.d.ts's return annotation to `React.JSX.Element`, which
+                // makes `findComponent` recognise it. Its props live in the sibling `.types.d.ts`, so that
+                // has to be generated too or the emitted `FC<TreeItemProviderProps>` has no such type.
+                "TreeView", "SimpleTreeView", "RichTreeView", "TreeItemLabelInput", "TreeItemProvider", "TreeItem2DragAndDropOverlay" -> {
                     val typesFile = it.resolve("${it.name}.types.d.ts")
                     generate(typesFile, targetDir, Package.treeView)
                 }
@@ -742,6 +792,7 @@ private fun generateTreeViewDeclarations(
     sequenceOf(
         "internals/TreeViewProvider/TreeViewStyleContext.d.ts",
         "TreeItemIcon/TreeItemIcon.types.d.ts",
+        "useTreeItem/useTreeItem.types.d.ts",
     ).forEach { rel ->
         val file = typesDir.resolve(rel)
         if (file.exists()) generate(file, targetDir, Package.treeView, typesOnly = true)
@@ -871,14 +922,21 @@ private val BASE_UI_MODULES = setOf(
  * `FieldRootState` is inherited by 21 declarations across 12 modules (checkbox, switch, radio, select,
  * number-field, combobox, …) — 17 by that name and four through `FieldRoot.State` — so this entry pays
  * for itself well beyond `slider`.
+ *
+ * `useAnchorPositioning.d.ts` is here for the same reason one step removed: it declares
+ * `UseAnchorPositioningSharedParameters`, the 12 anchor-positioning props that all eight Positioner
+ * parts inherit, and which used to be an empty hand-written stub — every menu stuck on `bottom` /
+ * `center` with no way to say otherwise. It also declares `Side` and `Align`, which is why those two
+ * unions are no longer hardcoded below. Its `utils/` path is not a per-module `utils/` directory (which
+ * stays excluded as internal plumbing) but the package-level one.
  */
 private val BASE_UI_EXTRA_FILES = setOf(
     "field/root/FieldRoot.d.ts",
+    "utils/useAnchorPositioning.d.ts",
 )
 
-private val BASE_UI_SIDE =
-    convertUnion("Side = 'top' | 'bottom' | 'left' | 'right' | 'inline-end' | 'inline-start'")!!
-private val BASE_UI_ALIGN = convertUnion("Align = 'start' | 'center' | 'end'")!!
+// `Side` and `Align` are *not* here: both are declared in `utils/useAnchorPositioning.d.ts`, which
+// `BASE_UI_EXTRA_FILES` now converts, so they come from upstream like every other union.
 private val BASE_UI_ORIENTATION = convertUnion("Orientation = 'horizontal' | 'vertical'")!!
 
 // `TransitionStatus` is `'starting' | 'ending' | 'idle' | undefined`; the `undefined` arm is the
@@ -927,13 +985,6 @@ external interface BaseUIGenericEventDetails {
     var reason: String
     var event: web.events.Event
 }
-
-/**
- * `utils/useAnchorPositioning.d.ts`. The real interface is ~60 anchor-positioning props (side, align,
- * offsets, collision handling) shared by every Positioner part. Generating it is deferred, so
- * Positioner props currently inherit nothing from it — see BASE_UI_TODO.md.
- */
-external interface UseAnchorPositioningSharedParameters
 
 /**
  * `floating-ui-react/components/FloatingPortal.d.ts`, where it is `interface Props<TState>` declared
@@ -1060,8 +1111,6 @@ private fun generateBaseUiDeclarations(
     }
 
     val handWritten = listOf(
-        "Side" to BASE_UI_SIDE,
-        "Align" to BASE_UI_ALIGN,
         "Orientation" to BASE_UI_ORIENTATION,
         "TransitionStatus" to BASE_UI_TRANSITION_STATUS,
         "Stubs" to BASE_UI_STUBS,
