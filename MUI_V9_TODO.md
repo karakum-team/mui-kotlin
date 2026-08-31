@@ -6,14 +6,15 @@ Migration of the generator from MUI v7 → **v9** (v8 skipped; the suite was rea
 
 | package                                    | version                                                              |
 |--------------------------------------------|----------------------------------------------------------------------|
+| `@mui/material` / `@mui/system`            | `9.4.0`                                                              |
+| `@mui/icons-material`                      | `9.4.0`                                                              |
+| `@mui/lab`                                 | `9.0.0-beta.9`                                                       |
 | `@mui/material` / `@mui/system`            | `9.1.2`                                                              |
-| `@mui/icons-material`                      | `9.1.1` (latest published — `9.1.2` was never released)              |
-| `@mui/lab`                                 | `9.0.0-beta.5`                                                       |
-| `@mui/x-date-pickers` / `@mui/x-tree-view` | `9.12.0`                                                             |
 | `@mui/base`                                | `5.0.0-beta.70` (frozen / deprecated — see `FUTURE_IMPROVEMENTS.md`) |
-| kotlin-wrappers BOM                        | `2026.6.10`                                                          |
-| kfc                                        | `19.10.0`                                                            |
-| kotlin / seskar                            | `2.4.0` / `4.60.0` (unchanged)                                       |
+| `@base-ui/react`                           | `1.6.0` (independent cadence — see `BASE_UI_TODO.md`)                |
+| kotlin-wrappers BOM                        | `2026.7.7`                                                           |
+| kfc                                        | `19.13.0`                                                            |
+| kotlin / seskar                            | `2.4.10` / `4.62.0`                                                  |
 
 > mui-x **had** to bump together with core: `@mui/x-tree-view@7` pins its peer to `@mui/material@"^5||^6||^7"`,
 > so npm refuses to install it next to `@mui/material@9`. The whole v9 suite installs as one.
@@ -93,6 +94,56 @@ Phase 5b reached green but degraded types (widened to `Any`, dropped inheritance
   whose sibling `UseViewsOptions.onChange` has optional function-type params Kotlin can't express.
 - `RichTreeViewSlots` keeps `TreeViewSlots` but not `RichTreeViewItemsSlots` — the internal `RichTreeViewItems`
   type drags in a `<TProps>` generic / `Ref` / slot overrides that don't translate.
+
+## The material theme is a hand-written stub — upstream additions do NOT flow in
+
+`mui.material.styles.Theme` / `ThemeOptions` are emitted as stubs over `mui.system.*`
+(`Generator.kt`, `generateStylesDeclarations`), because upstream splits them across
+`createThemeNoVars` / `createThemeWithVars` / `createTheme` behind TS conditional types the
+converter cannot follow. Consequence: **any member that exists only on the material theme has to
+be added to the stub by hand, and a version bump will not surface the omission** — the
+regeneration diff stays empty and `compileKotlinJs` stays green.
+
+First instance: `theme.focusVisible`, added in `@mui/material@9.4.0`. It is now on the stub
+(`FocusVisible` typealias + `Theme.focusVisible` + `ThemeOptions.focusVisible`) and exercised by
+`playground/src/jsMain/kotlin/Theming.kt`. When bumping, diff `styles/createThemeNoVars.d.ts`
+between the old and new tarball rather than trusting an empty regeneration diff.
+
+Deliberate simplification kept from before: upstream declares
+`ThemeOptions extends Omit<SystemThemeOptions, 'zIndex'>`; the stub inherits `zIndex`.
+
+`styles/focusVisible.d.ts` is intentionally NOT generated — it holds only private helpers
+(`resolveFocusVisible`, `wireFocusVisibleVars`, …), no public API.
+
+### Deep `JsModule` paths in `mui/material/styles/*` are outside the package `exports` map
+
+`@mui/material`'s `exports` field has no wildcard and no `./styles/<file>` subpaths — only
+`./styles`. Any generated declaration that carries a **runtime** value (an `external val` / `fun`)
+and points at a deep path therefore fails to resolve in a bundler that honours `exports`; Vite
+aborts its dependency scan outright. This bit `ThemeProvider`, which is now bound to the
+`@mui/material/styles` barrel, as is the new `createTheme`.
+
+This is not confined to `ThemeProvider`. An audit of every `@file:JsModule` in the generated tree
+against the owning package's `exports` map turns up **10 files on unresolvable paths, each with a
+runtime declaration**:
+
+| module path | file |
+|---|---|
+| `@mui/material/internal/SwitchBase` | `mui/material/SwitchBase.kt`, `SwitchBase.classes.kt` |
+| `@mui/material/styles/createMixins` | `mui/material/styles/createMixins.kt` |
+| `@mui/material/styles/createMotion` | `mui/material/styles/createMotion.kt` |
+| `@mui/material/styles/createPalette` | `mui/material/styles/createPalette.kt` |
+| `@mui/material/styles/createStyles` | `mui/material/styles/createStyles.kt` |
+| `@mui/material/styles/useTheme` | `mui/material/styles/useTheme.kt` |
+| `@mui/system/createBreakpoints/createBreakpoints` | `mui/system/createBreakpoints.kt` |
+| `@mui/system/createTheme/createTheme` | `mui/system/createTheme.kt` |
+| `@mui/x-date-pickers/DayCalendar` | `muix/pickers/DayCalendar.classes.kt` |
+
+None of them is imported by the playground, which is why the class of defect stayed invisible —
+an unused external declaration emits no JS import, so nothing resolves and nothing fails.
+`compileKotlinJs` cannot see any of it. Expect each to break the first time a call site touches it;
+the fix in every case is the same rebinding onto the nearest valid subpath. Deliberately **not**
+done in this bump: ten rebindings each need their own browser proof.
 
 ## Excluded components
 

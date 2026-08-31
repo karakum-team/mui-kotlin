@@ -614,13 +614,57 @@ private fun generateStylesDeclarations(
     // MUI v6 split `Theme` and `ThemeOptions` definitions across createThemeNoVars/
     // createThemeWithVars/createTheme with complex TS conditional types we skip.
     // Emit minimal stubs so downstream references resolve.
+    //
+    // Because these are stubs over `mui.system.*` rather than a conversion of
+    // createThemeNoVars.d.ts, every member that exists ONLY on the material theme has to be
+    // repeated here by hand — upstream additions do not flow in on a version bump.
+    // `focusVisible` (MUI 9.4.0) is the first such member.
+    //
+    // Simplification kept deliberate: upstream declares
+    // `ThemeOptions extends Omit<SystemThemeOptions, 'zIndex'>`, the stub inherits `zIndex`.
     targetDir.resolve("Theme.kt")
         .writeText(
             fileContent(
                 body = """
-                    external interface Theme : mui.system.Theme
+                    /**
+                     * CSS of the keyboard focus ring, spread onto the `Mui-focusVisible` state.
+                     */
+                    typealias FocusVisible = react.CSSProperties
 
-                    typealias ThemeOptions = mui.system.ThemeOptions
+                    external interface Theme : mui.system.Theme {
+                        /**
+                         * The resolved focus ring, present only when the theme opted in.
+                         * `createTheme` turns the [ThemeOptions.focusVisible] opt-in into this.
+                         */
+                        var focusVisible: FocusVisible?
+                    }
+
+                    external interface ThemeOptions : mui.system.ThemeOptions {
+                        /**
+                         * `true` for the curated default ring (solid, `palette.primary.main`,
+                         * `2px` wide, `2px` offset), or a [FocusVisible] merged over that default.
+                         * Set `outlineColor: 'transparent'` for a box-shadow-only ring.
+                         */
+                        var focusVisible: Any? /* Boolean | FocusVisible */
+                    }
+                """.trimIndent(),
+                pkg = Package.materialStyles,
+            )
+        )
+
+    // `createTheme.d.ts` is skipped by `isStyleDefinition` (TS conditional types), which left the
+    // material factory unreachable from Kotlin — only `mui.system.createTheme` existed, and that
+    // one knows nothing about `focusVisible`. Bind the barrel export instead: the package's
+    // `exports` map has no `./styles/createTheme` subpath, only `./styles`.
+    targetDir.resolve("createTheme.kt")
+        .writeText(
+            fileContent(
+                annotations = "@file:JsModule(\"@mui/material/styles\")",
+                body = """
+                    external fun createTheme(
+                        options: ThemeOptions = definedExternally,
+                        vararg args: Any,
+                    ): Theme
                 """.trimIndent(),
                 pkg = Package.materialStyles,
             )
@@ -628,17 +672,20 @@ private fun generateStylesDeclarations(
 
     // ThemeProvider.d.ts uses TS conditional types (`extends X ? {...} : {}`) that confuse
     // the generator. Emit a minimal external val + props stub here.
+    //
+    // Bound to the `@mui/material/styles` barrel, not to `styles/ThemeProvider`: the deep path is
+    // absent from the package's `exports` map (no wildcard either), so a bundler that honours
+    // `exports` refuses to resolve it — Vite fails the dependency scan outright.
     targetDir.resolve("ThemeProvider.kt")
         .writeText(
             fileContent(
-                annotations = "@file:JsModule(\"@mui/material/styles/ThemeProvider\")",
+                annotations = "@file:JsModule(\"@mui/material/styles\")",
                 body = """
                     external interface ThemeProviderProps : react.PropsWithChildren {
                         override var children: react.ReactNode?
                         var theme: Any? /* Partial<Theme> | ((outerTheme: Theme) => Theme) */
                     }
 
-                    @JsName("default")
                     external val ThemeProvider: react.FC<ThemeProviderProps>
                 """.trimIndent(),
                 pkg = Package.materialStyles,
