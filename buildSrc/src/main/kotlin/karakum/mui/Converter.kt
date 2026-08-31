@@ -85,6 +85,10 @@ internal fun convertDefinitions(
     // generated siblings and dropping them costs the declaration everything it has. See
     // [findAdditionalProps].
     keepEmptyBodyParents: Boolean = false,
+    // See [kotlinType]. Threaded down to every member conversion this file drives.
+    knownTypes: Map<String, String> = emptyMap(),
+    // See [adaptRawContent].
+    collapseMemberValueObjects: Boolean = false,
 ): ConversionResult {
     // MUI v6 sometimes uses `Component/index.d.ts` instead of `Component/Component.d.ts`.
     // Derive the component name from the parent directory in that case.
@@ -102,7 +106,7 @@ internal fun convertDefinitions(
         // collapse them all into one `Any? /* … */`.
         .let { if (it.endsWith("\n")) it else "$it\n" }
         .let { preprocess?.invoke(it) ?: it }
-        .adaptRawContent()
+        .adaptRawContent(collapseMemberValueObjects)
         .removeInlineClasses()
         .removeExtendsEmptyObject()
         .replace("(inProps: ", "(props: ")
@@ -222,13 +226,13 @@ internal fun convertDefinitions(
 
     val propsName = "${name}Props"
 
-    findProps(name, propsName, content)
+    findProps(name, propsName, content, knownTypes)
         ?.also(declarations::add)
 
-    findMapProps(name, propsName, content)
+    findMapProps(name, propsName, content, knownTypes)
         ?.also(declarations::add)
 
-    val additionalInterfaces = findAdditionalProps(propsName, content, keepEmptyBodyParents)
+    val additionalInterfaces = findAdditionalProps(propsName, content, keepEmptyBodyParents, knownTypes)
     val functionInterfaces = additionalInterfaces
         .filter { "interface Spacing {" in it }
 
@@ -847,6 +851,7 @@ private fun findProps(
     name: String,
     propsName: String,
     content: String,
+    knownTypes: Map<String, String>,
 ): String? {
     when (name) {
         "TextField",
@@ -921,7 +926,7 @@ private fun findProps(
     val body = if (source.startsWith("}"))
         ""
     else
-        convertMembers(membersContent)
+        convertMembers(membersContent, knownTypes)
 
     return props(
         propsName = propsDeclaration,
@@ -936,6 +941,7 @@ private fun findMapProps(
     name: String,
     propsName: String,
     content: String,
+    knownTypes: Map<String, String>,
 ): String? {
     val propsContent = sequenceOf(
         content.substringAfter("export interface ${name}TypeMap<", "")
@@ -1061,7 +1067,7 @@ private fun findMapProps(
             || "& {\n  component?: React.ElementType;\n};" in content
 
     return if (membersContent.isNotEmpty()) {
-        val body = convertMembers(membersContent)
+        val body = convertMembers(membersContent, knownTypes)
         props(
             propsName = propsName,
             parentType = parentType,
@@ -1091,6 +1097,7 @@ private fun findAdditionalProps(
     propsName: String,
     content: String,
     keepEmptyBodyParents: Boolean = false,
+    knownTypes: Map<String, String> = emptyMap(),
 ): List<String> {
     var delimiters = arrayOf("export interface ", "export default interface ")
     if ("interface BaseTheme" in content)
@@ -1284,7 +1291,7 @@ private fun findAdditionalProps(
             interfaceName == "IUtils"
                 -> convertDateUtils(membersContent)
 
-            else -> convertMembers(membersContent)
+            else -> convertMembers(membersContent, knownTypes)
         }
 
         when (interfaceName) {

@@ -38,7 +38,7 @@ external interface MenuPopupState {
     /**
      * The transition status of the component.
      */
-    var transitionStatus: Any? /* TransitionStatus */
+    var transitionStatus: TransitionStatus?
 
     /**
      * The side of the anchor the component is placed on.

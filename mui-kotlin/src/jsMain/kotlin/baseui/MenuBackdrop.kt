@@ -21,5 +21,5 @@ external interface MenuBackdropState {
     /**
      * The transition status of the component.
      */
-    var transitionStatus: Any? /* TransitionStatus */
+    var transitionStatus: TransitionStatus?
 }

@@ -392,6 +392,7 @@ private val WHITESPACE = Regex("""\s+""")
 internal fun adaptBaseUiContent(
     content: String,
     aliases: Map<String, String>,
+    knownTypes: Map<String, String>,
 ): String =
     content
         // Order matters: `dropCallSignatureInterfaces` scans `{\n` … `\n}` blocks, and once
@@ -404,7 +405,7 @@ internal fun adaptBaseUiContent(
         .dropNonExportedInterfaces()
         .expandEmptyInterfaceBodies()
         .flattenBaseUiNamespaces(aliases)
-        .substituteTypeParameterBounds()
+        .substituteTypeParameterBounds(knownTypes)
         .interfaceStateAliases()
         .interfaceEventDetails()
         .resolveNamespaceStubs()
@@ -488,7 +489,9 @@ private val FOREIGN_ALIASES = mapOf(
  * Substituting there would only replace upstream's own text in the marker with
  * `number | readonly number[] extends number ? …`.
  */
-private fun String.substituteTypeParameterBounds(): String =
+private fun String.substituteTypeParameterBounds(
+    knownTypes: Map<String, String>,
+): String =
     GENERIC_INTERFACE.replace(this) { match ->
         val (header, parameters, body) = match.destructured
 
@@ -497,7 +500,7 @@ private fun String.substituteTypeParameterBounds(): String =
                 // `Value extends number | readonly number[] = number | readonly number[]` — the name comes
                 // before both clauses, either of which may be absent.
                 val name = parameter.substringBefore(" extends ").substringBefore(" = ").trim()
-                if (name.isEmpty() || !isKnownTypeName(name))
+                if (name.isEmpty() || !isKnownTypeName(name, knownTypes))
                     return@mapNotNull null
 
                 val bound = parameter.substringAfter(" extends ", "").substringBefore(" = ").trim()

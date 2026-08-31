@@ -34,7 +34,12 @@ private fun String.collapseInlineObjects(): String {
     return sb.toString()
 }
 
-internal fun String.toFunctionType(): String? {
+internal fun String.toFunctionType(
+    // See [kotlinType]. Applied before the replacement chain below, which is a curated list of MUI
+    // shapes and would otherwise let a name the target generates through untouched — bare, and so
+    // without the `?` the map exists to carry.
+    knownTypes: Map<String, String> = emptyMap(),
+): String? {
     // TS generic function `<T extends X = Y>(args) => ResultType<T>` — Kotlin function types
     // don't support generic params, so drop the leading `<...>` declaration. The param name
     // remains in arg/return positions: in arg → Any (lost info), in return generics → `*`
@@ -76,7 +81,7 @@ internal fun String.toFunctionType(): String? {
             // Use*SlotProps / Use*InputProps are TS type aliases not generated as Kotlin types —
             // collapse to `react.Props` so the function type stays a props-style return.
             .replace(Regex("""Use\w+Props<\*>"""), "react.Props")
-        return "$argsClean$returnClean".toFunctionType()
+        return "$argsClean$returnClean".toFunctionType(knownTypes)
     }
 
     if (!startsWith("("))
@@ -91,7 +96,12 @@ internal fun String.toFunctionType(): String? {
     if (startsWith("(state: {"))
         return null
 
-    val converted = replace(" => ", "->")
+    val converted = knownTypes.entries
+        .fold(replace(" => ", "->")) { acc, (name, kotlinType) ->
+            // Not preceded by `.`, so a qualified `Foo.TransitionStatus` is left alone.
+            Regex("(?<![A-Za-z0-9_.])" + Regex.escape(name) + "(?![A-Za-z0-9_])")
+                .replace(acc) { kotlinType }
+        }
         .replace("{\n    matches: boolean;\n}", DYNAMIC)
         .replace("MouseEvent | TouchEvent", "web.uievents.UIEvent")
         .replace("React.MouseEvent | React.KeyboardEvent | React.FocusEvent", "react.dom.events.SyntheticEvent<*, *>")

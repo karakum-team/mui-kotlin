@@ -2,6 +2,8 @@ package karakum.mui
 
 internal fun convertMembers(
     source: String,
+    // See [kotlinType].
+    knownTypes: Map<String, String> = emptyMap(),
 ): String {
     if (source.isEmpty())
         return ""
@@ -21,13 +23,14 @@ internal fun convertMembers(
         .map { it.replace("??33??", ";\n  }[") }
         .map { it.replace("??44??", ";\n   * ") }
         .map { it.trimIndent() }
-        .map { convertMember(it) }
+        .map { convertMember(it, knownTypes) }
         .filter { it.isNotEmpty() }
         .joinToString("\n\n")
 }
 
 private fun convertMember(
     source: String,
+    knownTypes: Map<String, String>,
 ): String {
     // Peel ONLY the member's leading documentation (a `/** … */` block and/or `//` lines),
     // then convert the whole remainder as a single property. The property body may itself
@@ -66,7 +69,7 @@ private fun convertMember(
     if (comments.any { "@deprecated" in it })
         return ""
 
-    val property = rest.trimStart().takeIf { it.isNotEmpty() }?.let { convertProperty(it) } ?: ""
+    val property = rest.trimStart().takeIf { it.isNotEmpty() }?.let { convertProperty(it, knownTypes) } ?: ""
 
     return (comments + property)
         .filter { it.isNotEmpty() }
@@ -77,6 +80,7 @@ private const val CSS_RECORD = "[k: string]: unknown | CSSProperties"
 
 private fun convertProperty(
     source: String,
+    knownTypes: Map<String, String>,
 ): String {
     if (source == CSS_RECORD)
         return "// $CSS_RECORD"
@@ -97,7 +101,7 @@ private fun convertProperty(
 
     val jsName = if (rawNameToken.startsWith("'")) rawNameToken.removeSurrounding("'") else null
     val type = ARIA_ATTR_TYPES[jsName]
-        ?: kotlinType(source.substringAfter(":").removePrefix(" "), name)
+        ?: kotlinType(source.substringAfter(":").removePrefix(" "), name, knownTypes)
 
     if (name == "children") {
         if (type == "react.ReactNode") {

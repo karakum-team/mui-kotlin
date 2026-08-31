@@ -35,5 +35,5 @@ external interface MenuCheckboxItemIndicatorState {
     /**
      * The transition status of the component.
      */
-    var transitionStatus: Any? /* TransitionStatus */
+    var transitionStatus: TransitionStatus?
 }

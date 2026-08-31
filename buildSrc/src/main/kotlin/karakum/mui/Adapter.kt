@@ -6,7 +6,11 @@ import karakum.mui.adapters.treeview.adaptRichTreeView
 import karakum.mui.adapters.treeview.adaptTreeItem
 import karakum.mui.adapters.treeview.adaptTreeView
 
-fun String.adaptRawContent(): String = this
+fun String.adaptRawContent(
+    // Whether a member's inline object-literal *value* type is collapsed onto one line and kept, rather
+    // than replaced with `any`. See [dropMemberValueObjects] — on for Base UI, off for `@mui/*`.
+    collapseMemberValueObjects: Boolean = false,
+): String = this
     // MUI-X v9 `internals/models/validation.d.ts` declares `FutureAndPastValidationProps` WITHOUT `export`
     // (the generator skips non-exported interfaces), yet Base{Date,Time}ValidationProps extend it for
     // `disablePast`/`disableFuture`. Export it so those fields survive in the generated parents.
@@ -44,7 +48,7 @@ fun String.adaptRawContent(): String = this
     //   slotProps?: {\n  /** … */\n  collapsedIcon?: …;\n} | undefined;   (Breadcrumbs, StepLabel, …)
     // Those inner `;\n` + doc-comments break member/comment splitting. Replace the object value
     // with `any` so the member converts to `Any?`.
-    .dropMemberValueObjects()
+    .dropMemberValueObjects(collapseMemberValueObjects)
     .adaptClasses()
     .adaptOption()
     .adaptSelect()
@@ -136,7 +140,9 @@ private val STRUCTURED_MEMBER_NAMES = setOf(
 // JSDoc (e.g. `@default {}`, `{ foo: { bar } }`) don't trigger false matches or unbalance the scan.
 // Interface/extends bodies use ` {` (not `: {`) and are unaffected. Members in STRUCTURED_MEMBER_NAMES
 // are skipped so their inline objects survive into KotlinType's nested-interface handlers.
-private fun String.dropMemberValueObjects(): String {
+private fun String.dropMemberValueObjects(
+    collapse: Boolean,
+): String {
     if (": {" !in this) return this
 
     // The identifier (minus a trailing `?`) ending right before the `:` at index `colon`.
@@ -191,7 +197,31 @@ private fun String.dropMemberValueObjects(): String {
                 j++
             }
             if (closeBrace >= 0) {
-                sb.append(": any")
+                // `collapse`: keep the object, flattened onto one line. What breaks member splitting is
+                // the inner `;\n` and the comments, not the object itself, so a flattened one is safe —
+                // and it survives to `kotlinType`, whose `{`-branch widens it to `Any? /* { … } */`, a
+                // widening that says what it dropped. `FieldValidityData.state` was the one widening in
+                // the tree that recorded nothing, which mattered because `FieldValidity.State.validity`
+                // is an indexed access *into* it — the shape a call site needs is only readable at the
+                // source. Note the member also stops being non-null, since the widened form is `Any?`.
+                //
+                // Off for `@mui/*`, where the same span is sometimes a *parameter* of a function type
+                // (`InputBase.renderSuffix: (state: { … }) => React.ReactNode`). Replacing it with `any`
+                // is what lets `toFunctionType` translate the callback; keeping it makes the parameter
+                // untranslatable and widens the whole function to `Any?` (BASE_UI_TODO.md gap 14). No Base
+                // UI function type has an inline object parameter today.
+                if (collapse) {
+                    val collapsed = substring(i + 2, closeBrace + 1)
+                        .replace(Regex("""/\*.*?\*/""", RegexOption.DOT_MATCHES_ALL), "")
+                        // Line comments too: collapsing the newline away would otherwise pull the rest
+                        // of the object into the comment and the marker would lie. None today.
+                        .replace(Regex("""//[^\n]*"""), "")
+                        .replace(Regex("""\s+"""), " ")
+                        .trim()
+                    sb.append(": ").append(collapsed)
+                } else {
+                    sb.append(": any")
+                }
                 i = closeBrace + 1
                 continue
             }

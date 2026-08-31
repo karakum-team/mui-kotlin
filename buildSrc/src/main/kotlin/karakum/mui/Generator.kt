@@ -903,15 +903,15 @@ private fun generatePickersDeclarations(
 private val BASE_UI_MODULES = setOf(
     "menu",
     "slider",
+    "field",
 )
 
 /**
  * `.d.ts` generated for their declarations alone, without their module being in [BASE_UI_MODULES].
  *
- * A part can inherit from a declaration that lives in another module: `SliderRootState extends
- * FieldRootState`, and `FieldRootState` is declared in `field/`. Unlike the dotted namespace members
- * that [NAMESPACE_STUBS] stands in for, a bare identifier passes `isAcceptableParent`, so the parent is
- * *kept* and the generated Kotlin fails to compile against a name that was never emitted.
+ * A part can inherit from a declaration that lives in another module. Unlike the dotted namespace
+ * members that [NAMESPACE_STUBS] stands in for, a bare identifier passes `isAcceptableParent`, so the
+ * parent is *kept* and the generated Kotlin fails to compile against a name that was never emitted.
  *
  * Generating the file it comes from is preferable to a hand-written stub: the declaration stays the
  * upstream one, and when the module does join [BASE_UI_MODULES] the file is deduplicated by path in
@@ -919,9 +919,10 @@ private val BASE_UI_MODULES = setOf(
  * converted exactly as a part is, `.ext.kt` helpers included; what it does *not* get is the namespace
  * object, which is built per module and so needs the module itself to be listed.
  *
- * `FieldRootState` is inherited by 21 declarations across 12 modules (checkbox, switch, radio, select,
- * number-field, combobox, …) — 17 by that name and four through `FieldRoot.State` — so this entry pays
- * for itself well beyond `slider`.
+ * That deduplication is no longer a claim. `field/root/FieldRoot.d.ts` was the second entry here, added
+ * for `slider` (`SliderRootState extends FieldRootState`) and removed when `field` joined the
+ * allow-list: the generated tree is byte-identical either way, so the entry really was redundant rather
+ * than merely harmless.
  *
  * `useAnchorPositioning.d.ts` is here for the same reason one step removed: it declares
  * `UseAnchorPositioningSharedParameters`, the 12 anchor-positioning props that all eight Positioner
@@ -931,7 +932,6 @@ private val BASE_UI_MODULES = setOf(
  * stays excluded as internal plumbing) but the package-level one.
  */
 private val BASE_UI_EXTRA_FILES = setOf(
-    "field/root/FieldRoot.d.ts",
     "utils/useAnchorPositioning.d.ts",
 )
 
@@ -939,10 +939,34 @@ private val BASE_UI_EXTRA_FILES = setOf(
 // `BASE_UI_EXTRA_FILES` now converts, so they come from upstream like every other union.
 private val BASE_UI_ORIENTATION = convertUnion("Orientation = 'horizontal' | 'vertical'")!!
 
-// `TransitionStatus` is `'starting' | 'ending' | 'idle' | undefined`; the `undefined` arm is the
-// optionality of the member, expressed in Kotlin by the `?` on its type.
+// `TransitionStatus` is `'starting' | 'ending' | 'idle' | undefined`. The `undefined` arm is *not* the
+// optionality of the member: all six members that use the type are declared non-optional, so the `?`
+// has to come from BASE_UI_KNOWN_TYPES below rather than from `?:` in the `.d.ts`.
 private val BASE_UI_TRANSITION_STATUS =
     convertUnion("TransitionStatus = 'starting' | 'ending' | 'idle'")!!
+
+/**
+ * Bare names that resolve to a declaration this target generates, mapped to the Kotlin type to emit.
+ * Passed to [convertDefinitions] as `knownTypes`; see [kotlinType] for where it is consulted.
+ *
+ * Separate from `KNOWN_TYPES` because that table is global and these names are not ours alone:
+ * `@mui/material/Collapse/Collapse.d.ts` declares `state: TransitionStatus`, and an entry there would
+ * resolve it against `baseui.TransitionStatus`. `Side` lived in `KNOWN_TYPES` until this map existed and
+ * was safe only because no MUI declaration happens to use the bare name — luck, not design.
+ *
+ * `TransitionStatus?` rather than `TransitionStatus`: upstream folds `undefined` into the alias instead
+ * of marking the members optional, so nothing else would make the type nullable and reading one between
+ * transitions would yield `undefined` from a non-null Kotlin property.
+ *
+ * `Align` is deliberately absent. It resolves already, through `KNOWN_TYPE_SUFFIXES` — which is seeded
+ * with the capitalized `UNION_PROPERTIES`, and `align` is one of them. Moving it here would not retire
+ * that accident; only dropping `align` from `UNION_PROPERTIES` would, and that would stop
+ * `findDefaultUnions` generating every MUI `<Name>Align` union.
+ */
+private val BASE_UI_KNOWN_TYPES = mapOf(
+    "TransitionStatus" to "TransitionStatus?",
+    "Side" to "Side",
+)
 
 // Types shared by every Base UI part that cannot be translated from their `.d.ts` and so are written
 // by hand. Each one states why.
@@ -1106,7 +1130,7 @@ private fun generateBaseUiDeclarations(
             targetDir = targetDir,
             pkg = Package.baseUi,
             typesOnly = true,
-            preprocess = { adaptBaseUiContent(it, aliases) },
+            preprocess = { adaptBaseUiContent(it, aliases, BASE_UI_KNOWN_TYPES) },
         )
     }
 
@@ -1250,6 +1274,8 @@ private fun generate(
         typesOnly = typesOnly,
         preprocess = preprocess,
         keepEmptyBodyParents = pkg == Package.baseUi,
+        knownTypes = if (pkg == Package.baseUi) BASE_UI_KNOWN_TYPES else emptyMap(),
+        collapseMemberValueObjects = pkg == Package.baseUi,
     )
 
     val subpackage = when {

@@ -52,12 +52,8 @@ private val KNOWN_TYPES = setOf(
     "GridDirection",
     "GridWrap",
     "Orientation",
-    // Base UI's `Side`, generated from `utils/useAnchorPositioning.d.ts`. Unlike `Align`, the name is
-    // not covered by KNOWN_TYPE_SUFFIXES (which is seeded with the capitalized UNION_PROPERTIES, and
-    // `align` is one of those while `side` is not), so without this entry every `side` prop and state
-    // member widens to `Any?`. No IMPORTED_FQNS entry: it resolves package-locally inside `baseui`,
-    // and no MUI declaration uses the bare name.
-    "Side",
+    // Base UI's `Side` used to be here. It is in BASE_UI_KNOWN_TYPES now: this table is global, and an
+    // entry that only one target should see is safe only for as long as no other one declares the name.
     "PopoverReference",
     "PopperProps",
 
@@ -377,12 +373,19 @@ private val STANDARD_TYPE_MAP = mapOf(
  */
 internal fun isKnownTypeName(
     name: String,
+    knownTypes: Map<String, String> = emptyMap(),
 ): Boolean =
-    name in KNOWN_TYPES || KNOWN_TYPE_SUFFIXES.any { name.endsWith(it) }
+    name in KNOWN_TYPES || name in knownTypes || KNOWN_TYPE_SUFFIXES.any { name.endsWith(it) }
 
 internal fun kotlinType(
     type: String,
     name: String? = null,
+    // Names the *target* declares itself, mapped to the Kotlin type to emit for them. Consulted before
+    // any of the tables below, all of which were built for MUI. Base-UI-only in practice, and it has to
+    // be: a KNOWN_TYPES entry for `TransitionStatus` would resolve `@mui/material`'s `Collapse.state`
+    // against the `baseui` declaration. The value is a type rather than a marker so that an alias whose
+    // union includes `undefined` can carry the `?` its members do not spell (see BASE_UI_KNOWN_TYPES).
+    knownTypes: Map<String, String> = emptyMap(),
 ): String {
     // v7 appends an explicit `| undefined` to optional members (callbacks, unions, etc.).
     // Optionality is already encoded by the `?:` marker (see MemberConverter.convertProperty),
@@ -391,7 +394,9 @@ internal fun kotlinType(
     // The function was wrapped in grouping parens only to attach `| undefined` (`((…) => …) | undefined`);
     // once that's gone the outer pair is redundant and would otherwise double up as `(((…)->…))?`.
     if (type.endsWith(" | undefined"))
-        return kotlinType(unwrapRedundantParens(type.removeSuffix(" | undefined")), name)
+        return kotlinType(unwrapRedundantParens(type.removeSuffix(" | undefined")), name, knownTypes)
+
+    knownTypes[type]?.also { return it }
 
     if (type in KNOWN_TYPES)
         return type
@@ -521,7 +526,7 @@ internal fun kotlinType(
         return "Any? /* $oneLine */"
     }
 
-    type.toFunctionType()
+    type.toFunctionType(knownTypes)
         ?.also { return it }
 
     // Generic `T[]` → `ReadonlyArray<T>` for simple identifier element types
@@ -532,7 +537,7 @@ internal fun kotlinType(
             "number" -> "Number"
             "string" -> "String"
             "boolean" -> "Boolean"
-            else -> raw
+            else -> knownTypes[raw] ?: raw
         }
         return "ReadonlyArray<$elem>"
     }
@@ -546,14 +551,14 @@ internal fun kotlinType(
         val element = type.removeSuffix("[]")
         val unwrapped = unwrapRedundantParens(element)
         if (unwrapped != element)
-            return "ReadonlyArray<${kotlinType(unwrapped, name)}>"
+            return "ReadonlyArray<${kotlinType(unwrapped, name, knownTypes)}>"
     }
 
     if ((name == "minRows" || name == "maxRows") && type == "string | number")
         return "Int"
 
     if (type.endsWith(" | null")) {
-        val t = kotlinType(type.removeSuffix(" | null"))
+        val t = kotlinType(type.removeSuffix(" | null"), knownTypes = knownTypes)
         return when {
             t == DYNAMIC -> t
             "? /*" in t -> t // already nullable from Any?/* TS-source */ fallback
@@ -571,12 +576,12 @@ internal fun kotlinType(
 
     val promiseResult = type.removeSurrounding("Promise<", ">")
     if (promiseResult != type)
-        return "$PROMISE<${kotlinType(promiseResult)}>"
+        return "$PROMISE<${kotlinType(promiseResult, knownTypes = knownTypes)}>"
 
     val styleValueResult = type.removeSurrounding("ResponsiveStyleValue<", ">")
     if (styleValueResult != type) {
         // ResponsiveStyleValue<T : Any> requires non-null. Drop `?` from fallback so the bound is satisfied.
-        val inner = kotlinType(styleValueResult)
+        val inner = kotlinType(styleValueResult, knownTypes = knownTypes)
         val nonNullInner = when {
             inner.startsWith("Any? /*") -> "Any" + inner.removePrefix("Any?")
             else -> inner
@@ -588,7 +593,7 @@ internal fun kotlinType(
     if (refResult != type) {
         // Ref<in T : Any> requires non-null, same as ResponsiveStyleValue above. An inner type that
         // falls through to the `Any? /* … */` convention would violate the bound and fail to compile.
-        val inner = kotlinType(refResult)
+        val inner = kotlinType(refResult, knownTypes = knownTypes)
         val nonNullInner = when {
             inner.startsWith("Any? /*") -> "Any" + inner.removePrefix("Any?")
             else -> inner
@@ -660,7 +665,7 @@ internal fun kotlinType(
             }
         } else if (partialResult.endsWith("Classes")) {
             return partialResult
-        } else if (partialResult in KNOWN_TYPES) {
+        } else if (partialResult in KNOWN_TYPES || partialResult in knownTypes) {
             return partialResult
         }
     }
@@ -721,7 +726,7 @@ internal fun kotlinType(
     if ((name == "components" || name == "componentsProps") && type.startsWith("{\n")) {
         val interfaceName = name.replaceFirstChar(Char::titlecase)
         val defaultType = if (name == "components") "react.ElementType<*>" else "react.Props"
-        return interfaceName + "\n\n" + componentInterface(interfaceName, type, defaultType)
+        return interfaceName + "\n\n" + componentInterface(interfaceName, type, defaultType, knownTypes)
     }
 
     // TODO: Need to process `SlotProps` interface separately from parent interface
@@ -734,7 +739,7 @@ internal fun kotlinType(
             // TODO: Else branch should die when MUI fully migrates to named slot types
             val interfaceName = name.replaceFirstChar(Char::titlecase)
             val defaultType = if (name == "slots") "react.ElementType<*>" else "react.Props"
-            interfaceName + "\n\n" + componentInterface(interfaceName, type, defaultType)
+            interfaceName + "\n\n" + componentInterface(interfaceName, type, defaultType, knownTypes)
         }
     }
 
@@ -787,6 +792,7 @@ private fun componentInterface(
     sourceName: String,
     source: String,
     defaultType: String,
+    knownTypes: Map<String, String>,
 ): String {
     val body = stripInlineDocs(source)
         .removeSurrounding("{\n", ";\n}")
@@ -813,7 +819,7 @@ private fun componentInterface(
             // `\w+Props` mini-resolver missed `IconButtonProps | undefined`, `Partial<…>`, …).
             // Only a genuinely-unresolvable type falls back to `defaultType` (`react.Props` for
             // slotProps/componentsProps, `react.ElementType<*>` for slots/components).
-            val resolved = kotlinType(typeSource, name).let {
+            val resolved = kotlinType(typeSource, name, knownTypes).let {
                 if (it.startsWith("Any? /*")) defaultType + "?" + it.removePrefix("Any?") else it
             }
             val type = when {

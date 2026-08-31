@@ -77,7 +77,7 @@ external interface FieldRootProps :
 }
 
 external interface FieldValidityData {
-    var state: Any
+    var state: Any? /* { badInput: boolean; customError: boolean; patternMismatch: boolean; rangeOverflow: boolean; rangeUnderflow: boolean; stepMismatch: boolean; tooLong: boolean; tooShort: boolean; typeMismatch: boolean; valueMissing: boolean; valid: boolean | null; } */
 
     var error: String
 
