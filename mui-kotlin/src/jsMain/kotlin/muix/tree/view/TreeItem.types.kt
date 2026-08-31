@@ -13,7 +13,7 @@ import react.dom.events.KeyboardEventHandler
 import web.cssom.ClassName
 import web.html.HTMLLIElement
 
-external interface TreeItemProps : PropsWithClassName, PropsWithSx {
+external interface TreeItemProps : UseTreeItemParameters, PropsWithClassName, PropsWithSx {
     override var className: ClassName?
 
     /** The system prop that allows defining system overrides as well as additional CSS styles. */

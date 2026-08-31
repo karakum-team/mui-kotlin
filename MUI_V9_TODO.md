@@ -9,7 +9,7 @@ Migration of the generator from MUI v7 → **v9** (v8 skipped; the suite was rea
 | `@mui/material` / `@mui/system`            | `9.1.2`                                                              |
 | `@mui/icons-material`                      | `9.1.1` (latest published — `9.1.2` was never released)              |
 | `@mui/lab`                                 | `9.0.0-beta.5`                                                       |
-| `@mui/x-date-pickers` / `@mui/x-tree-view` | `9.7.0`                                                              |
+| `@mui/x-date-pickers` / `@mui/x-tree-view` | `9.12.0`                                                             |
 | `@mui/base`                                | `5.0.0-beta.70` (frozen / deprecated — see `FUTURE_IMPROVEMENTS.md`) |
 | kotlin-wrappers BOM                        | `2026.6.10`                                                          |
 | kfc                                        | `19.10.0`                                                            |
@@ -103,6 +103,48 @@ Phase 5b reached green but degraded types (widened to `Any`, dropped inheritance
 **All other mui-x components are generated and green**, including the full pickers surface (responsive +
 calendars + clocks + PickerDay + PickersCalendarHeader + fields + adapters) and tree-view
 (SimpleTreeView / RichTreeView / TreeItem / TreeItemLabelInput + icons/provider/hook).
+
+### Tree View: the behavioural props are still missing (found during the 9.8 → 9.12 bump)
+
+"Generated and green" understated one gap. Compilation could not see it because nothing in the repo
+consumed the tree-view declarations until `playground/src/jsMain/kotlin/TreeView.kt` was added.
+
+- **Fixed in the 9.12 bump:** `TreeItemProps` had neither `itemId` (which the component *requires*) nor
+  `label`. Both come from `Omit<UseTreeItemParameters, 'rootRef'>`. `useTreeItem/useTreeItem.types.d.ts`
+  is now generated `typesOnly` and `UseTreeItemParameters` left `INTERNAL_REJECTED_PARENTS`, so
+  `TreeItemProps` extends it and picks up `itemId` / `label` / `disabled` / `disableSelection` / `id`.
+    - Caveat: Kotlin also inherits `rootRef`, which the TS `Omit` removes. Harmless (React ignores it),
+      but it is one prop of over-exposure.
+- **Still missing — `items`, `multiSelect`, `expandedItems`, `selectedItems` and every selection /
+  expansion callback** on `SimpleTreeViewProps` / `RichTreeViewProps`. These sit behind
+  `UseTreeViewStoreParameters<TStore>`, declared as
+  `Omit<Parameters<TStore['updateStateFromParameters']>[0], 'isRtl'>` — an indexed access into a
+  method's parameter tuple. Resolving it needs a real TypeScript checker; this generator is
+  text-based, so no `typesOnly` trick can recover it. The only route is a hand-written stub in the
+  `PICKERS_STUBS` style (`Generator.kt`), which carries a real staleness cost and was left out of the
+  version bump deliberately. **Consequence: `RichTreeView` cannot be given its `items`, so it is not
+  usable from Kotlin; only the children-driven `SimpleTreeView` is.**
+
+### Other tree-view findings from the 9.8 → 9.12 bump
+
+- **`TreeItemProvider` newly emits, and needed its props.** 9.12 rewrote `TreeItemProvider.d.ts`'s
+  return annotation to `React.JSX.Element`, which makes `findComponent` recognise it; the emitted
+  `FC<TreeItemProviderProps>` then referenced a type nobody generated. `TreeItemProvider` was added to
+  the `.types.d.ts` branch of `generateTreeViewDeclarations`.
+- **`react.Ref<T>` has a `T : Any` bound**, like `ResponsiveStyleValue`. `React.Ref<HTMLLIElement>`
+  fell through to `Ref<Any? /* HTMLLIElement */>` and failed to compile. Fixed twice over: a precise
+  `React.Ref<HTMLLIElement>` entry in `STANDARD_TYPE_MAP`, plus the same non-null guard
+  `ResponsiveStyleValue` already had on the generic `React.Ref<…>` fallback.
+- **Six stale `INTERNAL_REJECTED_PARENTS` entries removed** — `RichTreeViewPluginSlots` /
+  `SlotProps` / `Parameters` and the three `SimpleTreeViewPlugin*` equivalents. Those identifiers
+  appear nowhere in the 9.x `.d.ts` (v9 is store-based, not plugin-based); verified inert by a
+  byte-identical regeneration before deleting.
+- **Still-dead v7-era tree-view code, not yet removed** (each verified absent from the 9.12 `.d.ts`,
+  left alone to keep the bump reviewable): the `TreeItem2` / `TreeItem2Icon` / `TreeItem2Provider` /
+  `useTreeItem2` exclusion set and the `TreeItem2DragAndDropOverlay` branches in
+  `generateTreeViewDeclarations`; `adaptTreeView()` in full (there is no `TreeView` directory in v9);
+  and the `TreeItem2Props` replacement in `adaptRichTreeView()` (its `RichTreeViewSlotProps<R, Multiple>`
+  replacement *is* still live).
 
 ## Phase 4 — type-quality / reviewer pass (DONE)
 

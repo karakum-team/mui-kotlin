@@ -140,8 +140,8 @@ internal fun findParentType(
             // Fallback: accept simple identifiers (possibly with single-level generic).
             // Also handles multi-parent extends lists (e.g. `DrawerProps, SwipeableDrawerSlotsAndSlotProps`).
             // Filter-and-keep: drop rejected parents (INTERNAL_REJECTED_PARENTS / utility prefixes) but
-            // keep the rest. This lets interfaces with mixed lists (e.g. RichTreeViewPropsBase +
-            // RichTreeViewPluginParameters) keep their valid parent while dropping the internal one.
+            // keep the rest. This lets interfaces with mixed lists (e.g. TreeViewSlots +
+            // RichTreeViewItemsSlots) keep their valid parent while dropping the internal one.
             val parents = parentSource.depthAwareSplit(',')
                 .map { it.trim() }
                 .filter { it.isNotEmpty() && it.isAcceptableParent() }
@@ -173,12 +173,6 @@ private val INTERNAL_REJECTED_PARENTS = setOf(
     "CssContainerQueries",
     "NormalCssProperties",
     "StyledComponentProps",
-    "RichTreeViewPluginSlots",
-    "RichTreeViewPluginSlotProps",
-    "RichTreeViewPluginParameters",
-    "SimpleTreeViewPluginSlots",
-    "SimpleTreeViewPluginSlotProps",
-    "SimpleTreeViewPluginParameters",
     // MUI-X pickers: internal/cross-platform base types not suitable as Kotlin parents.
     "BaseDateTimePickerProps",
     "BaseTimePickerProps",
@@ -216,7 +210,6 @@ private val INTERNAL_REJECTED_PARENTS = setOf(
     "ExportedPickersArrowSwitcherProps",
     "ExportedUseViewsOptions",
     "ExportedBaseClockProps",
-    "UseTreeItemParameters",
     // v9 internal RichTreeViewItems component type — its `<TProps>`/Ref/slot-override shape doesn't
     // translate; kept rejected so RichTreeViewSlots just loses this one parent (keeps TreeViewSlots).
     "RichTreeViewItemsSlots",

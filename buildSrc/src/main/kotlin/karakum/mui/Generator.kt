@@ -721,7 +721,10 @@ private fun generateTreeViewDeclarations(
                     generate(typesFile, targetDir, Package.treeView)
                 }
 
-                "TreeView", "SimpleTreeView", "RichTreeView", "TreeItemLabelInput", "TreeItem2DragAndDropOverlay" -> {
+                // v9.12 rewrote TreeItemProvider.d.ts's return annotation to `React.JSX.Element`, which
+                // makes `findComponent` recognise it. Its props live in the sibling `.types.d.ts`, so that
+                // has to be generated too or the emitted `FC<TreeItemProviderProps>` has no such type.
+                "TreeView", "SimpleTreeView", "RichTreeView", "TreeItemLabelInput", "TreeItemProvider", "TreeItem2DragAndDropOverlay" -> {
                     val typesFile = it.resolve("${it.name}.types.d.ts")
                     generate(typesFile, targetDir, Package.treeView)
                 }
@@ -742,6 +745,7 @@ private fun generateTreeViewDeclarations(
     sequenceOf(
         "internals/TreeViewProvider/TreeViewStyleContext.d.ts",
         "TreeItemIcon/TreeItemIcon.types.d.ts",
+        "useTreeItem/useTreeItem.types.d.ts",
     ).forEach { rel ->
         val file = typesDir.resolve(rel)
         if (file.exists()) generate(file, targetDir, Package.treeView, typesOnly = true)
