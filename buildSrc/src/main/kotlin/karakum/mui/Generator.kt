@@ -875,14 +875,21 @@ private val BASE_UI_MODULES = setOf(
  * `FieldRootState` is inherited by 21 declarations across 12 modules (checkbox, switch, radio, select,
  * number-field, combobox, …) — 17 by that name and four through `FieldRoot.State` — so this entry pays
  * for itself well beyond `slider`.
+ *
+ * `useAnchorPositioning.d.ts` is here for the same reason one step removed: it declares
+ * `UseAnchorPositioningSharedParameters`, the 12 anchor-positioning props that all eight Positioner
+ * parts inherit, and which used to be an empty hand-written stub — every menu stuck on `bottom` /
+ * `center` with no way to say otherwise. It also declares `Side` and `Align`, which is why those two
+ * unions are no longer hardcoded below. Its `utils/` path is not a per-module `utils/` directory (which
+ * stays excluded as internal plumbing) but the package-level one.
  */
 private val BASE_UI_EXTRA_FILES = setOf(
     "field/root/FieldRoot.d.ts",
+    "utils/useAnchorPositioning.d.ts",
 )
 
-private val BASE_UI_SIDE =
-    convertUnion("Side = 'top' | 'bottom' | 'left' | 'right' | 'inline-end' | 'inline-start'")!!
-private val BASE_UI_ALIGN = convertUnion("Align = 'start' | 'center' | 'end'")!!
+// `Side` and `Align` are *not* here: both are declared in `utils/useAnchorPositioning.d.ts`, which
+// `BASE_UI_EXTRA_FILES` now converts, so they come from upstream like every other union.
 private val BASE_UI_ORIENTATION = convertUnion("Orientation = 'horizontal' | 'vertical'")!!
 
 // `TransitionStatus` is `'starting' | 'ending' | 'idle' | undefined`; the `undefined` arm is the
@@ -931,13 +938,6 @@ external interface BaseUIGenericEventDetails {
     var reason: String
     var event: web.events.Event
 }
-
-/**
- * `utils/useAnchorPositioning.d.ts`. The real interface is ~60 anchor-positioning props (side, align,
- * offsets, collision handling) shared by every Positioner part. Generating it is deferred, so
- * Positioner props currently inherit nothing from it — see BASE_UI_TODO.md.
- */
-external interface UseAnchorPositioningSharedParameters
 
 /**
  * `floating-ui-react/components/FloatingPortal.d.ts`, where it is `interface Props<TState>` declared
@@ -1064,8 +1064,6 @@ private fun generateBaseUiDeclarations(
     }
 
     val handWritten = listOf(
-        "Side" to BASE_UI_SIDE,
-        "Align" to BASE_UI_ALIGN,
         "Orientation" to BASE_UI_ORIENTATION,
         "TransitionStatus" to BASE_UI_TRANSITION_STATUS,
         "Stubs" to BASE_UI_STUBS,
