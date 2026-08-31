@@ -12,32 +12,39 @@ import web.dom.ElementId
 import web.html.HTMLLIElement
 
 external interface UseTreeItemParameters : PropsWithChildren {
-    /** The id attribute of the item. If not provided, it will be generated. */
+    /**
+     * The id attribute of the item. If not provided, it will be generated.
+     */
     var id: ElementId?
 
     /**
      * If `true`, the item is disabled.
-     *
      * @default false
      */
     var disabled: Boolean?
 
     /**
      * If `true`, the item cannot be selected.
-     *
      * @default false
      */
     var disableSelection: Boolean?
 
-    /** The id of the item. Must be unique. */
+    /**
+     * The id of the item.
+     * Must be unique.
+     */
     var itemId: String
 
-    /** The label of the item. */
+    /**
+     * The label of the item.
+     */
     var label: ReactNode?
 
     var rootRef: Ref<HTMLLIElement>?
 
-    /** The content of the component. */
+    /**
+     * The content of the component.
+     */
     override var children: ReactNode?
 }
 
@@ -54,9 +61,11 @@ external interface UseTreeItemRootSlotPropsFromUseTreeItem {
 
     var id: ElementId?
 
-    @JsName("aria-expanded") var ariaExpanded: Boolean
+    @JsName("aria-expanded")
+    var ariaExpanded: Boolean
 
-    @JsName("aria-disabled") var ariaDisabled: Boolean
+    @JsName("aria-disabled")
+    var ariaDisabled: Boolean
 
     var onFocus: Any? /* TreeViewCancellableEventHandler<React.FocusEvent<HTMLElement>> */
 
@@ -74,17 +83,23 @@ external interface UseTreeItemContentSlotPropsFromUseTreeItem {
 
     var onMouseDown: Any? /* TreeViewCancellableEventHandler<React.MouseEvent> */
 
-    @JsName("data-expanded") var dataExpanded: Union? /* '' */
+    @JsName("data-expanded")
+    var dataExpanded: Union? /* '' */
 
-    @JsName("data-selected") var dataSelected: Union? /* '' */
+    @JsName("data-selected")
+    var dataSelected: Union? /* '' */
 
-    @JsName("data-focused") var dataFocused: Union? /* '' */
+    @JsName("data-focused")
+    var dataFocused: Union? /* '' */
 
-    @JsName("data-disabled") var dataDisabled: Union? /* '' */
+    @JsName("data-disabled")
+    var dataDisabled: Union? /* '' */
 
-    @JsName("data-editing") var dataEditing: Union? /* '' */
+    @JsName("data-editing")
+    var dataEditing: Union? /* '' */
 
-    @JsName("data-editable") var dataEditable: Union? /* '' */
+    @JsName("data-editable")
+    var dataEditable: Union? /* '' */
 }
 
 external interface UseTreeItemContentSlotOwnProps : Props
@@ -102,7 +117,8 @@ external interface UseTreeItemLabelSlotOwnProps : PropsWithChildren {
 external interface UseTreeItemLabelInputSlotOwnProps : Props
 
 external interface UseTreeItemCheckboxSlotOwnProps : Props {
-    @JsName("aria-hidden") var ariaHidden: Boolean
+    @JsName("aria-hidden")
+    var ariaHidden: Boolean
 }
 
 external interface UseTreeItemGroupTransitionSlotOwnProps : PropsWithChildren {
@@ -128,7 +144,9 @@ external interface UseTreeItemStatus {
 
     var selected: Boolean
 
-    /** `true` when the item is not selected but some of its selectable descendants are. */
+    /**
+     * `true` when the item is not selected but some of its selectable descendants are.
+     */
     var indeterminate: Boolean?
 
     var disabled: Boolean
@@ -145,111 +163,95 @@ external interface UseTreeItemStatus {
 external interface UseTreeItemReturnValue {
     /**
      * Resolver for the context provider's props.
-     *
-     * @returns {UseTreeItemContextProviderProps} Props that should be spread on the context
-     *   provider slot.
+     * @returns {UseTreeItemContextProviderProps} Props that should be spread on the context provider slot.
      */
     var getContextProviderProps: () -> UseTreeItemContextProviderProps
 
     /**
      * Resolver for the root slot's props.
-     *
      * @param {ExternalProps} externalProps Additional props for the root slot.
-     * @returns {UseTreeItemRootSlotProps<ExternalProps>} Props that should be spread on the root
-     *   slot.
+     * @returns {UseTreeItemRootSlotProps<ExternalProps>} Props that should be spread on the root slot.
      */
     var getRootProps: (externalProps: Props?) -> Props
 
     /**
      * Resolver for the content slot's props.
-     *
      * @param {ExternalProps} externalProps Additional props for the content slot.
-     * @returns {UseTreeItemContentSlotProps<ExternalProps>} Props that should be spread on the
-     *   content slot.
+     * @returns {UseTreeItemContentSlotProps<ExternalProps>} Props that should be spread on the content slot.
      */
     var getContentProps: (externalProps: Props?) -> Props
 
     /**
      * Resolver for the label slot's props.
-     *
      * @param {ExternalProps} externalProps Additional props for the label slot.
-     * @returns {UseTreeItemLabelSlotProps<ExternalProps>} Props that should be spread on the label
-     *   slot.
+     * @returns {UseTreeItemLabelSlotProps<ExternalProps>} Props that should be spread on the label slot.
      */
     var getLabelProps: (externalProps: Props?) -> Props
 
     /**
      * Resolver for the labelInput slot's props.
-     *
      * @param {ExternalProps} externalProps Additional props for the labelInput slot.
-     * @returns {UseTreeItemLabelInputSlotProps<ExternalProps>} Props that should be spread on the
-     *   labelInput slot.
+     * @returns {UseTreeItemLabelInputSlotProps<ExternalProps>} Props that should be spread on the labelInput slot.
      */
     var getLabelInputProps: (externalProps: Props?) -> Props
 
     /**
      * Resolver for the checkbox slot's props.
-     *
      * @param {ExternalProps} externalProps Additional props for the checkbox slot.
-     * @returns {UseTreeItemCheckboxSlotProps<ExternalProps>} Props that should be spread on the
-     *   checkbox slot.
+     * @returns {UseTreeItemCheckboxSlotProps<ExternalProps>} Props that should be spread on the checkbox slot.
      */
     var getCheckboxProps: (externalProps: Props?) -> Props
 
     /**
      * Resolver for the iconContainer slot's props.
-     *
      * @param {ExternalProps} externalProps Additional props for the iconContainer slot.
-     * @returns {UseTreeItemIconContainerSlotProps<ExternalProps>} Props that should be spread on
-     *   the iconContainer slot.
+     * @returns {UseTreeItemIconContainerSlotProps<ExternalProps>} Props that should be spread on the iconContainer slot.
      */
     var getIconContainerProps: (externalProps: Props?) -> Props
 
     /**
      * Resolver for the GroupTransition slot's props.
-     *
      * @param {ExternalProps} externalProps Additional props for the GroupTransition slot.
-     * @returns {UseTreeItemGroupTransitionSlotProps<ExternalProps>} Props that should be spread on
-     *   the GroupTransition slot.
+     * @returns {UseTreeItemGroupTransitionSlotProps<ExternalProps>} Props that should be spread on the GroupTransition slot.
      */
     var getGroupTransitionProps: (externalProps: Props?) -> Props
 
     /**
-     * Resolver for the DragAndDropOverlay slot's props. Warning: This slot is only useful when
-     * using the `<RichTreeViewPro />` component.
-     *
+     * Resolver for the DragAndDropOverlay slot's props.
+     * Warning: This slot is only useful when using the `<RichTreeViewPro />` component.
      * @param {ExternalProps} externalProps Additional props for the DragAndDropOverlay slot.
-     * @returns {UseTreeItemDragAndDropOverlaySlotProps<ExternalProps>} Props that should be spread
-     *   on the DragAndDropOverlay slot.
+     * @returns {UseTreeItemDragAndDropOverlaySlotProps<ExternalProps>} Props that should be spread on the DragAndDropOverlay slot.
      */
     var getDragAndDropOverlayProps: (externalProps: Props?) -> Props
 
     /**
-     * Resolver for the ErrorIcon slot's props. Warning: This slot is only useful when using the
-     * `<RichTreeView />` component when lazy loading is enabled.
-     *
+     * Resolver for the ErrorIcon slot's props.
+     * Warning: This slot is only useful when using the `<RichTreeView />` component when lazy loading is enabled.
      * @param {ExternalProps} externalProps Additional props for the ErrorIcon slot.
-     * @returns {UseTreeItemErrorContainerSlotProps<ExternalProps>} Props that should be spread on
-     *   the ErrorIcon slot.
+     * @returns {UseTreeItemErrorContainerSlotProps<ExternalProps>} Props that should be spread on the ErrorIcon slot.
      */
     var getErrorContainerProps: (externalProps: Props?) -> Props
 
     /**
-     * Resolver for the LoadingIcon slot's props. Warning: This slot is only useful when using the
-     * `<RichTreeView />` component when lazy loading is enabled.
-     *
+     * Resolver for the LoadingIcon slot's props.
+     * Warning: This slot is only useful when using the `<RichTreeView />` component when lazy loading is enabled.
      * @param {ExternalProps} externalProps Additional props for the LoadingIcon slot.
-     * @returns {UseTreeItemLoadingContainerSlotProps<ExternalProps>} Props that should be spread on
-     *   the LoadingIcon slot.
+     * @returns {UseTreeItemLoadingContainerSlotProps<ExternalProps>} Props that should be spread on the LoadingIcon slot.
      */
     var getLoadingContainerProps: (externalProps: Props?) -> Props
 
-    /** A ref to the component's root DOM element. */
+    /**
+     * A ref to the component's root DOM element.
+     */
     var rootRef: Any? /* React.RefCallback<HTMLLIElement> */
 
-    /** Current status of the item. */
+    /**
+     * Current status of the item.
+     */
     var status: Any? /* UseTreeItemStatus */
 
-    /** The object the allows Tree View manipulation. */
+    /**
+     * The object the allows Tree View manipulation.
+     */
     var publicAPI: Any? /* TreeViewPublicAPI<TStore> */
 }

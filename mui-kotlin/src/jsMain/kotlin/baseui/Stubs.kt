@@ -44,12 +44,6 @@ external interface BaseUIGenericEventDetails {
 }
 
 /**
- * `utils/useAnchorPositioning.d.ts`. The real interface is ~60 anchor-positioning props (side, align,
- * offsets, collision handling) shared by every Positioner part. Generating it is deferred, so
- * Positioner props currently inherit nothing from it — see BASE_UI_TODO.md.
- */
-external interface UseAnchorPositioningSharedParameters
-/**
  * `floating-ui-react/components/FloatingPortal.d.ts`, where it is `interface Props<TState>` declared
  * inside the `FloatingPortal` namespace — a shape with no flat declaration to redirect to, and one
  * `floating-ui-react/` is not generated from at all. Written by hand so that `MenuPortalProps`, which

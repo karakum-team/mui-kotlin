@@ -13,5 +13,4 @@ external interface ThemeProviderProps : PropsWithChildren {
     var theme: Any? /* Partial<Theme> | ((outerTheme: Theme) => Theme) */
 }
 
-
 external val ThemeProvider: FC<ThemeProviderProps>

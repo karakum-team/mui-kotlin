@@ -14,7 +14,8 @@ import web.cssom.ClassName
 import web.html.HTMLLIElement
 
 external interface TreeItemProps :
-   UseTreeItemParameters, PropsWithClassName,
+    UseTreeItemParameters,
+    PropsWithClassName,
     PropsWithSx {
     override var className: ClassName?
 
