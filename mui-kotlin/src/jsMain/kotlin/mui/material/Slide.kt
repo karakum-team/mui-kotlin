@@ -4,11 +4,11 @@
 
 package mui.material
 
-import web.dom.Element
 import mui.material.transitions.TransitionProps
 import react.FC
 import react.PropsWithChildren
 import react.ReactNode
+import web.dom.Element
 
 external interface SlideProps :
     TransitionProps,

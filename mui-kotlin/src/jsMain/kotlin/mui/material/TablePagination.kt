@@ -4,12 +4,11 @@
 
 package mui.material
 
-import web.html.HTMLElement
 import mui.material.styles.Theme
-import mui.system.SxProps
-import mui.types.PropsWithComponent
 import mui.system.PropsWithSx
+import mui.system.SxProps
 import mui.system.Union
+import mui.types.PropsWithComponent
 import react.ElementType
 import react.FC
 import react.Props
@@ -19,6 +18,7 @@ import react.dom.events.MouseEvent
 import react.dom.html.HTMLAttributes
 import web.html.HTMLButtonElement
 import web.html.HTMLDivElement
+import web.html.HTMLElement
 
 external interface TablePaginationProps :
     TablePaginationOwnProps,

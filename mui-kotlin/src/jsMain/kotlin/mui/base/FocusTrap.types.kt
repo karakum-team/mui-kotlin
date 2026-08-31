@@ -3,9 +3,9 @@
 package mui.base
 
 import js.array.ReadonlyArray
-import web.html.HTMLElement
 import react.PropsWithChildren
 import react.ReactNode
+import web.html.HTMLElement
 
 external interface FocusTrapProps : PropsWithChildren {
     /**

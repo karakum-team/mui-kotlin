@@ -2,11 +2,9 @@
 
 package mui.base
 
-import popper.core.Modifier
 import js.array.ReadonlyArray
-import web.dom.Element
-import web.cssom.ClassName
 import popper.core.Instance
+import popper.core.Modifier
 import popper.core.Options
 import popper.core.Placement
 import react.ElementType
@@ -16,6 +14,8 @@ import react.PropsWithClassName
 import react.ReactNode
 import react.Ref
 import react.dom.html.HTMLAttributes
+import web.cssom.ClassName
+import web.dom.Element
 import web.html.HTMLDivElement
 
 external interface PopperProps :

@@ -2,9 +2,9 @@
 
 package mui.base
 
-import web.dom.Element
 import react.PropsWithChildren
 import react.ReactNode
+import web.dom.Element
 
 external interface PortalProps : PropsWithChildren {
     /**

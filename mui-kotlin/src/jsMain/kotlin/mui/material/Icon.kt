@@ -4,15 +4,15 @@
 
 package mui.material
 
-import web.cssom.ClassName
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
-import mui.system.PropsWithSx
 import react.FC
 import react.PropsWithChildren
 import react.ReactNode
 import react.dom.html.HTMLAttributes
+import web.cssom.ClassName
 import web.html.HTMLSpanElement
 
 external interface IconProps :

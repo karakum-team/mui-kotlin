@@ -4,11 +4,11 @@
 
 package mui.material
 
-import web.html.HTMLElement
 import mui.system.StandardProps
 import react.FC
 import react.dom.events.SyntheticEvent
 import react.dom.html.HTMLAttributes
+import web.html.HTMLElement
 
 external interface TouchRippleProps :
     StandardProps,

@@ -4,7 +4,6 @@
 
 package baseui
 
-import web.html.HTMLElement
 import react.dom.html.AnchorHTMLAttributes
 import react.dom.html.ButtonHTMLAttributes
 import react.dom.html.FieldsetHTMLAttributes
@@ -17,6 +16,7 @@ import react.dom.html.LiHTMLAttributes
 import web.html.HTMLAnchorElement
 import web.html.HTMLButtonElement
 import web.html.HTMLDivElement
+import web.html.HTMLElement
 import web.html.HTMLFieldSetElement
 import web.html.HTMLFormElement
 import web.html.HTMLImageElement

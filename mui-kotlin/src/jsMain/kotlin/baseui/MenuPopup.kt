@@ -7,10 +7,10 @@
 
 package baseui
 
-import web.dom.ElementId
 import mui.system.Union
 import react.PropsWithChildren
 import react.ReactNode
+import web.dom.ElementId
 
 external interface MenuPopupProps :
     BaseUiDivProps,

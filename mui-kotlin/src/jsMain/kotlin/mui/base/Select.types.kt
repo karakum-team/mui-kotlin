@@ -2,12 +2,12 @@
 
 package mui.base
 
-import web.cssom.ClassName
 import react.ElementType
 import react.Props
 import react.PropsWithChildren
 import react.PropsWithClassName
 import react.ReactNode
+import web.cssom.ClassName
 
 external interface SelectProps<OptionValue> :
     SelectOwnProps<OptionValue> {

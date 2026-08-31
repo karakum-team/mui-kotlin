@@ -2,13 +2,13 @@
 
 package muix.tree.view
 
-import web.cssom.ClassName
 import mui.material.styles.Theme
 import mui.system.SxProps
 import react.ElementType
 import react.Props
 import react.Ref
 import react.dom.html.HTMLAttributes
+import web.cssom.ClassName
 import web.html.HTMLUListElement
 
 external interface RichTreeViewProps :

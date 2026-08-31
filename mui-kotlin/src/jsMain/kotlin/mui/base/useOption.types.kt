@@ -2,12 +2,12 @@
 
 package mui.base
 
-import web.dom.ElementId
-import web.dom.Element
 import react.Props
 import react.ReactNode
 import react.Ref
 import react.RefCallback
+import web.dom.Element
+import web.dom.ElementId
 
 external interface SelectOption<Value> {
     var value: Value

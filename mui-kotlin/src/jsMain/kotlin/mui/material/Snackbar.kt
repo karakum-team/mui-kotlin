@@ -8,12 +8,12 @@
 
 package mui.material
 
-import mui.material.styles.Theme
-import mui.system.SxProps
 import mui.base.ClickAwayListenerProps
+import mui.material.styles.Theme
 import mui.material.transitions.TransitionProps
 import mui.system.PropsWithSx
 import mui.system.StandardProps
+import mui.system.SxProps
 import react.ElementType
 import react.FC
 import react.Props

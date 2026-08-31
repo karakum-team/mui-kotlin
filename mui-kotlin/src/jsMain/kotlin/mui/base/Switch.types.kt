@@ -2,11 +2,11 @@
 
 package mui.base
 
-import web.cssom.ClassName
 import react.ElementType
 import react.Props
 import react.PropsWithClassName
 import react.dom.html.HTMLAttributes
+import web.cssom.ClassName
 import web.html.HTMLSpanElement
 
 external interface SwitchProps :

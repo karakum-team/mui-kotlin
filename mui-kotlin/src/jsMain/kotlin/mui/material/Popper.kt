@@ -5,8 +5,8 @@
 package mui.material
 
 import mui.material.styles.Theme
-import mui.system.SxProps
 import mui.system.PropsWithSx
+import mui.system.SxProps
 import react.ElementType
 import react.FC
 

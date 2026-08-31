@@ -8,17 +8,17 @@
 
 package mui.material
 
-import web.html.HTMLElement
 import mui.material.styles.Theme
+import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
-import mui.system.PropsWithSx
 import react.FC
 import react.PropsWithChildren
 import react.ReactNode
 import react.dom.events.MouseEvent
 import react.dom.html.ButtonHTMLAttributes
 import web.html.HTMLButtonElement
+import web.html.HTMLElement
 
 external interface ToggleButtonProps :
     ToggleButtonOwnProps,

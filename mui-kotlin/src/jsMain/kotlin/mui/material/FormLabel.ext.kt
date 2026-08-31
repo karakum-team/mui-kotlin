@@ -2,8 +2,8 @@
 
 package mui.material
 
-import seskar.js.JsValue
 import react.dom.html.LabelHTMLAttributes
+import seskar.js.JsValue
 import web.html.HTMLLabelElement
 
 typealias FormLabelBaseProps = LabelHTMLAttributes<HTMLLabelElement>

@@ -3,12 +3,12 @@
 package mui.base
 
 import js.array.ReadonlyArray
-import web.dom.Element
 import react.Props
 import react.Ref
 import react.RefCallback
 import react.dom.events.ChangeEvent
 import react.dom.events.MouseEvent
+import web.dom.Element
 
 external interface SelectOptionDefinition<Value> {
     var value: Value

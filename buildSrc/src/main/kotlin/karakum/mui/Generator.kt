@@ -1372,6 +1372,7 @@ private fun fileContent(
         .plus(addedImports)
         .distinct()
         .let { retainReferencedImports(it, resolvedBody, pkg) }
+        .let(::inIdeaImportOrder)
         .map { "import $it" }
         .joinToString("\n")
 
@@ -1385,6 +1386,36 @@ private fun fileContent(
         .joinToString("\n\n")
         .removeSuffix("\n") + "\n"
 }
+
+/**
+ * Orders imports the way IntelliJ IDEA's Optimize Imports does, because the formatter does not: `format`
+ * lays out code and leaves the import list in whatever order it was emitted, so the order has to be right
+ * when it is written.
+ *
+ * Plain lexicographic sort of the full path, uppercase before lowercase — `react.FC` sorts above
+ * `react.dom.html.HTMLAttributes`, because `F` precedes `d` in ASCII. Read off the tree as it stood before
+ * the formatter was automated, which had been through Optimize Imports by hand: of its files with more
+ * than one import, 230 are in this order and only 118 in the case-insensitive one, and every one of those
+ * 118 satisfies both.
+ *
+ * IDEA's default Kotlin layout also moves `java.**`, `javax.**` and `kotlin.**` into their own groups
+ * after everything else, separated by a blank line, and alias imports after those. The generated tree
+ * contains none of them, so that part of the layout is unimplemented and, more to the point, untested —
+ * hence the check rather than a guess at where the blank lines go.
+ */
+private fun inIdeaImportOrder(imports: List<String>): List<String> {
+    val trailing = imports.filter { fqn -> TRAILING_IMPORT_GROUPS.any(fqn::startsWith) }
+
+    check(trailing.isEmpty()) {
+        "IntelliJ IDEA sorts $trailing into trailing import groups of their own, which this does not " +
+            "reproduce — it had no reason to until now. Implement the grouping in `inIdeaImportOrder`, " +
+            "against what Optimize Imports actually emits for a file holding one."
+    }
+
+    return imports.sorted()
+}
+
+private val TRAILING_IMPORT_GROUPS = listOf("java.", "javax.", "kotlin.")
 
 /**
  * Drops the imports the file has no use for: those naming its own package, and those whose short name is

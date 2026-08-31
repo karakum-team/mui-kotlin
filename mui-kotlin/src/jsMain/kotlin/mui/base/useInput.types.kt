@@ -2,13 +2,13 @@
 
 package mui.base
 
-import web.html.HTMLElement
 import react.Props
 import react.Ref
 import react.RefCallback
 import react.dom.events.ChangeEventHandler
 import react.dom.events.FocusEventHandler
 import react.dom.events.MouseEventHandler
+import web.html.HTMLElement
 import web.html.HTMLInputElement
 
 external interface UseInputParameters {

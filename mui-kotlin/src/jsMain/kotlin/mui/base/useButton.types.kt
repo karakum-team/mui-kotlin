@@ -2,9 +2,6 @@
 
 package mui.base
 
-import web.dom.Element
-import web.html.ButtonType
-import web.html.HTMLElement
 import react.Props
 import react.Ref
 import react.RefCallback
@@ -12,7 +9,10 @@ import react.StateSetter
 import react.dom.aria.AriaRole
 import react.dom.events.FocusEventHandler
 import react.dom.events.MouseEventHandler
+import web.dom.Element
 import web.dom.TagName
+import web.html.ButtonType
+import web.html.HTMLElement
 
 external interface UseButtonParameters {
     /**

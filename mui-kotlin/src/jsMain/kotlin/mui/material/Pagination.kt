@@ -4,15 +4,15 @@
 
 package mui.material
 
-import web.html.HTMLElement
 import mui.material.styles.Theme
-import mui.system.SxProps
 import mui.system.PropsWithSx
 import mui.system.StandardProps
+import mui.system.SxProps
 import mui.system.Union
 import react.FC
 import react.ReactNode
 import react.dom.html.HTMLAttributes
+import web.html.HTMLElement
 
 external interface PaginationProps :
     UsePaginationProps,

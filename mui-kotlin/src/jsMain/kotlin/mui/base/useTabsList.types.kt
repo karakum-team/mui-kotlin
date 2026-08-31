@@ -2,10 +2,10 @@
 
 package mui.base
 
-import web.dom.Element
 import react.Props
 import react.Ref
 import react.RefCallback
+import web.dom.Element
 
 external interface UseTabsListParameters {
     /**

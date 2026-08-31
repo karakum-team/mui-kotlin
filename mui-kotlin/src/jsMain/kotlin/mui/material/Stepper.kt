@@ -9,10 +9,10 @@
 package mui.material
 
 import mui.material.styles.Theme
-import mui.system.SxProps
-import mui.types.PropsWithComponent
 import mui.system.PropsWithSx
 import mui.system.StandardProps
+import mui.system.SxProps
+import mui.types.PropsWithComponent
 import react.FC
 import react.PropsWithChildren
 import react.ReactNode

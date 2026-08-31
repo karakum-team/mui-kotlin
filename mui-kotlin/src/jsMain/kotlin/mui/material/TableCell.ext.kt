@@ -2,9 +2,9 @@
 
 package mui.material
 
-import seskar.js.JsValue
 import react.dom.html.TdAlign
 import react.dom.html.TdHTMLAttributes
+import seskar.js.JsValue
 import web.html.HTMLTableCellElement
 
 typealias TableCellBaseProps = TdHTMLAttributes<HTMLTableCellElement>

@@ -2,11 +2,11 @@
 
 package baseui
 
-import web.cssom.ClassName
-import web.html.HTMLElement
 import react.CSSProperties
 import react.ReactElement
 import react.dom.html.HTMLAttributes
+import web.cssom.ClassName
+import web.html.HTMLElement
 
 /**
  * The state-dependent arm of `FieldRootProps.className`, upstream

@@ -2,7 +2,6 @@
 
 package mui.base
 
-import web.html.HTMLElement
 import react.ElementType
 import react.Props
 import react.ReactNode
@@ -10,6 +9,7 @@ import react.dom.events.ChangeEventHandler
 import react.dom.events.MouseEvent
 import react.dom.html.HTMLAttributes
 import web.html.HTMLButtonElement
+import web.html.HTMLElement
 import web.html.HTMLTableCellElement
 
 external interface TablePaginationProps :

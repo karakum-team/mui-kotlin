@@ -3,14 +3,14 @@
 package mui.base
 
 import js.array.ReadonlyArray
-import web.dom.ElementId
-import web.dom.Element
-import web.events.Event
 import react.Props
 import react.ReactNode
 import react.Ref
 import react.RefCallback
 import react.dom.events.SyntheticEvent
+import web.dom.Element
+import web.dom.ElementId
+import web.events.Event
 
 external interface UseSliderParameters {
     /**

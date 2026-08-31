@@ -9,11 +9,10 @@
 
 package mui.material
 
-import web.dom.Element
 import mui.material.styles.Theme
-import mui.system.SxProps
 import mui.system.PropsWithSx
 import mui.system.StandardProps
+import mui.system.SxProps
 import mui.system.Union
 import react.ElementType
 import react.FC
@@ -21,6 +20,7 @@ import react.Props
 import react.PropsWithChildren
 import react.ReactNode
 import react.Ref
+import web.dom.Element
 
 external interface PopoverProps :
     StandardProps,

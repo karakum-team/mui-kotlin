@@ -2,8 +2,6 @@
 
 package mui.base
 
-import web.cssom.ClassName
-import web.html.HTMLElement
 import react.ElementType
 import react.Props
 import react.PropsWithChildren
@@ -11,8 +9,10 @@ import react.PropsWithClassName
 import react.ReactNode
 import react.Ref
 import react.dom.html.ButtonHTMLAttributes
+import web.cssom.ClassName
 import web.dom.TagName
 import web.html.HTMLButtonElement
+import web.html.HTMLElement
 
 external interface ButtonProps :
     ButtonOwnProps,

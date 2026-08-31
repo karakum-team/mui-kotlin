@@ -3,11 +3,11 @@
 package mui.base
 
 import js.array.ReadonlyArray
-import web.dom.ElementId
-import web.dom.Element
-import web.html.HTMLElement
 import react.Ref
 import react.RefCallback
+import web.dom.Element
+import web.dom.ElementId
+import web.html.HTMLElement
 
 external interface UseMenuParameters {
     /**

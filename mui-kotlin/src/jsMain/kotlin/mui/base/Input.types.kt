@@ -2,16 +2,16 @@
 
 package mui.base
 
-import web.dom.ElementId
-import web.html.InputType
-import web.cssom.ClassName
 import react.ElementType
 import react.Props
 import react.PropsWithClassName
 import react.ReactNode
 import react.dom.events.KeyboardEventHandler
 import react.dom.html.HTMLAttributes
+import web.cssom.ClassName
+import web.dom.ElementId
 import web.html.HTMLInputElement
+import web.html.InputType
 
 external interface InputProps :
     InputOwnProps,

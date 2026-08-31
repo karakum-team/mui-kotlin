@@ -2,8 +2,8 @@
 
 package mui.material
 
-import web.cssom.ClassName
 import seskar.js.JsValue
+import web.cssom.ClassName
 
 sealed external interface Mui {
     companion object {

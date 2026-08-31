@@ -8,8 +8,6 @@
 
 package mui.material
 
-import web.dom.ElementId
-import web.html.InputType
 import mui.system.StandardProps
 import react.ElementType
 import react.FC
@@ -17,7 +15,9 @@ import react.Props
 import react.ReactNode
 import react.dom.events.ChangeEvent
 import react.dom.html.InputHTMLAttributes
+import web.dom.ElementId
 import web.html.HTMLInputElement
+import web.html.InputType
 
 external interface SwitchBaseProps :
     StandardProps,

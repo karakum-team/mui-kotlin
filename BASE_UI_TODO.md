@@ -438,9 +438,13 @@ One thing ktfmt did is consequently no longer done: KDoc is not reflowed to a co
 block tags reordered, so the committed tree preserves upstream's own wrapping and `@default`/`@param`
 order.
 
-Unused imports, which ktfmt also removed, are now pruned by the generator — `retainReferencedImports` in
-`Generator.kt` drops an import naming the file's own package, or one whose short name is referenced
-nowhere in the file. Both import mechanisms over-produce: `DEFAULT_IMPORTS` is keyed on a plain substring,
+Imports, which ktfmt also tidied, are handled by the generator instead. `inIdeaImportOrder` sorts them the
+way Optimize Imports does — plain lexicographic on the full path, uppercase before lowercase, so `react.FC`
+sorts above `react.dom.html.HTMLAttributes` — because `format` lays out code but leaves the import list
+alone. IDEA's default layout additionally moves `java.**`, `javax.**` and `kotlin.**` into trailing groups
+of their own; the tree contains none, so that part is unimplemented and fails loudly if one appears rather
+than guessing. `retainReferencedImports` then drops an import naming the file's own package, or one whose
+short name is referenced nowhere in the file. Both import mechanisms over-produce: `DEFAULT_IMPORTS` is keyed on a plain substring,
 so `Element` fired inside `HTMLDivElement` (201 times) and `Event` inside `MouseEventHandler` (62), and
 `resolveImportedFqns` skips `import` lines when looking for a real occurrence but not comments, so an FQN
 appearing only inside a `/* … */` TypeScript marker left an import behind. Pruning after the fact rather

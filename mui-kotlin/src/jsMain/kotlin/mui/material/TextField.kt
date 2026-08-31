@@ -9,13 +9,10 @@
 
 package mui.material
 
-import web.dom.ElementId
-import web.html.InputType
-import web.html.HTMLElement
 import mui.material.styles.Theme
-import mui.system.SxProps
 import mui.system.PropsWithSx
 import mui.system.StandardProps
+import mui.system.SxProps
 import mui.system.Union
 import react.ElementType
 import react.FC
@@ -24,6 +21,9 @@ import react.ReactNode
 import react.Ref
 import react.dom.events.ChangeEventHandler
 import react.dom.events.FocusEventHandler
+import web.dom.ElementId
+import web.html.HTMLElement
+import web.html.InputType
 
 typealias TextFieldProps = BaseTextFieldProps
 

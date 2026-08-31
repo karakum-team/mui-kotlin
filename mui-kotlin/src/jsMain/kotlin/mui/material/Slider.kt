@@ -5,14 +5,11 @@
 package mui.material
 
 import js.array.ReadonlyArray
-import web.dom.ElementId
-import web.cssom.ClassName
-import web.events.Event
 import mui.material.styles.Theme
-import mui.system.SxProps
-import mui.types.PropsWithComponent
 import mui.system.PropsWithSx
+import mui.system.SxProps
 import mui.system.Union
+import mui.types.PropsWithComponent
 import react.ElementType
 import react.FC
 import react.Props
@@ -22,6 +19,9 @@ import react.ReactNode
 import react.dom.events.SyntheticEvent
 import react.dom.html.HTMLAttributes
 import react.dom.html.InputHTMLAttributes
+import web.cssom.ClassName
+import web.dom.ElementId
+import web.events.Event
 import web.html.HTMLInputElement
 import web.html.HTMLSpanElement
 

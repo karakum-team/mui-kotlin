@@ -8,11 +8,10 @@
 
 package mui.material
 
-import web.dom.ElementId
 import mui.material.styles.Theme
-import mui.system.SxProps
 import mui.system.PropsWithSx
 import mui.system.StandardProps
+import mui.system.SxProps
 import mui.system.Union
 import react.ElementType
 import react.FC
@@ -21,6 +20,7 @@ import react.ReactNode
 import react.dom.events.ChangeEvent
 import react.dom.events.SyntheticEvent
 import react.dom.html.HTMLAttributes
+import web.dom.ElementId
 import web.html.HTMLDivElement
 import web.html.HTMLInputElement
 

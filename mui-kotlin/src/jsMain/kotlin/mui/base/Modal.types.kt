@@ -2,8 +2,6 @@
 
 package mui.base
 
-import web.dom.Element
-import web.cssom.ClassName
 import react.ElementType
 import react.Props
 import react.PropsWithChildren
@@ -13,6 +11,8 @@ import react.dom.aria.AriaRole
 import react.dom.events.KeyboardEventHandler
 import react.dom.events.MouseEventHandler
 import react.dom.html.HTMLAttributes
+import web.cssom.ClassName
+import web.dom.Element
 import web.html.HTMLDivElement
 
 external interface ModalProps :
