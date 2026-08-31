@@ -23,6 +23,7 @@ private val App = FC {
     SliderStylization()
     BaseUiMenu()
     BaseUiSlider()
+    TreeView()
 }
 
 private fun main() {
