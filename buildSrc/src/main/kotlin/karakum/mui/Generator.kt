@@ -822,7 +822,7 @@ private fun generatePickersDeclarations(
         }
         .forEach {
             val file = it.resolve("${it.name}.d.ts")
-            generate(file, targetDir, Package.pickers)
+            generate(file, targetDir, Package.pickers, emitClasses = false)
 
             if (it.name in setOf(
                     "DateCalendar",
@@ -850,7 +850,7 @@ private fun generatePickersDeclarations(
                 )
             ) {
                 val typesFile = it.resolve("${it.name}.types.d.ts")
-                generate(typesFile, targetDir, Package.pickers)
+                generate(typesFile, targetDir, Package.pickers, emitClasses = false)
             }
         }
 
@@ -861,14 +861,19 @@ private fun generatePickersDeclarations(
     // generated: the sibling `UseViewsOptions.onChange` has optional function-type params
     // (`selectionState?: …`) that Kotlin function types can't express. ExportedUseViewsOptions stays in
     // INTERNAL_REJECTED_PARENTS; DateCalendar loses only `views`/`openTo`/`onViewChange`. See MUI_V9_TODO.
+    // NB: `DateCalendar/DayCalendar.d.ts` is here for `ExportedDayCalendarProps` and the day slots only.
+    // It used to be what made `DayCalendar.classes.kt` exist as a side effect; that file now comes from
+    // [generatePickersClasses], which is also what fixes its module subpath.
     sequenceOf(
         "DateCalendar/DayCalendar.d.ts",
         "internals/models/validation.d.ts",
         "validation/validateDate.d.ts",
     ).forEach { rel ->
         val file = typesDir.resolve(rel)
-        if (file.exists()) generate(file, targetDir, Package.pickers, typesOnly = true)
+        if (file.exists()) generate(file, targetDir, Package.pickers, typesOnly = true, emitClasses = false)
     }
+
+    generatePickersClasses(typesDir, targetDir)
 
     sequenceOf(
         "Stubs" to PICKERS_STUBS,
@@ -895,6 +900,99 @@ private fun generatePickersDeclarations(
 
         targetDir.resolve("$name.kt")
             .writeText(content)
+    }
+}
+
+// Every `*Classes.d.ts` @mui/x-date-pickers ships. Anchored on a lowercase first letter because that is
+// how upstream names them (`pickersOutlinedInputClasses.d.ts`), which also keeps the `*.types.d.ts`
+// siblings out.
+private val PICKERS_CLASSES_FILE = Regex("""[a-z][A-Za-z0-9]*Classes\.d\.ts""")
+
+/**
+ * Emits the `<X>.classes.kt` file for every public CSS-class object `@mui/x-date-pickers` ships — all 27
+ * of them, against the 11 that the component-driven rule at the tail of [generate] could reach.
+ *
+ * This REPLACES that rule for pickers ([generate] is called with `emitClasses = false` throughout
+ * [generatePickersDeclarations]); it does not supplement it. Two reasons:
+ *
+ *  - **Coverage.** [generate] looks for exactly `{componentName}Classes.d.ts` beside the component's own
+ *    `.d.ts`, so by construction it finds at most the one class object named after the component. But
+ *    `TimeClock/` owns four (`timeClock`, `clock`, `clockNumber`, `clockPointer`), `DateCalendar/` owns
+ *    four, and `PickersTextField/` owns five — one at its own root plus one in each of four nested
+ *    directories. Two of the owning directories (`PickersTextField`, `PickersLayout`) are in this file's
+ *    component exclusion set on top of that, so their class objects were unreachable twice over.
+ *  - **Module path.** [generate] derives the `@file:JsModule` subpath from the *component* name, which is
+ *    right only by coincidence. `dayCalendarClasses.d.ts` lives in `DateCalendar/`, and `./DayCalendar`
+ *    is not a key of the package's `exports` map (54 keys, no wildcard) — so
+ *    `@file:JsModule("@mui/x-date-pickers/DayCalendar")` was an unresolvable import for anyone who
+ *    touched `dayCalendarClasses`. The subpath is the TOP-LEVEL directory under the package root, which
+ *    is exactly the set of `exports` keys; each such directory's `index.d.ts` re-exports every class
+ *    object below it, nested ones included (`PickersTextField/index.d.ts` does
+ *    `export * from "./PickersOutlinedInput/index.js"`).
+ *
+ * Discovered rather than listed, so that a version bump adding a class object under an existing component
+ * directory picks it up on its own — the 16-file gap this closes is what a static list costs. Requiring
+ * the first path segment to be a component name is what excludes `internals/` (five more class objects,
+ * deliberately out of scope: the `pickersToolbar*` trio plus `PickerPopper` and `PickersArrowSwitcher`)
+ * and the bundled `node_modules/@mui/utils`, whose `composeClasses.d.ts` and `generateUtilityClasses.d.ts`
+ * both match [PICKERS_CLASSES_FILE]. A class object at the package root would be dropped by that same
+ * filter; upstream has never shipped one, and it would need a different binding anyway (the `.` export).
+ *
+ * The two ways this could go wrong on a bump are asserted rather than left to a browser to find: a
+ * directory that is not an `exports` key, and two class objects mapping to one Kotlin file.
+ *
+ * See MUI_V9_TODO.md "5d".
+ */
+private fun generatePickersClasses(
+    typesDir: File,
+    targetDir: File,
+) {
+    val files = typesDir.walkTopDown()
+        .filter { it.isFile && PICKERS_CLASSES_FILE.matches(it.name) }
+        .map { it to it.relativeTo(typesDir).invariantSeparatorsPath.substringBefore("/") }
+        .filter { (_, subpackage) -> subpackage.isComponentName() }
+        .map { (file, subpackage) ->
+            Triple(file, subpackage, file.name.removeSuffix(".d.ts").replaceFirstChar(Char::uppercase))
+        }
+        // `walkTopDown` yields in filesystem order, which differs between machines. Nothing downstream
+        // reads the order today, but it decides who wins a filename collision — so pin it, and assert
+        // that no collision exists rather than relying on the order being the desirable one.
+        .sortedBy { (file, _, _) -> file.invariantSeparatorsPath }
+        .toList()
+
+    files.groupBy { (_, _, classesName) -> classesName }
+        .forEach { (classesName, colliding) ->
+            check(colliding.size == 1) {
+                "Pickers class objects collide on $classesName.classes.kt: " +
+                        colliding.joinToString { (file, _, _) -> file.invariantSeparatorsPath }
+            }
+        }
+
+    // The subpath is importable only if the package's `exports` map has a matching key — that
+    // `@mui/x-date-pickers/DayCalendar` had none is the whole reason this pass derives it from the
+    // directory. Keys are written `"./Name":`, so a textual probe is enough and keeps buildSrc free of a
+    // JSON dependency.
+    val exports = typesDir.resolve("package.json")
+        .takeIf { it.exists() }
+        ?.readText()
+
+    // Collected before anything is written: `convertClasses` needs a candidate parent's keys both to
+    // decide whether to keep it as a supertype and to mark the child's re-declarations `override`.
+    val members = files.associate { (file, _, classesName) -> classesName to classesMemberNames(classesName, file) }
+
+    files.forEach { (file, subpackage, classesName) ->
+        check(exports == null || "\"./$subpackage\"" in exports) {
+            "$classesName would bind to @mui/x-date-pickers/$subpackage, which the package's exports map " +
+                    "does not expose (source: ${file.invariantSeparatorsPath})"
+        }
+
+        val body = convertClasses(classesName, file, siblings = members - classesName)
+        val annotation = moduleDeclaration(Package.pickers, subpackage, componentName = null)
+            .takeIf { "external val" in body }
+            ?: ""
+
+        targetDir.resolve("${classesName.removeSuffix("Classes")}.classes.kt")
+            .writeText(fileContent(annotations = annotation, body = body, pkg = Package.pickers))
     }
 }
 
@@ -1248,6 +1346,10 @@ private fun generate(
     fullPath: Boolean = false,
     typesOnly: Boolean = false,
     preprocess: ((String) -> String)? = null,
+    // Whether this call also emits the component's `<Component>.classes.kt`. Off for pickers, which own
+    // that emission in [generatePickersClasses] — the rule at the tail of this function cannot reach 16
+    // of their 27 class objects and gets `dayCalendarClasses`' module subpath wrong.
+    emitClasses: Boolean = true,
 ): String? {
     // MUI v6 sometimes ships only `<Component>/index.d.ts` (e.g. useMediaQuery, OverridableComponent).
     // Fall back to it when the standard `<Component>.d.ts` is missing.
@@ -1400,7 +1502,7 @@ private fun generate(
     val classesFileName = "${componentName}Classes".replaceFirstChar(Char::lowercase)
     val classesFile = definitionFile.parentFile.resolve("$classesFileName.d.ts")
 
-    if (classesFile.exists()) {
+    if (emitClasses && classesFile.exists()) {
         val classes = convertClasses(classesFileName.replaceFirstChar(Char::uppercase), classesFile)
         val annotation = moduleDeclaration(pkg, subpackage, componentName)
             .takeIf { "external val" in classes }

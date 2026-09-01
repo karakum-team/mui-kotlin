@@ -10,13 +10,38 @@ internal data class ConversionResult(
 internal fun convertClasses(
     classesName: String,
     definitionFile: File,
+    // Class-name keys of the OTHER classes interfaces the same pass emits, by interface name. Two jobs,
+    // both needing exactly this data:
+    //
+    //  - the `extends` gate. MUI-X spells the three PickersTextField input variants as
+    //    `export interface PickersOutlinedInputClasses extends PickersInputBaseClasses { notchedOutline }`
+    //    — a bare identifier naming a sibling this pass also emits, so it can survive as a real Kotlin
+    //    supertype and the child keeps the base's 15 class keys. x-tree-view's
+    //    `extends Omit<TreeViewClasses, '…'>` does NOT survive: `Omit<…>` is not a bare identifier, and
+    //    `TreeViewClasses` lives under `internals/` and is never generated. It keeps falling through to
+    //    the empty-marker branch below. Opt-in is the point — a blanket "keep the parent" would emit
+    //    unresolved references for Simple/RichTreeView.
+    //  - `override`. `PickersOutlinedInputClasses` RE-declares `notchedOutline`, which the base already
+    //    has; without `override` Kotlin reports VIRTUAL_MEMBER_HIDDEN.
+    //
+    // A flat set per parent is exact: no generated `*Classes` interface declares a grandparent
+    // (`PickersInputBaseClasses` itself has no `extends`), so there is nothing to close over transitively.
+    siblings: Map<String, Set<String>> = emptyMap(),
 ): String {
     val content = definitionFile.readText()
         .replace("\r\n", "\n")
 
-    val source = content.substringAfter("export interface $classesName {\n", "")
+    val (parent, source) = findClassesDeclaration(classesName, content) { it in siblings }
 
     if (source.isEmpty()) {
+        // A parent that passed the gate is a generated sibling, so it is kept even when the child adds
+        // nothing of its own — there the inheritance IS the whole declaration.
+        if (parent != null) {
+            return "sealed external interface $classesName : $parent\n" +
+                    "\n" +
+                    "external val ${classesName.replaceFirstChar(Char::lowercase)}: $classesName\n"
+        }
+
         // v9: SimpleTreeView/RichTreeView declare `export interface XxxClasses extends Omit<TreeViewClasses,
         // '…'> {}` — an empty body narrowing an INTERNAL base (`TreeViewClasses` lives under `internals/`
         // and isn't generated). Emit an empty marker interface so `classes` typing resolves; the individual
@@ -30,9 +55,72 @@ internal fun convertClasses(
         return "typealias $classesName = mui.system.$classesName"
     }
 
-    return "sealed external interface $classesName {\n${getClassesContent(source)}\n}\n" +
+    val supertype = if (parent != null) " : $parent" else ""
+    val inherited = parent?.let { siblings.getValue(it) }.orEmpty()
+
+    return "sealed external interface $classesName$supertype {\n${getClassesContent(source, inherited)}\n}\n" +
             "\n" +
             "external val ${classesName.replaceFirstChar(Char::lowercase)}: $classesName\n"
+}
+
+/**
+ * The class-name keys `classesName` declares in its OWN body, read without converting anything.
+ *
+ * [convertClasses] needs this about a *potential supertype* before it writes the child: which keys the
+ * parent owns is what decides which of the child's re-declarations need `override`. Built on the same
+ * [classMemberName] normalization as the emit path so the two cannot disagree.
+ */
+internal fun classesMemberNames(
+    classesName: String,
+    definitionFile: File,
+): Set<String> {
+    val content = definitionFile.readText()
+        .replace("\r\n", "\n")
+
+    // Any parent is accepted here: the caller wants this interface's own keys, and whether the parent
+    // survives into the emitted Kotlin is [convertClasses]' decision, not this one's.
+    val (_, source) = findClassesDeclaration(classesName, content) { true }
+
+    return source
+        .substringBefore("\n}\n")
+        .trimIndent()
+        .splitToSequence("\n")
+        .mapNotNull(::classMemberName)
+        .toSet()
+}
+
+/**
+ * `classesName`'s accepted parent (or null) paired with its declaration body (or `""` when it has none).
+ *
+ * Parent matching is deliberately narrow: requiring `\w+` immediately before the body brace matches
+ * `extends PickersInputBaseClasses {` and rejects both `extends Omit<TreeViewClasses, '…'>` and any
+ * multi-parent list. Everything it rejects — including a parent `acceptParent` turns down — falls back to
+ * the plain `interface X {` header and so keeps the pre-existing behaviour, which is what x-tree-view
+ * relies on.
+ *
+ * The body is cut at the end of the match rather than by rebuilding the header as a literal string. That
+ * matters: the pattern tolerates whitespace the literal would not (`extends Y  {`, or the brace on the
+ * next line), and reconstructing it would let a matched parent pair with an unfindable body — silently
+ * emitting the child with none of its own keys.
+ */
+private fun findClassesDeclaration(
+    classesName: String,
+    content: String,
+    acceptParent: (String) -> Boolean,
+): Pair<String?, String> {
+    val extended = Regex("""export interface ${Regex.escape(classesName)} extends (\w+)\s*\{\n""")
+        .find(content)
+
+    val parent = extended?.groupValues?.get(1)?.takeIf(acceptParent)
+
+    val source = if (parent != null)
+        content.substring(extended.range.last + 1)
+    else
+        content.substringAfter("export interface $classesName {\n", "")
+
+    // `X {\n}` — declared, but with nothing in it. Callers distinguish "no such interface" from "no
+    // members" by the parent, not by the body, so both are reported the same way.
+    return parent to source.takeUnless { it.trimStart().startsWith("}") }.orEmpty()
 }
 
 internal fun convertInlineClasses(
@@ -49,25 +137,50 @@ internal fun convertInlineClasses(
 
 private fun getClassesContent(
     source: String,
+    // Member names the supertype already declares. MUI-X re-states some of them in the child
+    // (`PickersOutlinedInputClasses` restates `notchedOutline`), and Kotlin needs an explicit `override`
+    // there. Applied in both branches below so a quoted, dashed key cannot silently skip the rule.
+    inherited: Set<String> = emptySet(),
 ): String = source
     .substringBefore("\n}\n")
     .trimIndent()
     .splitToSequence("\n")
-    .map {
-        val name = it.removeSuffix(": string;").removeSuffix("?")
-        if (name == it) return@map it
-        if (name.startsWith("'")) {
-            val jsName = name.removeSurrounding("'")
-            val camelCase = jsName.split("-").mapIndexed { i, s ->
-                val part = if (i == 0) s else s.replaceFirstChar { it.uppercaseChar() }
-                if (i == 0) part.dropWhile { !it.isLetter() && it != '_' } else part
-            }.joinToString("")
-            "@JsName(\"$jsName\")\nval $camelCase: ClassName"
+    .map { line ->
+        // Not a member declaration (JSDoc, blank line) — pass through verbatim.
+        val name = classMemberName(line) ?: return@map line
+        val modifier = if (name in inherited) "override " else ""
+        val declared = line.removeSuffix(": string;").removeSuffix("?")
+        if (declared.startsWith("'")) {
+            "@JsName(\"${declared.removeSurrounding("'")}\")\n${modifier}val $name: ClassName"
         } else {
-            "val $name: ClassName"
+            "${modifier}val $name: ClassName"
         }
     }
     .joinToString("\n")
+
+/**
+ * The Kotlin member name a `name: string;` line yields, or null when the line is not a member
+ * declaration at all. Quoted dashed keys (`'slideEnter-left': string;`) are camel-cased — the emit side
+ * pairs that with a `@JsName` carrying the original.
+ */
+private fun classMemberName(
+    line: String,
+): String? {
+    val declared = line.removeSuffix(": string;").removeSuffix("?")
+    if (declared == line)
+        return null
+
+    if (!declared.startsWith("'"))
+        return declared
+
+    return declared.removeSurrounding("'")
+        .split("-")
+        .mapIndexed { i, s ->
+            val part = if (i == 0) s else s.replaceFirstChar { it.uppercaseChar() }
+            if (i == 0) part.dropWhile { !it.isLetter() && it != '_' } else part
+        }
+        .joinToString("")
+}
 
 internal fun convertDefinitions(
     definitionFile: File,
