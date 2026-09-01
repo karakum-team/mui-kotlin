@@ -95,6 +95,65 @@ Phase 5b reached green but degraded types (widened to `Any`, dropped inheritance
 - `RichTreeViewSlots` keeps `TreeViewSlots` but not `RichTreeViewItemsSlots` — the internal `RichTreeViewItems`
   type drags in a `<TProps>` generic / `Ref` / slot overrides that don't translate.
 
+### Phase 5d — the pickers CSS-class objects (16 of 27 were never generated)
+
+The rule at the tail of `generate()` emits `<Component>.classes.kt` only for a
+`{componentName}Classes.d.ts` sitting beside the component's own `.d.ts`, and derives the
+`@file:JsModule` subpath from the component name. Both halves are wrong for `@mui/x-date-pickers`:
+
+- **Coverage.** Pickers ship **27** `*Classes.d.ts` under component directories; the rule reached **11**.
+  It can only ever find the one class object named after the component, but `TimeClock/` owns four
+  (`timeClock`, `clock`, `clockNumber`, `clockPointer`), `DateCalendar/` owns four (`dateCalendar`,
+  `dayCalendar`, `pickersFadeTransitionGroup`, `pickersSlideTransition`), and `PickersTextField/` owns
+  five — one at its own root plus one in each of four nested directories. Two owning directories —
+  `PickersTextField`, `PickersLayout` — are additionally in the component exclusion set, so their class
+  objects were unreachable twice over.
+- **Module path.** `dayCalendarClasses.d.ts` lives in `DateCalendar/`, so the component-name rule emitted
+  `@file:JsModule("@mui/x-date-pickers/DayCalendar")` — not a key of the package's `exports` map (54 keys,
+  no wildcard). That was the one pickers entry in the audit table further down this file.
+
+Replaced for pickers by `generatePickersClasses` (`Generator.kt`), which walks the types tree for
+`*Classes.d.ts` and takes the subpath from the **top-level** directory. That set is exactly the `exports`
+keys, and each such directory's `index.d.ts` re-exports every class object below it, nested ones included
+(`PickersTextField/index.d.ts` does `export * from "./PickersOutlinedInput/index.js"`). `generate()` gained
+`emitClasses` and is called with `emitClasses = false` throughout `generatePickersDeclarations` — replacing
+rather than supplementing, so `DayCalendar.classes.kt` cannot depend on which pass runs last.
+
+Discovered rather than listed on purpose: the 16-file gap is what a static list costs at a version bump.
+The first-segment `isComponentName()` filter is what keeps `internals/` and the bundled
+`node_modules/@mui/utils` out — the latter matters, because its `composeClasses.d.ts` and
+`generateUtilityClasses.d.ts` both match a naive `*Classes.d.ts` glob. A class object at the package root
+would be dropped by that filter too; upstream ships none, and one would need the `.` export rather than a
+subpath anyway.
+
+The two ways a bump could break this are asserted in `generatePickersClasses` rather than left to a
+browser to find: the derived subpath must be a key of the package's `exports` map, and no two class
+objects may map to the same `.classes.kt` filename.
+
+**`convertClasses` learned inheritance.** Three of the sixteen have a non-empty body *and* an `extends`:
+`PickersInputClasses`, `PickersFilledInputClasses` and `PickersOutlinedInputClasses` all extend
+`PickersInputBaseClasses` (15 keys). The first two add `underline`, for 16 keys each; the third only
+*re-declares* `notchedOutline`, which the base already has, so it stays at 15. They used to hit the
+empty-marker branch, which would have dropped every one of those keys. They now emit
+`sealed external interface X : PickersInputBaseClasses`, and the re-declared `notchedOutline` is emitted
+`override`.
+
+The parent is kept only when it is a **bare identifier** naming another interface the same pass emits.
+That gate is what leaves x-tree-view alone: `Simple/RichTreeViewClasses extends Omit<TreeViewClasses, '…'>`
+is neither a bare identifier nor a generated type, so both keep the empty marker they had.
+
+**Deliberately out of scope:** the five class objects under `internals/` — the `pickersToolbar*` trio plus
+`PickerPopper/pickerPopperClasses` and `PickersArrowSwitcher/pickersArrowSwitcherClasses`. They would have
+to bind to `@mui/x-date-pickers/internals`, which MUI can change without a semver signal.
+
+Covered in `playground/src/jsMain/kotlin/Pickers.kt` and checked in the browser: all 16 new class objects
+are referenced through typed members, as is `dayCalendarClasses` (the one whose subpath changed).
+`pickersOutlinedInputClasses.root` — an *inherited* key — is confirmed to reach the DOM, which is what
+proves the supertype carries the base's keys at runtime. The other 10 pre-existing pickers class objects
+are still uncovered.
+That page previously read `FC { Fragment.create { MonthCalendar { … } } }`, which discards the element it
+builds, so no picker had ever actually rendered there.
+
 ## The material theme is a hand-written stub — upstream additions do NOT flow in
 
 `mui.material.styles.Theme` / `ThemeOptions` are emitted as stubs over `mui.system.*`
@@ -124,8 +183,9 @@ aborts its dependency scan outright. This bit `ThemeProvider`, which is now boun
 `@mui/material/styles` barrel, as is the new `createTheme`.
 
 This is not confined to `ThemeProvider`. An audit of every `@file:JsModule` in the generated tree
-against the owning package's `exports` map turns up **10 files on unresolvable paths, each with a
-runtime declaration**:
+against the owning package's `exports` map turned up **10 files on unresolvable paths, each with a
+runtime declaration**. One of them, `muix/pickers/DayCalendar.classes.kt`, is fixed — see
+"Phase 5d" above. The remaining **9**:
 
 | module path | file |
 |---|---|
@@ -137,13 +197,12 @@ runtime declaration**:
 | `@mui/material/styles/useTheme` | `mui/material/styles/useTheme.kt` |
 | `@mui/system/createBreakpoints/createBreakpoints` | `mui/system/createBreakpoints.kt` |
 | `@mui/system/createTheme/createTheme` | `mui/system/createTheme.kt` |
-| `@mui/x-date-pickers/DayCalendar` | `muix/pickers/DayCalendar.classes.kt` |
 
 None of them is imported by the playground, which is why the class of defect stayed invisible —
 an unused external declaration emits no JS import, so nothing resolves and nothing fails.
 `compileKotlinJs` cannot see any of it. Expect each to break the first time a call site touches it;
 the fix in every case is the same rebinding onto the nearest valid subpath. Deliberately **not**
-done in this bump: ten rebindings each need their own browser proof.
+done in this bump: nine rebindings each need their own browser proof.
 
 ## Excluded components
 
