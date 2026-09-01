@@ -663,7 +663,6 @@ private fun generateStylesDeclarations(
                 body = """
                     external fun createTheme(
                         options: ThemeOptions = definedExternally,
-                        vararg args: Any,
                     ): Theme
                 """.trimIndent(),
                 pkg = Package.materialStyles,
