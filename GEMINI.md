@@ -1,4 +1,4 @@
-# CLAUDE.md — Project Instructions
+# GEMINI.md — Project Instructions
 
 This project uses a unified, tool-agnostic AI agent manual. To maintain project invariants, run commands, execute tasks, and understand conventions, please defer to the root `AGENTS.md` file:
 
