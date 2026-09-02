@@ -3,11 +3,7 @@
 package muix.tree.view
 
 import mui.system.Union
-import react.CSSProperties
-import react.Props
-import react.PropsWithChildren
-import react.ReactNode
-import react.Ref
+import react.*
 import web.dom.ElementId
 import web.html.HTMLLIElement
 
@@ -57,7 +53,7 @@ external interface UseTreeItemContextProviderProps : Props {
 external interface UseTreeItemRootSlotPropsFromUseTreeItem {
     var role: Union /* 'treeitem' */
 
-    var tabIndex: Any? /* 0 | -1 */
+    var tabIndex: Int
 
     var id: ElementId?
 
@@ -243,7 +239,7 @@ external interface UseTreeItemReturnValue {
     /**
      * A ref to the component's root DOM element.
      */
-    var rootRef: Any? /* React.RefCallback<HTMLLIElement> */
+    var rootRef: RefCallback<HTMLLIElement>?
 
     /**
      * Current status of the item.

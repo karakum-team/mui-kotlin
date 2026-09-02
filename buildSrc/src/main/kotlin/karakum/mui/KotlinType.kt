@@ -200,6 +200,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "TOption[]" to "ReadonlyArray<TOption>",
     "boolean | string" to "Boolean",
     "3 | 4" to "Number /* 3 | 4 */",
+    "0 | -1" to "Int",
 
     "Date" to "kotlin.js.Date",
 
@@ -236,6 +237,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.Ref<HTMLInputElement | HTMLTextAreaElement>" to "react.Ref<web.html.HTMLInputElement /* or web.html.HTMLTextAreaElement*/>",
     "React.ElementType<TableCellBaseProps>" to "react.ElementType<*>",
     "React.RefCallback<Element>" to "react.RefCallback<web.dom.Element>",
+    "React.RefCallback<HTMLLIElement>" to "react.RefCallback<web.html.HTMLLIElement>",
     "React.RefCallback<HTMLInputElement>" to "react.RefCallback<web.html.HTMLInputElement>",
     "React.RefCallback<HTMLInputElement | HTMLTextAreaElement>" to "react.RefCallback<web.html.HTMLInputElement /* or web.html.HTMLTextAreaElement*/>",
 
