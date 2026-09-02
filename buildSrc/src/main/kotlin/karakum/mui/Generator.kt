@@ -35,6 +35,7 @@ private val DEFAULT_IMPORTS = listOf(
 
     "JsVirtual" to "seskar.js.JsVirtual",
     "JsValue" to "seskar.js.JsValue",
+    "JsPlainObject" to "kotlinx.js.JsPlainObject",
 )
 
 // language=kotlin

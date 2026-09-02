@@ -4,6 +4,9 @@
 
 package muix.tree.view
 
-sealed external interface RichTreeViewClasses
+import kotlinx.js.JsPlainObject
+
+@JsPlainObject
+external interface RichTreeViewClasses
 
 external val richTreeViewClasses: RichTreeViewClasses

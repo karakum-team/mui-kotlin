@@ -37,7 +37,9 @@ internal fun convertClasses(
         // A parent that passed the gate is a generated sibling, so it is kept even when the child adds
         // nothing of its own — there the inheritance IS the whole declaration.
         if (parent != null) {
-            return "sealed external interface $classesName : $parent\n" +
+            return "@JsPlainObject" +
+                    "\n" +
+                    "external interface $classesName : $parent\n" +
                     "\n" +
                     "external val ${classesName.replaceFirstChar(Char::lowercase)}: $classesName\n"
         }
@@ -47,7 +49,9 @@ internal fun convertClasses(
         // and isn't generated). Emit an empty marker interface so `classes` typing resolves; the individual
         // class-name members are not expanded for now (see MUI_V9_TODO).
         if ("export interface $classesName extends " in content) {
-            return "sealed external interface $classesName\n" +
+            return "@JsPlainObject" +
+                    "\n" +
+                    "external interface $classesName\n" +
                     "\n" +
                     "external val ${classesName.replaceFirstChar(Char::lowercase)}: $classesName\n"
         }
@@ -58,7 +62,9 @@ internal fun convertClasses(
     val supertype = if (parent != null) " : $parent" else ""
     val inherited = parent?.let { siblings.getValue(it) }.orEmpty()
 
-    return "sealed external interface $classesName$supertype {\n${getClassesContent(source, inherited)}\n}\n" +
+    return "@JsPlainObject" +
+            "\n" +
+            "external interface $classesName$supertype {\n${getClassesContent(source, inherited)}\n}\n" +
             "\n" +
             "external val ${classesName.replaceFirstChar(Char::lowercase)}: $classesName\n"
 }
@@ -1309,8 +1315,8 @@ private fun findAdditionalProps(
                         // the shared base) — reading it means they keep `preventUnmountOnClose`.
                         keepEmptyBodyParents
                             -> findParentType(body)
-                                ?.let { " : $it" }
-                                ?: if (propsLike) " : react.Props" else ""
+                            ?.let { " : $it" }
+                            ?: if (propsLike) " : react.Props" else ""
 
                         interfaceName.endsWith("Props") -> " : react.Props"
                         else -> ""
