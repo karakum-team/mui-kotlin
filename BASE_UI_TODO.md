@@ -142,6 +142,29 @@ generated output's favour. Verify against the emitted `.kt`, not against the ent
   collision shift that proves `collisionPadding` pins the left edge regardless of it. Moving the trigger
   away from the viewport edge would expose it.
 
+- **`accordion` module** — 5 parts (`Root`, `Item`, `Header`, `Trigger`, `Panel`), picked as the fourth for its unique
+  declaration shapes. What it cost, each item a generator fix rather than a workaround:
+    - **`Pick<X>` and `Partial<X>` in multi-parent `extends` lists.** The multi-parent split path in
+      `findParentType` used `isAcceptableParent` which categorically rejected `TS_UTILITY_PREFIXES` (like
+      `Pick`, `Partial`, and `Omit`). Thus, `AccordionPanelProps` silently dropped `AccordionRootProps` and
+      `AccordionItemProps` dropped `UseCollapsibleRootParameters`. The fix explicitly unwraps `Pick`,
+      `Partial`, and `Omit` in the multi-parent split, allowing the interfaces to keep their intended parents.
+    - **The `BASE_UI_EXTRA_FILES` required for `UseCollapsibleRootParameters`.** Unwrapping `Pick` revealed that
+      `UseCollapsibleRootParameters` wasn't generated at all. It was added to `BASE_UI_EXTRA_FILES`
+      (along with `CollapsibleRoot.d.ts` for its `ChangeEventDetails`), providing a typed inheritance hierarchy instead
+      of `Any`.
+    - **Bound-less type parameter `<Value = any>`.** `substituteTypeParameterBounds` only substituted bounds declared
+      with `extends`. The signature `<Value = any>` lost its substitution entirely. The fix checks the `=` clause and
+      falls back to the default parameter, resulting in the correct generic substitution.
+    - **Generic Type Wrappers inside property types.** `AccordionRootProps.value` uses `AccordionValue<Value>`, which
+      `substituteTypeParameterBounds` failed to map since it only looked for exact member type matches via
+      `wholeMemberType`. Since `AccordionValue<X>` is functionally just `X[]`, the substitution logic now folds
+      `AccordionValue<...>` into `ReadonlyArray<...>` during substitution.
+- **Playground sample for `accordion`** — `BaseUiAccordion.kt`, all 5 namespace members: an uncontrolled accordion with
+  two items. Driven in a browser: the elements render correctly, the styles are correctly applied using `ClassName` on
+  the `className` props, and clicking the triggers updates the values while firing `onValueChange` with the array of
+  expanded items.
+
 - **`field` module** — 7 parts (`Root`, `Item`, `Error`, `Label`, `Description`, `Control`, `Validity`),
   picked as the third for what it unblocks: 12 modules inherit `FieldRootState`. It cost far less than
   `slider` did, and most of what the "Next up" analysis predicted did not happen:

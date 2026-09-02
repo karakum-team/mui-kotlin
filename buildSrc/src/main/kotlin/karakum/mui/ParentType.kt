@@ -144,6 +144,34 @@ internal fun findParentType(
             // RichTreeViewItemsSlots) keep their valid parent while dropping the internal one.
             val parents = parentSource.depthAwareSplit(',')
                 .map { it.trim() }
+                .map { parent ->
+                    // Unwrap utility types before checking acceptability
+                    when {
+                        parent.startsWith("Omit<") || parent.startsWith("Pick<") -> {
+                            val innerStart = parent.indexOf('<') + 1
+                            var depth = 0
+                            var topComma = -1
+                            for (i in innerStart until parent.length) {
+                                when (parent[i]) {
+                                    '<' -> depth++
+                                    '>' -> depth--
+                                    ',' -> if (depth == 0) {
+                                        topComma = i; break
+                                    }
+                                }
+                            }
+                            if (topComma >= 0) {
+                                parent.substring(innerStart, topComma).trim()
+                            } else {
+                                parent.removeSurrounding("${parent.substringBefore("<")}<", ">").trim()
+                            }
+                        }
+                        parent.startsWith("Partial<") -> {
+                            parent.removeSurrounding("Partial<", ">").trim()
+                        }
+                        else -> parent
+                    }
+                }
                 .filter { it.isNotEmpty() && it.isAcceptableParent() }
             when (parents.size) {
                 0 -> null

@@ -503,8 +503,8 @@ private fun String.substituteTypeParameterBounds(
                 if (name.isEmpty() || !isKnownTypeName(name, knownTypes))
                     return@mapNotNull null
 
-                val bound = parameter.substringAfter(" extends ", "").substringBefore(" = ").trim()
-                val default = parameter.substringAfter(" = ", "").trim()
+                val bound = if (" extends " in parameter) parameter.substringAfter(" extends ").substringBefore(" = ").trim() else ""
+                val default = if (" = " in parameter) parameter.substringAfter(" = ").trim() else ""
 
                 when (val replacement = bound.ifEmpty { default }) {
                     // Neither clause: nothing to put in its place, and the member will resolve to the
@@ -522,17 +522,19 @@ private fun String.substituteTypeParameterBounds(
         if (substitutions.isEmpty()) return@replace match.value
 
         val substituted = substitutions.fold(body) { acc, (name, replacement) ->
-            acc.replace(wholeMemberType(name), replacement)
+            val kotlinReplacement = if (replacement == "any") "Any" else replacement
+            acc.replace(Regex("""AccordionValue<${Regex.escape(name)}>"""), "ReadonlyArray<$kotlinReplacement>")
+                .replace(wholeMemberType(name), replacement)
         }
 
         "$header<$parameters>$substituted"
     }
 
-// The parameter as a whole member type: `defaultValue?: Value | undefined;`. Anchored on the `: ` that
+// The parameter as a whole member type: `defaultValue?: Value | undefined;` or `AccordionValue<Value> | undefined;`. Anchored on the `: ` that
 // opens the type and on the `;` that closes the member, so an occurrence anywhere else — a function
 // parameter, a type argument, an arm of a conditional — is left alone.
 private fun wholeMemberType(name: String): Regex =
-    Regex("""(?<=: )${Regex.escape(name)}(?=(?: \| undefined)?;)""")
+    Regex("""(?<=: )(?:AccordionValue<)?${Regex.escape(name)}(?:>)?(?=(?: \| undefined)?;)""")
 
 // `export interface X<params> …body…\n}` — the body runs to the first line-initial `}`, which is where
 // every declaration in these files ends (`expandEmptyInterfaceBodies` has already given the empty ones

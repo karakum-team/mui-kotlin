@@ -24,6 +24,7 @@ private val App = FC {
     BaseUiMenu()
     BaseUiSlider()
     BaseUiField()
+    BaseUiAccordion()
     TreeView()
     Theming()
 }

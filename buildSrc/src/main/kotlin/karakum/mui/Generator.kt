@@ -1002,6 +1002,7 @@ private val BASE_UI_MODULES = setOf(
     "menu",
     "slider",
     "field",
+    "accordion",
 )
 
 /**
@@ -1031,6 +1032,9 @@ private val BASE_UI_MODULES = setOf(
  */
 private val BASE_UI_EXTRA_FILES = setOf(
     "utils/useAnchorPositioning.d.ts",
+    // Base UI uses UseCollapsibleRootParameters from useCollapsibleRoot in AccordionItem
+    "collapsible/root/useCollapsibleRoot.d.ts",
+    "collapsible/root/CollapsibleRoot.d.ts",
 )
 
 // `Side` and `Align` are *not* here: both are declared in `utils/useAnchorPositioning.d.ts`, which
