@@ -47,6 +47,7 @@ private val KNOWN_TYPES = setOf(
     "ReadonlyArray<Value>",
     "PickerOnChangeFn",
     "CalendarPickerView",
+    "UseTreeItemStatus",
 
     "AlertColor",
     "GridDirection",
