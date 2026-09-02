@@ -16,6 +16,19 @@ The path `mui-kotlin/src/jsMain/kotlin/**` is **100% generated**. On every execu
 
 ---
 
+## Commit & Git Restrictions (Human Verification Required)
+
+To ensure quality, prevent regressions, and enforce human-in-the-loop verification, all AI agents must adhere to the
+following git workflow:
+
+* **Rule #3:** **NEVER commit changes on your own initiative.** Even if instructed, if the task is complex or should be
+  divided into multiple logical steps/commits, **stop and ask a human to review and commit.**
+* **Rule #4:** When a task is complete and ready for commit, prepare a detailed summary of your changes, compile the
+  project successfully, and request the human to verify and perform the commit (s). This allows human supervision over
+  all generated and modified files before they are finalized.
+
+---
+
 ## Technical & Build Workflows
 
 ### 1. Generating & Formatting Declarations
@@ -68,4 +81,5 @@ This repository contains specialized instruction files for specific agent roles,
 To ensure various tools load these guidelines automatically:
 *   **Claude CLI (Claude Code):** Defer to this `AGENTS.md` and standard commands defined herein via `CLAUDE.md`.
 *   **Gemini CLI:** Follows the global preferences and reads `GEMINI.md` which references `AGENTS.md`.
+* **Codex:** Defer to this `AGENTS.md` and standard commands defined herein via `CODEX.md`.
 *   **Cursor / Windsurf:** Refer to this manual in `.cursorrules` or `.windsurfrules`.
