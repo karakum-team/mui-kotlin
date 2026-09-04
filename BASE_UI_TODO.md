@@ -487,25 +487,23 @@ gap 5, how a name is resolved for one target without resolving it for the other;
   each needs its own design (see the imperative-API note under "Remaining phases"). `baseUiNamespaceObject`
   detects them by the absence of a generated `<Part>Props` and logs each one.
 
-## Next up: the fourth module
+## Next up: the fifth module
 
-`field` unblocked the form controls, and the cheapest of them is the obvious next step — but "cheapest"
-is now also "least informative", which is the tension `slider` and `field` were both picked against.
+Now that `field`, `accordion`, and `number-field` are done, we have covered form controls, arbitrary tag parents (`h3`), bound-less type parameters, and imperative APIs/custom events.
 
-- **`checkbox` / `switch` / `radio` (2 bindings each)** and the flat `checkbox-group` / `radio-group`.
-  All inherit `FieldRootState`, which now arrives from a real module rather than an extras entry, and
-  `Field.Item` is the wrapper they are built around — the `aria-describedby` quirk recorded in Done is
-  first checkable here. `radio-group` also brings the bound-less `<Value = any>` type parameter, which
-  `substituteTypeParameterBounds` handles through the *default* arm and has never exercised.
-- **`dialog` / `popover`** reuse `menu`'s whole machinery and would mostly re-run code that works.
-  Cheap, but they prove little.
-- **`tooltip` / `toast`** are the first to need `FloatingPortalLite.Props` in the stub table (gap 6),
-  and both hit the second-parent `Omit<` failure described below. `toast` also forces the gap 19
-  decision.
+The candidates for the fifth module:
+- **`toast`**: A high-signal candidate. It introduces the imperative API `createToastManager` / `useToastManager` requiring a design decision for non-component members (logged, but need typed export strategies). It forces a resolution for **Gap 19** (unrolled `Omit` restoring hidden members), and hits the multi-parent `Omit<UseAnchorPositioningSharedParameters, 'side' | 'anchor'>` bug in `ToastPositionerProps` (positioning parent dropped silently).
+- **`combobox` / `autocomplete`**: The largest remaining modules (28 and 23 bindings). They hit gaps 4, 6, and 13 at once and will test the generator's ability to handle highly complex composition and generic propagation.
+- **`checkbox` / `switch` / `radio`**: Low cost, but prove little new except `aria-describedby` testing and bound-less `<Value = any>` for `radio-group`.
 
-Whichever is taken, the bar `slider` and `field` set holds: each defect closed in the generator rather
-than worked around in the sample, a playground sample driven in a browser, and this document updated
-with what it actually cost — including where it contradicts what was predicted here.
+**Recommendation**: Take **`toast`**. It forces us to build the infrastructure for imperative APIs (`createToastManager`) which is required by 25 parts across the package. It also addresses the multi-parent `Omit` bug for positioners, unblocking `tooltip`, `popover`, and others.
+
+PLANK (same as for previous modules):
+1. Fix any defect in the generator (`buildSrc/src/main/kotlin/karakum/mui/`).
+2. No diff leakage in existing MUI output.
+3. Playground sample utilizing the new APIs and members, rendered in browser.
+4. Run code review on the final diff.
+5. Update `BASE_UI_TODO.md`.
 
 ## Remaining phases
 
