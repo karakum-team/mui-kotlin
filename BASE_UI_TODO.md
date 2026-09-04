@@ -142,6 +142,11 @@ generated output's favour. Verify against the emitted `.kt`, not against the ent
   collision shift that proves `collisionPadding` pins the left edge regardless of it. Moving the trigger
   away from the viewport edge would expose it.
 
+- **`number-field` module** — 7 bindings, plus `utils/types.d.ts`. What it cost:
+  - Custom event properties (`ChangeEventCustomProperties`) aren't declared in the same file; added `number-field/utils/types.d.ts` to `BASE_UI_EXTRA_FILES` to translate it and make it available.
+  - Negative integers in string literal unions (like `Direction`'s `-1`) failed to compile as `val s-1`; updated the generator to output `val sMinus1`.
+  - Added support for `Direction` and `DirectionalChangeReason` known types to correctly parse.
+
 - **`accordion` module** — 5 parts (`Root`, `Item`, `Header`, `Trigger`, `Panel`), picked as the fourth for its unique
   declaration shapes. What it cost, each item a generator fix rather than a workaround:
     - **`Pick<X>` and `Partial<X>` in multi-parent `extends` lists.** The multi-parent split path in
@@ -492,11 +497,6 @@ is now also "least informative", which is the tension `slider` and `field` were 
   `Field.Item` is the wrapper they are built around — the `aria-describedby` quirk recorded in Done is
   first checkable here. `radio-group` also brings the bound-less `<Value = any>` type parameter, which
   `substituteTypeParameterBounds` handles through the *default* arm and has never exercised.
-- **`accordion`** breaks the most new ground per binding: a `Pick<AccordionRoot.Props, …>` parent (a
-  `TS_UTILITY_PREFIXES` name that `isAcceptableParent` rejects outright, so the parent is dropped and
-  `unresolvedParents` cannot report it), an `'h3'` tag, and `AccordionRootProps<Value = any>`.
-- **`number-field` (7 bindings)** is the largest thing `field` directly unblocked and the first with a
-  scrub-area/imperative surface.
 - **`dialog` / `popover`** reuse `menu`'s whole machinery and would mostly re-run code that works.
   Cheap, but they prove little.
 - **`tooltip` / `toast`** are the first to need `FloatingPortalLite.Props` in the stub table (gap 6),

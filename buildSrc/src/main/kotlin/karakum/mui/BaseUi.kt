@@ -748,10 +748,11 @@ private fun String.interfaceEventDetails(): String =
         val customProperties = when {
             second == null -> null
 
-            // Declared in this file, so the converter will emit it and Kotlin can name it. `combobox`
-            // passes an inline object literal instead (`BaseUIGenericEventDetails<Reason, { … }>`),
+            // Assumed to be available because it is either declared in this file or imported from another.
+            // (e.g. `ChangeEventCustomProperties` is imported from `../utils/types.js`).
+            // `combobox` passes an inline object literal instead (`BaseUIGenericEventDetails<Reason, { … }>`),
             // which has no Kotlin form and no name to extend.
-            "export interface $second " in this || "export interface $second\n" in this -> second
+            !second.contains("{") -> second
 
             else -> {
                 println("Base UI: $name drops the extra properties of $base<…, $second>")

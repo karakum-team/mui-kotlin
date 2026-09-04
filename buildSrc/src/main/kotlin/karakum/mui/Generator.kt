@@ -1003,6 +1003,7 @@ private val BASE_UI_MODULES = setOf(
     "slider",
     "field",
     "accordion",
+    "number-field",
 )
 
 /**
@@ -1035,6 +1036,7 @@ private val BASE_UI_EXTRA_FILES = setOf(
     // Base UI uses UseCollapsibleRootParameters from useCollapsibleRoot in AccordionItem
     "collapsible/root/useCollapsibleRoot.d.ts",
     "collapsible/root/CollapsibleRoot.d.ts",
+    "number-field/utils/types.d.ts",
 )
 
 // `Side` and `Align` are *not* here: both are declared in `utils/useAnchorPositioning.d.ts`, which
@@ -1068,6 +1070,8 @@ private val BASE_UI_TRANSITION_STATUS =
 private val BASE_UI_KNOWN_TYPES = mapOf(
     "TransitionStatus" to "TransitionStatus?",
     "Side" to "Side",
+    "Direction" to "Direction",
+    "DirectionalChangeReason" to "DirectionalChangeReason",
 )
 
 // Types shared by every Base UI part that cannot be translated from their `.d.ts` and so are written

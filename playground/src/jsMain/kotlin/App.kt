@@ -25,6 +25,7 @@ private val App = FC {
     BaseUiSlider()
     BaseUiField()
     BaseUiAccordion()
+    BaseUiNumberField()
     TreeView()
     Theming()
 }

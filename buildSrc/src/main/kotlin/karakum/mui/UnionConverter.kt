@@ -114,7 +114,7 @@ private fun unionKey(
 ): String =
     when {
         value.toIntOrNull() != null
-            -> "s$value"
+            -> "s" + value.replace("-", "Minus")
 
         else -> value.removePrefix("@")
             .kebabToCamel()
