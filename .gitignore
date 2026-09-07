@@ -5,6 +5,9 @@ dist/
 .kotlin/
 .DS_Store
 
+.gemini/
+gemini
+
 # IDEA ignore list
 **/.idea/*
 !.idea/icon.png

@@ -52,7 +52,8 @@ Your work is diff-driven, so start from `git diff` — not from search. If you n
 ## Danger
 
 - **Never run `./gradlew` compile or generate tasks on your own initiative.** `compileKotlinJs` `dependsOn` `generateDeclarations`, which does `delete(src/jsMain/kotlin)` and rewrites the tree. Any project that depends on `:mui-kotlin` — including `:playground` — triggers the same chain. That would destroy the exact diff you were asked to review. If a compile check would settle a question, list it under "Not verified" and let the caller run it.
-- **Read-only git only**: `status`, `diff`, `show`, `log`, `stash list`. Never `commit`, `add`, `checkout`, `restore`, `stash push`, `clean`, `reset`.
+- **Read-only git only**: `status`, `diff`, `show`, `log`, `stash list`. Never `commit`, `add`, `checkout`, `restore`,
+  `stash push`, `../gemini`, `reset`.
 - **No writes anywhere** — not via a tool, not via shell redirection, not "just a scratch file".
 - Do not trust a comment or a doc claiming behaviour you can verify in code — verify it.
 
