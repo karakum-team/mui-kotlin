@@ -489,14 +489,14 @@ gap 5, how a name is resolved for one target without resolving it for the other;
 
 ## Next up: the fifth module
 
-Now that `field`, `accordion`, and `number-field` are done, we have covered form controls, arbitrary tag parents (`h3`), bound-less type parameters, and imperative APIs/custom events.
+Now that `field`, `accordion`, `number-field`, and `toast` are done, we have covered form controls, arbitrary tag
+parents (`h3`), bound-less type parameters, imperative APIs, and complex generic unrolling.
 
-The candidates for the fifth module:
-- **`toast`**: A high-signal candidate. It introduces the imperative API `createToastManager` / `useToastManager` requiring a design decision for non-component members (logged, but need typed export strategies). It forces a resolution for **Gap 19** (unrolled `Omit` restoring hidden members), and hits the multi-parent `Omit<UseAnchorPositioningSharedParameters, 'side' | 'anchor'>` bug in `ToastPositionerProps` (positioning parent dropped silently).
+The candidates for the sixth module:
 - **`combobox` / `autocomplete`**: The largest remaining modules (28 and 23 bindings). They hit gaps 4, 6, and 13 at once and will test the generator's ability to handle highly complex composition and generic propagation.
 - **`checkbox` / `switch` / `radio`**: Low cost, but prove little new except `aria-describedby` testing and bound-less `<Value = any>` for `radio-group`.
 
-**Recommendation**: Take **`toast`**. It forces us to build the infrastructure for imperative APIs (`createToastManager`) which is required by 25 parts across the package. It also addresses the multi-parent `Omit` bug for positioners, unblocking `tooltip`, `popover`, and others.
+**Recommendation**: Take **`combobox` / `autocomplete`**.
 
 PLANK (same as for previous modules):
 1. Fix any defect in the generator (`buildSrc/src/main/kotlin/karakum/mui/`).

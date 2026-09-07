@@ -1486,6 +1486,16 @@ private fun findAdditionalProps(
             "MultiSectionDigitalClockOption",
                 -> declaration += "<TSectionValue>"
 
+            "ToastObject",
+            "ToastManager",
+            "ToastManagerAddOptions",
+            "ToastManagerUpdateOptions",
+            "UseToastManagerReturnValue",
+                -> declaration = if (":" in declaration) declaration.replaceFirst(":", "<Data>:") else declaration + "<Data>"
+
+            "ToastManagerPromiseOptions",
+                -> declaration = if (":" in declaration) declaration.replaceFirst(":", "<Value, Data>:") else declaration + "<Value, Data>"
+
             "ListState",
                 -> declaration += "<ItemValue>"
 

@@ -26,6 +26,7 @@ private val App = FC {
     BaseUiField()
     BaseUiAccordion()
     BaseUiNumberField()
+    BaseUiToast()
     TreeView()
     Theming()
 }

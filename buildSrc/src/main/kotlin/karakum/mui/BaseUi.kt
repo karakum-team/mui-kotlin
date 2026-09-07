@@ -185,13 +185,25 @@ internal fun baseUiNamespaceObject(
         return null
     }
 
-    val unexposedNote = if (unexposed.isEmpty()) "" else
+    val methods = unexposed.mapNotNull { part ->
+        when (part.alias) {
+            "createToastManager" -> "fun <Data : Any> createToastManager(): ToastManager<Data>"
+            "useToastManager" -> "fun <Data : Any> useToastManager(): UseToastManagerReturnValue<Data>"
+            else -> null
+        }
+    }
+
+    val unexposedRemaining = unexposed.filter { part ->
+        part.alias !in listOf("createToastManager", "useToastManager")
+    }
+
+    val unexposedNote = if (unexposedRemaining.isEmpty()) "" else
         "\n *\n * Omitted, having no generated props type: " +
-                unexposed.joinToString(", ") { "`${it.alias}`" } + "."
+                unexposedRemaining.joinToString(", ") { "`${it.alias}`" } + "."
 
     val members = components.joinToString("\n") { part ->
         "val ${part.alias}: react.FC<${part.declaredName}Props>"
-    }
+    } + (if (components.isNotEmpty() && methods.isNotEmpty()) "\n\n" else "") + methods.joinToString("\n")
 
     // Emitted without indentation, as every generated body is — `formatDeclarations` lays out the tree
     // afterwards.

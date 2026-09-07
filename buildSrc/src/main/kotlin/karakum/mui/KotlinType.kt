@@ -35,6 +35,7 @@ private val KNOWN_TYPES = setOf(
     "TSectionValue",
     "TOption",
     "OptionValue",
+    "Data",
     // MUI-X v9 named model types (defined as aliases/interface in PICKERS_STUBS) — keep their NAME on
     // members (e.g. `var value: PickerValidDate?`) instead of falling back to `Any? /* PickerValidDate */`.
     "PickerValidDate",
@@ -196,6 +197,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "Readonly<boolean>" to "Boolean",
     "string[]" to "ReadonlyArray<String>",
     "TValue[]" to "ReadonlyArray<TValue>",
+    "ToastObject<Data>[]" to "ReadonlyArray<ToastObject<Data>>",
     "ItemValue[]" to "ReadonlyArray<ItemValue>",
     "OptionValue[]" to "ReadonlyArray<OptionValue>",
     "TOption[]" to "ReadonlyArray<TOption>",
