@@ -6,8 +6,9 @@ Current status and handoff for the `@base-ui/react` generator target, the succes
 
 **Status reviewed:** 2026-10-01. Latest migration implementation commit: `f296d5bd` (Toast, 2026-09-07).
 
-**Target version:** `base-ui-react.version=1.6.0` (published 2026-06-18). Pinned deliberately — Base UI
-had breaking changes across 1.x.
+**Target version:** `base-ui-react.version=1.8.0`. Updated from `1.6.0` on 2026-10-01, with generator
+adaptations and browser verification recorded below. The version remains pinned because Base UI
+has changed declaration shapes across 1.x.
 
 **Where this stands:** six modules are in `BASE_UI_MODULES` in `Generator.kt`: `menu`, `slider`,
 `field`, `accordion`, `number-field`, and `toast`. All have generated declarations, runtime namespace
@@ -61,6 +62,54 @@ fixed the multi-parent utility-type rejection before `toast` arrived.
   instances, the documented Kotlin `render` callback-name warning, and a missing `favicon.ico` (404).
 
 ## Done
+
+### Base UI 1.6 → 1.8 update (2026-10-01)
+
+- Updated all four npm workspaces and the root installation to `@base-ui/react@1.8.0`, with
+  `@base-ui/utils@0.4.0`. Used `kotlinUpgradePackageLock --rerun-tasks` to avoid stale workspace
+  package declarations. The checked-in Kotlin npm lock matches the installed lock byte-for-byte.
+  MUI, Kotlin tooling, Emotion, and date-fns pins are unchanged; no modules were added to the allow-list.
+- Switched the selected positioning dependency from `utils/useAnchorPositioning.d.ts` to
+  `internals/useAnchorPositioning.d.ts`. `MenuPositionerProps` now redeclares `side`/`align` through
+  indexed access; target-scoped mappings preserve `Side?`/`Align?` and all other inherited props.
+- NumberField's `DirectionalChangeReason` is now a union of `typeof REASONS.*`. Resolve the constants
+  from upstream `internals/reason-parts.d.ts`, only for this existing public alias. Its generated
+  literal union is byte-identical to 1.6. Unknown constants fail explicitly rather than dropping an arm.
+- Menu and Toast portals now inherit their element props directly. Toast gains generated state
+  helpers and `children`/`container`; the sample no longer casts `Toast.Portal` to recover children.
+  The legacy `FloatingPortalProps` stub remains for compatibility, but no enabled 1.8 module uses it;
+  the existing unused-namespace-stub diagnostic is expected. It is not a complete binding of the
+  current internal FloatingPortal API (which also has an ignored `portalOwnerRole`).
+- `ToastManagerUpdate<Data>` is a targeted callable-interface adaptation for the object and updater
+  callback forms of `update`, on both manager interfaces. It preserves manager `Data`, but not the
+  additional per-call `T extends Data` parameter. `ToastManagerUpdateOptions` is still empty due to
+  nested `Partial<Omit<...>>` (gap 19); the sample declares a local title/description extension.
+- Collapsible's panel IDs retain `String?`, and its changed setter becomes `StateSetter<String?>`,
+  supporting both value and updater forms. Its internal return-value binding is compile-checked;
+  the internal hook itself is not exported or exercised directly by the playground.
+- Existing limitations are not closed by this bump: Field's wider validation return type still uses
+  the callback fallback; anchor positioning's new internal `shift` object stays `Any?` with its TS
+  shape recorded. General `undefined` nullability (including `ThumbMetadata.inputId`), utility-type
+  selection, generics, and non-component exports remain backlog items.
+
+Verification:
+
+- `:buildSrc:test` — three tests pass (constant resolution, legacy literals, unknown-constant failure).
+- Both `compileKotlinJs` tasks and `jsDevelopmentExecutableCompileSync` pass with zero errors.
+- `:mui-kotlin:clean build` passes, including the production Vite bundle. SHA-256 manifests of all
+  **744** generated files match before/after clean regeneration. No generated MUI/MUI X/date-io changes.
+- Chrome: Menu renders into `body`, reports `bottom/start`, toggles Shuffle, supports arrow-key
+  navigation and Escape with focus returned to the trigger. Slider changes `40` → `45` by keyboard
+  with change/commit reasons; Field rejects `demo@invalid.com`, then accepts `demo@example.com` and
+  imperative validation. Accordion opens the second panel. NumberField increments/decrements and
+  handles ArrowUp; the sample consumes the regenerated reason constants and names its input Quantity.
+- Toast renders into the typed portal, creates and closes a notification; all four update combinations
+  (external/hook manager × object/callback) work. Callback descriptions display the previous title.
+- No new JS exceptions. Existing duplicate-Emotion and Kotlin callback-name warnings and favicon 404
+  remain. Production `use client`/chunk-size and JDK/Gradle warnings remain non-fatal. Gradle browser
+  tests have no sources; the browser checks above are interactive, not an automated accessibility audit.
+
+The implementation history below describes the original integration unless it explicitly mentions 1.8.
 
 - **P0** — dependency + generator plumbing. `generateKotlinDeclarations` takes the `node_modules` root
   instead of `build/js/node_modules/@mui`; `Package` carries a `scope` so `moduleDeclaration` no longer
@@ -201,9 +250,9 @@ fixed the multi-parent utility-type rejection before `toast` arrived.
     rejection had already been fixed with Accordion; preserving the actual omitted member set remains
     open (gap 19).
   - `BaseUiToast.kt` connects an external manager to `Toast.Provider`, adds a toast, reads the list with
-    the hook, and renders title, description, and a close button through a portal. It uses unsafe casts,
-    including a Portal cast to recover `children`; it does not exercise `Action`, `Arrow`, manager
-    `update` / `promise`, or anchored positioning. These remain verification work.
+    the hook, and renders title, description, and a close button through a portal. The 1.8 update removed
+    the Portal cast and added all four manager `update` combinations. `Action`, `Arrow`, manager
+    `promise`, and anchored positioning remain verification work.
 
 - **`accordion` module** — 5 parts (`Root`, `Item`, `Header`, `Trigger`, `Panel`), picked as the fourth for its unique
   declaration shapes. What it cost, each item a generator fix rather than a workaround:
@@ -383,10 +432,10 @@ Gap 21 records the direct-export prerequisite identified while ordering the rema
    is a design change rather than a line change, hence not in this commit.
 6. **The alias map covers the selected part and extra files, not the whole package.** Enough for `menu`, but
    combobox and autocomplete each lose 3 references (`AriaCombobox.ChangeEventDetails`,
-   `.ChangeEventReason`, `.HighlightEventDetails`), tooltip and toast lose `FloatingPortalLite.Props`,
-   field loses `Form.ValidationMode` / `Form.Values`. Toast is now affected in generated output:
-   `ToastPortalProps : Props` has no `children` or `container`, and the sample casts it to
-   `FC<PropsWithChildren>` to mount the viewport. Also the two-level form `Menu.Root.Props`
+   `.ChangeEventReason`, `.HighlightEventDetails`), and field loses `Form.ValidationMode` / `Form.Values`.
+   The old Toast portal loss is closed by 1.8's direct `BaseUIComponentProps` parent; Tooltip and
+   PreviewCard upstream portals now have that shape too, but their modules are not integrated yet.
+   Also the two-level form `Menu.Root.Props`
    (`context-menu`) and `Field.Control.Props` (`input`) is not expressible by the current
    `Namespace.Member` keys at all — the needed mapping already exists in `BaseUiPart(alias,
    declaredName)` as `"$Namespace.$alias" -> declaredName`.
@@ -542,15 +591,15 @@ Gap 21 records the direct-export prerequisite identified while ordering the rema
    `createToastManager` / `useToastManager` are callable namespace methods, not omitted exports.
    Remaining observable gaps:
 
-   - `ToastPortalProps` loses its `FloatingPortalLite.Props` parent and its element props (gap 6).
-     The playground's `FC<PropsWithChildren>` cast is a workaround, not a generator fix.
-   - `ToastObject<Data>.data` is `Any?`; manager `add` / `update` use options parameterized with
+   - Portal element props and the sample Portal cast are resolved in 1.8 (see update record above).
+   - `ToastObject<Data>.data` is `Any?`; manager `add` uses options parameterized with
      `Props`, and `promise` uses `Promise<Props>` / `Promise<*>`. The declared parameters do not yet
-     preserve the caller's `Data` and promise result types through the API.
+     preserve the caller's `Data` and promise result types throughout the API. `update` now preserves
+     manager `Data` in both overloads, but not the extra per-call subtype parameter.
    - `ToastManagerUpdateOptions<Data>` is empty, while `ToastManagerAddOptions` and
      `ToastManagerPositionerProps` restore omitted members (gap 19).
-   - The sample covers manager creation, adding/listing toasts, and a component close button. Extend
-     it to cover `Action`, `Arrow`, manager `close` / `update` / `promise`, custom data, and anchored
+   - The sample covers manager creation, adding/listing toasts, both update forms on both managers,
+     and a component close button. Extend it to cover `Action`, `Arrow`, manager `close` / `promise`, custom data, and anchored
      positioning, and record browser results before treating the module as fully verified.
    - Generation still logs the two manager methods as "not exposed" before adding them through
      explicit cases. Correct that diagnostic when generalizing non-component exports.
@@ -576,9 +625,9 @@ Gap 21 records the direct-export prerequisite identified while ordering the rema
   including `number-field/utils/types.d.ts`, `collapsible/root/useCollapsibleRoot.d.ts`, and
   `collapsible/root/CollapsibleRoot.d.ts`. The public, type-only `types/` entry is not generated as
   a module either; shared event-details types currently come from stubs.
-  The *package-level* `utils/` is also selected explicitly: `utils/useAnchorPositioning.d.ts` supplies
-  the positioning declarations, while `utils/FloatingPortalLite.d.ts` is still needed for Toast's
-  missing portal parent (gap 6). Note `store/` is *not* excluded: `menu/store/MenuHandle.d.ts` is
+  `internals/useAnchorPositioning.d.ts` explicitly supplies the positioning declarations;
+  `internals/reason-parts.d.ts` supplies constant values for NumberField's existing reason union.
+  Toast no longer needs a `FloatingPortalLite.Props` parent in 1.8. Note `store/` is *not* excluded: `menu/store/MenuHandle.d.ts` is
   listed in `index.parts.d.ts` and does reach `generate()`; it produces no file only because
   `declare class` converts to an empty body.
 - `*DataAttributes.d.ts` / `*CssVars.d.ts` — **these are `declare enum`s with string values**
@@ -657,9 +706,9 @@ dependencies are satisfied; this group does not require one large generator rewr
 - [ ] **Known type-quality fixes:** nullable `undefined` in the Base UI path (gap 3), concrete
   indexed-access mappings (gap 10), and double-nullability cleanup with function/return types
   distinguished (gap 18). Prioritize gap 3 when touching affected state declarations.
-- [ ] **Toast portal:** resolve `FloatingPortalLite.Props` and recover `children` / `container`
-  (gaps 6 and 20), then remove the sample's Portal cast and verify it. The same parent is needed by
-  Tooltip and PreviewCard in group 3.
+- [x] **Toast portal:** 1.8 exposes a direct element-props parent; `children` / `container` and state
+  helpers are generated, the Portal cast is removed, and browser rendering is verified. Tooltip and
+  PreviewCard now have the same upstream parent shape; verify them when integrating group 3.
 - [ ] Generate data-attribute/CSS-variable constants from the upstream string enums, using a
   consistent Kotlin naming scheme. This is a separate bounded API addition, not a prerequisite
   for component rendering.
@@ -679,7 +728,8 @@ portals, and event flows have to work together. A successful compilation is only
   resolution; NavigationMenu adds navigation elements and coordinated viewport behavior. Exercise
   keyboard navigation and nested menus; retain the generic/member-selection backlog.
 - [ ] Extend the existing Toast sample with `Action`, `Arrow`, explicit manager `close`, and anchored
-  positioning (gap 20). Typed update/promise/custom-data coverage follows the group 4 fixes.
+  positioning (gap 20). Full update-options typing and promise/custom-data coverage follow group 4;
+  both update call forms are already browser-verified by the 1.8 sample.
 - [ ] Verify `alignOffset` independently of collision shifting, then check inherited positioning
   props and transitive state helpers on each new module (gap 11 follow-up).
 

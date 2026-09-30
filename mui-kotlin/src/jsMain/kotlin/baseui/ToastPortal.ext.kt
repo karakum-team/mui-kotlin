@@ -9,32 +9,32 @@ import web.cssom.ClassName
 import web.html.HTMLElement
 
 /**
- * The state-dependent arm of `MenuPortalProps.className`, upstream
- * `string | ((state: MenuPortalState) => string | undefined)`.
+ * The state-dependent arm of `ToastPortalProps.className`, upstream
+ * `string | ((state: ToastPortalState) => string | undefined)`.
  *
  * The prop itself is `Any?`: it is inherited through [BaseUiDivProps] from a parent shared by every part that
  * renders this tag, which cannot name one part's state type. Assign a [ClassName] directly
  * when the class does not depend on state.
  */
-fun MenuPortalProps.className(
-    block: (state: MenuPortalState) -> ClassName?,
+fun ToastPortalProps.className(
+    block: (state: ToastPortalState) -> ClassName?,
 ) {
     className = block
 }
 
 /**
- * The state-dependent arm of `MenuPortalProps.style`, upstream
- * `CSSProperties | ((state: MenuPortalState) => CSSProperties | undefined)`. See [MenuPortalProps.className].
+ * The state-dependent arm of `ToastPortalProps.style`, upstream
+ * `CSSProperties | ((state: ToastPortalState) => CSSProperties | undefined)`. See [ToastPortalProps.className].
  */
-fun MenuPortalProps.style(
-    block: (state: MenuPortalState) -> CSSProperties?,
+fun ToastPortalProps.style(
+    block: (state: ToastPortalState) -> CSSProperties?,
 ) {
     style = block
 }
 
 /**
- * The callback arm of `MenuPortalProps.render`, upstream
- * `ReactElement | ((props: HTMLProps, state: MenuPortalState) => ReactElement)`.
+ * The callback arm of `ToastPortalProps.render`, upstream
+ * `ReactElement | ((props: HTMLProps, state: ToastPortalState) => ReactElement)`.
  *
  * `props` are the ones Base UI expects on the element the callback returns; upstream types them as its
  * own `HTMLProps`, which is `HTMLAttributes<any> & { ref }`. Assign a [ReactElement] directly to
@@ -50,8 +50,8 @@ fun MenuPortalProps.style(
  * wrappers' `jsx` reports "Both `children` source options used" and keeps the builder's, dropping the
  * ones that came in through `props`.
  */
-fun MenuPortalProps.render(
-    block: (props: HTMLAttributes<HTMLElement>, state: MenuPortalState) -> ReactElement<*>,
+fun ToastPortalProps.render(
+    block: (props: HTMLAttributes<HTMLElement>, state: ToastPortalState) -> ReactElement<*>,
 ) {
     render = block
 }

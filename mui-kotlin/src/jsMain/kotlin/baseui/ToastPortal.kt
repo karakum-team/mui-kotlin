@@ -7,10 +7,12 @@
 
 package baseui
 
-import react.Props
-
-external interface ToastPortalProps : Props {
-
+external interface ToastPortalProps :
+    BaseUiDivProps {
+    /**
+     * A parent element to render the portal element into.
+     */
+    var container: Any? /* HTMLElement | ShadowRoot | React.RefObject<HTMLElement | ShadowRoot | null> */
 }
 
 external interface ToastPortalState

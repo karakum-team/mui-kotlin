@@ -178,7 +178,7 @@ external interface UseAnchorPositioningParameters : UseAnchorPositioningSharedPa
 
     var collisionAvoidance: Any? /* CollisionAvoidance */
 
-    var shiftCrossAxis: Boolean?
+    var shift: Any? /* { crossAxis?: boolean | undefined; rootBoundary?: 'layoutViewport' | undefined; } */
 
     var lazyFlip: Boolean?
 
@@ -208,7 +208,7 @@ external interface UseAnchorPositioningReturnValue {
 
     var anchorHidden: Boolean
 
-    var refs: Any /* ReturnType<typeof useFloating>['refs'] */
+    var refs: Any /* UseFloatingReturn['refs'] */
 
     var context: Any? /* FloatingContext */
 

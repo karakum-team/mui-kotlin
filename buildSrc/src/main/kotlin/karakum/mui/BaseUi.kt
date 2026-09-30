@@ -426,6 +426,28 @@ internal fun adaptBaseUiContent(
         .arrowifyMethodSignatures()
 
 /**
+ * 1.8 expresses NumberField's existing literal union through REASONS constants. Resolve only this
+ * already-exposed alias from upstream, rather than hardcoding its values or changing every event API.
+ * An unknown constant is an error: silently losing one arm would narrow the public union incorrectly.
+ */
+internal fun resolveBaseUiDirectionalReasons(content: String, reasonParts: String): String {
+    val declaration = Regex("""export type DirectionalChangeReason = ([^;]+);""")
+    return declaration.replace(content) { match ->
+        val constants = Regex("""export declare const (\w+): ('[^']+');""")
+            .findAll(reasonParts)
+            .associate { it.groupValues[1] to it.groupValues[2] }
+        val values = match.groupValues[1].split(" | ").map { arm ->
+            if (arm.startsWith("'") && arm.endsWith("'")) arm
+            else {
+                require(arm.startsWith("typeof REASONS.")) { "Unsupported DirectionalChangeReason arm: $arm" }
+                requireNotNull(constants[arm.removePrefix("typeof REASONS.")]) { "Unknown Base UI reason: $arm" }
+            }
+        }
+        "export type DirectionalChangeReason = ${values.joinToString(" | ")};"
+    }
+}
+
+/**
  * Removes a top-level `interface` that upstream does not export.
  *
  * The converter already declines to emit one, so this changes no output directly — what it changes is

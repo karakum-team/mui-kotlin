@@ -14,7 +14,7 @@
 ## Base UI migration
 
 Migration to `@base-ui/react` is **in progress**, alongside the frozen `@mui/base` bindings.
-The target is pinned to **1.6.0**. Six modules are generated in the `baseui` package and have
+The target is pinned to **1.8.0**. Six modules are generated in the `baseui` package and have
 playground samples: **Menu, Slider, Field, Accordion, NumberField, and Toast**. Their type coverage
 is still incomplete; the remaining modules and generator limitations are tracked in
 [BASE_UI_TODO.md](BASE_UI_TODO.md), the current migration status and handoff document.

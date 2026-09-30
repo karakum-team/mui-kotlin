@@ -18,7 +18,7 @@ external interface ToastManager<Data> {
 
     var close: (id: String?) -> Unit
 
-    var update: (id: String, updates: ToastManagerUpdateOptions<Props>) -> Unit
+    var update: ToastManagerUpdate<Data>
 
     var promise: (promiseValue: Promise<Props>, options: ToastManagerPromiseOptions<Props, Props>) -> Promise<*>
 }

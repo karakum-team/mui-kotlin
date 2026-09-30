@@ -25,7 +25,7 @@ external interface SliderRootProps :
     var disabled: Boolean?
 
     /**
-     * Options to format the input value.
+     * Options to format the value.
      */
     var format: Any? /* Intl.NumberFormatOptions */
 
@@ -108,13 +108,15 @@ external interface SliderRootProps :
 
     /**
      * The value of the slider.
-     * For ranged sliders, provide an array with two values.
+     * For range sliders, provide an array with one value per thumb.
      */
     var value: Any? /* number | readonly number[] */
 
     /**
      * Callback function that is fired when the slider's value changed.
-     * You can pull out the new value by accessing `event.target.value` (any).
+     * Receives the new value as the first argument; the originating event is
+     * available as `eventDetails.event`. The value is also reflected on
+     * `eventDetails.event.target.value` for form integration.
      *
      * The `eventDetails.reason` indicates what triggered the change:
      *

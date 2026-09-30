@@ -10,7 +10,22 @@ package baseui
 external interface MenuPositionerProps :
     UseAnchorPositioningSharedParameters,
     BaseUiDivProps {
+    /**
+     * How to align the popup relative to the specified side.
+     *
+     * Submenus and menubars default to `'start'`.
+     * @default 'center'
+     */
+    var align: Align?
 
+    /**
+     * Which side of the anchor element to align the popup against.
+     * May automatically change to avoid collisions.
+     *
+     * Submenus and vertical menubars default to `'inline-end'`.
+     * @default 'bottom'
+     */
+    var side: Side?
 }
 
 external interface MenuPositionerState {

@@ -1,4 +1,5 @@
 import baseui.NumberField
+import baseui.DirectionalChangeReason
 import baseui.NumberFieldRootChangeEventDetails
 import baseui.NumberFieldRootCommitEventDetails
 import baseui.className
@@ -10,6 +11,7 @@ import web.cssom.ClassName
 
 val BaseUiNumberField = FC {
     var currentValue by useState<Number?>(5)
+    var lastReason by useState("-")
 
     div {
         className = ClassName("base-ui-number-field-sample")
@@ -19,6 +21,12 @@ val BaseUiNumberField = FC {
             onValueChange = { value, details: NumberFieldRootChangeEventDetails ->
                 console.log("NumberField change:", value, details.reason, details.direction)
                 currentValue = value
+                lastReason = when (details.reason) {
+                    DirectionalChangeReason.incrementPress.toString() -> "increment"
+                    DirectionalChangeReason.decrementPress.toString() -> "decrement"
+                    DirectionalChangeReason.keyboard.toString() -> "keyboard"
+                    else -> details.reason
+                }
             }
             onValueCommitted = { value, details: NumberFieldRootCommitEventDetails ->
                 console.log("NumberField commit:", value, details.reason)
@@ -44,6 +52,7 @@ val BaseUiNumberField = FC {
 
                 NumberField.Input {
                     className = ClassName("number-input")
+                    ariaLabel = "Quantity"
                 }
 
                 NumberField.Increment {
@@ -51,6 +60,10 @@ val BaseUiNumberField = FC {
                     +"+"
                 }
             }
+        }
+        span {
+            className = ClassName("number-reason")
+            +"reason=$lastReason"
         }
     }
 }

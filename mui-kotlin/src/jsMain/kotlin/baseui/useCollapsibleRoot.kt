@@ -7,6 +7,8 @@
 
 package baseui
 
+import react.StateSetter
+
 external interface UseCollapsibleRootParameters {
     /**
      * Whether the collapsible panel is currently open.
@@ -36,6 +38,8 @@ external interface UseCollapsibleRootParameters {
 }
 
 external interface UseCollapsibleRootReturnValue {
+    var defaultPanelId: String?
+
     /**
      * Whether the component should ignore user interaction.
      */
@@ -55,13 +59,13 @@ external interface UseCollapsibleRootReturnValue {
      */
     var open: Boolean
 
-    var panelId: Any /* React.HTMLAttributes<Element>['id'] */
+    var panelId: String?
 
     var setMounted: (nextMounted: Boolean) -> Unit
 
     var setOpen: (open: Boolean) -> Unit
 
-    var setPanelIdState: (id: String?) -> Unit
+    var setPanelIdState: StateSetter<String?>
 
     var transitionStatus: TransitionStatus?
 }

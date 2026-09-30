@@ -49,6 +49,7 @@ external interface MenuSubmenuTriggerProps :
 
     /**
      * Whether the menu should also open when the trigger is hovered.
+     * @default true
      */
     var openOnHover: Boolean?
 }

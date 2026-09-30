@@ -116,7 +116,7 @@ external interface UseToastManagerReturnValue<Data> {
 
     var close: (toastId: String?) -> Unit
 
-    var update: (toastId: String, options: ToastManagerUpdateOptions<Props>) -> Unit
+    var update: ToastManagerUpdate<Data>
 
     var promise: (promise: Promise<Props>, options: ToastManagerPromiseOptions<Props, Props>) -> Promise<*>
 }

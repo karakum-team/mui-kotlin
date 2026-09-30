@@ -13,7 +13,7 @@ Current status and implementation backlog: [BASE_UI_TODO.md](BASE_UI_TODO.md).
 `@mui/base` is frozen at `5.0.0-beta.70` and is **npm-deprecated** ("This package has been replaced by
 `@base-ui/react`"). It will not receive a v9 (or any further) release, so it stayed at beta.70 through the
 MUI v9 migration. The headless layer now lives as a **separate library**, Base UI (`@base-ui/react`, pinned
-to `1.6.0` here), with its own package, versioning, and **different `.d.ts`
+to `1.8.0` here), with its own package, versioning, and **different `.d.ts`
 shapes** (component anatomy split into parts, different slot/render-prop conventions, no `componentsProps`).
 
 **Already implemented:**

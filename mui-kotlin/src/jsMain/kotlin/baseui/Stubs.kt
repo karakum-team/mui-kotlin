@@ -64,3 +64,13 @@ external interface FloatingPortalProps : BaseUiDivProps {
      */
     var container: Any? /* HTMLElement | ShadowRoot | React.RefObject<HTMLElement | ShadowRoot | null> | null */
 }
+
+/**
+ * The two arms of the 1.8 Toast manager update function. The manager's Data type is preserved;
+ * the additional per-call T extends Data parameter is not represented. UpdateOptions' existing
+ * Partial/Omit limitation is unchanged (see BASE_UI_TODO.md).
+ */
+sealed external interface ToastManagerUpdate<Data> {
+    operator fun invoke(id: String, updates: ToastManagerUpdateOptions<Data>)
+    operator fun invoke(id: String, updates: (prevToast: ToastObject<Data>) -> ToastManagerUpdateOptions<Data>)
+}

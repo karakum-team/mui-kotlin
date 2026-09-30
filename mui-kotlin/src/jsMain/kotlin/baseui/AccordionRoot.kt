@@ -63,6 +63,7 @@ external interface AccordionRootProps :
 external interface AccordionRootState {
     /**
      * The current value.
+     * Treat it as read-only: it may be a shared frozen array when no value is set.
      */
     var value: Any? /* ReadonlyArray<Any> */
 

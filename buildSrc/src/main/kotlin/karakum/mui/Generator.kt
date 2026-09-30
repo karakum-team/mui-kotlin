@@ -997,7 +997,7 @@ private fun generatePickersClasses(
     }
 }
 
-// Base UI modules covered so far, out of the 44 public ones. Kept as an explicit allow-list rather
+// Base UI modules covered so far. Kept as an explicit allow-list rather
 // than scanning the `exports` map, so that what is generated stays reviewable as the target grows.
 private val BASE_UI_MODULES = setOf(
     "menu",
@@ -1026,22 +1026,21 @@ private val BASE_UI_MODULES = setOf(
  * allow-list: the generated tree is byte-identical either way, so the entry really was redundant rather
  * than merely harmless.
  *
- * `useAnchorPositioning.d.ts` is here for the same reason one step removed: it declares
+ * `internals/useAnchorPositioning.d.ts` (moved from `utils/` in 1.8) is here for the same reason: it declares
  * `UseAnchorPositioningSharedParameters`, the 12 anchor-positioning props that all eight Positioner
  * parts inherit, and which used to be an empty hand-written stub — every menu stuck on `bottom` /
  * `center` with no way to say otherwise. It also declares `Side` and `Align`, which is why those two
- * unions are no longer hardcoded below. Its `utils/` path is not a per-module `utils/` directory (which
- * stays excluded as internal plumbing) but the package-level one.
+ * unions are no longer hardcoded below. This is a selected dependency, not a scan of `internals/`.
  */
 private val BASE_UI_EXTRA_FILES = setOf(
-    "utils/useAnchorPositioning.d.ts",
+    "internals/useAnchorPositioning.d.ts",
     // Base UI uses UseCollapsibleRootParameters from useCollapsibleRoot in AccordionItem
     "collapsible/root/useCollapsibleRoot.d.ts",
     "collapsible/root/CollapsibleRoot.d.ts",
     "number-field/utils/types.d.ts",
 )
 
-// `Side` and `Align` are *not* here: both are declared in `utils/useAnchorPositioning.d.ts`, which
+// `Side` and `Align` are *not* here: both are declared in `internals/useAnchorPositioning.d.ts`, which
 // `BASE_UI_EXTRA_FILES` now converts, so they come from upstream like every other union.
 private val BASE_UI_ORIENTATION = convertUnion("Orientation = 'horizontal' | 'vertical'")!!
 
@@ -1074,6 +1073,15 @@ private val BASE_UI_KNOWN_TYPES = mapOf(
     "Side" to "Side",
     "Direction" to "Direction",
     "DirectionalChangeReason" to "DirectionalChangeReason",
+    // 1.8 redeclares these inherited members through indexed access; keep their original types.
+    "UseAnchorPositioningSharedParameters['side']" to "Side",
+    "UseAnchorPositioningSharedParameters['align']" to "Align",
+    "React.HTMLAttributes<Element>['id']" to "String?",
+    "React.Dispatch<React.SetStateAction<string | null | undefined>>" to "react.StateSetter<String?>",
+    // Both manager variants now accept either an options object or an updater. Keep them callable,
+    // with overloads mirroring React's StateSetter, instead of widening the whole function to Any.
+    "<T extends Data = Data>(id: string, updates: ToastManagerUpdateOptions<T> | ((prevToast: ToastObject<T>) => ToastManagerUpdateOptions<T>)) => void" to "ToastManagerUpdate<Data>",
+    "<T extends Data = Data>(toastId: string, options: ToastManagerUpdateOptions<T> | ((prevToast: ToastObject<T>) => ToastManagerUpdateOptions<T>)) => void" to "ToastManagerUpdate<Data>",
 )
 
 // Types shared by every Base UI part that cannot be translated from their `.d.ts` and so are written
@@ -1138,6 +1146,16 @@ external interface FloatingPortalProps : BaseUiDivProps {
      * wrong for two of the four.
      */
     var container: Any? /* HTMLElement | ShadowRoot | React.RefObject<HTMLElement | ShadowRoot | null> | null */
+}
+
+/**
+ * The two arms of the 1.8 Toast manager update function. The manager's Data type is preserved;
+ * the additional per-call T extends Data parameter is not represented. UpdateOptions' existing
+ * Partial/Omit limitation is unchanged (see BASE_UI_TODO.md).
+ */
+sealed external interface ToastManagerUpdate<Data> {
+    operator fun invoke(id: String, updates: ToastManagerUpdateOptions<Data>)
+    operator fun invoke(id: String, updates: (prevToast: ToastObject<Data>) -> ToastManagerUpdateOptions<Data>)
 }
 """.trimIndent()
 
@@ -1231,6 +1249,7 @@ private fun generateBaseUiDeclarations(
     // Built over the whole file set up front: namespace references cross files (`MenuSubmenuRoot.d.ts`
     // extends `MenuRoot.Props`), so a per-file map would leave those unresolved.
     val aliases = buildBaseUiAliases(files)
+    val reasonParts = typesDir.resolve("internals/reason-parts.d.ts").readText()
 
     val bodies = files.mapNotNull { file ->
         generate(
@@ -1238,7 +1257,9 @@ private fun generateBaseUiDeclarations(
             targetDir = targetDir,
             pkg = Package.baseUi,
             typesOnly = true,
-            preprocess = { adaptBaseUiContent(it, aliases, BASE_UI_KNOWN_TYPES) },
+            preprocess = {
+                adaptBaseUiContent(resolveBaseUiDirectionalReasons(it, reasonParts), aliases, BASE_UI_KNOWN_TYPES)
+            },
         )
     }
 

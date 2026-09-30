@@ -4,9 +4,24 @@ import js.objects.unsafeJso
 import react.CSSProperties
 import react.FC
 import react.Props
+import react.ReactNode
 import react.dom.html.ReactHTML.button
 import react.dom.html.ReactHTML.div
 import web.cssom.*
+import web.dom.document
+
+// The generator's existing Partial<Omit<ToastObject<Data>, ...>> gap leaves UpdateOptions empty.
+// Keep that workaround local; the manager's callable object/callback overloads are fully generated.
+private external interface SampleToastUpdate : ToastManagerUpdateOptions<Any> {
+    var title: ReactNode?
+    var description: ReactNode?
+}
+
+private fun toastUpdate(titleText: String, previousTitle: ReactNode? = null): SampleToastUpdate =
+    unsafeJso {
+        title = titleText.unsafeCast<ReactNode>()
+        description = previousTitle
+    }
 
 val myToastManager = Toast.createToastManager<Any>()
 
@@ -24,16 +39,19 @@ val BaseUiToast = FC<Props> {
                         title = "Success".unsafeCast<react.ReactNode>()
                         description = "Your action was completed.".unsafeCast<react.ReactNode>()
                         type = "success"
+                        // Keep the toast visible while exercising both update overloads.
+                        timeout = 0
                     })
                 }
                 +"Show Toast"
             }
         }
 
-        val ToastPortal = Toast.Portal.unsafeCast<FC<react.PropsWithChildren>>()
         val ToastViewport = Toast.Viewport
 
-        ToastPortal {
+        Toast.Portal {
+            container = document.body
+            className { ClassName("toast-portal") }
             ToastViewport {
                 className = ClassName("toast-viewport")
                 style = {
@@ -54,7 +72,8 @@ val BaseUiToast = FC<Props> {
 }
 
 private val ToastList = FC<Props> {
-    val toastsArray = Toast.useToastManager<Any>().toasts.unsafeCast<Array<ToastObject<Any>>>()
+    val manager = Toast.useToastManager<Any>()
+    val toastsArray = manager.toasts.unsafeCast<Array<ToastObject<Any>>>()
 
     val ToastRoot = Toast.Root
     val ToastContent = Toast.Content
@@ -63,6 +82,7 @@ private val ToastList = FC<Props> {
     val ToastClose = Toast.Close
 
     for (toastObj in toastsArray) {
+        val toastId = toastObj.id.unsafeCast<String>()
         ToastRoot {
             key = toastObj.id.unsafeCast<react.Key>()
             this.toast = toastObj
@@ -87,6 +107,30 @@ private val ToastList = FC<Props> {
                 }
                 ToastDescription {
                     className = ClassName("toast-description")
+                }
+                button {
+                    onClick = { myToastManager.update(toastId, toastUpdate("Manager object")) }
+                    +"Update toast (object)"
+                }
+                button {
+                    onClick = {
+                        myToastManager.update(toastId) { previous ->
+                            toastUpdate("Manager callback", previous.title)
+                        }
+                    }
+                    +"Update toast (callback)"
+                }
+                button {
+                    onClick = { manager.update(toastId, toastUpdate("Hook object")) }
+                    +"Hook update (object)"
+                }
+                button {
+                    onClick = {
+                        manager.update(toastId) { previous ->
+                            toastUpdate("Hook callback", previous.title)
+                        }
+                    }
+                    +"Hook update (callback)"
                 }
                 ToastClose {
                     className = ClassName("toast-close")

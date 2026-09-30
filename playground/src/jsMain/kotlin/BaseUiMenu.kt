@@ -156,12 +156,10 @@ val BaseUiMenu = FC<Props> {
             // unmounts the whole subtree while the menu is closed.
             keepMounted = true
 
-            // The default target anyway, but it pins down `container` — the one prop of the hand-written
-            // `FloatingPortalProps` stub, which nothing else in the repository would notice losing.
+            // 1.8 declares container directly on MenuPortalProps, no FloatingPortalProps stub needed.
             container = document.body
 
-            // Callback arm on the Portal: also the compile-time guard for its helpers, which exist only
-            // because `FloatingPortalProps` is accepted as an element-props marker.
+            // Callback arm on the Portal, now inherited through BaseUiDivProps.
             className { ClassName("bui-portal") }
 
             Menu.Backdrop {

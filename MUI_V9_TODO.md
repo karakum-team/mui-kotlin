@@ -11,7 +11,7 @@ Migration of the generator from MUI v7 → **v9** (v8 skipped; the suite was rea
 | `@mui/lab`                                 | `9.0.0-beta.9`                                                       |
 | `@mui/x-date-pickers` / `@mui/x-tree-view`  | `9.14.0`                                                             |
 | `@mui/base`                                | `5.0.0-beta.70` (frozen; retained during [Base UI migration](BASE_UI_TODO.md)) |
-| `@base-ui/react`                           | `1.6.0` (six modules included; see [current status](BASE_UI_TODO.md))   |
+| `@base-ui/react`                           | `1.8.0` (six modules included; see [current status](BASE_UI_TODO.md))   |
 | kotlin-wrappers BOM                        | `2026.9.3`                                                           |
 | kfc                                        | `19.16.0`                                                            |
 | kotlin / seskar                            | `2.4.20` / `4.66.0`                                                  |
