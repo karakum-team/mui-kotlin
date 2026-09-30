@@ -1330,6 +1330,7 @@ private fun generateDeteioDeclarations(
         definitionFile = typesDir.resolve("IUtils.d.ts"),
         targetDir = targetDir,
         pkg = Package.dateioCore,
+        preprocess = ::preprocessDateIo,
     )
 }
 

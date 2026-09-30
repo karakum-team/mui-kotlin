@@ -1564,7 +1564,7 @@ private fun findAdditionalProps(
                 -> declaration += "<TLibFormatToken: Any>"
 
             "IUtils",
-                -> declaration += "<TDate: Any>"
+                -> declaration += "<TDate, TLocale>"
 
             "UseSelectResult",
                 -> declaration = declaration.replaceFirst("UseSelectResult", "UseSelectResult<TValue>")

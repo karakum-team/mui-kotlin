@@ -20,6 +20,7 @@ private val App = FC {
 
     MyAutocomplete()
     Pickers()
+    DateIo()
     SliderStylization()
     BaseUiMenu()
     BaseUiSlider()

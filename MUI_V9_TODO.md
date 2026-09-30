@@ -25,6 +25,35 @@ Migration of the generator from MUI v7 → **v9** (v8 skipped; the suite was rea
 - ✅ `:playground:compileKotlinJs` — **0 errors**
 - ⏳ Type-quality / review-remark polish — **not yet done** (see "Remaining" below)
 
+## @date-io/core 2.17 → 3.2 update (2026-10-01)
+
+- `mui-kotlin/build.gradle.kts` now pins `@date-io/core` to `3.2.0`; refreshed the active Gradle
+  npm lock with `kotlinUpgradePackageLock --rerun-tasks`. `npm ls` confirms one core 3.2.0 across
+  all workspaces; `.kotlin-locks/js/package-lock.json` matches `build/js/package-lock.json`.
+  The historical root `package-lock.json` is not used by this Gradle build and is unchanged.
+- The generated interface is now `IUtils<TDate, TLocale>` with `locale: TLocale?` and
+  `getWeek(value: TDate): Int`. Upstream removed `ExtendableDateType` and the bound on `TDate`;
+  both changes are reflected in Kotlin. Direct consumers of `IUtils<TDate>` must supply the second
+  type argument. `DateAdapter`'s existing alias was adjusted to `JsClass<IUtils<*, *>>`.
+- The conditional generic `date` return type becomes two safe overloads: `date(): TDate` and
+  `date(value: Any?): TDate?`. Explicit null/undefined inputs conservatively retain `TDate?` rather
+  than their more specific TypeScript result. No caller-selected unchecked return type is exposed.
+  All 65 upstream method names survive (66 Kotlin methods because of the overload).
+- Date-io-only preprocessing removes the commented-out constructor before shared parsing; otherwise
+  comment/semicolon normalization can unbalance its braces and swallow the interface's body.
+  The converter also preserves blank/closing lines in the new date JSDoc. Three regression tests
+  cover the overloads, changed-signature rejection, and full conversion with constructor comments.
+- Added `DateIo.kt` to the playground using real `@date-io/date-fns 3.2.1` (playground-only; its peer
+  range supports our existing `date-fns 4.4.0`). It tests generated IUtils directly, separately from
+  MUI's different adapter API. Chrome shows all seven checks passing: no-argument/null/string/Date
+  inputs, typed en-GB locale, week 42, and `15/10/2026` localized formatting. Existing MUI DatePicker
+  selects 2026-10-15 and the digital clock selects 03:30 AM. No new runtime errors; existing Base UI
+  callback-name warning and favicon 404 remain.
+- Both Kotlin/JS modules compile with zero errors; all six generator tests pass. Clean `build`
+  (including the production Vite bundle) succeeds, and SHA-256 manifests of all 744 generated files
+  match before/after clean regeneration. Only `IUtils.kt` and `DateAdapter.kt` change versus HEAD.
+  Existing build warnings remain; no unrelated generator type approximations were changed.
+
 ## Gradle wrapper 9.0 → 9.7 update (2026-10-01)
 
 - Pinned Gradle `9.7.0` in the root `build.gradle.kts` and regenerated the wrapper properties,
