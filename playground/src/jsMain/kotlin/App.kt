@@ -31,6 +31,7 @@ private val App = FC {
     TreeView()
     TreeViewLoading()
     Theming()
+    RuntimeImports()
 }
 
 private fun main() {

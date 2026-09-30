@@ -7,5 +7,6 @@ repositories {
 }
 
 dependencies {
+    implementation(localGroovy())
     testImplementation(kotlin("test"))
 }

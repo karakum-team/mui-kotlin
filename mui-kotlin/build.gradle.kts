@@ -7,6 +7,9 @@ plugins {
 val seskarVersion = property("seskar.version") as String
 
 dependencies {
+    // Build-time AST analysis of npm exports; never a runtime dependency of the bindings.
+    jsMainImplementation(devNpm("@babel/parser", "7.29.8"))
+
     fun npmv(packageName: String) =
         npm(packageName, property(packageName.removePrefix("@").replace("/", "-") + ".version") as String)
 

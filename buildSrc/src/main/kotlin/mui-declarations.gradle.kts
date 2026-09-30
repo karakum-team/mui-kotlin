@@ -24,6 +24,20 @@ val skipDeclarations = providers.gradleProperty("declarations.skip")
     .orElse(false)
 
 tasks {
+    val testRuntimeExports = register<Exec>("testRuntimeExports") {
+        group = "verification"
+        description = "Tests package export resolution against isolated npm fixtures."
+        dependsOn(":kotlinNpmInstall")
+        doFirst {
+            @Suppress("UNCHECKED_CAST")
+            val executable = rootProject.extensions.getByName("kotlinNodeJsSpec")
+                .withGroovyBuilder { "getExecutable"() } as Provider<String>
+            environment("NODE_MODULES_DIR", rootProject.layout.buildDirectory.dir("js/node_modules").get().asFile)
+            commandLine(executable.get(), "--test", rootProject.file("buildSrc/src/test/js/runtime-exports.test.cjs"))
+        }
+    }
+    named("check") { dependsOn(testRuntimeExports) }
+
     named<Delete>("clean") {
         delete("src")
     }
@@ -52,13 +66,23 @@ tasks {
             val nodeModulesDir = rootProject.layout.buildDirectory
                 .dir("js/node_modules").get().asFile
             val sourceDir = projectDir.resolve("src/jsMain/kotlin")
+            val stagedDir = layout.buildDirectory.dir("declarations-staging").get().asFile
+            delete(stagedDir)
 
-            delete(sourceDir)
+            // Access the toolchain provider without adding another Kotlin Gradle plugin to buildSrc.
+            @Suppress("UNCHECKED_CAST")
+            val nodeExecutable = rootProject.extensions.getByName("kotlinNodeJsSpec")
+                .withGroovyBuilder { "getExecutable"() } as Provider<String>
 
             generateKotlinDeclarations(
                 nodeModulesDir = nodeModulesDir,
-                sourceDir = sourceDir,
+                sourceDir = stagedDir,
+                nodeExecutable = nodeExecutable.get(),
             )
+
+            // Resolution/validation above must succeed before replacing the previous declarations.
+            delete(sourceDir)
+            stagedDir.copyRecursively(sourceDir, overwrite = true)
         }
     }
 

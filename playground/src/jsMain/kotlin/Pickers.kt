@@ -77,6 +77,8 @@ val Pickers = FC<Props> {
 
             // The only one here that mounts PickersTextField → PickersOutlinedInput.
             DatePicker {}
+
+            RuntimePicker()
         }
     }
 }

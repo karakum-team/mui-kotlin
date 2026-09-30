@@ -297,34 +297,39 @@ private enum class Package(
 fun generateKotlinDeclarations(
     nodeModulesDir: File,
     sourceDir: File,
+    nodeExecutable: String,
 ) {
-    val muiDir = nodeModulesDir.resolve("@mui")
+    val bindings = RuntimeBindings(nodeModulesDir, sourceDir)
+    with(bindings) {
+        val muiDir = nodeModulesDir.resolve("@mui")
 
-    generateTypesDeclarations(sourceDir)
-    generateBaseDeclarations(muiDir.resolve("base"), sourceDir)
-    generateSystemDeclarations(muiDir.resolve("system"), sourceDir)
-    generateMaterialDeclarations(muiDir.resolve("material"), sourceDir)
-    generateIconsMaterialDeclarations(muiDir.resolve("icons-material"), sourceDir)
-    generateStylesDeclarations(muiDir.resolve("material/styles"), sourceDir)
-    generateTransitionsDeclarations(sourceDir)
-    generateLabDeclarations(muiDir.resolve("lab"), sourceDir)
-    generateTreeViewDeclarations(muiDir.resolve("x-tree-view"), sourceDir)
-    generatePickersDeclarations(muiDir.resolve("x-date-pickers"), sourceDir)
-    generateDeteioDeclarations(nodeModulesDir.resolve("@date-io/core"), sourceDir)
-    generateBaseUiDeclarations(nodeModulesDir.resolve("@base-ui/react"), sourceDir)
+        generateTypesDeclarations(sourceDir)
+        generateBaseDeclarations(muiDir.resolve("base"), sourceDir)
+        generateSystemDeclarations(muiDir.resolve("system"), sourceDir)
+        generateMaterialDeclarations(muiDir.resolve("material"), sourceDir)
+        generateIconsMaterialDeclarations(muiDir.resolve("icons-material"), sourceDir)
+        generateStylesDeclarations(muiDir.resolve("material/styles"), sourceDir)
+        generateTransitionsDeclarations(sourceDir)
+        generateLabDeclarations(muiDir.resolve("lab"), sourceDir)
+        generateTreeViewDeclarations(muiDir.resolve("x-tree-view"), sourceDir)
+        generatePickersDeclarations(muiDir.resolve("x-date-pickers"), sourceDir)
+        generateDeteioDeclarations(nodeModulesDir.resolve("@date-io/core"), sourceDir)
+        generateBaseUiDeclarations(nodeModulesDir.resolve("@base-ui/react"), sourceDir)
+    }
+    bindings.resolve(nodeExecutable)
 }
 
-private fun generateTypesDeclarations(
+private fun RuntimeBindings.generateTypesDeclarations(
     sourceDir: File,
 ) {
     val targetDir = sourceDir.resolve("mui/types")
         .also { it.mkdirs() }
 
     targetDir.resolve("PropsWithComponent.kt")
-        .writeText(fileContent(body = TYPES_PROPS_WITH_COMPONENT, pkg = Package.types))
+        .writeGenerated(fileContent(body = TYPES_PROPS_WITH_COMPONENT, pkg = Package.types))
 }
 
-private fun generateBaseDeclarations(
+private fun RuntimeBindings.generateBaseDeclarations(
     typesDir: File,
     sourceDir: File,
 ) {
@@ -391,11 +396,11 @@ private fun generateBaseDeclarations(
         "Orientation" to BASE_ORIENTATION,
     ).forEach { (name, body) ->
         targetDir.resolve("$name.kt")
-            .writeText(fileContent("", body, Package.base))
+            .writeGenerated(fileContent("", body, Package.base))
     }
 }
 
-private fun generateSystemDeclarations(
+private fun RuntimeBindings.generateSystemDeclarations(
     typesDir: File,
     sourceDir: File,
 ) {
@@ -457,7 +462,7 @@ private fun generateSystemDeclarations(
         "SystemProps" to SYSTEM_SYSTEM_PROPS_STUB,
     ).forEach { (name, body) ->
         targetDir.resolve("$name.kt")
-            .writeText(fileContent(body = body, pkg = Package.system))
+            .writeGenerated(fileContent(body = body, pkg = Package.system))
     }
 
     // v9 `@mui/system/ThemeProvider` is still exported, but as a generic function
@@ -465,7 +470,7 @@ private fun generateSystemDeclarations(
     // can't recognize as a component — it emitted only the props interface and dropped the `val`. Emit a
     // minimal stub (props + val), mirroring the material ThemeProvider stub in generateStyleDeclarations.
     targetDir.resolve("ThemeProvider.kt")
-        .writeText(
+        .writeGenerated(
             fileContent(
                 annotations = "@file:JsModule(\"@mui/system/ThemeProvider\")",
                 body = """
@@ -494,7 +499,7 @@ private fun generateSystemDeclarations(
         )
 }
 
-private fun generateMaterialDeclarations(
+private fun RuntimeBindings.generateMaterialDeclarations(
     typesDir: File,
     sourceDir: File,
 ) {
@@ -558,7 +563,7 @@ private fun generateMaterialDeclarations(
         "TablePaginationBaseProps" to MATERIAL_TABLE_PAGINATION_BASE_PROPS_STUB,
     ).forEach { (name, body) ->
         targetDir.resolve("$name.kt")
-            .writeText(fileContent(body = body, pkg = Package.material))
+            .writeGenerated(fileContent(body = body, pkg = Package.material))
     }
 }
 
@@ -572,7 +577,7 @@ private val MATERIAL_TABLE_PAGINATION_BASE_PROPS_STUB = """
 external interface TablePaginationBaseProps : react.Props
 """.trimIndent()
 
-private fun generateStylesDeclarations(
+private fun RuntimeBindings.generateStylesDeclarations(
     typesDir: File,
     sourceDir: File,
 ) {
@@ -624,7 +629,7 @@ private fun generateStylesDeclarations(
     // Simplification kept deliberate: upstream declares
     // `ThemeOptions extends Omit<SystemThemeOptions, 'zIndex'>`, the stub inherits `zIndex`.
     targetDir.resolve("Theme.kt")
-        .writeText(
+        .writeGenerated(
             fileContent(
                 body = """
                     /**
@@ -658,7 +663,7 @@ private fun generateStylesDeclarations(
     // one knows nothing about `focusVisible`. Bind the barrel export instead: the package's
     // `exports` map has no `./styles/createTheme` subpath, only `./styles`.
     targetDir.resolve("createTheme.kt")
-        .writeText(
+        .writeGenerated(
             fileContent(
                 annotations = "@file:JsModule(\"@mui/material/styles\")",
                 body = """
@@ -677,7 +682,7 @@ private fun generateStylesDeclarations(
     // absent from the package's `exports` map (no wildcard either), so a bundler that honours
     // `exports` refuses to resolve it — Vite fails the dependency scan outright.
     targetDir.resolve("ThemeProvider.kt")
-        .writeText(
+        .writeGenerated(
             fileContent(
                 annotations = "@file:JsModule(\"@mui/material/styles\")",
                 body = """
@@ -694,17 +699,17 @@ private fun generateStylesDeclarations(
 }
 
 
-private fun generateTransitionsDeclarations(
+private fun RuntimeBindings.generateTransitionsDeclarations(
     sourceDir: File,
 ) {
     val targetDir = sourceDir.resolve("mui/material/transitions")
         .also { it.mkdirs() }
 
     targetDir.resolve("Stubs.kt")
-        .writeText(fileContent(body = TRANSITIONS_STUBS, pkg = Package.materialTransitions))
+        .writeGenerated(fileContent(body = TRANSITIONS_STUBS, pkg = Package.materialTransitions))
 }
 
-private fun generateIconsMaterialDeclarations(
+private fun RuntimeBindings.generateIconsMaterialDeclarations(
     typesDir: File,
     sourceDir: File,
 ) {
@@ -717,11 +722,11 @@ private fun generateIconsMaterialDeclarations(
         } else ""
 
         targetDir.resolve("$name.kt")
-            .writeText(fileContent(annotations, body, Package.iconsMaterial))
+            .writeGenerated(fileContent(annotations, body, Package.iconsMaterial))
     }
 }
 
-private fun generateLabDeclarations(
+private fun RuntimeBindings.generateLabDeclarations(
     typesDir: File,
     sourceDir: File,
 ) {
@@ -740,7 +745,7 @@ private fun generateLabDeclarations(
         .forEach { generate(it, targetDir, Package.lab) }
 }
 
-private fun generateTreeViewDeclarations(
+private fun RuntimeBindings.generateTreeViewDeclarations(
     typesDir: File,
     sourceDir: File,
 ) {
@@ -800,7 +805,7 @@ private fun generateTreeViewDeclarations(
     }
 }
 
-private fun generatePickersDeclarations(
+private fun RuntimeBindings.generatePickersDeclarations(
     typesDir: File,
     sourceDir: File,
 ) {
@@ -883,7 +888,7 @@ private fun generatePickersDeclarations(
         DATE_ADAPTER to DATE_ADAPTER_BODY,
     ).forEach { (name, body) ->
         targetDir.resolve("$name.kt")
-            .writeText(fileContent(body = body, pkg = Package.pickers))
+            .writeGenerated(fileContent(body = body, pkg = Package.pickers))
     }
 
     DATE_ADAPTERS.forEach { (name, body) ->
@@ -900,7 +905,7 @@ private fun generatePickersDeclarations(
         )
 
         targetDir.resolve("$name.kt")
-            .writeText(content)
+            .writeGenerated(content)
     }
 }
 
@@ -939,12 +944,12 @@ private val PICKERS_CLASSES_FILE = Regex("""[a-z][A-Za-z0-9]*Classes\.d\.ts""")
  * both match [PICKERS_CLASSES_FILE]. A class object at the package root would be dropped by that same
  * filter; upstream has never shipped one, and it would need a different binding anyway (the `.` export).
  *
- * The two ways this could go wrong on a bump are asserted rather than left to a browser to find: a
- * directory that is not an `exports` key, and two class objects mapping to one Kotlin file.
+ * Duplicate Kotlin filenames are rejected here. The shared [RuntimeBindings] pass validates the
+ * candidate module and export name against the npm export graph, rebinding when needed.
  *
  * See MUI_V9_TODO.md "5d".
  */
-private fun generatePickersClasses(
+private fun RuntimeBindings.generatePickersClasses(
     typesDir: File,
     targetDir: File,
 ) {
@@ -969,31 +974,18 @@ private fun generatePickersClasses(
             }
         }
 
-    // The subpath is importable only if the package's `exports` map has a matching key — that
-    // `@mui/x-date-pickers/DayCalendar` had none is the whole reason this pass derives it from the
-    // directory. Keys are written `"./Name":`, so a textual probe is enough and keeps buildSrc free of a
-    // JSON dependency.
-    val exports = typesDir.resolve("package.json")
-        .takeIf { it.exists() }
-        ?.readText()
-
     // Collected before anything is written: `convertClasses` needs a candidate parent's keys both to
     // decide whether to keep it as a supertype and to mark the child's re-declarations `override`.
     val members = files.associate { (file, _, classesName) -> classesName to classesMemberNames(classesName, file) }
 
     files.forEach { (file, subpackage, classesName) ->
-        check(exports == null || "\"./$subpackage\"" in exports) {
-            "$classesName would bind to @mui/x-date-pickers/$subpackage, which the package's exports map " +
-                    "does not expose (source: ${file.invariantSeparatorsPath})"
-        }
-
         val body = convertClasses(classesName, file, siblings = members - classesName)
         val annotation = moduleDeclaration(Package.pickers, subpackage, componentName = null)
             .takeIf { "external val" in body }
             ?: ""
 
         targetDir.resolve("${classesName.removeSuffix("Classes")}.classes.kt")
-            .writeText(fileContent(annotations = annotation, body = body, pkg = Package.pickers))
+            .writeGenerated(fileContent(annotations = annotation, body = body, pkg = Package.pickers), file)
     }
 }
 
@@ -1212,7 +1204,7 @@ private val BASE_UI_ELEMENT_PROPS = sequenceOf(
     """.trimIndent()
 }
 
-private fun generateBaseUiDeclarations(
+private fun RuntimeBindings.generateBaseUiDeclarations(
     typesDir: File,
     sourceDir: File,
 ) {
@@ -1271,11 +1263,11 @@ private fun generateBaseUiDeclarations(
 
     handWritten.forEach { (name, body) ->
         targetDir.resolve("$name.kt")
-            .writeText(fileContent(body = body, pkg = Package.baseUi))
+            .writeGenerated(fileContent(body = body, pkg = Package.baseUi))
     }
 
     targetDir.resolve("ElementProps.kt")
-        .writeText(
+        .writeGenerated(
             fileContent(
                 annotations = "@file:Suppress(\"VAR_TYPE_MISMATCH_ON_OVERRIDE\")",
                 body = BASE_UI_ELEMENT_PROPS,
@@ -1302,7 +1294,7 @@ private fun generateBaseUiDeclarations(
             ?: return@forEach
 
         targetDir.resolve("$namespace.kt")
-            .writeText(
+            .writeGenerated(
                 fileContent(
                     // `Package.baseUi.id` is empty and `generate` derives no subpackage for it, so the
                     // module segment has to be passed here — otherwise the annotation would come out as
@@ -1319,7 +1311,7 @@ private fun generateBaseUiDeclarations(
     }
 }
 
-private fun generateDeteioDeclarations(
+private fun RuntimeBindings.generateDeteioDeclarations(
     typesDir: File,
     sourceDir: File,
 ) {
@@ -1352,6 +1344,8 @@ private fun moduleDeclaration(
     subpackage: String?,
     componentName: String?,
 ): String {
+    // Candidate only. RuntimeBindings verifies/rebinds every emitted value using its original source
+    // and the npm export graph before the staged tree can replace the committed declarations.
     val moduleName = sequenceOf(
         pkg.scope,
         pkg.id,
@@ -1371,7 +1365,7 @@ private fun moduleDeclaration(
  * it converted to no declarations at all. Callers that need to know which types now exist use it;
  * everyone else ignores it.
  */
-private fun generate(
+private fun RuntimeBindings.generate(
     definitionFile: File,
     targetDir: File,
     pkg: Package,
@@ -1478,7 +1472,7 @@ private fun generate(
         // to emit, so skip writing a stub file that's just a `package` line.
         if (finalBody.isNotBlank()) {
             targetDir.resolve("$componentName.kt")
-                .writeText(fileContent(annotations.joinToString("\n\n"), finalBody, pkg))
+                .writeGenerated(fileContent(annotations.joinToString("\n\n"), finalBody, pkg), actualFile)
             emittedBody = finalBody
         }
     }
@@ -1530,7 +1524,7 @@ private fun generate(
         // declares `export type TypographyVariant`, so no rename is needed (doing it would double the
         // prefix → `TypographyTypographyVariant`).
         targetDir.resolve("$fileName.kt")
-            .writeText(fileContent(body = allExtensions, pkg = pkg))
+            .writeGenerated(fileContent(body = allExtensions, pkg = pkg))
     }
 
     if (componentName == "RadioGroup")
@@ -1546,7 +1540,7 @@ private fun generate(
             ?: ""
 
         targetDir.resolve("$componentName.classes.kt")
-            .writeText(fileContent(annotations = annotation, body = classes, pkg = pkg))
+            .writeGenerated(fileContent(annotations = annotation, body = classes, pkg = pkg), classesFile)
     }
 
     return emittedBody

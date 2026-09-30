@@ -1,7 +1,5 @@
 // Automatically generated - do not modify!
 
-@file:JsModule("@mui/material/internal/SwitchBase")
-
 @file:Suppress(
     "VIRTUAL_MEMBER_HIDDEN",
 )
@@ -136,7 +134,3 @@ external interface SwitchBaseSlotsAndSlotProps : Props {
 }
 
 external interface SwitchBaseOwnerState
-
-
-@JsName("default")
-external val SwitchBase: FC<SwitchBaseProps>

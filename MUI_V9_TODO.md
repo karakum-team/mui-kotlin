@@ -235,9 +235,9 @@ The first-segment `isComponentName()` filter is what keeps `internals/` and the 
 would be dropped by that filter too; upstream ships none, and one would need the `.` export rather than a
 subpath anyway.
 
-The two ways a bump could break this are asserted in `generatePickersClasses` rather than left to a
-browser to find: the derived subpath must be a key of the package's `exports` map, and no two class
-objects may map to the same `.classes.kt` filename.
+Duplicate `.classes.kt` filenames are rejected in `generatePickersClasses`. The shared runtime-binding
+resolver now validates both the candidate subpath and the exported JS name, rebinding when necessary
+(see below), rather than only checking for a textual key in `package.json`.
 
 **`convertClasses` learned inheritance.** Three of the sixteen have a non-empty body *and* an `extends`:
 `PickersInputClasses`, `PickersFilledInputClasses` and `PickersOutlinedInputClasses` all extend
@@ -283,35 +283,59 @@ Deliberate simplification kept from before: upstream declares
 `styles/focusVisible.d.ts` is intentionally NOT generated — it holds only private helpers
 (`resolveFocusVisible`, `wireFocusVisibleVars`, …), no public API.
 
-### Deep `JsModule` paths in `mui/material/styles/*` are outside the package `exports` map
+### Runtime imports — resolved from npm exports during generation
 
-`@mui/material`'s `exports` field has no wildcard and no `./styles/<file>` subpaths — only
-`./styles`. Any generated declaration that carries a **runtime** value (an `external val` / `fun`)
-and points at a deep path therefore fails to resolve in a bundler that honours `exports`; Vite
-aborts its dependency scan outright. This bit `ThemeProvider`, which is now bound to the
-`@mui/material/styles` barrel, as is the new `createTheme`.
+The old path-only audit missed a second failure mode: an importable module can lack the requested
+default/named export. Kotlin compilation does not check either condition, and unused external
+declarations emit no JS import. This is the class of defect behind kotlin-wrappers#2894 (`useTheme`).
 
-This is not confined to `ThemeProvider`. An audit of every `@file:JsModule` in the generated tree
-against the owning package's `exports` map turned up **10 files on unresolvable paths, each with a
-runtime declaration**. One of them, `muix/pickers/DayCalendar.classes.kt`, is fixed — see
-"Phase 5d" above. The remaining **9**:
+`RuntimeBindings.kt` records every emitted runtime declaration with its original `.d.ts` source;
+`runtime-exports.cjs` checks the installed package's `exports` map (conditional and wildcard entries
+included), then parses the ESM export graph without executing the package. Legacy packages without
+`exports` use their `module`/`main` metadata. Original typings identify default exports; JS symbol
+provenance prevents rebinding to an unrelated function with the same name. Explicit templates such as
+icons, adapters and Base UI namespaces are checked too, including namespace members.
 
-| module path | file |
+Resolution preserves a valid binding first, then prefers the current module with a corrected name,
+the nearest exported ancestor, another package entrypoint, and finally the package root. Ambiguity or
+an unknown missing export fails generation. Generation and validation happen in a staging directory
+before replacing the existing declarations. If values from one source need different modules, they
+are split into Kotlin files: declaration-level `@JsModule` would incorrectly import a default.
+
+The shared pass currently checks **11,168 top-level runtime bindings**, plus namespace members:
+
+| Kotlin API | Verified JS binding |
 |---|---|
-| `@mui/material/internal/SwitchBase` | `mui/material/SwitchBase.kt`, `SwitchBase.classes.kt` |
-| `@mui/material/styles/createMixins` | `mui/material/styles/createMixins.kt` |
-| `@mui/material/styles/createMotion` | `mui/material/styles/createMotion.kt` |
-| `@mui/material/styles/createPalette` | `mui/material/styles/createPalette.kt` |
-| `@mui/material/styles/createStyles` | `mui/material/styles/createStyles.kt` |
-| `@mui/material/styles/useTheme` | `mui/material/styles/useTheme.kt` |
-| `@mui/system/createBreakpoints/createBreakpoints` | `mui/system/createBreakpoints.kt` |
-| `@mui/system/createTheme/createTheme` | `mui/system/createTheme.kt` |
+| Material `useTheme`, `createStyles` | Named exports from `@mui/material/styles` |
+| Material `createMixins` | `@mui/material/styles#private_createMixins` |
+| System `createTheme` | `@mui/system/createTheme#default` |
+| System `createBreakpoints` | `@mui/system/createBreakpoints#unstable_createBreakpoints` |
+| Material `ClickAwayListener` | `@mui/material/ClickAwayListener#default` |
+| Material `touchRippleClasses` | `@mui/material/ButtonBase#touchRippleClasses` |
+| Pickers `PickersSectionList` | `@mui/x-date-pickers/PickersSectionList#Unstable_PickersSectionList` |
+| Base `CssAnimation`, `CssTransition` | Named exports from `@mui/base/Transitions` |
+| 14 Base hooks (`useBadge` through `useTabsList`, including `useSelect` and `useSwitch`) | Named, not default, exports from their existing hook entrypoints |
 
-None of them is imported by the playground, which is why the class of defect stayed invisible —
-an unused external declaration emits no JS import, so nothing resolves and nothing fails.
-`compileKotlinJs` cannot see any of it. Expect each to break the first time a call site touches it;
-the fix in every case is the same rebinding onto the nearest valid subpath. Deliberately **not**
-done in this bump: nine rebindings each need their own browser proof.
+Kotlin names and signatures are preserved, including bindings to `private_` / `unstable_` exports.
+Those names remain upstream-internal/unstable contracts; validation will surface future removal.
+Four explicit exclusions remove **only runtime values**: Material `createPalette`, `createMotion`,
+`SwitchBase` and `switchBaseClasses`. Their types remain generated. These values have no accessible
+package export, so moving all of them to `styles` would still produce broken imports. An exclusion
+whose value becomes accessible is an error too, prompting its removal rather than silently hiding API.
+
+Fixture tests cover resolution, aliases, symbol identity, namespaces, cycles, type-only exports,
+missing targets and stale exclusions; Kotlin tests cover declaration extraction, rendering and module
+splitting. `:mui-kotlin:testRuntimeExports` is part of `check`. Playground coverage lives in
+`RuntimeImports.kt` and `RuntimePickerField.kt`, exercising the repaired imports through the generated
+API, with local provider/slot scaffolding for legacy transitions and `PickersSectionList`.
+
+Verified locally with 21 export-graph fixtures and 5 Kotlin binding tests, a clean full build
+(including both Kotlin/JS modules and the production Vite bundle), and a byte-for-byte comparison of
+the generated tree before/after `:mui-kotlin:clean build`. Chrome DevTools MCP confirmed the provider
+theme, 14 loaded hooks, factory results, ripple classes, mounted transitions/section list and the
+inside/outside click behavior. No import/runtime errors remained; the console still has the existing
+Base UI Slider render-callback warning, a missing favicon, and the expected deprecation warning when
+calling `createStyles`.
 
 ## Excluded components
 
