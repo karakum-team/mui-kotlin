@@ -57,7 +57,6 @@ private val ToastList = FC<Props> {
     val toastsArray = Toast.useToastManager<Any>().toasts.unsafeCast<Array<ToastObject<Any>>>()
 
     val ToastRoot = Toast.Root
-    val ToastPositioner = Toast.Positioner
     val ToastContent = Toast.Content
     val ToastTitle = Toast.Title
     val ToastDescription = Toast.Description
@@ -80,18 +79,18 @@ private val ToastList = FC<Props> {
                 }
             }
 
-            ToastPositioner {
-                ToastContent {
-                    ToastTitle {
-                        className = ClassName("toast-title")
-                    }
-                    ToastDescription {
-                        className = ClassName("toast-description")
-                    }
-                    ToastClose {
-                        className = ClassName("toast-close")
-                        +"Close"
-                    }
+            // These toasts stack in the viewport. Toast.Positioner is for anchored toasts and
+            // requires its own toast prop; it is not a content wrapper inside Toast.Root.
+            ToastContent {
+                ToastTitle {
+                    className = ClassName("toast-title")
+                }
+                ToastDescription {
+                    className = ClassName("toast-description")
+                }
+                ToastClose {
+                    className = ClassName("toast-close")
+                    +"Close"
                 }
             }
         }

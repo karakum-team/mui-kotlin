@@ -12,9 +12,9 @@ Migration of the generator from MUI v7 → **v9** (v8 skipped; the suite was rea
 | `@mui/material` / `@mui/system`            | `9.1.2`                                                              |
 | `@mui/base`                                | `5.0.0-beta.70` (frozen; retained during [Base UI migration](BASE_UI_TODO.md)) |
 | `@base-ui/react`                           | `1.6.0` (six modules included; see [current status](BASE_UI_TODO.md))   |
-| kotlin-wrappers BOM                        | `2026.7.7`                                                           |
-| kfc                                        | `19.13.0`                                                            |
-| kotlin / seskar                            | `2.4.10` / `4.62.0`                                                  |
+| kotlin-wrappers BOM                        | `2026.9.3`                                                           |
+| kfc                                        | `19.16.0`                                                            |
+| kotlin / seskar                            | `2.4.20` / `4.66.0`                                                  |
 
 > mui-x **had** to bump together with core: `@mui/x-tree-view@7` pins its peer to `@mui/material@"^5||^6||^7"`,
 > so npm refuses to install it next to `@mui/material@9`. The whole v9 suite installs as one.

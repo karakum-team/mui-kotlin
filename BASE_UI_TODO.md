@@ -32,9 +32,8 @@ enabled modules.
 | `number-field` | 7 components | [BaseUiNumberField.kt](playground/src/jsMain/kotlin/BaseUiNumberField.kt) |
 | `toast` | 11 components + `createToastManager` / `useToastManager` | [BaseUiToast.kt](playground/src/jsMain/kotlin/BaseUiToast.kt) |
 
-Browser observations in "Done" are records from the implementation work. The 2026-10-01 status refresh
-checks source, generated output, and build results; it does not claim a new browser verification.
-The NumberField and Toast samples exist, but have no detailed browser verification record here.
+Browser observations in "Done" are records from the implementation work. The 2026-10-01 toolchain
+update also has a separate browser smoke-test record below, including NumberField and Toast.
 Verify predictions against emitted Kotlin: `field` disproved earlier predictions, and `accordion`
 fixed the multi-parent utility-type rejection before `toast` arrived.
 
@@ -44,7 +43,22 @@ fixed the multi-parent utility-type rejection before `toast` arrived.
 - `./gradlew :mui-kotlin:clean build` — successful, including the playground production bundle.
 - `git diff --exit-code -- mui-kotlin/src/jsMain/kotlin` after the clean build — empty diff.
   The formatter used IntelliJ IDEA `IU-262.10968.63` for 740 generated Kotlin files.
-- Browser test tasks were skipped and no interactive browser check was run for this documentation update.
+- Gradle browser test tasks were skipped; interactive browser checks are recorded separately below.
+
+**Browser verification on 2026-10-01 after the toolchain update:**
+
+- Chrome DevTools against the rebuilt playground on Kotlin `2.4.20`, wrappers `2026.9.3`,
+  KFC `19.16.0`, Seskar `4.66.0`, React/React DOM `19.3.0`, and Vite `8.3.1`.
+- Menu: open, toggle Shuffle, close with Escape. Slider: keyboard change `40` → `45`, with change
+  and commit reasons. Field: reject `demo@invalid.com`, accept `demo@example.com`, imperative validation.
+- Accordion: switch to the second panel. NumberField: increment `5` → `6`. Toast: create and dismiss
+  a visible notification while the rest of the page remains mounted.
+- The Toast check exposed an existing sample error: `Toast.Positioner` was nested inside `Toast.Root`
+  without its required `toast` prop, throwing on the first notification. The global stacked-toast
+  sample now uses `Toast.Root > Toast.Content` directly; anchored positioners are not exercised here.
+- Also checked MUI autocomplete selection, DatePicker date selection, and Tree View expansion.
+- No JavaScript runtime exceptions after the Toast fix. Remaining diagnostics: duplicate Emotion
+  instances, the documented Kotlin `render` callback-name warning, and a missing `favicon.ico` (404).
 
 ## Done
 
