@@ -25,6 +25,24 @@ Migration of the generator from MUI v7 → **v9** (v8 skipped; the suite was rea
 - ✅ `:playground:compileKotlinJs` — **0 errors**
 - ⏳ Type-quality / review-remark polish — **not yet done** (see "Remaining" below)
 
+## Gradle wrapper 9.0 → 9.7 update (2026-10-01)
+
+- Pinned Gradle `9.7.0` in the root `build.gradle.kts` and regenerated the wrapper properties,
+  JAR, and both launcher scripts with Gradle 9.7.0. Added the official distribution SHA-256;
+  the wrapper JAR SHA-256 also matches the published Gradle checksum. `./gradlew --version`
+  confirms 9.7.0. Library versions in `gradle.properties` are unchanged.
+- `:mui-kotlin:clean build`, both `compileKotlinJs` tasks, development executable sync, and
+  `:buildSrc:test` pass (3 tests, zero failures). The production Vite bundle was rebuilt successfully.
+  All 744 generated files match HEAD after clean regeneration and formatting.
+  npm packages are unchanged; discarded an incidental workspace-order-only lockfile diff.
+- Restarted `:playground:jsViteDev` with Gradle 9.7.0 and reloaded Chrome without cache:
+  the app renders, NumberField increments 5 → 6, and TreeView switches from loading to `Loaded file`.
+  No JavaScript runtime exceptions; the existing Base UI callback-name warning and favicon 404 remain.
+- Follow-ups, not blockers for 9.7: local JDK 27 still exceeds Kotlin's supported JVM target
+  (now falls back to 26); Gradle warns about the two delegated `by registering` declarations in
+  `mui-declarations.gradle.kts`, scheduled for removal in Gradle 10. Existing production bundler
+  `use client`/chunk-size warnings remain. Windows launcher CRLF endings are preserved as generated.
+
 ## Playground runtime dependencies update (2026-10-01)
 
 - `playground/build.gradle.kts`: `@emotion/react` 11.9.0 → 11.14.0,
