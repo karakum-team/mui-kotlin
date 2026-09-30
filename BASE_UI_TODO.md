@@ -14,6 +14,10 @@ had breaking changes across 1.x.
 objects, and samples wired into `playground/src/jsMain/kotlin/App.kt`. Inclusion does **not** mean full
 API or type coverage; the open gaps below affect existing modules as well as future additions.
 
+**Execution order:** start with predictable additions; defer work requiring new type-conversion
+design until the last implementation group. See [the ordered backlog](#execution-order-by-predictability).
+The next module is `fieldset`, followed by `switch` and `checkbox`.
+
 The pinned package has **43 public runtime modules**, plus the type-only `types` subpath. The earlier
 "44 modules" count included `types`; it was not a count of 44 component/runtime modules. Shared
 declarations pulled in through `BASE_UI_EXTRA_FILES` and `Menu.Separator` do not count as independently
@@ -288,12 +292,14 @@ fixed the multi-parent utility-type rejection before `toast` arrived.
 
 ## Open gaps in the generated output
 
-Ordered by how much API they cost. The numbers are stable identifiers, not positions: gaps 1, 2 and 9
+The numbers below are stable issue identifiers, not execution priorities. Scheduling is defined in
+[the ordered backlog](#execution-order-by-predictability). Gaps 1, 2 and 9
 are closed and their entries removed, so the list starts at 3 and skips 9. Gaps 5 and 11 are closed too
 but their entries are kept — struck through — because what each of them settled is still worth knowing:
 gap 5, how a name is resolved for one target without resolving it for the other; gap 11, that
 `className` / `style` / `render` stay `Any?` with a typed helper beside them. 14–17 came out of
 `slider`, 19 out of `field`, and 20 records the remaining Toast surface after its initial integration.
+Gap 21 records the direct-export prerequisite identified while ordering the remaining modules.
 
 3. **Members declared `T | undefined` without `?` come out non-null.** Base UI writes optional props
    this way in 137 places; MUI always pairs `| undefined` with `?`, so `KotlinType.kt:181` /
@@ -535,6 +541,20 @@ gap 5, how a name is resolved for one target without resolving it for the other;
    - Generation still logs the two manager methods as "not exposed" before adding them through
      explicit cases. Correct that diagnostic when generalizing non-component exports.
 
+21. **Modules without a namespace object have no generated runtime exports.**
+   `baseUiModules` can discover named re-exports from a flat `index.d.ts`, but
+   `generateBaseUiDeclarations` converts all files with `typesOnly = true`, then skips value generation
+   when `module.namespace == null`. Adding `button` or `separator` to the allow-list alone would
+   therefore produce types without a usable component value. Generate direct values with the correct
+   public subpath and exported name; `csp-provider` / `direction-provider` also need this path despite
+   having part files. Preserve outer export renames such as `Provider as DirectionProvider`.
+
+   Function-only entry points need a related discovery step: `unstable-use-media-query/index.d.ts`
+   declares its function inline, while `merge-props` and `use-render` use `export *`. The current
+   named-re-export parser discovers no parts for these modules. Their discovery and simple function
+   signatures are bounded work; the generic APIs of `merge-props` / `use-render` belong to the last
+   design group below.
+
 ## Deliberately not generated
 
 - Internal plumbing in `internals/`, `floating-ui-react/`, per-module `utils/`, and `*Context.d.ts`
@@ -559,66 +579,154 @@ gap 5, how a name is resolved for one target without resolving it for the other;
   detects missing `<Part>Props`, logs them, and records omitted bindings in KDoc; its log still
   includes the two supported Toast methods (gap 20).
 
-## Next module and priorities
+## Execution order by predictability
 
-Six modules are enabled. They cover compound menus, form controls, arbitrary tag parents (`h3`),
-bound-less type parameters, and an initial imperative API. Generic propagation and utility-type
-semantics are still incomplete; Toast demonstrates both limitations.
+**Planning decision, 2026-10-01:** implement predictable work first and leave the most uncertain
+design work until last. This supersedes the earlier recommendation to start with
+`combobox` / `autocomplete` to discover generator defects.
 
-Candidates for the next addition:
+The groups cover all **37 modules outside the allow-list**, plus unfinished work in the six enabled
+modules. Counts describe module integration, not effort or full API completion. Classification comes
+from the pinned `.d.ts` and current generator; it is not a claim that a trial generation has passed.
 
-- **`combobox` / `autocomplete`**: The largest remaining modules (28 and 23 bindings). They hit gaps
-  4, 6, and 13 together: generic props, cross-module/namespace references, and re-export resolution.
-- **`checkbox` / `switch` / `radio`**: Smaller additions that reuse more of the existing machinery;
-  verify `Field.Item` accessibility wiring as applicable. `radio-group` also uses `<Value = any>`.
+| Order | Mark | Predictability | Module additions | Entry condition |
+|-------|------|----------------|------------------|-----------------|
+| 1 | **NEXT** | High; existing compound-component shapes | 3 | Current generator machinery |
+| 2 | **AFTER PREREQUISITES** | Medium to high; known, bounded converter work | 20 | The specific shared fix listed with each batch |
+| 3 | **LATER** | Medium; composition and substantial browser verification | 8 | Portal/alias support and prerequisite components |
+| 4 | **LAST — DESIGN** | Low; Kotlin API or conversion strategy still needs design | 6 | Review the accumulated examples before choosing a general solution |
+| 5 | **FINAL — RETIREMENT** | Compatibility-dependent final step | No new modules | Coverage, type fidelity, and consumer migration verified |
 
-**Recommendation:** take **`combobox` or `autocomplete`** next, with a playground sample. Keep the
-existing-module backlog visible, especially nullable values (gap 3), utility types (gap 19), and
-Toast's incomplete API (gap 20); adding a seventh module will not close these automatically.
+### Group 1 — NEXT: predictable additions
 
-Completion checklist for each addition:
+- [ ] `fieldset` — first: two parts, ordinary element props, and a simple boolean state.
+- [ ] `switch` — next: two parts, existing `FieldRootState`, boolean change events, and familiar
+  element/indicator inheritance.
+- [ ] `checkbox` — next: two parts with the same infrastructure; additionally exercise indeterminate
+  state and the label/description wiring through `Field`.
+- [ ] Add the unused-stub diagnostic (gap 16) and correct Toast's misleading "not exposed" log
+  (gap 20). These have a known expected result and do not require a new public API design.
+- [ ] Record browser results for the existing NumberField sample and the already-exposed Toast
+  create/add/list/close flow. Track additional Toast features in the groups below.
 
-1. Fix any defect in the generator (`buildSrc/src/main/kotlin/karakum/mui/`).
-2. No diff leakage in existing MUI output.
-3. Playground sample utilizing the new APIs and members, rendered in browser.
-4. Run code review on the final diff.
-5. Update `BASE_UI_TODO.md`.
+The expected module workflow is allow-list entry, inspection of generated declarations, a sample,
+and browser verification. Existing `Omit` limitations still apply to Switch/Checkbox (gap 19);
+their inclusion must not be reported as closure of that shared type-fidelity issue.
 
-## Remaining phases
+### Group 2 — AFTER PREREQUISITES: bounded fixes and repeatable batches
 
-`menu` is the vertical slice, `slider` the proof it generalizes; `BASE_UI_MODULES` in `Generator.kt` is
-the allow-list to extend.
+Do the named prerequisite before its dependent batch. Items can be taken independently when their
+dependencies are satisfied; this group does not require one large generator rewrite.
 
-- A playground sample per new module, with browser verification. All six enabled modules have
-  samples; their coverage differs, especially Toast's (gap 20). See "What only the sample can catch".
-- `field` is done — see Done. One detail that belongs nowhere else: `field/index.parts.d.ts` binds
-  `FieldValidityData` with `export type { … } from`, which `EXPORT_CLAUSE` does not match at all. That
-  is correct — it names no value, and the type is generated from `FieldRoot.d.ts` anyway — but it means
-  `Field.ValidityData` is absent from the namespace object by design rather than by omission, and
-  nothing logs it.
-- The 12 flat runtime modules: `button`, `checkbox-group`, `form`, `input`, `menubar`, `merge-props`,
-  `radio-group`, `separator`, `toggle`, `toggle-group`, `unstable-use-media-query`, and `use-render`.
-  `Separator` is already reused through `Menu.Separator`, but its module is not independently enabled.
-- The remaining 25 modules with part files, including the direct-export providers `csp-provider` /
-  `direction-provider`. Priority remains with counterparts of the old headless components: `select`,
-  `switch`, `tabs`, `tooltip`, `dialog`, `popover`, `checkbox`, and `radio`. Generic `Select<Value>` /
-  `Combobox` and broader imperative exports still need design work; Toast supplies an initial, partial
-  implementation rather than a general solution. `Form` itself and the two Form types widened in
-  `FieldRootProps` are also pending (gap 6).
+- [ ] **Direct component exports** (gap 21), then `separator`, `button`, `csp-provider`,
+  `checkbox-group`, and `menubar` — five modules. Check the exported value/subpath in a browser;
+  reuse `Menu.Separator`'s declarations and exercise Menubar together with Menu.
+- [ ] **Resolve simple named aliases/unions** (gap 5 follow-up and gap 8), then `avatar`, `tabs`,
+  and `collapsible` — three modules. Avatar introduces `ImageLoadingStatus`; Tabs has per-part
+  aliases; Collapsible already has root/use-root declarations generated for Accordion. Its `Pick`
+  member selection remains part of gap 19.
+- [ ] **Resolve concrete cross-module references** (the bounded part of gap 6), then `input` and
+  `toolbar` — two modules. Input needs direct exports and `Field.Control.*`; Toolbar reuses
+  `Separator.Props`. Preserve event-details types as well as component props.
+- [ ] **Typed formatting callbacks** (gap 17), then `meter` and `progress` — two modules. Reuse the
+  Slider.Value example; nullable values/format strings are part of the Progress contract. A focused
+  helper is bounded work; replacing the general function-type parser belongs to group 4.
+- [ ] `scroll-area` and `otp-field` — two modules with identifiable local dependencies. Check
+  ScrollArea's `typeof DEFAULT_*` aliases and threshold object, and OTPField's `utils/otp.d.ts`,
+  indexed-access props, and invalid/complete event details. Test scrolling/overflow and input/paste.
+- [ ] `radio` + `radio-group`, then `toggle` + `toggle-group` — four modules after direct exports.
+  Their default/bounded value parameters have precedents in Accordion, but full generic propagation
+  remains group 4 work. Inspect callback/array types and keep that limitation explicit.
+- [ ] **Simple function exports and entry-point discovery** (gap 21), then `direction-provider`
+  and `unstable-use-media-query` — two modules. Resolve the provider's outer rename and
+  `TextDirection`; check the hook's inline declaration and custom `matchMedia`/SSR option shapes.
+- [ ] **Known type-quality fixes:** nullable `undefined` in the Base UI path (gap 3), concrete
+  indexed-access mappings (gap 10), and double-nullability cleanup with function/return types
+  distinguished (gap 18). Prioritize gap 3 when touching affected state declarations.
+- [ ] **Toast portal:** resolve `FloatingPortalLite.Props` and recover `children` / `container`
+  (gaps 6 and 20), then remove the sample's Portal cast and verify it. The same parent is needed by
+  Tooltip and PreviewCard in group 3.
+- [ ] Generate data-attribute/CSS-variable constants from the upstream string enums, using a
+  consistent Kotlin naming scheme. This is a separate bounded API addition, not a prerequisite
+  for component rendering.
 
-  See "Next module and priorities" above: `combobox` and `autocomplete` are the largest and the
-  first to hit gaps 4, 6 and 13 at once.
+### Group 3 — LATER: composition and interaction verification
 
-  Shared positioning declarations are generated (gap 9 closed), and multi-parent utility wrappers
-  are unwrapped after Accordion. `ToastPositionerProps` confirms that the positioning parent now
-  survives. Check `tooltip` and each new Positioner against upstream as it lands; the omission lists
-  and redeclared member types are still not faithfully modeled (gap 19).
-- `@mui/base` stays generated and frozen at `5.0.0-beta.70`, alongside Base UI. Four generated
-  Material files reference `mui.base`: `Snackbar.kt` (`ClickAwayListenerProps`), `Autocomplete.kt`
-  (`UseAutocompleteProps`), `Popper.kt` (`PopperProps`), and `Orientation.kt` (typealias).
-  `playground/src/jsMain/kotlin/SliderStylization.kt` also uses `mui.base.Slider` / `sliderClasses`.
-  Migrate these consumers and review generator mappings and downstream compatibility before
-  removing the old generation target and npm dependency.
+These eight module integrations mostly reuse existing component shapes, but their parts, focus,
+portals, and event flows have to work together. A successful compilation is only one check.
+
+- [ ] `dialog`, then `alert-dialog` and `drawer` — three modules. AlertDialog inherits/re-exports
+  Dialog parts; Drawer also reuses Dialog's handle. Verify focus return, dismissal, modal behavior,
+  and Drawer gestures. Generic payloads and full handles remain group 4 work.
+- [ ] `popover`, `tooltip`, and `preview-card` — three modules after the portal work in group 2.
+  Verify anchoring, collisions, focus/hover behavior, and transitions. Inspect Popover's heading-tag
+  union and Tooltip's `Omit` positioning parent. Their handle APIs remain in group 4.
+- [ ] `context-menu` and `navigation-menu` — two modules. ContextMenu needs `Menu.Root.Props`
+  resolution; NavigationMenu adds navigation elements and coordinated viewport behavior. Exercise
+  keyboard navigation and nested menus; retain the generic/member-selection backlog.
+- [ ] Extend the existing Toast sample with `Action`, `Arrow`, explicit manager `close`, and anchored
+  positioning (gap 20). Typed update/promise/custom-data coverage follows the group 4 fixes.
+- [ ] Verify `alignOffset` independently of collision shifting, then check inherited positioning
+  props and transitive state helpers on each new module (gap 11 follow-up).
+
+### Group 4 — LAST — DESIGN: uncertain work
+
+Keep these items explicitly deferred until the predictable work above is exhausted or an earlier
+item has a concrete dependency on one of them. Each needs a design decision and representative
+examples before a reliable implementation estimate is possible.
+
+- [ ] `select`, `combobox`, and `autocomplete` — three modules with value/multiple-mode generics,
+  conditional types, and callback composition. Combobox/Autocomplete also need `AriaCombobox`
+  namespace declarations and hooks; resolve the Separator index re-export collision (gap 13)
+  before their generated output is combined with Menu.
+- [ ] `form` — one module: design the `FormValues` relationship across fields, submission,
+  validation, errors, and imperative actions. Direct exports can be prepared in group 2, but
+  Form's record-bound generic API and `Form.Values` fidelity belong here.
+- [ ] `use-render` and `merge-props` — two modules: generic React element props, overloads,
+  conditional return types, mapped event props, and render functions. Their short module APIs
+  do not imply a mechanical conversion.
+- [ ] **Preserve generics end to end** (gap 4), including parameters on props, state helpers,
+  value-or-array callbacks, payloads, and Toast `Data` / promise result types (gap 20).
+- [ ] **Model utility types faithfully** (gap 19): `Omit`, `Pick`, `Partial`, their nesting, and
+  omitted/redeclared members. Close existing Field, Accordion, Collapsible, and Toast limitations
+  as part of the shared solution.
+- [ ] **General namespace/type resolution** (gap 7 and the broad part of gap 6), and independent
+  conversion of callback parameters/return types (gap 14). This includes the remaining indexed
+  accesses from gap 10 that cannot be mapped from a known declaration.
+- [ ] **General imperative exports:** `Handle` / `createHandle`, generic hooks/factories, and
+  Toast update/promise/options typing. Their current explicit cases and unsafe casts do not
+  constitute a complete general solution (gap 20).
+- [ ] Replace blanket override suppressions with correct declarations (gap 12), and investigate
+  the Kotlin callback-name warning (gap 15). The latter is low-impact polish, not a rendering
+  blocker; record a decision if the upstream heuristic cannot be addressed cleanly.
+
+### Group 5 — FINAL — RETIREMENT: remove the old target after its consumers move
+
+This is last because of compatibility dependencies, separately from group 4's design uncertainty.
+
+- [ ] Migrate the four generated Material references to `mui.base`: `Snackbar.kt`
+  (`ClickAwayListenerProps`), `Autocomplete.kt` (`UseAutocompleteProps`), `Popper.kt` (`PopperProps`),
+  and `Orientation.kt` (typealias). Their replacement must match Material's own typings;
+  similarly named Base UI components are not automatically compatible parents.
+- [ ] Migrate `playground/src/jsMain/kotlin/SliderStylization.kt` from the old Slider/sliderClasses.
+- [ ] Audit remaining generator mappings and downstream consumers, then remove the old generation
+  target and npm dependency. Until then `@mui/base@5.0.0-beta.70` remains alongside Base UI.
+- [ ] Run the complete build/reproducibility checks and browser verification of migrated consumers.
+
+### Scheduling and completion rules
+
+- Start with group 1 in the listed order. Within later groups, satisfy prerequisites before taking
+  their consumers. If a task requires group 4 design work, mark that feature blocked and continue
+  with the next independent task; promote only the prerequisite needed to unblock it.
+- Treat **module integrated** and **API complete** as separate milestones. An allow-list entry,
+  `Any?` fallback, or sample cast does not close a type-fidelity issue. Do not add silent widening
+  solely to keep a module in an earlier group.
+- Reassess a module's group when its emitted output or browser behavior reveals a new dependency.
+  Known incorrect declarations still need fixes or an explicit open issue; deferral changes the
+  schedule, not the completion criteria.
+- For every addition: change the generator, inspect both new and existing output, compile library
+  and playground, verify clean regeneration, render the sample in a browser, review the final diff,
+  and update this backlog. Preserve the stable gap numbers above when changing scheduling.
 
 ## What only the sample can catch
 

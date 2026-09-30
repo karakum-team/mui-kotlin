@@ -26,10 +26,15 @@ shapes** (component anatomy split into parts, different slot/render-prop convent
 
 **Remaining:**
 
-1. Extend module coverage; `combobox` / `autocomplete` are the recommended next candidates.
-2. Complete type fidelity in existing modules: generics, nullable values, aliases, callbacks,
-   utility types, and the remaining Toast API gaps. Module inclusion does not mean full API parity.
-3. Add and exercise a playground sample for each new module, including its imperative APIs.
-4. Retire `@mui/base` only after migrating its consumers. The four generated Material references are
+1. Follow [the backlog ordered by predictability](BASE_UI_TODO.md#execution-order-by-predictability):
+   start with `fieldset`, `switch`, and `checkbox`, then bounded generator fixes and module batches,
+   then components requiring more interaction verification.
+2. Leave the most uncertain design work until the last implementation group: `select`, `combobox`,
+   `autocomplete`, `form`, `use-render`, `merge-props`, and the shared generic/utility-type/imperative
+   API work. Bring a specific prerequisite forward only if it blocks the selected earlier task.
+3. Complete type fidelity and exercise a playground sample for every module. Track initial
+   integration and full API completion separately; existing Toast and other module gaps remain open.
+4. Retire `@mui/base` as the final compatibility step, after migrating its consumers.
+   The four generated Material references are
    `Autocomplete`, `Snackbar`, `Popper`, and `Orientation`; `SliderStylization` in the playground
    still uses the old Slider. Both generation targets and npm dependencies remain enabled today.
