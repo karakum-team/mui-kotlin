@@ -25,6 +25,27 @@ Migration of the generator from MUI v7 → **v9** (v8 skipped; the suite was rea
 - ✅ `:playground:compileKotlinJs` — **0 errors**
 - ⏳ Type-quality / review-remark polish — **not yet done** (see "Remaining" below)
 
+## Playground runtime dependencies update (2026-10-01)
+
+- `playground/build.gradle.kts`: `@emotion/react` 11.9.0 → 11.14.0,
+  `@emotion/styled` 11.8.1 → 11.14.1, and `date-fns` 4.1.0 → 4.4.0.
+  Library/toolchain pins in `gradle.properties` are unchanged.
+- Refreshed `.kotlin-locks/js/package-lock.json` with `kotlinUpgradePackageLock --rerun-tasks`.
+  The old nested Emotion installations and their old `weak-memoize` copies disappeared.
+  `npm ls` and workspace resolution confirm one version of each requested package; the checked-in
+  lock matches `build/js/package-lock.json` byte-for-byte.
+- Both Kotlin modules compile. `:mui-kotlin:clean build` passes and the generated tree has no diff
+  against HEAD. Development executable sync passes; generator tests remain green (3 tests, cached).
+  Forced `:playground:jsBrowserProductionVite --rerun` as well: the initial build incorrectly considered
+  the existing bundle up to date after npm changes. The production bundle succeeds with the existing
+  `use client`/chunk-size warnings. Gradle browser tests have no sources.
+- Chrome on the restarted dev server: DatePicker selects 2026-10-15, the digital clock selects
+  03:30 AM, and the picker's styled grid/purple borders/weekday colors remain intact. Keyboard Tab
+  preserves the default 2px blue Button/Chip focus rings and the custom 4px magenta ring with 6px offset.
+  Base UI Menu styles/positioning and Toast create/update/close also work.
+- The duplicate-Emotion warning recorded in earlier checks is now gone. No JS runtime exceptions;
+  the existing Base UI Kotlin `render` callback-name warning and favicon 404 remain.
+
 ## MUI X 9.12 → 9.14 update (2026-10-01)
 
 - Both MUI X packages and `@mui/x-internals` are now `9.14.0`. Material/System/Icons stay at `9.4.0`;
