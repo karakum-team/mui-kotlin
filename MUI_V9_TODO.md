@@ -10,8 +10,8 @@ Migration of the generator from MUI v7 → **v9** (v8 skipped; the suite was rea
 | `@mui/icons-material`                      | `9.4.0`                                                              |
 | `@mui/lab`                                 | `9.0.0-beta.9`                                                       |
 | `@mui/material` / `@mui/system`            | `9.1.2`                                                              |
-| `@mui/base`                                | `5.0.0-beta.70` (frozen / deprecated — see `FUTURE_IMPROVEMENTS.md`) |
-| `@base-ui/react`                           | `1.6.0` (independent cadence — see `BASE_UI_TODO.md`)                |
+| `@mui/base`                                | `5.0.0-beta.70` (frozen; retained during [Base UI migration](BASE_UI_TODO.md)) |
+| `@base-ui/react`                           | `1.6.0` (six modules included; see [current status](BASE_UI_TODO.md))   |
 | kotlin-wrappers BOM                        | `2026.7.7`                                                           |
 | kfc                                        | `19.13.0`                                                            |
 | kotlin / seskar                            | `2.4.10` / `4.62.0`                                                  |
@@ -293,14 +293,15 @@ at **0 errors**. Findings refined the original task premises:
 1. ~~Align `mui-icons-material` to `9.1.2` for consistency.~~ **N/A** — `@mui/icons-material@9.1.2`
    was never published; `9.1.1` is the latest on npm (the icons package doesn't ship a release for
    every core patch). Already on the newest available version; nothing to bump.
-2. `@mui/base` → Base UI migration — see `FUTURE_IMPROVEMENTS.md`.
-3. **New v9 Base-UI components not covered: `NumberField` + `Menubar` (with submenus).** Highlighted as
-   the flagship additions in the [v9 blog post](https://mui.com/blog/introducing-material-ui-v9/), but they
-   are **not** in the installed dependency set: no `NumberField`/`Menubar` folder exists in
-   `@mui/material@9.1.2`, and `@mui/base@5.0.0-beta.70` ships only the old `Unstable_NumberInput` (not the new
-   `NumberField`). Both are built on the **new Base UI**, so they arrive only with the deferred Base UI
-   migration (item 2 / `FUTURE_IMPROVEMENTS.md`) — not a generator bug, the source `.d.ts` simply aren't there.
-   Everything else from the blog post is covered: type-surface changes (removed `disableEscapeKeyDown`,
+2. `@mui/base` → Base UI migration is **in progress**: `menu`, `slider`, `field`, `accordion`,
+   `number-field`, and `toast` are generated with playground samples. Full type and module coverage
+   remains open — see [BASE_UI_TODO.md](BASE_UI_TODO.md).
+3. **`NumberField` is included; `Menubar` remains pending.** These belong to the separate
+   `@base-ui/react` target, not the old `@mui/base` bindings. `NumberField` was added in `1dfec5cd`
+   with all seven parts and a playground sample. `menubar` is not yet in `BASE_UI_MODULES`.
+   The original v9 review recorded the other changes from the
+   [v9 blog post](https://mui.com/blog/introducing-material-ui-v9/) as covered:
+   type-surface changes (removed `disableEscapeKeyDown`,
    Autocomplete slots, dropped deprecated `component`/`componentsProps`, `MuiTouchRipple` off theme types) are
    generated automatically from the installed `.d.ts`; `InitColorSchemeScript`, `createMotion`/`ReducedMotionMode`
    are generated; and the rest (roving tabindex, Backdrop `aria-hidden`, `sx` perf, `color-mix()` runtime) are

@@ -1,22 +1,46 @@
 # Base UI (`@base-ui/react`) target — status and known gaps
 
-New generator target for `@base-ui/react`, the successor of the frozen `@mui/base`. Plan and its review
-are in `base-ui-plan.md` / `base-ui-plan-review.md`; both were written before `buildSrc` and the real
-`.d.ts` had been read, so the corrections below take precedence over them.
+Current status and handoff for the `@base-ui/react` generator target, the successor of the frozen
+`@mui/base`. This is the canonical migration backlog. The original plan and review were removed in
+`9577387c`; use the generator, emitted Kotlin, and pinned upstream `.d.ts` as implementation evidence.
+
+**Status reviewed:** 2026-10-01. Latest migration implementation commit: `f296d5bd` (Toast, 2026-09-07).
 
 **Target version:** `base-ui-react.version=1.6.0` (published 2026-06-18). Pinned deliberately — Base UI
 had breaking changes across 1.x.
 
-**Where this stands:** three modules of the 44 — `menu`, `slider` and `field` — are generated end to end
-and render in a browser. `BASE_UI_MODULES` in `Generator.kt` is the allow-list. The open gaps below are
-all things the three survive without; none of them blocks adding a fourth.
+**Where this stands:** six modules are in `BASE_UI_MODULES` in `Generator.kt`: `menu`, `slider`,
+`field`, `accordion`, `number-field`, and `toast`. All have generated declarations, runtime namespace
+objects, and samples wired into `playground/src/jsMain/kotlin/App.kt`. Inclusion does **not** mean full
+API or type coverage; the open gaps below affect existing modules as well as future additions.
 
-`slider` and `field` were both picked for finding new defects rather than re-exercising `menu`'s
-machinery, and both did. Worth repeating for whoever picks the fourth: a module that shares `menu`'s
-portal/positioner/popup shape mostly re-runs code that already works.
+The pinned package has **43 public runtime modules**, plus the type-only `types` subpath. The earlier
+"44 modules" count included `types`; it was not a count of 44 component/runtime modules. Shared
+declarations pulled in through `BASE_UI_EXTRA_FILES` and `Menu.Separator` do not count as independently
+enabled modules.
 
-`field` is also the point at which two of this document's own predictions turned out wrong — both in the
-generated output's favour. Verify against the emitted `.kt`, not against the entry that predicts it.
+| Module | Exposed namespace API | Playground sample |
+|--------|-----------------------|-------------------|
+| `menu` | 20 components, including shared `Separator`; `Handle` / `createHandle` omitted | [BaseUiMenu.kt](playground/src/jsMain/kotlin/BaseUiMenu.kt) |
+| `slider` | 7 components | [BaseUiSlider.kt](playground/src/jsMain/kotlin/BaseUiSlider.kt) |
+| `field` | 7 components | [BaseUiField.kt](playground/src/jsMain/kotlin/BaseUiField.kt) |
+| `accordion` | 5 components | [BaseUiAccordion.kt](playground/src/jsMain/kotlin/BaseUiAccordion.kt) |
+| `number-field` | 7 components | [BaseUiNumberField.kt](playground/src/jsMain/kotlin/BaseUiNumberField.kt) |
+| `toast` | 11 components + `createToastManager` / `useToastManager` | [BaseUiToast.kt](playground/src/jsMain/kotlin/BaseUiToast.kt) |
+
+Browser observations in "Done" are records from the implementation work. The 2026-10-01 status refresh
+checks source, generated output, and build results; it does not claim a new browser verification.
+The NumberField and Toast samples exist, but have no detailed browser verification record here.
+Verify predictions against emitted Kotlin: `field` disproved earlier predictions, and `accordion`
+fixed the multi-parent utility-type rejection before `toast` arrived.
+
+**Build verification on 2026-10-01:**
+
+- `./gradlew :mui-kotlin:compileKotlinJs :playground:compileKotlinJs` — successful, no compilation errors.
+- `./gradlew :mui-kotlin:clean build` — successful, including the playground production bundle.
+- `git diff --exit-code -- mui-kotlin/src/jsMain/kotlin` after the clean build — empty diff.
+  The formatter used IntelliJ IDEA `IU-262.10968.63` for 740 generated Kotlin files.
+- Browser test tasks were skipped and no interactive browser check was run for this documentation update.
 
 ## Done
 
@@ -105,8 +129,7 @@ generated output's favour. Verify against the emitted `.kt`, not against the ent
   every Positioner part accepted no `side` / `align` / `sideOffset` at all and every menu was stuck on
   `bottom` / `center` with zero offset. `utils/useAnchorPositioning.d.ts` now goes through
   `BASE_UI_EXTRA_FILES` and the 12 props are generated from upstream, KDoc included. Eight Positioner
-  parts inherit them; only `menu` is in the allow-list today, so the other seven arrive with the surface
-  already there. What it cost:
+  parts use that upstream parent; `menu` and `toast` are now in the allow-list. What it cost:
   - **`Side` and `Align` were hardcoded twice.** `BASE_UI_SIDE` / `BASE_UI_ALIGN` in `Generator.kt`
     spelled out unions that this very file declares, so generating it redeclared both. The hardcodes are
     gone and both now come from upstream (they land in `useAnchorPositioning.ext.kt`, so `Side.kt` and
@@ -125,7 +148,7 @@ generated output's favour. Verify against the emitted `.kt`, not against the ent
     `useAnchorPositioningAlign` sealed type — lowercase, because unions are named for the component —
     whose only referrer was then dropped, since the converter does not emit a non-exported interface.
     `dropNonExportedInterfaces` removes them up front so the earlier passes agree with the later ones.
-    Three such interfaces exist across the modules generated so far, all internal helpers.
+    Three such interfaces existed in the file set at the time of this fix, all internal helpers.
   - **`side` had to stop being `Any?`** or the flagship prop of the fix would have been untyped; see
     gap 5.
 
@@ -146,6 +169,23 @@ generated output's favour. Verify against the emitted `.kt`, not against the ent
   - Custom event properties (`ChangeEventCustomProperties`) aren't declared in the same file; added `number-field/utils/types.d.ts` to `BASE_UI_EXTRA_FILES` to translate it and make it available.
   - Negative integers in string literal unions (like `Direction`'s `-1`) failed to compile as `val s-1`; updated the generator to output `val sMinus1`.
   - Added support for `Direction` and `DirectionalChangeReason` known types to correctly parse.
+  - Added in `1dfec5cd` (2026-09-04). `BaseUiNumberField.kt` mounts all seven parts, including the
+    scrub area and cursor, with a controlled value, bounds, and typed change/commit callbacks.
+
+- **`toast` module** — added in `f296d5bd` (2026-09-07):
+  - Eleven component bindings, their props/state declarations, and element-state helpers where the
+    generator recognizes the parent.
+  - `Toast.createToastManager<Data>()` and `Toast.useToastManager<Data>()` are exposed as namespace
+    methods. These are explicit cases in `baseUiNamespaceObject`, not a general converter for all
+    non-component exports. Manager/object/options declarations preserve selected generic parameters,
+    but their members still lose type information; see gap 20.
+  - `ToastPositionerProps` inherits `UseAnchorPositioningSharedParameters`. The multi-parent `Omit`
+    rejection had already been fixed with Accordion; preserving the actual omitted member set remains
+    open (gap 19).
+  - `BaseUiToast.kt` connects an external manager to `Toast.Provider`, adds a toast, reads the list with
+    the hook, and renders title, description, and a close button through a portal. It uses unsafe casts,
+    including a Portal cast to recover `children`; it does not exercise `Action`, `Arrow`, manager
+    `update` / `promise`, or anchored positioning. These remain verification work.
 
 - **`accordion` module** — 5 parts (`Root`, `Item`, `Header`, `Trigger`, `Panel`), picked as the fourth for its unique
   declaration shapes. What it cost, each item a generator fix rather than a workaround:
@@ -154,6 +194,7 @@ generated output's favour. Verify against the emitted `.kt`, not against the ent
       `Pick`, `Partial`, and `Omit`). Thus, `AccordionPanelProps` silently dropped `AccordionRootProps` and
       `AccordionItemProps` dropped `UseCollapsibleRootParameters`. The fix explicitly unwraps `Pick`,
       `Partial`, and `Omit` in the multi-parent split, allowing the interfaces to keep their intended parents.
+      This does not implement the selected/omitted member lists or `Partial` optionality (see gap 19).
     - **The `BASE_UI_EXTRA_FILES` required for `UseCollapsibleRootParameters`.** Unwrapping `Pick` revealed that
       `UseCollapsibleRootParameters` wasn't generated at all. It was added to `BASE_UI_EXTRA_FILES`
       (along with `CollapsibleRoot.d.ts` for its `ChangeEventDetails`), providing a typed inheritance hierarchy instead
@@ -229,17 +270,20 @@ generated output's favour. Verify against the emitted `.kt`, not against the ent
     controls; worth re-checking when `checkbox-group` / `radio-group` land, since that is the shape
     `Field.Item` exists for.
 
-## Facts that contradict the plan documents
+## Upstream API facts
 
 - **`MenuSeparator` does not exist.** `Menu.Separator` re-exports the shared standalone `Separator`
   from `../separator`. Part names are *not* universally module-prefixed.
 - **Flat part *values* are impossible.** The package's `exports` map has 81 keys and no wildcard, so
   `@base-ui/react/menu/popup/MenuPopup` is not importable; `menu/index.d.ts` re-exports the flat names
   via `export type *` only. Only the `Menu` namespace object is a value export. Flat *types* are real
-  declarations and are what we generate. `hard_rules` #10 in `.claude/agents/mui-code-review.md` was
-  corrected accordingly.
-- **44 public modules** (31 with `index.parts.d.ts`, 13 flat), 283 bindings across the 31 — not
-  "37 components". `combobox` (28) and `autocomplete` (23) are larger than `menu` (22).
+  declarations and are what we generate. See rule 10 in [agents/mui-code-review.md](agents/mui-code-review.md).
+- **44 public top-level subpaths excluding `package.json`:** 31 with `index.parts.d.ts`, 12 flat
+  runtime modules, and the type-only `types` entry. Thus there are 43 runtime modules. The 31 part
+  files contain 282 value bindings plus toolbar's type-only `Orientation` binding; `combobox` (28)
+  and `autocomplete` (23) are larger than `menu` (22).
+  `csp-provider` and `direction-provider` have part files but export values directly, without a
+  namespace object.
 - **Base UI `.d.ts` have no trailing newline**, which matters to every regex that anchors on `\n}\n`.
 
 ## Open gaps in the generated output
@@ -249,7 +293,7 @@ are closed and their entries removed, so the list starts at 3 and skips 9. Gaps 
 but their entries are kept — struck through — because what each of them settled is still worth knowing:
 gap 5, how a name is resolved for one target without resolving it for the other; gap 11, that
 `className` / `style` / `render` stay `Any?` with a typed helper beside them. 14–17 came out of
-`slider`, 19 out of `field`.
+`slider`, 19 out of `field`, and 20 records the remaining Toast surface after its initial integration.
 
 3. **Members declared `T | undefined` without `?` come out non-null.** Base UI writes optional props
    this way in 137 places; MUI always pairs `| undefined` with `?`, so `KotlinType.kt:181` /
@@ -263,6 +307,9 @@ gap 5, how a name is resolved for one target without resolving it for the other;
    MenuHandle<Payload> */`, `payload: Any? /* Payload */`, and `children` documented against `Payload`.
    `MenuHandle` itself is a `declare class` and is not generated at all (empty body → correctly skipped).
    39 interfaces across the package are generic, so this gets more expensive with every module added.
+   Toast now preserves parameters on selected manager/object/options interfaces through explicit
+   converter cases; that does not preserve part-props generics or propagate `Data` through manager
+   methods (gap 20).
 
    `slider` sharpened this. A dropped parameter is only *quietly* lossy while its name stays unknown to
    `KotlinType`; when the name is one of that table's own (`Value`, `T`, `TValue`, …) the member resolves
@@ -304,8 +351,8 @@ gap 5, how a name is resolved for one target without resolving it for the other;
    `toFunctionType` gets the map as well, applied before its replacement chain. That chain is a curated
    list of MUI shapes and would otherwise let `TransitionStatus` through untouched in a parameter or
    return position — bare, and so without the `?` the map exists to carry, which would compile and
-   silently lie. No such shape exists in the three generated modules today; `radio/` and `tooltip/` have
-   them, so this is preventive rather than observed.
+   silently lie. This was preventive when added for `menu`, `slider`, and `field`; `radio/` and
+   `tooltip/` contain such callback shapes.
 
    **Follow-up the map makes cheap.** `MenuRoot.kt` emits `Any? /* MenuRootOrientation */` although
    `MenuRootOrientation` *is* generated by the same run — `MenuRoot.d.ts` declares
@@ -314,10 +361,12 @@ gap 5, how a name is resolved for one target without resolving it for the other;
    by harvesting `export type X = 'a' | 'b'` names across the file set up front, the way
    `buildBaseUiAliases` already pre-scans, and close this and every future per-part union at once. That
    is a design change rather than a line change, hence not in this commit.
-6. **The alias map is built only from part files, not the whole package.** Enough for `menu`, but
+6. **The alias map covers the selected part and extra files, not the whole package.** Enough for `menu`, but
    combobox and autocomplete each lose 3 references (`AriaCombobox.ChangeEventDetails`,
    `.ChangeEventReason`, `.HighlightEventDetails`), tooltip and toast lose `FloatingPortalLite.Props`,
-   field loses `Form.ValidationMode` / `Form.Values`. Also the two-level form `Menu.Root.Props`
+   field loses `Form.ValidationMode` / `Form.Values`. Toast is now affected in generated output:
+   `ToastPortalProps : Props` has no `children` or `container`, and the sample casts it to
+   `FC<PropsWithChildren>` to mount the viewport. Also the two-level form `Menu.Root.Props`
    (`context-menu`) and `Field.Control.Props` (`input`) is not expressible by the current
    `Namespace.Member` keys at all — the needed mapping already exists in `BaseUiPart(alias,
    declaredName)` as `"$Namespace.$alias" -> declaredName`.
@@ -334,12 +383,13 @@ gap 5, how a name is resolved for one target without resolving it for the other;
    which is the failure that has to be found by hand today.
 8. **`instant` is typed `mui.system.Union`** (= `String`) in `MenuPopup` / `MenuViewport` — both a
    `hard_rules` #6 violation (a string-literal union that should be sealed) and the only `mui.*`
-   dependency left in `baseui` (`import mui.system.Union`, nothing else), which should not exist. Emit a
+   dependency kind left in `baseui` (`import mui.system.Union`), which should not exist. Emit a
    per-part sealed type instead. `slider` added two more: `SliderRootProps.thumbAlignment`
    (`'center' | 'edge' | 'edge-client-only'`) and `.thumbCollisionBehavior` (`'push' | 'swap' | 'none'`),
    so the sample has to write `thumbCollisionBehavior = "swap"` as a bare string. Anchor positioning
-   added one more, and it is the one that keeps the `mui.system.Union` import alive in a second file:
-   `UseAnchorPositioningSharedParameters.positionMethod` (`'absolute' | 'fixed'`).
+   added `UseAnchorPositioningSharedParameters.positionMethod` (`'absolute' | 'fixed'`). Toast adds more,
+   including `ToastObject.priority` / `.transitionStatus`. The import now occurs in six files:
+   `MenuPopup`, `MenuViewport`, `SliderRoot`, `useAnchorPositioning`, `ToastRoot`, and `useToastManager`.
    Note `MenuPositionerState.instant` comes out as plain
    `String` and that is *correct*: upstream declares that one `string | undefined`, not as the literal
    union — the two shapes differ in Base UI itself, so do not "fix" them into one.
@@ -361,12 +411,13 @@ gap 5, how a name is resolved for one target without resolving it for the other;
    never used anywhere in the package, so even `MenuLinkItem`'s `<a>` gets plain `HTMLAttributes`
    upstream. Three limits worth knowing:
    - **The marker is looked for in the part's own `extends` list only**, against a hand-maintained
-     alternation (`ELEMENT_PROPS_MARKER` = the 17 `BaseUi<Tag>Props` plus `FloatingPortalProps`). There is
+     pattern (`ELEMENT_PROPS_MARKER` matches `BaseUi\w+Props` or `FloatingPortalProps`). There is
      no transitive resolution, because `declarationParents` reads one file's body and that body does not
-     contain its parents' declarations — so every stub that stands in for an element-props parent has to
-     be added to the alternation by hand, or its part silently loses the helpers. A part inheriting the
+     contain its parents' declarations — so a stub outside that naming pattern has to be added
+     explicitly, or its part silently loses the helpers. A part inheriting the
      props through *another part's* props gets nothing either: in 1.6.0 that is `AlertDialogTriggerProps`
-     and `ToastManagerPositionerProps`, latent until `alert-dialog` and `toast`.
+     and `ToastManagerPositionerProps`. Toast now emits the latter without its own helpers;
+     `alert-dialog` remains outside the allow-list.
 
      (An earlier revision of this entry said those two were safe because "the converter drops `Omit<…>`
      anyway". It does not — `findParentType` unwraps `Omit<`, which is why `slider`'s three parts
@@ -411,9 +462,9 @@ gap 5, how a name is resolved for one target without resolving it for the other;
    Fixing it means giving `toFunctionType` a real parameter-list parser instead of its replacement chain,
    so each parameter and the return type can be widened independently
    (`(value: Any? /* … */, eventDetails: SliderRootChangeEventDetails) -> Unit`). That is a change with a
-   wide MUI blast radius, hence deferred. The three shapes that trip the guard today are a conditional
-   type, a union in return position, and `unknown`; each one prints a line, so the population is visible
-   rather than guessed at.
+   wide MUI blast radius, hence deferred. Examples include conditional types, a union in return
+   position, `unknown`, and Toast's `React.MouseEvent | React.KeyboardEvent` parameter. Each failure
+   prints a line, so the population is visible rather than guessed at.
 15. **Base UI warns about every `render` callback written in Kotlin.** It rejects a `render` function
    whose name starts with a capital, assuming a React component was passed by mistake. Kotlin/JS names a
    lambda after the declaration enclosing it, and a component `val` is `PascalCase` by convention, so the
@@ -456,49 +507,77 @@ gap 5, how a name is resolved for one target without resolving it for the other;
    FieldValidityData['state']`), so the generated `FieldValidityState : FieldValidityData` carries both
    — and reading the inherited `state` yields `undefined`, the same class of wrongness as gap 3.
 
-   Deliberately not fixed. Honouring the list means *inlining* the parent's members minus the omitted
-   ones rather than inheriting, which is a new pass in the converter, and the decision is not
-   `field`-specific: `toast` needs the same call (see "Remaining phases"). One occurrence is not enough
-   to design against. Note the sample reads `validity`, never `state`, which is what a call site should
-   do anyway.
+   Still open after Toast. Honouring the list means emitting the selected member shape rather than
+   simply inheriting the parent. `ToastManagerPositionerProps` now also inherits a `toast` member that
+   upstream omits, and `ToastManagerAddOptions` inherits excluded bookkeeping fields from
+   `ToastObject`. The Field sample reads `validity`, never the inherited `state`.
 
-   Distinct from the `Omit` problem in "Remaining phases", which is the opposite failure: there the
-   `Omit<` is the *second* parent, `findParentType`'s branch does not fire at all, and the parent is
-   dropped whole.
+   Accordion's fix preserves `Pick` / `Partial` / `Omit` parents in a multi-parent list, but discards
+   the member selection and does not make inherited fields optional. Nested utility wrappers are
+   still a separate loss: `Partial<Omit<ToastObject<Data>, ...>>` leaves
+   `ToastManagerUpdateOptions<Data>` empty. The old *second-parent rejection* is fixed —
+   `ToastPositionerProps` now inherits positioning props — while these semantic gaps remain.
+
+20. **Toast is integrated, but its typed API and sample coverage are incomplete.**
+   `createToastManager` / `useToastManager` are callable namespace methods, not omitted exports.
+   Remaining observable gaps:
+
+   - `ToastPortalProps` loses its `FloatingPortalLite.Props` parent and its element props (gap 6).
+     The playground's `FC<PropsWithChildren>` cast is a workaround, not a generator fix.
+   - `ToastObject<Data>.data` is `Any?`; manager `add` / `update` use options parameterized with
+     `Props`, and `promise` uses `Promise<Props>` / `Promise<*>`. The declared parameters do not yet
+     preserve the caller's `Data` and promise result types through the API.
+   - `ToastManagerUpdateOptions<Data>` is empty, while `ToastManagerAddOptions` and
+     `ToastManagerPositionerProps` restore omitted members (gap 19).
+   - The sample covers manager creation, adding/listing toasts, and a component close button. Extend
+     it to cover `Action`, `Arrow`, manager `close` / `update` / `promise`, custom data, and anchored
+     positioning, and record browser results before treating the module as fully verified.
+   - Generation still logs the two manager methods as "not exposed" before adding them through
+     explicit cases. Correct that diagnostic when generalizing non-component exports.
 
 ## Deliberately not generated
 
-- `internals/`, `floating-ui-react/`, `types/`, per-module `utils/`, and every `*Context.d.ts` —
-  internal plumbing, not public API. The *package-level* `utils/` is a different directory and not
-  excluded wholesale: `utils/useAnchorPositioning.d.ts` is pulled in by `BASE_UI_EXTRA_FILES` for the
-  props every Positioner inherits, and `utils/FloatingPortalLite.d.ts` is the next candidate (gap 6). Note `store/` is *not* excluded: `menu/store/MenuHandle.d.ts` is
+- Internal plumbing in `internals/`, `floating-ui-react/`, per-module `utils/`, and `*Context.d.ts`
+  is not scanned wholesale. Selected dependencies are generated through `BASE_UI_EXTRA_FILES`,
+  including `number-field/utils/types.d.ts`, `collapsible/root/useCollapsibleRoot.d.ts`, and
+  `collapsible/root/CollapsibleRoot.d.ts`. The public, type-only `types/` entry is not generated as
+  a module either; shared event-details types currently come from stubs.
+  The *package-level* `utils/` is also selected explicitly: `utils/useAnchorPositioning.d.ts` supplies
+  the positioning declarations, while `utils/FloatingPortalLite.d.ts` is still needed for Toast's
+  missing portal parent (gap 6). Note `store/` is *not* excluded: `menu/store/MenuHandle.d.ts` is
   listed in `index.parts.d.ts` and does reach `generate()`; it produces no file only because
   `declare class` converts to an empty body.
 - `*DataAttributes.d.ts` / `*CssVars.d.ts` — **these are `declare enum`s with string values**
   (`open = "data-open"`, `availableWidth = "--available-width"`), i.e. a machine-readable source for the
-  data-attribute and CSS-variable constants, and a better one than the `docs/*.md` the plan proposed.
-  Not wired up yet.
+  data-attribute and CSS-variable constants. Not wired up yet.
 - Callable interfaces (`export interface MenuTrigger { <Payload>(props): JSX.Element }`) are dropped:
   they type the component value, which the namespace object expresses as `FC<…Props>` instead.
-- The non-component members of a namespace object: `Menu.Handle` / `Menu.createHandle` and, in the
-  modules still to come, `Dialog.Handle`, `Toast.useToastManager` / `createToastManager`,
-  `Combobox.useFilter` / `useFilteredItems`, `DirectionProvider.useDirection`. 25 of the package's 283
-  parts are one of these — a `declare class` or a hook/factory function rather than a component — and
-  each needs its own design (see the imperative-API note under "Remaining phases"). `baseUiNamespaceObject`
-  detects them by the absence of a generated `<Part>Props` and logs each one.
+- Non-component exports still need broader support: `Menu.Handle` / `Menu.createHandle`, and exports
+  in modules still to come, such as `Dialog.Handle`, `Combobox.useFilter` / `useFilteredItems`, and
+  `useDirection`. These are classes or hook/factory functions rather than component values.
+  Toast's two manager functions are now explicit supported exceptions. `baseUiNamespaceObject`
+  detects missing `<Part>Props`, logs them, and records omitted bindings in KDoc; its log still
+  includes the two supported Toast methods (gap 20).
 
-## Next up: the fifth module
+## Next module and priorities
 
-Now that `field`, `accordion`, `number-field`, and `toast` are done, we have covered form controls, arbitrary tag
-parents (`h3`), bound-less type parameters, imperative APIs, and complex generic unrolling.
+Six modules are enabled. They cover compound menus, form controls, arbitrary tag parents (`h3`),
+bound-less type parameters, and an initial imperative API. Generic propagation and utility-type
+semantics are still incomplete; Toast demonstrates both limitations.
 
-The candidates for the sixth module:
-- **`combobox` / `autocomplete`**: The largest remaining modules (28 and 23 bindings). They hit gaps 4, 6, and 13 at once and will test the generator's ability to handle highly complex composition and generic propagation.
-- **`checkbox` / `switch` / `radio`**: Low cost, but prove little new except `aria-describedby` testing and bound-less `<Value = any>` for `radio-group`.
+Candidates for the next addition:
 
-**Recommendation**: Take **`combobox` / `autocomplete`**.
+- **`combobox` / `autocomplete`**: The largest remaining modules (28 and 23 bindings). They hit gaps
+  4, 6, and 13 together: generic props, cross-module/namespace references, and re-export resolution.
+- **`checkbox` / `switch` / `radio`**: Smaller additions that reuse more of the existing machinery;
+  verify `Field.Item` accessibility wiring as applicable. `radio-group` also uses `<Value = any>`.
 
-PLANK (same as for previous modules):
+**Recommendation:** take **`combobox` or `autocomplete`** next, with a playground sample. Keep the
+existing-module backlog visible, especially nullable values (gap 3), utility types (gap 19), and
+Toast's incomplete API (gap 20); adding a seventh module will not close these automatically.
+
+Completion checklist for each addition:
+
 1. Fix any defect in the generator (`buildSrc/src/main/kotlin/karakum/mui/`).
 2. No diff leakage in existing MUI output.
 3. Playground sample utilizing the new APIs and members, rendered in browser.
@@ -510,49 +589,42 @@ PLANK (same as for previous modules):
 `menu` is the vertical slice, `slider` the proof it generalizes; `BASE_UI_MODULES` in `Generator.kt` is
 the allow-list to extend.
 
-- A playground sample per module as modules land — `menu` and `slider` have one. See "What only the
-  sample can catch".
+- A playground sample per new module, with browser verification. All six enabled modules have
+  samples; their coverage differs, especially Toast's (gap 20). See "What only the sample can catch".
 - `field` is done — see Done. One detail that belongs nowhere else: `field/index.parts.d.ts` binds
   `FieldValidityData` with `export type { … } from`, which `EXPORT_CLAUSE` does not match at all. That
   is correct — it names no value, and the type is generated from `FieldRoot.d.ts` anyway — but it means
   `Field.ValidityData` is absent from the namespace object by design rather than by omission, and
   nothing logs it.
-- Utils and the 13 flat modules: `use-render`, `merge-props`, `csp-provider`, `direction-provider`,
-  `button`, `separator`, `input`, `form`, `toggle`, `toggle-group`, `radio-group`, `checkbox-group`,
-  `menubar`, `unstable-use-media-query`.
-- The other 29 part modules. Priority to those with `@mui/base` predecessors (select, switch, tabs,
-  tooltip, dialog, popover, number-field, checkbox, radio). Two still need their own design: imperative
-  Toast (`createToastManager` / `useToastManager`) and generic `Select<Value>` / `Combobox`. `Form` was
-  the third; `field` has now taken half of it, and what is left is the `Form` module itself and the two
-  types `FieldRootProps` still widens against it (gap 6).
+- The 12 flat runtime modules: `button`, `checkbox-group`, `form`, `input`, `menubar`, `merge-props`,
+  `radio-group`, `separator`, `toggle`, `toggle-group`, `unstable-use-media-query`, and `use-render`.
+  `Separator` is already reused through `Menu.Separator`, but its module is not independently enabled.
+- The remaining 25 modules with part files, including the direct-export providers `csp-provider` /
+  `direction-provider`. Priority remains with counterparts of the old headless components: `select`,
+  `switch`, `tabs`, `tooltip`, `dialog`, `popover`, `checkbox`, and `radio`. Generic `Select<Value>` /
+  `Combobox` and broader imperative exports still need design work; Toast supplies an initial, partial
+  implementation rather than a general solution. `Form` itself and the two Form types widened in
+  `FieldRootProps` are also pending (gap 6).
 
-  Which to take next is a real choice, not an ordering detail — see "Next up" above. `combobox` and
-  `autocomplete` are the largest and the first to hit gaps 4, 6 and 13 at once.
+  See "Next module and priorities" above: `combobox` and `autocomplete` are the largest and the
+  first to hit gaps 4, 6 and 13 at once.
 
-  Anything with a Positioner used to be gated on gap 9; that is closed, and the anchor-positioning props
-  are inherited by all eight Positioner parts, so `select` / `popover` / `tooltip` / `navigation-menu` /
-  `preview-card` / `combobox` / `toast` arrive with that surface already working. Two of them will **not** inherit it at
-  all, and the failure is silent: `TooltipPositionerProps extends BaseUIComponentProps<'div', …>,
-  Omit<UseAnchorPositioningSharedParameters, 'side'>` and `ToastPositionerProps extends …, Omit<…,
-  'side' | 'anchor'>` spell the `Omit<` as the *second* parent. `findParentType`'s `Omit` branch only
-  fires when the whole parent source starts with `Omit<` (`ParentType.kt:40`) — which is why `slider`'s
-  single-parent `Omit<BaseUIComponentProps<'div', …>, 'id'>` keeps `BaseUiDivProps` — so these two fall
-  to the multi-parent split instead, where `isAcceptableParent` rejects any prefix in
-  `TS_UTILITY_PREFIXES`. The positioning parent is dropped entirely, and `unresolvedParents` cannot
-  report it: the name is filtered out, not left unresolved. First thing to check when either lands.
-
-  Two smaller candidates that would still break new ground: `accordion` (a `Pick<AccordionRoot.Props, …>`
-  parent, an `'h3'` tag, and `AccordionRootProps<Value = any>` — the bound-less parameter shape) and
-  `field` itself (above).
-- `@mui/base` stays generated and frozen. Only two generated files depend on it —
-  `mui/material/Snackbar.kt` (`ClickAwayListenerProps`) and `mui/material/Autocomplete.kt`
-  (`UseAutocompleteProps`) — so retiring it later is cheap.
+  Shared positioning declarations are generated (gap 9 closed), and multi-parent utility wrappers
+  are unwrapped after Accordion. `ToastPositionerProps` confirms that the positioning parent now
+  survives. Check `tooltip` and each new Positioner against upstream as it lands; the omission lists
+  and redeclared member types are still not faithfully modeled (gap 19).
+- `@mui/base` stays generated and frozen at `5.0.0-beta.70`, alongside Base UI. Four generated
+  Material files reference `mui.base`: `Snackbar.kt` (`ClickAwayListenerProps`), `Autocomplete.kt`
+  (`UseAutocompleteProps`), `Popper.kt` (`PopperProps`), and `Orientation.kt` (typealias).
+  `playground/src/jsMain/kotlin/SliderStylization.kt` also uses `mui.base.Slider` / `sliderClasses`.
+  Migrate these consumers and review generator mappings and downstream compatibility before
+  removing the old generation target and npm dependency.
 
 ## What only the sample can catch
 
-`:mui-kotlin:compileKotlinJs` type-checks the declarations against each other. Three things it cannot
-see, all of which the sample does, and all of which CI now enforces because `./gradlew build` compiles
-`:playground`:
+`:mui-kotlin:compileKotlinJs` type-checks the declarations against each other. The playground adds
+call-site coverage, which CI checks by compiling it. The runtime observations below require browser
+interaction; compiling the sample alone does not verify them:
 
 - **Call-site resolution of the `.ext.kt` helpers.** `className { … }` has to resolve to the extension
   function and not to the inherited `className: Any?` property it shadows. Nothing in `mui-kotlin`
