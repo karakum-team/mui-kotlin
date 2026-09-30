@@ -771,7 +771,8 @@ private fun generateTreeViewDeclarations(
                 // v9.12 rewrote TreeItemProvider.d.ts's return annotation to `React.JSX.Element`, which
                 // makes `findComponent` recognise it. Its props live in the sibling `.types.d.ts`, so that
                 // has to be generated too or the emitted `FC<TreeItemProviderProps>` has no such type.
-                "TreeView", "SimpleTreeView", "RichTreeView", "TreeItemLabelInput", "TreeItemProvider", "TreeItem2DragAndDropOverlay" -> {
+                // TreeItemLoader (9.13+) likewise exports its props and owner state from a sibling file.
+                "TreeView", "SimpleTreeView", "RichTreeView", "TreeItemLabelInput", "TreeItemProvider", "TreeItemLoader", "TreeItem2DragAndDropOverlay" -> {
                     val typesFile = it.resolve("${it.name}.types.d.ts")
                     generate(typesFile, targetDir, Package.treeView)
                 }
@@ -1385,7 +1386,12 @@ private fun generate(
         typesOnly = typesOnly,
         preprocess = preprocess,
         keepEmptyBodyParents = pkg == Package.baseUi,
-        knownTypes = if (pkg == Package.baseUi) BASE_UI_KNOWN_TYPES else emptyMap(),
+        knownTypes = when (pkg) {
+            Package.baseUi -> BASE_UI_KNOWN_TYPES
+            // The new loading-row component exposes this state through its public ownerState prop.
+            Package.treeView -> mapOf("TreeItemLoaderOwnerState" to "TreeItemLoaderOwnerState")
+            else -> emptyMap()
+        },
         collapseMemberValueObjects = pkg == Package.baseUi,
     )
 

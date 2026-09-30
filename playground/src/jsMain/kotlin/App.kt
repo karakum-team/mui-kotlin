@@ -28,6 +28,7 @@ private val App = FC {
     BaseUiNumberField()
     BaseUiToast()
     TreeView()
+    TreeViewLoading()
     Theming()
 }
 

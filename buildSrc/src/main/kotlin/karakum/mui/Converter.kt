@@ -18,9 +18,9 @@ internal fun convertClasses(
     //    — a bare identifier naming a sibling this pass also emits, so it can survive as a real Kotlin
     //    supertype and the child keeps the base's 15 class keys. x-tree-view's
     //    `extends Omit<TreeViewClasses, '…'>` does NOT survive: `Omit<…>` is not a bare identifier, and
-    //    `TreeViewClasses` lives under `internals/` and is never generated. It keeps falling through to
-    //    the empty-marker branch below. Opt-in is the point — a blanket "keep the parent" would emit
-    //    unresolved references for Simple/RichTreeView.
+    //    `TreeViewClasses` lives under `internals/` and is not emitted by this classes pass. The child's
+    //    own keys still survive (RichTreeView adds `itemLoader` in 9.13), independently of its parent.
+    //    Opt-in prevents an unsupported parent from leaking into the classes declarations.
     //  - `override`. `PickersOutlinedInputClasses` RE-declares `notchedOutline`, which the base already
     //    has; without `override` Kotlin reports VIRTUAL_MEMBER_HIDDEN.
     //
@@ -44,9 +44,9 @@ internal fun convertClasses(
                     "external val ${classesName.replaceFirstChar(Char::lowercase)}: $classesName\n"
         }
 
-        // v9: SimpleTreeView/RichTreeView declare `export interface XxxClasses extends Omit<TreeViewClasses,
+        // v9: SimpleTreeView declares `export interface XxxClasses extends Omit<TreeViewClasses,
         // '…'> {}` — an empty body narrowing an INTERNAL base (`TreeViewClasses` lives under `internals/`
-        // and isn't generated). Emit an empty marker interface so `classes` typing resolves; the individual
+        // and isn't part of this classes pass). Emit an empty marker so `classes` typing resolves; inherited
         // class-name members are not expanded for now (see MUI_V9_TODO).
         if ("export interface $classesName extends " in content) {
             return "@JsPlainObject" +
@@ -98,11 +98,8 @@ internal fun classesMemberNames(
 /**
  * `classesName`'s accepted parent (or null) paired with its declaration body (or `""` when it has none).
  *
- * Parent matching is deliberately narrow: requiring `\w+` immediately before the body brace matches
- * `extends PickersInputBaseClasses {` and rejects both `extends Omit<TreeViewClasses, '…'>` and any
- * multi-parent list. Everything it rejects — including a parent `acceptParent` turns down — falls back to
- * the plain `interface X {` header and so keeps the pre-existing behaviour, which is what x-tree-view
- * relies on.
+ * Only a bare identifier accepted by the caller survives as a parent. Extract the body independently:
+ * rejecting `Omit<TreeViewClasses, '…'>` must not discard the child's own `itemLoader` class key.
  *
  * The body is cut at the end of the match rather than by rebuilding the header as a literal string. That
  * matters: the pattern tolerates whitespace the literal would not (`extends Y  {`, or the brace on the
@@ -114,15 +111,13 @@ private fun findClassesDeclaration(
     content: String,
     acceptParent: (String) -> Boolean,
 ): Pair<String?, String> {
-    val extended = Regex("""export interface ${Regex.escape(classesName)} extends (\w+)\s*\{\n""")
+    val declaration = Regex("""export interface ${Regex.escape(classesName)}(?: extends ([^{]+?))?\s*\{\n""")
         .find(content)
 
-    val parent = extended?.groupValues?.get(1)?.takeIf(acceptParent)
+    val parent = declaration?.groupValues?.get(1)?.trim()
+        ?.takeIf { it.matches(Regex("""\w+""")) && acceptParent(it) }
 
-    val source = if (parent != null)
-        content.substring(extended.range.last + 1)
-    else
-        content.substringAfter("export interface $classesName {\n", "")
+    val source = declaration?.let { content.substring(it.range.last + 1) }.orEmpty()
 
     // `X {\n}` — declared, but with nothing in it. Callers distinguish "no such interface" from "no
     // members" by the parent, not by the body, so both are reported the same way.

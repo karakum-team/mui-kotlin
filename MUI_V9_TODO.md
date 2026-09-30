@@ -9,7 +9,7 @@ Migration of the generator from MUI v7 → **v9** (v8 skipped; the suite was rea
 | `@mui/material` / `@mui/system`            | `9.4.0`                                                              |
 | `@mui/icons-material`                      | `9.4.0`                                                              |
 | `@mui/lab`                                 | `9.0.0-beta.9`                                                       |
-| `@mui/material` / `@mui/system`            | `9.1.2`                                                              |
+| `@mui/x-date-pickers` / `@mui/x-tree-view`  | `9.14.0`                                                             |
 | `@mui/base`                                | `5.0.0-beta.70` (frozen; retained during [Base UI migration](BASE_UI_TODO.md)) |
 | `@base-ui/react`                           | `1.6.0` (six modules included; see [current status](BASE_UI_TODO.md))   |
 | kotlin-wrappers BOM                        | `2026.9.3`                                                           |
@@ -24,6 +24,47 @@ Migration of the generator from MUI v7 → **v9** (v8 skipped; the suite was rea
 - ✅ `:mui-kotlin:compileKotlinJs` — **0 errors**
 - ✅ `:playground:compileKotlinJs` — **0 errors**
 - ⏳ Type-quality / review-remark polish — **not yet done** (see "Remaining" below)
+
+## MUI X 9.12 → 9.14 update (2026-10-01)
+
+- Both MUI X packages and `@mui/x-internals` are now `9.14.0`. Material/System/Icons stay at `9.4.0`;
+  Base UI stays at `1.6.0`. The installed packages satisfy the current peer dependency ranges.
+- Date Pickers' published `.d.ts` files are byte-identical between `9.12.0` and `9.14.0`, so its
+  generated declarations did not change. Tree View adds `RichTreeView.loading`, the `loading` and
+  `itemLoader` slots, and the public `TreeItemLoader` component (introduced in `9.13.0`).
+- `generateTreeViewDeclarations` now includes `TreeItemLoader.types.d.ts`. Its `ownerState` keeps the
+  generated `TreeItemLoaderOwnerState` type via a Tree-View-scoped known-type mapping, and
+  `React.HTMLAttributes<HTMLLIElement>` survives as its real Kotlin parent (`title`, `className`, etc.).
+- `findClassesDeclaration` now extracts an interface's own body even when its utility-type parent
+  cannot be retained. This exposes `richTreeViewClasses.itemLoader`; it does not expand the inherited
+  keys hidden behind `Omit<TreeViewClasses, ...>`. Existing picker class inheritance is unchanged.
+- New `playground/src/jsMain/kotlin/TreeViewLoading.kt` exercises `loading`, both new slots, slot props,
+  typed loading-row state, and both new CSS-class objects. The existing `items` gap is supplied by a
+  sample-local props interface, not a change to the library API. `RichTreeViewSlotProps.loading` and
+  `.itemLoader` still use the generator's existing `react.Props` approximation for `SlotComponentProps`;
+  callback forms and the loading slot's `itemsCount`/`message` are not given dedicated Kotlin types.
+- npm upgrade caveat: the first incremental install left the playground workspace at `9.12.0`,
+  hoisted those old types to `build/js/node_modules`, and nested `9.14.0` under the library workspace.
+  `./gradlew kotlinUpgradePackageLock --rerun-tasks` refreshed every workspace and removed the split.
+  Verified both the generator's root packages and Node resolution from the playground at `9.14.0`;
+  `.kotlin-locks/js/package-lock.json` matches `build/js/package-lock.json` byte-for-byte.
+
+Verification:
+
+- Both `compileKotlinJs` tasks pass with zero errors. `:mui-kotlin:clean build` passes, including the
+  playground production bundle; the development executable was also rebuilt.
+- SHA-256 manifests of all **743** generated files match before and after the clean regeneration,
+  including the three new `TreeItemLoader` files. The six generated changes versus HEAD are intentional:
+  three new files and three changed Tree View files; no picker or Material output changed.
+- Chrome DevTools: five disabled loading rows with `aria-busy=true`, owner-state row indices/count/depth,
+  forwarded `className`, and both CSS selectors; finish loading shows `Loaded file` and removes busy
+  state; the custom `loading` slot shows one semantic `TreeItemLoader` row.
+- Regression smoke: DatePicker selects `2026-10-15`; the digital clock selects `03:30 AM`; SimpleTreeView
+  expands and selects a leaf, while the disabled item stays disabled and Archive expands without being
+  selected; Toast creates and closes without unmounting the app.
+- No JavaScript runtime exceptions. The existing duplicate-Emotion and Kotlin `render` callback-name
+  warnings remain, along with the missing favicon (404). Gradle browser test tasks are skipped; the
+  browser checks above were interactive. No Pro lazy-loading behavior was exercised.
 
 ## Generator changes made for v9 (all in `buildSrc/.../karakum/mui/`)
 
@@ -212,7 +253,7 @@ done in this bump: nine rebindings each need their own browser proof.
 
 **All other mui-x components are generated and green**, including the full pickers surface (responsive +
 calendars + clocks + PickerDay + PickersCalendarHeader + fields + adapters) and tree-view
-(SimpleTreeView / RichTreeView / TreeItem / TreeItemLabelInput + icons/provider/hook).
+(SimpleTreeView / RichTreeView / TreeItem / TreeItemLabelInput / TreeItemLoader + icons/provider/hook).
 
 ### Tree View: the behavioural props are still missing (found during the 9.8 → 9.12 bump)
 
@@ -232,8 +273,9 @@ consumed the tree-view declarations until `playground/src/jsMain/kotlin/TreeView
   method's parameter tuple. Resolving it needs a real TypeScript checker; this generator is
   text-based, so no `typesOnly` trick can recover it. The only route is a hand-written stub in the
   `PICKERS_STUBS` style (`Generator.kt`), which carries a real staleness cost and was left out of the
-  version bump deliberately. **Consequence: `RichTreeView` cannot be given its `items`, so it is not
-  usable from Kotlin; only the children-driven `SimpleTreeView` is.**
+  version bump deliberately. **Consequence: the public Kotlin API still cannot supply `RichTreeView.items`;
+  only the children-driven `SimpleTreeView` is usable without a local extension.** The 9.14 loading sample
+  supplies a sample-local `items` shape to exercise the new API; it does not close this library gap.
 
 ### Other tree-view findings from the 9.8 → 9.12 bump
 

@@ -132,6 +132,7 @@ internal fun findParentType(
         "React.HTMLAttributes<HTMLElement>",
         "React.HTMLAttributes<HTMLDivElement>",
         "React.HTMLAttributes<HTMLUListElement>",
+        "React.HTMLAttributes<HTMLLIElement>",
         "React.HTMLAttributes<HTMLSpanElement>",
         "React.HTMLAttributes<HTMLInputElement | HTMLTextAreaElement>",
             -> parentSource.toTypeParameter()
