@@ -995,6 +995,9 @@ private val BASE_UI_MODULES = setOf(
     "menu",
     "slider",
     "field",
+    "fieldset",
+    "switch",
+    "checkbox",
     "accordion",
     "number-field",
     "toast",
@@ -1275,7 +1278,7 @@ private fun RuntimeBindings.generateBaseUiDeclarations(
             )
         )
 
-    for (stub in unusedNamespaceStubs(bodies))
+    for (stub in unusedBaseUiStubs(bodies, BASE_UI_STUBS))
         println("Base UI: nothing referred to the $stub stub — has its upstream declaration changed?")
 
     // The namespace objects are what makes the types above renderable, and go last: a part is exposed

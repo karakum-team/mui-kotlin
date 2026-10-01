@@ -21,13 +21,15 @@ shapes** (component anatomy split into parts, different slot/render-prop convent
 - npm dependency and lockfile entry, `Package.baseUi`, and `generateBaseUiDeclarations(...)`.
 - Separate `baseui` output with namespace objects for compound components, props/state declarations,
   state-typed `className` / `style` / `render` helpers, and shared positioning props.
-- Six allow-listed modules with playground samples: `menu`, `slider`, `field`, `accordion`,
-  `number-field`, and `toast`. Toast also exposes `createToastManager` / `useToastManager`.
+- Nine allow-listed modules with playground samples: `menu`, `slider`, `field`, `fieldset`, `switch`,
+  `checkbox`, `accordion`, `number-field`, and `toast`. Toast also exposes `createToastManager` /
+  `useToastManager`.
 
 **Remaining:**
 
 1. Follow [the backlog ordered by predictability](BASE_UI_TODO.md#execution-order-by-predictability):
-   start with `fieldset`, `switch`, and `checkbox`, then bounded generator fixes and module batches,
+   group 1 (`fieldset`, `switch`, `checkbox`, and diagnostics) is implemented and verified; next are
+   bounded generator fixes and module batches in group 2 after the human checkpoint,
    then components requiring more interaction verification.
 2. Leave the most uncertain design work until the last implementation group: `select`, `combobox`,
    `autocomplete`, `form`, `use-render`, `merge-props`, and the shared generic/utility-type/imperative

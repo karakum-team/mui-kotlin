@@ -163,6 +163,7 @@ internal fun baseUiModules(
 internal fun baseUiNamespaceObject(
     module: BaseUiModule,
     declaredTypes: Set<String>,
+    reportDiagnostic: (String) -> Unit = ::println,
 ): String? {
     val namespace = module.namespace ?: return null
 
@@ -170,36 +171,27 @@ internal fun baseUiNamespaceObject(
     // `index.parts.d.ts` in 1.6.0 lists one twice (a file can back two, but under different aliases:
     // `Menu.Handle` and `Menu.createHandle` both come from `MenuHandle.d.ts`). Sorted to keep the member
     // order independent of the order `index.parts.d.ts` happens to list the parts in.
-    val (components, unexposed) = module.parts
+    val (components, nonComponents) = module.parts
         .distinctBy { it.alias }
         .sortedBy { it.alias }
         .partition { "${it.declaredName}Props" in declaredTypes }
 
+    val methods = nonComponents.mapNotNull { BASE_UI_NAMESPACE_METHODS[it.alias] }
+    val unexposed = nonComponents.filter { it.alias !in BASE_UI_NAMESPACE_METHODS }
+
     // Each omission is logged as well as documented in the object: a part missing from an otherwise
     // plausible-looking namespace object is not visible in the generated output.
     for (part in unexposed)
-        println("Base UI $namespace: no generated ${part.declaredName}Props, '${part.alias}' not exposed")
+        reportDiagnostic("Base UI $namespace: no generated ${part.declaredName}Props, '${part.alias}' not exposed")
 
     if (components.isEmpty()) {
-        println("Skipping Base UI namespace object '$namespace': no part has a generated props type")
+        reportDiagnostic("Skipping Base UI namespace object '$namespace': no part has a generated props type")
         return null
     }
 
-    val methods = unexposed.mapNotNull { part ->
-        when (part.alias) {
-            "createToastManager" -> "fun <Data : Any> createToastManager(): ToastManager<Data>"
-            "useToastManager" -> "fun <Data : Any> useToastManager(): UseToastManagerReturnValue<Data>"
-            else -> null
-        }
-    }
-
-    val unexposedRemaining = unexposed.filter { part ->
-        part.alias !in listOf("createToastManager", "useToastManager")
-    }
-
-    val unexposedNote = if (unexposedRemaining.isEmpty()) "" else
+    val unexposedNote = if (unexposed.isEmpty()) "" else
         "\n *\n * Omitted, having no generated props type: " +
-                unexposedRemaining.joinToString(", ") { "`${it.alias}`" } + "."
+                unexposed.joinToString(", ") { "`${it.alias}`" } + "."
 
     val members = components.joinToString("\n") { part ->
         "val ${part.alias}: react.FC<${part.declaredName}Props>"
@@ -219,6 +211,11 @@ $members
 }
 """.trim()
 }
+
+private val BASE_UI_NAMESPACE_METHODS = mapOf(
+    "createToastManager" to "fun <Data : Any> createToastManager(): ToastManager<Data>",
+    "useToastManager" to "fun <Data : Any> useToastManager(): UseToastManagerReturnValue<Data>",
+)
 
 /**
  * Names of the `external interface` declarations in the given file bodies — the props and state types
@@ -630,22 +627,37 @@ private val NAMESPACE_STUBS = mapOf(
 )
 
 /**
- * The stubs from [NAMESPACE_STUBS] that no generated declaration ended up referring to.
+ * Hand-written stub declarations that no emitted code refers to.
  *
- * A rewrite that stops matching is otherwise invisible: the reference just fails
- * `ParentType.isAcceptableParent` again and the props silently go back to extending nothing but
- * `react.Props`, taking `children` with them — which is the whole regression this machinery exists to
- * prevent. Upstream renaming or reshaping the namespace member is the way that happens.
+ * A rewrite that stops matching is otherwise invisible: its stub stays in the tree even though no
+ * generated declaration reaches it. This includes the targets of [NAMESPACE_STUBS], whose lost
+ * references can silently discard a parent and its props. Comments and the declaration's own name
+ * do not count as references; parents and members in another stub do.
  */
-internal fun unusedNamespaceStubs(
+internal fun unusedBaseUiStubs(
     bodies: Iterable<String>,
+    stubBody: String,
 ): List<String> {
-    val referenced = bodies.flatMapTo(mutableSetOf()) { body ->
-        NAMESPACE_STUBS.values.filter { stub -> Regex("""\b$stub\b""").containsMatchIn(body) }
+    val stubs = BASE_UI_NON_CODE.replace(stubBody, " ")
+    val declaredStubs = baseUiDeclaredTypes(listOf(stubs))
+    val referenced = (bodies + stubs).flatMapTo(mutableSetOf()) { body ->
+        val code = DECLARED_INTERFACE.replace(BASE_UI_NON_CODE.replace(body, " ")) { match ->
+            match.value.removeSuffix(match.groupValues[1])
+        }
+
+        BASE_UI_IDENTIFIER.findAll(code).map { it.value }
     }
 
-    return NAMESPACE_STUBS.values.filter { it !in referenced }
+    return declaredStubs.filter { it !in referenced }
 }
+
+// The emitted declarations contain no nested block comments. Literal text, including annotation
+// arguments, cannot establish that a stub is used as a type either.
+private val BASE_UI_NON_CODE = Regex(
+    """/\*.*?\*/|//[^\r\n]*|"{3}.*?"{3}|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'""",
+    RegexOption.DOT_MATCHES_ALL,
+)
+private val BASE_UI_IDENTIFIER = Regex("""[A-Za-z_][A-Za-z0-9_]*""")
 
 /**
  * Parents named by the generated declarations that no generated declaration provides.

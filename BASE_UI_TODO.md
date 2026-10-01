@@ -4,20 +4,24 @@ Current status and handoff for the `@base-ui/react` generator target, the succes
 `@mui/base`. This is the canonical migration backlog. The original plan and review were removed in
 `9577387c`; use the generator, emitted Kotlin, and pinned upstream `.d.ts` as implementation evidence.
 
-**Status reviewed:** 2026-10-01. Latest migration implementation commit: `f296d5bd` (Toast, 2026-09-07).
+**Status reviewed:** 2026-10-01. Latest committed module addition: `f296d5bd` (Toast, 2026-09-07).
+Current batch: group 1 implemented, verified, and independently reviewed with zero findings;
+ready for human review and commit. Group 2 has not started.
+See [the acceptance record](BASE_UI_WORK_LOG.md).
 
 **Target version:** `base-ui-react.version=1.8.0`. Updated from `1.6.0` on 2026-10-01, with generator
 adaptations and browser verification recorded below. The version remains pinned because Base UI
 has changed declaration shapes across 1.x.
 
-**Where this stands:** six modules are in `BASE_UI_MODULES` in `Generator.kt`: `menu`, `slider`,
-`field`, `accordion`, `number-field`, and `toast`. All have generated declarations, runtime namespace
+**Where this stands:** nine modules are in `BASE_UI_MODULES` in `Generator.kt`: `menu`, `slider`,
+`field`, `fieldset`, `switch`, `checkbox`, `accordion`, `number-field`, and `toast`. All have generated declarations, runtime namespace
 objects, and samples wired into `playground/src/jsMain/kotlin/App.kt`. Inclusion does **not** mean full
 API or type coverage; the open gaps below affect existing modules as well as future additions.
 
 **Execution order:** start with predictable additions; defer work requiring new type-conversion
 design until the last implementation group. See [the ordered backlog](#execution-order-by-predictability).
-The next module is `fieldset`, followed by `switch` and `checkbox`.
+Group 1 is implemented. Group 2 starts after the human review/commit checkpoint, with direct exports
+and their dependent modules.
 
 The pinned package has **43 public runtime modules**, plus the type-only `types` subpath. The earlier
 "44 modules" count included `types`; it was not a count of 44 component/runtime modules. Shared
@@ -29,6 +33,9 @@ enabled modules.
 | `menu` | 20 components, including shared `Separator`; `Handle` / `createHandle` omitted | [BaseUiMenu.kt](playground/src/jsMain/kotlin/BaseUiMenu.kt) |
 | `slider` | 7 components | [BaseUiSlider.kt](playground/src/jsMain/kotlin/BaseUiSlider.kt) |
 | `field` | 7 components | [BaseUiField.kt](playground/src/jsMain/kotlin/BaseUiField.kt) |
+| `fieldset` | 2 components: Root / Legend | [BaseUiFieldset.kt](playground/src/jsMain/kotlin/BaseUiFieldset.kt) |
+| `switch` | 2 components: Root / Thumb | [BaseUiSwitch.kt](playground/src/jsMain/kotlin/BaseUiSwitch.kt) |
+| `checkbox` | 2 components: Root / Indicator | [BaseUiCheckbox.kt](playground/src/jsMain/kotlin/BaseUiCheckbox.kt) |
 | `accordion` | 5 components | [BaseUiAccordion.kt](playground/src/jsMain/kotlin/BaseUiAccordion.kt) |
 | `number-field` | 7 components | [BaseUiNumberField.kt](playground/src/jsMain/kotlin/BaseUiNumberField.kt) |
 | `toast` | 11 components + `createToastManager` / `useToastManager` | [BaseUiToast.kt](playground/src/jsMain/kotlin/BaseUiToast.kt) |
@@ -62,6 +69,41 @@ fixed the multi-parent utility-type rejection before `toast` arrived.
   instances, the documented Kotlin `render` callback-name warning, and a missing `favicon.ico` (404).
 
 ## Done
+
+### Group 1 — predictable additions (2026-10-01)
+
+- Added `fieldset`, `switch`, and `checkbox` through the existing allow-list/conversion path: 15 new
+  generated files, with public namespace values, props/state, typed callbacks, and state helpers.
+  All six parts are mounted in playground samples. No new converter exceptions or widening.
+- Fieldset: automatic div-based Legend/ARIA linkage, nested disabled inheritance (even with the
+  nested Root's own `disabled=false`), native controls, retained edits, Tab order, visible keyboard
+  focus, and forwarded children/refs verified. Custom refs resolve to `FIELDSET` / `DIV`.
+- Switch: controlled/uncontrolled state, native Field label clicks, Space, disabled/read-only,
+  Field state/helper readback, `none` change reason, typed input ref, and both form value arms verified.
+  A sample-local state/DSL prop name collision caused a render loop; renamed the state variables,
+  rebuilt, and repeated the browser checks successfully.
+- Checkbox: checked/unchecked/mixed state (`aria-checked="mixed"` and native `indeterminate`), label/
+  description association, Space, Field disabled precedence, restored interaction, indicator
+  rendering, and imperative focus ref verified. CheckboxGroup scenarios remain group 2 work.
+- `unusedBaseUiStubs` now checks all hand-written stub declarations, excluding comments/literals and
+  their own declaration names while retaining references from other stubs. Current unused stub:
+  `FloatingPortalProps`, reported once. Supported Toast methods no longer log as omitted; real Menu
+  `Handle` / `createHandle` omissions still do. Four focused tests cover these diagnostics.
+- NumberField increment/decrement and Toast create/component-close flows rechecked on the same
+  rebuilt page. Existing samples remain mounted. Screenshots inspected for all three new samples;
+  their content also fits the actual narrow browser viewport (500 CSS pixels).
+
+Verification: both Kotlin/JS modules compile with zero errors; `:buildSrc:test` passes all 15 tests;
+all 21 runtime-export tests pass; clean `build` includes the production bundle. All **759** generated
+filenames/content hashes reproduce exactly (SHA-256 aggregate
+`a1509d3ad0368ff423566dc15113c9ed0564e6eec9fd31191969bd09e88e1e22`); all 744 pre-existing generated
+files are unchanged. No runtime exceptions after the Switch sample fix; the known Kotlin render-name
+warning and favicon 404 remain. Independent combined review: zero findings; coordinator acceptance
+complete. Human review/commit remains the checkpoint; details are recorded in the work log.
+
+This closes **module integration**, not the shared `Omit`, reason-alias, polymorphic-ref/FC, and
+element-prop union limitations. Switch/Checkbox change callbacks themselves are typed; the event
+details still use the shared `reason: String` convention. Full type fidelity remains in the backlog.
 
 ### Base UI 1.6 → 1.8 update (2026-10-01)
 
@@ -133,7 +175,8 @@ The implementation history below describes the original integration unless it ex
   and the canonical `Root > Trigger + Portal > Positioner > Popup` tree can finally be written. The table
   is where `AriaCombobox.Props` / `.Actions` go when combobox and autocomplete are added. A rewrite that
   silently stops matching would put the parent straight back in the bin, so `unusedNamespaceStubs`
-  reports any stub that no generated declaration ended up referring to.
+  reported unused namespace stubs; the broader `unusedBaseUiStubs` guard now covers all hand-written
+  stubs (see group 1 above).
 - **`slider` module** — 7 parts, no portal / positioner / backdrop, so none of `menu`'s machinery is
   re-used. What it cost, each item a generator fix rather than a slider-specific workaround:
   - **Cross-module declaration dependencies.** `SliderRootState extends FieldRootState`, declared in
@@ -447,7 +490,7 @@ Gap 21 records the direct-export prerequisite identified while ordering the rema
    namespace is dropped silently rather than flattened. That is what cost `MenuPortal` its parent (now
    closed, see Done), and `resolveNamespaceStubs` works around it one entry at a time rather than fixing
    the flattening. Outside `internals/` and `floating-ui-react/` there is exactly one such namespace
-   (`AriaCombobox`), so it is latent for now. Still unlogged: the new `unusedNamespaceStubs` only notices
+   (`AriaCombobox`), so it is latent for now. Still unlogged: `unusedBaseUiStubs` only notices
    when a *known* stub stops being referenced, not when a namespace member is dropped in the first place,
    which is the failure that has to be found by hand today.
 8. **`instant` is typed `mui.system.Union`** (= `String`) in `MenuPopup` / `MenuViewport` — both a
@@ -542,11 +585,10 @@ Gap 21 records the direct-export prerequisite identified while ordering the rema
    once per call site. `BaseUiField` adds a second `render` call site and the console still carries
    exactly one such warning, naming whichever lambda got there first. The `.ext.kt` helper cannot rename
    the function it is handed. Worth a look if a cheap rename at the assignment turns out to exist.
-16. **`BASE_UI_STUBS` has no unused-stub guard.** `unusedNamespaceStubs` reports a `NAMESPACE_STUBS`
-   entry that nothing referred to, which is what catches a rewrite that silently stopped matching. The
-   hand-written declarations in `BASE_UI_STUBS` have no equivalent, and `BaseUIGenericEventDetails` sat
-   dead in the tree from the day it was written until `slider` — the alias that was supposed to reach it
-   never converted. The same check applies verbatim and would have found it.
+16. ~~**`BASE_UI_STUBS` has no unused-stub guard.**~~ — closed in group 1. `unusedBaseUiStubs`
+   inspects every hand-written declaration, strips comments/literals and self-declaration names, and
+   counts actual code references including references from other stubs. It also covers namespace
+   stub targets, so the existing unused `FloatingPortalProps` diagnostic is emitted only once.
 17. **The `children` formatting callback has no typed spelling** — for one part, not the three an
    earlier revision of this entry counted, and `field` is what corrected it. `Slider.Value.children` is
    honestly `Any?` (see Done), which is an improvement on being wrong, but the call site still writes the
@@ -601,8 +643,8 @@ Gap 21 records the direct-export prerequisite identified while ordering the rema
    - The sample covers manager creation, adding/listing toasts, both update forms on both managers,
      and a component close button. Extend it to cover `Action`, `Arrow`, manager `close` / `promise`, custom data, and anchored
      positioning, and record browser results before treating the module as fully verified.
-   - Generation still logs the two manager methods as "not exposed" before adding them through
-     explicit cases. Correct that diagnostic when generalizing non-component exports.
+   - The misleading "not exposed" messages for the two supported manager methods are fixed in
+     group 1. Unsupported exports still produce diagnostics; the broader API gaps above remain open.
 
 21. **Modules without a namespace object have no generated runtime exports.**
    `baseUiModules` can discover named re-exports from a flat `index.d.ts`, but
@@ -639,38 +681,66 @@ Gap 21 records the direct-export prerequisite identified while ordering the rema
   in modules still to come, such as `Dialog.Handle`, `Combobox.useFilter` / `useFilteredItems`, and
   `useDirection`. These are classes or hook/factory functions rather than component values.
   Toast's two manager functions are now explicit supported exceptions. `baseUiNamespaceObject`
-  detects missing `<Part>Props`, logs them, and records omitted bindings in KDoc; its log still
-  includes the two supported Toast methods (gap 20).
+  detects unsupported bindings, logs them, and records omissions in KDoc; supported Toast methods
+  are now classified before logging (group 1).
 
 ## Execution order by predictability
+
+### Approved execution protocol
+
+The current implementation cycle is limited to **groups 1 and 2**. Groups 3–5 require a separate
+scope decision; do not pull their design work forward without discussing the concrete dependency.
+Existing completed work in this backlog stays completed when the dependency version changes.
+
+- One module or independently verifiable generator change per task. Independent component samples
+  may be implemented in parallel by separate agents with disjoint file ownership; shared generator
+  changes and generation/build processes are coordinated centrally.
+- The coordinating agent owns the task brief and final acceptance. Implementation and independent
+  read-only review are delegated to separate `gpt-6.1-sol` agents with `xhigh` reasoning. Questions
+  from subagents go to the coordinator; unresolved scope/API/compatibility decisions go to the user.
+- Review follows [agents/mui-code-review.md](agents/mui-code-review.md). Freeze the implementation
+  while verifying/reviewing; fixes invalidate affected checks and require another review.
+- Verify upstream types, library/playground compilation, clean regeneration, relevant browser
+  scenarios, and existing-output regressions. Before a human commit, compare regenerated files and
+  hashes against the prepared candidate, not HEAD, which legitimately lacks the new declarations.
+- Track **integrated** and **API complete** separately. Previously listed shared limitations may
+  remain open; new type losses or exceptions require explicit assessment and are not silently accepted.
+- **Checkpoint updated by the user:** finish all of group 1 before the human review/commit; Fieldset
+  need not be committed before Switch/Checkbox. Compilation and independent review are required
+  again after the temporary pause of checks. Stop before group 2; no autonomous staging or commits.
+
+Task briefs, acceptance evidence, review results, and handoffs live in
+[BASE_UI_WORK_LOG.md](BASE_UI_WORK_LOG.md).
 
 **Planning decision, 2026-10-01:** implement predictable work first and leave the most uncertain
 design work until last. This supersedes the earlier recommendation to start with
 `combobox` / `autocomplete` to discover generator defects.
 
-The groups cover all **37 modules outside the allow-list**, plus unfinished work in the six enabled
-modules. Counts describe module integration, not effort or full API completion. Classification comes
-from the pinned `.d.ts` and current generator; it is not a claim that a trial generation has passed.
+Groups 2–4 cover all **34 modules outside the allow-list**, plus unfinished work in the nine enabled
+modules. Group 1 added three modules. Counts describe module integration, not effort or full API
+completion. Classification comes from the pinned `.d.ts` and current generator; it is not a claim
+that a trial generation has passed.
 
 | Order | Mark | Predictability | Module additions | Entry condition |
 |-------|------|----------------|------------------|-----------------|
-| 1 | **NEXT** | High; existing compound-component shapes | 3 | Current generator machinery |
-| 2 | **AFTER PREREQUISITES** | Medium to high; known, bounded converter work | 20 | The specific shared fix listed with each batch |
+| 1 | **DONE — HUMAN CHECKPOINT** | High; existing compound-component shapes | 3 integrated | Current generator machinery |
+| 2 | **NEXT — AFTER PREREQUISITES** | Medium to high; known, bounded converter work | 20 | Human checkpoint, then the specific shared fix listed with each batch |
 | 3 | **LATER** | Medium; composition and substantial browser verification | 8 | Portal/alias support and prerequisite components |
 | 4 | **LAST — DESIGN** | Low; Kotlin API or conversion strategy still needs design | 6 | Review the accumulated examples before choosing a general solution |
 | 5 | **FINAL — RETIREMENT** | Compatibility-dependent final step | No new modules | Coverage, type fidelity, and consumer migration verified |
 
-### Group 1 — NEXT: predictable additions
+### Group 1 — DONE: predictable additions
 
-- [ ] `fieldset` — first: two parts, ordinary element props, and a simple boolean state.
-- [ ] `switch` — next: two parts, existing `FieldRootState`, boolean change events, and familiar
+- [x] `fieldset` — two parts, ordinary element props, and a simple boolean state.
+- [x] `switch` — two parts, existing `FieldRootState`, boolean change events, and familiar
   element/indicator inheritance.
-- [ ] `checkbox` — next: two parts with the same infrastructure; additionally exercise indeterminate
+- [x] `checkbox` — two parts with the same infrastructure; indeterminate
   state and the label/description wiring through `Field`.
-- [ ] Add the unused-stub diagnostic (gap 16) and correct Toast's misleading "not exposed" log
+- [x] Add the unused-stub diagnostic (gap 16) and correct Toast's misleading "not exposed" log
   (gap 20). These have a known expected result and do not require a new public API design.
-- [ ] Record browser results for the existing NumberField sample and the already-exposed Toast
-  create/add/list/close flow. Track additional Toast features in the groups below.
+- [x] Record browser results for the existing NumberField sample and the already-exposed Toast
+  create/add/list/component-close flow — recorded above during the 1.8/toolchain update on
+  2026-10-01. Explicit manager `close` and additional Toast features remain in the groups below.
 
 The expected module workflow is allow-list entry, inspection of generated declarations, a sample,
 and browser verification. Existing `Omit` limitations still apply to Switch/Checkbox (gap 19);

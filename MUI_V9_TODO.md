@@ -11,7 +11,7 @@ Migration of the generator from MUI v7 → **v9** (v8 skipped; the suite was rea
 | `@mui/lab`                                 | `9.0.0-beta.9`                                                       |
 | `@mui/x-date-pickers` / `@mui/x-tree-view`  | `9.14.0`                                                             |
 | `@mui/base`                                | `5.0.0-beta.70` (frozen; retained during [Base UI migration](BASE_UI_TODO.md)) |
-| `@base-ui/react`                           | `1.8.0` (six modules included; see [current status](BASE_UI_TODO.md))   |
+| `@base-ui/react`                           | `1.8.0` (nine modules included; see [current status](BASE_UI_TODO.md))   |
 | kotlin-wrappers BOM                        | `2026.9.3`                                                           |
 | kfc                                        | `19.16.0`                                                            |
 | kotlin / seskar                            | `2.4.20` / `4.66.0`                                                  |
@@ -427,8 +427,9 @@ at **0 errors**. Findings refined the original task premises:
 1. ~~Align `mui-icons-material` to `9.1.2` for consistency.~~ **N/A** — `@mui/icons-material@9.1.2`
    was never published; `9.1.1` is the latest on npm (the icons package doesn't ship a release for
    every core patch). Already on the newest available version; nothing to bump.
-2. `@mui/base` → Base UI migration is **in progress**: `menu`, `slider`, `field`, `accordion`,
-   `number-field`, and `toast` are generated with playground samples. Full type and module coverage
+2. `@mui/base` → Base UI migration is **in progress**: `menu`, `slider`, `field`, `fieldset`, `switch`,
+   `checkbox`, `accordion`, `number-field`, and `toast` are generated with playground samples.
+   Full type and module coverage
    remains open — see [BASE_UI_TODO.md](BASE_UI_TODO.md).
 3. **`NumberField` is included; `Menubar` remains pending.** These belong to the separate
    `@base-ui/react` target, not the old `@mui/base` bindings. `NumberField` was added in `1dfec5cd`
