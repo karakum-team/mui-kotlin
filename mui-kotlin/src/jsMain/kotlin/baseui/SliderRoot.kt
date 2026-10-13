@@ -78,7 +78,7 @@ external interface SliderRootProps :
      * We recommend (max - min) to be evenly divisible by the step.
      * @default 1
      */
-    var step: Number?
+    var step: Double?
 
     /**
      * The granularity with which the slider can step through values when using Page Up/Page Down or Shift + Arrow Up/Arrow Down.
@@ -186,7 +186,7 @@ external interface SliderRootState : FieldRootState {
      * to multiples of this value. Decimal values are supported.
      * @default 1
      */
-    var step: Number
+    var step: Double
 
     /**
      * The raw number value of the slider.

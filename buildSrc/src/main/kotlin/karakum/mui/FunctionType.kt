@@ -107,6 +107,7 @@ internal fun String.toFunctionType(
         .replace("React.MouseEvent | React.KeyboardEvent | React.FocusEvent", "react.dom.events.SyntheticEvent<*, *>")
         .replace("React.SyntheticEvent | Event", "react.dom.events.SyntheticEvent<*, *>")
         .replace("React.SyntheticEvent<any> | Event", "react.dom.events.SyntheticEvent<*, *>")
+        .replace("React.SyntheticEvent<{}> | Event", "react.dom.events.SyntheticEvent<*, *>")
         .replace("React.SyntheticEvent<{}>", "react.dom.events.SyntheticEvent<*, *>")
         .replace("React.SyntheticEvent<any>", "react.dom.events.SyntheticEvent<*, *>")
         .replace("React.SyntheticEvent", "react.dom.events.SyntheticEvent<*, *>")
@@ -166,6 +167,10 @@ internal fun String.toFunctionType(
         )
         .replace(
             "AutocompleteOwnerState<Value, Multiple, DisableClearable, FreeSolo, ChipComponent>",
+            "AutocompleteOwnerState<Value>"
+        )
+        .replace(
+            "AutocompleteOwnerState<Value, Multiple, DisableClearable, FreeSolo, ChipComponent, MappedValue>",
             "AutocompleteOwnerState<Value>"
         )
         .replace("UseSwitchInputSlotProps", "Any /* UseSwitchInputSlotProps */")

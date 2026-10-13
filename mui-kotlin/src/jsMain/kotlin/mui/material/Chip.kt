@@ -12,11 +12,7 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.types.PropsWithComponent
-import react.ElementType
-import react.FC
-import react.Props
-import react.ReactElement
-import react.ReactNode
+import react.*
 import react.dom.events.EventHandler
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
@@ -43,10 +39,10 @@ external interface ChipSlots {
 }
 
 external interface ChipSlotProps : Props {
-    /** TS: SlotProps<'div', {}, ChipOwnerState> */
+    /** TS: SlotProps<'div', ChipRootSlotPropsOverrides, ChipOwnerState> */
     var root: HTMLAttributes<HTMLDivElement>?
 
-    /** TS: SlotProps<'span', {}, ChipOwnerState> */
+    /** TS: SlotProps<'span', ChipLabelSlotPropsOverrides, ChipOwnerState> */
     var label: HTMLAttributes<HTMLSpanElement>?
 }
 

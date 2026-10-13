@@ -10,13 +10,7 @@ import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
 import mui.system.Union
-import react.ComponentType
-import react.ElementType
-import react.FC
-import react.Key
-import react.Props
-import react.PropsWithChildren
-import react.ReactNode
+import react.*
 import react.dom.html.HTMLAttributes
 import web.dom.ElementId
 import web.html.HTMLDivElement
@@ -180,7 +174,8 @@ external interface AutocompleteProps<Value> :
     /**
      * Renders the selected value(s) as rich content in the input for both single and multiple selections.
      *
-     * @param {any} value The `value` provided to the component.
+     * @param {AutocompleteRenderValue<Value|MappedValue, Multiple, FreeSolo>} value The `value` provided to the component.
+     * When `getOptionValue` is provided, this contains mapped values.
      * @param {function} getItemProps The value item props.
      * @param {object} ownerState The state of the Autocomplete component.
      * @returns {ReactNode}
@@ -255,16 +250,22 @@ external interface AutocompleteSlots {
     var root: ElementType<*>
 
     /**
+     * The component used to render the selected values when `multiple` is `true`.
+     * @default Chip
+     */
+    var chip: ComponentType<ChipProps>
+
+    /**
      * The component used to render the clear indicator element.
      * @default IconButton
      */
-    var clearIndicator: ComponentType<IconButtonProps>
+    var clearIndicator: ComponentType<*>
 
     /**
      * The component used to render the popup indicator element.
      * @default IconButton
      */
-    var popupIndicator: ComponentType<IconButtonProps>
+    var popupIndicator: ComponentType<*>
 
     /**
      * The component used to render the listbox.

@@ -7,4 +7,8 @@ fun String.adaptAutocomplete(): String =
 // and the conditional types themselves aren't emitted. Collapse them to `any` — same treatment
 // the generator already applies to `getTagProps` in `renderTags`.
     replace("AutocompleteRenderValue<Value, Multiple, FreeSolo>", "any")
+        .replace(
+            "AutocompleteRenderValue<AutocompleteResolvedValue<Value, MappedValue>, Multiple, FreeSolo>",
+            "any",
+        )
         .replace("AutocompleteRenderValueGetItemProps<Multiple>", "any")

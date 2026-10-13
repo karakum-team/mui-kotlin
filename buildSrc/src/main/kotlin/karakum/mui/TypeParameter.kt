@@ -2,6 +2,9 @@ package karakum.mui
 
 internal fun String.toTypeParameter(): String =
     removeSurrounding("Partial<", ">")
+        .replace(Regex("""React\.ComponentPropsWithRef<'([^']+)'>""")) { match ->
+            INTRINSIC_TYPE_MAP[match.groupValues[1]] ?: match.value
+        }
         .replace("React.HTMLAttributes<", "react.dom.html.HTMLAttributes<")
         .replace("React.LabelHTMLAttributes<", "react.dom.html.LabelHTMLAttributes<")
         .replace("React.TextareaHTMLAttributes<", "react.dom.html.TextareaHTMLAttributes<")

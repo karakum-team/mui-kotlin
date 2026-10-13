@@ -173,6 +173,46 @@ private val TRANSITIONS_STUBS = """
 external interface TransitionProps: react.Props
 """.trimIndent()
 
+// TreeViewStoreParameters & RichTreeViewStoreParameters:
+//  MUI-X v9 RichTreeView / SimpleTreeView inherit their behavioral props from complex store parameter utility
+//  types (UseTreeViewStoreParameters<TStore>). Restored as real interfaces so Kotlin users have full typed access to
+//  items, expandedItems, selectedItems, and related handlers.
+// language=kotlin
+private val TREE_VIEW_STUBS = """
+typealias TreeViewItemId = String
+
+external interface TreeViewStoreParameters : react.Props {
+    var disabledItemsFocusable: Boolean?
+    var expandedItems: js.array.ReadonlyArray<TreeViewItemId>?
+    var defaultExpandedItems: js.array.ReadonlyArray<TreeViewItemId>?
+    var onExpandedItemsChange: ((event: react.dom.events.SyntheticEvent<*, *>?, itemIds: js.array.ReadonlyArray<TreeViewItemId>) -> Unit)?
+    var onItemExpansionToggle: ((event: react.dom.events.SyntheticEvent<*, *>?, itemId: TreeViewItemId, isExpanded: Boolean) -> Unit)?
+    var expansionTrigger: String?
+    var disableSelection: Boolean?
+    var selectedItems: Any?
+    var defaultSelectedItems: Any?
+    var multiSelect: Boolean?
+    var checkboxSelection: Boolean?
+    var onSelectedItemsChange: ((event: react.dom.events.SyntheticEvent<*, *>?, itemIds: Any?) -> Unit)?
+    var onItemSelectionToggle: ((event: react.dom.events.SyntheticEvent<*, *>?, itemId: TreeViewItemId, isSelected: Boolean) -> Unit)?
+    var onItemClick: ((event: react.dom.events.MouseEvent<*, *>, itemId: TreeViewItemId) -> Unit)?
+    var onItemFocus: ((event: react.dom.events.SyntheticEvent<*, *>?, itemId: TreeViewItemId) -> Unit)?
+    var itemChildrenIndentation: Any?
+    var itemHeight: Double?
+}
+
+external interface RichTreeViewStoreParameters : TreeViewStoreParameters {
+    var items: js.array.ReadonlyArray<*>?
+    var isItemDisabled: ((item: Any) -> Boolean)?
+    var isItemSelectionDisabled: ((item: Any) -> Boolean)?
+    var getItemLabel: ((item: Any) -> String)?
+    var getItemId: ((item: Any) -> TreeViewItemId)?
+    var getItemChildren: ((item: Any) -> js.array.ReadonlyArray<*>?)?
+    var isItemEditable: Any?
+    var onItemLabelChange: ((itemId: TreeViewItemId, newLabel: String) -> Unit)?
+}
+""".trimIndent()
+
 // PickerValidDate:
 //  MUI-X v9 opaque date model types (from @mui/x-date-pickers/models). `PickerValidDate` is a conditional
 //  type (`keyof PickerValidDateLookup extends never ? any : …`) resolved by the configured date adapter via
@@ -803,6 +843,9 @@ private fun RuntimeBindings.generateTreeViewDeclarations(
         val file = typesDir.resolve(rel)
         if (file.exists()) generate(file, targetDir, Package.treeView, typesOnly = true)
     }
+
+    targetDir.resolve("Stubs.kt")
+        .writeGenerated(fileContent(body = TREE_VIEW_STUBS, pkg = Package.treeView))
 }
 
 private fun RuntimeBindings.generatePickersDeclarations(

@@ -4,17 +4,17 @@ Migration of the generator from MUI v7 → **v9** (v8 skipped; the suite was rea
 
 ## Versions (`gradle.properties`)
 
-| package                                    | version                                                              |
-|--------------------------------------------|----------------------------------------------------------------------|
-| `@mui/material` / `@mui/system`            | `9.4.0`                                                              |
-| `@mui/icons-material`                      | `9.4.0`                                                              |
-| `@mui/lab`                                 | `9.0.0-beta.9`                                                       |
-| `@mui/x-date-pickers` / `@mui/x-tree-view`  | `9.14.0`                                                             |
+| package                                    | version                                                                        |
+|--------------------------------------------|--------------------------------------------------------------------------------|
+| `@mui/material` / `@mui/system`            | `9.5.0`                                                                        |
+| `@mui/icons-material`                      | `9.5.0`                                                                        |
+| `@mui/lab`                                 | `9.0.0-beta.10`                                                                |
+| `@mui/x-date-pickers` / `@mui/x-tree-view` | `9.15.0`                                                                       |
 | `@mui/base`                                | `5.0.0-beta.70` (frozen; retained during [Base UI migration](BASE_UI_TODO.md)) |
-| `@base-ui/react`                           | `1.8.0` (nine modules included; see [current status](BASE_UI_TODO.md))   |
-| kotlin-wrappers BOM                        | `2026.9.3`                                                           |
-| kfc                                        | `19.16.0`                                                            |
-| kotlin / seskar                            | `2.4.20` / `4.66.0`                                                  |
+| `@base-ui/react`                           | `1.8.0` (nine modules included; see [current status](BASE_UI_TODO.md))         |
+| kotlin-wrappers BOM                        | `2026.9.3`                                                                     |
+| kfc                                        | `19.16.0`                                                                      |
+| kotlin / seskar                            | `2.4.20` / `4.66.0`                                                            |
 
 > mui-x **had** to bump together with core: `@mui/x-tree-view@7` pins its peer to `@mui/material@"^5||^6||^7"`,
 > so npm refuses to install it next to `@mui/material@9`. The whole v9 suite installs as one.

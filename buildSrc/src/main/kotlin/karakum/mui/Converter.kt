@@ -220,6 +220,15 @@ internal fun convertDefinitions(
         // collapse them all into one `Any? /* … */`.
         .let { if (it.endsWith("\n")) it else "$it\n" }
         .let { preprocess?.invoke(it) ?: it }
+        .let { source ->
+            if (name != "SpeedDialAction") source else {
+                source
+                    .replace(
+                        "StandardProps<Partial<TooltipProps>, 'children' | 'slots' | 'slotProps'>",
+                        "StandardProps<Partial<SpeedDialActionTooltipProps>>",
+                    ) + "\n" + speedDialActionTooltipProps(definitionFile)
+            }
+        }
         .adaptRawContent(collapseMemberValueObjects)
         .removeInlineClasses()
         .removeExtendsEmptyObject()
@@ -411,6 +420,56 @@ internal fun convertDefinitions(
     )
 }
 
+/**
+ * SpeedDialAction inherits Tooltip's behavioral props while replacing Tooltip's `classes`, `children`,
+ * `slots`, and `slotProps` with its own. Kotlin external interfaces cannot express that `Omit`, so emit a
+ * sibling base interface containing the inherited tooltip props that remain valid for SpeedDialAction.
+ */
+private fun speedDialActionTooltipProps(definitionFile: File): String {
+    val tooltipFile = definitionFile.parentFile.parentFile.resolve("Tooltip/Tooltip.d.ts")
+    val source = tooltipFile.readText().replace("\r\n", "\n")
+    val interfaceStart = source.indexOf("export interface TooltipProps")
+    require(interfaceStart >= 0) { "TooltipProps was not found in ${tooltipFile.path}" }
+
+    val bodyStart = source.indexOf('{', interfaceStart)
+    require(bodyStart >= 0) { "TooltipProps body was not found in ${tooltipFile.path}" }
+
+    var depth = 1
+    var bodyEnd = bodyStart + 1
+    while (bodyEnd < source.length && depth > 0) {
+        when (source[bodyEnd]) {
+            '{' -> depth++
+            '}' -> depth--
+        }
+        bodyEnd++
+    }
+    require(depth == 0) { "TooltipProps body was not closed in ${tooltipFile.path}" }
+
+    val propertyPattern = Regex("""^\s{2,}([A-Za-z_$][\w$]*)\??\s*:""")
+    val members = source.substring(bodyStart + 1, bodyEnd - 1).lines()
+        .mapNotNull { line ->
+            val match = propertyPattern.find(line) ?: return@mapNotNull null
+            val name = match.groupValues[1]
+            if (name in setOf("children", "classes", "sx")) {
+                null
+            } else {
+                val property = line.trim()
+                val optionalProperty = if (property.substringBefore(':').endsWith('?')) {
+                    property
+                } else {
+                    property.replaceFirst(Regex("""^([A-Za-z_$][\w$]*):"""), "$1?:")
+                }
+                "  $optionalProperty"
+            }
+        }
+
+    return buildString {
+        appendLine("export interface SpeedDialActionTooltipProps extends StandardProps<React.HTMLAttributes<HTMLDivElement>> {")
+        appendLine(members.joinToString("\n"))
+        appendLine("}")
+    }
+}
+
 private fun String.removeInlineClasses(): String =
     removeInlineClasses("  classes?: ")
 
@@ -515,21 +574,23 @@ private fun String.convertExportSlotsAndSlotPropsAliases(): String {
 
     val result = StringBuilder()
     var cursor = 0
-    while (cursor < length) {
-        val typeStart = indexOf(prefix, cursor).takeIf { it >= 0 } ?: break
+    var searchFrom = 0
+    while (searchFrom < length) {
+        val typeStart = indexOf(prefix, searchFrom).takeIf { it >= 0 } ?: break
         val nameStart = typeStart + prefix.length
         val nameEnd = indexOf(marker, nameStart)
-        if (nameEnd < 0) {
-            result.append(this, cursor, length)
-            return result.toString()
-        }
-        val interfaceName = substring(nameStart, nameEnd)
-        if (!interfaceName.matches(Regex("\\w+"))) {
-            // not a simple identifier — skip this match
-            result.append(this, cursor, nameEnd + marker.length)
-            cursor = nameEnd + marker.length
+        val declarationEnd = indexOf(';', nameStart).takeIf { it >= 0 }
+        val componentName = if (nameEnd >= 0) substring(nameStart, nameEnd) else ""
+        // `export type` may introduce unrelated unions before a slots alias. Only accept the marker
+        // when the text from the declaration name to the marker is a single identifier and no prior
+        // semicolon ended that declaration; otherwise continue searching from this `export type`.
+        if (nameEnd < 0 || (declarationEnd != null && declarationEnd < nameEnd) ||
+            !componentName.matches(Regex("\\w+"))
+        ) {
+            searchFrom = nameStart
             continue
         }
+        val interfaceName = componentName
         // Position right after `CreateSlotsAndSlotProps<` — find balanced `>` close.
         val ltOpen = nameEnd + marker.length
         var depth = 1
@@ -634,6 +695,7 @@ private fun String.convertExportSlotsAndSlotPropsAliases(): String {
             .append(slotPropsTypeName)
             .append(";\n}\n")
         cursor = endOfDecl
+        searchFrom = cursor
     }
     if (cursor < length) result.append(this, cursor, length)
     return result.toString()
@@ -1779,7 +1841,10 @@ private fun findComponent(
     if (name == "PickersActionBar")
         comment = ""
 
-    val typeParameter = when (propsName) {
+    val typeParameter = when {
+        name == "LoadingButton" -> "mui.material.ButtonProps"
+
+        else -> when (propsName) {
         "CalendarPickerProps",
         "ClockPickerProps",
         "DateRangePickerProps",
@@ -1810,6 +1875,7 @@ private fun findComponent(
             -> "muix.tree.view.TreeViewProps"
 
         else -> propsName
+        }
     }
 
     val jsNameDefault = optionalJsNameDefaultAnnotation(content)

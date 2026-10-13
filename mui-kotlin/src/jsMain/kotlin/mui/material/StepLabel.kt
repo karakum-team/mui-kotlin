@@ -8,11 +8,7 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
-import react.ElementType
-import react.FC
-import react.Props
-import react.PropsWithChildren
-import react.ReactNode
+import react.*
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 import web.html.HTMLSpanElement
@@ -75,13 +71,13 @@ external interface StepLabelSlots {
 }
 
 external interface StepLabelSlotProps : Props {
-    /** TS: SlotProps<'span', {}, StepLabelOwnerState> */
+    /** TS: SlotProps<'span', StepLabelRootSlotPropsOverrides, StepLabelOwnerState> */
     var root: HTMLAttributes<HTMLSpanElement>?
 
-    /** TS: SlotProps<'span', {}, StepLabelOwnerState> */
+    /** TS: SlotProps<'span', StepLabelLabelSlotPropsOverrides, StepLabelOwnerState> */
     var label: HTMLAttributes<HTMLSpanElement>?
 
-    /** TS: SlotProps<React.ElementType<StepIconProps>, {}, StepLabelOwnerState> */
+    /** TS: SlotProps<React.ElementType<StepIconProps>, StepLabelStepIconSlotPropsOverrides, StepLabelOwnerState> */
     var stepIcon: StepIconProps?
 }
 

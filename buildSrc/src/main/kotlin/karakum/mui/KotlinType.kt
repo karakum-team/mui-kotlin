@@ -49,6 +49,9 @@ private val KNOWN_TYPES = setOf(
     "PickerOnChangeFn",
     "CalendarPickerView",
     "UseTreeItemStatus",
+    "TreeViewItemId",
+    "TreeViewStoreParameters",
+    "RichTreeViewStoreParameters",
 
     "AlertColor",
     "GridDirection",
@@ -163,6 +166,7 @@ private val NUMBER_AS_DOUBLE_PROPERTIES = setOf(
     "thickness",
     // Continuous value bounds (Circular/LinearProgress, Slider) — may be fractional
     "min", "max",
+    "step", "shiftStep",
 )
 
 private val STANDARD_TYPE_MAP = mapOf(

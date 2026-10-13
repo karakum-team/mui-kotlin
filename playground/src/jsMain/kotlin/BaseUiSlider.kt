@@ -1,37 +1,13 @@
-import baseui.Orientation
-import baseui.Slider
-import baseui.SliderRootChangeEventDetails
-import baseui.SliderRootCommitEventDetails
-import baseui.className
-import baseui.render
-import baseui.style
+import baseui.*
 import emotion.react.Global
 import emotion.react.styles
 import js.array.ReadonlyArray
 import js.objects.unsafeJso
-import react.CSSProperties
-import react.FC
-import react.Props
-import react.create
+import react.*
 import react.dom.html.ReactHTML.div
 import react.dom.html.ReactHTML.p
-import react.useState
-import web.cssom.AlignItems
-import web.cssom.Border
-import web.cssom.Color
-import web.cssom.ClassName
-import web.cssom.Cursor
-import web.cssom.Display
-import web.cssom.FlexDirection
-import web.cssom.FontVariantNumeric
-import web.cssom.JustifyContent
+import web.cssom.*
 import web.cssom.LineStyle.Companion.solid
-import web.cssom.NamedColor
-import web.cssom.Position
-import web.cssom.integer
-import web.cssom.number
-import web.cssom.pct
-import web.cssom.px
 
 // Live check of the generated `baseui` slider declarations, and the only usage reference for them in
 // the repository. Same contract as `BaseUiMenu`: every member of the `Slider` namespace object is
@@ -144,7 +120,7 @@ val BaseUiSlider = FC<Props> {
         value = volume
         min = 0.0
         max = 100.0
-        step = 5
+        step = 5.0
         largeStep = 20
         orientation = Orientation.horizontal
 

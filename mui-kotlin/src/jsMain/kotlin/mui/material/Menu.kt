@@ -12,11 +12,7 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
-import react.ElementType
-import react.FC
-import react.Props
-import react.PropsWithChildren
-import react.ReactNode
+import react.*
 import web.dom.Element
 
 external interface MenuProps :
@@ -64,7 +60,7 @@ external interface MenuProps :
      * @param {object} event The event source of the callback.
      * @param {string} reason Can be: `"escapeKeyDown"`, `"backdropClick"`, `"tabKeyDown"`.
      */
-    var onClose: Any? /* PopoverProps['onClose'] */
+    var onClose: ((event: Any, reason: String) -> Unit)?
 
     /**
      * If `true`, the component is shown.

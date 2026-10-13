@@ -2,14 +2,7 @@ import csstype.PropertiesBuilder
 import js.objects.unsafeJso
 import mui.material.Button
 import mui.material.Typography
-import muix.tree.view.RichTreeView
-import muix.tree.view.RichTreeViewProps
-import muix.tree.view.RichTreeViewSlotProps
-import muix.tree.view.RichTreeViewSlots
-import muix.tree.view.TreeItemLoader
-import muix.tree.view.TreeItemLoaderProps
-import muix.tree.view.richTreeViewClasses
-import muix.tree.view.treeItemLoaderClasses
+import muix.tree.view.*
 import react.FC
 import react.Props
 import react.useState
@@ -17,19 +10,10 @@ import web.cssom.ClassName
 import web.cssom.NamedColor
 import web.cssom.px
 
-// `items` still lives behind the unconverted UseTreeViewStoreParameters<TStore> upstream type.
-// Keep that existing gap explicit: these sample-only shapes let us exercise the new, generated
-// loading API without claiming the library now exposes the rest of the store parameters.
 private external interface LoadingTreeItem {
     var id: String
     var label: String
 }
-
-private external interface LoadingTreeProps : RichTreeViewProps {
-    var items: Array<LoadingTreeItem>
-}
-
-private val LoadingTree = RichTreeView.unsafeCast<FC<LoadingTreeProps>>()
 
 private val loadingTreeItems = arrayOf(
     unsafeJso<LoadingTreeItem> {
@@ -72,7 +56,7 @@ val TreeViewLoading = FC<Props> {
         +(if (customLoading) "Use item loader slot" else "Use custom loading slot")
     }
 
-    LoadingTree {
+    RichTreeView {
         className = ClassName("loading-tree")
         items = loadingTreeItems
         loading = isLoading

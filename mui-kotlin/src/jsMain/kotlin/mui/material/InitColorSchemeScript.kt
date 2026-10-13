@@ -2,7 +2,6 @@
 
 package mui.material
 
-import mui.system.InitColorSchemeScriptProps
 import mui.system.Union
 import react.Props
 
@@ -27,6 +26,8 @@ external interface InitColorSchemeScriptProps : Props {
 
     /**
      * The node (provided as string) used to attach the color-scheme attribute.
+     *
+     * Requires a static value, do not derive from user input.
      * @default 'document.documentElement'
      */
     var colorSchemeNode: String?

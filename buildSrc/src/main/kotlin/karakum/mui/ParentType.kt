@@ -146,8 +146,12 @@ internal fun findParentType(
             val parents = parentSource.depthAwareSplit(',')
                 .map { it.trim() }
                 .map { parent ->
-                    // Unwrap utility types before checking acceptability
+                    // Map TreeView store parameter utility types to their synthetic base interfaces
                     when {
+                        parent.startsWith("UseTreeViewStoreParameters<RichTreeViewStore") -> "RichTreeViewStoreParameters"
+                        parent.startsWith("UseTreeViewStoreParameters<SimpleTreeViewStore") -> "TreeViewStoreParameters"
+                        parent.startsWith("UseTreeViewStoreParameters<") -> "TreeViewStoreParameters"
+                        // Unwrap utility types before checking acceptability
                         parent.startsWith("Omit<") || parent.startsWith("Pick<") -> {
                             val innerStart = parent.indexOf('<') + 1
                             var depth = 0

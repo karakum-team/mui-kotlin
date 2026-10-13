@@ -38,15 +38,19 @@ internal fun findDefaultFunction(
         "useTab",
         "useTabPanel",
         "useTabsList",
+            // @mui/system v9.5 declares its factory as a named function followed by a default export.
+        "createTheme",
             -> initialContent.replace("declare function $name", "$DEFAULT_FUNCTION_PREFIX$name")
 
         // MUI v6 useMediaQuery moved to `declare function useMediaQuery<T = Theme>` form.
-        // Normalize back to the v5 shape so the existing `<Theme = unknown>` rewrite applies.
+        // In MUI v9 / @mui/system v9.5 it moved to `declare const useMediaQuery: <T = Theme>(...) => boolean;`.
+        // Normalize back to the standard function shape so the existing `<Theme = unknown>` rewrite applies.
         "useMediaQuery",
             -> initialContent
-            .replace("declare function $name", "$DEFAULT_FUNCTION_PREFIX$name")
+            .replace(Regex("""declare (function|const) $name:?\s*"""), "$DEFAULT_FUNCTION_PREFIX$name")
             .replace("<T = Theme>", "<Theme = unknown>")
             .replace("(theme: T)", "(theme: Theme)")
+            .replace(") => boolean", "): boolean")
 
         else
             -> initialContent

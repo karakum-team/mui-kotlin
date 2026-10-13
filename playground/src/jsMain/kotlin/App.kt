@@ -33,6 +33,7 @@ private val App = FC {
     BaseUiToast()
     TreeView()
     TreeViewLoading()
+    MaterialV9Improvements()
     Theming()
     RuntimeImports()
 }
