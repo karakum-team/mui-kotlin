@@ -4,28 +4,8 @@
 
 package baseui
 
-import react.dom.html.AnchorHTMLAttributes
-import react.dom.html.ButtonHTMLAttributes
-import react.dom.html.FieldsetHTMLAttributes
-import react.dom.html.FormHTMLAttributes
-import react.dom.html.HTMLAttributes
-import react.dom.html.ImgHTMLAttributes
-import react.dom.html.InputHTMLAttributes
-import react.dom.html.LabelHTMLAttributes
-import react.dom.html.LiHTMLAttributes
-import web.html.HTMLAnchorElement
-import web.html.HTMLButtonElement
-import web.html.HTMLDivElement
-import web.html.HTMLElement
-import web.html.HTMLFieldSetElement
-import web.html.HTMLFormElement
-import web.html.HTMLImageElement
-import web.html.HTMLInputElement
-import web.html.HTMLLIElement
-import web.html.HTMLLabelElement
-import web.html.HTMLParagraphElement
-import web.html.HTMLSpanElement
-import web.html.HTMLUListElement
+import react.dom.html.*
+import web.html.*
 
 /** Base UI props for a rendered `<a>` element. */
 external interface BaseUiAProps : AnchorHTMLAttributes<HTMLAnchorElement> {

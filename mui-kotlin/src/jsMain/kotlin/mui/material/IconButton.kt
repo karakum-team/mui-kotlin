@@ -22,7 +22,7 @@ external interface IconButtonProps :
     IconButtonOwnProps,
     ButtonHTMLAttributes<HTMLButtonElement>,
     PropsWithComponent,
-    mui.material.ButtonBaseProps
+    ButtonBaseProps
 
 external interface IconButtonOwnProps :
     PropsWithChildren,

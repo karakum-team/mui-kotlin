@@ -61,8 +61,8 @@ internal fun findParentType(
 
         return when {
             result == "SystemThemeOptions" -> "mui.system.ThemeOptions"
-            result == "ExtendMui<ButtonBaseProps>" -> "mui.material.ButtonBaseProps"
-            result == "ButtonBaseProps" -> "mui.material.ButtonBaseProps"
+            result == "ExtendMui<ButtonBaseProps>" -> "ButtonBaseProps"
+            result == "ButtonBaseProps" -> "ButtonBaseProps"
             result.startsWith("StandardProps<") -> parseStandardProps(result)
             else -> result
         }
@@ -171,9 +171,11 @@ internal fun findParentType(
                                 parent.removeSurrounding("${parent.substringBefore("<")}<", ">").trim()
                             }
                         }
+
                         parent.startsWith("Partial<") -> {
                             parent.removeSurrounding("Partial<", ">").trim()
                         }
+
                         else -> parent
                     }
                 }

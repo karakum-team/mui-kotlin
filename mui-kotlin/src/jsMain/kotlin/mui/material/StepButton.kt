@@ -19,7 +19,7 @@ import react.ReactNode
 external interface StepButtonProps :
     StepButtonOwnProps,
     PropsWithComponent,
-    mui.material.ButtonBaseProps
+    ButtonBaseProps
 
 external interface StepButtonOwnProps :
     PropsWithChildren,

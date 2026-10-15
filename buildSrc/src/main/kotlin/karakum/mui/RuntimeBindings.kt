@@ -109,6 +109,7 @@ internal fun runtimeDeclarations(text: String): List<RuntimeDeclaration> = RUNTI
             val close = balancedEnd(text, text.indexOf('(', afterName), '(', ')')
             text.indexOf("\n\n", close).takeIf { it >= 0 } ?: text.length
         }
+
         else -> text.indexOf('\n', afterName).takeIf { it >= 0 } ?: text.length
     }
     val members = if (kind == "object") {
@@ -188,6 +189,17 @@ internal fun renderRuntimeBindings(text: String, bindings: List<ResolvedRuntimeB
         }
         result = result.replaceRange(start, declaration.end, replacement)
     }
+
+    val importRegex = Regex("(?m)^import ([\\w.]+)\n")
+    val bodyWithoutImports = importRegex.replace(result, "")
+    val referenced = referencedNames(bodyWithoutImports)
+
+    result = importRegex.replace(result) { match ->
+        val fqn = match.groupValues[1]
+        val shortName = fqn.substringAfterLast(".")
+        if (shortName in referenced) match.value else ""
+    }
+
     result = if (modules.size == 1) MODULE.replace(result, "@file:JsModule(\"${modules.single()}\")")
     else result.replace(Regex("""@file:JsModule\("[^"]+"\)\n\n"""), "")
     return result.trimEnd() + "\n"

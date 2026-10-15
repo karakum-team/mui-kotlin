@@ -1697,7 +1697,7 @@ private fun props(
             "ToggleButtonProps",
         )
     ) {
-        baseInterfaces += "mui.material.ButtonBaseProps"
+        baseInterfaces += "ButtonBaseProps"
     }
 
     if (propsName == "PopperProps" && hasSx)
@@ -1845,36 +1845,36 @@ private fun findComponent(
         name == "LoadingButton" -> "mui.material.ButtonProps"
 
         else -> when (propsName) {
-        "CalendarPickerProps",
-        "ClockPickerProps",
-        "DateRangePickerProps",
-        "DateRangePickerDayProps",
-        "MonthPickerProps",
-        "PickersDayProps",
-        "YearPickerProps",
+            "CalendarPickerProps",
+            "ClockPickerProps",
+            "DateRangePickerProps",
+            "DateRangePickerDayProps",
+            "MonthPickerProps",
+            "PickersDayProps",
+            "YearPickerProps",
 
-        "AutocompleteProps",
-        "SelectProps",
+            "AutocompleteProps",
+            "SelectProps",
 
-        "MultiSelectProps",
-        "OptionProps",
-        "DateTimeFieldProps",
-            -> "$propsName<*>"
+            "MultiSelectProps",
+            "OptionProps",
+            "DateTimeFieldProps",
+                -> "$propsName<*>"
 
-        // NB: MUI-X v9 removed the `TDate` generic from most picker props (they now use the global
-        // `PickerValidDate`), so they are non-generic and fall through to `else -> propsName`:
-        // DatePickerProps / TimePickerProps / DateTimePickerProps, Desktop*/Mobile* variants,
-        // LocalizationProviderProps, MonthCalendarProps, YearCalendarProps, DigitalClockProps,
-        // MultiSectionDigitalClockProps, TimeClockProps, PickersCalendarHeaderProps.
+            // NB: MUI-X v9 removed the `TDate` generic from most picker props (they now use the global
+            // `PickerValidDate`), so they are non-generic and fall through to `else -> propsName`:
+            // DatePickerProps / TimePickerProps / DateTimePickerProps, Desktop*/Mobile* variants,
+            // LocalizationProviderProps, MonthCalendarProps, YearCalendarProps, DigitalClockProps,
+            // MultiSectionDigitalClockProps, TimeClockProps, PickersCalendarHeaderProps.
 
-        // TODO: Remove when `TreeItem` will be removed from `@mui/lab`
-        "TreeItemProps",
-            -> "muix.tree.view.TreeItemProps"
+            // TODO: Remove when `TreeItem` will be removed from `@mui/lab`
+            "TreeItemProps",
+                -> "muix.tree.view.TreeItemProps"
 
-        "TreeViewProps",
-            -> "muix.tree.view.TreeViewProps"
+            "TreeViewProps",
+                -> "muix.tree.view.TreeViewProps"
 
-        else -> propsName
+            else -> propsName
         }
     }
 

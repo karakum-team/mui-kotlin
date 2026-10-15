@@ -12,7 +12,11 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
-import react.*
+import react.ElementType
+import react.FC
+import react.Props
+import react.PropsWithChildren
+import react.ReactNode
 import web.dom.Element
 
 external interface MenuProps :

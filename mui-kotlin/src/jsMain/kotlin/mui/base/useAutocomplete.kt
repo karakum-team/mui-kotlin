@@ -9,13 +9,7 @@ import react.dom.events.SyntheticEvent
 import react.dom.html.HTMLAttributes
 import react.dom.html.InputHTMLAttributes
 import web.dom.ElementId
-import web.html.HTMLButtonElement
-import web.html.HTMLDivElement
-import web.html.HTMLElement
-import web.html.HTMLInputElement
-import web.html.HTMLLIElement
-import web.html.HTMLLabelElement
-import web.html.HTMLUListElement
+import web.html.*
 
 external interface CreateFilterOptionsConfig<Value> {
     var ignoreAccents: Boolean?

@@ -1626,6 +1626,7 @@ private fun fileContent(
         .plus(addedImports)
         .distinct()
         .let { retainReferencedImports(it, resolvedBody, pkg) }
+        .let { collapseStarImports(it, threshold = 7) }
         .let(::inIdeaImportOrder)
         .map { "import $it" }
         .joinToString("\n")
@@ -1639,6 +1640,17 @@ private fun fileContent(
     ).filter { it.isNotEmpty() }
         .joinToString("\n\n")
         .removeSuffix("\n") + "\n"
+}
+
+private fun collapseStarImports(imports: List<String>, threshold: Int): List<String> {
+    val grouped = imports.groupBy { it.substringBeforeLast(".") }
+    return grouped.flatMap { (pkg, fqns) ->
+        if (fqns.size >= threshold) {
+            listOf("$pkg.*")
+        } else {
+            fqns
+        }
+    }
 }
 
 /**
@@ -1662,8 +1674,8 @@ private fun inIdeaImportOrder(imports: List<String>): List<String> {
 
     check(trailing.isEmpty()) {
         "IntelliJ IDEA sorts $trailing into trailing import groups of their own, which this does not " +
-            "reproduce — it had no reason to until now. Implement the grouping in `inIdeaImportOrder`, " +
-            "against what Optimize Imports actually emits for a file holding one."
+                "reproduce — it had no reason to until now. Implement the grouping in `inIdeaImportOrder`, " +
+                "against what Optimize Imports actually emits for a file holding one."
     }
 
     return imports.sorted()
@@ -1708,7 +1720,7 @@ private fun retainReferencedImports(
 }
 
 /** Every identifier appearing in [body] outside a comment, plus the targets of its KDoc links. */
-private fun referencedNames(body: String): Set<String> {
+internal fun referencedNames(body: String): Set<String> {
     val comments = COMMENT.findAll(body).map { it.value }
     val code = COMMENT.replace(body, " ")
 

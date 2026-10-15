@@ -9,7 +9,11 @@ import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.system.Union
 import mui.types.PropsWithComponent
-import react.*
+import react.ElementType
+import react.FC
+import react.Props
+import react.PropsWithChildren
+import react.ReactNode
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 

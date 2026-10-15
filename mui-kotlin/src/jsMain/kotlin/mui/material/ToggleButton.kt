@@ -24,7 +24,7 @@ external interface ToggleButtonProps :
     ToggleButtonOwnProps,
     ButtonHTMLAttributes<HTMLButtonElement>,
     PropsWithComponent,
-    mui.material.ButtonBaseProps
+    ButtonBaseProps
 
 external interface ToggleButtonOwnProps :
     PropsWithChildren,

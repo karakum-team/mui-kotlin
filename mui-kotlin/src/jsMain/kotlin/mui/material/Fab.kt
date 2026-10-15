@@ -22,7 +22,7 @@ external interface FabProps :
     FabOwnProps,
     ButtonHTMLAttributes<HTMLButtonElement>,
     PropsWithComponent,
-    mui.material.ButtonBaseProps
+    ButtonBaseProps
 
 external interface FabOwnProps :
     PropsWithChildren,
