@@ -580,6 +580,9 @@ internal fun kotlinType(
     if (KNOWN_TYPE_SUFFIXES.any { type.endsWith(it) } && " | " !in type && type != "Color")
         return type
 
+    if (type.startsWith("Palette") && " | " !in type)
+        return type
+
     val prefixToType = KNOWN_TYPE_PREFIX_MAP.filter { (prefix) -> type.startsWith(prefix) }
     if (prefixToType.isNotEmpty())
         return prefixToType.values.single()
