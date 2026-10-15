@@ -8,9 +8,7 @@
 package baseui
 
 external interface MenuArrowProps :
-    BaseUiDivProps {
-
-}
+    BaseUiDivProps
 
 external interface MenuArrowState {
     /**

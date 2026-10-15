@@ -8,8 +8,6 @@
 package baseui
 
 external interface AccordionHeaderProps :
-    BaseUiH3Props {
-
-}
+    BaseUiH3Props
 
 external interface AccordionHeaderState : AccordionItemState

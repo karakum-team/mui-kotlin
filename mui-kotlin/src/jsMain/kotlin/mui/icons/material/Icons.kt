@@ -4,8 +4,6 @@
 
 package mui.icons.material
 
-import web.events.Event
-
 external val Abc: SvgIconComponent
 external val AbcOutlined: SvgIconComponent
 external val AbcRounded: SvgIconComponent

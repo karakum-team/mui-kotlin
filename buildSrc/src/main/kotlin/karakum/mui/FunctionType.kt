@@ -148,7 +148,7 @@ internal fun String.toFunctionType(
             "?: React.HTMLAttributes<HTMLInputElement>",
             ": react.dom.html.HTMLAttributes<web.html.HTMLInputElement>?"
         )
-        .replace(": Event", ": Event")
+        .replace(": Event", ": web.events.Event")
         .replace("?: any", ": Any?")
         .replace("?: react.Props", ": react.Props?")
         .replace("?: string", ": String?")

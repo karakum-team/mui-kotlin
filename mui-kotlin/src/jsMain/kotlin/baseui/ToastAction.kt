@@ -9,9 +9,7 @@ package baseui
 
 external interface ToastActionProps :
     NativeButtonProps,
-    BaseUiButtonProps {
-
-}
+    BaseUiButtonProps
 
 external interface ToastActionState {
     /**

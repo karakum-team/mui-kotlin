@@ -8,9 +8,7 @@
 package baseui
 
 external interface ToastArrowProps :
-    BaseUiDivProps {
-
-}
+    BaseUiDivProps
 
 external interface ToastArrowState {
     /**

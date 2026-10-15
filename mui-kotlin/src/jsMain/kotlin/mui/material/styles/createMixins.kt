@@ -4,8 +4,6 @@
 
 package mui.material.styles
 
-import mui.system.Breakpoints
-
 external interface BaseCSSProperties {
     @JsName("@font-face")
     var fontFace: Any? /* Fontface | Fontface[] */

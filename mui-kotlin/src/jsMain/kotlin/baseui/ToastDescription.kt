@@ -8,9 +8,7 @@
 package baseui
 
 external interface ToastDescriptionProps :
-    BaseUiPProps {
-
-}
+    BaseUiPProps
 
 external interface ToastDescriptionState {
     /**

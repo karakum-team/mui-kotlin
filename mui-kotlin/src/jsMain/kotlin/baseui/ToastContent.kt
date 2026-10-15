@@ -8,9 +8,7 @@
 package baseui
 
 external interface ToastContentProps :
-    BaseUiDivProps {
-
-}
+    BaseUiDivProps
 
 external interface ToastContentState {
     /**

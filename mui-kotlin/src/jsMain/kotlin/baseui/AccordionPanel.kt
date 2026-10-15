@@ -9,9 +9,7 @@ package baseui
 
 external interface AccordionPanelProps :
     BaseUiDivProps,
-    AccordionRootProps {
-
-}
+    AccordionRootProps
 
 external interface AccordionPanelState : AccordionItemState {
     /**

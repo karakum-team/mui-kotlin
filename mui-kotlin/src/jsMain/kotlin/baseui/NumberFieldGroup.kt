@@ -8,8 +8,6 @@
 package baseui
 
 external interface NumberFieldGroupProps :
-    BaseUiDivProps {
-
-}
+    BaseUiDivProps
 
 external interface NumberFieldGroupState : NumberFieldRootState

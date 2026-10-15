@@ -9,8 +9,6 @@ package baseui
 
 external interface AccordionTriggerProps :
     NativeButtonProps,
-    BaseUiButtonProps {
-
-}
+    BaseUiButtonProps
 
 external interface AccordionTriggerState : AccordionItemState

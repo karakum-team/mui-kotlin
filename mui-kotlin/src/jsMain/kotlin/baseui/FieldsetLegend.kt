@@ -8,9 +8,7 @@
 package baseui
 
 external interface FieldsetLegendProps :
-    BaseUiDivProps {
-
-}
+    BaseUiDivProps
 
 external interface FieldsetLegendState {
     /**

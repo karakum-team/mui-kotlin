@@ -25,8 +25,10 @@ internal fun findParentType(
 
     val parentSource = content
         .substring(extendsAt + extendsMarker.length)
-        .substringBefore(" {\n")
-        .substringBefore(" {}")
+        .substringBefore(" {")
+        .substringBefore("\n{")
+        .substringBefore("{")
+        .trimEnd()
 
     if ("<TDate>" in parentSource)
         return null

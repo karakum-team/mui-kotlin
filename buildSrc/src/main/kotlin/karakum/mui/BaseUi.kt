@@ -347,12 +347,12 @@ private fun declarationParents(
     name: String,
     body: String,
 ): String? =
-    Regex("""^(?:sealed )?external interface ${Regex.escape(name)}\s*:([^{]*)\{""", RegexOption.MULTILINE)
+    Regex("""^(?:sealed )?external interface ${Regex.escape(name)}\s*:([\s\S]*?)(?=\s*\{|\s+(?:sealed )?external |\z)""", RegexOption.MULTILINE)
         .find(body)
         ?.groupValues?.get(1)
         // A parentless declaration is emitted with no body at all (`external interface MenuPortalState`),
         // in which case the match above would have run on to the next declaration's brace.
-        ?.takeIf { "external " !in it }
+        ?.takeIf { "external " !in it && it.isNotBlank() }
 
 // The interfaces that carry `className` / `style` / `render`: the per-tag parents from
 // `BASE_UI_ELEMENT_PROPS` (`BaseUiDivProps`, `BaseUiSpanProps`, …) plus the hand-written stubs that

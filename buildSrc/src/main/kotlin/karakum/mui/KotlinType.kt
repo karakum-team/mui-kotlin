@@ -170,6 +170,7 @@ private val NUMBER_AS_DOUBLE_PROPERTIES = setOf(
 )
 
 private val STANDARD_TYPE_MAP = mapOf(
+    "Event" to "web.events.Event",
     "any" to "Any",
     "object" to "Any",
     // MUI-X v9 internal transition slot type (from DateCalendar/PickersSlideTransition) — not a public

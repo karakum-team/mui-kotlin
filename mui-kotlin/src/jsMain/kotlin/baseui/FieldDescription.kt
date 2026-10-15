@@ -8,8 +8,6 @@
 package baseui
 
 external interface FieldDescriptionProps :
-    BaseUiPProps {
-
-}
+    BaseUiPProps
 
 external interface FieldDescriptionState : FieldRootState

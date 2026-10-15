@@ -8,9 +8,7 @@
 package baseui
 
 external interface MenuBackdropProps :
-    BaseUiDivProps {
-
-}
+    BaseUiDivProps
 
 external interface MenuBackdropState {
     /**

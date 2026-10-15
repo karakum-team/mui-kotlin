@@ -24,14 +24,11 @@ private val DEFAULT_IMPORTS = listOf(
     "Hidden?" to "web.html.Hidden",
 
     " ClassName" to "web.cssom.ClassName",
-    "Event" to "web.events.Event",
     "HTMLElement" to "web.html.HTMLElement",
 
     "BoxProps" to "mui.system.BoxProps",
-    "InitColorSchemeScriptProps" to "mui.system.InitColorSchemeScriptProps",
     "SystemProps" to "mui.system.SystemProps",
     "UseMediaQueryOptions" to "mui.system.UseMediaQueryOptions",
-    "Breakpoints" to "mui.system.Breakpoints",
 
     "JsVirtual" to "seskar.js.JsVirtual",
     "JsValue" to "seskar.js.JsValue",
@@ -1536,7 +1533,7 @@ private fun RuntimeBindings.generate(
             extensions.takeIf { it.isNotEmpty() },
             """
                 inline var RatingProps.defaultValueAsNumber: Number?
-                    get() = js.reflect.unsafeCast(defaultValue)
+                    get() = unsafeCast(defaultValue)
                     set(value) { defaultValue = value }
             """.trimIndent(),
         ).filterNotNull().joinToString("\n\n")
@@ -1547,7 +1544,7 @@ private fun RuntimeBindings.generate(
             extensions.takeIf { it.isNotEmpty() },
             """
                 inline fun StepIconProps.asSvgIconOwnProps(): SvgIconOwnProps =
-                    js.reflect.unsafeCast(this)
+                    unsafeCast(this)
             """.trimIndent(),
         ).filterNotNull().joinToString("\n\n")
 
@@ -1742,6 +1739,7 @@ private val KDOC_LINK = Regex("""\[([A-Za-z_][A-Za-z0-9_]*)""")
 private val IMPORTED_FQNS = listOf(
     // mui.base
     "mui.base.BadgeOwnProps",
+    "mui.base.ButtonOwnProps",
     "mui.base.ClickAwayListenerProps",
     "mui.base.Orientation",
     "mui.base.PopperOwnProps",
@@ -1750,6 +1748,9 @@ private val IMPORTED_FQNS = listOf(
 
     // mui.material.transitions
     "mui.material.transitions.TransitionProps",
+
+    // muix.tree.view
+    "muix.tree.view.TreeItemProps",
 
     // mui.types
     "mui.types.PropsWithComponent",

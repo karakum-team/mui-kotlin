@@ -1104,13 +1104,14 @@ private fun findProps(
     else
         convertMembers(membersContent, knownTypes)
 
-    return props(
+    val declaration = props(
         propsName = propsDeclaration,
         parentType = parentType,
         hasChildren = CHILDREN in body,
         hasClassName = CLASS_NAME in body,
         hasSx = SX in body,
-    ) + " {\n$body\n}"
+    )
+    return if (body.isBlank()) declaration else "$declaration {\n$body\n}"
 }
 
 private fun findMapProps(
@@ -1244,14 +1245,15 @@ private fun findMapProps(
 
     return if (membersContent.isNotEmpty()) {
         val body = convertMembers(membersContent, knownTypes)
-        props(
+        val declaration = props(
             propsName = propsName,
             parentType = parentType,
             hasChildren = CHILDREN in body,
             hasClassName = CLASS_NAME in body,
             hasSx = SX in body,
             hasComponent = hasComponent,
-        ) + " {\n$body\n}"
+        )
+        if (body.isBlank()) declaration else "$declaration {\n$body\n}"
     } else {
         props(
             propsName = propsName,
@@ -1287,8 +1289,8 @@ private fun findAdditionalProps(
         return emptyList()
 
     return bodies.mapNotNull { body ->
-        val interfaceName = body
-            .substringBefore(" ")
+        val interfaceName = body.substringBefore(" ")
+            .substringBefore("=")
             .substringBefore("\n")
             .substringBefore("<")
 
@@ -1643,9 +1645,12 @@ private fun findAdditionalProps(
             else -> ""
         }
 
-        annotations + declaration + " {\n" +
-                propsBody +
-                "\n}"
+        val formattedBody = if (propsBody.isBlank()) "" else " {\n$propsBody\n}"
+        if (interfaceName == "SliderControlProps") {
+            println("SliderControlProps propsBody: '${propsBody}'")
+            println("SliderControlProps formattedBody: '${formattedBody}'")
+        }
+        annotations + declaration + formattedBody
     }
 }
 

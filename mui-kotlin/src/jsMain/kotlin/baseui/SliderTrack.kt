@@ -8,8 +8,6 @@
 package baseui
 
 external interface SliderTrackProps :
-    BaseUiDivProps {
-
-}
+    BaseUiDivProps
 
 external interface SliderTrackState : SliderRootState

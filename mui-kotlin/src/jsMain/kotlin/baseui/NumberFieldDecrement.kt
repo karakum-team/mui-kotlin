@@ -9,8 +9,6 @@ package baseui
 
 external interface NumberFieldDecrementProps :
     NativeButtonProps,
-    BaseUiButtonProps {
-
-}
+    BaseUiButtonProps
 
 external interface NumberFieldDecrementState : NumberFieldRootState

@@ -8,9 +8,7 @@
 package baseui
 
 external interface FieldsetRootProps :
-    BaseUiFieldsetProps {
-
-}
+    BaseUiFieldsetProps
 
 external interface FieldsetRootState {
     /**

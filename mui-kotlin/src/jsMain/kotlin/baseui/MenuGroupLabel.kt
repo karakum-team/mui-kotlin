@@ -8,8 +8,6 @@
 package baseui
 
 external interface MenuGroupLabelProps :
-    BaseUiDivProps {
-
-}
+    BaseUiDivProps
 
 external interface MenuGroupLabelState

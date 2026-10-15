@@ -8,8 +8,6 @@
 package baseui
 
 external interface NumberFieldScrubAreaCursorProps :
-    BaseUiSpanProps {
-
-}
+    BaseUiSpanProps
 
 external interface NumberFieldScrubAreaCursorState : NumberFieldRootState

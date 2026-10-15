@@ -8,9 +8,7 @@
 package baseui
 
 external interface ToastTitleProps :
-    BaseUiH2Props {
-
-}
+    BaseUiH2Props
 
 external interface ToastTitleState {
     /**

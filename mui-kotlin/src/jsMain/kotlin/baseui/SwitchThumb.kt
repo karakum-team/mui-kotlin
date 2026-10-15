@@ -8,8 +8,6 @@
 package baseui
 
 external interface SwitchThumbProps :
-    BaseUiSpanProps {
-
-}
+    BaseUiSpanProps
 
 external interface SwitchThumbState : SwitchRootState

@@ -13,7 +13,7 @@ external interface TabProps :
     ButtonHTMLAttributes<HTMLButtonElement>
 
 external interface TabOwnProps :
-    mui.base.ButtonOwnProps,
+    ButtonOwnProps,
     ButtonHTMLAttributes<HTMLButtonElement> {
     /**
      * You can provide your own value. Otherwise, it falls back to the child position index.
