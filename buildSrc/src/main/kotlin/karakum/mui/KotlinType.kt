@@ -173,6 +173,10 @@ private val STANDARD_TYPE_MAP = mapOf(
     "Event" to "web.events.Event",
     "any" to "Any",
     "object" to "Any",
+    // These non-literal unions are not emitted as declarations. Resolve them before the Palette*
+    // name heuristic so members keep the existing fallback instead of referencing missing types.
+    "PaletteColorOptions" to "Any? /* PaletteColorOptions */",
+    "PaletteTonalOffset" to "Any? /* PaletteTonalOffset */",
     // MUI-X v9 internal transition slot type (from DateCalendar/PickersSlideTransition) — not a public
     // API type; widen to Any (it surfaces only on the internal DayCalendar's `TransitionProps` slot).
     "SlideTransitionProps" to "Any",
@@ -580,7 +584,7 @@ internal fun kotlinType(
     if (KNOWN_TYPE_SUFFIXES.any { type.endsWith(it) } && " | " !in type && type != "Color")
         return type
 
-    if (type.startsWith("Palette") && " | " !in type)
+    if (type.startsWith("Palette") && " | " !in type && " & " !in type)
         return type
 
     val prefixToType = KNOWN_TYPE_PREFIX_MAP.filter { (prefix) -> type.startsWith(prefix) }

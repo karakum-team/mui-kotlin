@@ -1,6 +1,7 @@
 import js.objects.unsafeJso
 import mui.material.Button
 import mui.material.Chip
+import mui.material.styles.CssVarsPalette
 import mui.material.styles.FocusVisible
 import mui.material.styles.ThemeOptions
 import mui.material.styles.ThemeProvider
@@ -55,6 +56,20 @@ private val customRingTheme = createTheme(
     }
 )
 
+// The generated ThemeOptions stub does not expose the CSS variables opt-in yet.
+private external interface CssVariablesThemeOptions : ThemeOptions {
+    var cssVariables: Boolean
+}
+
+private val cssVariablesTheme = createTheme(
+    unsafeJso<CssVariablesThemeOptions> {
+        cssVariables = true
+    }
+)
+
+// Theme.palette is currently Any?, but its CSS variables fields use the generated interfaces.
+private val cssVariablesPalette = cssVariablesTheme.palette.unsafeCast<CssVarsPalette>()
+
 val Theming = FC<Props> {
     h3 { +"theme.focusVisible (MUI 9.4.0)" }
     p { +"Tab through the three buttons: no ring, default ring, magenta ring." }
@@ -86,5 +101,11 @@ val Theming = FC<Props> {
             id = ElementId("focus-ring-custom")
             +"focusVisible = { … }"
         }
+    }
+
+    h3 { +"CSS variables palette" }
+    p {
+        id = ElementId("css-vars-alert-error-color")
+        +"Alert.errorColor: ${cssVariablesPalette.Alert.errorColor}"
     }
 }
