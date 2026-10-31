@@ -1,21 +1,19 @@
 package playground.samples.treeview.consumer
 
 import emotion.css.ClassName
+import muix.tree.view.TreeItemDataAttributes
+import muix.tree.view.TreeViewCssVars
 import muix.tree.view.richTreeViewClasses
 import muix.tree.view.treeItemClasses
 import web.cssom.*
 import web.cssom.None.Companion.none
 
 // Mirrors the consumer component's `TreeView.styles.kt`. The application's theme tokens (`Colors`, `Fonts`,
-// `Filters`, `SurfaceStyles` and its `@container` query) are replaced by literal values; every selector string,
-// the hand-written CSS custom properties and the `var(depth) * var(indentation)` inset are kept as they are.
+// `Filters`, `SurfaceStyles` and its `@container` query) are replaced by literal values; the selectors and the
+// `var(depth) * var(indentation)` inset are kept as they are, spelled through the generated class, custom property
+// and data attribute constants.
 
 private val ICON_TOP_INSET: Length = 1.25.spacing
-
-// W11: these custom properties are set by MUI at runtime (`useTreeViewRootProps`, `useTreeItem`) but declared
-// nowhere in the wrappers.
-private val ITEM_CHILDREN_INDENTATION: CustomPropertyName<Length> = CustomPropertyName("--TreeView-itemChildrenIndentation")
-private val ITEM_DEPTH: CustomPropertyName<Double> = CustomPropertyName("--TreeView-itemDepth")
 
 private val ITEM_HOVER_BACKGROUND: CustomPropertyName<Color> = CustomPropertyName("--tree-view-item-hover-background")
 
@@ -37,7 +35,7 @@ internal fun treeViewStyle(): ClassName = ClassName {
     lineHeight = number(1.4)
     color = TEXT_COLOR
 
-    val itemInset = 1.spacing + `var`(ITEM_DEPTH) * `var`(ITEM_CHILDREN_INDENTATION)
+    val itemInset = 1.spacing + `var`(TreeViewCssVars.itemDepth) * `var`(TreeViewCssVars.itemChildrenIndentation)
 
     "&.${richTreeViewClasses.root}" {
         margin = -1.spacing
@@ -55,27 +53,27 @@ internal fun treeViewStyle(): ClassName = ClassName {
             backgroundColor = `var`(ITEM_HOVER_BACKGROUND)
         }
 
-        "&[data-focused]" {
+        "&[${TreeItemDataAttributes.focused}]" {
             backgroundColor = Color.transparent
         }
 
-        "&[data-focused]:hover" {
+        "&[${TreeItemDataAttributes.focused}]:hover" {
             backgroundColor = `var`(ITEM_HOVER_BACKGROUND)
         }
 
-        "&[data-selected]" {
+        "&[${TreeItemDataAttributes.selected}]" {
             backgroundColor = Color.transparent
 
-            "&[data-focused]" {
+            "&[${TreeItemDataAttributes.focused}]" {
                 backgroundColor = Color.transparent
             }
         }
 
-        "&[data-selected]:hover" {
+        "&[${TreeItemDataAttributes.selected}]:hover" {
             backgroundColor = `var`(ITEM_HOVER_BACKGROUND)
         }
 
-        "&[data-disabled]" {
+        "&[${TreeItemDataAttributes.disabled}]" {
             opacity = number(1.0)
             filter = GRAY_FILTER
             cursor = Cursor.default
@@ -85,7 +83,7 @@ internal fun treeViewStyle(): ClassName = ClassName {
             }
         }
 
-        "&[data-disabled]:hover" {
+        "&[${TreeItemDataAttributes.disabled}]:hover" {
             backgroundColor = Color.transparent
         }
 

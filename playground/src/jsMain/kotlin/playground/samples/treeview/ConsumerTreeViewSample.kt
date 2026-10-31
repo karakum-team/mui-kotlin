@@ -3,7 +3,10 @@ package playground.samples.treeview
 import kotlinx.coroutines.delay
 import mui.material.Button
 import muix.tree.view.richTreeViewClasses
+import muix.tree.view.treeItemClasses
 import muix.tree.view.SetItemSelectionParameters
+import muix.tree.view.TreeItemDataAttributes
+import muix.tree.view.TreeViewCssVars
 import muix.tree.view.useRichTreeViewApiRef
 import playground.samples.treeview.consumer.TreeNode
 import playground.samples.treeview.consumer.TreeView
@@ -84,7 +87,7 @@ val ConsumerTreeViewSample: Sample = Sample(
         "TreeItemProps.onKeyDown/slots/slotProps",
         "TreeItemSlots.checkbox, TreeItemSlotProps.content/label/checkbox",
         "richTreeViewClasses.root/itemContent, treeItemClasses.content/label/iconContainer/checkbox",
-        "defaultMuiPrevented, --TreeView-itemChildrenIndentation/--TreeView-itemDepth, data-* state attributes",
+        "defaultMuiPrevented, TreeViewCssVars.itemChildrenIndentation/itemDepth, TreeItemDataAttributes.disabled",
     ),
     fileName = "ConsumerTreeViewSample.kt",
     refs = listOf(
@@ -230,10 +233,10 @@ private fun domChecks(apiPresent: Boolean): List<Check> {
     val items = root?.querySelectorAll("li[role=treeitem]")
     val itemCount = items?.length ?: 0
     val unselectable = root?.querySelector(".MuiTreeItem-content[$UNSELECTABLE_ATTRIBUTE]")?.textContent.orEmpty()
-    val disabled = root?.querySelector(".MuiTreeItem-content[data-disabled]")?.textContent.orEmpty()
-    val indentation = tree?.style?.getPropertyValue("--TreeView-itemChildrenIndentation").orEmpty()
+    val disabled = root?.querySelector(".${treeItemClasses.content}[${TreeItemDataAttributes.disabled}]")?.textContent.orEmpty()
+    val indentation = tree?.style?.getPropertyValue(TreeViewCssVars.itemChildrenIndentation.toString()).orEmpty()
     val depths = (0 until itemCount).map { index ->
-        items!![index].unsafeCast<HTMLElement>().style.getPropertyValue("--TreeView-itemDepth")
+        items!![index].unsafeCast<HTMLElement>().style.getPropertyValue(TreeViewCssVars.itemDepth.toString())
     }
     val contentsByClassKey = root?.querySelectorAll(".${richTreeViewClasses.itemContent}")?.length ?: 0
 
@@ -241,9 +244,9 @@ private fun domChecks(apiPresent: Boolean): List<Check> {
         Check("$NODE_COUNT tree items rendered", itemCount == NODE_COUNT),
         Check("apiRef.current is set", apiPresent),
         Check("[data-unselectable] marks the Archive content", "Archive" in unselectable),
-        Check("[data-disabled] marks the Aircraft B content", "Aircraft B" in disabled),
-        Check("root style sets --TreeView-itemChildrenIndentation to 16px", indentation == "16px"),
-        Check("item roots carry --TreeView-itemDepth 0, 1 and 2", depths.toSet() == setOf("0", "1", "2")),
+        Check("TreeItemDataAttributes.disabled marks the Aircraft B content", "Aircraft B" in disabled),
+        Check("root style sets TreeViewCssVars.itemChildrenIndentation to 16px", indentation == "16px"),
+        Check("item roots carry TreeViewCssVars.itemDepth 0, 1 and 2", depths.toSet() == setOf("0", "1", "2")),
         Check(
             "richTreeViewClasses.itemContent (MuiRichTreeView-itemContent) marks every item content",
             richTreeViewClasses.itemContent.toString() == "MuiRichTreeView-itemContent" && contentsByClassKey == NODE_COUNT,

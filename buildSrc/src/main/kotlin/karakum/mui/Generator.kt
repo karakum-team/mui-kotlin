@@ -493,6 +493,52 @@ external fun <R : Any> useRichTreeViewApiRef(): react.RefObject<RichTreeViewPubl
 external fun useSimpleTreeViewApiRef(): react.RefObject<TreeViewPublicAPI<SimpleTreeViewItem>>
 """.trimIndent()
 
+// TreeViewCssVars / TreeItemDataAttributes:
+//  Set by the runtime only — `internals/hooks/useTreeViewRootProps.js` puts `--TreeView-itemChildrenIndentation`
+//  on the root's style, `useTreeItem/useTreeItem.js` (`getRootProps`) puts `--TreeView-itemDepth` / `--TreeView-itemHeight`
+//  on every item root and (`getContentProps`) `data-<status>=""` on the content — so no `.d.ts` declares them. Styles
+//  that read the custom properties or select on the attributes get named constants instead of string literals.
+// language=kotlin
+private val TREE_VIEW_CSS_VARS = """
+/**
+ * The CSS custom properties the Tree View sets at runtime, for styles that need to read them: the root carries
+ * [itemChildrenIndentation] (`useTreeViewRootProps`), every item root carries [itemDepth] and, when the `itemHeight`
+ * prop is set, [itemHeight] (`useTreeItem`). Nothing in the package declares them, so they are listed here.
+ */
+object TreeViewCssVars {
+    /**
+     * `--TreeView-itemChildrenIndentation`: the `itemChildrenIndentation` prop as a length (`24` becomes `24px`).
+     */
+    val itemChildrenIndentation: web.cssom.CustomPropertyName<web.cssom.Length> =
+        web.cssom.CustomPropertyName("--TreeView-itemChildrenIndentation")
+
+    /**
+     * `--TreeView-itemDepth`: the zero-based depth of the item, a plain number.
+     */
+    val itemDepth: web.cssom.CustomPropertyName<Double> =
+        web.cssom.CustomPropertyName("--TreeView-itemDepth")
+
+    /**
+     * `--TreeView-itemHeight`: the `itemHeight` prop as a length; only set when the prop is.
+     */
+    val itemHeight: web.cssom.CustomPropertyName<web.cssom.Length> =
+        web.cssom.CustomPropertyName("--TreeView-itemHeight")
+}
+
+/**
+ * The `data-*` attributes `useTreeItem` puts on the item's content element while the matching status is on
+ * (`data-expanded=""`, …), for attribute selectors in styles and DOM queries.
+ */
+object TreeItemDataAttributes {
+    const val expanded: String = "data-expanded"
+    const val selected: String = "data-selected"
+    const val focused: String = "data-focused"
+    const val disabled: String = "data-disabled"
+    const val editing: String = "data-editing"
+    const val editable: String = "data-editable"
+}
+""".trimIndent()
+
 // A hand-written tree-view file: `annotations` is the `@file:` line it needs, if any (a `@file:JsModule` for the
 // hooks — their `external fun`s are then verified by RuntimeBindings against the package's exports).
 private data class TreeViewHandWrittenFile(
@@ -1157,6 +1203,7 @@ private fun RuntimeBindings.generateTreeViewDeclarations(
         TreeViewHandWrittenFile("RichTreeViewLoading", TREE_VIEW_RICH_TREE_VIEW_LOADING),
         TreeViewHandWrittenFile("TreeViewCancellableEvent", TREE_VIEW_CANCELLABLE_EVENT),
         TreeViewHandWrittenFile("TreeViewPublicAPI", TREE_VIEW_PUBLIC_API),
+        TreeViewHandWrittenFile("TreeViewCssVars", TREE_VIEW_CSS_VARS),
         TreeViewHandWrittenFile(
             "useTreeViewApiRef",
             TREE_VIEW_USE_TREE_VIEW_API_REF,
@@ -2171,6 +2218,8 @@ private val IMPORTED_FQNS = listOf(
     "web.cssom.BorderRadius",
     "web.cssom.ClassName",
     "web.cssom.Color",
+    "web.cssom.CustomPropertyName",
+    "web.cssom.Length",
     "web.cssom.MediaQueryList",
     "web.cssom.Transition",
     "web.dom.Element",
