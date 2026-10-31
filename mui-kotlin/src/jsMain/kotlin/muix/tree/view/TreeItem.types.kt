@@ -2,6 +2,7 @@
 
 package muix.tree.view
 
+import kotlinx.js.JsPlainObject
 import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
@@ -59,6 +60,7 @@ external interface TreeItemProps :
     var onKeyDown: KeyboardEventHandler<HTMLLIElement>?
 }
 
+@JsPlainObject
 external interface TreeItemSlots : TreeItemIconSlots {
     /**
      * The component that renders the root.

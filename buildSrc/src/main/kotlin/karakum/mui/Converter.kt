@@ -203,6 +203,11 @@ internal fun convertDefinitions(
     knownTypes: Map<String, String> = emptyMap(),
     // See [adaptRawContent].
     collapseMemberValueObjects: Boolean = false,
+    // Which of the file's interfaces are emitted with `@JsPlainObject`, by name. Opt-in per target because the
+    // compiler plugin wants the whole closure annotated — every supertype and every subtype of an annotated
+    // interface — and nothing that extends `react.Props` qualifies (it is not a marker interface). Only a closed
+    // family without `Props` in it is therefore safe to annotate; see `generate` for the tree-view one.
+    jsPlainObject: (String) -> Boolean = { false },
 ): ConversionResult {
     // MUI v6 sometimes uses `Component/index.d.ts` instead of `Component/Component.d.ts`.
     // Derive the component name from the parent directory in that case.
@@ -347,7 +352,7 @@ internal fun convertDefinitions(
     findMapProps(name, propsName, content, knownTypes)
         ?.also(declarations::add)
 
-    val additionalInterfaces = findAdditionalProps(propsName, content, keepEmptyBodyParents, knownTypes)
+    val additionalInterfaces = findAdditionalProps(propsName, content, keepEmptyBodyParents, knownTypes, jsPlainObject)
     val functionInterfaces = additionalInterfaces
         .filter { "interface Spacing {" in it }
 
@@ -1267,7 +1272,11 @@ private fun findAdditionalProps(
     content: String,
     keepEmptyBodyParents: Boolean = false,
     knownTypes: Map<String, String> = emptyMap(),
+    // See [convertDefinitions].
+    jsPlainObject: (String) -> Boolean = { false },
 ): List<String> {
+    val plainObjectAnnotation = { interfaceName: String -> if (jsPlainObject(interfaceName)) "@JsPlainObject\n" else "" }
+
     var delimiters = arrayOf("export interface ", "export default interface ")
     if ("interface BaseTheme" in content)
         delimiters += "interface "
@@ -1379,7 +1388,7 @@ private fun findAdditionalProps(
                         interfaceName.endsWith("Props") -> " : react.Props"
                         else -> ""
                     }
-                    return@mapNotNull "external interface $interfaceName$typeParams$base"
+                    return@mapNotNull plainObjectAnnotation(interfaceName) + "external interface $interfaceName$typeParams$base"
                 }
             }
         }
@@ -1639,7 +1648,7 @@ private fun findAdditionalProps(
                 -> declaration = declaration.replaceFirst("ListboxState", "ListboxState<TOption>")
         }
 
-        val annotations = when (interfaceName) {
+        val annotations = plainObjectAnnotation(interfaceName) + when (interfaceName) {
             "SliderValueLabelProps" -> "@Suppress(\"VIRTUAL_MEMBER_HIDDEN\")\n"
             else -> ""
         }

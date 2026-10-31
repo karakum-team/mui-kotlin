@@ -2,6 +2,9 @@
 
 package muix.tree.view
 
+import kotlinx.js.JsPlainObject
+
+@JsPlainObject
 external interface TreeViewSelectionPropagation {
     var descendants: Boolean?
 

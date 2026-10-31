@@ -1,6 +1,5 @@
 package playground.samples.treeview
 
-import js.objects.unsafeJso
 import mui.icons.material.ChevronRight
 import mui.icons.material.ExpandMore
 import mui.system.sx
@@ -58,10 +57,10 @@ val SimpleTreeViewSample: Sample = Sample(
             "\"Archive\" (`disableSelection`) still expands and takes focus but never becomes selected.",
     content = FC<Props> {
         SimpleTreeView {
-            slots = unsafeJso<SimpleTreeViewSlots> {
-                expandIcon = ChevronRight
-                collapseIcon = ExpandMore
-            }
+            slots = SimpleTreeViewSlots(
+                expandIcon = ChevronRight,
+                collapseIcon = ExpandMore,
+            )
 
             sx {
                 maxWidth = 420.px

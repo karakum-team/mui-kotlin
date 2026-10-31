@@ -3,11 +3,9 @@ package playground.samples.treeview.consumer
 import js.objects.unsafeJso
 import kotlinx.js.JsPlainObject
 import muix.tree.view.RichTreeViewSlotProps
-import muix.tree.view.RichTreeViewSlots
 import muix.tree.view.TreeItemProps
 import muix.tree.view.TreeItemSlotProps
 import muix.tree.view.TreeItemSlots
-import react.ElementType
 import react.Props
 import react.dom.events.KeyboardEvent
 import react.dom.events.KeyboardEventHandler
@@ -54,16 +52,8 @@ internal external interface ItemSelectionParameters {
     val shouldBeSelected: Boolean
 }
 
-// W4: the `*Slots` interfaces carry no `@JsPlainObject` factory.
-internal fun RichTreeViewSlots(
-    expandIcon: ElementType<*>,
-    collapseIcon: ElementType<*>,
-): RichTreeViewSlots =
-    unsafeJso {
-        this.expandIcon = expandIcon
-        this.collapseIcon = collapseIcon
-    }
-
+// `TreeItemProps` and `TreeItemSlotProps` extend `react.Props`, which the js-plain-objects plugin does not accept
+// as a supertype, so these two factories stay hand-written for good.
 internal fun TreeItemProps(
     slots: TreeItemSlots?,
     slotProps: TreeItemSlotProps?,
@@ -73,13 +63,6 @@ internal fun TreeItemProps(
         this.slots = slots
         this.slotProps = slotProps
         this.onKeyDown = onKeyDown
-    }
-
-internal fun TreeItemSlots(
-    checkbox: ElementType<*>,
-): TreeItemSlots =
-    unsafeJso {
-        this.checkbox = checkbox
     }
 
 // W9: every slot prop is `Props?`, so the factory cannot say what each slot accepts.

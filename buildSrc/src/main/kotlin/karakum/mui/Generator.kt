@@ -1499,6 +1499,14 @@ private fun RuntimeBindings.generate(
             else -> emptyMap()
         },
         collapseMemberValueObjects = pkg == Package.baseUi,
+        // The tree-view `*Slots` family is a closed set without `react.Props` in it (`TreeViewSlots` →
+        // `SimpleTreeViewSlots` / `RichTreeViewSlots` / `TreeViewStyleContextSlots`, `TreeItemIconSlots` →
+        // `TreeItemSlots`), so it can carry `@JsPlainObject` factories; the `TreeViewSelectionPropagation` model
+        // is a standalone one. The `*SlotProps` interfaces extend `Props` and stay plain `unsafeJso` territory.
+        jsPlainObject = when (pkg) {
+            Package.treeView -> { name -> name.endsWith("Slots") || name == "TreeViewSelectionPropagation" }
+            else -> { _ -> false }
+        },
     )
 
     val subpackage = when {

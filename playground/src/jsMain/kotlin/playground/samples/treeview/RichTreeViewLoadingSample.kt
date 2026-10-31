@@ -97,9 +97,10 @@ val RichTreeViewLoadingSample: Sample = Sample(
             className = ClassName("loading-tree")
             items = loadingTreeItems
             loading = isLoading
-            slots = unsafeJso<RichTreeViewSlots> {
-                itemLoader = LoadingRow
-                if (customLoading) loading = CustomLoading
+            slots = if (customLoading) {
+                RichTreeViewSlots(itemLoader = LoadingRow, loading = CustomLoading)
+            } else {
+                RichTreeViewSlots(itemLoader = LoadingRow)
             }
             slotProps = unsafeJso<RichTreeViewSlotProps> {
                 itemLoader = unsafeJso<TreeItemLoaderProps> {

@@ -1,6 +1,8 @@
 package playground.samples.treeview.consumer
 
 import js.objects.unsafeJso
+import muix.tree.view.RichTreeViewSlots
+import muix.tree.view.TreeItemSlots
 import muix.tree.view.TreeViewExpansionTrigger
 import muix.tree.view.TreeViewSelectionPropagation
 import muix.tree.view.TreeViewSelectionValue
@@ -44,16 +46,15 @@ private val IS_ITEM_SELECTION_DISABLED = { item: Any ->
     !item.unsafeCast<TreeNode>().selectable
 }
 
-// W4: the generated model interface has no `@JsPlainObject` factory yet.
-private val CASCADE_SELECTION_PROPAGATION = unsafeJso<TreeViewSelectionPropagation> {
-    parents = false
-    descendants = true
-}
+private val CASCADE_SELECTION_PROPAGATION = TreeViewSelectionPropagation(
+    parents = false,
+    descendants = true,
+)
 
-private val INDEPENDENT_SELECTION_PROPAGATION = unsafeJso<TreeViewSelectionPropagation> {
-    parents = false
-    descendants = false
-}
+private val INDEPENDENT_SELECTION_PROPAGATION = TreeViewSelectionPropagation(
+    parents = false,
+    descendants = false,
+)
 
 private val SLOTS = RichTreeViewSlots(
     expandIcon = ExpandIcon,

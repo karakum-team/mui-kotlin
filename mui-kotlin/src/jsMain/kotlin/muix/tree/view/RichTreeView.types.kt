@@ -2,6 +2,7 @@
 
 package muix.tree.view
 
+import kotlinx.js.JsPlainObject
 import mui.material.styles.Theme
 import mui.system.SxProps
 import react.ElementType
@@ -32,6 +33,7 @@ external interface RichTreeViewProps :
     var apiRef: Ref<*>?
 }
 
+@JsPlainObject
 external interface RichTreeViewSlots : TreeViewSlots {
     /**
      * Element rendered at the root.

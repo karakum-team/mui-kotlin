@@ -2,6 +2,7 @@
 
 package muix.tree.view
 
+import kotlinx.js.JsPlainObject
 import react.ElementType
 import react.Props
 
@@ -43,6 +44,7 @@ external interface TreeViewClasses {
     var itemLoader: String
 }
 
+@JsPlainObject
 external interface TreeViewSlots {
     /**
      * The default icon used to collapse the item.
@@ -69,6 +71,7 @@ external interface TreeViewSlotProps : Props {
     var endIcon: Props?
 }
 
+@JsPlainObject
 external interface TreeViewStyleContextSlots : TreeViewSlots {
     /**
      * Component rendered instead of the default loading rows.

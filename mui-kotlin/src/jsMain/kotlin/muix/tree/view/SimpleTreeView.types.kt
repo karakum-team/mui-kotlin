@@ -2,6 +2,7 @@
 
 package muix.tree.view
 
+import kotlinx.js.JsPlainObject
 import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
@@ -51,6 +52,7 @@ external interface SimpleTreeViewProps :
     var apiRef: Ref<*>?
 }
 
+@JsPlainObject
 external interface SimpleTreeViewSlots : TreeViewSlots {
     /**
      * Element rendered at the root.

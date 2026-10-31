@@ -2,6 +2,7 @@
 
 package muix.tree.view
 
+import kotlinx.js.JsPlainObject
 import react.ElementType
 import react.Props
 
@@ -24,6 +25,7 @@ external interface TreeItemIconProps : Props {
     var slotProps: TreeItemIconSlotProps?
 }
 
+@JsPlainObject
 external interface TreeItemIconSlots {
     /**
      * The icon used to collapse the item.
