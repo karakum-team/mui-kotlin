@@ -3,15 +3,19 @@ package playground.samples.treeview.consumer
 import js.objects.unsafeJso
 import muix.tree.view.RichTreeViewItemsOwnerState
 import muix.tree.view.RichTreeViewProps
+import muix.tree.view.RichTreeViewPublicAPI
+import muix.tree.view.SetItemSelectionParameters
 import muix.tree.view.RichTreeViewSlotProps
 import muix.tree.view.RichTreeViewSlots
 import muix.tree.view.SlotComponentProps
 import muix.tree.view.TreeItemSlots
 import muix.tree.view.TreeViewExpansionTrigger
+import muix.tree.view.TreeViewItemSelectionStatus
 import muix.tree.view.TreeViewSelectionPropagation
 import muix.tree.view.TreeViewSelectionValue
 import muix.tree.view.asMultiple
 import muix.tree.view.defaultMuiPrevented
+import muix.tree.view.useRichTreeViewApiRef
 import react.FC
 import react.ReactNode
 import react.RefObject
@@ -19,7 +23,6 @@ import react.dom.events.KeyboardEventHandler
 import react.dom.events.SyntheticEvent
 import react.dom.html.HTMLAttributes
 import react.useMemo
-import react.useRef
 import web.dom.Element
 import web.dom.Node
 import web.html.HTMLDivElement
@@ -29,7 +32,7 @@ import muix.tree.view.RichTreeView as MuiRichTreeView
 // Mirrors a downstream application's `TreeView` wrapper over `RichTreeView`. Deviations from the original: the
 // application's theme (`SurfaceStyles`, `spacing`) is replaced by the local `Spacing.kt` / `TreeView.styles.kt`,
 // `PropsWithChangeableValue` is a local copy, and `TreeViewProps.apiRef` is added so the sample can drive the
-// public API from its checks (which makes both declarations `internal`: the hand-written `RichTreeViewApi` is).
+// public API from its checks.
 
 private val GET_ITEM_CHILDREN = { item: TreeNode ->
     item.children.toTypedArray()
@@ -68,7 +71,7 @@ private val ITEM_SLOTS = TreeItemSlots(
     checkbox = TreeItemCheckbox,
 )
 
-internal external interface TreeViewProps :
+external interface TreeViewProps :
     PropsWithChangeableValue<Set<String>> {
     var nodes: List<TreeNode>
     var defaultExpandedKeys: Set<TreeNodeKey>?
@@ -76,10 +79,10 @@ internal external interface TreeViewProps :
     var renderNode: ((TreeNode) -> ReactNode)?
 
     // Not in the original wrapper: lets the sample reach the public API the component keeps for its label clicks.
-    var apiRef: RefObject<RichTreeViewApi>?
+    var apiRef: RefObject<RichTreeViewPublicAPI<TreeNode>>?
 }
 
-internal val TreeView: FC<TreeViewProps> = FC { props ->
+val TreeView: FC<TreeViewProps> = FC { props ->
     val nodes = props.nodes
     val value = props.value
     val defaultExpandedKeys = props.defaultExpandedKeys
@@ -91,7 +94,7 @@ internal val TreeView: FC<TreeViewProps> = FC { props ->
     val defaultExpanded = useMemo(defaultExpandedKeys) { defaultExpandedKeys?.toTypedArray() }
     val nodeByKey = useMemo(nodes) { nodes.associateByKey() }
 
-    val ownApi = useRef<RichTreeViewApi>()
+    val ownApi = useRichTreeViewApiRef<TreeNode>()
     val treeViewApi = props.apiRef ?: ownApi
 
     val itemSlotProps = useMemo(treeViewApi, cascade, renderNode, nodeByKey) {
@@ -202,7 +205,7 @@ private fun checkboxSlotProps(
     }
 
 private fun labelSlotProps(
-    apiRef: RefObject<RichTreeViewApi>,
+    apiRef: RefObject<RichTreeViewPublicAPI<TreeNode>>,
     ownerState: RichTreeViewItemsOwnerState,
     content: ReactNode?,
     selectable: Boolean,
@@ -221,11 +224,11 @@ private fun labelSlotProps(
 
             api.focusItem(e, ownerState.itemId)
             api.setItemSelection(
-                ItemSelectionParameters(
+                SetItemSelectionParameters(
                     itemId = ownerState.itemId,
                     event = e,
                     keepExistingSelection = true,
-                    shouldBeSelected = api.getItemSelection(ownerState.itemId) != "selected",
+                    shouldBeSelected = api.getItemSelection(ownerState.itemId) != TreeViewItemSelectionStatus.selected,
                 ),
             )
         }

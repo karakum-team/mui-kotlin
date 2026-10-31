@@ -1,13 +1,11 @@
 package playground.samples.treeview.consumer
 
 import js.objects.unsafeJso
-import kotlinx.js.JsPlainObject
 import muix.tree.view.TreeItemProps
 import muix.tree.view.TreeItemSlotProps
 import muix.tree.view.TreeItemSlots
 import react.Props
 import react.dom.events.KeyboardEventHandler
-import react.dom.events.SyntheticEvent
 import react.dom.html.HTMLAttributes
 import web.html.HTMLDivElement
 import web.html.HTMLLIElement
@@ -20,21 +18,6 @@ import web.html.HTMLLIElement
 // `asDynamic()` is knowingly used here (`dataUnselectable`) although playground/README.md
 // confines it to `MissedWrappers.kt`: the point of this port is to reproduce the workarounds exactly as the
 // original wrapper has them, until the generator makes them unnecessary.
-
-// W3: `apiRef` is `Ref<*>?`, so the public API object has to be declared by hand.
-internal external interface RichTreeViewApi {
-    val getItemSelection: (String) -> String
-    val setItemSelection: (ItemSelectionParameters) -> Unit
-    val focusItem: (SyntheticEvent<*, *>?, String) -> Unit
-}
-
-@JsPlainObject
-internal external interface ItemSelectionParameters {
-    val itemId: String
-    val event: SyntheticEvent<*, *>?
-    val keepExistingSelection: Boolean
-    val shouldBeSelected: Boolean
-}
 
 // `TreeItemProps` and `TreeItemSlotProps` extend `react.Props`, which the js-plain-objects plugin does not accept
 // as a supertype, so these two factories stay hand-written for good.

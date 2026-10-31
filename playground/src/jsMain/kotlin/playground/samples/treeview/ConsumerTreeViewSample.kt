@@ -3,8 +3,8 @@ package playground.samples.treeview
 import kotlinx.coroutines.delay
 import mui.material.Button
 import muix.tree.view.richTreeViewClasses
-import playground.samples.treeview.consumer.ItemSelectionParameters
-import playground.samples.treeview.consumer.RichTreeViewApi
+import muix.tree.view.SetItemSelectionParameters
+import muix.tree.view.useRichTreeViewApiRef
 import playground.samples.treeview.consumer.TreeNode
 import playground.samples.treeview.consumer.TreeView
 import playground.shell.Check
@@ -21,7 +21,6 @@ import react.dom.html.ReactHTML.div
 import react.dom.html.ReactHTML.small
 import react.dom.html.ReactHTML.span
 import react.useEffect
-import react.useRef
 import react.useState
 import web.dom.ElementId
 import web.dom.document
@@ -79,7 +78,7 @@ val ConsumerTreeViewSample: Sample = Sample(
         "RichTreeView.multiSelect/checkboxSelection/selectionPropagation",
         "RichTreeView.expansionTrigger/itemChildrenIndentation/defaultExpandedItems",
         "RichTreeView.selectedItems/onSelectedItemsChange",
-        "RichTreeView.apiRef: setItemSelection/getItemSelection/focusItem",
+        "RichTreeView.apiRef / useRichTreeViewApiRef: RichTreeViewPublicAPI.setItemSelection/getItemSelection/focusItem",
         "RichTreeViewSlots.expandIcon/collapseIcon",
         "RichTreeViewSlotProps.item (ownerState -> TreeItemProps)",
         "TreeItemProps.onKeyDown/slots/slotProps",
@@ -105,7 +104,7 @@ val ConsumerTreeViewSample: Sample = Sample(
     content = FC<Props> {
         val (value, setValue) = useState(emptySet<String>())
         var changes by useState(0)
-        val apiRef = useRef<RichTreeViewApi>()
+        val apiRef = useRichTreeViewApiRef<TreeNode>()
         val (phase, setPhase) = useState(Phase.Start)
         val (cascaded, setCascaded) = useState<Boolean?>(null)
         val (pruned, setPruned) = useState<Boolean?>(null)
@@ -124,9 +123,8 @@ val ConsumerTreeViewSample: Sample = Sample(
                         setPhase(Phase.Done)
                     } else {
                         api.setItemSelection(
-                            ItemSelectionParameters(
+                            SetItemSelectionParameters(
                                 itemId = "aircraft-a",
-                                event = null,
                                 keepExistingSelection = true,
                                 shouldBeSelected = true,
                             ),
@@ -152,9 +150,8 @@ val ConsumerTreeViewSample: Sample = Sample(
                 Phase.Cascading -> if (value.containsAll(AIRCRAFT_A_FAMILY)) {
                     setCascaded(true)
                     apiRef.current?.setItemSelection(
-                        ItemSelectionParameters(
+                        SetItemSelectionParameters(
                             itemId = "a-1",
-                            event = null,
                             keepExistingSelection = true,
                             shouldBeSelected = false,
                         ),

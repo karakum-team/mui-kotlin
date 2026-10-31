@@ -283,5 +283,5 @@ external interface UseTreeItemReturnValue {
     /**
      * The object the allows Tree View manipulation.
      */
-    var publicAPI: Any? /* TreeViewPublicAPI<TStore> */
+    var publicAPI: TreeViewPublicAPI<*>
 }

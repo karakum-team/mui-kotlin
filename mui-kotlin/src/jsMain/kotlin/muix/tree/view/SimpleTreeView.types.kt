@@ -10,7 +10,7 @@ import react.ElementType
 import react.PropsWithChildren
 import react.PropsWithClassName
 import react.ReactNode
-import react.Ref
+import react.RefObject
 import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
 import web.html.HTMLUListElement
@@ -50,7 +50,7 @@ external interface SimpleTreeViewProps :
     /**
      * The ref object that allows Tree View manipulation. Can be instantiated with `useSimpleTreeViewApiRef()`.
      */
-    var apiRef: Ref<*>?
+    var apiRef: RefObject<TreeViewPublicAPI<SimpleTreeViewItem>>?
 }
 
 @JsPlainObject

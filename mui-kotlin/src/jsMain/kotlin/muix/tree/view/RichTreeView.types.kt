@@ -6,7 +6,7 @@ import kotlinx.js.JsPlainObject
 import mui.material.styles.Theme
 import mui.system.SxProps
 import react.ElementType
-import react.Ref
+import react.RefObject
 import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
 import web.html.HTMLUListElement
@@ -29,7 +29,7 @@ external interface RichTreeViewProps<R : Any> :
     /**
      * The ref object that allows Tree View manipulation. Can be instantiated with `useRichTreeViewApiRef()`.
      */
-    var apiRef: Ref<*>?
+    var apiRef: RefObject<RichTreeViewPublicAPI<R>>?
 }
 
 @JsPlainObject

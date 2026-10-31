@@ -290,9 +290,6 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.Ref<unknown>" to "react.Ref<*>",
     "React.Ref<any>" to "react.Ref<*>",
 
-    "SimpleTreeViewApiRef" to "react.Ref<*>",
-    "RichTreeViewApiRef" to "react.Ref<*>",
-
     "React.AriaRole" to "react.dom.aria.AriaRole",
 
     "PaletteMode" to "mui.material.PaletteMode",
