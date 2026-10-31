@@ -297,8 +297,8 @@ internal fun convertDefinitions(
         // component-specific extends — slot fields are still typed (as parent's slots) via the
         // parent inheritance. The XxxSlotsAndSlotProps interface itself is still emitted, so
         // users can cast/access it directly if needed.
-        // Also strip `TextFieldSlotsAndSlotProps<...>` (TS generic — our regex doesn't currently
-        // produce that interface form; see MUI_V6_TODO.md for the parser limitation).
+        // Also strip the variants' `TextFieldSlotsAndSlotProps<...>`: `adaptTextField` attaches the
+        // de-generified alias to `BaseTextFieldProps`, which every variant already extends.
         .replace(
             Regex(""",\s+(?:Dialog|Drawer|Menu|Popover|SwipeableDrawer|OutlinedInput|FilledInput|Checkbox|Radio|Switch)SlotsAndSlotProps"""),
             ""
@@ -889,7 +889,9 @@ private fun mapSlotPropsToKotlin(tsType: String): String? {
     Regex("""^Slot(?:Component)?Props<\s*typeof\s+(\w+)\s*,""").find(normalized)?.let { m ->
         return "${m.groupValues[1]}Props"
     }
-    Regex("""^Slot(?:Component)?Props<\s*React\.ElementType<(\w+)>\s*,""").find(normalized)?.let { m ->
+    // Also accepts an indexed access (`React.ElementType<InputBaseProps['inputProps']>`, TextField's
+    // `htmlInput` slot) — the member type then resolves through `TypeAlias.kt::ALIAS_MAP`.
+    Regex("""^Slot(?:Component)?Props<\s*React\.ElementType<(\w+(?:\['\w+'])?)>\s*,""").find(normalized)?.let { m ->
         return m.groupValues[1]
     }
     // Pattern 4: nested-generic ElementType, common in PaginationItem:

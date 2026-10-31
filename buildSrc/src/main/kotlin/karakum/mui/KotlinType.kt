@@ -329,6 +329,10 @@ private val STANDARD_TYPE_MAP = mapOf(
     "null | Element | ((element: Element) => Element)" to "Element? /* null | Element | ((element: Element) => Element) */",
     "string | ((value: number, index: number) => React.ReactNode)" to "String /* or (value: Number, index: Number) -> react.ReactNode*/",
 
+    // `SelectProps<Value = unknown>` is generic in Kotlin; a bare TS reference means the default.
+    // Used by the `TextFieldSlotProps.select` slot (and `Partial<SelectProps>` below).
+    "SelectProps" to "SelectProps<*>",
+
     "DisableClearable" to "Boolean",
     "FreeSolo" to "Boolean",
 
@@ -673,9 +677,6 @@ internal fun kotlinType(
 
                 "StandardInputProps",
                     -> "InputProps"
-
-                "SelectProps",
-                    -> "SelectProps<*>"
 
                 else -> STANDARD_TYPE_MAP[partialResult] ?: partialResult
             }
