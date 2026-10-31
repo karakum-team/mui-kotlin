@@ -21,10 +21,6 @@ external interface ToastObject<Data> {
     var id: ElementId?
 
     /**
-     * The ref for the toast.
-     */
-
-    /**
      * The title of the toast.
      */
     var title: ReactNode?

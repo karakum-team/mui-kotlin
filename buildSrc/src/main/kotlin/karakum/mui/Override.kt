@@ -29,6 +29,7 @@ internal val OVERRIDE_FIX_REQUIRED = setOf(
     "Select",
     "Snackbar",
     "SnackbarContent",
+    "SpeedDial",
     "SpeedDialAction",
     "Stepper",
     "Switch",

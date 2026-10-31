@@ -69,10 +69,15 @@ private fun convertMember(
     if (comments.any { "@deprecated" in it })
         return ""
 
-    val property = rest.trimStart().takeIf { it.isNotEmpty() }?.let { convertProperty(it, knownTypes) } ?: ""
+    val body = rest.trimStart()
+    if (body.isEmpty())
+        return comments.joinToString("\n")
+
+    val property = convertProperty(body, knownTypes)
+    if (property.isEmpty())
+        return ""
 
     return (comments + property)
-        .filter { it.isNotEmpty() }
         .joinToString("\n")
 }
 

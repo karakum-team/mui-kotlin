@@ -159,7 +159,11 @@ internal fun fixOverrides(
 
         "SpeedDial",
             -> content
-            .override("ariaLabel").replace("override var ariaLabel: String", "/* override var ariaLabel: String */")
+            // SpeedDial.js reads `props.ariaLabel` (camelCase), while HTMLAttributes → AriaAttributes
+            // declares `@JsName("aria-label") var ariaLabel: String?`. Keep it as a hiding member
+            // (SpeedDial ∈ OVERRIDE_FIX_REQUIRED) with an explicit `@JsName("ariaLabel")` so Kotlin/JS IR
+            // does not inherit `"aria-label"` from the superinterface.
+            .replace("var ariaLabel: String", "@JsName(\"ariaLabel\")\nvar ariaLabel: String")
             .override("hidden")
             .replace("override var hidden: Boolean?", "override var hidden: Hidden?")
 
