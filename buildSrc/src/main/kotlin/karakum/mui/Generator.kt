@@ -1,5 +1,6 @@
 package karakum.mui
 
+import karakum.mui.adapters.OWN_SLOTS_AND_SLOT_PROPS_COMPONENTS
 import java.io.File
 
 private const val GENERATOR_COMMENT = "Automatically generated - do not modify!"
@@ -1465,6 +1466,10 @@ private fun RuntimeBindings.generate(
             suppressKeys += "VAR_TYPE_MISMATCH_ON_OVERRIDE"
         }
         if (componentName in VAR_TYPE_MISMATCH_ON_OVERRIDE_FIX_REQUIRED) suppressKeys += "VAR_TYPE_MISMATCH_ON_OVERRIDE"
+        // `slots`/`slotProps` re-declared with the component's own types over the parent's (see
+        // adapters/OwnSlotsAndSlotProps.kt). Material only: `@mui/base` has same-named components.
+        if (pkg == Package.material && componentName in OWN_SLOTS_AND_SLOT_PROPS_COMPONENTS)
+            suppressKeys += "VAR_TYPE_MISMATCH_ON_OVERRIDE"
         if (suppressKeys.isNotEmpty() && componentName != "TextField") {
             // `distinct()`: the two MUI sets are keyed by bare component name, and Base UI part files
             // named `Input` / `RadioGroup` collide with entries there — without it the Base UI branch

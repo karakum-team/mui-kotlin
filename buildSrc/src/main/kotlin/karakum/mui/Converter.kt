@@ -291,18 +291,10 @@ internal fun convertDefinitions(
                     "  popupOpen: boolean;\n" +
                     "}\n"
         )
-        // Components that extend Modal/Popover/InputBase already inherit `slots`/`slotProps`
-        // of the parent's types. Their own `XxxSlotsAndSlotProps` would create a diamond
-        // (Kotlin's invariant `var` rejects `ModalSlots? vs DialogSlots?`). Drop the
-        // component-specific extends — slot fields are still typed (as parent's slots) via the
-        // parent inheritance. The XxxSlotsAndSlotProps interface itself is still emitted, so
-        // users can cast/access it directly if needed.
-        // Also strip the variants' `TextFieldSlotsAndSlotProps<...>`: `adaptTextField` attaches the
+        // Components that `Omit` their parent's `slots`/`slotProps` for their own (Dialog, Checkbox, …) keep
+        // both parents; `adaptOwnSlotsAndSlotProps` re-declares the members to settle the diamond.
+        // Strip the TextField variants' `TextFieldSlotsAndSlotProps<...>`: `adaptTextField` attaches the
         // de-generified alias to `BaseTextFieldProps`, which every variant already extends.
-        .replace(
-            Regex(""",\s+(?:Dialog|Drawer|Menu|Popover|SwipeableDrawer|OutlinedInput|FilledInput|Checkbox|Radio|Switch)SlotsAndSlotProps"""),
-            ""
-        )
         .replace(Regex(""",\s+TextFieldSlotsAndSlotProps<[^<>]*>"""), "")
         // Some `Slots`/`SlotsAndSlotProps`-related interfaces are declared without `export`
         // (e.g. internal SwitchBaseSlots, OutlinedInputSlots). Normalize so findAdditionalProps

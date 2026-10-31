@@ -64,6 +64,7 @@ fun String.adaptRawContent(
     .adaptUseAutocomplete()
     .adaptSlider()
     .adaptTextField()
+    .adaptOwnSlotsAndSlotProps()
     .adaptBreadcrumbs()
     .adaptUseMenu()
     .adaptUseSlider()

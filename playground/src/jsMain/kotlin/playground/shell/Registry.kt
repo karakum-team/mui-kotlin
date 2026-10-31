@@ -16,6 +16,7 @@ import playground.samples.icons.IconsSample
 import playground.samples.lab.MasonrySample
 import playground.samples.material.AutocompleteSample
 import playground.samples.material.MaterialV9Sample
+import playground.samples.material.OwnSlotPropsSample
 import playground.samples.material.RuntimeImportsSample
 import playground.samples.material.SvgIconSample
 import playground.samples.material.TableCellSample
@@ -108,6 +109,7 @@ val samples: List<Sample> = listOf(
     SvgIconSample,
     TableCellSample,
     TextFieldSlotPropsSample,
+    OwnSlotPropsSample,
     ThemeFocusVisibleSample,
     ThemeTypingSample,
     TooltipPlacementSample,

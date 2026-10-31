@@ -1,6 +1,34 @@
 package karakum.mui
 
+import karakum.mui.adapters.OWN_SLOTS_AND_SLOT_PROPS_COMPONENTS
+
 internal fun fixOverrides(
+    name: String,
+    content: String,
+): String =
+    fixComponentOverrides(
+        name = name,
+        content = if (name in OWN_SLOTS_AND_SLOT_PROPS_COMPONENTS) content.overrideOwnSlots(name) else content,
+    )
+
+// `adaptOwnSlotsAndSlotProps` re-declares `slots`/`slotProps` in `XxxProps`; both parents declare them too.
+// Scoped to that interface: the file's `XxxSlotsAndSlotProps` declares the same members as their origin.
+// Keyed on the `XxxSlotsAndSlotProps` parent, because `@mui/base` has same-named files (Menu, Switch, …).
+private fun String.overrideOwnSlots(
+    name: String,
+): String {
+    val start = indexOf("external interface ${name}Props")
+    if (start < 0 || "${name}SlotsAndSlotProps" !in substring(start, indexOf("{", start)))
+        return this
+
+    val end = indexOf("\n}\n", start)
+    val props = substring(start, end)
+        .replaceFirst("var slots:", "override var slots:")
+        .replaceFirst("var slotProps:", "override var slotProps:")
+    return substring(0, start) + props + substring(end)
+}
+
+private fun fixComponentOverrides(
     name: String,
     content: String,
 ): String =
@@ -105,6 +133,16 @@ internal fun fixOverrides(
         "SwipeableDrawer",
             -> content
             .override("open")
+            // TS slot props are `DrawerSlotsAndSlotProps & …`: the Drawer slots extend the own ones
+            // (`SwipeableDrawerSlots : DrawerSlots` comes from `adaptOwnSlotsAndSlotProps`).
+            .replace(Regex("""external interface SwipeableDrawerSlotProps: (?:react\.)?Props \{"""), "external interface SwipeableDrawerSlotProps: DrawerSlotProps {")
+
+        "OutlinedInput",
+            -> content
+            // TS slots are `CreateSlotsAndSlotProps<…> & { slots?: InputBaseProps['slots']; slotProps?: … }`:
+            // InputBase's own slot interfaces (nested in `InputBaseProps`) extend the outlined ones.
+            .replace("external interface OutlinedInputSlots {", "external interface OutlinedInputSlots: InputBaseProps.Slots {")
+            .replace(Regex("""external interface OutlinedInputSlotProps: (?:react\.)?Props \{"""), "external interface OutlinedInputSlotProps: InputBaseProps.SlotProps {")
 
         "MultiSelect",
             -> content
