@@ -45,7 +45,7 @@ val Sidebar = FC<SidebarProps> { props ->
                 className = ClassName("pg-nav-library")
                 +library.title
                 small {
-                    +"${library.npmPackage}@${library.version ?: "pinned"}"
+                    +"${library.npmPackage}@${library.version ?: "unknown"}"
                 }
             }
 

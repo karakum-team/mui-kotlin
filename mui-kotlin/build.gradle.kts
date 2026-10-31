@@ -13,7 +13,7 @@ dependencies {
     fun npmv(packageName: String) =
         npm(packageName, property(packageName.removePrefix("@").replace("/", "-") + ".version") as String)
 
-    jsMainImplementation(npm("@date-io/core", "3.2.0"))
+    jsMainImplementation(npmv("@date-io/core"))
 
     jsMainImplementation(npmv("@mui/material"))
     jsMainImplementation(npmv("@mui/base"))

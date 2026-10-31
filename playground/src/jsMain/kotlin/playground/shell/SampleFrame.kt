@@ -63,7 +63,7 @@ val SampleFrame = FC<SampleFrameProps> { props ->
                         label = "npm"
                         val version = sample.library.version
                         code { +(if (version != null) "${sample.library.npmPackage}@$version" else sample.library.npmPackage) }
-                        if (version == null) +" (pinned in mui-kotlin/build.gradle.kts)"
+                        if (version == null) +" (no ${sample.library.versionProperty}.version in gradle.properties)"
                     }
                     val libraryNote = sample.library.note
                     if (libraryNote != null) {
