@@ -1,43 +1,12 @@
 import emotion.styled.styled
 import mui.material.Box
 import mui.material.Typography
-import muix.pickers.AdapterDateFns
-import muix.pickers.DateCalendar
-import muix.pickers.DatePicker
-import muix.pickers.LocalizationProvider
-import muix.pickers.MultiSectionDigitalClock
-import muix.pickers.StaticDatePicker
-import muix.pickers.StaticTimePicker
-import muix.pickers.TimeClock
-import muix.pickers.clockClasses
-import muix.pickers.clockNumberClasses
-import muix.pickers.clockPointerClasses
-import muix.pickers.datePickerToolbarClasses
-import muix.pickers.dateTimePickerTabsClasses
-import muix.pickers.dateTimePickerToolbarClasses
-import muix.pickers.dayCalendarClasses
-import muix.pickers.multiSectionDigitalClockSectionClasses
-import muix.pickers.pickersFadeTransitionGroupClasses
-import muix.pickers.pickersFilledInputClasses
-import muix.pickers.pickersInputBaseClasses
-import muix.pickers.pickersInputClasses
-import muix.pickers.pickersLayoutClasses
-import muix.pickers.pickersOutlinedInputClasses
-import muix.pickers.pickersSlideTransitionClasses
-import muix.pickers.pickersTextFieldClasses
-import muix.pickers.timePickerToolbarClasses
+import muix.pickers.*
 import react.FC
 import react.Props
-import web.cssom.AlignItems
-import web.cssom.Border
-import web.cssom.Color
-import web.cssom.Display
-import web.cssom.FontWeight
+import web.cssom.*
 import web.cssom.LineStyle.Companion.dashed
 import web.cssom.LineStyle.Companion.solid
-import web.cssom.NamedColor
-import web.cssom.px
-import web.cssom.rem
 
 // Live check of the generated `muix.pickers` class objects, and the only usage reference for them in the
 // repository. Every selector below goes through a *typed* member, so a class key that stops being
@@ -184,7 +153,11 @@ private val PickersShowcase = Box.styled {
     }
 
     pickersFadeTransitionGroupClasses.root {
-        minHeight = 240.px
+        // The calendar header wraps its month label in a fade transition group too; a 240px
+        // min-height there pushes the label out of its clipped container, so target only the views.
+        "&.${dateCalendarClasses.viewTransitionContainer}" {
+            minHeight = 240.px
+        }
     }
 
     pickersSlideTransitionClasses.root {

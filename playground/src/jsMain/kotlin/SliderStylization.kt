@@ -1,23 +1,34 @@
+import emotion.react.css
 import emotion.styled.styled
 import mui.base.Slider
 import mui.base.sliderClasses
 import react.FC
 import react.Props
 import react.dom.events.KeyboardEvent
+import react.dom.html.ReactHTML.div
 import web.cssom.*
 import web.cssom.LineStyle.Companion.solid
 import web.cssom.None.Companion.none
 
 val SliderStylization = FC<Props> {
-    RangeSliderBase {
-        disableSwap = true
+    // The slider root is absolutely positioned at 100% size, so it needs a positioned container.
+    // Otherwise it covers the whole viewport and swallows clicks on the neighbouring samples.
+    div {
+        css {
+            position = Position.relative
+            height = 36.px
+        }
 
-        min = 0.0
-        max = 100.0
+        RangeSliderBase {
+            disableSwap = true
 
-        value = 50.0
+            min = 0.0
+            max = 100.0
 
-        onKeyDown = KeyboardEvent<*>::preventDefault
+            value = 50.0
+
+            onKeyDown = KeyboardEvent<*>::preventDefault
+        }
     }
 }
 
