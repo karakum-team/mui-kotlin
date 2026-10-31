@@ -23,10 +23,8 @@
    [«Известные потери»](#известные-потери--упрощения-в-публичном-api).
 5. ~~**`GridSize`**~~ — ✅ сделано 2026-10-31, заодно исправлены булевы/числовые литералы во всех юнионах. См.
    [«Известные потери»](#известные-потери--упрощения-в-публичном-api).
-6. **`Grid` без HTML-атрибутов** — `GridProps : GridBaseProps, PropsWithSx, PropsWithComponent`: в TS это
-   `OverrideProps<GridTypeMap, 'div'>`, а в Kotlin нет даже `id`/`className`/`style` (найдено 2026-10-31 при
-   работе над `GridSize`). Также `GridOffset = 'auto' | number` и `GridSpacing` остаются `Any /* … */`:
-   `convertUnion` принимает только юнионы, оканчивающиеся литералом.
+6. ~~**`Grid` без HTML-атрибутов**~~ — ✅ сделано 2026-10-31 (вместе с system `Grid`/`Stack` и `GridOffset`). См.
+   [«Известные потери»](#известные-потери--упрощения-в-публичном-api).
 7. Низкий приоритет: `createColorScheme`/`extendTheme`/CssVars-провайдер, `OverridableComponent`, Pigment-компоненты,
    template literal types, JSDoc для `Omit`-ключей, `Rating.defaultValue`/`StepIcon`/`Autocomplete.key` (приемлемые
    обходы уже есть).
@@ -251,6 +249,19 @@
       truthy). Строковые литералы в кавычках (`'false'`) остаются `@JsValue`.
     - Покрыт `playground/.../samples/material/LiteralUnionsSample.kt` (классы `grid-*` для фабрики/`auto`/`grow`/
       брейкпоинтов, отсутствие `grid-md-false`, `aria-sort`, анимация Skeleton).
+- **`Grid` / system `Grid` / system `Stack` — атрибуты корневого `<div>`** — ✅ (2026-10-31). В TS их props —
+  `OverrideProps<XxxTypeMap, D>`, т.е. свои + props компонента по умолчанию. Ветка
+  `Converter.kt::findMapProps` для TypeMap вида `props: P & XxxBaseProps & { … }` отдавала только
+  `XxxBaseProps` — не было даже `id`/`className`/`style`. Теперь к нему добавляется
+  `INTRINSIC_TYPE_MAP[defaultComponent]` (`HTMLAttributes<HTMLDivElement>`), как у Stack/Container/Paper в material;
+  ветку задевают ровно эти три интерфейса (Link и List-компоненты обрабатываются как раньше).
+    - `GridOffset = 'auto' | number` → `sealed GridOffset` (`auto`) + фабрика `GridOffset(Number)`;
+      `Grid.offset: ResponsiveStyleValue<GridOffset>` (было `Any /* GridOffset */`). `convertUnion` теперь
+      принимает юнионы из литералов и примитивов в любом порядке, если есть хотя бы один литерал в кавычках.
+    - `GridSpacing = number | string` (без литералов) осознанно оставлен `Any /* GridSpacing */`: правило «хотя бы
+      один литерал» не даёт превратить каждый `number | string` в новый тип по всему API.
+    - Покрыт `playground/.../samples/material/GridSample.kt` (`id`/`className`/`title`/`style` на `<div>`, отступ от
+      `GridOffset(2)` и `GridOffset.auto`, `title` у system `Grid`/`Stack`).
 - **Internal-rejected parents** — `ParentType.kt::INTERNAL_REJECTED_PARENTS` (`BasePopperProps`,
   `DialogActionsProps`, `CssContainerQueries`, `StyledComponentProps`, плюс десяток
   mui-x-внутренних — список см. в коде и в MUI_V7/V9_TODO) отбрасываются из родительских списков. **`LinkBaseProps`
@@ -361,8 +372,8 @@
     - **Rating** ⏳ — попробовать `override var defaultValue: Any?` в `RatingProps`; откладывается до пробы, обход
       `defaultValueAsNumber` работает.
 
-- **`GridSize` — смешанные литеральные юнионы.** ✅ См. «Известные потери». Остаток: юнионы, оканчивающиеся
-  примитивом (`GridOffset = 'auto' | number`), `convertUnion` пока не принимает.
+- **`GridSize` — смешанные литеральные юнионы.** ✅ См. «Известные потери» (включая `GridOffset`). Юнионы из одних
+  примитивов (`GridSpacing = number | string`) по-прежнему `Any`.
 
 ### Высокая сложность
 
