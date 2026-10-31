@@ -393,18 +393,9 @@ internal fun convertDefinitions(
         )
     }
 
-    // MUI v6 re-declares Grid* union types in each Grid variant file.
-    // Keep them only in the canonical Grid.d.ts; skip in Grid2/PigmentGrid.
-    val skipDuplicateUnions = name in setOf("Grid2", "PigmentGrid")
-
     val enums = content.splitToSequence("export type ", "export declare type ")
         .drop(1)
         .map { it.substringBefore(";") }
-        .filter { typeDecl ->
-            if (!skipDuplicateUnions) return@filter true
-            val typeName = typeDecl.substringBefore(" ").substringBefore("<")
-            typeName !in setOf("GridDirection", "GridWrap", "GridSpacing", "GridSize")
-        }
         .mapNotNull { convertUnion(it) }
         .plus(defaultUnions)
         .toList()

@@ -20,10 +20,12 @@ import playground.samples.material.RuntimeImportsSample
 import playground.samples.material.SvgIconSample
 import playground.samples.material.TableCellSample
 import playground.samples.material.ThemeFocusVisibleSample
+import playground.samples.material.TooltipPlacementSample
 import playground.samples.pickers.PickersClassesSample
 import playground.samples.pickers.PickersSectionListSample
 import playground.samples.system.ResponsiveSample
 import playground.samples.system.SystemFactoriesSample
+import playground.samples.system.ThemeWithoutDefaultSample
 import playground.samples.treeview.RichTreeViewLoadingSample
 import playground.samples.treeview.RichTreeViewSelectionSample
 import playground.samples.treeview.SimpleTreeViewSample
@@ -103,6 +105,7 @@ val samples: List<Sample> = listOf(
     SvgIconSample,
     TableCellSample,
     ThemeFocusVisibleSample,
+    TooltipPlacementSample,
     MaterialV9Sample,
     RuntimeImportsSample,
 
@@ -112,6 +115,7 @@ val samples: List<Sample> = listOf(
     // system
     ResponsiveSample,
     SystemFactoriesSample,
+    ThemeWithoutDefaultSample,
 
     // lab
     MasonrySample,

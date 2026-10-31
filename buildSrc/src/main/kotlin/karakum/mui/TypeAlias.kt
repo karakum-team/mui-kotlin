@@ -12,6 +12,8 @@ private val ALIAS_MAP = mapOf(
     "PopoverProps['anchorEl']" to "(element: Element) -> Element",
     "PopoverProps['classes']" to "PopoverClasses",
     "PopoverProps['onClose']" to "",
+    // Tooltip.placement / SpeedDialAction tooltip placement — the only `PopperProps['placement']` users.
+    "PopperProps['placement']" to "TooltipPlacement",
     "PortalProps['container']" to "Element",
     "PortalProps['disablePortal']" to "Boolean",
     "SelectInputProps<Value>['onChange']" to "(event: react.dom.events.ChangeEvent<web.html.HTMLInputElement, *>, child: react.ReactNode) -> Unit",
@@ -31,7 +33,6 @@ private val ALIAS_MAP = mapOf(
     "SwitchBaseProps['value']" to "",
     "TableCellBaseProps['scope']" to "String",
     "TooltipProps['classes']" to "TooltipClasses",
-    "TooltipProps['placement']" to "TooltipPlacement",
     "TransitionProps['easing']" to "",
     "TransitionProps['in']" to "",
     "TransitionProps['timeout']" to "",

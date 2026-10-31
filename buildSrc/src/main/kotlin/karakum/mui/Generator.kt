@@ -458,7 +458,6 @@ private fun RuntimeBindings.generateSystemDeclarations(
                 "useThemeProps",
                 "RtlProvider",
                 "DefaultPropsProvider",
-                "useThemeWithoutDefault",
                 "ThemeProvider"
             )
         }
@@ -553,7 +552,6 @@ private fun RuntimeBindings.generateMaterialDeclarations(
                 "useAutocomplete",
                 "DefaultPropsProvider",
                 "useLazyRipple",
-                "GridLegacy",
             )
         }
         .filter { it.name != "StyledEngineProvider" }

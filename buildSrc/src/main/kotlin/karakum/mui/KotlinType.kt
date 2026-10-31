@@ -334,8 +334,7 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "SelectionMode" to "mui.system.Union /* 'none' | 'single' | 'multiple' */",
 
-    // MUI v6 Grid2/PigmentGrid use GridSize but each .d.ts defines own variant; we keep only Grid's
-    // declaration and route the others through this opaque alias.
+    // The generated `GridSize` enum can't stand in: it drops `number` and emits `false` as the string "false".
     "GridSize" to "mui.system.Union /* 'auto' | 'grow' | number | false */",
 
     "{ [key in Breakpoint]: number }" to "Record<Breakpoint, Number>",

@@ -40,6 +40,7 @@ internal fun findDefaultFunction(
         "useTabsList",
             // @mui/system v9.5 declares its factory as a named function followed by a default export.
         "createTheme",
+        "useThemeWithoutDefault",
             -> initialContent.replace("declare function $name", "$DEFAULT_FUNCTION_PREFIX$name")
 
         // MUI v6 useMediaQuery moved to `declare function useMediaQuery<T = Theme>` form.
@@ -85,6 +86,8 @@ internal fun findDefaultFunction(
         .replace("...args: object[]", "vararg args: Any")
         .replace("(styles: any): never", "(styles: Any)")
         .replace("useTheme<T = Theme>", "<T : Theme> useTheme")
+        // The `null` default only means "no theme": nullability is the caller's choice of `T`.
+        .replace("useThemeWithoutDefault<T = null>", "<T> useThemeWithoutDefault")
         .replace("useSelect<OptionValue, Multiple extends boolean = false>", "<OptionValue, Multiple> useSelect")
         .replace("useOption<Value>", "<Value> useOption")
         .replace("useMediaQuery<Theme = unknown>", "<Theme : Any> useMediaQuery")

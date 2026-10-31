@@ -145,7 +145,7 @@ external interface TooltipProps :
      * Tooltip placement.
      * @default 'bottom'
      */
-    var placement: Any? /* PopperProps['placement'] */
+    var placement: TooltipPlacement?
 
     /**
      * The system prop that allows defining system overrides as well as additional CSS styles.
