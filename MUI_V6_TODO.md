@@ -13,10 +13,8 @@
 
 ## Сводка открытых пунктов (по практической ценности)
 
-1. **TextField без `slots`/`slotProps`** — в v9 удалены `InputProps`/`inputProps`/`InputLabelProps`/
-   `FormHelperTextProps`/`SelectProps`, а `TextFieldSlotsAndSlotProps<InputPropsType>` по-прежнему не генерируется:
-   у Kotlin-`TextField` сейчас нет типизированного способа настроить input. См.
-   [TextFieldSlotsAndSlotProps](#средняя-сложность) — пункт поднят до первого приоритета.
+1. ~~**TextField без `slots`/`slotProps`**~~ — ✅ сделано 2026-10-31, см.
+   [TextFieldSlotsAndSlotProps](#средняя-сложность).
 2. **Типизация material `Theme`/`ThemeOptions`** — `palette`, `typography`, `shadows` приходят из `mui.system.Theme`
    как `Any?`, `mixins`/`transitions` — пустые интерфейсы `mui.system`; нет `motion`, `vars`, `alpha`/`lighten`/
    `darken`, `cssVariables`, `colorSchemes`. См. [Стабы](#стабы-вместо-настоящей-генерации).
@@ -182,9 +180,11 @@
   наследуют собственный `XxxSlotsAndSlotProps`, чтобы избежать diamond `ParentSlots? vs ChildSlots?`. Сам интерфейс
   эмитится, но `slotProps` у компонента типизирован родительским (`DialogProps.slotProps` — `ModalProps`-овский,
   `DialogSlotProps.paper`/`.transition` недоступны без `unsafeCast`).
-- **TextField** — ⏳ `TextFieldSlotsAndSlotProps<InputPropsType>` не генерируется (generic type alias), а
-  `TextFieldProps = BaseTextFieldProps` вообще не имеет `slots`/`slotProps`. С v9 это единственный способ передать
-  props во внутренние input/label/helper text — см. «Средняя сложность».
+- **TextField** — ✅ `BaseTextFieldProps` (он же Kotlin-`TextFieldProps`) наследует `TextFieldSlotsAndSlotProps`
+  с `slots: TextFieldSlots?` и `slotProps: TextFieldSlotProps?`. Упрощение: TS-параметр `InputPropsType` (тип
+  слота `input`, разный у Standard/Filled/Outlined) зафиксирован как `InputBaseProps` — общий родитель трёх
+  вариантов; вариантные `InputProps`/`FilledInputProps`/`OutlinedInputProps` ему присваиваются. См. «Средняя
+  сложность».
 - **`Switch.onBlur` / `onChange` / `onFocus`** — 🚫 неактуально: с v7 Material `SwitchProps` extends только
   `StandardProps<SwitchBaseProps, …>`, `UseSwitchParameters` в цепочке нет.
 - **`StepIcon`** — SvgIconOwnProps стрипнут из родителей (HTMLAttributes T-параметр не совмещался). Типизированный
@@ -265,22 +265,24 @@
 
 ### Средняя сложность
 
-- **TextFieldSlotsAndSlotProps<InputPropsType> — generic над type alias.** ⏳ **Первый приоритет** (см. сводку):
-  в v9 у TextField не осталось `InputProps`/`inputProps`/`InputLabelProps`/`FormHelperTextProps`/`SelectProps`, а
-  `slots`/`slotProps` в Kotlin нет совсем (`TextFieldSlots` генерируется, `TextFieldSlotProps` — нет).
-  История попытки на v6: парсер `Converter.kt::convertSlotsAndSlotPropsAliases` удалось научить читать
-  `<InputPropsType>` после имени alias'а и эмитить `export interface TextFieldSlotProps<InputPropsType> { … }`, но
-  `Converter.kt::findAdditionalProps` делает `body.substringBefore("<")` для имени интерфейса — generic params
-  срезаются и не попадают в Kotlin LHS, а ссылки `TextFieldSlotProps<InputPropsType>` остаются → unresolved.
-    - Где чинить: `findAdditionalProps` — извлекать generic params рядом с `interfaceName` и прокидывать в
-      декларацию (`external interface $interfaceName$typeParams`); сейчас это делается только для empty-body
-      интерфейсов.
-    - Дополнительно: снять strip `,\s+TextFieldSlotsAndSlotProps<[^<>]*>` из `adaptRawContent` и решить, кто несёт
-      `slots`/`slotProps`: `TextFieldProps` сейчас — alias на `BaseTextFieldProps`, а TS-родитель
-      `TextFieldSlotsAndSlotProps<…>` висит на `Standard/Filled/OutlinedTextFieldProps`. Простейший вариант — эмитить
-      `slotProps` в `BaseTextFieldProps` с `InputPropsType` = `InputBaseProps`.
-    - Верифицировать все существующие generic-интерфейсы (`UseAutocompleteProps<Value>` и т.п.) и Pattern 6 в
-      `mapSlotPropsToKotlin` (`SlotProps<React.ElementType<Partial<X>>, …>`), который ждёт именно этого шага.
+- **TextFieldSlotsAndSlotProps<InputPropsType> — generic над type alias.** ✅ Сделано 2026-10-31 без generic'ов.
+  В v9 у TextField не осталось `InputProps`/`inputProps`/`InputLabelProps`/`FormHelperTextProps`/`SelectProps`, так
+  что `slots`/`slotProps` — единственный способ настроить внутренние компоненты.
+    - `adapters/TextField.kt::adaptTextField` подставляет `InputBaseProps` вместо `InputPropsType` и снимает параметр
+      с alias'а — дальше его разбирает обычный `convertSlotsAndSlotPropsAliases`. Тот же адаптер вешает alias на
+      `BaseTextFieldProps` (Kotlin-`TextFieldProps` — alias на него, `Converter.kt::findProps`); вариантные
+      `TextFieldSlotsAndSlotProps<…>`-родители по-прежнему срезаются в `adaptRawContent`.
+    - Почему не generic: `TextFieldSlotProps<InputPropsType>` упирается в `findAdditionalProps`, который срезает
+      generic params у непустых интерфейсов, а поле `slotProps` в `BaseTextFieldProps` всё равно пришлось бы
+      объявлять со star-projection. `input: InputBaseProps?` принимает любой из трёх вариантных типов.
+    - Сопутствующее: `mapSlotPropsToKotlin` понимает indexed access `React.ElementType<X['key']>`
+      (`htmlInput: InputBaseComponentProps?` через `TypeAlias.kt`), а голый `SelectProps` в
+      `KotlinType.kt::STANDARD_TYPE_MAP` → `SelectProps<*>` (слот `select`).
+    - Слоты: `root: FormControlProps?`, `input: InputBaseProps?`, `inputLabel: InputLabelProps?`,
+      `htmlInput: InputBaseComponentProps?`, `formHelperText: FormHelperTextProps?`, `select: SelectProps<*>?`.
+      Покрыт `playground/.../samples/material/TextFieldSlotPropsSample.kt`.
+    - JSDoc `/** TS: … */` над полем `input` показывает уже подставленный `React.ElementType<InputBaseProps>`, а не
+      исходный `InputPropsType`.
 
 - **DistributiveOmit/Omit — пометка "omitted keys" в JSDoc.** ⏳ Откладывается — ROI низкий.
   Inline-комментарий (`extends X /* Omitted: 'a' */`) ломает разбор родителя; side-channel
