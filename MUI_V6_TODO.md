@@ -19,8 +19,8 @@
    `createThemeNoVars.d.ts`. См. [`createThemeNoVars`](#material).
 3. ~~**`Spacing` — пустой интерфейс**~~ — ✅ сделано 2026-10-31, `theme.spacing(2)` вызывается из Kotlin. См.
    [`createSpacing`](#system).
-4. **Компоненты, наследующие `slots`/`slotProps` от родителя** (Dialog/Drawer/Menu/Popover/…) — собственный
-   `XxxSlotProps` через `slotProps` недоступен.
+4. ~~**Компоненты, наследующие `slots`/`slotProps` от родителя**~~ — ✅ сделано 2026-10-31, см.
+   [«Известные потери»](#известные-потери--упрощения-в-публичном-api).
 5. **`GridSize`** — `Grid.size` типизирован `Union /* … */`; сгенерированный `sealed GridSize` непригоден (теряет
    `number`, `false` эмитится строкой `"false"`). Нужен конвертер смешанных `string | number | boolean`-юнионов.
 6. Низкий приоритет: `createColorScheme`/`extendTheme`/CssVars-провайдер, `OverridableComponent`, Pigment-компоненты,
@@ -207,11 +207,23 @@
   generator парсит второй аргумент `CreateSlotsAndSlotProps<XxxSlots, { root: SlotProps<…>; input: …; }>` и эмитит
   отдельный `XxxSlotProps` интерфейс с полем на каждый слот. Поля типизируются по RootComponent там, где он
   распознаётся (см. «Низкая сложность — реализовано»), иначе `Any?`; исходный TS-тип — в `/** TS: SlotProps<…> */`.
-- **Компоненты, наследующие slots/slotProps от родителя** — ⏳ Dialog/Drawer/Menu/Popover/SwipeableDrawer (extend
-  Modal/Popover), OutlinedInput/FilledInput (extend InputBase), Checkbox/Radio/Switch (extend SwitchBase) — не
-  наследуют собственный `XxxSlotsAndSlotProps`, чтобы избежать diamond `ParentSlots? vs ChildSlots?`. Сам интерфейс
-  эмитится, но `slotProps` у компонента типизирован родительским (`DialogProps.slotProps` — `ModalProps`-овский,
-  `DialogSlotProps.paper`/`.transition` недоступны без `unsafeCast`).
+- **Компоненты со своими slots/slotProps поверх родительских** — ✅ (2026-10-31). Dialog/Drawer/Popover (Modal),
+  Menu (Popover), SwipeableDrawer (Drawer), OutlinedInput (InputBase), Checkbox/Radio/Switch (SwitchBase) в TS
+  `Omit`-ят родительские `slots`/`slotProps` и подмешивают свой `XxxSlotsAndSlotProps`. Раньше этот родитель
+  срезался (diamond `ParentSlots? vs ChildSlots?`), и `slotProps` был типизирован родительским.
+    - Теперь `XxxProps` наследует оба, а `adapters/OwnSlotsAndSlotProps.kt` переобъявляет
+      `override var slots: XxxSlots?` / `override var slotProps: XxxSlotProps?` (`override` — в
+      `Overrides.kt::overrideOwnSlots`). Тип расходится с родительским → файл подавляет
+      `VAR_TYPE_MISMATCH_ON_OVERRIDE` (`Generator.kt`, только `Package.material`: у `@mui/base` есть одноимённые
+      Menu/Switch). Список компонентов — `OWN_SLOTS_AND_SLOT_PROPS_COMPONENTS`.
+    - SwipeableDrawer и OutlinedInput в TS пересекают свои слоты с родительскими (`DrawerSlotsAndSlotProps & …`,
+      `… & { slots?: InputBaseProps['slots'] }`): в Kotlin родительские стали супертипами своих —
+      `SwipeableDrawerSlots : DrawerSlots`, `SwipeableDrawerSlotProps : DrawerSlotProps`,
+      `OutlinedInputSlots : InputBaseProps.Slots`, `OutlinedInputSlotProps : InputBaseProps.SlotProps`.
+      `SwipeableDrawerSlotProps`/`SwipeableDrawerSlotsAndSlotProps` раньше не генерировались вовсе.
+    - FilledInput в v9 своих слотов не имеет и честно использует слоты InputBase — не трогаем.
+    - Покрыт `playground/.../samples/material/OwnSlotPropsSample.kt` (маркер-класс из каждого своего слота
+      доходит до своего элемента; Dialog/Menu/Popover закрыты с `keepMounted`).
 - **TextField** — ✅ `BaseTextFieldProps` (он же Kotlin-`TextFieldProps`) наследует `TextFieldSlotsAndSlotProps`
   с `slots: TextFieldSlots?` и `slotProps: TextFieldSlotProps?`. Упрощение: TS-параметр `InputPropsType` (тип
   слота `input`, разный у Standard/Filled/Outlined) зафиксирован как `InputBaseProps` — общий родитель трёх
@@ -246,8 +258,8 @@
   интерфейса: `XxxSlotsAndSlotProps { slots?: XxxSlots; slotProps?: XxxSlotProps; }` и сам `XxxSlotProps` с
   именованными полями на каждый слот (`Converter.kt::convertSlotsAndSlotPropsAliases` +
   `parseInlineSlotProps` + `mapSlotPropsToKotlin`).
-- Компоненты, наследующие `slots/slotProps` от родителя, теряют свою собственную `XxxSlotsAndSlotProps` parent —
-  избегаем diamond.
+- Компоненты, которые в TS `Omit`-ят родительские `slots/slotProps` ради своих, наследуют оба и переобъявляют
+  члены своими типами с подавлением `VAR_TYPE_MISMATCH_ON_OVERRIDE` (`adapters/OwnSlotsAndSlotProps.kt`).
 - При появлении новых `Omit<StandardProps<...>, '...'>` / `StandardProps<Omit<...>>` / `DistributiveOmit<...>` /
   `Pick<...>` / `Partial<...>` форм — `Converter.kt::adaptRawContent` их распарсивает и коллапсирует. Partial
   применяется только в extends-позиции (lookbehind `(?<=\bextends )` / `(?<=,\s{4})`), чтобы не сломать
