@@ -86,9 +86,9 @@ external interface TreeViewStyleContextSlots : TreeViewSlots {
 
 external interface TreeViewStyleContextSlotProps :
     TreeViewSlotProps {
-    var loading: Props?
+    var loading: SlotComponentProps<RichTreeViewLoadingSlotOwnProps, RichTreeViewLoadingSlotOwnerState>?
 
-    var itemLoader: Props?
+    var itemLoader: SlotComponentProps<TreeItemLoaderProps, TreeItemLoaderOwnerState>?
 }
 
 external interface TreeViewStyleContextValue {

@@ -161,6 +161,9 @@ internal fun findParentType(
                         parent.startsWith("UseTreeViewStoreParameters<RichTreeViewStore") -> "RichTreeViewStoreParameters"
                         parent.startsWith("UseTreeViewStoreParameters<SimpleTreeViewStore") -> "TreeViewStoreParameters"
                         parent.startsWith("UseTreeViewStoreParameters<") -> "TreeViewStoreParameters"
+                        // `RichTreeViewItemsSlotProps<RichTreeViewProps<R, Multiple>>`: the parameter is the owner
+                        // state of the `root` slot, fixed to `RichTreeViewProps` in the hand-written interface.
+                        parent.startsWith("RichTreeViewItemsSlotProps<") -> "RichTreeViewItemsSlotProps"
                         // Unwrap utility types before checking acceptability
                         parent.startsWith("Omit<") || parent.startsWith("Pick<") -> {
                             val innerStart = parent.indexOf('<') + 1
@@ -254,9 +257,6 @@ private val INTERNAL_REJECTED_PARENTS = setOf(
     "ExportedPickersArrowSwitcherProps",
     "ExportedUseViewsOptions",
     "ExportedBaseClockProps",
-    // v9 internal RichTreeViewItems component type — its `<TProps>`/Ref/slot-override shape doesn't
-    // translate; kept rejected so RichTreeViewSlots just loses this one parent (keeps TreeViewSlots).
-    "RichTreeViewItemsSlots",
     "PickerDayOwnerStateBase",
 )
 

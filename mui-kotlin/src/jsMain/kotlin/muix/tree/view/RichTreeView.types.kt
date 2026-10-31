@@ -6,7 +6,6 @@ import kotlinx.js.JsPlainObject
 import mui.material.styles.Theme
 import mui.system.SxProps
 import react.ElementType
-import react.Props
 import react.Ref
 import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
@@ -34,7 +33,9 @@ external interface RichTreeViewProps :
 }
 
 @JsPlainObject
-external interface RichTreeViewSlots : TreeViewSlots {
+external interface RichTreeViewSlots :
+    TreeViewSlots,
+    RichTreeViewItemsSlots {
     /**
      * Element rendered at the root.
      * @default RichTreeViewRoot
@@ -60,10 +61,11 @@ external interface RichTreeViewSlots : TreeViewSlots {
 }
 
 external interface RichTreeViewSlotProps :
-    TreeViewSlotProps {
-    var loading: Props?
+    TreeViewSlotProps,
+    RichTreeViewItemsSlotProps {
+    var loading: SlotComponentProps<RichTreeViewLoadingSlotOwnProps, RichTreeViewLoadingSlotOwnerState>?
 
-    var itemLoader: Props?
+    var itemLoader: SlotComponentProps<TreeItemLoaderProps, TreeItemLoaderOwnerState>?
 }
 
 external interface RichTreeViewPropsBase : HTMLAttributes<HTMLUListElement> {

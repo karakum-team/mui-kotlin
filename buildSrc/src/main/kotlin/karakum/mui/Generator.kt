@@ -266,6 +266,108 @@ fun TreeViewSelectionValue?.asSingle(): TreeViewItemId? =
     asMultiple().firstOrNull()
 """.trimIndent()
 
+// SlotComponentProps:
+//  `SlotComponentProps<Component, Overrides, OwnerState>` (`@mui/utils/types`) is what MUI accepts for a slot's
+//  props: a props object, or a function of the slot's owner state that returns one. Slot props with a non-empty
+//  owner state keep both forms through this carrier — `P` is the resolved props type, `S` the owner state.
+//  Package-local for now; promote to `mui.system` if the material target adopts it.
+// language=kotlin
+private val TREE_VIEW_SLOT_COMPONENT_PROPS = """
+/**
+ * The props of a slot: a props object, or a function of the slot's owner state that returns one
+ * (`SlotComponentProps<Component, Overrides, OwnerState>` from `@mui/utils/types`).
+ */
+sealed external interface SlotComponentProps<P : react.Props, S>
+
+inline fun <P : react.Props, S> SlotComponentProps(
+    props: P,
+): SlotComponentProps<P, S> =
+    unsafeCast(props)
+
+inline fun <P : react.Props, S> SlotComponentProps(
+    noinline resolve: (ownerState: S) -> P,
+): SlotComponentProps<P, S> =
+    unsafeCast(resolve)
+""".trimIndent()
+
+// RichTreeViewItems / RichTreeViewLoading:
+//  `internals/components/RichTreeViewItems.d.ts` and `internals/components/RichTreeViewLoading.d.ts` declare the
+//  slots RichTreeView adds over the shared `TreeViewSlots` / `TreeViewSlotProps`. Neither file is generated — their
+//  component props carry a `<TProps>` generic, a `Ref<…>` and store types that do not translate, and
+//  `RichTreeViewItemsOwnerState` is not even exported — so the slot interfaces are hand-written from them.
+// language=kotlin
+private val TREE_VIEW_RICH_TREE_VIEW_ITEMS = """
+/**
+ * The owner state handed to the `item` slot's props resolver.
+ */
+external interface RichTreeViewItemsOwnerState {
+    var itemId: TreeViewItemId
+    var label: String
+}
+
+@JsPlainObject
+external interface RichTreeViewItemsSlots {
+    /**
+     * Custom component to render a Tree Item.
+     * @default TreeItem.
+     */
+    var item: react.ElementType<TreeItemProps>?
+}
+
+external interface RichTreeViewItemsSlotProps : react.Props {
+    var item: SlotComponentProps<TreeItemProps, RichTreeViewItemsOwnerState>?
+    var root: SlotComponentProps<react.dom.html.HTMLAttributes<web.html.HTMLUListElement>, RichTreeViewProps>?
+}
+""".trimIndent()
+
+// language=kotlin
+private val TREE_VIEW_RICH_TREE_VIEW_LOADING = """
+/**
+ * The props of the `loading` slot: the `div` props plus the two the loading UI reads
+ * (`SlotComponentProps<'div', RichTreeViewLoadingSlotOwnProps, …>` upstream).
+ */
+external interface RichTreeViewLoadingSlotOwnProps : react.dom.html.HTMLAttributes<web.html.HTMLDivElement> {
+    /**
+     * The number of loading rows to render.
+     * The children of a lazily loading item use `getChildrenCount()` as the default instead.
+     * @default 5
+     */
+    var itemsCount: Int?
+
+    /**
+     * A message describing the loading state.
+     * The default loading rows do not render it.
+     * It is forwarded to a custom `loading` slot component.
+     */
+    var message: react.ReactNode?
+}
+
+/**
+ * The owner state of the `loading` slot.
+ */
+external interface RichTreeViewLoadingSlotOwnerState {
+    /**
+     * The id of the item whose children are loading.
+     * `null` while the whole tree is loading.
+     */
+    var itemId: TreeViewItemId?
+}
+""".trimIndent()
+
+// Tree-view-only type overrides, consulted by `kotlinType` before every shared table (see BASE_UI_KNOWN_TYPES for
+// the mechanism). Keyed by the exact upstream type string, so a mis-typed key silently falls back to `Props?` —
+// check the regenerated `*.types.kt` after touching it.
+private val TREE_VIEW_KNOWN_TYPES = mapOf(
+    // The new loading-row component exposes this state through its public ownerState prop.
+    "TreeItemLoaderOwnerState" to "TreeItemLoaderOwnerState",
+    // Slot props with a non-empty owner state keep both of MUI's forms (object or resolver) through the
+    // `SlotComponentProps` carrier of TREE_VIEW_SLOT_COMPONENT_PROPS; the `'div'` / `'li'` element props are its `P`.
+    "SlotComponentProps<'div', RichTreeViewLoadingSlotOwnProps, RichTreeViewLoadingSlotOwnerState>" to
+            "SlotComponentProps<RichTreeViewLoadingSlotOwnProps, RichTreeViewLoadingSlotOwnerState>",
+    "SlotComponentProps<'li', {}, TreeItemLoaderOwnerState>" to
+            "SlotComponentProps<TreeItemLoaderProps, TreeItemLoaderOwnerState>",
+)
+
 // PickerValidDate:
 //  MUI-X v9 opaque date model types (from @mui/x-date-pickers/models). `PickerValidDate` is a conditional
 //  type (`keyof PickerValidDateLookup extends never ? any : …`) resolved by the configured date adapter via
@@ -859,10 +961,11 @@ private fun RuntimeBindings.generateTreeViewDeclarations(
     // (SimpleTreeViewSlots/RichTreeViewSlots → TreeViewSlots; TreeItemSlots → TreeItemIconSlots, …).
     // Generated with typesOnly to restore that inheritance without emitting their `declare const`
     // Context/Memo vals. See MUI_V9_TODO.md "5c".
-    // NB: `internals/components/RichTreeViewItems.d.ts` (RichTreeViewItemsSlots) is NOT generated — the
-    // file's internal `RichTreeViewItemsProps` drags in a `<TProps>` generic, a `Ref<…>` and slot
-    // overrides that don't translate. RichTreeViewItemsSlots stays rejected; RichTreeViewSlots keeps its
-    // TreeViewSlots inheritance but not RichTreeViewItemsSlots. See MUI_V9_TODO.md "5c".
+    // NB: `internals/components/RichTreeViewItems.d.ts` and `RichTreeViewLoading.d.ts` are still NOT generated —
+    // their component props drag in a `<TProps>` generic, a `Ref<…>` and store types that don't translate, and
+    // `RichTreeViewItemsOwnerState` is not exported. The slot interfaces they declare are hand-written instead
+    // (TREE_VIEW_RICH_TREE_VIEW_ITEMS / TREE_VIEW_RICH_TREE_VIEW_LOADING), so `RichTreeViewSlots` and
+    // `RichTreeViewSlotProps` keep both of their upstream parents.
     sequenceOf(
         "internals/TreeViewProvider/TreeViewStyleContext.d.ts",
         "TreeItemIcon/TreeItemIcon.types.d.ts",
@@ -884,6 +987,9 @@ private fun RuntimeBindings.generateTreeViewDeclarations(
         "Stubs" to TREE_VIEW_STUBS,
         "TreeViewExpansionTrigger" to TREE_VIEW_EXPANSION_TRIGGER,
         "TreeViewSelectionValue" to TREE_VIEW_SELECTION_VALUE,
+        "SlotComponentProps" to TREE_VIEW_SLOT_COMPONENT_PROPS,
+        "RichTreeViewItems" to TREE_VIEW_RICH_TREE_VIEW_ITEMS,
+        "RichTreeViewLoading" to TREE_VIEW_RICH_TREE_VIEW_LOADING,
     )
 
     handWritten.forEach { (name, body) ->
@@ -1494,8 +1600,7 @@ private fun RuntimeBindings.generate(
         keepEmptyBodyParents = pkg == Package.baseUi,
         knownTypes = when (pkg) {
             Package.baseUi -> BASE_UI_KNOWN_TYPES
-            // The new loading-row component exposes this state through its public ownerState prop.
-            Package.treeView -> mapOf("TreeItemLoaderOwnerState" to "TreeItemLoaderOwnerState")
+            Package.treeView -> TREE_VIEW_KNOWN_TYPES
             else -> emptyMap()
         },
         collapseMemberValueObjects = pkg == Package.baseUi,

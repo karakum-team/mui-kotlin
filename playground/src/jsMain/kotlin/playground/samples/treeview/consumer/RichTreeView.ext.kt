@@ -2,7 +2,6 @@ package playground.samples.treeview.consumer
 
 import js.objects.unsafeJso
 import kotlinx.js.JsPlainObject
-import muix.tree.view.RichTreeViewSlotProps
 import muix.tree.view.TreeItemProps
 import muix.tree.view.TreeItemSlotProps
 import muix.tree.view.TreeItemSlots
@@ -20,22 +19,6 @@ import web.html.HTMLLIElement
 // `asDynamic()` is knowingly used here (`defaultMuiPrevented`, `dataUnselectable`) although playground/README.md
 // confines it to `MissedWrappers.kt`: the point of this port is to reproduce the workarounds exactly as the
 // original wrapper has them, until the generator makes them unnecessary.
-
-// W2: `RichTreeViewSlotProps.item` is not generated, and the per-item `ownerState` resolver form is untyped.
-internal external interface RichTreeViewSlotPropsExt : RichTreeViewSlotProps {
-    var item: (TreeItemOwnerState) -> TreeItemProps
-}
-
-internal fun RichTreeViewSlotPropsExt(
-    item: (TreeItemOwnerState) -> TreeItemProps,
-): RichTreeViewSlotPropsExt =
-    unsafeJso {
-        this.item = item
-    }
-
-internal external interface TreeItemOwnerState {
-    val itemId: String
-}
 
 // W3: `apiRef` is `Ref<*>?`, so the public API object has to be declared by hand.
 internal external interface RichTreeViewApi {

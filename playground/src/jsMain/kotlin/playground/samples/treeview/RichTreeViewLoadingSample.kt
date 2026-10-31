@@ -53,7 +53,7 @@ val RichTreeViewLoadingSample: Sample = Sample(
     covers = listOf(
         "RichTreeView.loading",
         "RichTreeViewSlots.loading/itemLoader",
-        "RichTreeViewSlotProps.itemLoader",
+        "RichTreeViewSlotProps.itemLoader (SlotComponentProps)",
         "TreeItemLoader",
         "TreeItemLoaderProps.ownerState (TreeItemLoaderOwnerState)",
         "richTreeViewClasses.itemLoader",
@@ -103,9 +103,11 @@ val RichTreeViewLoadingSample: Sample = Sample(
                 RichTreeViewSlots(itemLoader = LoadingRow)
             }
             slotProps = unsafeJso<RichTreeViewSlotProps> {
-                itemLoader = unsafeJso<TreeItemLoaderProps> {
-                    className = ClassName("loading-row")
-                }
+                itemLoader = SlotComponentProps(
+                    unsafeJso<TreeItemLoaderProps> {
+                        className = ClassName("loading-row")
+                    },
+                )
             }
             sx = unsafeJso<PropertiesBuilder> {
                 maxWidth = 420.px

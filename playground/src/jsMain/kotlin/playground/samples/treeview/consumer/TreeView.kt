@@ -1,7 +1,10 @@
 package playground.samples.treeview.consumer
 
 import js.objects.unsafeJso
+import muix.tree.view.RichTreeViewItemsOwnerState
+import muix.tree.view.RichTreeViewSlotProps
 import muix.tree.view.RichTreeViewSlots
+import muix.tree.view.SlotComponentProps
 import muix.tree.view.TreeItemSlots
 import muix.tree.view.TreeViewExpansionTrigger
 import muix.tree.view.TreeViewSelectionPropagation
@@ -92,8 +95,8 @@ internal val TreeView: FC<TreeViewProps> = FC { props ->
     val treeViewApi = props.apiRef ?: ownApi
 
     val itemSlotProps = useMemo(treeViewApi, cascade, renderNode, nodeByKey) {
-        RichTreeViewSlotPropsExt(
-            item = { ownerState ->
+        unsafeJso<RichTreeViewSlotProps> {
+            item = SlotComponentProps { ownerState ->
                 val node = nodeByKey.getValue(ownerState.itemId)
                 val nodeContent = renderNode?.invoke(node)
 
@@ -106,8 +109,8 @@ internal val TreeView: FC<TreeViewProps> = FC { props ->
                         checkbox = checkboxSlotProps(node, cascade),
                     ),
                 )
-            },
-        )
+            }
+        }
     }
 
     MuiRichTreeView {
@@ -200,7 +203,7 @@ private fun checkboxSlotProps(
 
 private fun labelSlotProps(
     apiRef: RefObject<RichTreeViewApi>,
-    ownerState: TreeItemOwnerState,
+    ownerState: RichTreeViewItemsOwnerState,
     content: ReactNode?,
     selectable: Boolean,
 ): HTMLAttributes<HTMLSpanElement> =
