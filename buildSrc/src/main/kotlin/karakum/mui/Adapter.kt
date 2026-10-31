@@ -3,7 +3,6 @@ package karakum.mui
 import karakum.mui.adapters.*
 import karakum.mui.adapters.datepickers.adaptLocalizationProvider
 import karakum.mui.adapters.treeview.adaptRichTreeView
-import karakum.mui.adapters.treeview.adaptTreeItem
 import karakum.mui.adapters.treeview.adaptTreeView
 
 fun String.adaptRawContent(
@@ -71,7 +70,6 @@ fun String.adaptRawContent(
     .adaptInitColorSchemeScript()
     .adaptCreateThemeFoundation()
     .adaptRichTreeView()
-    .adaptTreeItem()
     .adaptTreeView()
     .adaptLocalizationProvider()
 

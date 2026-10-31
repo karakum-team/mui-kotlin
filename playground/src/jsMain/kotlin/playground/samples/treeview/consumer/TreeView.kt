@@ -1,6 +1,7 @@
 package playground.samples.treeview.consumer
 
 import js.objects.unsafeJso
+import muix.tree.view.TreeViewSelectionPropagation
 import react.FC
 import react.PropsWithClassName
 import react.ReactNode
@@ -40,15 +41,16 @@ private val IS_ITEM_SELECTION_DISABLED = { item: Any ->
     !item.unsafeCast<TreeNode>().selectable
 }
 
-private val CASCADE_SELECTION_PROPAGATION = SelectionPropagation(
-    parents = false,
-    descendants = true,
-)
+// W4: the generated model interface has no `@JsPlainObject` factory yet.
+private val CASCADE_SELECTION_PROPAGATION = unsafeJso<TreeViewSelectionPropagation> {
+    parents = false
+    descendants = true
+}
 
-private val INDEPENDENT_SELECTION_PROPAGATION = SelectionPropagation(
-    parents = false,
-    descendants = false,
-)
+private val INDEPENDENT_SELECTION_PROPAGATION = unsafeJso<TreeViewSelectionPropagation> {
+    parents = false
+    descendants = false
+}
 
 private val SLOTS = RichTreeViewSlots(
     expandIcon = ExpandIcon,
@@ -104,7 +106,7 @@ internal val TreeView: FC<TreeViewProps> = FC { props ->
         )
     }
 
-    MuiRichTreeView<RichTreeViewPropsExt> {
+    MuiRichTreeView {
         className = treeViewStyle()
         apiRef = treeViewApi
 

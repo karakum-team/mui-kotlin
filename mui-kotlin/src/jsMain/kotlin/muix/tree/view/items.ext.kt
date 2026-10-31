@@ -1,0 +1,34 @@
+// Automatically generated - do not modify!
+
+package muix.tree.view
+
+import seskar.js.JsValue
+
+sealed external interface TreeViewItemsReorderingAction {
+    companion object {
+        @JsValue("reorder-above")
+        val reorderAbove: TreeViewItemsReorderingAction
+
+        @JsValue("reorder-below")
+        val reorderBelow: TreeViewItemsReorderingAction
+
+        @JsValue("make-child")
+        val makeChild: TreeViewItemsReorderingAction
+
+        @JsValue("move-to-parent")
+        val moveToParent: TreeViewItemsReorderingAction
+    }
+}
+
+sealed external interface TreeViewItemSelectionStatus {
+    companion object {
+        @JsValue("selected")
+        val selected: TreeViewItemSelectionStatus
+
+        @JsValue("indeterminate")
+        val indeterminate: TreeViewItemSelectionStatus
+
+        @JsValue("unselected")
+        val unselected: TreeViewItemSelectionStatus
+    }
+}

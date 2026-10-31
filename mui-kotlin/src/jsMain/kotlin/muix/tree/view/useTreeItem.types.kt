@@ -34,7 +34,7 @@ external interface UseTreeItemParameters : PropsWithChildren {
      * The id of the item.
      * Must be unique.
      */
-    var itemId: String
+    var itemId: TreeViewItemId
 
     /**
      * The label of the item.

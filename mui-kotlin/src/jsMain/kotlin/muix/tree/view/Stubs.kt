@@ -21,11 +21,12 @@ external interface TreeViewStoreParameters : Props {
     var defaultSelectedItems: Any?
     var multiSelect: Boolean?
     var checkboxSelection: Boolean?
+    var selectionPropagation: TreeViewSelectionPropagation?
     var onSelectedItemsChange: ((event: SyntheticEvent<*, *>?, itemIds: Any?) -> Unit)?
     var onItemSelectionToggle: ((event: SyntheticEvent<*, *>?, itemId: TreeViewItemId, isSelected: Boolean) -> Unit)?
     var onItemClick: ((event: MouseEvent<*, *>, itemId: TreeViewItemId) -> Unit)?
     var onItemFocus: ((event: SyntheticEvent<*, *>?, itemId: TreeViewItemId) -> Unit)?
-    var itemChildrenIndentation: Any?
+    var itemChildrenIndentation: Any? /* string | number */
     var itemHeight: Double?
 }
 
@@ -38,4 +39,5 @@ external interface RichTreeViewStoreParameters : TreeViewStoreParameters {
     var getItemChildren: ((item: Any) -> ReadonlyArray<*>?)?
     var isItemEditable: Any?
     var onItemLabelChange: ((itemId: TreeViewItemId, newLabel: String) -> Unit)?
+    var domStructure: TreeViewDOMStructure?
 }

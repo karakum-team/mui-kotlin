@@ -171,6 +171,10 @@ external interface TransitionProps: react.Props
 //  MUI-X v9 RichTreeView / SimpleTreeView inherit their behavioral props from complex store parameter utility
 //  types (UseTreeViewStoreParameters<TStore>). Restored as real interfaces so Kotlin users have full typed access to
 //  items, expandedItems, selectedItems, and related handlers.
+//  Hand-maintained against `internals/MinimalTreeViewStore/MinimalTreeViewStore.types.d.ts`
+//  (`MinimalTreeViewParameters`) and `internals/RichTreeViewStore/RichTreeViewStore.types.d.ts`
+//  (`RichTreeViewStoreParameters`). `id` is left out on purpose: `HTMLAttributes.id`, inherited by both props
+//  interfaces, already carries it.
 // language=kotlin
 private val TREE_VIEW_STUBS = """
 typealias TreeViewItemId = String
@@ -187,11 +191,12 @@ external interface TreeViewStoreParameters : react.Props {
     var defaultSelectedItems: Any?
     var multiSelect: Boolean?
     var checkboxSelection: Boolean?
+    var selectionPropagation: TreeViewSelectionPropagation?
     var onSelectedItemsChange: ((event: react.dom.events.SyntheticEvent<*, *>?, itemIds: Any?) -> Unit)?
     var onItemSelectionToggle: ((event: react.dom.events.SyntheticEvent<*, *>?, itemId: TreeViewItemId, isSelected: Boolean) -> Unit)?
     var onItemClick: ((event: react.dom.events.MouseEvent<*, *>, itemId: TreeViewItemId) -> Unit)?
     var onItemFocus: ((event: react.dom.events.SyntheticEvent<*, *>?, itemId: TreeViewItemId) -> Unit)?
-    var itemChildrenIndentation: Any?
+    var itemChildrenIndentation: Any? /* string | number */
     var itemHeight: Double?
 }
 
@@ -204,6 +209,7 @@ external interface RichTreeViewStoreParameters : TreeViewStoreParameters {
     var getItemChildren: ((item: Any) -> js.array.ReadonlyArray<*>?)?
     var isItemEditable: Any?
     var onItemLabelChange: ((itemId: TreeViewItemId, newLabel: String) -> Unit)?
+    var domStructure: TreeViewDOMStructure?
 }
 """.trimIndent()
 
@@ -808,13 +814,27 @@ private fun RuntimeBindings.generateTreeViewDeclarations(
         "internals/TreeViewProvider/TreeViewStyleContext.d.ts",
         "TreeItemIcon/TreeItemIcon.types.d.ts",
         "useTreeItem/useTreeItem.types.d.ts",
+        // The public model types (`@mui/x-tree-view/models`): `TreeViewSelectionPropagation` plus the
+        // `TreeViewItemSelectionStatus` / `TreeViewItemsReorderingAction` / `TreeViewDOMStructure` string unions,
+        // which the store parameters and the public API refer to. `TreeViewItemId` (a `string` alias, kept in
+        // TREE_VIEW_STUBS), `TreeViewDefaultItemModelProperties` / `TreeViewValidItem` (object-type aliases) and
+        // `models/events.d.ts` (an intersection alias) have nothing the converter can turn into a declaration
+        // and fall out on their own.
+        "models/items.d.ts",
+        "models/domStructure.d.ts",
     ).forEach { rel ->
         val file = typesDir.resolve(rel)
         if (file.exists()) generate(file, targetDir, Package.treeView, typesOnly = true)
     }
 
-    targetDir.resolve("Stubs.kt")
-        .writeGenerated(fileContent(body = TREE_VIEW_STUBS, pkg = Package.treeView))
+    val handWritten = listOf(
+        "Stubs" to TREE_VIEW_STUBS,
+    )
+
+    handWritten.forEach { (name, body) ->
+        targetDir.resolve("$name.kt")
+            .writeGenerated(fileContent(body = body, pkg = Package.treeView))
+    }
 }
 
 private fun RuntimeBindings.generatePickersDeclarations(
