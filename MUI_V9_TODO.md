@@ -105,12 +105,14 @@ Migration of the generator from MUI v7 → **v9** (v8 skipped; the suite was rea
   `React.HTMLAttributes<HTMLLIElement>` survives as its real Kotlin parent (`title`, `className`, etc.).
 - `findClassesDeclaration` now extracts an interface's own body even when its utility-type parent
   cannot be retained. This exposes `richTreeViewClasses.itemLoader`; it does not expand the inherited
-  keys hidden behind `Omit<TreeViewClasses, ...>`. Existing picker class inheritance is unchanged.
+  keys hidden behind `Omit<TreeViewClasses, ...>` (flattened since — see "Tree View: the behavioural props and
+  the typing gaps" below). Existing picker class inheritance is unchanged.
 - New `playground/src/jsMain/kotlin/TreeViewLoading.kt` (now `playground/src/jsMain/kotlin/playground/samples/treeview/RichTreeViewLoadingSample.kt`) exercises `loading`, both new slots, slot props,
   typed loading-row state, and both new CSS-class objects. The existing `items` gap is supplied by a
   sample-local props interface, not a change to the library API. `RichTreeViewSlotProps.loading` and
   `.itemLoader` still use the generator's existing `react.Props` approximation for `SlotComponentProps`;
-  callback forms and the loading slot's `itemsCount`/`message` are not given dedicated Kotlin types.
+  callback forms and the loading slot's `itemsCount`/`message` are not given dedicated Kotlin types (both
+  since fixed by the `SlotComponentProps<P, S>` carrier and `RichTreeViewLoadingSlotOwnProps`, see below).
 - npm upgrade caveat: the first incremental install left the playground workspace at `9.12.0`,
   hoisted those old types to `build/js/node_modules`, and nested `9.14.0` under the library workspace.
   `./gradlew kotlinUpgradePackageLock --rerun-tasks` refreshed every workspace and removed the split.
@@ -201,8 +203,6 @@ Phase 5b reached green but degraded types (widened to `Any`, dropped inheritance
 
 - DateCalendar loses only `views`/`openTo`/`onViewChange` — they come from internal `ExportedUseViewsOptions`,
   whose sibling `UseViewsOptions.onChange` has optional function-type params Kotlin can't express.
-- `RichTreeViewSlots` keeps `TreeViewSlots` but not `RichTreeViewItemsSlots` — the internal `RichTreeViewItems`
-  type drags in a `<TProps>` generic / `Ref` / slot overrides that don't translate.
 
 ### Phase 5d — the pickers CSS-class objects (16 of 27 were never generated)
 
@@ -360,7 +360,7 @@ calling `createStyles`.
 calendars + clocks + PickerDay + PickersCalendarHeader + fields + adapters) and tree-view
 (SimpleTreeView / RichTreeView / TreeItem / TreeItemLabelInput / TreeItemLoader + icons/provider/hook).
 
-### Tree View: the behavioural props are still missing (found during the 9.8 → 9.12 bump)
+### Tree View: the behavioural props and the typing gaps (fixed 2026-10-31)
 
 "Generated and green" understated one gap. Compilation could not see it because nothing in the repo
 consumed the tree-view declarations until `playground/src/jsMain/kotlin/TreeView.kt` (now `playground/src/jsMain/kotlin/playground/samples/treeview/SimpleTreeViewSample.kt`) was added.
@@ -371,16 +371,43 @@ consumed the tree-view declarations until `playground/src/jsMain/kotlin/TreeView
   `TreeItemProps` extends it and picks up `itemId` / `label` / `disabled` / `disableSelection` / `id`.
     - Caveat: Kotlin also inherits `rootRef`, which the TS `Omit` removes. Harmless (React ignores it),
       but it is one prop of over-exposure.
-- **Still missing — `items`, `multiSelect`, `expandedItems`, `selectedItems` and every selection /
-  expansion callback** on `SimpleTreeViewProps` / `RichTreeViewProps`. These sit behind
-  `UseTreeViewStoreParameters<TStore>`, declared as
-  `Omit<Parameters<TStore['updateStateFromParameters']>[0], 'isRtl'>` — an indexed access into a
-  method's parameter tuple. Resolving it needs a real TypeScript checker; this generator is
-  text-based, so no `typesOnly` trick can recover it. The only route is a hand-written stub in the
-  `PICKERS_STUBS` style (`Generator.kt`), which carries a real staleness cost and was left out of the
-  version bump deliberately. **Consequence: the public Kotlin API still cannot supply `RichTreeView.items`;
-  only the children-driven `SimpleTreeView` is usable without a local extension.** The 9.14 loading sample
-  supplies a sample-local `items` shape to exercise the new API; it does not close this library gap.
+- **Fixed 2026-10-31 — the store parameters.** `items`, `multiSelect`, `expandedItems`, `selectedItems`, the
+  selection / expansion callbacks, `selectionPropagation`, `domStructure`, `expansionTrigger`, … sit behind
+  `UseTreeViewStoreParameters<TStore>`, an indexed access into a method's parameter tuple that a text-based
+  converter cannot follow. They are hand-written in `TREE_VIEW_STUBS` (`Generator.kt`) as
+  `TreeViewStoreParameters` / `RichTreeViewStoreParameters<R : Any>`, maintained against
+  `internals/MinimalTreeViewStore/MinimalTreeViewStore.types.d.ts` and
+  `internals/RichTreeViewStore/RichTreeViewStore.types.d.ts`. `RichTreeViewProps<R : Any>` keeps the item model
+  (`findProps`), so the call form is `RichTreeView<RichTreeViewProps<Item>> { items = … }` — a bare
+  `RichTreeView { items = … }` no longer compiles against the star-projected props.
+- **The other hand-written files of `muix/tree/view`** (all `TREE_VIEW_*` constants in `Generator.kt`) and the
+  upstream shape each stands in for:
+    - `TreeViewSelectionValue` — the conditional `TreeViewSelectionValue<Multiple>`; a factory per shape plus
+      `asMultiple()` / `asSingle()` readers, so `selectedItems` / `onSelectedItemsChange` are never `Any?`.
+    - `TreeViewExpansionTrigger` — the inline `'content' | 'iconContainer'` union.
+    - `SlotComponentProps<P, S>` — `@mui/utils` `SlotComponentProps<Component, Overrides, OwnerState>` for the
+      slots whose owner state is non-empty (`RichTreeViewSlotProps.item` / `root` / `loading` / `itemLoader`);
+      slots with a `{}` owner state are the element's own props (`TREE_VIEW_KNOWN_TYPES`).
+    - `RichTreeViewItems.kt` / `RichTreeViewLoading.kt` — the slot interfaces of the two non-convertible
+      `internals/components` files, so `RichTreeViewSlots` / `RichTreeViewSlotProps` keep both upstream parents.
+    - `TreeViewCancellableEvent` + the `defaultMuiPrevented` extension — `models/events.d.ts`; every
+      `TreeViewCancellableEventHandler<E>` member is the plain React handler (`kotlinType`).
+    - `TreeViewPublicAPI<R>` / `RichTreeViewPublicAPI<R>` with their `@JsPlainObject` parameter objects —
+      `ReturnType<TStore['buildPublicAPI']>`; `apiRef` is `RefObject<…>`, and `useRichTreeViewApiRef` /
+      `useSimpleTreeViewApiRef` bind to `@mui/x-tree-view/hooks`.
+    - `TreeViewCssVars` / `TreeItemDataAttributes` — the runtime-only `--TreeView-*` custom properties and
+      `data-<status>` attributes.
+- **Generated since, not hand-written:** `models/items.d.ts` / `models/domStructure.d.ts`
+  (`TreeViewSelectionPropagation`, the `TreeViewItemSelectionStatus` / `TreeViewItemsReorderingAction` /
+  `TreeViewDOMStructure` unions); the `useTreeItem` slot own-props with the selection and label-editing plugin
+  augmentations spliced in (`adaptUseTreeItemAugmentations`); `RichTreeViewClasses` / `SimpleTreeViewClasses`
+  with the `Omit<TreeViewClasses, …>` keys flattened in (`convertClasses`); `@JsPlainObject` factories on the
+  `*Slots` family and the model / parameter objects (`convertDefinitions(jsPlainObject = …)`).
+- **Staleness cost:** the stubs are pinned to upstream shapes — after an `x-tree-view` bump, diff them against
+  the files their comments name (`adaptUseTreeItemAugmentations` fails the build on its own when a plugin file
+  or declaration disappears). The consumer-style sample
+  `playground/src/jsMain/kotlin/playground/samples/treeview/ConsumerTreeViewSample.kt` (with `consumer/`)
+  exercises the whole surface in a browser, with the public API driving the selection.
 
 ### Other tree-view findings from the 9.8 → 9.12 bump
 
@@ -396,12 +423,13 @@ consumed the tree-view declarations until `playground/src/jsMain/kotlin/TreeView
   `SlotProps` / `Parameters` and the three `SimpleTreeViewPlugin*` equivalents. Those identifiers
   appear nowhere in the 9.x `.d.ts` (v9 is store-based, not plugin-based); verified inert by a
   byte-identical regeneration before deleting.
-- **Still-dead v7-era tree-view code, not yet removed** (each verified absent from the 9.12 `.d.ts`,
-  left alone to keep the bump reviewable): the `TreeItem2` / `TreeItem2Icon` / `TreeItem2Provider` /
-  `useTreeItem2` exclusion set and the `TreeItem2DragAndDropOverlay` branches in
-  `generateTreeViewDeclarations`; `adaptTreeView()` in full (there is no `TreeView` directory in v9);
-  and the `TreeItem2Props` replacement in `adaptRichTreeView()` (its `RichTreeViewSlotProps<R, Multiple>`
-  replacement *is* still live).
+- **Dead v7-era tree-view code removed (2026-10-31)**, each verified absent from the 9.x `.d.ts` and the
+  regeneration byte-identical: the `TreeItem2` / `TreeItem2Icon` / `TreeItem2Provider` / `useTreeItem2`
+  exclusion set, the `TreeItemContent.d.ts` call and the `TreeView` / `TreeItem2DragAndDropOverlay` branches in
+  `generateTreeViewDeclarations`; `adaptTreeView()` in full; the `TreeItem2Props` replacement in
+  `adaptRichTreeView()` (its `RichTreeViewSlotProps<R, Multiple>` replacement *is* still live); the lab
+  `TreeItemProps` / `TreeViewProps` entries of `findComponent`; `TreeViewItemsReorderingAction →
+  TreeItem2DragAndDropOverlayAction` and the `TreeViewExperimentalFeatures<…>` branch of `kotlinType`.
 
 ## Phase 4 — type-quality / reviewer pass (DONE)
 

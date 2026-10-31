@@ -92,8 +92,8 @@ val ConsumerTreeViewSample: Sample = Sample(
     fileName = "ConsumerTreeViewSample.kt",
     refs = listOf(
         Ref(
-            "MUI_V9_TODO.md — Tree View behavioural props",
-            "https://github.com/karakum-team/mui-kotlin/blob/main/MUI_V9_TODO.md#tree-view-the-behavioural-props-are-still-missing-found-during-the-98--912-bump",
+            "MUI_V9_TODO.md — Tree View behavioural props and typing gaps",
+            "https://github.com/karakum-team/mui-kotlin/blob/main/MUI_V9_TODO.md#tree-view-the-behavioural-props-and-the-typing-gaps-fixed-2026-10-31",
         ),
     ),
     notes = "Port of a downstream application's tree view wrapper over RichTreeView, workarounds included " +
