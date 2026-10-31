@@ -15,9 +15,8 @@
 
 1. ~~**TextField без `slots`/`slotProps`**~~ — ✅ сделано 2026-10-31, см.
    [TextFieldSlotsAndSlotProps](#средняя-сложность).
-2. **Типизация material `Theme`/`ThemeOptions`** — `palette`, `typography`, `shadows` приходят из `mui.system.Theme`
-   как `Any?`, `mixins`/`transitions` — пустые интерфейсы `mui.system`; нет `motion`, `vars`, `alpha`/`lighten`/
-   `darken`, `cssVariables`, `colorSchemes`. См. [Стабы](#стабы-вместо-настоящей-генерации).
+2. ~~**Типизация material `Theme`/`ThemeOptions`**~~ — ✅ сделано 2026-10-31: генерируются из
+   `createThemeNoVars.d.ts`. См. [`createThemeNoVars`](#material).
 3. ~~**`Spacing` — пустой интерфейс**~~ — ✅ сделано 2026-10-31, `theme.spacing(2)` вызывается из Kotlin. См.
    [`createSpacing`](#system).
 4. **Компоненты, наследующие `slots`/`slotProps` от родителя** (Dialog/Drawer/Menu/Popover/…) — собственный
@@ -58,15 +57,49 @@
 
 ### Material
 
-- **`createThemeNoVars`** — `@mui/material/styles/createThemeNoVars.d.ts` — ⏳
-    - Status: excluded (`Generator.kt::generateStylesDeclarations::isStyleDefinition`)
-    - Reason: использует TS conditional types (`CssThemeVariables extends { enabled: true }`), которые конвертер не
-      разбирает; даёт несинтаксический Kotlin.
-    - Workaround: ручной стаб `Theme : mui.system.Theme` / `ThemeOptions : mui.system.ThemeOptions` с одним
-      material-only членом `focusVisible` (MUI 9.4). Подробности и риск «апстрим-добавления не приезжают сами» — в
-      [MUI_V9_TODO.md](MUI_V9_TODO.md#the-material-theme-is-a-hand-written-stub--upstream-additions-do-not-flow-in).
-    - To fix: научить `adaptRawContent` схлопывать conditional type в одну ветку (для `CssVarsOptions` /
-      `CssVarsProperties` — в «выключенную»), после чего генерировать `Theme`/`ThemeOptions`/`BaseTheme` из файла.
+- **`createThemeNoVars`** — `@mui/material/styles/createThemeNoVars.d.ts` — ✅ (2026-10-31)
+    - Генерируется (types only) в `generateStylesDeclarations`; ручной стаб `Theme`/`ThemeOptions` удалён, так что
+      новые члены material-темы приезжают при бампе сами (см.
+      [MUI_V9_TODO.md](MUI_V9_TODO.md#the-material-theme-is-converted-from-createthemenovarsdts)).
+    - `adapters/CreateThemeNoVars.kt` (стоит первым в `adaptRawContent`, до `dropMemberValueObjects`) схлопывает
+      conditional types `CssVarsOptions` / `palette & (… ? CssVarsPalette : {})` / `CssVarsProperties` в ветку
+      «CSS variables не включены через аугментацию» и убирает хук `CssThemeVariables`.
+    - Результат: `ThemeOptions : mui.system.ThemeOptions`, `BaseTheme : mui.system.Theme`, `Theme : BaseTheme` с
+      `palette: Palette`, `typography: TypographyVariants`, `mixins: Mixins`, `motion: Motion`, `shape: Shape`,
+      `shadows: ReadonlyArray<String>`, `transitions: Transitions`, `zIndex: ZIndex`, `focusVisible: FocusVisible?`,
+      `vars: ThemeVars?`, `alpha`/`lighten`/`darken`, `unstable_sx`, и зеркальными `*Options` в `ThemeOptions`.
+    - Material сужает `var`-члены `mui.system.Theme`/`ThemeOptions` (`palette: Any?` → `Palette`,
+      `mixins: mui.system.Mixins?` → material `Mixins`) — файл подавляет `VAR_TYPE_MISMATCH_ON_OVERRIDE`
+      (`Override.kt`); недостающие `override` (`unstable_sx`, `unstable_sxConfig`, `applyStyles`, `shape`) —
+      `Overrides.kt`.
+    - Упрощения:
+        - публичный `ThemeOptions` из `createTheme.d.ts` (то же имя, `extends Omit<CssVarsThemeOptions, …>`) рядом не
+          сгенерировать; адаптер добавляет его `cssVariables: Boolean?`, `colorSchemes: Any?`,
+          `defaultColorScheme: DefaultColorScheme?`. Объектная форма конфигурации `cssVariables` не типизирована;
+        - `Shadows` (кортеж из 25 строк) → `ReadonlyArray<String>`, `ZIndexOptions` (`Partial<ZIndex>`) → `ZIndex`;
+        - `ThemeOptions.typography` — только объектная форма `TypographyVariantsOptions` (callback
+          `(palette) => options` — через `unsafeCast`);
+        - `focusVisible: FocusVisible | false` → `FocusVisible?`; `ThemeOptions.focusVisible` — `Any?`
+          (`boolean | FocusVisible`);
+        - `ThemeOptions` наследует `zIndex`, который апстрим `Omit`-ит; `components`, `unstable_sxConfig`,
+          `applyStyles`, `colorSchemes` — `Any?`;
+        - `Theme.palette` — обычный `Palette`: поля `CssVarsPalette` при `cssVariables = true` доступны через
+          `unsafeCast` (Kotlin не умеет аугментацию).
+    - Покрыт `playground/.../samples/material/ThemeTypingSample.kt` (22 проверки по дефолтной теме, `ThemeOptions`,
+      `cssVariables`, `createTypography`).
+
+- **`createTypography`** — `@mui/material/styles/createTypography.d.ts` — ✅ (2026-10-31)
+    - Раньше генерировался только enum `TypographyVariant` (тело файла пропускалось всегда, ещё до v6).
+    - `adapters/CreateTypography.kt` раскрывает `Record<TypographyVariant, TypographyStyle>` в члены `h1`…`overline`
+      (список литералов читается из того же файла). `TypographyStyle`/`TypographyStyleOptions` (alias и пустое
+      расширение material `CSSProperties`) заменены на `react.CSSProperties`.
+    - `FontStyle.fontFamily`/`fontWeight*` → `web.cssom.FontFamily`/`FontWeight` (`TypeAlias.kt`).
+    - `createTypography` привязан к `@mui/material/styles#private_createTypography` (как `createMixins`); параметр
+      `typography` — `Any /* options | (palette) => options */`.
+    - Попутно: material `BaseCSSProperties` теперь `: react.CSSProperties` — `NormalCssProperties`
+      (`CSS.Properties<number | string>`) больше не отбрасывается, а маппится в `ParentType.kt`; `Mixins.toolbar` получил
+      CSS-члены. Material `Shape`/`ShapeOptions` — `: mui.system.Shape`/`ShapeOptions` (белый список пустых
+      интерфейсов в `Converter.kt::findAdditionalProps`), т.е. снова с `borderRadius`.
 
 - **`createThemeWithVars`** — `@mui/material/styles/createThemeWithVars.d.ts` — ⏳ (частично ✅)
     - Status: excluded
@@ -81,7 +114,7 @@
       `external fun createTheme(options: ThemeOptions = definedExternally): Theme`, привязан к barrel
       `@mui/material/styles` (`Generator.kt::generateStylesDeclarations`). Покрыт
       `playground/.../samples/material/ThemeFocusVisibleSample.kt`.
-    - Остаток: `cssVariables`/`colorSchemes` в `ThemeOptions` нет (см. Theme-стаб).
+    - `ThemeOptions` — сгенерированный (см. `createThemeNoVars`), с `cssVariables`/`colorSchemes`/`defaultColorScheme`.
 
 - **`createColorScheme`** — `@mui/material/styles/createColorScheme.d.ts` — ⏳ (низкий приоритет)
     - Status: excluded
@@ -144,13 +177,9 @@
 
 ## Стабы (вместо настоящей генерации)
 
-- **`mui.material.styles.Theme`** — `external interface Theme : mui.system.Theme` + `focusVisible`. ⏳ Нет
-  типизированных `palette: Palette`, `typography`, `mixins: Mixins`, `shadows`, `motion: Motion`, `transitions`,
-  `vars`, `alpha`/`lighten`/`darken`, `cssVariables` — всё это приходит из `mui.system.Theme` как `Any?` или пустые
-  интерфейсы. Playground обходит это через `unsafeCast` (`ThemeFocusVisibleSample.kt`).
-- **`mui.material.styles.ThemeOptions`** — `external interface ThemeOptions : mui.system.ThemeOptions` +
-  `focusVisible`. Без CssVars-расширений (`cssVariables`, `colorSchemes`) и типизированных `palette`/`typography`/
-  `motion`. Упрощение: наследует `zIndex`, который апстрим `Omit`-ит.
+- ~~**`mui.material.styles.Theme` / `ThemeOptions`**~~ — ✅ больше не стабы, генерируются из
+  `createThemeNoVars.d.ts` (см. выше). Вручную остался только `typealias FocusVisible = react.CSSProperties`
+  (`FocusVisible.kt`): генератор не эмитит простые type alias'ы.
 - **`mui.material.styles.createTheme`** — ручной стаб над barrel `@mui/material/styles` (см. выше).
 - **`mui.material.styles.ThemeProvider`**, **`mui.system.ThemeProvider`** — минимальные ручные обёртки (см. выше).
 - **`mui.system.SystemProps<T>`** — `typealias SystemProps<T> = react.Props`. Используется Typography.
@@ -161,10 +190,9 @@
 ## Известные потери / упрощения в публичном API
 
 - **CssVars вселенная** — ✅ типы `CssVarsTheme`/`CssVarsPalette`/`ColorSystem`/`ColorSystemOptions`/`ThemeVars`
-  генерируются из `createThemeFoundation.d.ts`. ⏳ Нет `extendTheme`, `createColorScheme`, CssVars-провайдера, и они
-  не подключены к `Theme`/`ThemeOptions` (`Theme.vars` отсутствует).
-- **`Theme.applyStyles`** — `Any? /* ApplyStyles<'light' | 'dark'> */` в `mui.system.Theme` и
-  `Any? /* ApplyStyles<SupportedColorScheme> */` в `CssVarsTheme`.
+  генерируются из `createThemeFoundation.d.ts`; `Theme.vars: ThemeVars?` и `ThemeOptions.cssVariables`/
+  `colorSchemes`/`defaultColorScheme` есть. ⏳ Нет `extendTheme`, `createColorScheme`, CssVars-провайдера.
+- **`Theme.applyStyles`** — `Any? /* ApplyStyles<…> */` в `mui.system.Theme`, material `BaseTheme` и `CssVarsTheme`.
 - **`Typography.color`** — теперь `Union? /* OverridableStringUnion<… `text${Capitalize<keyof TypeText>}` …> | string */`
   (был `Any?`). Шаблонный литерал по-прежнему не раскрывается.
 - **`Tooltip.placement`** — ✅ `TooltipPlacement?`, где `typealias TooltipPlacement = popper.core.Placement`
@@ -314,15 +342,12 @@
 
 ### Высокая сложность
 
-- **Типизированный material `Theme`/`ThemeOptions`.** ⏳ Второй приоритет (см. сводку). Варианты: (а) научить
-  `adaptRawContent` схлопывать conditional types в `createThemeNoVars.d.ts` и генерировать `BaseTheme`/`Theme`/
-  `ThemeOptions` из файла; (б) расширить ручной стаб `override`-членами (`palette: Palette`,
-  `typography: TypographyVariants`, `mixins: Mixins`, `motion: Motion`, `transitions: Transitions`, …) — дешевле,
-  но вручную и с риском устаревания. Kotlin-конфликт: `mui.system.Theme` уже объявляет те же имена с типами
-  `Any?`/пустыми интерфейсами — `var` нельзя сузить, понадобится менять и system-сторону.
+- **Типизированный material `Theme`/`ThemeOptions`.** ✅ Сделано 2026-10-31 вариантом «генерировать из файла»
+  (см. `createThemeNoVars`). Конфликт с `mui.system.Theme` решён подавлением `VAR_TYPE_MISMATCH_ON_OVERRIDE` в
+  сгенерированном файле, system-сторона не менялась.
 
-- **CssVars вселенная** (`extendTheme`, `createColorScheme`, CssVars-`ThemeProvider`, `Theme.vars`). ⏳ Типы уже
-  есть (`createThemeFoundation`); требует:
+- **CssVars вселенная** (`extendTheme`, `createColorScheme`, CssVars-`ThemeProvider`). ⏳ Типы и `Theme.vars` уже
+  есть; требует:
     - Поддержки TS conditional types в `Converter.kt::adaptRawContent` (или ручных стабов).
     - Поддержки TS mapped types `{ [K in X]: Y }` → Kotlin `Record<X, Y>` или подобное.
 

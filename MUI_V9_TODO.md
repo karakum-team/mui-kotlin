@@ -263,22 +263,30 @@ are still uncovered.
 That page previously read `FC { Fragment.create { MonthCalendar { … } } }`, which discards the element it
 builds, so no picker had ever actually rendered there.
 
-## The material theme is a hand-written stub — upstream additions do NOT flow in
+## The material theme is converted from `createThemeNoVars.d.ts`
 
-`mui.material.styles.Theme` / `ThemeOptions` are emitted as stubs over `mui.system.*`
-(`Generator.kt`, `generateStylesDeclarations`), because upstream splits them across
-`createThemeNoVars` / `createThemeWithVars` / `createTheme` behind TS conditional types the
-converter cannot follow. Consequence: **any member that exists only on the material theme has to
-be added to the stub by hand, and a version bump will not surface the omission** — the
-regeneration diff stays empty and `compileKotlinJs` stays green.
+Until 2026-10-31 `mui.material.styles.Theme` / `ThemeOptions` were hand-written stubs over `mui.system.*`:
+upstream gates the material theme's CSS-variables parts behind TS conditional types keyed on the
+augmentable `CssThemeVariables`, which the converter cannot follow. Material-only members had to be added
+by hand (`focusVisible`, MUI 9.4.0, was the first), and a version bump could not surface an omission.
 
-First instance: `theme.focusVisible`, added in `@mui/material@9.4.0`. It is now on the stub
-(`FocusVisible` typealias + `Theme.focusVisible` + `ThemeOptions.focusVisible`) and exercised by
-`playground/src/jsMain/kotlin/playground/samples/material/ThemeFocusVisibleSample.kt`. When bumping, diff `styles/createThemeNoVars.d.ts`
-between the old and new tarball rather than trusting an empty regeneration diff.
+Now `generateStylesDeclarations` converts `styles/createThemeNoVars.d.ts` (types only) after
+`adapters/CreateThemeNoVars.kt` collapses each conditional type to its default — not-enabled — branch.
+The result is `ThemeOptions`, `BaseTheme` and `Theme` with typed `palette`, `typography`, `mixins`,
+`motion`, `shape`, `shadows`, `transitions`, `zIndex`, `focusVisible`, `vars`, `alpha`/`lighten`/`darken`,
+so members MUI adds to that file flow in on a bump. Details and the remaining simplifications are in
+[MUI_V6_TODO.md](MUI_V6_TODO.md#стабы-вместо-настоящей-генерации); the short version:
 
-Deliberate simplification kept from before: upstream declares
-`ThemeOptions extends Omit<SystemThemeOptions, 'zIndex'>`; the stub inherits `zIndex`.
+- The material theme narrows `mui.system.Theme`/`ThemeOptions` members (`palette: Any?` → `Palette`), so
+  `createThemeNoVars.kt` suppresses `VAR_TYPE_MISMATCH_ON_OVERRIDE`.
+- The public `ThemeOptions` of `createTheme.d.ts` (same name) cannot be generated beside it; the adapter
+  adds its `cssVariables` / `colorSchemes` / `defaultColorScheme` to the NoVars one.
+- `createTheme` stays a hand-written binding to the `@mui/material/styles` barrel; `FocusVisible` stays a
+  hand-written typealias (the generator does not emit plain type aliases).
+- `ThemeOptions` inherits `zIndex` instead of `Omit`-ing it, as before.
+
+Exercised by `playground/src/jsMain/kotlin/playground/samples/material/ThemeTypingSample.kt` and
+`ThemeFocusVisibleSample.kt`.
 
 `styles/focusVisible.d.ts` is intentionally NOT generated — it holds only private helpers
 (`resolveFocusVisible`, `wireFocusVisibleVars`, …), no public API.
