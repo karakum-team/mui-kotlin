@@ -2,11 +2,7 @@
 
 package mui.base
 
-import react.ElementType
-import react.Props
-import react.PropsWithChildren
-import react.PropsWithClassName
-import react.ReactNode
+import react.*
 import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
 import web.html.HTMLDivElement

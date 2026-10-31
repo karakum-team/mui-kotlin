@@ -10,12 +10,7 @@ import mui.system.PropsWithSx
 import mui.system.SxProps
 import mui.system.Union
 import mui.types.PropsWithComponent
-import react.ElementType
-import react.FC
-import react.Props
-import react.PropsWithChildren
-import react.PropsWithClassName
-import react.ReactNode
+import react.*
 import react.dom.events.SyntheticEvent
 import react.dom.html.HTMLAttributes
 import react.dom.html.InputHTMLAttributes

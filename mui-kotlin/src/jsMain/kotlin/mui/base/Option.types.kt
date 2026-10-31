@@ -2,11 +2,7 @@
 
 package mui.base
 
-import react.ElementType
-import react.Props
-import react.PropsWithChildren
-import react.PropsWithClassName
-import react.ReactNode
+import react.*
 import web.cssom.ClassName
 
 external interface OptionProps<OptionValue> :

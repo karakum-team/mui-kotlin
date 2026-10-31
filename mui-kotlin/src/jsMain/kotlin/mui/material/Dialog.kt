@@ -15,12 +15,7 @@ import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
 import mui.system.Union
-import react.ComponentType
-import react.ElementType
-import react.FC
-import react.Props
-import react.PropsWithChildren
-import react.ReactNode
+import react.*
 import react.dom.html.HTMLAttributes
 import web.dom.ElementId
 import web.html.HTMLDivElement

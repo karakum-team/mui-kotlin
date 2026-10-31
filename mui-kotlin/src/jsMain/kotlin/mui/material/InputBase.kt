@@ -12,11 +12,7 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.StandardProps
 import mui.system.SxProps
-import react.ElementType
-import react.FC
-import react.Props
-import react.ReactNode
-import react.Ref
+import react.*
 import react.dom.events.ChangeEventHandler
 import react.dom.events.FocusEventHandler
 import react.dom.events.KeyboardEventHandler

@@ -2,11 +2,7 @@
 
 package mui.base
 
-import react.ElementType
-import react.Props
-import react.PropsWithChildren
-import react.PropsWithClassName
-import react.ReactNode
+import react.*
 import react.dom.aria.AriaRole
 import react.dom.events.KeyboardEventHandler
 import react.dom.events.MouseEventHandler

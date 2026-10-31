@@ -203,14 +203,14 @@ external interface TreeViewStoreParameters : react.Props {
     var itemHeight: Double?
 }
 
-external interface RichTreeViewStoreParameters : TreeViewStoreParameters {
-    var items: js.array.ReadonlyArray<*>?
-    var isItemDisabled: ((item: Any) -> Boolean)?
-    var isItemSelectionDisabled: ((item: Any) -> Boolean)?
-    var getItemLabel: ((item: Any) -> String)?
-    var getItemId: ((item: Any) -> TreeViewItemId)?
-    var getItemChildren: ((item: Any) -> js.array.ReadonlyArray<*>?)?
-    var isItemEditable: Any?
+external interface RichTreeViewStoreParameters<R : Any> : TreeViewStoreParameters {
+    var items: js.array.ReadonlyArray<R>?
+    var isItemDisabled: ((item: R) -> Boolean)?
+    var isItemSelectionDisabled: ((item: R) -> Boolean)?
+    var getItemLabel: ((item: R) -> String)?
+    var getItemId: ((item: R) -> TreeViewItemId)?
+    var getItemChildren: ((item: R) -> js.array.ReadonlyArray<R>?)?
+    var isItemEditable: Any? /* boolean | ((item: R) => boolean) */
     var onItemLabelChange: ((itemId: TreeViewItemId, newLabel: String) -> Unit)?
     var domStructure: TreeViewDOMStructure?
 }
@@ -319,7 +319,7 @@ external interface RichTreeViewItemsSlots {
 
 external interface RichTreeViewItemsSlotProps : react.Props {
     var item: SlotComponentProps<TreeItemProps, RichTreeViewItemsOwnerState>?
-    var root: SlotComponentProps<react.dom.html.HTMLAttributes<web.html.HTMLUListElement>, RichTreeViewProps>?
+    var root: SlotComponentProps<react.dom.html.HTMLAttributes<web.html.HTMLUListElement>, RichTreeViewProps<*>>?
 }
 """.trimIndent()
 
@@ -385,6 +385,169 @@ inline var react.dom.events.SyntheticEvent<*, *>.defaultMuiPrevented: Boolean?
     }
 """.trimIndent()
 
+// TreeViewPublicAPI:
+//  Upstream `TreeViewPublicAPI<TStore> = ReturnType<TStore['buildPublicAPI']>` is an indexed access into the store
+//  class, which a text converter cannot follow. The two shapes it resolves to are written out from
+//  `internals/MinimalTreeViewStore/MinimalTreeViewStore.d.ts` and `internals/RichTreeViewStore/RichTreeViewStore.d.ts`
+//  (`buildPublicAPI()`), with the destructured parameter objects as `@JsPlainObject` interfaces.
+// language=kotlin
+private val TREE_VIEW_PUBLIC_API = """
+/**
+ * The item model of a `SimpleTreeView` (`SimpleTreeViewItem` of `internals/SimpleTreeViewStore`).
+ */
+external interface SimpleTreeViewItem {
+    var id: TreeViewItemId
+    var label: String
+    var children: js.array.ReadonlyArray<SimpleTreeViewItem>?
+}
+
+@JsPlainObject
+external interface SetIsItemDisabledParameters {
+    var itemId: TreeViewItemId
+    var shouldBeDisabled: Boolean?
+}
+
+@JsPlainObject
+external interface SetItemExpansionParameters {
+    var itemId: TreeViewItemId
+    var event: react.dom.events.SyntheticEvent<*, *>?
+    var shouldBeExpanded: Boolean?
+}
+
+@JsPlainObject
+external interface SetItemSelectionParameters {
+    var itemId: TreeViewItemId
+    var event: react.dom.events.SyntheticEvent<*, *>?
+
+    /**
+     * If `true` the item will be selected. If `false` the item will be deselected. If not defined, the item's
+     * selection status will be toggled.
+     */
+    var shouldBeSelected: Boolean?
+
+    /**
+     * If `true`, the other already selected items will remain selected, otherwise, they will be deselected.
+     * Only relevant when `multiSelect` is `true`.
+     */
+    var keepExistingSelection: Boolean?
+}
+
+@JsPlainObject
+external interface AddItemsParameters<R : Any> {
+    /**
+     * The items to add to the tree.
+     */
+    var items: js.array.ReadonlyArray<R>
+
+    /**
+     * The id of the item to add the items to.
+     * If `null` or not defined, the items are added at the root level.
+     * @default null
+     */
+    var parentId: TreeViewItemId?
+
+    /**
+     * The position in the parent's children at which the items are inserted.
+     * If not defined, the items are appended after the existing children.
+     */
+    var index: Int?
+}
+
+/**
+ * The object `apiRef` points at once the Tree View has rendered: the API of `MinimalTreeViewStore`, shared by
+ * `SimpleTreeView` and `RichTreeView` (`TreeViewPublicAPI<TStore>` upstream).
+ */
+external interface TreeViewPublicAPI<out R : Any> {
+    fun getItem(itemId: TreeViewItemId): R
+    fun getItemDOMElement(itemId: TreeViewItemId): web.html.HTMLElement?
+    fun getItemOrderedChildrenIds(itemId: TreeViewItemId?): js.array.ReadonlyArray<TreeViewItemId>
+    fun getItemTree(): js.array.ReadonlyArray<R>
+    fun getParentId(itemId: TreeViewItemId): TreeViewItemId?
+    fun setIsItemDisabled(parameters: SetIsItemDisabledParameters)
+    fun isItemExpanded(itemId: TreeViewItemId): Boolean
+    fun setItemExpansion(parameters: SetItemExpansionParameters)
+    fun focusItem(event: react.dom.events.SyntheticEvent<*, *>?, itemId: TreeViewItemId)
+    fun getItemSelection(itemId: TreeViewItemId): TreeViewItemSelectionStatus
+    fun setItemSelection(parameters: SetItemSelectionParameters)
+}
+
+/**
+ * The API of `RichTreeViewStore`: everything of [TreeViewPublicAPI] plus label editing and imperative item updates.
+ */
+external interface RichTreeViewPublicAPI<R : Any> : TreeViewPublicAPI<R> {
+    fun setEditedItem(itemId: TreeViewItemId?)
+    fun updateItemLabel(itemId: TreeViewItemId, label: String)
+    fun addItems(parameters: AddItemsParameters<R>)
+}
+""".trimIndent()
+
+// language=kotlin
+private val TREE_VIEW_USE_TREE_VIEW_API_REF = """
+/**
+ * Creates the ref to pass to the `apiRef` prop of the `RichTreeView` component.
+ */
+external fun <R : Any> useRichTreeViewApiRef(): react.RefObject<RichTreeViewPublicAPI<R>>
+
+/**
+ * Creates the ref to pass to the `apiRef` prop of the `SimpleTreeView` component.
+ */
+external fun useSimpleTreeViewApiRef(): react.RefObject<TreeViewPublicAPI<SimpleTreeViewItem>>
+""".trimIndent()
+
+// TreeViewCssVars / TreeItemDataAttributes:
+//  Set by the runtime only — `internals/hooks/useTreeViewRootProps.js` puts `--TreeView-itemChildrenIndentation`
+//  on the root's style, `useTreeItem/useTreeItem.js` (`getRootProps`) puts `--TreeView-itemDepth` / `--TreeView-itemHeight`
+//  on every item root and (`getContentProps`) `data-<status>=""` on the content — so no `.d.ts` declares them. Styles
+//  that read the custom properties or select on the attributes get named constants instead of string literals.
+// language=kotlin
+private val TREE_VIEW_CSS_VARS = """
+/**
+ * The CSS custom properties the Tree View sets at runtime, for styles that need to read them: the root carries
+ * [itemChildrenIndentation] (`useTreeViewRootProps`), every item root carries [itemDepth] and, when the `itemHeight`
+ * prop is set, [itemHeight] (`useTreeItem`). Nothing in the package declares them, so they are listed here.
+ */
+object TreeViewCssVars {
+    /**
+     * `--TreeView-itemChildrenIndentation`: the `itemChildrenIndentation` prop as a length (`24` becomes `24px`).
+     */
+    val itemChildrenIndentation: web.cssom.CustomPropertyName<web.cssom.Length> =
+        web.cssom.CustomPropertyName("--TreeView-itemChildrenIndentation")
+
+    /**
+     * `--TreeView-itemDepth`: the zero-based depth of the item, a plain number.
+     */
+    val itemDepth: web.cssom.CustomPropertyName<Double> =
+        web.cssom.CustomPropertyName("--TreeView-itemDepth")
+
+    /**
+     * `--TreeView-itemHeight`: the `itemHeight` prop as a length; only set when the prop is.
+     */
+    val itemHeight: web.cssom.CustomPropertyName<web.cssom.Length> =
+        web.cssom.CustomPropertyName("--TreeView-itemHeight")
+}
+
+/**
+ * The `data-*` attributes `useTreeItem` puts on the item's content element while the matching status is on
+ * (`data-expanded=""`, …), for attribute selectors in styles and DOM queries.
+ */
+object TreeItemDataAttributes {
+    const val expanded: String = "data-expanded"
+    const val selected: String = "data-selected"
+    const val focused: String = "data-focused"
+    const val disabled: String = "data-disabled"
+    const val editing: String = "data-editing"
+    const val editable: String = "data-editable"
+}
+""".trimIndent()
+
+// A hand-written tree-view file: `annotations` is the `@file:` line it needs, if any (a `@file:JsModule` for the
+// hooks — their `external fun`s are then verified by RuntimeBindings against the package's exports).
+private data class TreeViewHandWrittenFile(
+    val name: String,
+    val body: String,
+    val annotations: String = "",
+)
+
 // Tree-view-only type overrides, consulted by `kotlinType` before every shared table (see BASE_UI_KNOWN_TYPES for
 // the mechanism). Keyed by the exact upstream type string, so a mis-typed key silently falls back to `Props?` —
 // check the regenerated `*.types.kt` after touching it.
@@ -406,6 +569,12 @@ private val TREE_VIEW_KNOWN_TYPES = mapOf(
     "SlotComponentProps<'ul', {}, {}>" to "react.dom.html.HTMLAttributes<web.html.HTMLUListElement>",
     "SlotComponentProps<'input', {}, {}>" to "react.dom.html.InputHTMLAttributes<web.html.HTMLInputElement>",
     "SlotComponentPropsFromProps<TransitionProps, {}, {}>" to "mui.material.transitions.TransitionProps",
+    // `apiRef`: `React.RefObject<Partial<TreeViewPublicAPI<…Store>> | undefined>` upstream; the API object is
+    // written out in TREE_VIEW_PUBLIC_API, and `R` is `RichTreeViewProps<R>`'s own parameter.
+    "RichTreeViewApiRef" to "react.RefObject<RichTreeViewPublicAPI<R>>",
+    "SimpleTreeViewApiRef" to "react.RefObject<TreeViewPublicAPI<SimpleTreeViewItem>>",
+    // `UseTreeItemReturnValue.publicAPI`: the hook serves both components, so only the shared base is promised.
+    "TreeViewPublicAPI<TStore>" to "TreeViewPublicAPI<*>",
 )
 
 // PickerValidDate:
@@ -968,32 +1137,18 @@ private fun RuntimeBindings.generateTreeViewDeclarations(
     directories.asSequence()
         .filter { it.name.isComponentName() || it.name.isHookName() }
         .filter { !it.resolve("${it.name}.d.ts").readText().startsWith("export { default } from ") }
-        .filter {
-            it.name !in setOf(
-                "TreeItem2", "TreeItem2Icon", "TreeItem2Provider", "useTreeItem2",
-            )
-        }
         .onEach {
             when (it.name) {
-                "TreeItem" -> {
-                    val contentFile = it.resolve("${it.name}Content.d.ts")
-                    generate(contentFile, targetDir, Package.treeView)
-
-                    val typesFile = it.resolve("${it.name}.types.d.ts")
-                    generate(typesFile, targetDir, Package.treeView)
-                }
-
-                // v9.12 rewrote TreeItemProvider.d.ts's return annotation to `React.JSX.Element`, which
-                // makes `findComponent` recognise it. Its props live in the sibling `.types.d.ts`, so that
-                // has to be generated too or the emitted `FC<TreeItemProviderProps>` has no such type.
-                // TreeItemLoader (9.13+) likewise exports its props and owner state from a sibling file.
-                "TreeView", "SimpleTreeView", "RichTreeView", "TreeItemLabelInput", "TreeItemProvider", "TreeItemLoader", "TreeItem2DragAndDropOverlay" -> {
+                // These components keep their props in a sibling `.types.d.ts`, which has to be generated too
+                // or the emitted `FC<…Props>` has no such type. (v9.12 rewrote TreeItemProvider.d.ts's return
+                // annotation to `React.JSX.Element`, which makes `findComponent` recognise it; TreeItemLoader,
+                // 9.13+, likewise exports its props and owner state from a sibling file.)
+                "TreeItem", "SimpleTreeView", "RichTreeView", "TreeItemLabelInput", "TreeItemProvider", "TreeItemLoader" -> {
                     val typesFile = it.resolve("${it.name}.types.d.ts")
                     generate(typesFile, targetDir, Package.treeView)
                 }
             }
         }
-        .filter { it.name != "TreeItem2DragAndDropOverlay" }
         .map { it.resolve("${it.name}.d.ts") }
         .forEach { generate(it, targetDir, Package.treeView) }
 
@@ -1027,18 +1182,25 @@ private fun RuntimeBindings.generateTreeViewDeclarations(
     }
 
     val handWritten = listOf(
-        "Stubs" to TREE_VIEW_STUBS,
-        "TreeViewExpansionTrigger" to TREE_VIEW_EXPANSION_TRIGGER,
-        "TreeViewSelectionValue" to TREE_VIEW_SELECTION_VALUE,
-        "SlotComponentProps" to TREE_VIEW_SLOT_COMPONENT_PROPS,
-        "RichTreeViewItems" to TREE_VIEW_RICH_TREE_VIEW_ITEMS,
-        "RichTreeViewLoading" to TREE_VIEW_RICH_TREE_VIEW_LOADING,
-        "TreeViewCancellableEvent" to TREE_VIEW_CANCELLABLE_EVENT,
+        TreeViewHandWrittenFile("Stubs", TREE_VIEW_STUBS),
+        TreeViewHandWrittenFile("TreeViewExpansionTrigger", TREE_VIEW_EXPANSION_TRIGGER),
+        TreeViewHandWrittenFile("TreeViewSelectionValue", TREE_VIEW_SELECTION_VALUE),
+        TreeViewHandWrittenFile("SlotComponentProps", TREE_VIEW_SLOT_COMPONENT_PROPS),
+        TreeViewHandWrittenFile("RichTreeViewItems", TREE_VIEW_RICH_TREE_VIEW_ITEMS),
+        TreeViewHandWrittenFile("RichTreeViewLoading", TREE_VIEW_RICH_TREE_VIEW_LOADING),
+        TreeViewHandWrittenFile("TreeViewCancellableEvent", TREE_VIEW_CANCELLABLE_EVENT),
+        TreeViewHandWrittenFile("TreeViewPublicAPI", TREE_VIEW_PUBLIC_API),
+        TreeViewHandWrittenFile("TreeViewCssVars", TREE_VIEW_CSS_VARS),
+        TreeViewHandWrittenFile(
+            "useTreeViewApiRef",
+            TREE_VIEW_USE_TREE_VIEW_API_REF,
+            annotations = moduleDeclaration(Package.treeView, "hooks", null),
+        ),
     )
 
-    handWritten.forEach { (name, body) ->
+    handWritten.forEach { (name, body, annotations) ->
         targetDir.resolve("$name.kt")
-            .writeGenerated(fileContent(body = body, pkg = Package.treeView))
+            .writeGenerated(fileContent(annotations = annotations, body = body, pkg = Package.treeView))
     }
 }
 
@@ -1831,7 +1993,7 @@ private fun fileContent(
         .plus(addedImports)
         .distinct()
         .let { retainReferencedImports(it, resolvedBody, pkg) }
-        .let { collapseStarImports(it, threshold = 7) }
+        .let { collapseStarImports(it, threshold = 5) }
         .let(::inIdeaImportOrder)
         .map { "import $it" }
         .joinToString("\n")
@@ -2043,6 +2205,8 @@ private val IMPORTED_FQNS = listOf(
     "web.cssom.BorderRadius",
     "web.cssom.ClassName",
     "web.cssom.Color",
+    "web.cssom.CustomPropertyName",
+    "web.cssom.Length",
     "web.cssom.MediaQueryList",
     "web.cssom.Transition",
     "web.dom.Element",
