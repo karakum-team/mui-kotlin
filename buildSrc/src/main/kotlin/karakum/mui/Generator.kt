@@ -1,6 +1,6 @@
 package karakum.mui
 
-import karakum.mui.adapters.OWN_SLOTS_AND_SLOT_PROPS_COMPONENTS
+import karakum.mui.adapters.treeview.adaptUseTreeItemAugmentations
 import java.io.File
 
 private const val GENERATOR_COMMENT = "Automatically generated - do not modify!"
@@ -1006,20 +1006,23 @@ private fun RuntimeBindings.generateTreeViewDeclarations(
     // (TREE_VIEW_RICH_TREE_VIEW_ITEMS / TREE_VIEW_RICH_TREE_VIEW_LOADING), so `RichTreeViewSlots` and
     // `RichTreeViewSlotProps` keep both of their upstream parents.
     sequenceOf(
-        "internals/TreeViewProvider/TreeViewStyleContext.d.ts",
-        "TreeItemIcon/TreeItemIcon.types.d.ts",
-        "useTreeItem/useTreeItem.types.d.ts",
+        "internals/TreeViewProvider/TreeViewStyleContext.d.ts" to null,
+        "TreeItemIcon/TreeItemIcon.types.d.ts" to null,
+        // The slot own-props receive the members the selection and label-editing item plugins add by declaration
+        // merging (`declare module '@mui/x-tree-view/useTreeItem'`); `adaptUseTreeItemAugmentations` splices them
+        // in, see adapters/treeview/UseTreeItem.kt.
+        "useTreeItem/useTreeItem.types.d.ts" to { content: String -> adaptUseTreeItemAugmentations(content, typesDir) },
         // The public model types (`@mui/x-tree-view/models`): `TreeViewSelectionPropagation` plus the
         // `TreeViewItemSelectionStatus` / `TreeViewItemsReorderingAction` / `TreeViewDOMStructure` string unions,
         // which the store parameters and the public API refer to. `TreeViewItemId` (a `string` alias, kept in
         // TREE_VIEW_STUBS), `TreeViewDefaultItemModelProperties` / `TreeViewValidItem` (object-type aliases) and
         // `models/events.d.ts` (an intersection alias) have nothing the converter can turn into a declaration
         // and fall out on their own.
-        "models/items.d.ts",
-        "models/domStructure.d.ts",
-    ).forEach { rel ->
+        "models/items.d.ts" to null,
+        "models/domStructure.d.ts" to null,
+    ).forEach { (rel, preprocess) ->
         val file = typesDir.resolve(rel)
-        if (file.exists()) generate(file, targetDir, Package.treeView, typesOnly = true)
+        if (file.exists()) generate(file, targetDir, Package.treeView, typesOnly = true, preprocess = preprocess)
     }
 
     val handWritten = listOf(
@@ -1992,6 +1995,7 @@ private val IMPORTED_FQNS = listOf(
     "react.StateSetter",
 
     // react.dom.aria
+    "react.dom.aria.AriaChecked",
     "react.dom.aria.AriaRole",
 
     // react.dom.events (order doesn't matter due to negative-lookahead in replace)

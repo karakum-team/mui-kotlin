@@ -316,6 +316,8 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.FormHTMLAttributes<HTMLFormElement>" to "react.dom.html.FormHTMLAttributes<web.html.HTMLFormElement>",
 
     "NonNullable<React.HTMLAttributes<any>['tabIndex']>" to "Int",
+    // x-tree-view `UseTreeItemCheckboxSlotOwnProps.tabIndex?: -1`: a literal, the checkbox is never tabbable.
+    "-1" to "Int /* -1 */",
     "React.InputHTMLAttributes<unknown>['type']" to "InputType",
     "React.InputHTMLAttributes<HTMLInputElement>['type']" to "InputType",
     "React.ButtonHTMLAttributes<HTMLButtonElement>['type']" to "ButtonType",

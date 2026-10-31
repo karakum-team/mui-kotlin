@@ -9,12 +9,15 @@ import react.PropsWithChildren
 import react.ReactNode
 import react.Ref
 import react.RefCallback
+import react.dom.aria.AriaChecked
+import react.dom.events.ChangeEventHandler
 import react.dom.events.FocusEventHandler
 import react.dom.events.KeyboardEventHandler
 import react.dom.events.MouseEventHandler
 import web.dom.Element
 import web.dom.ElementId
 import web.html.HTMLElement
+import web.html.HTMLInputElement
 import web.html.HTMLLIElement
 
 external interface UseTreeItemParameters : PropsWithChildren {
@@ -60,7 +63,7 @@ external interface UseTreeItemContextProviderProps : Props {
     var id: ElementId?
 }
 
-external interface UseTreeItemRootSlotPropsFromUseTreeItem {
+external interface UseTreeItemRootSlotPropsFromUseTreeItem : Props {
     var role: Union /* 'treeitem' */
 
     var tabIndex: Int
@@ -82,9 +85,16 @@ external interface UseTreeItemRootSlotPropsFromUseTreeItem {
     var style: CSSProperties
 }
 
-external interface UseTreeItemRootSlotOwnProps : Props
+external interface UseTreeItemRootSlotOwnProps :
+    UseTreeItemRootSlotPropsFromUseTreeItem {
+    @JsName("aria-checked")
+    var ariaChecked: AriaChecked
 
-external interface UseTreeItemContentSlotPropsFromUseTreeItem {
+    @JsName("aria-selected")
+    var ariaSelected: Boolean
+}
+
+external interface UseTreeItemContentSlotPropsFromUseTreeItem : Props {
     var onClick: MouseEventHandler<Element>
 
     var onMouseDown: MouseEventHandler<Element>
@@ -108,7 +118,7 @@ external interface UseTreeItemContentSlotPropsFromUseTreeItem {
     var dataEditable: Union? /* '' */
 }
 
-external interface UseTreeItemContentSlotOwnProps : Props
+external interface UseTreeItemContentSlotOwnProps : UseTreeItemContentSlotPropsFromUseTreeItem
 
 external interface UseTreeItemIconContainerSlotOwnProps : Props {
     var onClick: MouseEventHandler<Element>
@@ -118,13 +128,27 @@ external interface UseTreeItemLabelSlotOwnProps : PropsWithChildren {
     override var children: ReactNode?
 
     var onDoubleClick: MouseEventHandler<Element>
+
+    var editable: Boolean?
 }
 
-external interface UseTreeItemLabelInputSlotOwnProps : Props
+external interface UseTreeItemLabelInputSlotOwnProps : TreeItemLabelInputProps
 
 external interface UseTreeItemCheckboxSlotOwnProps : Props {
     @JsName("aria-hidden")
     var ariaHidden: Boolean
+
+    var visible: Boolean?
+
+    var checked: Boolean?
+
+    var indeterminate: Boolean?
+
+    var disabled: Boolean?
+
+    var tabIndex: Int? /* -1 */
+
+    var onChange: ChangeEventHandler<HTMLInputElement, *>?
 }
 
 external interface UseTreeItemGroupTransitionSlotOwnProps : PropsWithChildren {

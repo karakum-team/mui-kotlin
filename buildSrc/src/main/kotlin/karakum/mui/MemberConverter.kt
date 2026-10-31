@@ -196,6 +196,8 @@ private val ARIA_ATTR_TYPES = mapOf(
     "aria-errormessage" to "ElementId",
     "aria-flowto" to "ElementId",
     "aria-labelledby" to "ElementId",
+    // Tri-state attribute (`true | false | 'mixed'`)
+    "aria-checked" to "react.dom.aria.AriaChecked",
     // Boolean attributes
     "aria-atomic" to "Boolean",
     "aria-busy" to "Boolean",

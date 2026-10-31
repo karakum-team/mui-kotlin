@@ -1267,6 +1267,15 @@ private val EXCLUDED_PREFIXES = setOf(
     "Header",
 )
 
+// Empty-body `@mui/*` interfaces that keep the parents they declare, because those parents are generated and the
+// inheritance is the whole declaration: `UseTreeItemContentSlotOwnProps extends
+// UseTreeItemContentSlotPropsFromUseTreeItem` (upstream as is) and `UseTreeItemLabelInputSlotOwnProps extends
+// TreeItemLabelInputProps` (written that way by `adaptUseTreeItemAugmentations`, adapters/treeview/UseTreeItem.kt).
+private val KEEP_EMPTY_BODY_PARENTS = setOf(
+    "UseTreeItemContentSlotOwnProps",
+    "UseTreeItemLabelInputSlotOwnProps",
+)
+
 private fun findAdditionalProps(
     propsName: String,
     content: String,
@@ -1294,7 +1303,10 @@ private fun findAdditionalProps(
             .substringBefore("\n")
             .substringBefore("<")
 
-        val propsLike = interfaceName.endsWith("Props")
+        // x-tree-view spells the bags `useTreeItem` builds for its slots `UseTreeItem<Slot>SlotPropsFromUseTreeItem`;
+        // they are spread onto the slot element, so they are props bags like any `*Props`, and the
+        // `UseTreeItem<Slot>SlotOwnProps` that extend them stay `react.Props`-based through them.
+        val propsLike = interfaceName.endsWith("Props") || interfaceName.endsWith("PropsFromUseTreeItem")
         // TODO: check
         if (propsLike && interfaceName == propsName && interfaceName != "UseButtonProps")
             return@mapNotNull null
@@ -1353,10 +1365,10 @@ private fun findAdditionalProps(
                     // BaseDatePickerSlots, …) and keeping them yields unresolved references. A props-like
                     // interface still needs a `react.Props` base so any `FC<…Props>` built on it satisfies
                     // the `P : Props` bound.
-                    // EXCEPTIONS: `keepEmptyBodyParents` for the whole Base UI target, plus a whitelisted
-                    // v9 aggregator whose parents ARE generated
-                    // (`ExportedValidateDateProps extends DayValidationProps, …` from
-                    // internals/models/validation) — both keep their real inheritance.
+                    // EXCEPTIONS: `keepEmptyBodyParents` for the whole Base UI target, the names in
+                    // KEEP_EMPTY_BODY_PARENTS, plus a whitelisted v9 aggregator whose parents ARE generated but
+                    // rejected as parents elsewhere (`ExportedValidateDateProps extends DayValidationProps, …`
+                    // from internals/models/validation) — all keep their real inheritance.
                     val base = when {
                         // The 4 validation parents are generated (internals/models/validation.d.ts → validation.kt)
                         // and carry minDate/maxDate/shouldDisable*; keep this aggregate's inheritance.
@@ -1380,7 +1392,7 @@ private fun findAdditionalProps(
                         // (BaseUi.kt) produces from a verbatim alias, which name a *specific* parent
                         // (`MenuCheckboxItemChangeEventDetails` aliases `MenuRoot.ChangeEventDetails`, not
                         // the shared base) — reading it means they keep `preventUnmountOnClose`.
-                        keepEmptyBodyParents
+                        keepEmptyBodyParents || interfaceName in KEEP_EMPTY_BODY_PARENTS
                             -> findParentType(body)
                             ?.let { " : $it" }
                             ?: if (propsLike) " : react.Props" else ""
