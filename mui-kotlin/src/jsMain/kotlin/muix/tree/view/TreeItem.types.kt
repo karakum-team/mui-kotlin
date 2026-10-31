@@ -58,7 +58,7 @@ external interface TreeItemProps :
     /**
      * Callback fired when the item root is blurred.
      */
-    var onBlur: Any? /* TreeViewCancellableEventHandler<React.FocusEvent<HTMLLIElement>> */
+    var onBlur: FocusEventHandler<HTMLLIElement>?
 
     /**
      * Callback fired when a key is pressed on the keyboard and the tree is in focus.

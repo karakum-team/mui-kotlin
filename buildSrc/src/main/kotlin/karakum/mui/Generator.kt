@@ -14,7 +14,9 @@ private val DEFAULT_IMPORTS = listOf(
     "ReadonlyArray" to "js.array.ReadonlyArray",
     "Record<" to "js.objects.Record",
     "recordOf(" to "js.objects.recordOf",
-    "unsafeCast(" to "js.reflect.unsafeCast",
+    // Bare name, not `unsafeCast(`: a call with an explicit type argument (`unsafeCast<T>(x)`) must import it
+    // too. Comment-only mentions do not keep the import — see `retainReferencedImports`.
+    "unsafeCast" to "js.reflect.unsafeCast",
     "Tuple2" to "js.array.Tuple2",
     "Void" to "js.core.Void",
 
@@ -352,6 +354,34 @@ external interface RichTreeViewLoadingSlotOwnerState {
      */
     var itemId: TreeViewItemId?
 }
+""".trimIndent()
+
+// TreeViewCancellableEvent:
+//  `models/events.d.ts` types every handler the tree item calls as `TreeViewCancellableEventHandler<E>`, i.e. a
+//  handler of `E & { defaultMuiPrevented?: boolean }`. `kotlinType` emits those members as plain React handlers (see
+//  TREE_VIEW_CANCELLABLE_EVENT_HANDLER in KotlinType.kt); the flag itself is reached through this extension.
+// language=kotlin
+private val TREE_VIEW_CANCELLABLE_EVENT = """
+/**
+ * The flag MUI reads on the events it hands to the tree item's own handlers (`TreeViewCancellableEvent` in
+ * `@mui/x-tree-view/models`). Set [defaultMuiPrevented] from a handler to keep the default Tree View behaviour
+ * from running after it. Honoured by `useTreeItem` for the root `onFocus` / `onBlur` / `onKeyDown`, the content
+ * `onClick` / `onMouseDown`, the icon container `onClick` and the label `onDoubleClick`; by the selection plugin
+ * for the checkbox `onChange`; by the label editing plugin for the label input `onKeyDown` / `onBlur`; and by the
+ * focus and keyboard navigation plugins for the Tree View root's `onFocus` / `onBlur` / `onKeyDown`.
+ */
+external interface TreeViewCancellableEvent {
+    var defaultMuiPrevented: Boolean?
+}
+
+/**
+ * `defaultMuiPrevented` of an event received by a Tree View handler, see [TreeViewCancellableEvent].
+ */
+inline var react.dom.events.SyntheticEvent<*, *>.defaultMuiPrevented: Boolean?
+    get() = unsafeCast<TreeViewCancellableEvent>(this).defaultMuiPrevented
+    set(value) {
+        unsafeCast<TreeViewCancellableEvent>(this).defaultMuiPrevented = value
+    }
 """.trimIndent()
 
 // Tree-view-only type overrides, consulted by `kotlinType` before every shared table (see BASE_UI_KNOWN_TYPES for
@@ -999,6 +1029,7 @@ private fun RuntimeBindings.generateTreeViewDeclarations(
         "SlotComponentProps" to TREE_VIEW_SLOT_COMPONENT_PROPS,
         "RichTreeViewItems" to TREE_VIEW_RICH_TREE_VIEW_ITEMS,
         "RichTreeViewLoading" to TREE_VIEW_RICH_TREE_VIEW_LOADING,
+        "TreeViewCancellableEvent" to TREE_VIEW_CANCELLABLE_EVENT,
     )
 
     handWritten.forEach { (name, body) ->

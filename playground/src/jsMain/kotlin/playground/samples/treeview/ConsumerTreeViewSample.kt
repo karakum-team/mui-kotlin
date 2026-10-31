@@ -93,9 +93,9 @@ val ConsumerTreeViewSample: Sample = Sample(
         ),
     ),
     notes = "Port of a downstream application's tree view wrapper over RichTreeView, workarounds included " +
-            "(samples/treeview/consumer/RichTreeView.ext.kt mirrors the original wrapper's extension file; it " +
-            "knowingly uses asDynamic() outside MissedWrappers.kt until the generator exposes " +
-            "defaultMuiPrevented). Only running this proves that the hand-written store parameters " +
+            "(samples/treeview/consumer/RichTreeView.ext.kt mirrors the original wrapper's extension file; its " +
+            "one asDynamic() outside MissedWrappers.kt is the application-specific data-unselectable attribute). " +
+            "Only running this proves that the hand-written store parameters " +
             "(selectionPropagation, items, item callbacks) reach MUI, that the custom checkbox / icon / label slots " +
             "render, that MUI sets the --TreeView-* custom properties and data-* attributes the styles rely on, and " +
             "that the public API drives selection: selecting Aircraft A cascades to A-1 and A-2, and deselecting A-1 " +

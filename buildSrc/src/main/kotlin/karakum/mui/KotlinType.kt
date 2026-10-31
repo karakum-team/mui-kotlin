@@ -314,9 +314,6 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.LiHTMLAttributes<HTMLLIElement>" to "react.dom.html.LiHTMLAttributes<web.html.HTMLLIElement>",
     "React.FieldsetHTMLAttributes<HTMLFieldSetElement>" to "react.dom.html.FieldsetHTMLAttributes<web.html.HTMLFieldSetElement>",
     "React.FormHTMLAttributes<HTMLFormElement>" to "react.dom.html.FormHTMLAttributes<web.html.HTMLFormElement>",
-    "TreeViewCancellableEventHandler<React.KeyboardEvent<HTMLLIElement>>" to "react.dom.events.KeyboardEventHandler<web.html.HTMLLIElement>",
-    "TreeViewCancellableEventHandler<React.KeyboardEvent<HTMLInputElement>>" to "react.dom.events.KeyboardEventHandler<web.html.HTMLInputElement>",
-    "TreeViewCancellableEventHandler<React.FocusEvent<HTMLInputElement>>" to "react.dom.events.FocusEventHandler<web.html.HTMLInputElement>",
 
     "NonNullable<React.HTMLAttributes<any>['tabIndex']>" to "Int",
     "React.InputHTMLAttributes<unknown>['type']" to "InputType",
@@ -421,6 +418,23 @@ internal fun kotlinType(
         return kotlinType(unwrapRedundantParens(type.removeSuffix(" | undefined")), name, knownTypes)
 
     knownTypes[type]?.also { return it }
+
+    // x-tree-view `TreeViewCancellableEventHandler<E> = (event: E & TreeViewCancellableEvent) => void`: a plain
+    // React handler whose event additionally carries `defaultMuiPrevented`. The intersection has no Kotlin
+    // counterpart, and a refined event type would make the handler non-forwardable (function parameters are
+    // contravariant: `div { onClick = props.onClick }` needs the plain type) and would block `TreeItemProps` from
+    // ever extending `HTMLAttributes<HTMLLIElement>` again (`var` override types must match). So the member is the
+    // plain `react.dom.events.<E>Handler<T>`, and the flag is read and set through the `defaultMuiPrevented`
+    // extension of TREE_VIEW_CANCELLABLE_EVENT (Generator.kt). A `React.MouseEvent` without a target type is a
+    // handler on any element.
+    TREE_VIEW_CANCELLABLE_EVENT_HANDLER.matchEntire(type)?.let { match ->
+        val event = match.groupValues[1]
+        val target = match.groupValues[2].takeIf { it.isNotEmpty() }?.let { "web.html.$it" } ?: "web.dom.Element"
+        return if (event == "ChangeEvent")
+            "react.dom.events.ChangeEventHandler<$target, *>"
+        else
+            "react.dom.events.${event}Handler<$target>"
+    }
 
     if (type in KNOWN_TYPES)
         return type
@@ -775,6 +789,9 @@ internal fun kotlinType(
 
     return "Any? /* $type */"
 }
+
+private val TREE_VIEW_CANCELLABLE_EVENT_HANDLER =
+    Regex("""^TreeViewCancellableEventHandler<React\.(\w+Event)(?:<(\w+)>)?>$""")
 
 // Member names with a dedicated nested-interface handler in kotlinType — their inline-object value
 // must NOT be widened to `Any?` by the generic `{`-fallback.

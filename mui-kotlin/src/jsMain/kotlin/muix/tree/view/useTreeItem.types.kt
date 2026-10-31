@@ -9,7 +9,12 @@ import react.PropsWithChildren
 import react.ReactNode
 import react.Ref
 import react.RefCallback
+import react.dom.events.FocusEventHandler
+import react.dom.events.KeyboardEventHandler
+import react.dom.events.MouseEventHandler
+import web.dom.Element
 import web.dom.ElementId
+import web.html.HTMLElement
 import web.html.HTMLLIElement
 
 external interface UseTreeItemParameters : PropsWithChildren {
@@ -68,11 +73,11 @@ external interface UseTreeItemRootSlotPropsFromUseTreeItem {
     @JsName("aria-disabled")
     var ariaDisabled: Boolean
 
-    var onFocus: Any? /* TreeViewCancellableEventHandler<React.FocusEvent<HTMLElement>> */
+    var onFocus: FocusEventHandler<HTMLElement>
 
-    var onBlur: Any? /* TreeViewCancellableEventHandler<React.FocusEvent<HTMLElement>> */
+    var onBlur: FocusEventHandler<HTMLElement>
 
-    var onKeyDown: Any? /* TreeViewCancellableEventHandler<React.KeyboardEvent<HTMLElement>> */
+    var onKeyDown: KeyboardEventHandler<HTMLElement>
 
     var style: CSSProperties
 }
@@ -80,9 +85,9 @@ external interface UseTreeItemRootSlotPropsFromUseTreeItem {
 external interface UseTreeItemRootSlotOwnProps : Props
 
 external interface UseTreeItemContentSlotPropsFromUseTreeItem {
-    var onClick: Any? /* TreeViewCancellableEventHandler<React.MouseEvent> */
+    var onClick: MouseEventHandler<Element>
 
-    var onMouseDown: Any? /* TreeViewCancellableEventHandler<React.MouseEvent> */
+    var onMouseDown: MouseEventHandler<Element>
 
     @JsName("data-expanded")
     var dataExpanded: Union? /* '' */
@@ -106,13 +111,13 @@ external interface UseTreeItemContentSlotPropsFromUseTreeItem {
 external interface UseTreeItemContentSlotOwnProps : Props
 
 external interface UseTreeItemIconContainerSlotOwnProps : Props {
-    var onClick: Any? /* TreeViewCancellableEventHandler<React.MouseEvent> */
+    var onClick: MouseEventHandler<Element>
 }
 
 external interface UseTreeItemLabelSlotOwnProps : PropsWithChildren {
     override var children: ReactNode?
 
-    var onDoubleClick: Any? /* TreeViewCancellableEventHandler<React.MouseEvent> */
+    var onDoubleClick: MouseEventHandler<Element>
 }
 
 external interface UseTreeItemLabelInputSlotOwnProps : Props

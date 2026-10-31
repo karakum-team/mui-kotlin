@@ -268,7 +268,10 @@ internal fun String.toFunctionType(
 private fun String.isKotlinFunctionType(): Boolean {
     val code = replace(COMMENT_SPAN, "")
 
+    // `&`: an intersection parameter (`(event: E & TreeViewCancellableEvent) => void`, x-tree-view
+    // `models/events.d.ts`) is as foreign to a Kotlin function type as a union is.
     return '|' !in code &&
+            '&' !in code &&
             !code.contains(" extends ") &&
             !NON_KOTLIN_KEYWORD.containsMatchIn(code)
 }

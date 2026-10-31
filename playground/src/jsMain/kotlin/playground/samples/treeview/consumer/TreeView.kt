@@ -10,6 +10,7 @@ import muix.tree.view.TreeViewExpansionTrigger
 import muix.tree.view.TreeViewSelectionPropagation
 import muix.tree.view.TreeViewSelectionValue
 import muix.tree.view.asMultiple
+import muix.tree.view.defaultMuiPrevented
 import react.FC
 import react.ReactNode
 import react.RefObject

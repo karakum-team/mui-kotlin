@@ -6,7 +6,6 @@ import muix.tree.view.TreeItemProps
 import muix.tree.view.TreeItemSlotProps
 import muix.tree.view.TreeItemSlots
 import react.Props
-import react.dom.events.KeyboardEvent
 import react.dom.events.KeyboardEventHandler
 import react.dom.events.SyntheticEvent
 import react.dom.html.HTMLAttributes
@@ -18,7 +17,7 @@ import web.html.HTMLLIElement
 // commit that fixes the corresponding generator gap, so the history of this file shows the consumer's
 // workarounds disappearing one by one.
 //
-// `asDynamic()` is knowingly used here (`defaultMuiPrevented`, `dataUnselectable`) although playground/README.md
+// `asDynamic()` is knowingly used here (`dataUnselectable`) although playground/README.md
 // confines it to `MissedWrappers.kt`: the point of this port is to reproduce the workarounds exactly as the
 // original wrapper has them, until the generator makes them unnecessary.
 
@@ -59,13 +58,6 @@ internal fun TreeItemSlotProps(
         this.content = content
         this.label = label
         this.checkbox = checkbox
-    }
-
-// W5: `TreeViewCancellableEvent.defaultMuiPrevented` is not exposed on the handler's event.
-internal var KeyboardEvent<HTMLLIElement>.defaultMuiPrevented: Boolean
-    get() = asDynamic().defaultMuiPrevented
-    set(value) {
-        asDynamic().defaultMuiPrevented = value
     }
 
 // W12: application-specific attribute, stays.
