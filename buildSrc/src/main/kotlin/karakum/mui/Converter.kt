@@ -17,9 +17,8 @@ internal fun convertClasses(
     //    `export interface PickersOutlinedInputClasses extends PickersInputBaseClasses { notchedOutline }`
     //    — a bare identifier naming a sibling this pass also emits, so it can survive as a real Kotlin
     //    supertype and the child keeps the base's 15 class keys. x-tree-view's
-    //    `extends Omit<TreeViewClasses, '…'>` does NOT survive: `Omit<…>` is not a bare identifier, and
-    //    `TreeViewClasses` lives under `internals/` and is not emitted by this classes pass. The child's
-    //    own keys still survive (RichTreeView adds `itemLoader` in 9.13), independently of its parent.
+    //    `extends Omit<TreeViewClasses, '…'>` is not a bare identifier and `TreeViewClasses` lives under
+    //    `internals/`, outside this pass — that one is flattened instead, see [flattenOmittedParent].
     //    Opt-in prevents an unsupported parent from leaking into the classes declarations.
     //  - `override`. `PickersOutlinedInputClasses` RE-declares `notchedOutline`, which the base already
     //    has; without `override` Kotlin reports VIRTUAL_MEMBER_HIDDEN.
@@ -31,7 +30,16 @@ internal fun convertClasses(
     val content = definitionFile.readText()
         .replace("\r\n", "\n")
 
-    val (parent, source) = findClassesDeclaration(classesName, content) { it in siblings }
+    val declaration = findClassesDeclaration(classesName, content) { it in siblings }
+    val parent = declaration.parent
+
+    // `extends Omit<Base, 'k' | …>` cannot be a Kotlin supertype, but every key it keeps names a class of the
+    // runtime object — `generateUtilityClasses('MuiRichTreeView', ['root', 'item', …])` lists exactly them — so
+    // the base's keys are flattened into the child rather than dropped along with the parent.
+    val source = sequenceOf(
+        declaration.omittedParent?.let { flattenOmittedParent(it, definitionFile, content, declaration.source) },
+        declaration.source.takeIf { it.isNotEmpty() },
+    ).filterNotNull().joinToString("\n")
 
     if (source.isEmpty()) {
         // A parent that passed the gate is a generated sibling, so it is kept even when the child adds
@@ -44,10 +52,8 @@ internal fun convertClasses(
                     "external val ${classesName.replaceFirstChar(Char::lowercase)}: $classesName\n"
         }
 
-        // v9: SimpleTreeView declares `export interface XxxClasses extends Omit<TreeViewClasses,
-        // '…'> {}` — an empty body narrowing an INTERNAL base (`TreeViewClasses` lives under `internals/`
-        // and isn't part of this classes pass). Emit an empty marker so `classes` typing resolves; inherited
-        // class-name members are not expanded for now (see MUI_V9_TODO).
+        // An `extends` this pass could neither keep (not a sibling) nor flatten (not an `Omit<…>` of an
+        // importable base) and no keys of its own: emit an empty marker so `classes` typing resolves.
         if ("export interface $classesName extends " in content) {
             return "@JsPlainObject" +
                     "\n" +
@@ -85,18 +91,26 @@ internal fun classesMemberNames(
 
     // Any parent is accepted here: the caller wants this interface's own keys, and whether the parent
     // survives into the emitted Kotlin is [convertClasses]' decision, not this one's.
-    val (_, source) = findClassesDeclaration(classesName, content) { true }
-
-    return source
-        .substringBefore("\n}\n")
-        .trimIndent()
-        .splitToSequence("\n")
-        .mapNotNull(::classMemberName)
+    return classesEntries(findClassesDeclaration(classesName, content) { true }.source)
+        .map { it.key }
         .toSet()
 }
 
+private class ClassesDeclaration(
+    val parent: String?,
+    val omittedParent: OmittedParent?,
+    val source: String,
+)
+
+/** `extends Omit<Base, 'k' | …>`: the base interface's name and the keys the child does not take. */
+private class OmittedParent(
+    val base: String,
+    val keys: Set<String>,
+)
+
 /**
- * `classesName`'s accepted parent (or null) paired with its declaration body (or `""` when it has none).
+ * `classesName`'s accepted parent (or null), the `Omit<…>` clause it extends (or null), and its declaration body
+ * (or `""` when it has none).
  *
  * Only a bare identifier accepted by the caller survives as a parent. Extract the body independently:
  * rejecting `Omit<TreeViewClasses, '…'>` must not discard the child's own `itemLoader` class key.
@@ -110,18 +124,95 @@ private fun findClassesDeclaration(
     classesName: String,
     content: String,
     acceptParent: (String) -> Boolean,
-): Pair<String?, String> {
-    val declaration = Regex("""export interface ${Regex.escape(classesName)}(?: extends ([^{]+?))?\s*\{\n""")
+): ClassesDeclaration {
+    val declaration = Regex("""export interface ${Regex.escape(classesName)}(?: extends ([^{]+?))?\s*\{(\}|\n)""")
         .find(content)
 
-    val parent = declaration?.groupValues?.get(1)?.trim()
+    val extends = declaration?.groupValues?.get(1)?.trim()?.takeIf { it.isNotEmpty() }
+
+    val parent = extends
         ?.takeIf { it.matches(Regex("""\w+""")) && acceptParent(it) }
 
-    val source = declaration?.let { content.substring(it.range.last + 1) }.orEmpty()
+    val omittedParent = extends
+        ?.let { OMIT_PARENT.matchEntire(it) }
+        ?.let { match ->
+            OmittedParent(
+                base = match.groupValues[1],
+                keys = OMITTED_KEY.findAll(match.groupValues[2]).map { it.groupValues[1] }.toSet(),
+            )
+        }
 
-    // `X {\n}` — declared, but with nothing in it. Callers distinguish "no such interface" from "no
-    // members" by the parent, not by the body, so both are reported the same way.
-    return parent to source.takeUnless { it.trimStart().startsWith("}") }.orEmpty()
+    // `X {}` is declared with nothing in it; after `X {\n` the body runs to the closing brace. Callers
+    // distinguish "no such interface" from "no members" by the parent, not by the body, so both are
+    // reported the same way.
+    val source = declaration
+        ?.takeIf { it.groupValues[2] == "\n" }
+        ?.let { content.substring(it.range.last + 1) }
+        ?.takeUnless { it.trimStart().startsWith("}") }
+        .orEmpty()
+
+    return ClassesDeclaration(parent, omittedParent, source)
+}
+
+private val OMIT_PARENT = Regex("""Omit<\s*(\w+)\s*,\s*((?:'[^']+'\s*\|?\s*)+)>""")
+private val OMITTED_KEY = Regex("""'([^']+)'""")
+
+/**
+ * The member lines of the `Omit<…>` base that the child keeps: those neither omitted nor re-declared by the child
+ * (the child's own line wins, as it does in TypeScript), each with its comment. The base is read where upstream
+ * declares it, through the classes file's own `import type { Base } from "…"`.
+ *
+ * Fails rather than falls back: a base that cannot be found would otherwise silently shrink the child to its own
+ * keys, which is precisely the gap this closes.
+ */
+private fun flattenOmittedParent(
+    omitted: OmittedParent,
+    definitionFile: File,
+    content: String,
+    childSource: String,
+): String {
+    val importPath = Regex("""import type \{([^}]*)\} from "([^"]+)";""")
+        .findAll(content)
+        .firstOrNull { match -> match.groupValues[1].split(",").any { it.trim() == omitted.base } }
+        ?.groupValues?.get(2)
+        ?: error("${definitionFile.path} extends Omit<${omitted.base}, …> but does not import ${omitted.base}")
+    val baseFile = definitionFile.parentFile.resolve(importPath.removeSuffix(".js") + ".d.ts")
+    check(baseFile.exists()) { "${omitted.base} was not found at ${baseFile.path}" }
+
+    val baseContent = baseFile.readText().replace("\r\n", "\n")
+    val base = findClassesDeclaration(omitted.base, baseContent) { true }
+    check(base.source.isNotEmpty()) { "${omitted.base} in ${baseFile.path} declares no class keys" }
+
+    val ownKeys = classesEntries(childSource).map { it.key }.toSet()
+
+    return classesEntries(base.source)
+        .filter { it.key !in omitted.keys && it.key !in ownKeys }
+        .joinToString("\n") { it.lines }
+}
+
+private class ClassesEntry(
+    val key: String,
+    val lines: String,
+)
+
+/** The body's member declarations, each together with the comment lines directly above it. */
+private fun classesEntries(
+    source: String,
+): List<ClassesEntry> {
+    val entries = mutableListOf<ClassesEntry>()
+    val pending = mutableListOf<String>()
+
+    for (line in source.substringBefore("\n}\n").lines()) {
+        val key = classMemberName(line.trim())
+        if (key == null) {
+            if (line.isNotBlank()) pending += line
+        } else {
+            entries += ClassesEntry(key, (pending + line).joinToString("\n"))
+            pending.clear()
+        }
+    }
+
+    return entries
 }
 
 internal fun convertInlineClasses(

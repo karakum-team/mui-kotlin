@@ -1,6 +1,8 @@
 package playground.samples.treeview.consumer
 
 import emotion.css.ClassName
+import muix.tree.view.richTreeViewClasses
+import muix.tree.view.treeItemClasses
 import web.cssom.*
 import web.cssom.None.Companion.none
 
@@ -30,8 +32,6 @@ internal val nestedOnHover: ClassName = ClassName {
     }
 }
 
-// W11: class names as strings; `richTreeViewClasses` / `treeItemClasses` cannot be used because the generated
-// `RichTreeViewClasses` keeps only `itemLoader` (the `Omit<TreeViewClasses, …>` parent is dropped).
 internal fun treeViewStyle(): ClassName = ClassName {
     fontSize = 14.px
     lineHeight = number(1.4)
@@ -39,11 +39,11 @@ internal fun treeViewStyle(): ClassName = ClassName {
 
     val itemInset = 1.spacing + `var`(ITEM_DEPTH) * `var`(ITEM_CHILDREN_INDENTATION)
 
-    "&.MuiRichTreeView-root" {
+    "&.${richTreeViewClasses.root}" {
         margin = -1.spacing
     }
 
-    ".MuiTreeItem-content" {
+    ".${treeItemClasses.content}" {
         padding = 0.px
         gap = 0.px
         alignItems = AlignItems.stretch
@@ -92,7 +92,7 @@ internal fun treeViewStyle(): ClassName = ClassName {
         "&[$UNSELECTABLE_ATTRIBUTE]" {
             cursor = Cursor.default
 
-            ".MuiTreeItem-label" {
+            ".${treeItemClasses.label}" {
                 paddingLeft = itemInset + 2.5.spacing
                 cursor = Cursor.default
             }
@@ -103,7 +103,7 @@ internal fun treeViewStyle(): ClassName = ClassName {
         }
     }
 
-    ".MuiTreeItem-iconContainer" {
+    ".${treeItemClasses.iconContainer}" {
         paddingTop = ICON_TOP_INSET
         paddingBottom = 1.spacing
         paddingLeft = itemInset
@@ -113,22 +113,22 @@ internal fun treeViewStyle(): ClassName = ClassName {
         color = MUTED_TEXT_COLOR
     }
 
-    ".MuiTreeItem-iconContainer:empty" {
+    ".${treeItemClasses.iconContainer}:empty" {
         display = none
     }
 
-    ".MuiTreeItem-checkbox" {
+    ".${treeItemClasses.checkbox}" {
         paddingTop = ICON_TOP_INSET
         paddingRight = 1.spacing
         alignItems = AlignItems.start
         alignContent = AlignContent.start
     }
 
-    ".MuiTreeItem-iconContainer:empty + .MuiTreeItem-checkbox" {
+    ".${treeItemClasses.iconContainer}:empty + .${treeItemClasses.checkbox}" {
         paddingLeft = itemInset + 2.5.spacing
     }
 
-    ".MuiTreeItem-label" {
+    ".${treeItemClasses.label}" {
         paddingTop = 1.spacing
         paddingBottom = 1.spacing
         paddingRight = 1.spacing

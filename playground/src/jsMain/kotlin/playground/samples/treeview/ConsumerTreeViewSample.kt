@@ -2,6 +2,7 @@ package playground.samples.treeview
 
 import kotlinx.coroutines.delay
 import mui.material.Button
+import muix.tree.view.richTreeViewClasses
 import playground.samples.treeview.consumer.ItemSelectionParameters
 import playground.samples.treeview.consumer.RichTreeViewApi
 import playground.samples.treeview.consumer.TreeNode
@@ -83,6 +84,7 @@ val ConsumerTreeViewSample: Sample = Sample(
         "RichTreeViewSlotProps.item (ownerState -> TreeItemProps)",
         "TreeItemProps.onKeyDown/slots/slotProps",
         "TreeItemSlots.checkbox, TreeItemSlotProps.content/label/checkbox",
+        "richTreeViewClasses.root/itemContent, treeItemClasses.content/label/iconContainer/checkbox",
         "defaultMuiPrevented, --TreeView-itemChildrenIndentation/--TreeView-itemDepth, data-* state attributes",
     ),
     fileName = "ConsumerTreeViewSample.kt",
@@ -236,6 +238,7 @@ private fun domChecks(apiPresent: Boolean): List<Check> {
     val depths = (0 until itemCount).map { index ->
         items!![index].unsafeCast<HTMLElement>().style.getPropertyValue("--TreeView-itemDepth")
     }
+    val contentsByClassKey = root?.querySelectorAll(".${richTreeViewClasses.itemContent}")?.length ?: 0
 
     return listOf(
         Check("$NODE_COUNT tree items rendered", itemCount == NODE_COUNT),
@@ -244,6 +247,10 @@ private fun domChecks(apiPresent: Boolean): List<Check> {
         Check("[data-disabled] marks the Aircraft B content", "Aircraft B" in disabled),
         Check("root style sets --TreeView-itemChildrenIndentation to 16px", indentation == "16px"),
         Check("item roots carry --TreeView-itemDepth 0, 1 and 2", depths.toSet() == setOf("0", "1", "2")),
+        Check(
+            "richTreeViewClasses.itemContent (MuiRichTreeView-itemContent) marks every item content",
+            richTreeViewClasses.itemContent.toString() == "MuiRichTreeView-itemContent" && contentsByClassKey == NODE_COUNT,
+        ),
     )
 }
 
