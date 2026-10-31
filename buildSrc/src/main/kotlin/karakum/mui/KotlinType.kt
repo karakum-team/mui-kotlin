@@ -50,8 +50,6 @@ private val KNOWN_TYPES = setOf(
     "CalendarPickerView",
     "UseTreeItemStatus",
     "TreeViewItemId",
-    "TreeViewStoreParameters",
-    "RichTreeViewStoreParameters",
 
     "AlertColor",
     "GridDirection",
@@ -374,8 +372,6 @@ private val STANDARD_TYPE_MAP = mapOf(
     "StateChangeCallback<State>" to "Any /* StateChangeCallback<State> */",
     "PopupProps['anchor']" to "Any /* PopupProps['anchor'] */",
 
-    "TreeViewItemsReorderingAction" to "TreeItem2DragAndDropOverlayAction",
-
     // LocalizationProvider
     "Partial<AdapterFormats>" to "Any /* Partial<AdapterFormats> */",
     "TLocale" to "Any /* TLocale */",
@@ -640,9 +636,6 @@ internal fun kotlinType(
         }
         return "react.Ref<$nonNullInner>"
     }
-
-    if (type.startsWith("TreeViewExperimentalFeatures<"))
-        return "Any? /* $type */"
 
     if (type.startsWith("React.ElementType<"))
         return type.replace("React.ElementType", ELEMENT_TYPE)

@@ -1136,32 +1136,18 @@ private fun RuntimeBindings.generateTreeViewDeclarations(
     directories.asSequence()
         .filter { it.name.isComponentName() || it.name.isHookName() }
         .filter { !it.resolve("${it.name}.d.ts").readText().startsWith("export { default } from ") }
-        .filter {
-            it.name !in setOf(
-                "TreeItem2", "TreeItem2Icon", "TreeItem2Provider", "useTreeItem2",
-            )
-        }
         .onEach {
             when (it.name) {
-                "TreeItem" -> {
-                    val contentFile = it.resolve("${it.name}Content.d.ts")
-                    generate(contentFile, targetDir, Package.treeView)
-
-                    val typesFile = it.resolve("${it.name}.types.d.ts")
-                    generate(typesFile, targetDir, Package.treeView)
-                }
-
-                // v9.12 rewrote TreeItemProvider.d.ts's return annotation to `React.JSX.Element`, which
-                // makes `findComponent` recognise it. Its props live in the sibling `.types.d.ts`, so that
-                // has to be generated too or the emitted `FC<TreeItemProviderProps>` has no such type.
-                // TreeItemLoader (9.13+) likewise exports its props and owner state from a sibling file.
-                "TreeView", "SimpleTreeView", "RichTreeView", "TreeItemLabelInput", "TreeItemProvider", "TreeItemLoader", "TreeItem2DragAndDropOverlay" -> {
+                // These components keep their props in a sibling `.types.d.ts`, which has to be generated too
+                // or the emitted `FC<…Props>` has no such type. (v9.12 rewrote TreeItemProvider.d.ts's return
+                // annotation to `React.JSX.Element`, which makes `findComponent` recognise it; TreeItemLoader,
+                // 9.13+, likewise exports its props and owner state from a sibling file.)
+                "TreeItem", "SimpleTreeView", "RichTreeView", "TreeItemLabelInput", "TreeItemProvider", "TreeItemLoader" -> {
                     val typesFile = it.resolve("${it.name}.types.d.ts")
                     generate(typesFile, targetDir, Package.treeView)
                 }
             }
         }
-        .filter { it.name != "TreeItem2DragAndDropOverlay" }
         .map { it.resolve("${it.name}.d.ts") }
         .forEach { generate(it, targetDir, Package.treeView) }
 
@@ -2131,9 +2117,6 @@ private val IMPORTED_FQNS = listOf(
 
     // mui.material.transitions
     "mui.material.transitions.TransitionProps",
-
-    // muix.tree.view
-    "muix.tree.view.TreeItemProps",
 
     // mui.types
     "mui.types.PropsWithComponent",

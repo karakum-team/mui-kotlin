@@ -3,7 +3,6 @@ package karakum.mui
 import karakum.mui.adapters.*
 import karakum.mui.adapters.datepickers.adaptLocalizationProvider
 import karakum.mui.adapters.treeview.adaptRichTreeView
-import karakum.mui.adapters.treeview.adaptTreeView
 
 fun String.adaptRawContent(
     // Whether a member's inline object-literal *value* type is collapsed onto one line and kept, rather
@@ -70,7 +69,6 @@ fun String.adaptRawContent(
     .adaptInitColorSchemeScript()
     .adaptCreateThemeFoundation()
     .adaptRichTreeView()
-    .adaptTreeView()
     .adaptLocalizationProvider()
 
 // Drop every ` & { … }` inline object literal (balanced braces) from type positions. Targets

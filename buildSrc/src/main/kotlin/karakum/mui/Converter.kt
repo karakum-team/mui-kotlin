@@ -1990,13 +1990,6 @@ private fun findComponent(
             // LocalizationProviderProps, MonthCalendarProps, YearCalendarProps, DigitalClockProps,
             // MultiSectionDigitalClockProps, TimeClockProps, PickersCalendarHeaderProps.
 
-            // TODO: Remove when `TreeItem` will be removed from `@mui/lab`
-            "TreeItemProps",
-                -> "muix.tree.view.TreeItemProps"
-
-            "TreeViewProps",
-                -> "muix.tree.view.TreeViewProps"
-
             else -> propsName
         }
     }
