@@ -13,7 +13,8 @@ There are three kinds of Kotlin in this repo. Never review them the same way.
 |---|---|---|
 | `buildSrc/src/main/kotlin/karakum/mui/**` | The real source of truth: `Generator.kt` (orchestrator), `Converter.kt`, `KotlinType.kt`, `MemberConverter.kt`, `FunctionType.kt`, `ParentType.kt`, `Overrides.kt`, `Adapter.kt` + `adapters/**` (per-component special cases) | Review as real code: correctness, edge cases, whether it generalizes or only patches one component |
 | `mui-kotlin/src/jsMain/kotlin/**` | 100% generated. `generateDeclarations` runs `delete(sourceDir)` then regenerates | Never a place to fix anything. Read it only as *evidence* of what the generator emits |
-| `playground/src/jsMain/kotlin/**` | Hand-written usage samples — the compile-level smoke test for the declarations | Review as real code; also ask whether it covers the API the diff touched |
+| `playground/src/jsMain/kotlin/playground/shell/**` | Hand-written playground infrastructure: routing, sample frame, status/check helpers, `Registry.kt` | Review as real code; it must not import `mui.*` / `muix.*` / `baseui.*` / `dateio.*` |
+| `playground/src/jsMain/kotlin/playground/samples/**` | Hand-written usage samples — the compile-level smoke test for the declarations | Review as real code; check it covers the API the diff touched and that every new sample is registered in `shell/Registry.kt` |
 | `gradle.properties`, `package.json`, `*-lock.json` | Version bumps (kotlin, kotlin-wrappers, kfc, seskar, `@mui/*`) | Check the bump is consistent across properties + lockfiles, and that generator changes match the version actually installed |
 | `MUI_V*_TODO.md`, `BASE_UI_TODO.md`, `FUTURE_IMPROVEMENTS.md` | Handoff notes: what was excluded, what is deferred, why | Check they were updated when the exclusion/known-issue surface changed |
 

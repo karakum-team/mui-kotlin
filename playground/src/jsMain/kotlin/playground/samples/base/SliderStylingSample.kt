@@ -6,6 +6,7 @@ import mui.base.Slider
 import mui.base.sliderClasses
 import playground.shell.Kind
 import playground.shell.Libraries
+import playground.shell.Ref
 import playground.shell.Sample
 import react.FC
 import react.Props
@@ -20,8 +21,23 @@ val SliderStylingSample: Sample = Sample(
     library = Libraries.Base,
     title = "Slider styling",
     kind = Kind.ClassesCoverage,
-    covers = listOf("Slider", "sliderClasses"),
+    covers = listOf(
+        "Slider.disableSwap/min/max/value/onKeyDown",
+        "Slider.styled",
+        "sliderClasses.rail/track/thumb",
+    ),
     fileName = "SliderStylingSample.kt",
+    refs = listOf(
+        Ref(
+            "BASE_UI_TODO.md — Group 5 (retirement)",
+            "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_TODO.md#group-5--final--retirement-remove-the-old-target-after-its-consumers-move",
+        ),
+        Ref("916e234d", "https://github.com/karakum-team/mui-kotlin/commit/916e234d"),
+        Ref("adbb1c2c", "https://github.com/karakum-team/mui-kotlin/commit/adbb1c2c"),
+    ),
+    notes = "Only running this proves that the typed `sliderClasses` keys match the class names the legacy " +
+            "`@mui/base` Slider renders: the rail, the hidden track and the 36px thumb (shrinking on hover) must " +
+            "appear styled. It stays until the sample migrates to Base UI's Slider.",
     content = FC<Props> {
         // `RangeSliderBase` is absolutely positioned at 100% width and height, so this wrapper gives it a
         // positioned box of its own to fill, sized to the 36px thumb.

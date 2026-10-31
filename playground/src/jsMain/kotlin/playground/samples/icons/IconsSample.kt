@@ -2,29 +2,31 @@ package playground.samples.icons
 
 import mui.icons.material.Abc
 import mui.icons.material.SouthEast
-import mui.material.SvgIcon
 import playground.shell.Kind
 import playground.shell.Libraries
 import playground.shell.Sample
 import react.FC
 import react.Props
-import react.dom.svg.ReactSVG.path
+import react.dom.html.ReactHTML.code
+import react.dom.html.ReactHTML.div
 
 val IconsSample: Sample = Sample(
     id = "icons",
     library = Libraries.Icons,
     title = "Icons",
     kind = Kind.Showcase,
-    covers = listOf("SvgIcon + path", "Abc", "SouthEast"),
+    covers = listOf("Abc", "SouthEast"),
     fileName = "IconsSample.kt",
+    notes = "Icons are named exports of the `@mui/icons-material` root module; a renamed or missing export " +
+            "is `undefined` at runtime and fails to render here, which kotlinc cannot see.",
     content = FC<Props> {
-        SvgIcon {
-            path {
-                d = "M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
-            }
+        div {
+            Abc()
+            code { +"Abc" }
         }
-
-        Abc()
-        SouthEast()
+        div {
+            SouthEast()
+            code { +"SouthEast" }
+        }
     },
 )

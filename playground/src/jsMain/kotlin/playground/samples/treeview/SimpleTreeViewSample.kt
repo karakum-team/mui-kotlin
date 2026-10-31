@@ -10,6 +10,7 @@ import muix.tree.view.TreeItem
 import muix.tree.view.treeItemClasses
 import playground.shell.Kind
 import playground.shell.Libraries
+import playground.shell.Ref
 import playground.shell.Sample
 import react.FC
 import react.Props
@@ -38,8 +39,23 @@ val SimpleTreeViewSample: Sample = Sample(
     library = Libraries.TreeView,
     title = "SimpleTreeView",
     kind = Kind.Check,
-    covers = listOf("SimpleTreeView", "TreeItem", "treeItemClasses"),
+    covers = listOf(
+        "SimpleTreeView.slots.expandIcon/collapseIcon",
+        "SimpleTreeView.sx",
+        "TreeItem.itemId/label/disabled/disableSelection",
+        "treeItemClasses.label/content",
+    ),
     fileName = "SimpleTreeViewSample.kt",
+    refs = listOf(
+        Ref(
+            "MUI_V9_TODO.md — Tree View behavioural props",
+            "https://github.com/karakum-team/mui-kotlin/blob/main/MUI_V9_TODO.md#tree-view-the-behavioural-props-are-still-missing-found-during-the-98--912-bump",
+        ),
+        Ref("f6a260ab", "https://github.com/karakum-team/mui-kotlin/commit/f6a260ab"),
+    ),
+    notes = "Only running this proves that `itemId`/`label`, inherited from `UseTreeItemParameters`, land on the " +
+            "right JS props (the labels render), that \"Reports\" (`disabled`) cannot be selected, and that " +
+            "\"Archive\" (`disableSelection`) still expands and takes focus but never becomes selected.",
     content = FC<Props> {
         SimpleTreeView {
             slots = unsafeJso<SimpleTreeViewSlots> {

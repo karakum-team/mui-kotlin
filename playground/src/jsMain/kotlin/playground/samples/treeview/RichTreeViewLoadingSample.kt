@@ -6,7 +6,9 @@ import mui.material.Button
 import muix.tree.view.*
 import playground.shell.Kind
 import playground.shell.Libraries
+import playground.shell.Ref
 import playground.shell.Sample
+import playground.shell.StatusLine
 import react.FC
 import react.Props
 import react.useState
@@ -48,8 +50,28 @@ val RichTreeViewLoadingSample: Sample = Sample(
     library = Libraries.TreeView,
     title = "RichTreeView loading",
     kind = Kind.Check,
-    covers = listOf("RichTreeView loading", "TreeItemLoader", "richTreeViewClasses"),
+    covers = listOf(
+        "RichTreeView.loading",
+        "RichTreeViewSlots.loading/itemLoader",
+        "RichTreeViewSlotProps.itemLoader",
+        "TreeItemLoader",
+        "TreeItemLoaderProps.ownerState (TreeItemLoaderOwnerState)",
+        "richTreeViewClasses.itemLoader",
+        "treeItemLoaderClasses.label",
+    ),
     fileName = "RichTreeViewLoadingSample.kt",
+    refs = listOf(
+        Ref(
+            "MUI_V9_TODO.md — MUI X 9.12 → 9.14",
+            "https://github.com/karakum-team/mui-kotlin/blob/main/MUI_V9_TODO.md#mui-x-912--914-update-2026-10-01",
+        ),
+        Ref("48b0e810", "https://github.com/karakum-team/mui-kotlin/commit/48b0e810"),
+        Ref("10dc9f7c", "https://github.com/karakum-team/mui-kotlin/commit/10dc9f7c"),
+    ),
+    notes = "Only running this proves that the public `TreeItemLoader` export resolves and that both loading " +
+            "slots are honoured: \"Finish loading\" swaps the loader rows for the tree, \"Use custom loading " +
+            "slot\" replaces them with \"Loading project files…\", and each item-loader row carries a title built " +
+            "from its typed `ownerState`.",
     content = FC<Props> {
         var isLoading by useState(true)
         var customLoading by useState(false)
@@ -61,6 +83,14 @@ val RichTreeViewLoadingSample: Sample = Sample(
         Button {
             onClick = { customLoading = !customLoading }
             +(if (customLoading) "Use item loader slot" else "Use custom loading slot")
+        }
+
+        StatusLine {
+            id = "rich-tree-view-loading-status"
+            fields = listOf(
+                "loading" to isLoading,
+                "customSlot" to customLoading,
+            )
         }
 
         RichTreeView {

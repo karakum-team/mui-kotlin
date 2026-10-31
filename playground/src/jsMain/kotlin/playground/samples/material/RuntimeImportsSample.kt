@@ -1,26 +1,6 @@
 package playground.samples.material
 
 import js.objects.unsafeJso
-import mui.base.CssAnimation
-import mui.base.CssTransition
-import mui.base.UseOptionParameters
-import mui.base.UseOptionReturnValue
-import mui.base.UseSelectParameters
-import mui.base.UseSelectReturnValue
-import mui.base.useBadge
-import mui.base.useButton
-import mui.base.useInput
-import mui.base.useMenu
-import mui.base.useMenuButton
-import mui.base.useMenuItem
-import mui.base.useOption
-import mui.base.useSelect
-import mui.base.useSlider
-import mui.base.useSnackbar
-import mui.base.useSwitch
-import mui.base.useTab
-import mui.base.useTabPanel
-import mui.base.useTabsList
 import mui.material.ClickAwayListener
 import mui.material.styles.Theme
 import mui.material.styles.ThemeProvider
@@ -29,49 +9,48 @@ import mui.material.styles.createStyles
 import mui.material.styles.createTheme
 import mui.material.styles.useTheme
 import mui.material.touchRippleClasses
-import mui.system.Breakpoint.Companion.md
 import mui.system.createBreakpoints
+import playground.shell.Check
+import playground.shell.CheckList
 import playground.shell.Kind
 import playground.shell.Libraries
+import playground.shell.Ref
 import playground.shell.Sample
+import playground.shell.StatusLine
+import react.CSSProperties
 import react.FC
 import react.Props
-import react.ReactNode
 import react.dom.html.ReactHTML.button
-import react.dom.html.ReactHTML.div
 import react.dom.html.ReactHTML.p
 import react.useState
 import web.cssom.ClassName
 import web.dom.ElementId
-import mui.system.createTheme as createSystemTheme
-
-// These references must reach JS: loading every repaired hook catches missing exports even when
-// invoking the hook would require a menu/listbox/tabs provider. useBadge is also called below.
-private val optionHook: (UseOptionParameters<String>) -> UseOptionReturnValue = ::useOption
-private val selectHook: (UseSelectParameters<String, Boolean>) -> UseSelectReturnValue<String, Boolean> = ::useSelect
-private val hookImports = listOf(
-    ::useBadge, ::useButton, ::useInput, ::useMenu, ::useMenuButton, ::useMenuItem,
-    optionHook, selectHook, ::useSlider, ::useSnackbar, ::useSwitch, ::useTab, ::useTabPanel, ::useTabsList,
-)
-
-private val transitionFixture = unsafeJso<TransitionFixture> {
-    requestedEnter = true
-    registerTransition = { {} }
-    onExited = {}
-}
 
 private val importTheme = createTheme(unsafeJso { focusVisible = true })
-private val importBreakpoints = createBreakpoints(unsafeJso {})
-private val importMixins = createMixins(importBreakpoints, unsafeJso {})
-private val importSystemTheme = createSystemTheme()
+
+// `createBreakpoints` is only the argument `createMixins` needs; the system factories are covered by
+// `system/SystemFactoriesSample.kt`.
+private val importMixins = createMixins(createBreakpoints(unsafeJso {}), unsafeJso {})
 
 private val ThemeProbe = FC<Props> {
     val theme = useTheme<Theme>()
-    val badge = useBadge(unsafeJso { badgeContent = ReactNode("7") })
+    val themeFromProvider = theme.focusVisible != null
+
+    CheckList {
+        id = "runtime-imports-checks"
+        checks = listOf(
+            Check(
+                "touchRippleClasses.root is MuiTouchRipple-root",
+                touchRippleClasses.root == ClassName("MuiTouchRipple-root"),
+            ),
+            Check("createMixins(...).toolbar is an object", jsTypeOf(importMixins.toolbar) == "object"),
+            Check("theme.focusVisible reaches the provider", themeFromProvider),
+        )
+    }
+
     p {
         id = ElementId("runtime-theme")
-        +"Theme from provider: ${theme.focusVisible != null}; badge: "
-        +badge.displayValue
+        +"Theme from provider: $themeFromProvider"
     }
 }
 
@@ -80,61 +59,62 @@ val RuntimeImportsSample: Sample = Sample(
     library = Libraries.Material,
     title = "Runtime imports",
     kind = Kind.ImportSmoke,
-    covers = listOf("mui.material.styles", "mui.system factories", "mui.base hooks"),
+    covers = listOf(
+        "styles.createTheme",
+        "styles.ThemeProvider",
+        "styles.useTheme",
+        "styles.createMixins",
+        "styles.createStyles",
+        "touchRippleClasses.root",
+        "ClickAwayListener.onClickAway",
+    ),
     fileName = "RuntimeImportsSample.kt",
-    notes = "Mixed sample (also covers mui.system and mui.base); split in Phase 3.",
+    refs = listOf(
+        Ref(
+            "MUI_V9_TODO.md — Runtime imports",
+            "https://github.com/karakum-team/mui-kotlin/blob/main/MUI_V9_TODO.md#runtime-imports--resolved-from-npm-exports-during-generation",
+        ),
+        Ref("a3919d02", "https://github.com/karakum-team/mui-kotlin/commit/a3919d02"),
+    ),
+    notes = "Only running this proves that each repaired binding resolves to the export the generator chose: " +
+            "`useTheme`/`createStyles` from the `@mui/material/styles` barrel, `createMixins` from " +
+            "`private_createMixins`, `touchRippleClasses` from `@mui/material/ButtonBase`, `ClickAwayListener` " +
+            "from its default export. Clicking \"Outside listener\" must raise `outsideClicks`, clicking " +
+            "\"Inside listener\" must not; `createStyles` logs exactly one upstream deprecation warning.",
     content = FC<Props> {
         var outsideClicks by useState(0)
-        div {
-            p {
-                id = ElementId("runtime-hooks")
-                +"Base hooks loaded: ${hookImports.count { jsTypeOf(it) == "function" }}"
-            }
-            p {
-                id = ElementId("runtime-factories")
-                +"Breakpoints: ${importBreakpoints.up(md)}; system: ${importSystemTheme.breakpoints.up(md)}; "
-                +"mixins: ${jsTypeOf(importMixins.toolbar)}"
-            }
-            p {
-                id = ElementId("runtime-classes")
-                +touchRippleClasses.root.toString()
-            }
-            ThemeProvider {
-                theme = importTheme
-                ThemeProbe()
-            }
-            ClickAwayListener {
-                onClickAway = { outsideClicks++ }
-                button {
-                    id = ElementId("runtime-inside")
-                    +"Inside listener"
-                }
-            }
+
+        ThemeProvider {
+            theme = importTheme
+            ThemeProbe()
+        }
+
+        p {
+            id = ElementId("runtime-classes")
+            +touchRippleClasses.root.toString()
+        }
+
+        ClickAwayListener {
+            onClickAway = { outsideClicks++ }
             button {
-                id = ElementId("runtime-outside")
-                +"Outside listener"
+                id = ElementId("runtime-inside")
+                +"Inside listener"
             }
-            p {
-                id = ElementId("runtime-clicks")
-                +"Outside clicks: $outsideClicks"
-            }
-            button {
-                id = ElementId("runtime-create-styles")
-                // Upstream deprecates this API and logs one warning; reaching it must not fail to import.
-                onClick = { createStyles(unsafeJso<react.CSSProperties> {}) }
-                +"Call legacy createStyles"
-            }
-            transitionFixtureContext.Provider {
-                value = transitionFixture
-                CssAnimation {
-                    enterClassName = ClassName("runtime-animation-enter")
-                    +"CssAnimation mounted"
-                }
-                CssTransition {
-                    enterClassName = ClassName("runtime-transition-enter")
-                    +"CssTransition mounted"
-                }
-            }
+        }
+        button {
+            id = ElementId("runtime-outside")
+            +"Outside listener"
+        }
+        StatusLine {
+            id = "runtime-clicks"
+            fields = listOf("outsideClicks" to outsideClicks)
+        }
+
+        button {
+            id = ElementId("runtime-create-styles")
+            // Upstream deprecates this API and logs one warning; reaching it must not fail to import.
+            onClick = { createStyles(unsafeJso<CSSProperties> {}) }
+            +"Call legacy createStyles"
         }
     },
 )

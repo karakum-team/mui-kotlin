@@ -5,6 +5,7 @@ import mui.material.Box
 import muix.pickers.*
 import playground.shell.Kind
 import playground.shell.Libraries
+import playground.shell.Ref
 import playground.shell.Sample
 import react.FC
 import react.Props
@@ -34,8 +35,45 @@ val PickersClassesSample: Sample = Sample(
     library = Libraries.Pickers,
     title = "Pickers classes",
     kind = Kind.ClassesCoverage,
-    covers = listOf("DateCalendar", "picker *Classes", "PickersSectionList"),
+    covers = listOf(
+        "DateCalendar",
+        "StaticDatePicker",
+        "StaticTimePicker",
+        "TimeClock",
+        "MultiSectionDigitalClock",
+        "DatePicker",
+        "pickersTextFieldClasses.root",
+        "pickersOutlinedInputClasses.root/notchedOutline",
+        "pickersInputBaseClasses.sectionsContainer",
+        "pickersInputClasses.underline",
+        "pickersFilledInputClasses.underline",
+        "pickersLayoutClasses.root/toolbar/contentWrapper/actionBar/landscape/shortcuts/tabs",
+        "datePickerToolbarClasses.root/title",
+        "timePickerToolbarClasses.root/separator",
+        "dateTimePickerToolbarClasses.root/dateContainer",
+        "dateTimePickerTabsClasses.root",
+        "dayCalendarClasses.weekDayLabel",
+        "dateCalendarClasses.viewTransitionContainer",
+        "pickersFadeTransitionGroupClasses.root",
+        "pickersSlideTransitionClasses.root",
+        "clockClasses.clock",
+        "clockNumberClasses.root",
+        "clockPointerClasses.thumb",
+        "multiSectionDigitalClockSectionClasses.item",
+    ),
     fileName = "PickersClassesSample.kt",
+    refs = listOf(
+        Ref(
+            "MUI_V9_TODO.md — Phase 5d",
+            "https://github.com/karakum-team/mui-kotlin/blob/main/MUI_V9_TODO.md#phase-5d--the-pickers-css-class-objects-16-of-27-were-never-generated",
+        ),
+        Ref("d9ca9532", "https://github.com/karakum-team/mui-kotlin/commit/d9ca9532"),
+        Ref("adbb1c2c", "https://github.com/karakum-team/mui-kotlin/commit/adbb1c2c"),
+    ),
+    notes = "Only running this proves that each class object's `@file:JsModule` subpath resolves (a bad one is a " +
+            "Vite resolve failure at load), that the inherited `pickersOutlinedInputClasses.root` reaches the DOM " +
+            "of the outlined `DatePicker`, and that the pickers mount at all under `LocalizationProvider`. " +
+            "Clicking a day in `DateCalendar` must move `aria-selected`, and its month label must stay visible.",
     content = FC<Props> {
         LocalizationProvider {
             dateAdapter = AdapterDateFns
@@ -53,8 +91,6 @@ val PickersClassesSample: Sample = Sample(
 
                 // The only one here that mounts PickersTextField → PickersOutlinedInput.
                 DatePicker {}
-
-                RuntimePicker()
             }
         }
     },

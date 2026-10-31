@@ -1,18 +1,33 @@
 package playground.samples.baseui
 
-import baseui.*
+import baseui.Toast
+import baseui.ToastManagerAddOptions
+import baseui.ToastManagerUpdateOptions
+import baseui.className
+import baseui.style
 import emotion.react.css
 import js.objects.unsafeJso
 import playground.shell.Kind
 import playground.shell.Libraries
+import playground.shell.Ref
 import playground.shell.Sample
+import playground.shell.StatusLine
 import react.CSSProperties
 import react.FC
+import react.Key
 import react.Props
 import react.ReactNode
 import react.dom.html.ReactHTML.button
 import react.dom.html.ReactHTML.div
-import web.cssom.*
+import web.cssom.Border
+import web.cssom.ClassName
+import web.cssom.Color
+import web.cssom.Display
+import web.cssom.FlexDirection
+import web.cssom.LineStyle
+import web.cssom.Padding
+import web.cssom.Position
+import web.cssom.px
 import web.dom.document
 
 // The generator's existing Partial<Omit<ToastObject<Data>, ...>> gap leaves UpdateOptions empty.
@@ -35,8 +50,21 @@ val ToastSample: Sample = Sample(
     library = Libraries.BaseUi,
     title = "Toast",
     kind = Kind.Check,
-    covers = listOf("Toast.*", "createToastManager"),
+    covers = listOf(
+        "Toast.Provider/Portal/Viewport/Root/Content/Title/Description/Close (8 of 11 parts)",
+        "Toast.createToastManager / Toast.useToastManager",
+        "ToastManager.add / update (object and callback, manager and hook)",
+        "className/style state helpers",
+    ),
     fileName = "ToastSample.kt",
+    refs = listOf(
+        Ref("BASE_UI_TODO.md", "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_TODO.md"),
+        Ref("f296d5bd", "https://github.com/karakum-team/mui-kotlin/commit/f296d5bd"),
+    ),
+    notes = "An external manager drives `Toast.Provider`; the hook reads the list back, so `count` follows " +
+        "add and close. Each of the four update buttons proves one manager/hook x object/callback combination " +
+        "of the callable `update` reaches Base UI and rewrites the title. Action, Arrow, Positioner, manager " +
+        "`promise` and anchored positioning are not exercised here.",
     content = FC<Props> {
         Toast.Provider {
             this.toastManager = myToastManager
@@ -48,8 +76,8 @@ val ToastSample: Sample = Sample(
                 button {
                     onClick = {
                         myToastManager.add(unsafeJso<ToastManagerAddOptions<Props>> {
-                            title = "Success".unsafeCast<react.ReactNode>()
-                            description = "Your action was completed.".unsafeCast<react.ReactNode>()
+                            title = "Success".unsafeCast<ReactNode>()
+                            description = "Your action was completed.".unsafeCast<ReactNode>()
                             type = "success"
                             // Keep the toast visible while exercising both update overloads.
                             timeout = 0
@@ -57,6 +85,8 @@ val ToastSample: Sample = Sample(
                     }
                     +"Show Toast"
                 }
+
+                ToastStatus()
             }
 
             val ToastViewport = Toast.Viewport
@@ -84,9 +114,17 @@ val ToastSample: Sample = Sample(
     },
 )
 
+private val ToastStatus = FC<Props> {
+    val manager = Toast.useToastManager<Any>()
+
+    StatusLine {
+        id = "toast-status"
+        fields = listOf("count" to manager.toasts.size)
+    }
+}
+
 private val ToastList = FC<Props> {
     val manager = Toast.useToastManager<Any>()
-    val toastsArray = manager.toasts.unsafeCast<Array<ToastObject<Any>>>()
 
     val ToastRoot = Toast.Root
     val ToastContent = Toast.Content
@@ -94,10 +132,10 @@ private val ToastList = FC<Props> {
     val ToastDescription = Toast.Description
     val ToastClose = Toast.Close
 
-    for (toastObj in toastsArray) {
+    for (toastObj in manager.toasts) {
         val toastId = toastObj.id.unsafeCast<String>()
         ToastRoot {
-            key = toastObj.id.unsafeCast<react.Key>()
+            key = toastObj.id.unsafeCast<Key>()
             this.toast = toastObj
 
             className {

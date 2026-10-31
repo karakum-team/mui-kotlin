@@ -6,6 +6,7 @@ import mui.material.FormControlVariant
 import mui.material.TextField
 import playground.shell.Kind
 import playground.shell.Libraries
+import playground.shell.Ref
 import playground.shell.Sample
 import react.FC
 import react.Props
@@ -17,8 +18,20 @@ val AutocompleteSample: Sample = Sample(
     library = Libraries.Material,
     title = "Autocomplete",
     kind = Kind.Showcase,
-    covers = listOf("Autocomplete", "TextField"),
+    covers = listOf(
+        "Autocomplete<AutocompleteProps<String>>.options/disablePortal/renderInput",
+        "TextField.label/variant",
+        "Props?.unaryPlus (+params)",
+    ),
     fileName = "AutocompleteSample.kt",
+    refs = listOf(
+        Ref(
+            "BASE_UI_TODO.md — Open gaps (`+props`)",
+            "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_TODO.md#open-gaps-in-the-generated-output",
+        ),
+    ),
+    notes = "Only running this proves that `+params` copies the ref and input props `renderInput` receives onto " +
+            "`TextField`: focusing and typing into the field must open the options list and filter it.",
     content = FC<Props> {
         Autocomplete<AutocompleteProps<String>> {
             options = arrayOf("foo", "bar", "baz")

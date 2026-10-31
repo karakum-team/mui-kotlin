@@ -12,7 +12,9 @@ import emotion.react.styles
 import js.objects.unsafeJso
 import playground.shell.Kind
 import playground.shell.Libraries
+import playground.shell.Ref
 import playground.shell.Sample
+import playground.shell.StatusLine
 import react.CSSProperties
 import react.FC
 import react.Props
@@ -33,11 +35,6 @@ import web.cssom.px
 import web.html.InputType
 import web.html.email
 
-// Live check of the generated `baseui` field declarations, and the only usage reference for them in
-// the repository. Same contract as `MenuSample` / `SliderSample`: every member of the `Field`
-// namespace object is mounted, so a key that stops existing at runtime takes the page down instead of
-// failing at some user's call site.
-//
 // What only running this can establish, each of it something `field` was picked to exercise:
 //  - `transitionStatus` is a real sealed type now, not `Any?`. Both forms of use are here:
 //    `Field.Error`'s className helper interpolates it, since a seskar union still reads back as the
@@ -61,8 +58,8 @@ import web.html.email
 // Class names are literal and `bui-field-` prefixed so they can be asserted against in the DOM.
 //
 // One expected Base UI warning about `render` for the whole page — not one per call site; see the
-// note in `SliderSample` and gap 15. This file adds a second `render` call site and the console still
-// carries exactly one, naming whichever lambda reached Base UI first.
+// note in `SliderSample` and BASE_UI_TODO.md gap 15. This file adds another `render` call site and the
+// console still carries exactly one, naming whichever lambda reached Base UI first.
 
 // The shape `FieldValidityData.state` widens to. Upstream is an inline object of eleven booleans plus
 // `valid: boolean | null`, which has no Kotlin structural equivalent, so the generated member is
@@ -79,8 +76,29 @@ val FieldSample: Sample = Sample(
     library = Libraries.BaseUi,
     title = "Field",
     kind = Kind.Check,
-    covers = listOf("Field.*"),
+    covers = listOf(
+        "Field.Root/Label/Control/Description/Error/Validity/Item (7 parts)",
+        "className/style/render state helpers",
+        "FieldControlChangeEventDetails",
+        "FieldRootActions via actionsRef",
+        "TransitionStatus sealed type",
+        "Field.Validity children callback",
+    ),
     fileName = "FieldSample.kt",
+    refs = listOf(
+        Ref("BASE_UI_TODO.md", "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_TODO.md"),
+        Ref(
+            "What only the sample can catch",
+            "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_TODO.md#what-only-the-sample-can-catch",
+        ),
+        Ref("8faa8911", "https://github.com/karakum-team/mui-kotlin/commit/8faa8911"),
+    ),
+    notes = "Mounts every `Field` part. Typing a non-@example.com address shows the error and the " +
+        "`Field.Validity` callback output, with `leaving=true` while the error transitions out — a comparison " +
+        "against `TransitionStatus.ending` that only runs in a browser. \"Validate imperatively\" reports " +
+        "`action=validate() called` only if what Base UI puts behind the `Any?` `actionsRef` really is a " +
+        "`FieldRootActions`. `Field.Label` must come out with a `for` pointing at the control, and the control " +
+        "with an `aria-describedby` pointing at the description and the error.",
     content = FC<Props> {
         var address by useState("")
         var lastChange by useState("-")
@@ -124,9 +142,14 @@ val FieldSample: Sample = Sample(
             }
         }
 
-        p {
+        StatusLine {
+            id = "field-status"
+            fields = listOf(
+                "email" to address,
+                "change" to lastChange,
+                "action" to lastAction,
+            )
             className = ClassName("bui-field-status")
-            +"email=$address change=$lastChange action=$lastAction"
         }
 
         Field.Root {

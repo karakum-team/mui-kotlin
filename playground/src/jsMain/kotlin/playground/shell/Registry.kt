@@ -1,5 +1,6 @@
 package playground.shell
 
+import playground.samples.base.RuntimeHooksSample
 import playground.samples.base.SliderStylingSample
 import playground.samples.baseui.AccordionSample
 import playground.samples.baseui.CheckboxSample
@@ -12,12 +13,19 @@ import playground.samples.baseui.SwitchSample
 import playground.samples.baseui.ToastSample
 import playground.samples.dateio.DateIoUtilsSample
 import playground.samples.icons.IconsSample
+import playground.samples.lab.MasonrySample
 import playground.samples.material.AutocompleteSample
 import playground.samples.material.MaterialV9Sample
 import playground.samples.material.RuntimeImportsSample
+import playground.samples.material.SvgIconSample
+import playground.samples.material.TableCellSample
 import playground.samples.material.ThemeFocusVisibleSample
 import playground.samples.pickers.PickersClassesSample
+import playground.samples.pickers.PickersSectionListSample
+import playground.samples.system.ResponsiveSample
+import playground.samples.system.SystemFactoriesSample
 import playground.samples.treeview.RichTreeViewLoadingSample
+import playground.samples.treeview.RichTreeViewSelectionSample
 import playground.samples.treeview.SimpleTreeViewSample
 
 object Libraries {
@@ -92,6 +100,8 @@ object Libraries {
 val samples: List<Sample> = listOf(
     // material
     AutocompleteSample,
+    SvgIconSample,
+    TableCellSample,
     ThemeFocusVisibleSample,
     MaterialV9Sample,
     RuntimeImportsSample,
@@ -99,8 +109,16 @@ val samples: List<Sample> = listOf(
     // icons
     IconsSample,
 
+    // system
+    ResponsiveSample,
+    SystemFactoriesSample,
+
+    // lab
+    MasonrySample,
+
     // base (legacy)
     SliderStylingSample,
+    RuntimeHooksSample,
 
     // baseui
     MenuSample,
@@ -115,9 +133,11 @@ val samples: List<Sample> = listOf(
 
     // pickers
     PickersClassesSample,
+    PickersSectionListSample,
 
     // treeview
     SimpleTreeViewSample,
+    RichTreeViewSelectionSample,
     RichTreeViewLoadingSample,
 
     // dateio

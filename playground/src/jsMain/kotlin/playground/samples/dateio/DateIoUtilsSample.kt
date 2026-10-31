@@ -3,13 +3,14 @@ package playground.samples.dateio
 import dateio.core.IUtils
 import js.objects.unsafeJso
 import js.reflect.Reflect
+import playground.shell.Check
+import playground.shell.CheckList
 import playground.shell.Kind
 import playground.shell.Libraries
+import playground.shell.Ref
 import playground.shell.Sample
 import react.FC
 import react.Props
-import react.dom.html.ReactHTML.li
-import react.dom.html.ReactHTML.ul
 import kotlin.js.Date
 
 // Only the adapter constructor and locale's code are sample-local bindings. Every operation below
@@ -34,8 +35,25 @@ val DateIoUtilsSample: Sample = Sample(
     library = Libraries.DateIo,
     title = "date-io IUtils",
     kind = Kind.Check,
-    covers = listOf("IUtils<Date, Locale>"),
+    covers = listOf(
+        "IUtils.date() / date(null) / date(String) / date(Date)",
+        "IUtils.isValid",
+        "IUtils.getDate",
+        "IUtils.getWeek",
+        "IUtils.format(\"keyboardDate\")",
+        "IUtils.locale",
+    ),
     fileName = "DateIoUtilsSample.kt",
+    refs = listOf(
+        Ref(
+            "MUI_V9_TODO.md — @date-io/core 3.2",
+            "https://github.com/karakum-team/mui-kotlin/blob/main/MUI_V9_TODO.md#date-iocore-217--32-update-2026-10-01",
+        ),
+        Ref("f29b6170", "https://github.com/karakum-team/mui-kotlin/commit/f29b6170"),
+    ),
+    notes = "Only running this proves that the generated `IUtils<Date, Locale>` overloads match a real adapter: " +
+            "every call goes through `@date-io/date-fns 3.2.1` (playground-only runtime implementation) with the " +
+            "en-GB locale, not through MUI's different `MuiPickersAdapter` API.",
     content = FC<Props> {
         val utils: IUtils<Date, DateFnsLocale> = Reflect.construct(
             DateFnsUtils,
@@ -47,7 +65,7 @@ val DateIoUtilsSample: Sample = Sample(
         val copied: Date? = utils.date(Date(2026, 9, 15, 12))
         val locale: DateFnsLocale? = utils.locale
 
-        val checks = listOf(
+        val results = listOf(
             "date() returns a valid Date" to utils.isValid(now),
             "date(null) returns null" to (empty == null),
             "date(ISO string) preserves the day" to (parsed != null && utils.getDate(parsed) == 15),
@@ -58,13 +76,9 @@ val DateIoUtilsSample: Sample = Sample(
                     (parsed != null && utils.format(parsed, "keyboardDate") == "15/10/2026"),
         )
 
-        ul {
-            checks.forEach { (label, passed) ->
-                li {
-                    key = label.unsafeCast<react.Key>()
-                    +"$label: ${if (passed) "PASS" else "FAIL"}"
-                }
-            }
+        CheckList {
+            id = "iutils"
+            checks = results.map { (label, passed) -> Check(label, passed) }
         }
     },
 )

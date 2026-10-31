@@ -13,14 +13,15 @@ import emotion.react.styles
 import js.objects.unsafeJso
 import playground.shell.Kind
 import playground.shell.Libraries
+import playground.shell.Ref
 import playground.shell.Sample
+import playground.shell.StatusLine
 import react.CSSProperties
 import react.FC
 import react.Props
 import react.create
 import react.dom.events.MouseEvent
 import react.dom.html.ReactHTML.hr
-import react.dom.html.ReactHTML.p
 import react.dom.html.ReactHTML.span
 import react.useState
 import web.cssom.Border
@@ -39,13 +40,8 @@ import web.cssom.rem
 import web.cssom.rgb
 import web.dom.document
 
-// Live check of the generated `baseui` declarations, and the only usage reference for them in the repo.
-//
-// Every member of the `Menu` namespace object is mounted, so the page fails loudly if a key does not
-// exist at runtime, and the state-typed `className` / `style` / `render` helpers from `<Part>.ext.kt` are
-// used at call sites — neither of which `:mui-kotlin:compileKotlinJs` can prove on its own. Both arms of
-// each value-or-callback prop appear at least once: the callback arm resolves to the extension function,
-// the value arm to the inherited `Any?` property, and the sample would not compile if either broke.
+// Both arms of each value-or-callback prop appear at least once: the callback arm resolves to the extension
+// function, the value arm to the inherited `Any?` property, and the sample would not compile if either broke.
 //
 // Class names are literal and `bui-`-prefixed so they can be asserted against in the DOM.
 val MenuSample: Sample = Sample(
@@ -53,8 +49,29 @@ val MenuSample: Sample = Sample(
     library = Libraries.BaseUi,
     title = "Menu",
     kind = Kind.Check,
-    covers = listOf("Menu.*", "className/style/render helpers"),
+    covers = listOf(
+        "Menu.Root/Trigger/Portal/Backdrop/Positioner/Popup/Arrow/Viewport/Item/CheckboxItem/" +
+            "CheckboxItemIndicator/RadioGroup/RadioItem/RadioItemIndicator/Group/GroupLabel/LinkItem/" +
+            "SubmenuRoot/SubmenuTrigger/Separator (20 parts)",
+        "className/style/render state helpers",
+        "value-or-callback props",
+        "anchor positioning (side/align/offsets/collisionPadding)",
+    ),
     fileName = "MenuSample.kt",
+    refs = listOf(
+        Ref("BASE_UI_TODO.md", "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_TODO.md"),
+        Ref(
+            "What only the sample can catch",
+            "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_TODO.md#what-only-the-sample-can-catch",
+        ),
+        Ref("b8bce901", "https://github.com/karakum-team/mui-kotlin/commit/b8bce901"),
+    ),
+    notes = "Every member of the `Menu` namespace object is mounted, so a key that does not exist at runtime " +
+        "fails the page, and the state-typed `className` / `style` / `render` helpers run at call sites — " +
+        "neither of which `:mui-kotlin:compileKotlinJs` can prove. Opening the menu flips the kept-mounted " +
+        "popup's class and min-width, the positioner reports where it landed (`bui-positioner--bottom " +
+        "bui-positioner--start`, `--inline-end` on the submenu), and closing by an outside click reports " +
+        "`reason=close:outside-press`.",
     content = FC<Props> {
         var shuffle by useState(true)
         var sortBy by useState("date")
@@ -129,9 +146,15 @@ val MenuSample: Sample = Sample(
             }
         }
 
-        p {
+        StatusLine {
+            id = "menu-status"
+            fields = listOf(
+                "shuffle" to shuffle,
+                "sortBy" to sortBy,
+                "action" to lastAction,
+                "reason" to lastReason,
+            )
             className = ClassName("bui-status")
-            +"shuffle=$shuffle sortBy=$sortBy action=$lastAction reason=$lastReason"
         }
 
         Menu.Root {

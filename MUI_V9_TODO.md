@@ -326,8 +326,12 @@ whose value becomes accessible is an error too, prompting its removal rather tha
 Fixture tests cover resolution, aliases, symbol identity, namespaces, cycles, type-only exports,
 missing targets and stale exclusions; Kotlin tests cover declaration extraction, rendering and module
 splitting. `:mui-kotlin:testRuntimeExports` is part of `check`. Playground coverage lives in
-`RuntimeImports.kt` and `RuntimePickerField.kt` (now `playground/src/jsMain/kotlin/playground/samples/material/RuntimeImportsSample.kt` and
-`playground/src/jsMain/kotlin/playground/samples/pickers/RuntimePickerField.kt`), exercising the repaired imports through the generated
+`RuntimeImports.kt` and `RuntimePickerField.kt` (now split by library into
+`playground/src/jsMain/kotlin/playground/samples/material/RuntimeImportsSample.kt`,
+`playground/src/jsMain/kotlin/playground/samples/system/SystemFactoriesSample.kt` and
+`playground/src/jsMain/kotlin/playground/samples/base/RuntimeHooksSample.kt` + `base/TransitionFixture.kt`; the picker
+field is `playground/src/jsMain/kotlin/playground/samples/pickers/RuntimePickerField.kt`, mounted by
+`pickers/PickersSectionListSample.kt`), exercising the repaired imports through the generated
 API, with local provider/slot scaffolding for legacy transitions and `PickersSectionList`.
 
 Verified locally with 21 export-graph fixtures and 5 Kotlin binding tests, a clean full build

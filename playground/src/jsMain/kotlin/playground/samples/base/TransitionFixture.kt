@@ -1,6 +1,6 @@
 @file:JsModule("@mui/base/useTransition")
 
-package playground.samples.material
+package playground.samples.base
 
 import react.Context
 

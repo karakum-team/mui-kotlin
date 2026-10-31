@@ -4,13 +4,14 @@ import baseui.DirectionalChangeReason
 import baseui.NumberField
 import baseui.NumberFieldRootChangeEventDetails
 import baseui.NumberFieldRootCommitEventDetails
-import baseui.className
 import playground.shell.Kind
 import playground.shell.Libraries
+import playground.shell.Ref
 import playground.shell.Sample
+import playground.shell.StatusLine
 import react.FC
+import react.Props
 import react.dom.html.ReactHTML.div
-import react.dom.html.ReactHTML.span
 import react.useState
 import web.cssom.ClassName
 
@@ -19,11 +20,26 @@ val NumberFieldSample: Sample = Sample(
     library = Libraries.BaseUi,
     title = "NumberField",
     kind = Kind.Check,
-    covers = listOf("NumberField.*"),
+    covers = listOf(
+        "NumberField.Root/ScrubArea/ScrubAreaCursor/Group/Decrement/Input/Increment (7 parts)",
+        "NumberFieldRootChangeEventDetails (reason, direction)",
+        "NumberFieldRootCommitEventDetails",
+        "DirectionalChangeReason / Direction unions",
+    ),
     fileName = "NumberFieldSample.kt",
-    content = FC {
+    refs = listOf(
+        Ref("BASE_UI_TODO.md", "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_TODO.md"),
+        Ref("1dfec5cd", "https://github.com/karakum-team/mui-kotlin/commit/1dfec5cd"),
+    ),
+    notes = "Mounts all seven parts, scrub area and cursor included. Pressing increment/decrement or using the " +
+        "keyboard proves the change details carry `direction` from `ChangeEventCustomProperties` (an extra " +
+        "file the generator had to translate), that the `DirectionalChangeReason` constants compare equal to " +
+        "the reasons Base UI reports, and that the commit callback fires with its own details type.",
+    content = FC<Props> {
         var currentValue by useState<Number?>(5)
         var lastReason by useState("-")
+        var lastDirection by useState("-")
+        var lastCommit by useState("-")
 
         div {
             className = ClassName("base-ui-number-field-sample")
@@ -31,7 +47,6 @@ val NumberFieldSample: Sample = Sample(
             NumberField.Root {
                 value = currentValue
                 onValueChange = { value, details: NumberFieldRootChangeEventDetails ->
-                    console.log("NumberField change:", value, details.reason, details.direction)
                     currentValue = value
                     lastReason = when (details.reason) {
                         DirectionalChangeReason.incrementPress.toString() -> "increment"
@@ -39,9 +54,10 @@ val NumberFieldSample: Sample = Sample(
                         DirectionalChangeReason.keyboard.toString() -> "keyboard"
                         else -> details.reason
                     }
+                    lastDirection = details.direction?.toString() ?: "-"
                 }
                 onValueCommitted = { value, details: NumberFieldRootCommitEventDetails ->
-                    console.log("NumberField commit:", value, details.reason)
+                    lastCommit = "$value/${details.reason}"
                 }
                 min = 0.0
                 max = 10.0
@@ -73,9 +89,16 @@ val NumberFieldSample: Sample = Sample(
                     }
                 }
             }
-            span {
+
+            StatusLine {
+                id = "number-field-status"
+                fields = listOf(
+                    "value" to currentValue,
+                    "reason" to lastReason,
+                    "direction" to lastDirection,
+                    "commit" to lastCommit,
+                )
                 className = ClassName("number-reason")
-                +"reason=$lastReason"
             }
         }
     },

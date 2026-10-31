@@ -13,7 +13,9 @@ import emotion.react.styles
 import js.objects.unsafeJso
 import playground.shell.Kind
 import playground.shell.Libraries
+import playground.shell.Ref
 import playground.shell.Sample
+import playground.shell.StatusLine
 import react.CSSProperties
 import react.FC
 import react.Props
@@ -22,13 +24,26 @@ import react.dom.aria.AriaLive
 import react.dom.aria.AriaPressed
 import react.dom.html.ReactHTML.button
 import react.dom.html.ReactHTML.div
-import react.dom.html.ReactHTML.p
 import react.dom.html.ReactHTML.section
 import react.dom.html.ReactHTML.span
 import react.useRef
 import react.useState
-import web.cssom.*
+import web.cssom.AlignItems
+import web.cssom.Border
+import web.cssom.BoxSizing
+import web.cssom.ClassName
+import web.cssom.Color
+import web.cssom.Cursor
+import web.cssom.Display
+import web.cssom.FlexDirection
+import web.cssom.FlexWrap
+import web.cssom.FontWeight
+import web.cssom.JustifyContent
 import web.cssom.LineStyle.Companion.solid
+import web.cssom.NamedColor
+import web.cssom.Outline
+import web.cssom.number
+import web.cssom.px
 import web.dom.ElementId
 import web.html.ButtonType
 import web.html.HTMLSpanElement
@@ -40,12 +55,27 @@ val CheckboxSample: Sample = Sample(
     library = Libraries.BaseUi,
     title = "Checkbox",
     kind = Kind.Check,
-    covers = listOf("Checkbox.*"),
+    covers = listOf(
+        "Checkbox.Root/Indicator (2 parts)",
+        "className/style/render state helpers",
+        "CheckboxRootState / CheckboxIndicatorState (inherited FieldRootState)",
+        "CheckboxRootChangeEventDetails",
+        "checked / indeterminate, Field.Root disabled precedence, focus ref",
+    ),
     fileName = "CheckboxSample.kt",
+    refs = listOf(
+        Ref("BASE_UI_TODO.md", "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_TODO.md"),
+        Ref("BUI-003", "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_WORK_LOG.md#bui-003--checkbox"),
+        Ref("32dc8f4a", "https://github.com/karakum-team/mui-kotlin/commit/32dc8f4a"),
+    ),
+    notes = "Click, Space and label activation must toggle through `onCheckedChange`; \"Cycle state\" reaches " +
+        "the mixed state, which Base UI reflects as `aria-checked=\"mixed\"`, the native input's " +
+        "`indeterminate` and the indicator mark. Disabling the Field must override the Root's explicit " +
+        "`disabled = false`, suppress activation and Tab focus; \"Focus checkbox\" proves the ref lands on the root.",
     content = FC<Props> {
         var selection by useState(0) // unchecked, checked, indeterminate
         var fieldDisabled by useState(false)
-        var lastChange by useState("No checkbox changes yet.")
+        var lastChange by useState("-")
         val checkboxRef = useRef<HTMLSpanElement>(null)
         val selectionName = when (selection) {
             1 -> "checked"
@@ -64,7 +94,7 @@ val CheckboxSample: Sample = Sample(
                     fontSize = 16.px
                     lineHeight = number(1.5)
                 }
-                ".bui-checkbox-sample h2, .bui-checkbox-sample p" { margin = 0.px }
+                ".bui-checkbox-sample p" { margin = 0.px }
                 ".bui-checkbox-field, .bui-checkbox-actions" {
                     display = Display.flex
                     gap = 8.px
@@ -153,7 +183,7 @@ val CheckboxSample: Sample = Sample(
                         }
                         onCheckedChange = { next: Boolean, details: CheckboxRootChangeEventDetails ->
                             selection = if (next) 1 else 0
-                            lastChange = "checked=$next; reason=${details.reason}"
+                            lastChange = "$next/${details.reason}"
                         }
 
                         Checkbox.Indicator {
@@ -208,10 +238,14 @@ val CheckboxSample: Sample = Sample(
                     +"Focus checkbox"
                 }
             }
-            p {
-                id = ElementId("bui-checkbox-status")
+            StatusLine {
+                id = "bui-checkbox-status"
                 ariaLive = AriaLive.polite
-                +"$selectionName; ${if (fieldDisabled) "disabled" else "enabled"}. $lastChange"
+                fields = listOf(
+                    "selection" to selectionName,
+                    "field" to if (fieldDisabled) "disabled" else "enabled",
+                    "change" to lastChange,
+                )
             }
         }
     },

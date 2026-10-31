@@ -13,7 +13,9 @@ import emotion.react.styles
 import js.objects.unsafeJso
 import playground.shell.Kind
 import playground.shell.Libraries
+import playground.shell.Ref
 import playground.shell.Sample
+import playground.shell.StatusLine
 import react.CSSProperties
 import react.FC
 import react.Props
@@ -26,8 +28,21 @@ import react.dom.html.ReactHTML.section
 import react.dom.html.ReactHTML.span
 import react.useRef
 import react.useState
-import web.cssom.*
+import web.cssom.AlignItems
+import web.cssom.Border
+import web.cssom.BoxSizing
+import web.cssom.ClassName
+import web.cssom.Color
+import web.cssom.Cursor
+import web.cssom.Display
+import web.cssom.FontWeight
 import web.cssom.LineStyle.Companion.solid
+import web.cssom.NamedColor
+import web.cssom.Outline
+import web.cssom.OverflowWrap
+import web.cssom.number
+import web.cssom.pct
+import web.cssom.px
 import web.dom.ElementId
 import web.form.FormData
 import web.html.ButtonType
@@ -42,15 +57,31 @@ val SwitchSample: Sample = Sample(
     library = Libraries.BaseUi,
     title = "Switch",
     kind = Kind.Check,
-    covers = listOf("Switch.*"),
+    covers = listOf(
+        "Switch.Root/Thumb (2 parts)",
+        "className/style/render state helpers",
+        "SwitchRootState / SwitchThumbState (inherited FieldRootState)",
+        "SwitchRootChangeEventDetails",
+        "inputRef, value / uncheckedValue form submission",
+    ),
     fileName = "SwitchSample.kt",
+    refs = listOf(
+        Ref("BASE_UI_TODO.md", "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_TODO.md"),
+        Ref("BUI-002", "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_WORK_LOG.md#bui-002--switch"),
+        Ref("32dc8f4a", "https://github.com/karakum-team/mui-kotlin/commit/32dc8f4a"),
+    ),
+    notes = "Click, Space and native-label activation must round-trip through `onCheckedChange`; submitting " +
+        "the form must report `enabled/disabled` for the controlled switch and `on/off` for the uncontrolled " +
+        "one, and `inputRef` must point at the hidden native checkbox. Disabled switches reject activation and " +
+        "are skipped by Tab; read-only ones keep their value. The Root/Thumb state classes, styles and " +
+        "`render` titles show the inherited Field state reaching each part.",
     content = FC<Props> {
         var switchChecked by useState(false)
         var uncontrolledChecked by useState(true)
         var switchDisabled by useState(false)
         var switchReadOnly by useState(false)
-        var lastChange by useState("none")
-        var submitted by useState("Submit to inspect the form values and input ref.")
+        var lastChange by useState("-")
+        var submitted by useState<List<Pair<String, Any?>>>(listOf("submitted" to false))
         val hiddenInput = useRef<HTMLInputElement>(null)
 
         Global {
@@ -64,7 +95,6 @@ val SwitchSample: Sample = Sample(
                     backgroundColor = NamedColor.white
                     color = Color("#182230")
                 }
-                ".bui-switch-sample h2" { margin = 0.px; fontSize = 20.px }
                 ".bui-switch-field" { marginBottom = 16.px }
                 ".bui-switch-label" { display = Display.block; fontWeight = FontWeight.bold }
                 ".bui-switch-description" { margin = 0.px; color = Color("#475467") }
@@ -130,9 +160,14 @@ val SwitchSample: Sample = Sample(
                     event.preventDefault()
                     val data = FormData(event.currentTarget)
                     val input = hiddenInput.current
-                    submitted = "notifications=${data.get("notifications") ?: "omitted"}; " +
-                        "localPreview=${data.get("localPreview") ?: "omitted"}; " +
-                        "input ref: ${input?.type}/${input?.name}, id=${input?.id}, checked=${input?.checked}"
+                    submitted = listOf(
+                        "submitted" to true,
+                        "notifications" to (data.get("notifications") ?: "omitted"),
+                        "localPreview" to (data.get("localPreview") ?: "omitted"),
+                        "inputRef" to "${input?.type}/${input?.name}",
+                        "inputId" to input?.id,
+                        "inputChecked" to input?.checked,
+                    )
                 }
                 Field.Root {
                     className = ClassName("bui-switch-field")
@@ -164,7 +199,7 @@ val SwitchSample: Sample = Sample(
                         }
                         onCheckedChange = { next: Boolean, details: SwitchRootChangeEventDetails ->
                             switchChecked = next
-                            lastChange = "controlled=$next/${details.reason}/${details.event.type}"
+                            lastChange = "controlled:$next/${details.reason}/${details.event.type}"
                         }
                         Switch.Thumb {
                             className { state: SwitchThumbState ->
@@ -192,24 +227,30 @@ val SwitchSample: Sample = Sample(
                         uncheckedValue = "off"
                         onCheckedChange = { next: Boolean, details: SwitchRootChangeEventDetails ->
                             uncontrolledChecked = next
-                            lastChange = "uncontrolled=$next/${details.reason}/${details.event.type}"
+                            lastChange = "uncontrolled:$next/${details.reason}/${details.event.type}"
                         }
                         Switch.Thumb { className = ClassName("bui-switch-thumb") }
                     }
                 }
                 button { id = ElementId("bui-switch-submit"); type = ButtonType.submit; +"Inspect form values" }
             }
-            p {
-                id = ElementId("bui-switch-status")
-                className = ClassName("bui-switch-status")
+            StatusLine {
+                id = "bui-switch-status"
                 ariaLive = AriaLive.polite
-                +"Controlled=$switchChecked; uncontrolled=$uncontrolledChecked; disabled=$switchDisabled; read-only=$switchReadOnly; change=$lastChange."
+                fields = listOf(
+                    "controlled" to switchChecked,
+                    "uncontrolled" to uncontrolledChecked,
+                    "disabled" to switchDisabled,
+                    "readOnly" to switchReadOnly,
+                    "change" to lastChange,
+                )
+                className = ClassName("bui-switch-status")
             }
-            p {
-                id = ElementId("bui-switch-form-status")
-                className = ClassName("bui-switch-status")
+            StatusLine {
+                id = "bui-switch-form-status"
                 ariaLive = AriaLive.polite
-                +submitted
+                fields = submitted
+                className = ClassName("bui-switch-status")
             }
         }
     },

@@ -6,6 +6,7 @@ import playground.dataStatus
 import react.FC
 import react.Key
 import react.Props
+import react.dom.aria.AriaLive
 import react.dom.html.ReactHTML.li
 import react.dom.html.ReactHTML.p
 import react.dom.html.ReactHTML.ul
@@ -19,6 +20,7 @@ external interface StatusLineProps : Props {
     var id: String
     var fields: List<Pair<String, Any?>>
     var className: ClassName?
+    var ariaLive: AriaLive?
 }
 
 /**
@@ -31,6 +33,7 @@ val StatusLine = FC<StatusLineProps> { props ->
         id = ElementId(props.id)
         dataStatus = props.id
         className = if (extraClassName != null) ClassName("pg-status $extraClassName") else ClassName("pg-status")
+        ariaLive = props.ariaLive
         +props.fields.joinToString(" ") { (key, value) -> "$key=$value" }
     }
 }
@@ -77,9 +80,17 @@ val CheckList = FC<CheckListProps> { props ->
 
 object Report {
     private val results = mutableMapOf<String, List<Check>>()
+    private val listeners = mutableSetOf<() -> Unit>()
 
     fun record(sampleKey: String, id: String, checks: List<Check>) {
         results["$sampleKey $id"] = checks
+        listeners.toList().forEach { it() }
+    }
+
+    /** Calls [listener] after every [record]; returns the unsubscribe function. */
+    fun subscribe(listener: () -> Unit): () -> Unit {
+        listeners += listener
+        return { listeners -= listener }
     }
 
     /** `passed to total` over every check list mounted so far. */

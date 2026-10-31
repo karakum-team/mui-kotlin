@@ -4,24 +4,49 @@ import baseui.Accordion
 import baseui.AccordionRootChangeEventDetails
 import emotion.react.Global
 import emotion.react.styles
+import js.array.ReadonlyArray
 import playground.shell.Kind
 import playground.shell.Libraries
+import playground.shell.Ref
 import playground.shell.Sample
+import playground.shell.StatusLine
 import react.FC
 import react.Props
 import react.useState
-import web.cssom.*
+import web.cssom.Border
+import web.cssom.ClassName
+import web.cssom.Color
+import web.cssom.Cursor
+import web.cssom.Display
+import web.cssom.FlexDirection
 import web.cssom.LineStyle.Companion.solid
+import web.cssom.NamedColor
+import web.cssom.pct
+import web.cssom.px
+
+// Shared by `defaultValue` and the status, so the status matches what is open before the first change.
+private val defaultExpanded: ReadonlyArray<Any> = arrayOf("item-1")
 
 val AccordionSample: Sample = Sample(
     id = "accordion",
     library = Libraries.BaseUi,
     title = "Accordion",
     kind = Kind.Check,
-    covers = listOf("Accordion.*"),
+    covers = listOf(
+        "Accordion.Root/Item/Header/Trigger/Panel (5 parts)",
+        "AccordionRootChangeEventDetails",
+        "uncontrolled defaultValue + onValueChange",
+    ),
     fileName = "AccordionSample.kt",
+    refs = listOf(
+        Ref("BASE_UI_TODO.md", "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_TODO.md"),
+        Ref("49e7bc24", "https://github.com/karakum-team/mui-kotlin/commit/49e7bc24"),
+    ),
+    notes = "Mounts all five namespace members, so a key missing at runtime takes the page down. Toggling a " +
+        "trigger proves Base UI calls `onValueChange` with the array of expanded values and change details " +
+        "whose `reason` reads back, and that the `className` values reach the rendered parts.",
     content = FC<Props> {
-        var expandedItems by useState<Array<*>>(emptyArray<String>())
+        var expandedItems by useState(defaultExpanded)
         var lastChangeReason by useState("-")
 
         Global {
@@ -46,7 +71,7 @@ val AccordionSample: Sample = Sample(
                     padding = 12.px
                     backgroundColor = Color("transparent")
                     border = Border(0.px, solid, Color("transparent"))
-                    cursor = web.cssom.Cursor.pointer
+                    cursor = Cursor.pointer
                 }
                 ".bui-accordion-panel" {
                     padding = 12.px
@@ -55,15 +80,19 @@ val AccordionSample: Sample = Sample(
             }
         }
 
-        react.dom.html.ReactHTML.div {
-            +"Expanded: ${expandedItems.joinToString(", ")} | Reason: $lastChangeReason"
+        StatusLine {
+            id = "accordion-status"
+            fields = listOf(
+                "expanded" to expandedItems.joinToString(",").ifEmpty { "-" },
+                "reason" to lastChangeReason,
+            )
         }
 
         Accordion.Root {
             className = ClassName("bui-accordion-root")
-            defaultValue = arrayOf("item-1")
-            onValueChange = { next: Any?, details: AccordionRootChangeEventDetails ->
-                expandedItems = next as Array<*>
+            defaultValue = defaultExpanded
+            onValueChange = { next: ReadonlyArray<Any>, details: AccordionRootChangeEventDetails ->
+                expandedItems = next
                 lastChangeReason = details.reason
             }
 

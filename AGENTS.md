@@ -64,7 +64,10 @@ repository's established style:
     ```
 
 ### 2. Live Stand / Playground
-The `playground/` directory is the verification stand. Any generator changes that alter types, expose new components, or change inheritance should be verified by running the playground in a real browser.
+The `playground/` directory is the verification stand. Any generator changes that alter types, expose new components, or change inheritance should be verified by running the playground in a real browser. Conventions, the "add a sample" checklist and a Chrome DevTools MCP recipe are in [`playground/README.md`](./playground/README.md).
+*   **Structure:** `playground/src/jsMain/kotlin/playground/shell/` is the infrastructure (routing, sample frame, `StatusLine` / `CheckList`, `Registry.kt`) and must not import `mui.*` / `muix.*` / `baseui.*` / `dateio.*`. The samples live under `playground/src/jsMain/kotlin/playground/samples/<library>/`, one `<Subject>Sample.kt` each, and are listed in `shell/Registry.kt`.
+*   **Routes:** `#/` (index of all samples), `#/all` (every sample, the smoke run), `#/<library>/<sample>` (one sample, e.g. `#/baseui/menu`).
+*   **What to assert:** the console lines `[playground] <library>/<sample> mounted`, `[playground] <library>/<sample> <checkId>: P/T PASS` and, on `#/all`, `[playground] all: N samples mounted, P/T checks PASS` — logged once the checks settle (~200 ms after the last CheckList mounts), with the same numbers in `#all-summary`. Also assert `document.querySelectorAll('[data-check="fail"]').length == 0`.
 *   **Running Vite Dev Server (Non-continuous):**
     ```bash
     ./gradlew :playground:jsViteDev
@@ -84,7 +87,7 @@ Before finalizing any task, ensure:
     ./gradlew :mui-kotlin:clean build
     git diff --exit-code -- mui-kotlin/src/jsMain/kotlin
     ```
-3.  New components or type un-widening must be integrated into a playground sample inside `playground/src/jsMain/kotlin/` and rendered in the browser.
+3.  New components or type un-widening must be integrated into a `Sample` under `playground/src/jsMain/kotlin/playground/samples/<library>/`, registered in `shell/Registry.kt`, rendered at its `#/<library>/<sample>` route and in `#/all`.
 
 ---
 

@@ -1,26 +1,43 @@
 package playground.samples.baseui
 
-import baseui.*
+import baseui.Orientation
+import baseui.Slider
+import baseui.SliderRootChangeEventDetails
+import baseui.SliderRootCommitEventDetails
+import baseui.className
+import baseui.render
+import baseui.style
 import emotion.react.Global
 import emotion.react.styles
 import js.array.ReadonlyArray
 import js.objects.unsafeJso
 import playground.shell.Kind
 import playground.shell.Libraries
+import playground.shell.Ref
 import playground.shell.Sample
-import react.*
+import playground.shell.StatusLine
+import react.CSSProperties
+import react.FC
+import react.Props
+import react.create
 import react.dom.html.ReactHTML.div
-import react.dom.html.ReactHTML.p
-import web.cssom.*
+import react.useState
+import web.cssom.AlignItems
+import web.cssom.Border
+import web.cssom.ClassName
+import web.cssom.Color
+import web.cssom.Cursor
+import web.cssom.Display
+import web.cssom.FlexDirection
+import web.cssom.FontVariantNumeric
+import web.cssom.JustifyContent
 import web.cssom.LineStyle.Companion.solid
+import web.cssom.NamedColor
+import web.cssom.Position
+import web.cssom.number
+import web.cssom.pct
+import web.cssom.px
 
-// Live check of the generated `baseui` slider declarations, and the only usage reference for them in
-// the repository. Same contract as `MenuSample`: every member of the `Slider` namespace object is
-// mounted, so a key that stops existing at runtime takes the page down instead of failing at some
-// user's call site, and the state-typed `className` / `style` / `render` helpers from `<Part>.ext.kt`
-// are exercised at call sites, which is the only way to prove they resolve to the extension function
-// rather than to the `Any?` property they shadow.
-//
 // Four things here can only be checked by running it, each of them a defect this module found:
 //  - `Slider.Value`'s `children` is a *formatting callback*, not React children. Assigning a lambda
 //    has to reach the redeclared `Any?` member rather than the `ReactNode?` one inherited from the
@@ -39,14 +56,34 @@ import web.cssom.LineStyle.Companion.solid
 // function name starts with a capital, on the assumption that it is a React component passed by mistake.
 // Kotlin/JS names a lambda after the declaration enclosing it, and a component `val` is `PascalCase` by
 // convention, so every Kotlin call site of the generated `render` helper trips the heuristic. The
-// callback really is a plain render callback and calls no hooks. See BASE_UI_TODO.md.
+// callback really is a plain render callback and calls no hooks. See BASE_UI_TODO.md gap 15.
 val SliderSample: Sample = Sample(
     id = "slider",
     library = Libraries.BaseUi,
     title = "Slider",
     kind = Kind.Check,
-    covers = listOf("Slider.*"),
+    covers = listOf(
+        "Slider.Root/Label/Value/Control/Track/Indicator/Thumb (7 parts)",
+        "className/style/render state helpers",
+        "SliderRootChangeEventDetails (activeThumbIndex) / SliderRootCommitEventDetails",
+        "Slider.Value children formatting callback",
+        "FieldRootState inheritance (state.dirty)",
+    ),
     fileName = "SliderSample.kt",
+    refs = listOf(
+        Ref("BASE_UI_TODO.md", "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_TODO.md"),
+        Ref(
+            "gap 15",
+            "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_TODO.md#open-gaps-in-the-generated-output",
+        ),
+        Ref("b105b29b", "https://github.com/karakum-team/mui-kotlin/commit/b105b29b"),
+    ),
+    notes = "Mounts every `Slider` part and runs the state-typed helpers at call sites. Only a running page " +
+        "shows that `Slider.Value` calls the formatting callback assigned to its redeclared `children` " +
+        "(`40 of 100 (raw 40)`, `20 – 70`), that keyboard and pointer report `change=keyboard@0` / " +
+        "`change=drag@0` / `commit=drag` through the second type argument of the change details, and that " +
+        "`state.dragging` / `state.orientation` read through the inherited `SliderRootState`. Expect exactly " +
+        "one Base UI `render` warning per page load (BASE_UI_TODO gap 15); a second one is a regression.",
     content = FC<Props> {
         var volume by useState(40)
         var lastChange by useState("-")
@@ -111,9 +148,15 @@ val SliderSample: Sample = Sample(
             }
         }
 
-        p {
+        StatusLine {
+            id = "slider-status"
+            fields = listOf(
+                "volume" to volume,
+                "change" to lastChange,
+                "commit" to lastCommit,
+                "range" to lastRange,
+            )
             className = ClassName("bui-slider-status")
-            +"volume=$volume change=$lastChange commit=$lastCommit range=$lastRange"
         }
 
         // Controlled, single thumb. Everything the module got back is read from here.
@@ -163,8 +206,7 @@ val SliderSample: Sample = Sample(
 
             Slider.Control {
                 // `dirty` is declared by `FieldRootState`, two declarations up and in another module, and
-                // reaching it at all is what
-                // this line is for. It stays `false` at runtime outside a `Field.Root`, so the modifier
+                // reaching it at all is what this line is for. It stays `false` at runtime outside a `Field.Root`, so the modifier
                 // class is not expected to appear here.
                 className { state ->
                     if (state.dirty) ClassName("bui-slider-control bui-slider-control--dirty")

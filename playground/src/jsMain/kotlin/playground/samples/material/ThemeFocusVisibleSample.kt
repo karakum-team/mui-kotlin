@@ -10,7 +10,9 @@ import mui.material.styles.ThemeProvider
 import mui.material.styles.createTheme
 import playground.shell.Kind
 import playground.shell.Libraries
+import playground.shell.Ref
 import playground.shell.Sample
+import playground.shell.StatusLine
 import react.FC
 import react.Props
 import react.ReactNode
@@ -79,8 +81,29 @@ val ThemeFocusVisibleSample: Sample = Sample(
     library = Libraries.Material,
     title = "Theme focusVisible",
     kind = Kind.Check,
-    covers = listOf("createTheme", "ThemeProvider", "theme.focusVisible", "CSS variables palette"),
+    covers = listOf(
+        "styles.createTheme",
+        "styles.ThemeProvider",
+        "ThemeOptions.focusVisible (Boolean)",
+        "FocusVisible.outlineColor/outlineWidth/outlineOffset",
+        "CssVarsPalette.Alert.errorColor",
+        "Button",
+        "Chip.clickable",
+    ),
     fileName = "ThemeFocusVisibleSample.kt",
+    refs = listOf(
+        Ref(
+            "MUI_V9_TODO.md — material theme stub",
+            "https://github.com/karakum-team/mui-kotlin/blob/main/MUI_V9_TODO.md#the-material-theme-is-a-hand-written-stub--upstream-additions-do-not-flow-in",
+        ),
+        Ref("6ac39c87", "https://github.com/karakum-team/mui-kotlin/commit/6ac39c87"),
+        Ref("f305a69c", "https://github.com/karakum-team/mui-kotlin/commit/f305a69c"),
+    ),
+    notes = "Only running this proves that `createTheme`/`ThemeProvider` bound to the `@mui/material/styles` " +
+            "barrel resolve, and that `focusVisible` reaches material's `createTheme`: Tab to each button — no ring " +
+            "outside a provider, the `palette.primary.main` 2px ring for `true` (also on the chip), and a magenta " +
+            "4px ring at 6px offset for the object form. Focus with real Tab presses; `element.focus()` does not " +
+            "satisfy `:focus-visible`.",
     content = FC<Props> {
         p { +"Tab through the three buttons: no ring, default ring, magenta ring." }
 
@@ -114,9 +137,9 @@ val ThemeFocusVisibleSample: Sample = Sample(
         }
 
         p { +"CSS variables palette" }
-        p {
-            id = ElementId("css-vars-alert-error-color")
-            +"Alert.errorColor: ${cssVariablesPalette.Alert.errorColor}"
+        StatusLine {
+            id = "css-vars-alert-error-color"
+            fields = listOf("Alert.errorColor" to cssVariablesPalette.Alert.errorColor)
         }
     },
 )
