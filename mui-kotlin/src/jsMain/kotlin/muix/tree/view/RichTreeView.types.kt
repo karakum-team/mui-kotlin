@@ -11,8 +11,8 @@ import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
 import web.html.HTMLUListElement
 
-external interface RichTreeViewProps :
-    RichTreeViewStoreParameters,
+external interface RichTreeViewProps<R : Any> :
+    RichTreeViewStoreParameters<R>,
     RichTreeViewPropsBase {
     /**
      * Overridable component slots.

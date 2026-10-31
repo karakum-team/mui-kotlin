@@ -3,6 +3,7 @@ package playground.samples.treeview
 import js.array.ReadonlyArray
 import js.objects.unsafeJso
 import muix.tree.view.RichTreeView
+import muix.tree.view.RichTreeViewProps
 import muix.tree.view.SimpleTreeView
 import muix.tree.view.TreeItem
 import muix.tree.view.TreeViewSelectionValue
@@ -64,7 +65,7 @@ val RichTreeViewSelectionSample: Sample = Sample(
         }
 
         // 1. Verify RichTreeView with items and selection handlers
-        RichTreeView {
+        RichTreeView<RichTreeViewProps<SampleTreeItem>> {
             items = sampleTreeItems
             selectedItems = TreeViewSelectionValue(selectedItem)
             onSelectedItemsChange = { _, itemIds ->

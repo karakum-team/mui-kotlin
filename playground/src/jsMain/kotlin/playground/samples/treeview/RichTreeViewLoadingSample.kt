@@ -93,7 +93,7 @@ val RichTreeViewLoadingSample: Sample = Sample(
             )
         }
 
-        RichTreeView {
+        RichTreeView<RichTreeViewProps<LoadingTreeItem>> {
             className = ClassName("loading-tree")
             items = loadingTreeItems
             loading = isLoading

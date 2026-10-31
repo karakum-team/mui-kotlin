@@ -202,14 +202,14 @@ external interface TreeViewStoreParameters : react.Props {
     var itemHeight: Double?
 }
 
-external interface RichTreeViewStoreParameters : TreeViewStoreParameters {
-    var items: js.array.ReadonlyArray<*>?
-    var isItemDisabled: ((item: Any) -> Boolean)?
-    var isItemSelectionDisabled: ((item: Any) -> Boolean)?
-    var getItemLabel: ((item: Any) -> String)?
-    var getItemId: ((item: Any) -> TreeViewItemId)?
-    var getItemChildren: ((item: Any) -> js.array.ReadonlyArray<*>?)?
-    var isItemEditable: Any?
+external interface RichTreeViewStoreParameters<R : Any> : TreeViewStoreParameters {
+    var items: js.array.ReadonlyArray<R>?
+    var isItemDisabled: ((item: R) -> Boolean)?
+    var isItemSelectionDisabled: ((item: R) -> Boolean)?
+    var getItemLabel: ((item: R) -> String)?
+    var getItemId: ((item: R) -> TreeViewItemId)?
+    var getItemChildren: ((item: R) -> js.array.ReadonlyArray<R>?)?
+    var isItemEditable: Any? /* boolean | ((item: R) => boolean) */
     var onItemLabelChange: ((itemId: TreeViewItemId, newLabel: String) -> Unit)?
     var domStructure: TreeViewDOMStructure?
 }
@@ -318,7 +318,7 @@ external interface RichTreeViewItemsSlots {
 
 external interface RichTreeViewItemsSlotProps : react.Props {
     var item: SlotComponentProps<TreeItemProps, RichTreeViewItemsOwnerState>?
-    var root: SlotComponentProps<react.dom.html.HTMLAttributes<web.html.HTMLUListElement>, RichTreeViewProps>?
+    var root: SlotComponentProps<react.dom.html.HTMLAttributes<web.html.HTMLUListElement>, RichTreeViewProps<*>>?
 }
 """.trimIndent()
 

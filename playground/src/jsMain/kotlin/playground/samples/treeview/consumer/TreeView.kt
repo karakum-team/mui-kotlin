@@ -2,6 +2,7 @@ package playground.samples.treeview.consumer
 
 import js.objects.unsafeJso
 import muix.tree.view.RichTreeViewItemsOwnerState
+import muix.tree.view.RichTreeViewProps
 import muix.tree.view.RichTreeViewSlotProps
 import muix.tree.view.RichTreeViewSlots
 import muix.tree.view.SlotComponentProps
@@ -30,9 +31,8 @@ import muix.tree.view.RichTreeView as MuiRichTreeView
 // `PropsWithChangeableValue` is a local copy, and `TreeViewProps.apiRef` is added so the sample can drive the
 // public API from its checks (which makes both declarations `internal`: the hand-written `RichTreeViewApi` is).
 
-// W6: `items` is `ReadonlyArray<*>` and every item callback receives `Any`.
-private val GET_ITEM_CHILDREN = { item: Any ->
-    item.unsafeCast<TreeNode>().children.toTypedArray()
+private val GET_ITEM_CHILDREN = { item: TreeNode ->
+    item.children.toTypedArray()
 }
 
 private val ITEM_KEY_DOWN: KeyboardEventHandler<HTMLLIElement> = { e ->
@@ -41,12 +41,12 @@ private val ITEM_KEY_DOWN: KeyboardEventHandler<HTMLLIElement> = { e ->
     }
 }
 
-private val IS_ITEM_DISABLED = { item: Any ->
-    item.unsafeCast<TreeNode>().disabled
+private val IS_ITEM_DISABLED = { item: TreeNode ->
+    item.disabled
 }
 
-private val IS_ITEM_SELECTION_DISABLED = { item: Any ->
-    !item.unsafeCast<TreeNode>().selectable
+private val IS_ITEM_SELECTION_DISABLED = { item: TreeNode ->
+    !item.selectable
 }
 
 private val CASCADE_SELECTION_PROPAGATION = TreeViewSelectionPropagation(
@@ -113,7 +113,7 @@ internal val TreeView: FC<TreeViewProps> = FC { props ->
         }
     }
 
-    MuiRichTreeView {
+    MuiRichTreeView<RichTreeViewProps<TreeNode>> {
         className = treeViewStyle()
         apiRef = treeViewApi
 
@@ -127,8 +127,8 @@ internal val TreeView: FC<TreeViewProps> = FC { props ->
         slotProps = itemSlotProps
 
         items = tree
-        getItemId = { it.unsafeCast<TreeNode>().key }
-        getItemLabel = { it.unsafeCast<TreeNode>().label }
+        getItemId = { it.key }
+        getItemLabel = { it.label }
         getItemChildren = GET_ITEM_CHILDREN
         isItemDisabled = IS_ITEM_DISABLED
         isItemSelectionDisabled = IS_ITEM_SELECTION_DISABLED

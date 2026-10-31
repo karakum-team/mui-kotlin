@@ -27,5 +27,5 @@ external interface RichTreeViewItemsSlots {
 
 external interface RichTreeViewItemsSlotProps : Props {
     var item: SlotComponentProps<TreeItemProps, RichTreeViewItemsOwnerState>?
-    var root: SlotComponentProps<HTMLAttributes<HTMLUListElement>, RichTreeViewProps>?
+    var root: SlotComponentProps<HTMLAttributes<HTMLUListElement>, RichTreeViewProps<*>>?
 }

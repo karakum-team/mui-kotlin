@@ -158,7 +158,8 @@ internal fun findParentType(
                 .map { parent ->
                     // Map TreeView store parameter utility types to their synthetic base interfaces
                     when {
-                        parent.startsWith("UseTreeViewStoreParameters<RichTreeViewStore") -> "RichTreeViewStoreParameters"
+                        // `R` is `RichTreeViewProps<R : Any>`'s own parameter, see `findProps`.
+                        parent.startsWith("UseTreeViewStoreParameters<RichTreeViewStore") -> "RichTreeViewStoreParameters<R>"
                         parent.startsWith("UseTreeViewStoreParameters<SimpleTreeViewStore") -> "TreeViewStoreParameters"
                         parent.startsWith("UseTreeViewStoreParameters<") -> "TreeViewStoreParameters"
                         // `RichTreeViewItemsSlotProps<RichTreeViewProps<R, Multiple>>`: the parameter is the owner

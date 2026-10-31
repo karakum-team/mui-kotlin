@@ -1165,6 +1165,12 @@ private fun findProps(
         propsName == "AutocompleteProps"
             -> "$propsName<Value>"
 
+        // `RichTreeViewProps<R extends TreeViewValidItem<R>, Multiple extends boolean | undefined>`: `R` is the
+        // item model — `items`, `getItemId`, `getItemChildren`, … all speak it, so it is kept (`Multiple` is
+        // folded into the `TreeViewSelectionValue` carrier instead, see TREE_VIEW_SELECTION_VALUE).
+        propsName == "RichTreeViewProps"
+            -> "$propsName<R : Any>"
+
         else -> propsName
     }
 
@@ -1971,6 +1977,7 @@ private fun findComponent(
 
             "AutocompleteProps",
             "SelectProps",
+            "RichTreeViewProps",
 
             "MultiSelectProps",
             "OptionProps",
