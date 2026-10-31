@@ -17,12 +17,12 @@ external interface TreeViewStoreParameters : Props {
     var onItemExpansionToggle: ((event: SyntheticEvent<*, *>?, itemId: TreeViewItemId, isExpanded: Boolean) -> Unit)?
     var expansionTrigger: TreeViewExpansionTrigger?
     var disableSelection: Boolean?
-    var selectedItems: Any?
-    var defaultSelectedItems: Any?
+    var selectedItems: TreeViewSelectionValue?
+    var defaultSelectedItems: TreeViewSelectionValue?
     var multiSelect: Boolean?
     var checkboxSelection: Boolean?
     var selectionPropagation: TreeViewSelectionPropagation?
-    var onSelectedItemsChange: ((event: SyntheticEvent<*, *>?, itemIds: Any?) -> Unit)?
+    var onSelectedItemsChange: ((event: SyntheticEvent<*, *>?, itemIds: TreeViewSelectionValue?) -> Unit)?
     var onItemSelectionToggle: ((event: SyntheticEvent<*, *>?, itemId: TreeViewItemId, isSelected: Boolean) -> Unit)?
     var onItemClick: ((event: MouseEvent<*, *>, itemId: TreeViewItemId) -> Unit)?
     var onItemFocus: ((event: SyntheticEvent<*, *>?, itemId: TreeViewItemId) -> Unit)?

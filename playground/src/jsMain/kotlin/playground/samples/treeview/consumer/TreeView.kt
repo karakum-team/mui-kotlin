@@ -3,6 +3,8 @@ package playground.samples.treeview.consumer
 import js.objects.unsafeJso
 import muix.tree.view.TreeViewExpansionTrigger
 import muix.tree.view.TreeViewSelectionPropagation
+import muix.tree.view.TreeViewSelectionValue
+import muix.tree.view.asMultiple
 import react.FC
 import react.PropsWithClassName
 import react.ReactNode
@@ -131,10 +133,9 @@ internal val TreeView: FC<TreeViewProps> = FC { props ->
             defaultExpandedItems = defaultExpanded
         }
 
-        // W7: `selectedItems` / `onSelectedItemsChange` are `Any?`.
-        selectedItems = selected
+        selectedItems = TreeViewSelectionValue(selected)
         onSelectedItemsChange = { _, keys ->
-            val selectedKeys = keys.unsafeCast<Array<String>>().toSet()
+            val selectedKeys = keys.asMultiple().toSet()
             props.onChange?.invoke(
                 if (cascade) selectedKeys.withoutIncompleteParents(nodes) else selectedKeys,
             )

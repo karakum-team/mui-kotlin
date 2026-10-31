@@ -187,12 +187,12 @@ external interface TreeViewStoreParameters : react.Props {
     var onItemExpansionToggle: ((event: react.dom.events.SyntheticEvent<*, *>?, itemId: TreeViewItemId, isExpanded: Boolean) -> Unit)?
     var expansionTrigger: TreeViewExpansionTrigger?
     var disableSelection: Boolean?
-    var selectedItems: Any?
-    var defaultSelectedItems: Any?
+    var selectedItems: TreeViewSelectionValue?
+    var defaultSelectedItems: TreeViewSelectionValue?
     var multiSelect: Boolean?
     var checkboxSelection: Boolean?
     var selectionPropagation: TreeViewSelectionPropagation?
-    var onSelectedItemsChange: ((event: react.dom.events.SyntheticEvent<*, *>?, itemIds: Any?) -> Unit)?
+    var onSelectedItemsChange: ((event: react.dom.events.SyntheticEvent<*, *>?, itemIds: TreeViewSelectionValue?) -> Unit)?
     var onItemSelectionToggle: ((event: react.dom.events.SyntheticEvent<*, *>?, itemId: TreeViewItemId, isSelected: Boolean) -> Unit)?
     var onItemClick: ((event: react.dom.events.MouseEvent<*, *>, itemId: TreeViewItemId) -> Unit)?
     var onItemFocus: ((event: react.dom.events.SyntheticEvent<*, *>?, itemId: TreeViewItemId) -> Unit)?
@@ -216,6 +216,55 @@ external interface RichTreeViewStoreParameters : TreeViewStoreParameters {
 // `'content' | 'iconContainer'` is spelled inline on `MinimalTreeViewParameters.expansionTrigger` (and on the
 // state), never as a named alias, so the union has to be declared here for the stub to refer to it.
 private val TREE_VIEW_EXPANSION_TRIGGER = convertUnion("TreeViewExpansionTrigger = 'content' | 'iconContainer'")!!
+
+// TreeViewSelectionValue:
+//  Upstream `TreeViewSelectionValue<Multiple>` is a conditional type: `TreeViewItemId[]` when `Multiple` is `true`,
+//  `TreeViewItemId | null` otherwise. The props interfaces here do not carry `Multiple`, so the two shapes share one
+//  opaque carrier with a factory per shape and readers that accept either — a consumer never has to cast the raw
+//  value `onSelectedItemsChange` hands over.
+// language=kotlin
+private val TREE_VIEW_SELECTION_VALUE = """
+/**
+ * The selection of a Tree View: the ids of the selected items when `multiSelect` is `true`, one id or `null`
+ * otherwise (`TreeViewSelectionValue<Multiple>` upstream). Built with the factories below and read back with
+ * [asMultiple] or [asSingle], whichever the component is configured for.
+ */
+sealed external interface TreeViewSelectionValue
+
+/**
+ * The selection of a `multiSelect` Tree View.
+ */
+inline fun TreeViewSelectionValue(
+    ids: js.array.ReadonlyArray<TreeViewItemId>,
+): TreeViewSelectionValue =
+    unsafeCast(ids)
+
+/**
+ * The selection of a single-select Tree View; `null` is an empty selection.
+ */
+inline fun TreeViewSelectionValue(
+    id: TreeViewItemId?,
+): TreeViewSelectionValue? =
+    unsafeCast(id)
+
+/**
+ * The selected ids regardless of the selection mode: an empty selection is an empty array and a single id is a
+ * selection of one item.
+ */
+fun TreeViewSelectionValue?.asMultiple(): js.array.ReadonlyArray<TreeViewItemId> =
+    when {
+        this == null -> emptyArray()
+        kotlin.js.jsTypeOf(this) == "string" -> arrayOf(unsafeCast<TreeViewItemId>(this))
+        else -> unsafeCast(this)
+    }
+
+/**
+ * The selected id regardless of the selection mode: the first id of a multi-selection, `null` when nothing is
+ * selected.
+ */
+fun TreeViewSelectionValue?.asSingle(): TreeViewItemId? =
+    asMultiple().firstOrNull()
+""".trimIndent()
 
 // PickerValidDate:
 //  MUI-X v9 opaque date model types (from @mui/x-date-pickers/models). `PickerValidDate` is a conditional
@@ -834,6 +883,7 @@ private fun RuntimeBindings.generateTreeViewDeclarations(
     val handWritten = listOf(
         "Stubs" to TREE_VIEW_STUBS,
         "TreeViewExpansionTrigger" to TREE_VIEW_EXPANSION_TRIGGER,
+        "TreeViewSelectionValue" to TREE_VIEW_SELECTION_VALUE,
     )
 
     handWritten.forEach { (name, body) ->
