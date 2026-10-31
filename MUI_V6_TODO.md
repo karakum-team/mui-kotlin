@@ -21,9 +21,13 @@
    [`createSpacing`](#system).
 4. ~~**Компоненты, наследующие `slots`/`slotProps` от родителя**~~ — ✅ сделано 2026-10-31, см.
    [«Известные потери»](#известные-потери--упрощения-в-публичном-api).
-5. **`GridSize`** — `Grid.size` типизирован `Union /* … */`; сгенерированный `sealed GridSize` непригоден (теряет
-   `number`, `false` эмитится строкой `"false"`). Нужен конвертер смешанных `string | number | boolean`-юнионов.
-6. Низкий приоритет: `createColorScheme`/`extendTheme`/CssVars-провайдер, `OverridableComponent`, Pigment-компоненты,
+5. ~~**`GridSize`**~~ — ✅ сделано 2026-10-31, заодно исправлены булевы/числовые литералы во всех юнионах. См.
+   [«Известные потери»](#известные-потери--упрощения-в-публичном-api).
+6. **`Grid` без HTML-атрибутов** — `GridProps : GridBaseProps, PropsWithSx, PropsWithComponent`: в TS это
+   `OverrideProps<GridTypeMap, 'div'>`, а в Kotlin нет даже `id`/`className`/`style` (найдено 2026-10-31 при
+   работе над `GridSize`). Также `GridOffset = 'auto' | number` и `GridSpacing` остаются `Any /* … */`:
+   `convertUnion` принимает только юнионы, оканчивающиеся литералом.
+7. Низкий приоритет: `createColorScheme`/`extendTheme`/CssVars-провайдер, `OverridableComponent`, Pigment-компоненты,
    template literal types, JSDoc для `Omit`-ключей, `Rating.defaultValue`/`StepIcon`/`Autocomplete.key` (приемлемые
    обходы уже есть).
 
@@ -233,14 +237,22 @@
   `StandardProps<SwitchBaseProps, …>`, `UseSwitchParameters` в цепочке нет.
 - **`StepIcon`** — SvgIconOwnProps стрипнут из родителей (HTMLAttributes T-параметр не совмещался). Типизированный
   доступ — `StepIcon.ext.kt::asSvgIconOwnProps()`.
-- **`GridSize`** — ⏳ Grid2 в v9 удалён, остался один `Grid` с `GridSize = 'auto' | 'grow' | number | false`
-  (одинаково в material и system). `STANDARD_TYPE_MAP["GridSize"]` даёт
-  `ResponsiveStyleValue<Union /* 'auto' | 'grow' | number | false */>`. Сгенерированный `sealed GridSize` в
-  `Grid.ext.kt`/`GridProps.ext.kt` подставить нельзя: `convertUnion` теряет `number` («Lost from union») и эмитит
-  булев `false` как `@JsValue("false")` — строку. To fix: научить `convertUnion` смешанным юнионам (фабрики для
-  `number`, настоящий `false`), затем убрать запись из `STANDARD_TYPE_MAP`.
+- **`GridSize` и литералы в юнионах** — ✅ (2026-10-31). Grid2 в v9 удалён, остался один `Grid` с
+  `GridSize = 'auto' | 'grow' | number | false` (одинаково в material и system); `Grid.size` теперь
+  `ResponsiveStyleValue<GridSize>` вместо `Union /* … */` (запись `STANDARD_TYPE_MAP["GridSize"]` удалена).
+    - `UnionConverter.kt::convertUnion`: примитив рядом с литералами (`number` / `string` / `boolean`) больше не
+      «Lost from union», а фабрика по образцу `SpacingOptions` — `GridSize(6)` (`inline fun GridSize(value: Number)`).
+    - Найденный попутно рантайм-баг: булевы и числовые литералы без кавычек эмитились как
+      `@JsValue("false")` / `@JsValue("1")`, т.е. уходили в JS строками. Теперь `@JsRawValue("false")` (соглашение
+      kotlin-wrappers, ср. popper/table) — исправлены 14 булевых значений в `TabsScrollButtons`, `IconButtonEdge`,
+      `SwitchBaseEdge`, `SkeletonAnimation`, `SortDirection`, `ClickAwayListener*Event`, `GridSize`, base
+      `BlurOnSelect` / `ClickAwayListener*`, и числовые `baseui.Direction` (`-1 | 1`). Например,
+      `TableCell.sortDirection = SortDirection.false` раньше ставил `aria-sort="descending"` (строка `"false"`
+      truthy). Строковые литералы в кавычках (`'false'`) остаются `@JsValue`.
+    - Покрыт `playground/.../samples/material/LiteralUnionsSample.kt` (классы `grid-*` для фабрики/`auto`/`grow`/
+      брейкпоинтов, отсутствие `grid-md-false`, `aria-sort`, анимация Skeleton).
 - **Internal-rejected parents** — `ParentType.kt::INTERNAL_REJECTED_PARENTS` (`BasePopperProps`,
-  `DialogActionsProps`, `CssContainerQueries`, `NormalCssProperties`, `StyledComponentProps`, плюс десяток
+  `DialogActionsProps`, `CssContainerQueries`, `StyledComponentProps`, плюс десяток
   mui-x-внутренних — список см. в коде и в MUI_V7/V9_TODO) отбрасываются из родительских списков. **`LinkBaseProps`
   и `TablePaginationBaseProps`** эмитятся как пустые стабы (`MATERIAL_LINK_BASE_PROPS_STUB`,
   `MATERIAL_TABLE_PAGINATION_BASE_PROPS_STUB`) — цепочка наследования сохранена на уровне символа.
@@ -349,8 +361,8 @@
     - **Rating** ⏳ — попробовать `override var defaultValue: Any?` в `RatingProps`; откладывается до пробы, обход
       `defaultValueAsNumber` работает.
 
-- **`GridSize` — смешанные литеральные юнионы.** ⏳ См. «Известные потери». Нужен `convertUnion`, который для
-  `'auto' | 'grow' | number | false` эмитит строковые значения, фабрику для `number` и настоящий `false`.
+- **`GridSize` — смешанные литеральные юнионы.** ✅ См. «Известные потери». Остаток: юнионы, оканчивающиеся
+  примитивом (`GridOffset = 'auto' | number`), `convertUnion` пока не принимает.
 
 ### Высокая сложность
 
