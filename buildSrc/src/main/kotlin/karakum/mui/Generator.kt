@@ -645,18 +645,14 @@ private fun RuntimeBindings.generateStylesDeclarations(
     typesDir.listFiles { file -> isStyleDefinition(file.name) }!!
         .forEach { generate(it, targetDir, Package.materialStyles) }
 
-    // MUI v6 split `Theme` and `ThemeOptions` definitions across createThemeNoVars/
-    // createThemeWithVars/createTheme with complex TS conditional types we skip.
-    // Emit minimal stubs so downstream references resolve.
-    //
-    // Because these are stubs over `mui.system.*` rather than a conversion of
-    // createThemeNoVars.d.ts, every member that exists ONLY on the material theme has to be
-    // repeated here by hand — upstream additions do not flow in on a version bump.
-    // `focusVisible` (MUI 9.4.0) is the first such member.
-    //
-    // Simplification kept deliberate: upstream declares
-    // `ThemeOptions extends Omit<SystemThemeOptions, 'zIndex'>`, the stub inherits `zIndex`.
-    targetDir.resolve("Theme.kt")
+    // The material theme (`ThemeOptions`, `BaseTheme`, `Theme`) is converted from `createThemeNoVars.d.ts`
+    // once `adapters/CreateThemeNoVars.kt` collapses its CSS-variables conditional types — so members MUI
+    // adds there flow in on a version bump. Types only: the factory itself is not exported; `createTheme`
+    // below binds the public one.
+    generate(typesDir.resolve("createThemeNoVars.d.ts"), targetDir, Package.materialStyles, typesOnly = true)
+
+    // `export type FocusVisible = React.CSSProperties;` — the generator does not emit plain type aliases.
+    targetDir.resolve("FocusVisible.kt")
         .writeGenerated(
             fileContent(
                 body = """
@@ -664,23 +660,6 @@ private fun RuntimeBindings.generateStylesDeclarations(
                      * CSS of the keyboard focus ring, spread onto the `Mui-focusVisible` state.
                      */
                     typealias FocusVisible = react.CSSProperties
-
-                    external interface Theme : mui.system.Theme {
-                        /**
-                         * The resolved focus ring, present only when the theme opted in.
-                         * `createTheme` turns the [ThemeOptions.focusVisible] opt-in into this.
-                         */
-                        var focusVisible: FocusVisible?
-                    }
-
-                    external interface ThemeOptions : mui.system.ThemeOptions {
-                        /**
-                         * `true` for the curated default ring (solid, `palette.primary.main`,
-                         * `2px` wide, `2px` offset), or a [FocusVisible] merged over that default.
-                         * Set `outlineColor: 'transparent'` for a box-shadow-only ring.
-                         */
-                        var focusVisible: Any? /* Boolean | FocusVisible */
-                    }
                 """.trimIndent(),
                 pkg = Package.materialStyles,
             )
@@ -1495,7 +1474,7 @@ private fun RuntimeBindings.generate(
     }
 
     var emittedBody: String? = null
-    if (componentName != "CalendarPickerView" && componentName != "createTypography") {
+    if (componentName != "CalendarPickerView") {
         val finalBody = when {
             componentName == "createTransitions" -> body + "\n\n" + STYLE_TRANSITION_CREATE_OPTIONS
             else -> body

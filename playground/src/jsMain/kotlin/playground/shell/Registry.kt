@@ -21,6 +21,7 @@ import playground.samples.material.SvgIconSample
 import playground.samples.material.TableCellSample
 import playground.samples.material.TextFieldSlotPropsSample
 import playground.samples.material.ThemeFocusVisibleSample
+import playground.samples.material.ThemeTypingSample
 import playground.samples.material.TooltipPlacementSample
 import playground.samples.pickers.PickersClassesSample
 import playground.samples.pickers.PickersSectionListSample
@@ -108,6 +109,7 @@ val samples: List<Sample> = listOf(
     TableCellSample,
     TextFieldSlotPropsSample,
     ThemeFocusVisibleSample,
+    ThemeTypingSample,
     TooltipPlacementSample,
     MaterialV9Sample,
     RuntimeImportsSample,

@@ -83,6 +83,14 @@ private val KNOWN_TYPES = setOf(
     // `reducedMotion`. (Motion is new in v9, so it was missing from this set.)
     "Motion",
     "ReducedMotionMode",
+    "MotionOptions",
+
+    // Material theme (`createThemeNoVars.d.ts` / `createThemeFoundation.d.ts`), all in mui.material.styles.
+    "ThemeVars",
+    "DefaultColorScheme",
+    "TypographyVariants",
+    "TypographyVariantsOptions",
+    "FocusVisible",
 
     "MixinsOptions",
     "PaletteOptions",

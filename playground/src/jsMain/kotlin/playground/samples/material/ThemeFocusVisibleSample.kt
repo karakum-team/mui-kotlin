@@ -62,18 +62,14 @@ private val customRingTheme = createTheme(
     }
 )
 
-// The generated ThemeOptions stub does not expose the CSS variables opt-in yet.
-private external interface CssVariablesThemeOptions : ThemeOptions {
-    var cssVariables: Boolean
-}
-
 private val cssVariablesTheme = createTheme(
-    unsafeJso<CssVariablesThemeOptions> {
+    unsafeJso<ThemeOptions> {
         cssVariables = true
     }
 )
 
-// Theme.palette is currently Any?, but its CSS variables fields use the generated interfaces.
+// `Theme.palette` is the plain `Palette`: its CSS variables fields (`CssVarsPalette`) exist only when
+// `cssVariables` is on, which Kotlin's types cannot follow.
 private val cssVariablesPalette = cssVariablesTheme.palette.unsafeCast<CssVarsPalette>()
 
 val ThemeFocusVisibleSample: Sample = Sample(
@@ -93,8 +89,8 @@ val ThemeFocusVisibleSample: Sample = Sample(
     fileName = "ThemeFocusVisibleSample.kt",
     refs = listOf(
         Ref(
-            "MUI_V9_TODO.md — material theme stub",
-            "https://github.com/karakum-team/mui-kotlin/blob/main/MUI_V9_TODO.md#the-material-theme-is-a-hand-written-stub--upstream-additions-do-not-flow-in",
+            "MUI_V9_TODO.md — material theme",
+            "https://github.com/karakum-team/mui-kotlin/blob/main/MUI_V9_TODO.md#the-material-theme-is-converted-from-createthemenovarsdts",
         ),
         Ref("6ac39c87", "https://github.com/karakum-team/mui-kotlin/commit/6ac39c87"),
         Ref("f305a69c", "https://github.com/karakum-team/mui-kotlin/commit/f305a69c"),

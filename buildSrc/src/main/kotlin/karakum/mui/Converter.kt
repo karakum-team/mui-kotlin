@@ -1356,6 +1356,14 @@ private fun findAdditionalProps(
                         interfaceName == "ExportedValidateDateProps"
                             -> ":\nDayValidationProps,\nMonthValidationProps,\nYearValidationProps,\nBaseDateValidationProps"
 
+                        // Material `Shape extends SystemShape {}` (createThemeFoundation.d.ts): the parent is the
+                        // generated `mui.system.Shape`, and it is the whole surface (`borderRadius`).
+                        "extends SystemShape {}" in body
+                            -> " : mui.system.Shape"
+
+                        "extends SystemShapeOptions {}" in body
+                            -> " : mui.system.ShapeOptions"
+
                         // Base UI: the declared parent is a generated sibling, so it is read off the
                         // source like a non-empty interface's would be. What it restores is the whole of
                         // the declaration — `SliderControlState extends SliderRootState {}` has no members

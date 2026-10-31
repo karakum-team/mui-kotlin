@@ -64,4 +64,8 @@ internal val VAR_TYPE_MISMATCH_ON_OVERRIDE_FIX_REQUIRED = setOf(
     "Dialog", // onClose
     "Drawer", // onClose
     "Popover", // onClose
+
+    // The material theme narrows `mui.system.Theme` / `ThemeOptions` members (`palette: Any?` → `Palette`,
+    // `mixins: mui.system.Mixins?` → material `Mixins`, …) — the reason the material theme exists.
+    "createThemeNoVars",
 )

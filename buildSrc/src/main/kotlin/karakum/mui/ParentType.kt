@@ -123,6 +123,14 @@ internal fun findParentType(
         "SystemTheme",
             -> "mui.system.Theme"
 
+        "SystemThemeOptions",
+            -> "mui.system.ThemeOptions"
+
+        // `type NormalCssProperties = CSS.Properties<number | string>` (createMixins.d.ts) — csstype's property
+        // bag, i.e. `react.CSSProperties`. Parent of the material `BaseCSSProperties` / `CSSProperties`.
+        "NormalCssProperties",
+            -> "react.CSSProperties"
+
         "ButtonOwnProps",
         "PopperProps",
             -> "mui.base.$parentSource"
@@ -208,7 +216,6 @@ private val INTERNAL_REJECTED_PARENTS = setOf(
     "PickersArrowSwitcherSlots",
     "PickersArrowSwitcherSlotProps",
     "CssContainerQueries",
-    "NormalCssProperties",
     "StyledComponentProps",
     // MUI-X pickers: internal/cross-platform base types not suitable as Kotlin parents.
     "BaseDateTimePickerProps",

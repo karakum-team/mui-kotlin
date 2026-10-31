@@ -104,6 +104,11 @@ internal fun findDefaultFunction(
         .replace(": string", ": String")
         .replace(": number", ": Number")
         .replace(": ((theme: Theme) => string)", ": (theme: Theme) -> String")
+        // `private_createTypography`'s options: an object or a `(palette) => options` callback.
+        .replace(
+            "typography: TypographyVariantsOptions | ((palette: Palette) => TypographyVariantsOptions)",
+            "typography: Any /* TypographyVariantsOptions | ((palette: Palette) => TypographyVariantsOptions) */",
+        )
         // v6 `createSpacing` transform: a `Spacing`, a unit converter or a no-op — a union of function types.
         // Matched after the generic `: number` rewrite above has already turned `abs: number` into `abs: Number`.
         .replace(

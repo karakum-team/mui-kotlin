@@ -9,6 +9,9 @@ private val ALIAS_MAP = mapOf(
     "NativeSelectInputProps['onChange']" to "react.dom.events.ChangeEventHandler<*, *>",
     "OutlinedInputProps['onChange']" to "react.dom.events.ChangeEventHandler<web.html.HTMLElement, *>",
     "PaperProps['role']" to "react.dom.aria.AriaRole",
+    // createTypography.d.ts `FontStyle`.
+    "React.CSSProperties['fontFamily']" to "web.cssom.FontFamily",
+    "React.CSSProperties['fontWeight']" to "web.cssom.FontWeight",
     "PopoverProps['anchorEl']" to "(element: Element) -> Element",
     "PopoverProps['classes']" to "PopoverClasses",
     "PopoverProps['onClose']" to "",

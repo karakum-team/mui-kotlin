@@ -11,6 +11,10 @@ fun String.adaptRawContent(
     // than replaced with `any`. See [dropMemberValueObjects] — on for Base UI, off for `@mui/*`.
     collapseMemberValueObjects: Boolean = false,
 ): String = this
+    // Must run before the generic passes below: `dropMemberValueObjects` turns the `{}` branches of the
+    // conditional types it collapses into `any`, after which its patterns no longer match.
+    .adaptCreateThemeNoVars()
+    .adaptCreateTypography()
     // MUI-X v9 `internals/models/validation.d.ts` declares `FutureAndPastValidationProps` WITHOUT `export`
     // (the generator skips non-exported interfaces), yet Base{Date,Time}ValidationProps extend it for
     // `disablePast`/`disableFuture`. Export it so those fields survive in the generated parents.

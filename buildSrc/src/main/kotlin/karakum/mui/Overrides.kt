@@ -194,6 +194,15 @@ internal fun fixOverrides(
             .override("centered")
             .replaceFirst("centered: Boolean", "centered: Boolean?")
 
+        // The material theme (`createThemeNoVars.d.ts`, see `adapters/CreateThemeNoVars.kt`) re-declares these
+        // `mui.system.Theme` / `ThemeOptions` members without the generator noticing the parent has them.
+        "createThemeNoVars",
+            -> content
+            .override("unstable_sxConfig", all = true)
+            .override("unstable_sx")
+            .override("applyStyles")
+            .override("shape", all = true)
+
         "createTheme",
             -> {
             if ("mui.system.ThemeOptions" !in content) {
