@@ -1756,6 +1756,7 @@ private val IMPORTED_FQNS = listOf(
     "mui.types.PropsWithComponent",
 
     // mui.system
+    "mui.system.Breakpoints",
     "mui.system.ContainerClasses",
     "mui.system.PropsWithSx",
     "mui.system.ResponsiveStyleValue",

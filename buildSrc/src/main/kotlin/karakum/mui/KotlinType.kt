@@ -214,7 +214,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "3 | 4" to "Number /* 3 | 4 */",
     "0 | -1" to "Int",
 
-    "Date" to "kotlin.js.Date",
+    "Date" to "js.date.Date",
 
     "keyof HTMLElementTagNameMap" to "web.dom.TagName<out HTMLElement>",
 

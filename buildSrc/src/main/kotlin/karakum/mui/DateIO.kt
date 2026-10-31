@@ -40,7 +40,7 @@ internal fun convertDateUtils(
                     .replace(": [TDate, TDate]", ": Tuple2<TDate, TDate>")
                     .replace(": TDate | string", ": TDate")
                     .replace(": TDate | null", ": TDate?")
-                    .replace(": Date", ": kotlin.js.Date")
+                    .replace(": Date", ": js.date.Date")
                     .replace(": string[]", ": ReadonlyArray<String>")
                     .replace(": string", ": String")
                     .replace(": boolean", ": Boolean")
