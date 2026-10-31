@@ -43,7 +43,7 @@ Migration of the generator from MUI v7 → **v9** (v8 skipped; the suite was rea
   comment/semicolon normalization can unbalance its braces and swallow the interface's body.
   The converter also preserves blank/closing lines in the new date JSDoc. Three regression tests
   cover the overloads, changed-signature rejection, and full conversion with constructor comments.
-- Added `DateIo.kt` to the playground using real `@date-io/date-fns 3.2.1` (playground-only; its peer
+- Added `DateIo.kt` (now `playground/src/jsMain/kotlin/playground/samples/dateio/DateIoUtilsSample.kt`) to the playground using real `@date-io/date-fns 3.2.1` (playground-only; its peer
   range supports our existing `date-fns 4.4.0`). It tests generated IUtils directly, separately from
   MUI's different adapter API. Chrome shows all seven checks passing: no-argument/null/string/Date
   inputs, typed en-GB locale, week 42, and `15/10/2026` localized formatting. Existing MUI DatePicker
@@ -106,7 +106,7 @@ Migration of the generator from MUI v7 → **v9** (v8 skipped; the suite was rea
 - `findClassesDeclaration` now extracts an interface's own body even when its utility-type parent
   cannot be retained. This exposes `richTreeViewClasses.itemLoader`; it does not expand the inherited
   keys hidden behind `Omit<TreeViewClasses, ...>`. Existing picker class inheritance is unchanged.
-- New `playground/src/jsMain/kotlin/TreeViewLoading.kt` exercises `loading`, both new slots, slot props,
+- New `playground/src/jsMain/kotlin/TreeViewLoading.kt` (now `playground/src/jsMain/kotlin/playground/samples/treeview/RichTreeViewLoadingSample.kt`) exercises `loading`, both new slots, slot props,
   typed loading-row state, and both new CSS-class objects. The existing `items` gap is supplied by a
   sample-local props interface, not a change to the library API. `RichTreeViewSlotProps.loading` and
   `.itemLoader` still use the generator's existing `react.Props` approximation for `SlotComponentProps`;
@@ -255,7 +255,7 @@ is neither a bare identifier nor a generated type, so both keep the empty marker
 `PickerPopper/pickerPopperClasses` and `PickersArrowSwitcher/pickersArrowSwitcherClasses`. They would have
 to bind to `@mui/x-date-pickers/internals`, which MUI can change without a semver signal.
 
-Covered in `playground/src/jsMain/kotlin/Pickers.kt` and checked in the browser: all 16 new class objects
+Covered in `playground/src/jsMain/kotlin/Pickers.kt` (now `playground/src/jsMain/kotlin/playground/samples/pickers/PickersClassesSample.kt`) and checked in the browser: all 16 new class objects
 are referenced through typed members, as is `dayCalendarClasses` (the one whose subpath changed).
 `pickersOutlinedInputClasses.root` — an *inherited* key — is confirmed to reach the DOM, which is what
 proves the supertype carries the base's keys at runtime. The other 10 pre-existing pickers class objects
@@ -274,7 +274,7 @@ regeneration diff stays empty and `compileKotlinJs` stays green.
 
 First instance: `theme.focusVisible`, added in `@mui/material@9.4.0`. It is now on the stub
 (`FocusVisible` typealias + `Theme.focusVisible` + `ThemeOptions.focusVisible`) and exercised by
-`playground/src/jsMain/kotlin/Theming.kt`. When bumping, diff `styles/createThemeNoVars.d.ts`
+`playground/src/jsMain/kotlin/playground/samples/material/ThemeFocusVisibleSample.kt`. When bumping, diff `styles/createThemeNoVars.d.ts`
 between the old and new tarball rather than trusting an empty regeneration diff.
 
 Deliberate simplification kept from before: upstream declares
@@ -326,7 +326,8 @@ whose value becomes accessible is an error too, prompting its removal rather tha
 Fixture tests cover resolution, aliases, symbol identity, namespaces, cycles, type-only exports,
 missing targets and stale exclusions; Kotlin tests cover declaration extraction, rendering and module
 splitting. `:mui-kotlin:testRuntimeExports` is part of `check`. Playground coverage lives in
-`RuntimeImports.kt` and `RuntimePickerField.kt`, exercising the repaired imports through the generated
+`RuntimeImports.kt` and `RuntimePickerField.kt` (now `playground/src/jsMain/kotlin/playground/samples/material/RuntimeImportsSample.kt` and
+`playground/src/jsMain/kotlin/playground/samples/pickers/RuntimePickerField.kt`), exercising the repaired imports through the generated
 API, with local provider/slot scaffolding for legacy transitions and `PickersSectionList`.
 
 Verified locally with 21 export-graph fixtures and 5 Kotlin binding tests, a clean full build
@@ -350,7 +351,7 @@ calendars + clocks + PickerDay + PickersCalendarHeader + fields + adapters) and 
 ### Tree View: the behavioural props are still missing (found during the 9.8 → 9.12 bump)
 
 "Generated and green" understated one gap. Compilation could not see it because nothing in the repo
-consumed the tree-view declarations until `playground/src/jsMain/kotlin/TreeView.kt` was added.
+consumed the tree-view declarations until `playground/src/jsMain/kotlin/TreeView.kt` (now `playground/src/jsMain/kotlin/playground/samples/treeview/SimpleTreeViewSample.kt`) was added.
 
 - **Fixed in the 9.12 bump:** `TreeItemProps` had neither `itemId` (which the component *requires*) nor
   `label`. Both come from `Omit<UseTreeItemParameters, 'rootRef'>`. `useTreeItem/useTreeItem.types.d.ts`

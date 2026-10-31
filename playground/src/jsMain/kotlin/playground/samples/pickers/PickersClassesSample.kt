@@ -1,7 +1,11 @@
+package playground.samples.pickers
+
 import emotion.styled.styled
 import mui.material.Box
-import mui.material.Typography
 import muix.pickers.*
+import playground.shell.Kind
+import playground.shell.Libraries
+import playground.shell.Sample
 import react.FC
 import react.Props
 import web.cssom.*
@@ -25,32 +29,36 @@ import web.cssom.LineStyle.Companion.solid
 //    `MuiMonthCalendar*` nodes, and no error either. Mounting one for real is also what makes the
 //    `LocalizationProvider` below load-bearing: every picker calls `usePickerAdapter`, which throws when
 //    no provider supplies a `dateAdapter`.
-val Pickers = FC<Props> {
-    Typography {
-        +"Pickers — muix.pickers"
-    }
+val PickersClassesSample: Sample = Sample(
+    id = "classes",
+    library = Libraries.Pickers,
+    title = "Pickers classes",
+    kind = Kind.ClassesCoverage,
+    covers = listOf("DateCalendar", "picker *Classes", "PickersSectionList"),
+    fileName = "PickersClassesSample.kt",
+    content = FC<Props> {
+        LocalizationProvider {
+            dateAdapter = AdapterDateFns
 
-    LocalizationProvider {
-        dateAdapter = AdapterDateFns
+            PickersShowcase {
+                // Owns dayCalendar / pickersFadeTransitionGroup / pickersSlideTransition classes.
+                DateCalendar {}
 
-        PickersShowcase {
-            // Owns dayCalendar / pickersFadeTransitionGroup / pickersSlideTransition classes.
-            DateCalendar {}
+                // Static variants mount PickersLayout and the per-picker toolbars.
+                StaticDatePicker {}
+                StaticTimePicker {}
 
-            // Static variants mount PickersLayout and the per-picker toolbars.
-            StaticDatePicker {}
-            StaticTimePicker {}
+                TimeClock {}
+                MultiSectionDigitalClock {}
 
-            TimeClock {}
-            MultiSectionDigitalClock {}
+                // The only one here that mounts PickersTextField → PickersOutlinedInput.
+                DatePicker {}
 
-            // The only one here that mounts PickersTextField → PickersOutlinedInput.
-            DatePicker {}
-
-            RuntimePicker()
+                RuntimePicker()
+            }
         }
-    }
-}
+    },
+)
 
 private val PickersShowcase = Box.styled {
     display = Display.grid

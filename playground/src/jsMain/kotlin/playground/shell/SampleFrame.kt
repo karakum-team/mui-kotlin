@@ -1,10 +1,11 @@
 package playground.shell
 
 import emotion.react.css
-import react.ChildrenBuilder
+import playground.dataSample
 import react.FC
 import react.PropsWithChildren
-import react.createContext
+import react.RequiredContext
+import react.createRequiredContext
 import react.dom.html.ReactHTML.a
 import react.dom.html.ReactHTML.code
 import react.dom.html.ReactHTML.dd
@@ -21,7 +22,8 @@ import web.cssom.ClassName
 import web.cssom.Position
 import web.dom.ElementId
 
-val SampleContext = createContext<Sample>()
+val SampleContext: RequiredContext<Sample> =
+    createRequiredContext()
 
 external interface SampleFrameProps : PropsWithChildren {
     var sample: Sample
@@ -38,7 +40,7 @@ val SampleFrame = FC<SampleFrameProps> { props ->
     SampleContext.Provider(sample) {
         section {
             id = ElementId(domId)
-            asDynamic()["data-sample"] = sample.key
+            dataSample = sample.key
             ariaLabelledBy = ElementId("$domId-title")
             className = ClassName("pg-sample")
 
@@ -53,28 +55,34 @@ val SampleFrame = FC<SampleFrameProps> { props ->
                 dl {
                     className = ClassName("pg-meta")
 
-                    meta("Kotlin package") {
+                    MetaItem {
+                        label = "Kotlin package"
                         code { +sample.library.kotlinPackage }
                     }
-                    meta("npm") {
+                    MetaItem {
+                        label = "npm"
                         val version = sample.library.version
                         code { +(if (version != null) "${sample.library.npmPackage}@$version" else sample.library.npmPackage) }
                         if (version == null) +" (pinned in mui-kotlin/build.gradle.kts)"
                     }
                     val libraryNote = sample.library.note
                     if (libraryNote != null) {
-                        meta("Note") {
+                        MetaItem {
+                            label = "Note"
                             +libraryNote
                         }
                     }
-                    meta("Kind") {
+                    MetaItem {
+                        label = "Kind"
                         +sample.kind.name
                     }
-                    meta("Covers") {
+                    MetaItem {
+                        label = "Covers"
                         +sample.covers.joinToString(", ")
                     }
                     if (sample.refs.isNotEmpty()) {
-                        meta("Refs") {
+                        MetaItem {
+                            label = "Refs"
                             sample.refs.forEachIndexed { index, ref ->
                                 if (index > 0) +", "
                                 a {
@@ -84,10 +92,12 @@ val SampleFrame = FC<SampleFrameProps> { props ->
                             }
                         }
                     }
-                    meta("Source") {
+                    MetaItem {
+                        label = "Source"
                         code { +sample.sourcePath }
                     }
-                    meta("Route") {
+                    MetaItem {
+                        label = "Route"
                         a {
                             href = sample.hash
                             +sample.hash
@@ -116,13 +126,14 @@ val SampleFrame = FC<SampleFrameProps> { props ->
     }
 }
 
-private fun ChildrenBuilder.meta(
-    label: String,
-    value: ChildrenBuilder.() -> Unit,
-) {
+external interface MetaItemProps : PropsWithChildren {
+    var label: String
+}
+
+private val MetaItem = FC<MetaItemProps> { props ->
     div {
         className = ClassName("pg-meta-item")
-        dt { +label }
-        dd { value() }
+        dt { +props.label }
+        dd { +props.children }
     }
 }

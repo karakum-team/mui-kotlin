@@ -1,6 +1,11 @@
+package playground.samples.baseui
+
 import baseui.*
 import emotion.react.css
 import js.objects.unsafeJso
+import playground.shell.Kind
+import playground.shell.Libraries
+import playground.shell.Sample
 import react.CSSProperties
 import react.FC
 import react.Props
@@ -23,53 +28,61 @@ private fun toastUpdate(titleText: String, previousTitle: ReactNode? = null): Sa
         description = previousTitle
     }
 
-val myToastManager = Toast.createToastManager<Any>()
+private val myToastManager = Toast.createToastManager<Any>()
 
-val BaseUiToast = FC<Props> {
-    Toast.Provider {
-        this.toastManager = myToastManager
+val ToastSample: Sample = Sample(
+    id = "toast",
+    library = Libraries.BaseUi,
+    title = "Toast",
+    kind = Kind.Check,
+    covers = listOf("Toast.*", "createToastManager"),
+    fileName = "ToastSample.kt",
+    content = FC<Props> {
+        Toast.Provider {
+            this.toastManager = myToastManager
 
-        div {
-            css {
-                padding = Padding(16.px, 16.px)
-            }
-            button {
-                onClick = {
-                    myToastManager.add(unsafeJso<ToastManagerAddOptions<Props>> {
-                        title = "Success".unsafeCast<react.ReactNode>()
-                        description = "Your action was completed.".unsafeCast<react.ReactNode>()
-                        type = "success"
-                        // Keep the toast visible while exercising both update overloads.
-                        timeout = 0
-                    })
+            div {
+                css {
+                    padding = Padding(16.px, 16.px)
                 }
-                +"Show Toast"
-            }
-        }
-
-        val ToastViewport = Toast.Viewport
-
-        Toast.Portal {
-            container = document.body
-            className { ClassName("toast-portal") }
-            ToastViewport {
-                className = ClassName("toast-viewport")
-                style = {
-                    unsafeJso<CSSProperties> {
-                        position = Position.fixed
-                        bottom = 16.px
-                        right = 16.px
-                        display = Display.flex
-                        flexDirection = FlexDirection.column
-                        gap = 8.px
+                button {
+                    onClick = {
+                        myToastManager.add(unsafeJso<ToastManagerAddOptions<Props>> {
+                            title = "Success".unsafeCast<react.ReactNode>()
+                            description = "Your action was completed.".unsafeCast<react.ReactNode>()
+                            type = "success"
+                            // Keep the toast visible while exercising both update overloads.
+                            timeout = 0
+                        })
                     }
+                    +"Show Toast"
                 }
+            }
 
-                ToastList {}
+            val ToastViewport = Toast.Viewport
+
+            Toast.Portal {
+                container = document.body
+                className { ClassName("toast-portal") }
+                ToastViewport {
+                    className = ClassName("toast-viewport")
+                    style = {
+                        unsafeJso<CSSProperties> {
+                            position = Position.fixed
+                            bottom = 16.px
+                            right = 16.px
+                            display = Display.flex
+                            flexDirection = FlexDirection.column
+                            gap = 8.px
+                        }
+                    }
+
+                    ToastList {}
+                }
             }
         }
-    }
-}
+    },
+)
 
 private val ToastList = FC<Props> {
     val manager = Toast.useToastManager<Any>()

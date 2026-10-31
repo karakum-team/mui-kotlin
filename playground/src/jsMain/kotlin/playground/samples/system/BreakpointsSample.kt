@@ -1,3 +1,5 @@
+package playground.samples.system
+
 import mui.lab.Masonry
 import mui.material.Box
 import mui.system.Breakpoint.Companion.md
@@ -9,6 +11,7 @@ import react.Props
 import web.cssom.Display
 import web.cssom.None.Companion.none
 
+// Phase 3: promote to a rendered sample.
 val BreakpointsExample = FC<Props> {
     Box {
         sx {

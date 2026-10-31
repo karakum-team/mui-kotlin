@@ -1,3 +1,5 @@
+package playground.samples.pickers
+
 import js.array.jsArrayOf
 import js.objects.unsafeJso
 import muix.pickers.DatePicker
@@ -31,7 +33,7 @@ private external interface RuntimePickerSlots : DatePickerSlots {
     var field: FC<Props>
 }
 
-val RuntimePicker = FC<Props> {
+internal val RuntimePicker = FC<Props> {
     DatePicker {
         slots = unsafeJso<RuntimePickerSlots> { field = RuntimePickerField }
     }

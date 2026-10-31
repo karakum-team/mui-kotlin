@@ -1,5 +1,7 @@
 @file:JsModule("@mui/base/useTransition")
 
+package playground.samples.material
+
 import react.Context
 
 // Test scaffolding for the legacy transition components, whose surrounding Popup is not generated.

@@ -15,7 +15,8 @@ has changed declaration shapes across 1.x.
 
 **Where this stands:** nine modules are in `BASE_UI_MODULES` in `Generator.kt`: `menu`, `slider`,
 `field`, `fieldset`, `switch`, `checkbox`, `accordion`, `number-field`, and `toast`. All have generated declarations, runtime namespace
-objects, and samples wired into `playground/src/jsMain/kotlin/App.kt`. Inclusion does **not** mean full
+objects, and samples under `playground/src/jsMain/kotlin/playground/samples/baseui/`, registered in
+`playground/src/jsMain/kotlin/playground/shell/Registry.kt`. Inclusion does **not** mean full
 API or type coverage; the open gaps below affect existing modules as well as future additions.
 
 **Execution order:** start with predictable additions; defer work requiring new type-conversion
@@ -28,17 +29,17 @@ The pinned package has **43 public runtime modules**, plus the type-only `types`
 declarations pulled in through `BASE_UI_EXTRA_FILES` and `Menu.Separator` do not count as independently
 enabled modules.
 
-| Module | Exposed namespace API | Playground sample |
-|--------|-----------------------|-------------------|
-| `menu` | 20 components, including shared `Separator`; `Handle` / `createHandle` omitted | [BaseUiMenu.kt](playground/src/jsMain/kotlin/BaseUiMenu.kt) |
-| `slider` | 7 components | [BaseUiSlider.kt](playground/src/jsMain/kotlin/BaseUiSlider.kt) |
-| `field` | 7 components | [BaseUiField.kt](playground/src/jsMain/kotlin/BaseUiField.kt) |
-| `fieldset` | 2 components: Root / Legend | [BaseUiFieldset.kt](playground/src/jsMain/kotlin/BaseUiFieldset.kt) |
-| `switch` | 2 components: Root / Thumb | [BaseUiSwitch.kt](playground/src/jsMain/kotlin/BaseUiSwitch.kt) |
-| `checkbox` | 2 components: Root / Indicator | [BaseUiCheckbox.kt](playground/src/jsMain/kotlin/BaseUiCheckbox.kt) |
-| `accordion` | 5 components | [BaseUiAccordion.kt](playground/src/jsMain/kotlin/BaseUiAccordion.kt) |
-| `number-field` | 7 components | [BaseUiNumberField.kt](playground/src/jsMain/kotlin/BaseUiNumberField.kt) |
-| `toast` | 11 components + `createToastManager` / `useToastManager` | [BaseUiToast.kt](playground/src/jsMain/kotlin/BaseUiToast.kt) |
+| Module | Exposed namespace API | Playground sample | Route |
+|--------|-----------------------|-------------------|-------|
+| `menu` | 20 components, including shared `Separator`; `Handle` / `createHandle` omitted | [MenuSample.kt](playground/src/jsMain/kotlin/playground/samples/baseui/MenuSample.kt) | `#/baseui/menu` |
+| `slider` | 7 components | [SliderSample.kt](playground/src/jsMain/kotlin/playground/samples/baseui/SliderSample.kt) | `#/baseui/slider` |
+| `field` | 7 components | [FieldSample.kt](playground/src/jsMain/kotlin/playground/samples/baseui/FieldSample.kt) | `#/baseui/field` |
+| `fieldset` | 2 components: Root / Legend | [FieldsetSample.kt](playground/src/jsMain/kotlin/playground/samples/baseui/FieldsetSample.kt) | `#/baseui/fieldset` |
+| `switch` | 2 components: Root / Thumb | [SwitchSample.kt](playground/src/jsMain/kotlin/playground/samples/baseui/SwitchSample.kt) | `#/baseui/switch` |
+| `checkbox` | 2 components: Root / Indicator | [CheckboxSample.kt](playground/src/jsMain/kotlin/playground/samples/baseui/CheckboxSample.kt) | `#/baseui/checkbox` |
+| `accordion` | 5 components | [AccordionSample.kt](playground/src/jsMain/kotlin/playground/samples/baseui/AccordionSample.kt) | `#/baseui/accordion` |
+| `number-field` | 7 components | [NumberFieldSample.kt](playground/src/jsMain/kotlin/playground/samples/baseui/NumberFieldSample.kt) | `#/baseui/number-field` |
+| `toast` | 11 components + `createToastManager` / `useToastManager` | [ToastSample.kt](playground/src/jsMain/kotlin/playground/samples/baseui/ToastSample.kt) | `#/baseui/toast` |
 
 Browser observations in "Done" are records from the implementation work. The 2026-10-01 toolchain
 update also has a separate browser smoke-test record below, including NumberField and Toast.
@@ -218,7 +219,7 @@ The implementation history below describes the original integration unless it ex
     anchored on a preceding newline, which `NAMESPACE_BLOCK`'s captured body does not have. `menu` has
     been generated with `MenuPopup.Props`, `MenuRoot.State` and 18 others unmapped all along; nothing
     referenced a first member until `SliderLabelProps`, declared against `SliderLabel.State`.
-- **Playground sample** — `playground/src/jsMain/kotlin/BaseUiMenu.kt`, wired into `App.kt`. Mounts all
+- **Playground sample** — `playground/src/jsMain/kotlin/playground/samples/baseui/MenuSample.kt`, registered in `Registry.kt` (`#/baseui/menu`). Mounts all
   20 members of the namespace object, uses both arms of every value-or-callback prop, and sets the
   anchor-positioning props on both `Menu.Positioner` sites (`side` / `align` as seskar unions, the two
   offsets and `collisionPadding` as the `Any?` members). Driven in a
@@ -227,7 +228,7 @@ The implementation history below describes the original integration unless it ex
   arrow keys, checkbox and radio round-trip, the submenu opens a second portal, the backdrop reports
   `close:outside-press`, console clean. CI runs `./gradlew build`, which compiles `:playground`, so the
   sample is an enforced guard from here on — see "What only the sample can catch" below.
-- **Playground sample for `slider`** — `BaseUiSlider.kt`, all 7 namespace members, a controlled
+- **Playground sample for `slider`** — `SliderSample.kt`, all 7 namespace members, a controlled
   horizontal slider and an uncontrolled vertical range. Driven in a browser: the `children` callback
   formats (`40 of 100 (raw 40)`, `20 – 70`), keyboard and pointer report `change=keyboard@0` /
   `change=drag@0` / `commit=drag` — the `@0` being `activeThumbIndex` through the second parent and
@@ -279,7 +280,7 @@ The implementation history below describes the original integration unless it ex
   - Custom event properties (`ChangeEventCustomProperties`) aren't declared in the same file; added `number-field/utils/types.d.ts` to `BASE_UI_EXTRA_FILES` to translate it and make it available.
   - Negative integers in string literal unions (like `Direction`'s `-1`) failed to compile as `val s-1`; updated the generator to output `val sMinus1`.
   - Added support for `Direction` and `DirectionalChangeReason` known types to correctly parse.
-  - Added in `1dfec5cd` (2026-09-04). `BaseUiNumberField.kt` mounts all seven parts, including the
+  - Added in `1dfec5cd` (2026-09-04). `NumberFieldSample.kt` mounts all seven parts, including the
     scrub area and cursor, with a controlled value, bounds, and typed change/commit callbacks.
 
 - **`toast` module** — added in `f296d5bd` (2026-09-07):
@@ -292,7 +293,7 @@ The implementation history below describes the original integration unless it ex
   - `ToastPositionerProps` inherits `UseAnchorPositioningSharedParameters`. The multi-parent `Omit`
     rejection had already been fixed with Accordion; preserving the actual omitted member set remains
     open (gap 19).
-  - `BaseUiToast.kt` connects an external manager to `Toast.Provider`, adds a toast, reads the list with
+  - `ToastSample.kt` connects an external manager to `Toast.Provider`, adds a toast, reads the list with
     the hook, and renders title, description, and a close button through a portal. The 1.8 update removed
     the Portal cast and added all four manager `update` combinations. `Action`, `Arrow`, manager
     `promise`, and anchored positioning remain verification work.
@@ -316,7 +317,7 @@ The implementation history below describes the original integration unless it ex
       `substituteTypeParameterBounds` failed to map since it only looked for exact member type matches via
       `wholeMemberType`. Since `AccordionValue<X>` is functionally just `X[]`, the substitution logic now folds
       `AccordionValue<...>` into `ReadonlyArray<...>` during substitution.
-- **Playground sample for `accordion`** — `BaseUiAccordion.kt`, all 5 namespace members: an uncontrolled accordion with
+- **Playground sample for `accordion`** — `AccordionSample.kt`, all 5 namespace members: an uncontrolled accordion with
   two items. Driven in a browser: the elements render correctly, the styles are correctly applied using `ClassName` on
   the `className` props, and clicking the triggers updates the values while firing `onValueChange` with the array of
   expanded items.
@@ -359,7 +360,7 @@ The implementation history below describes the original integration unless it ex
     indexed-access shapes widen with a marker, which is gap 10 behaving as designed:
     `FieldError.match` (`boolean | keyof ValidityState`) and `FieldControl.defaultValue`
     (`React.ComponentProps<'input'>['defaultValue']`).
-- **Playground sample for `field`** — `BaseUiField.kt`, all 7 namespace members: a validating email
+- **Playground sample for `field`** — `FieldSample.kt`, all 7 namespace members: a validating email
   field and a `Field.Item` group. Driven in a browser:
   - Validation actually fails. The Kotlin `validate` lambda's return renders as the error text; the
     `match = true` arm shows Base UI's own native message (`Please fill in this field.`) and the
@@ -446,7 +447,7 @@ Gap 21 records the direct-export prerequisite identified while ordering the rema
    members that use it are declared non-optional — so a set would have traded a widening for a lie. The
    browser confirms it: `transitionStatus` reads `null` whenever nothing is transitioning.
 
-   Both uses were driven in a browser through `BaseUiField`. Interpolating it still yields the bare
+   Both uses were driven in a browser through `FieldSample`. Interpolating it still yields the bare
    JavaScript string, the way every seskar union does (`status=starting`, `status=ending`). *Comparing*
    it — `state.transitionStatus == TransitionStatus.ending`, which is what the gap actually cost — reads
    true exactly when the value is `ending`. The comparison has to live on a part that stays mounted:
@@ -544,7 +545,7 @@ Gap 21 records the direct-export prerequisite identified while ordering the rema
      `ref`, the event handlers and the `data-*` state attributes. Applying them is one character:
      `render { props, _ -> hr.create { +props } }` — `react.Props` declares
      `inline operator fun Props?.unaryPlus()` over `Object.assign`, and the repository already uses it
-     (`playground/src/jsMain/kotlin/MyAutocomplete.kt:19`). Caveat, now in the generated KDoc: `+props`
+     (`playground/src/jsMain/kotlin/playground/samples/material/AutocompleteSample.kt:30`). Caveat, now in the generated KDoc: `+props`
      copies `children` too, so a builder that uses it must not add children of its own — the wrappers'
      `jsx` reports "Both `children` source options used" and keeps the builder's. The *element* arm
      (`render = span.create { … }`) is merged by Base UI itself; confirmed in the browser, where a
@@ -580,9 +581,9 @@ Gap 21 records the direct-export prerequisite identified while ordering the rema
 15. **Base UI warns about every `render` callback written in Kotlin.** It rejects a `render` function
    whose name starts with a capital, assuming a React component was passed by mistake. Kotlin/JS names a
    lambda after the declaration enclosing it, and a component `val` is `PascalCase` by convention, so the
-   name is `BaseUiSlider$lambda$lambda$…` and the heuristic fires. Harmless — the callback calls no
+   name is `SliderSample$lambda$lambda$…` and the heuristic fires. Harmless — the callback calls no
    hooks — and cheaper than an earlier revision of this entry said: Base UI warns **once per page**, not
-   once per call site. `BaseUiField` adds a second `render` call site and the console still carries
+   once per call site. `FieldSample` adds a second `render` call site and the console still carries
    exactly one such warning, naming whichever lambda got there first. The `.ext.kt` helper cannot rename
    the function it is handed. Worth a look if a cheap rename at the assignment turns out to exist.
 16. ~~**`BASE_UI_STUBS` has no unused-stub guard.**~~ — closed in group 1. `unusedBaseUiStubs`
@@ -842,7 +843,7 @@ This is last because of compatibility dependencies, separately from group 4's de
   (`ClickAwayListenerProps`), `Autocomplete.kt` (`UseAutocompleteProps`), `Popper.kt` (`PopperProps`),
   and `Orientation.kt` (typealias). Their replacement must match Material's own typings;
   similarly named Base UI components are not automatically compatible parents.
-- [ ] Migrate `playground/src/jsMain/kotlin/SliderStylization.kt` from the old Slider/sliderClasses.
+- [ ] Migrate `playground/src/jsMain/kotlin/playground/samples/base/SliderStylingSample.kt` from the old Slider/sliderClasses.
 - [ ] Audit remaining generator mappings and downstream consumers, then remove the old generation
   target and npm dependency. Until then `@mui/base@5.0.0-beta.70` remains alongside Base UI.
 - [ ] Run the complete build/reproducibility checks and browser verification of migrated consumers.
@@ -893,10 +894,10 @@ The sample reports which of the two happened rather than calling it and hoping.
 
 Two caveats for whoever extends the sample. `Menu.Viewport` is not decoration — mounting it sets
 `hasViewport`, which switches the positioner to its `adaptiveOrigin` middleware, and it is meant to wrap
-the popup's content rather than sit beside it. And a sibling sample (`SliderStylization`) lays an
-absolutely positioned element over the whole viewport, so anything interactive needs its own
-`position: relative; z-index: 1` or its clicks land in the slider — `document.elementFromPoint` is how
-that gets diagnosed.
+the popup's content rather than sit beside it. And samples no longer need stacking-context workarounds
+against each other: each one renders alone on its own route (`#/baseui/menu`), and in `#/all` every
+sample body is a `position: relative` frame without a `z-index`. If a click still lands somewhere
+unexpected, `document.elementFromPoint` over the target is how that gets diagnosed.
 
 ## Repository note: running the playground
 

@@ -1,6 +1,5 @@
 package playground.shell
 
-import react.ChildrenBuilder
 import react.FC
 import react.Key
 import react.Props
@@ -27,8 +26,16 @@ val Sidebar = FC<SidebarProps> { props ->
         ul {
             className = ClassName("pg-nav-top")
 
-            navLink("#/", "Index", route == Route.Index)
-            navLink("#/all", "All samples", route == Route.All)
+            NavLink {
+                href = "#/"
+                label = "Index"
+                active = route == Route.Index
+            }
+            NavLink {
+                href = "#/all"
+                label = "All samples"
+                active = route == Route.All
+            }
         }
 
         for (library in Libraries.all) {
@@ -50,8 +57,12 @@ val Sidebar = FC<SidebarProps> { props ->
             } else {
                 ul {
                     for (sample in librarySamples) {
-                        val active = route == Route.Single(sample.library.id, sample.id)
-                        navLink(sample.hash, sample.title, active)
+                        NavLink {
+                            key = Key(sample.key)
+                            href = sample.hash
+                            label = sample.title
+                            active = route == Route.Single(sample.library.id, sample.id)
+                        }
                     }
                 }
             }
@@ -59,17 +70,18 @@ val Sidebar = FC<SidebarProps> { props ->
     }
 }
 
-private fun ChildrenBuilder.navLink(
-    href: String,
-    label: String,
-    active: Boolean,
-) {
+private external interface NavLinkProps : Props {
+    var href: String
+    var label: String
+    var active: Boolean
+}
+
+private val NavLink = FC<NavLinkProps> { props ->
     li {
-        key = Key(href)
         a {
-            this.href = href
-            if (active) ariaCurrent = AriaCurrent.page
-            +label
+            href = props.href
+            if (props.active) ariaCurrent = AriaCurrent.page
+            +props.label
         }
     }
 }

@@ -1,3 +1,5 @@
+package playground.samples.material
+
 import js.objects.unsafeJso
 import mui.material.Button
 import mui.material.Chip
@@ -6,10 +8,12 @@ import mui.material.styles.FocusVisible
 import mui.material.styles.ThemeOptions
 import mui.material.styles.ThemeProvider
 import mui.material.styles.createTheme
+import playground.shell.Kind
+import playground.shell.Libraries
+import playground.shell.Sample
 import react.FC
 import react.Props
 import react.ReactNode
-import react.dom.html.ReactHTML.h3
 import react.dom.html.ReactHTML.p
 import web.cssom.NamedColor
 import web.cssom.px
@@ -70,42 +74,49 @@ private val cssVariablesTheme = createTheme(
 // Theme.palette is currently Any?, but its CSS variables fields use the generated interfaces.
 private val cssVariablesPalette = cssVariablesTheme.palette.unsafeCast<CssVarsPalette>()
 
-val Theming = FC<Props> {
-    h3 { +"theme.focusVisible (MUI 9.4.0)" }
-    p { +"Tab through the three buttons: no ring, default ring, magenta ring." }
-
-    Button {
-        id = ElementId("focus-ring-off")
-        +"no theme"
-    }
-
-    ThemeProvider {
-        theme = defaultRingTheme
+val ThemeFocusVisibleSample: Sample = Sample(
+    id = "theme-focus-visible",
+    library = Libraries.Material,
+    title = "Theme focusVisible",
+    kind = Kind.Check,
+    covers = listOf("createTheme", "ThemeProvider", "theme.focusVisible", "CSS variables palette"),
+    fileName = "ThemeFocusVisibleSample.kt",
+    content = FC<Props> {
+        p { +"Tab through the three buttons: no ring, default ring, magenta ring." }
 
         Button {
-            id = ElementId("focus-ring-default")
-            +"focusVisible = true"
+            id = ElementId("focus-ring-off")
+            +"no theme"
         }
 
-        Chip {
-            id = ElementId("focus-ring-default-chip")
-            label = ReactNode("chip")
-            clickable = true
+        ThemeProvider {
+            theme = defaultRingTheme
+
+            Button {
+                id = ElementId("focus-ring-default")
+                +"focusVisible = true"
+            }
+
+            Chip {
+                id = ElementId("focus-ring-default-chip")
+                label = ReactNode("chip")
+                clickable = true
+            }
         }
-    }
 
-    ThemeProvider {
-        theme = customRingTheme
+        ThemeProvider {
+            theme = customRingTheme
 
-        Button {
-            id = ElementId("focus-ring-custom")
-            +"focusVisible = { … }"
+            Button {
+                id = ElementId("focus-ring-custom")
+                +"focusVisible = { … }"
+            }
         }
-    }
 
-    h3 { +"CSS variables palette" }
-    p {
-        id = ElementId("css-vars-alert-error-color")
-        +"Alert.errorColor: ${cssVariablesPalette.Alert.errorColor}"
-    }
-}
+        p { +"CSS variables palette" }
+        p {
+            id = ElementId("css-vars-alert-error-color")
+            +"Alert.errorColor: ${cssVariablesPalette.Alert.errorColor}"
+        }
+    },
+)

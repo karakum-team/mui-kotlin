@@ -52,7 +52,6 @@ class Sample(
     val hash: String
         get() = "#/$key"
 
-    // Phase 1: samples still live in the root package; Phase 2 moves them under samples/<library>/.
     val sourcePath: String
-        get() = "playground/src/jsMain/kotlin/$fileName"
+        get() = "playground/src/jsMain/kotlin/playground/samples/${library.id}/$fileName"
 }

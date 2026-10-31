@@ -1,7 +1,12 @@
+package playground.samples.base
+
 import emotion.react.css
 import emotion.styled.styled
 import mui.base.Slider
 import mui.base.sliderClasses
+import playground.shell.Kind
+import playground.shell.Libraries
+import playground.shell.Sample
 import react.FC
 import react.Props
 import react.dom.events.KeyboardEvent
@@ -10,27 +15,35 @@ import web.cssom.*
 import web.cssom.LineStyle.Companion.solid
 import web.cssom.None.Companion.none
 
-val SliderStylization = FC<Props> {
-    // The slider root is absolutely positioned at 100% size, so it needs a positioned container.
-    // Otherwise it covers the whole viewport and swallows clicks on the neighbouring samples.
-    div {
-        css {
-            position = Position.relative
-            height = 36.px
+val SliderStylingSample: Sample = Sample(
+    id = "slider-styling",
+    library = Libraries.Base,
+    title = "Slider styling",
+    kind = Kind.ClassesCoverage,
+    covers = listOf("Slider", "sliderClasses"),
+    fileName = "SliderStylingSample.kt",
+    content = FC<Props> {
+        // `RangeSliderBase` is absolutely positioned at 100% width and height, so this wrapper gives it a
+        // positioned box of its own to fill, sized to the 36px thumb.
+        div {
+            css {
+                position = Position.relative
+                height = 36.px
+            }
+
+            RangeSliderBase {
+                disableSwap = true
+
+                min = 0.0
+                max = 100.0
+
+                value = 50.0
+
+                onKeyDown = KeyboardEvent<*>::preventDefault
+            }
         }
-
-        RangeSliderBase {
-            disableSwap = true
-
-            min = 0.0
-            max = 100.0
-
-            value = 50.0
-
-            onKeyDown = KeyboardEvent<*>::preventDefault
-        }
-    }
-}
+    },
+)
 
 private val RangeSliderBase = Slider.styled {
     position = Position.absolute

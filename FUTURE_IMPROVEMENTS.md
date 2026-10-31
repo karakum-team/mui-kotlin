@@ -38,5 +38,5 @@ shapes** (component anatomy split into parts, different slot/render-prop convent
    integration and full API completion separately; existing Toast and other module gaps remain open.
 4. Retire `@mui/base` as the final compatibility step, after migrating its consumers.
    The four generated Material references are
-   `Autocomplete`, `Snackbar`, `Popper`, and `Orientation`; `SliderStylization` in the playground
+   `Autocomplete`, `Snackbar`, `Popper`, and `Orientation`; `SliderStylization` (now `playground/src/jsMain/kotlin/playground/samples/base/SliderStylingSample.kt`) in the playground
    still uses the old Slider. Both generation targets and npm dependencies remain enabled today.

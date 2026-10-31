@@ -1,3 +1,5 @@
+package playground.samples.material
+
 import js.objects.unsafeJso
 import mui.base.CssAnimation
 import mui.base.CssTransition
@@ -29,17 +31,17 @@ import mui.material.styles.useTheme
 import mui.material.touchRippleClasses
 import mui.system.Breakpoint.Companion.md
 import mui.system.createBreakpoints
+import playground.shell.Kind
+import playground.shell.Libraries
+import playground.shell.Sample
 import react.FC
 import react.Props
 import react.ReactNode
 import react.dom.html.ReactHTML.button
 import react.dom.html.ReactHTML.div
-import react.dom.html.ReactHTML.h3
 import react.dom.html.ReactHTML.p
 import react.useState
 import web.cssom.ClassName
-import web.cssom.Position
-import web.cssom.integer
 import web.dom.ElementId
 import mui.system.createTheme as createSystemTheme
 
@@ -73,63 +75,66 @@ private val ThemeProbe = FC<Props> {
     }
 }
 
-val RuntimeImports = FC<Props> {
-    var outsideClicks by useState(0)
-    div {
-        // Keep controls above SliderStylization's existing viewport-sized layer.
-        style = unsafeJso {
-            position = Position.relative
-            zIndex = integer(2)
-        }
-        h3 { +"Runtime imports" }
-        p {
-            id = ElementId("runtime-hooks")
-            +"Base hooks loaded: ${hookImports.count { jsTypeOf(it) == "function" }}"
-        }
-        p {
-            id = ElementId("runtime-factories")
-            +"Breakpoints: ${importBreakpoints.up(md)}; system: ${importSystemTheme.breakpoints.up(md)}; "
-            +"mixins: ${jsTypeOf(importMixins.toolbar)}"
-        }
-        p {
-            id = ElementId("runtime-classes")
-            +touchRippleClasses.root.toString()
-        }
-        ThemeProvider {
-            theme = importTheme
-            ThemeProbe()
-        }
-        ClickAwayListener {
-            onClickAway = { outsideClicks++ }
+val RuntimeImportsSample: Sample = Sample(
+    id = "runtime-imports",
+    library = Libraries.Material,
+    title = "Runtime imports",
+    kind = Kind.ImportSmoke,
+    covers = listOf("mui.material.styles", "mui.system factories", "mui.base hooks"),
+    fileName = "RuntimeImportsSample.kt",
+    notes = "Mixed sample (also covers mui.system and mui.base); split in Phase 3.",
+    content = FC<Props> {
+        var outsideClicks by useState(0)
+        div {
+            p {
+                id = ElementId("runtime-hooks")
+                +"Base hooks loaded: ${hookImports.count { jsTypeOf(it) == "function" }}"
+            }
+            p {
+                id = ElementId("runtime-factories")
+                +"Breakpoints: ${importBreakpoints.up(md)}; system: ${importSystemTheme.breakpoints.up(md)}; "
+                +"mixins: ${jsTypeOf(importMixins.toolbar)}"
+            }
+            p {
+                id = ElementId("runtime-classes")
+                +touchRippleClasses.root.toString()
+            }
+            ThemeProvider {
+                theme = importTheme
+                ThemeProbe()
+            }
+            ClickAwayListener {
+                onClickAway = { outsideClicks++ }
+                button {
+                    id = ElementId("runtime-inside")
+                    +"Inside listener"
+                }
+            }
             button {
-                id = ElementId("runtime-inside")
-                +"Inside listener"
+                id = ElementId("runtime-outside")
+                +"Outside listener"
+            }
+            p {
+                id = ElementId("runtime-clicks")
+                +"Outside clicks: $outsideClicks"
+            }
+            button {
+                id = ElementId("runtime-create-styles")
+                // Upstream deprecates this API and logs one warning; reaching it must not fail to import.
+                onClick = { createStyles(unsafeJso<react.CSSProperties> {}) }
+                +"Call legacy createStyles"
+            }
+            transitionFixtureContext.Provider {
+                value = transitionFixture
+                CssAnimation {
+                    enterClassName = ClassName("runtime-animation-enter")
+                    +"CssAnimation mounted"
+                }
+                CssTransition {
+                    enterClassName = ClassName("runtime-transition-enter")
+                    +"CssTransition mounted"
+                }
             }
         }
-        button {
-            id = ElementId("runtime-outside")
-            +"Outside listener"
-        }
-        p {
-            id = ElementId("runtime-clicks")
-            +"Outside clicks: $outsideClicks"
-        }
-        button {
-            id = ElementId("runtime-create-styles")
-            // Upstream deprecates this API and logs one warning; reaching it must not fail to import.
-            onClick = { createStyles(unsafeJso<react.CSSProperties> {}) }
-            +"Call legacy createStyles"
-        }
-        transitionFixtureContext.Provider {
-            value = transitionFixture
-            CssAnimation {
-                enterClassName = ClassName("runtime-animation-enter")
-                +"CssAnimation mounted"
-            }
-            CssTransition {
-                enterClassName = ClassName("runtime-transition-enter")
-                +"CssTransition mounted"
-            }
-        }
-    }
-}
+    },
+)

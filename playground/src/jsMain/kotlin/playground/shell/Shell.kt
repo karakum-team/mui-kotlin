@@ -1,6 +1,6 @@
 package playground.shell
 
-import react.ChildrenBuilder
+import playground.dataNotFound
 import react.FC
 import react.Key
 import react.Props
@@ -48,10 +48,14 @@ val Shell = FC<Props> {
                             single.content()
                         }
                     } else {
-                        notFound("#/${route.libraryId}/${route.sampleId}")
+                        NotFound {
+                            hash = "#/${route.libraryId}/${route.sampleId}"
+                        }
                     }
 
-                is Route.NotFound -> notFound(route.hash)
+                is Route.NotFound -> NotFound {
+                    hash = route.hash
+                }
             }
 
             footer {
@@ -70,15 +74,19 @@ private fun routeTitle(route: Route, single: Sample?): String =
         is Route.NotFound -> "Not found"
     }
 
-private fun ChildrenBuilder.notFound(hash: String) {
+private external interface NotFoundProps : Props {
+    var hash: String
+}
+
+private val NotFound = FC<NotFoundProps> { props ->
     section {
         className = ClassName("pg-not-found")
-        asDynamic()["data-not-found"] = hash
+        dataNotFound = props.hash
 
         h1 { +"Not found" }
         p {
             +"No sample matches "
-            code { +hash }
+            code { +props.hash }
             +". Pick one from the index below."
         }
     }

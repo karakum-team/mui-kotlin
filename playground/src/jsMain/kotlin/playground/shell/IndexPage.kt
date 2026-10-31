@@ -1,5 +1,6 @@
 package playground.shell
 
+import playground.dataIndexRow
 import react.FC
 import react.Key
 import react.Props
@@ -42,7 +43,7 @@ val IndexPage = FC<Props> {
             for (sample in samples) {
                 tr {
                     key = Key(sample.key)
-                    asDynamic()["data-index-row"] = sample.key
+                    dataIndexRow = sample.key
 
                     td { +sample.library.title }
                     td {
