@@ -5,6 +5,9 @@ internal fun convertSpacingOptions(
     body: String,
 ): String {
     val factories = body
+        // v6+ leads with `number | string |`: keep the numeric spacing unit (`spacing: 4`) as its own `Int`
+        // factory instead of letting the rule below fold both into `Length`.
+        .replaceFirst(Regex("""^number \| string \| """), "number | web.cssom.Length | ")
         .replace("number | string", "web.cssom.Length")
         .replace("string | number", "Int")
         .replace("number", "Int")

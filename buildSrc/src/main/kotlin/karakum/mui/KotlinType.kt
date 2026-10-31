@@ -68,6 +68,7 @@ private val KNOWN_TYPES = setOf(
     "Shape",
     "ShapeOptions",
     "Spacing",
+    "SpacingOptions",
 
     "CSSProperties",
 

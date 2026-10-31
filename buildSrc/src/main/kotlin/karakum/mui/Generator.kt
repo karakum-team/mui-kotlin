@@ -99,11 +99,6 @@ external interface StandardProps:
 """.trimIndent()
 
 // language=kotlin
-private val SYSTEM_SPACING_STUB = """
-external interface Spacing
-""".trimIndent()
-
-// language=kotlin
 private val SYSTEM_SYSTEM_PROPS_STUB = """
 @Suppress("UNUSED_TYPEALIAS_PARAMETER")
 typealias SystemProps<T> = react.Props
@@ -473,7 +468,6 @@ private fun RuntimeBindings.generateSystemDeclarations(
 
     typesDir.resolve("createTheme")
         .listFiles { file -> file.name.startsWith("create") && file.name.endsWith(".d.ts") }!!
-        .filter { it.nameWithoutExtension.removeSuffix(".d") != "createSpacing" }
         .forEach { generate(it, targetDir, Package.system) }
 
     // MUI v6 moved Breakpoints / BreakpointsOptions out of createTheme.d.ts into createBreakpoints/.
@@ -494,7 +488,6 @@ private fun RuntimeBindings.generateSystemDeclarations(
 
         "ResponsiveStyleValue" to SYSTEM_RESPONSIVE_STYLE_VALUE,
         "StandardProps" to SYSTEM_STANDARD_PROPS,
-        "Spacing" to SYSTEM_SPACING_STUB,
         "SystemProps" to SYSTEM_SYSTEM_PROPS_STUB,
     ).forEach { (name, body) ->
         targetDir.resolve("$name.kt")

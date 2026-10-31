@@ -104,6 +104,12 @@ internal fun findDefaultFunction(
         .replace(": string", ": String")
         .replace(": number", ": Number")
         .replace(": ((theme: Theme) => string)", ": (theme: Theme) -> String")
+        // v6 `createSpacing` transform: a `Spacing`, a unit converter or a no-op — a union of function types.
+        // Matched after the generic `: number` rewrite above has already turned `abs: number` into `abs: Number`.
+        .replace(
+            "transform?: Spacing | ((abs: Number | string) => number | number) | (() => undefined)",
+            "transform: Any? /* Spacing | ((abs: number | string) => number) | (() => undefined) */ = definedExternally",
+        )
 
     if ("()" !in declaration && "(\n" !in declaration)
         declaration = declaration.replaceFirst("(", "(\n")

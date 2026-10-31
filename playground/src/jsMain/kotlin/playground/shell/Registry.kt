@@ -25,6 +25,7 @@ import playground.samples.material.TooltipPlacementSample
 import playground.samples.pickers.PickersClassesSample
 import playground.samples.pickers.PickersSectionListSample
 import playground.samples.system.ResponsiveSample
+import playground.samples.system.SpacingSample
 import playground.samples.system.SystemFactoriesSample
 import playground.samples.system.ThemeWithoutDefaultSample
 import playground.samples.treeview.RichTreeViewLoadingSample
@@ -117,6 +118,7 @@ val samples: List<Sample> = listOf(
     // system
     ResponsiveSample,
     SystemFactoriesSample,
+    SpacingSample,
     ThemeWithoutDefaultSample,
 
     // lab
