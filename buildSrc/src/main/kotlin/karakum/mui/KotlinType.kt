@@ -347,9 +347,6 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "SelectionMode" to "mui.system.Union /* 'none' | 'single' | 'multiple' */",
 
-    // The generated `GridSize` enum can't stand in: it drops `number` and emits `false` as the string "false".
-    "GridSize" to "mui.system.Union /* 'auto' | 'grow' | number | false */",
-
     "{ [key in Breakpoint]: number }" to "Record<Breakpoint, Number>",
     "Record<string, any>" to "Record<String, *>",
     "Record<string, any> & { mode: 'light' | 'dark' }" to "Record<String, *>",

@@ -90,7 +90,7 @@ external interface GridBaseProps : PropsWithChildren {
     /**
      * Defines the size of the the type `item` components.
      */
-    var size: ResponsiveStyleValue<Union /* 'auto' | 'grow' | number | false */>?
+    var size: ResponsiveStyleValue<GridSize>?
 
     /**
      * Defines the space between the type `item` components.

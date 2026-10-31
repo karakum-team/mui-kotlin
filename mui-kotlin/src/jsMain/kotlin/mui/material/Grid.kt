@@ -8,7 +8,6 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.ResponsiveStyleValue
 import mui.system.SxProps
-import mui.system.Union
 import mui.types.PropsWithComponent
 import react.FC
 import react.PropsWithChildren
@@ -101,7 +100,7 @@ external interface GridBaseProps : PropsWithChildren {
     /**
      * Defines the size of the the type `item` components.
      */
-    var size: ResponsiveStyleValue<Union /* 'auto' | 'grow' | number | false */>?
+    var size: ResponsiveStyleValue<GridSize>?
 
     /**
      * Defines the space between the type `item` components.

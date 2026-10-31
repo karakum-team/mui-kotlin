@@ -2,14 +2,15 @@
 
 package baseui
 
+import seskar.js.JsRawValue
 import seskar.js.JsValue
 
 sealed external interface Direction {
     companion object {
-        @JsValue("-1")
+        @JsRawValue("-1")
         val sMinus1: Direction
 
-        @JsValue("1")
+        @JsRawValue("1")
         val s1: Direction
     }
 }

@@ -33,6 +33,7 @@ private val DEFAULT_IMPORTS = listOf(
 
     "JsVirtual" to "seskar.js.JsVirtual",
     "JsValue" to "seskar.js.JsValue",
+    "JsRawValue" to "seskar.js.JsRawValue",
     "JsPlainObject" to "kotlinx.js.JsPlainObject",
 )
 

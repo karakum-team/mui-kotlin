@@ -4,9 +4,13 @@ internal fun convertUnion(
     source: String,
 ): String? {
     val name = source.substringBefore(" =")
-    val body = source.substringAfter(" =")
+    val sourceBody = source.substringAfter(" =")
         .removePrefix(" ")
         .removePrefix("\n  | ")
+    // Unquoted literals (`false`, `1`) are JS values; quoted ones (`'false'`) are strings. The quoting below
+    // only lets boolean members through the literal-union check, so remember which were unquoted.
+    val unquoted = sourceBody.splitToSequence(" | ", "\n  | ").filter(::isRawLiteral).toSet()
+    val body = sourceBody
         .replace(" | false", " | 'false'")
         .replace(" | true", " | 'true'")
 
@@ -49,18 +53,33 @@ internal fun convertUnion(
 
     val properties = values.asSequence()
         .map {
-            // Call unionValue on the RAW (unescaped) value so booleans like `false` produce
-            // `@JsValue("false")` not `@JsValue("`false`")` (Kotlin identifier backticks must
-            // not leak into the JS-side string).
+            // Annotate the RAW (unescaped) value: Kotlin identifier backticks (`false`) must not leak into
+            // the JS side. Boolean and number literals are JS expressions, not strings — `@JsValue("false")`
+            // would hand MUI the truthy string "false".
+            val annotation = if (it in unquoted) "JsRawValue" else "JsValue"
             """
-                @JsValue("${unionValue(it)}")
+                @$annotation("$it")
                 val ${unionKey(escape(it))}: $name
             """.trimIndent()
         }
         .joinToString("\n")
 
-    val lostDoc = if (lostTypes.isNotEmpty()) {
-        "/**\n * Lost from union: ${lostTypes.joinToString(" | ")}\n */\n"
+    // A primitive type next to the literals (`GridSize = 'auto' | 'grow' | number | false`) becomes a factory,
+    // as in `convertSpacingOptions`; anything else is only recorded.
+    val factories = lostTypes.mapNotNull { type ->
+        PRIMITIVE_FACTORY_TYPES[type]?.let { kotlinType ->
+            """
+                inline fun $name(
+                    value: $kotlinType,
+                ): $name =
+                    unsafeCast(value)
+            """.trimIndent()
+        }
+    }
+
+    val unhandled = lostTypes.filter { it !in PRIMITIVE_FACTORY_TYPES }
+    val lostDoc = if (unhandled.isNotEmpty()) {
+        "/**\n * Lost from union: ${unhandled.joinToString(" | ")}\n */\n"
     } else ""
 
     return lostDoc + """
@@ -69,8 +88,19 @@ internal fun convertUnion(
                 $properties
             }
         }
-    """.trimIndent()
+    """.trimIndent() + factories.joinToString("") { "\n\n$it" }
 }
+
+private val PRIMITIVE_FACTORY_TYPES = mapOf(
+    "number" to "Number",
+    "string" to "String",
+    "boolean" to "Boolean",
+)
+
+private fun isRawLiteral(
+    value: String,
+): Boolean =
+    value == "false" || value == "true" || value.toDoubleOrNull() != null
 
 private val TS_PRIMITIVE_TYPE_NAMES = setOf("number", "string", "boolean", "object", "any", "unknown", "never")
 
@@ -120,13 +150,3 @@ private fun unionKey(
             .kebabToCamel()
     }
 
-private fun unionValue(
-    value: String,
-): String =
-    when {
-        value == "false" -> value
-        value == "true" -> value
-        value.toIntOrNull() != null -> value
-
-        else -> value
-    }
