@@ -18,8 +18,7 @@
 2. **Типизация material `Theme`/`ThemeOptions`** — `palette`, `typography`, `shadows` приходят из `mui.system.Theme`
    как `Any?`, `mixins`/`transitions` — пустые интерфейсы `mui.system`; нет `motion`, `vars`, `alpha`/`lighten`/
    `darken`, `cssVariables`, `colorSchemes`. См. [Стабы](#стабы-вместо-настоящей-генерации).
-3. **`Spacing` — пустой интерфейс**, `theme.spacing(2)` из Kotlin не вызвать. Конвертер для call signatures уже есть
-   (`Converter.kt` → `Spacing.kt::convertSpacing`), мешает только исключение `createSpacing`. См.
+3. ~~**`Spacing` — пустой интерфейс**~~ — ✅ сделано 2026-10-31, `theme.spacing(2)` вызывается из Kotlin. См.
    [`createSpacing`](#system).
 4. **Компоненты, наследующие `slots`/`slotProps` от родителя** (Dialog/Drawer/Menu/Popover/…) — собственный
    `XxxSlotProps` через `slotProps` недоступен.
@@ -118,16 +117,22 @@
 
 ### System
 
-- **`createSpacing` (system)** — `@mui/system/createTheme/createSpacing.d.ts` — ⏳ (высокий приоритет)
-    - Status: excluded (`Generator.kt::generateSystemDeclarations`)
-    - Reason: в v6 добавился параметр
-      `transform?: Spacing | ((abs: number | string) => number | number) | (() => undefined)`.
-    - Workaround: `Spacing` — пустой стаб (`SYSTEM_SPACING_STUB`), поэтому `theme.spacing(…)` из Kotlin не
-      вызывается.
-    - To fix: до v6 файл конвертировался (коммит 529f36e6): `Converter.kt` по имени `Spacing` вызывает
-      `Spacing.kt::convertSpacing`, который превращает call signatures в `operator fun invoke`, а
-      `SpacingOptions` разбирает `convertSpacingOptions`. Нужно снять исключение, адаптером упростить `transform`
-      (например до `Spacing`) и убрать стаб.
+- **`createSpacing` (system)** — `@mui/system/createTheme/createSpacing.d.ts` — ✅ (2026-10-31)
+    - На v6-этапе был исключён из-за нового параметра
+      `transform?: Spacing | ((abs: number | string) => number | number) | (() => undefined)`, а `Spacing` заменён
+      пустым стабом — `theme.spacing(…)` из Kotlin не вызывался.
+    - Теперь генерируется, как до v6 (коммит 529f36e6): `Converter.kt` по имени `Spacing` вызывает
+      `Spacing.kt::convertSpacing` → `sealed external interface Spacing` с пятью `operator fun invoke(…): Length`;
+      `SpacingOptions` — фабрики `convertSpacingOptions` (`Int`, `Length`, `Spacing`, `(abs: Int) -> Length`,
+      `(abs: Length) -> Length`, `ReadonlyArray<Int>`). v6+ юнион начинается с `number | string |`, поэтому
+      `Int` и `Length` разведены в отдельные фабрики, иначе пропадал бы числовой шаг (`spacing: 4`).
+    - `createSpacing(spacingInput: SpacingOptions?, transform: Any? /* … */)` — `transform` (юнион функциональных
+      типов) оставлен `Any?` в `FunctionConverter.kt`; функция привязана к named export `@mui/system#createSpacing`
+      (deep path нет в `exports`). `ThemeOptions.spacing` теперь `SpacingOptions?` (`SpacingOptions` в `KNOWN_TYPES`).
+    - Упрощение, унаследованное с v5: `SpacingArgument = number | string` эмитится как `typealias SpacingArgument = Int`,
+      так что строковые аргументы (`theme.spacing(1, 'auto')`) требуют `unsafeCast`.
+    - Покрыт `playground/.../samples/system/SpacingSample.kt` (все пять перегрузок, все фабрики, material-тема,
+      `padding = spacing(1, 2)` в CSS).
 
 - **`useThemeWithoutDefault`** — `@mui/system/useThemeWithoutDefault/useThemeWithoutDefault.d.ts` — ✅
     - Генерируется: `FunctionConverter.kt` нормализует `declare function` в default-форму и переписывает
@@ -148,7 +153,6 @@
   `motion`. Упрощение: наследует `zIndex`, который апстрим `Omit`-ит.
 - **`mui.material.styles.createTheme`** — ручной стаб над barrel `@mui/material/styles` (см. выше).
 - **`mui.material.styles.ThemeProvider`**, **`mui.system.ThemeProvider`** — минимальные ручные обёртки (см. выше).
-- **`mui.system.Spacing`** — пустой `external interface Spacing` (см. `createSpacing`).
 - **`mui.system.SystemProps<T>`** — `typealias SystemProps<T> = react.Props`. Используется Typography.
 - **`mui.system.Breakpoints`/`BreakpointsOptions`** — генерируются из
   `@mui/system/createBreakpoints/createBreakpoints.d.ts` (раньше из createTheme.d.ts).
@@ -326,8 +330,8 @@
   `` `…${X}…` `` и схлопывать к `String` (либо к `mui.system.Union` с комментарием набора кейсов).
 
 - **TS overloaded call signatures на interface.** ⏳
-    - `interface Spacing { (): string; (v): string; (a, b): string; … }` — для него конвертер уже есть
-      (`Spacing.kt::convertSpacing`), блокер только в `createSpacing.transform` (см. System).
+    - `interface Spacing { (): string; (v): string; (a, b): string; … }` — ✅ точечный конвертер
+      `Spacing.kt::convertSpacing` (см. System).
     - `interface OverridableComponent { (props: …): JSX; (props: …): JSX; }` — общий механизм не реализован.
 
 - **TS generic с дефолтом конкретного типа.** ✅ для известных случаев (`useTheme`, `useThemeWithoutDefault`) —
