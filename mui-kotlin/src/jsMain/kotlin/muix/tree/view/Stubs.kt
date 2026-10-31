@@ -15,7 +15,7 @@ external interface TreeViewStoreParameters : Props {
     var defaultExpandedItems: ReadonlyArray<TreeViewItemId>?
     var onExpandedItemsChange: ((event: SyntheticEvent<*, *>?, itemIds: ReadonlyArray<TreeViewItemId>) -> Unit)?
     var onItemExpansionToggle: ((event: SyntheticEvent<*, *>?, itemId: TreeViewItemId, isExpanded: Boolean) -> Unit)?
-    var expansionTrigger: String?
+    var expansionTrigger: TreeViewExpansionTrigger?
     var disableSelection: Boolean?
     var selectedItems: Any?
     var defaultSelectedItems: Any?

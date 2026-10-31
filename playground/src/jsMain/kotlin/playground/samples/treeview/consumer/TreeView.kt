@@ -1,6 +1,7 @@
 package playground.samples.treeview.consumer
 
 import js.objects.unsafeJso
+import muix.tree.view.TreeViewExpansionTrigger
 import muix.tree.view.TreeViewSelectionPropagation
 import react.FC
 import react.PropsWithClassName
@@ -113,8 +114,7 @@ internal val TreeView: FC<TreeViewProps> = FC { props ->
         multiSelect = true
         checkboxSelection = true
         selectionPropagation = if (cascade) CASCADE_SELECTION_PROPAGATION else INDEPENDENT_SELECTION_PROPAGATION
-        // W8: `expansionTrigger` is `String?`.
-        expansionTrigger = "iconContainer"
+        expansionTrigger = TreeViewExpansionTrigger.iconContainer
         itemChildrenIndentation = 2.spacing
 
         slots = SLOTS

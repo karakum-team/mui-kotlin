@@ -185,7 +185,7 @@ external interface TreeViewStoreParameters : react.Props {
     var defaultExpandedItems: js.array.ReadonlyArray<TreeViewItemId>?
     var onExpandedItemsChange: ((event: react.dom.events.SyntheticEvent<*, *>?, itemIds: js.array.ReadonlyArray<TreeViewItemId>) -> Unit)?
     var onItemExpansionToggle: ((event: react.dom.events.SyntheticEvent<*, *>?, itemId: TreeViewItemId, isExpanded: Boolean) -> Unit)?
-    var expansionTrigger: String?
+    var expansionTrigger: TreeViewExpansionTrigger?
     var disableSelection: Boolean?
     var selectedItems: Any?
     var defaultSelectedItems: Any?
@@ -212,6 +212,10 @@ external interface RichTreeViewStoreParameters : TreeViewStoreParameters {
     var domStructure: TreeViewDOMStructure?
 }
 """.trimIndent()
+
+// `'content' | 'iconContainer'` is spelled inline on `MinimalTreeViewParameters.expansionTrigger` (and on the
+// state), never as a named alias, so the union has to be declared here for the stub to refer to it.
+private val TREE_VIEW_EXPANSION_TRIGGER = convertUnion("TreeViewExpansionTrigger = 'content' | 'iconContainer'")!!
 
 // PickerValidDate:
 //  MUI-X v9 opaque date model types (from @mui/x-date-pickers/models). `PickerValidDate` is a conditional
@@ -829,6 +833,7 @@ private fun RuntimeBindings.generateTreeViewDeclarations(
 
     val handWritten = listOf(
         "Stubs" to TREE_VIEW_STUBS,
+        "TreeViewExpansionTrigger" to TREE_VIEW_EXPANSION_TRIGGER,
     )
 
     handWritten.forEach { (name, body) ->
