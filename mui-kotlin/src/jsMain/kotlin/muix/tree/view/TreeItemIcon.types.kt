@@ -5,6 +5,8 @@ package muix.tree.view
 import kotlinx.js.JsPlainObject
 import react.ElementType
 import react.Props
+import react.dom.svg.SVGAttributes
+import web.svg.SVGElement
 
 external interface TreeItemIconProps : Props {
     /**
@@ -49,11 +51,11 @@ external interface TreeItemIconSlots {
 }
 
 external interface TreeItemIconSlotProps : Props {
-    var collapseIcon: Props?
+    var collapseIcon: SVGAttributes<SVGElement>?
 
-    var expandIcon: Props?
+    var expandIcon: SVGAttributes<SVGElement>?
 
-    var endIcon: Props?
+    var endIcon: SVGAttributes<SVGElement>?
 
-    var icon: Props?
+    var icon: SVGAttributes<SVGElement>?
 }

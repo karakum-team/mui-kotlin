@@ -9,6 +9,8 @@ import react.Props
 import react.dom.events.KeyboardEvent
 import react.dom.events.KeyboardEventHandler
 import react.dom.events.SyntheticEvent
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 import web.html.HTMLLIElement
 
 // Mirrors the extension file of a downstream application's tree view wrapper over `RichTreeView`. Every block
@@ -48,10 +50,9 @@ internal fun TreeItemProps(
         this.onKeyDown = onKeyDown
     }
 
-// W9: every slot prop is `Props?`, so the factory cannot say what each slot accepts.
 internal fun TreeItemSlotProps(
-    content: Props?,
-    label: Props?,
+    content: HTMLAttributes<HTMLDivElement>?,
+    label: HTMLAttributes<HTMLDivElement>?,
     checkbox: Props?,
 ): TreeItemSlotProps =
     unsafeJso {

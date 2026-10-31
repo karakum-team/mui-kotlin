@@ -7,12 +7,13 @@ import mui.material.styles.Theme
 import mui.system.PropsWithSx
 import mui.system.SxProps
 import react.ElementType
-import react.Props
 import react.PropsWithChildren
 import react.PropsWithClassName
 import react.ReactNode
 import react.Ref
+import react.dom.html.HTMLAttributes
 import web.cssom.ClassName
+import web.html.HTMLUListElement
 
 external interface SimpleTreeViewProps :
     TreeViewStoreParameters,
@@ -63,5 +64,5 @@ external interface SimpleTreeViewSlots : TreeViewSlots {
 
 external interface SimpleTreeViewSlotProps :
     TreeViewSlotProps {
-    var root: Props?
+    var root: HTMLAttributes<HTMLUListElement>?
 }

@@ -11,7 +11,6 @@ import muix.tree.view.TreeViewSelectionPropagation
 import muix.tree.view.TreeViewSelectionValue
 import muix.tree.view.asMultiple
 import react.FC
-import react.PropsWithClassName
 import react.ReactNode
 import react.RefObject
 import react.dom.events.KeyboardEventHandler
@@ -21,8 +20,8 @@ import react.useMemo
 import react.useRef
 import web.dom.Element
 import web.dom.Node
+import web.html.HTMLDivElement
 import web.html.HTMLLIElement
-import web.html.HTMLSpanElement
 import muix.tree.view.RichTreeView as MuiRichTreeView
 
 // Mirrors a downstream application's `TreeView` wrapper over `RichTreeView`. Deviations from the original: the
@@ -180,7 +179,7 @@ private fun List<TreeNode>.associateByKey(): Map<TreeNodeKey, TreeNode> =
 
 private fun contentSlotProps(
     node: TreeNode,
-): PropsWithClassName =
+): HTMLAttributes<HTMLDivElement> =
     unsafeJso {
         when {
             !node.selectable -> {
@@ -206,7 +205,7 @@ private fun labelSlotProps(
     ownerState: RichTreeViewItemsOwnerState,
     content: ReactNode?,
     selectable: Boolean,
-): HTMLAttributes<HTMLSpanElement> =
+): HTMLAttributes<HTMLDivElement> =
     unsafeJso {
         if (content != null) {
             children = content

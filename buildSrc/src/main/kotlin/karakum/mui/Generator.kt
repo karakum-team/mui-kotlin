@@ -366,6 +366,15 @@ private val TREE_VIEW_KNOWN_TYPES = mapOf(
             "SlotComponentProps<RichTreeViewLoadingSlotOwnProps, RichTreeViewLoadingSlotOwnerState>",
     "SlotComponentProps<'li', {}, TreeItemLoaderOwnerState>" to
             "SlotComponentProps<TreeItemLoaderProps, TreeItemLoaderOwnerState>",
+    // Slot props with an empty owner state (`{}`) have nothing for a resolver to read, so they are the element's
+    // own props. `TreeItemSlotProps.checkbox` is deliberately not here: its component type is an inline
+    // intersection, and a custom checkbox component carries its own props type anyway — `Props?` is right for it.
+    "SlotComponentProps<'svg', {}, {}>" to "react.dom.svg.SVGAttributes<web.svg.SVGElement>",
+    "SlotComponentProps<'div', {}, {}>" to "react.dom.html.HTMLAttributes<web.html.HTMLDivElement>",
+    "SlotComponentProps<'li', {}, {}>" to "react.dom.html.LiHTMLAttributes<web.html.HTMLLIElement>",
+    "SlotComponentProps<'ul', {}, {}>" to "react.dom.html.HTMLAttributes<web.html.HTMLUListElement>",
+    "SlotComponentProps<'input', {}, {}>" to "react.dom.html.InputHTMLAttributes<web.html.HTMLInputElement>",
+    "SlotComponentPropsFromProps<TransitionProps, {}, {}>" to "mui.material.transitions.TransitionProps",
 )
 
 // PickerValidDate:
@@ -2028,6 +2037,7 @@ private val IMPORTED_FQNS = listOf(
     "web.html.HTMLUListElement",
     "web.html.Hidden",
     "web.html.InputType",
+    "web.svg.SVGElement",
     "web.svg.SVGSVGElement",
     "web.uievents.UIEvent",
     "web.window.Window",
