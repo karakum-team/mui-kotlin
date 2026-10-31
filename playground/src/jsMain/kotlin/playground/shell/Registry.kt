@@ -32,6 +32,7 @@ import playground.samples.system.ResponsiveSample
 import playground.samples.system.SpacingSample
 import playground.samples.system.SystemFactoriesSample
 import playground.samples.system.ThemeWithoutDefaultSample
+import playground.samples.treeview.ConsumerTreeViewSample
 import playground.samples.treeview.RichTreeViewLoadingSample
 import playground.samples.treeview.RichTreeViewSelectionSample
 import playground.samples.treeview.SimpleTreeViewSample
@@ -155,6 +156,7 @@ val samples: List<Sample> = listOf(
     SimpleTreeViewSample,
     RichTreeViewSelectionSample,
     RichTreeViewLoadingSample,
+    ConsumerTreeViewSample,
 
     // dateio
     DateIoUtilsSample,
