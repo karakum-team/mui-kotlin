@@ -46,3 +46,15 @@ inline fun GridSize(
     value: Number,
 ): GridSize =
     unsafeCast(value)
+
+sealed external interface GridOffset {
+    companion object {
+        @JsValue("auto")
+        val auto: GridOffset
+    }
+}
+
+inline fun GridOffset(
+    value: Number,
+): GridOffset =
+    unsafeCast(value)

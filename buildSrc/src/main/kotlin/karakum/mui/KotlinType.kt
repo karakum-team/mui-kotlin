@@ -56,6 +56,7 @@ private val KNOWN_TYPES = setOf(
     "AlertColor",
     "GridDirection",
     "GridWrap",
+    "GridOffset",
     "Orientation",
     // Base UI's `Side` used to be here. It is in BASE_UI_KNOWN_TYPES now: this table is global, and an
     // entry that only one target should see is safe only for as long as no other one declares the name.

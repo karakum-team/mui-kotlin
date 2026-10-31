@@ -12,9 +12,12 @@ import mui.types.PropsWithComponent
 import react.FC
 import react.PropsWithChildren
 import react.ReactNode
+import react.dom.html.HTMLAttributes
+import web.html.HTMLDivElement
 
 external interface GridProps :
     GridBaseProps,
+    HTMLAttributes<HTMLDivElement>,
     PropsWithSx,
     PropsWithComponent {
     override var sx: SxProps<Theme>?
@@ -60,7 +63,7 @@ external interface GridBaseProps : PropsWithChildren {
     /**
      * Defines the offset value for the type `item` components.
      */
-    var offset: ResponsiveStyleValue<Any /* GridOffset */>?
+    var offset: ResponsiveStyleValue<GridOffset>?
 
     /**
      * @internal

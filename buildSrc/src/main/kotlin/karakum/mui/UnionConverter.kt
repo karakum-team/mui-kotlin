@@ -35,7 +35,9 @@ internal fun convertUnion(
     if (body.startsWith("Omit<TableCellProps,"))
         return "typealias $name = TableCellBaseProps /* $body */"
 
-    if ((!body.startsWith("'") || !body.endsWith("'")) && body.substringAfterLast("| ").toIntOrNull() == null)
+    if ((!body.startsWith("'") || !body.endsWith("'")) && body.substringAfterLast("| ").toIntOrNull() == null
+        && !isLiteralsWithPrimitives(body)
+    )
         return null
 
     // TS type identifiers (lowercase: `number`, `string`, `boolean`) inside a union are TS *types*,
@@ -96,6 +98,15 @@ private val PRIMITIVE_FACTORY_TYPES = mapOf(
     "string" to "String",
     "boolean" to "Boolean",
 )
+
+// `GridOffset = 'auto' | number`: literals plus primitives that get a factory, and nothing else.
+private fun isLiteralsWithPrimitives(
+    body: String,
+): Boolean {
+    val members = body.split(" | ")
+    return members.any { it.startsWith("'") } &&
+            members.all { (it.startsWith("'") && it.endsWith("'")) || it in PRIMITIVE_FACTORY_TYPES || isRawLiteral(it) }
+}
 
 private fun isRawLiteral(
     value: String,

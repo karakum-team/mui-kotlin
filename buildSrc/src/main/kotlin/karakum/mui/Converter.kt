@@ -1153,10 +1153,16 @@ private fun findMapProps(
                 //  Details: But now we skip `baseType`(`LinkBaseProps`) of `LinkProps` because in truth `LinkBaseProps` = `TypographyOwnProps` but there are some inheritance problem  with this type
                 INTRINSIC_TYPE_MAP[intrinsicType]
             } else {
-                if (name.startsWith("List")) {
-                    sequenceOf(baseType, "react.dom.html.HTMLAttributes<web.html.HTMLElement>")
-                        .joinToString(",\n", "\n")
-                } else baseType
+                // The root element's attributes come from `OverrideProps<XxxTypeMap, D>` — the default
+                // component's props minus the own ones — which this TypeMap-based path does not see.
+                // Without them material/system `Grid` and system `Stack` had no `id`/`className`/`style`.
+                val intrinsicProps = if (name.startsWith("List")) {
+                    "react.dom.html.HTMLAttributes<web.html.HTMLElement>"
+                } else INTRINSIC_TYPE_MAP[intrinsicType]
+
+                sequenceOf(baseType, intrinsicProps)
+                    .filterNotNull()
+                    .joinToString(",\n", "\n")
             }
         }
 

@@ -22,7 +22,6 @@ import playground.shell.Sample
 import react.FC
 import react.Key
 import react.Props
-import react.dom.html.ReactHTML.div
 import react.useEffectOnce
 import react.useState
 import web.dom.ElementId
@@ -82,9 +81,7 @@ val LiteralUnionsSample: Sample = Sample(
 
         useEffectOnce {
             val gridChecks = GRID_CASES.map { case ->
-                // `GridProps` carries no `id` (see MUI_V6_TODO.md), so each item sits alone in a wrapped container.
-                val item = document.getElementById(ElementId(case.id))?.firstElementChild?.firstElementChild
-                val classes = item?.className?.toString().orEmpty()
+                val classes = document.getElementById(ElementId(case.id))?.className?.toString().orEmpty()
                 Check(
                     "Grid size = ${case.label}: ${(case.expectedClasses + case.unexpectedClasses.map { "no $it" }).joinToString()}",
                     case.expectedClasses.all { classes.contains(it) } && case.unexpectedClasses.none { classes.contains(it) },
@@ -109,18 +106,15 @@ val LiteralUnionsSample: Sample = Sample(
             )
         }
 
-        for (case in GRID_CASES) {
-            div {
-                key = Key(case.id)
-                id = ElementId(case.id)
+        Grid {
+            container = true
 
+            for (case in GRID_CASES) {
                 Grid {
-                    container = true
-
-                    Grid {
-                        size = case.size
-                        +case.label
-                    }
+                    key = Key(case.id)
+                    id = ElementId(case.id)
+                    size = case.size
+                    +case.label
                 }
             }
         }

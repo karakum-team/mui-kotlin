@@ -15,6 +15,7 @@ import playground.samples.dateio.DateIoUtilsSample
 import playground.samples.icons.IconsSample
 import playground.samples.lab.MasonrySample
 import playground.samples.material.AutocompleteSample
+import playground.samples.material.GridSample
 import playground.samples.material.LiteralUnionsSample
 import playground.samples.material.MaterialV9Sample
 import playground.samples.material.OwnSlotPropsSample
@@ -112,6 +113,7 @@ val samples: List<Sample> = listOf(
     TextFieldSlotPropsSample,
     OwnSlotPropsSample,
     LiteralUnionsSample,
+    GridSample,
     ThemeFocusVisibleSample,
     ThemeTypingSample,
     TooltipPlacementSample,
