@@ -93,7 +93,7 @@ internal fun convertUnion(
 }
 
 private val PRIMITIVE_FACTORY_TYPES = mapOf(
-    "number" to "Number",
+    "number" to "Int",
     "string" to "String",
     "boolean" to "Boolean",
 )
