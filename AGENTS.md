@@ -164,6 +164,31 @@ Hand-written fork sources are out of scope and must not be touched:
     Delete `tmp-union` and return to `master`.
 5.  Report branch names, commit hashes and file lists to the human; they push and open the PRs.
 
+### When earlier transfer PRs are still open
+
+`master` then lags the generator by those PRs, so copying whole files would drag their hunks into the new branches
+(and the step-2 diff lists their files too). Before starting:
+
+*   Check what upstream already took — no remote needed:
+    `git fetch https://github.com/JetBrains/kotlin-wrappers.git master` (then `git log master..FETCH_HEAD`) and the
+    public `https://api.github.com/repos/JetBrains/kotlin-wrappers/pulls?state=all` (`gh` may not be authenticated).
+*   Confirm the baseline: the generator at the last transferred commit must equal `master` with the still-open (and
+    merged-but-not-in-`master`) branches laid over it. Then the new topics are exactly the generator diff since that
+    commit.
+*   Build the branches in a separate `git worktree` of the fork (e.g. `/tmp/kw-transfer`), so the human's checkout and
+    its current branch stay untouched; `git worktree remove` it at the end.
+*   Per file, three-way merge the generator diff onto `master` instead of copying:
+    `git merge-file <fork file> <generator@last transfer> <generator@HEAD>` (added files: copy; deleted: `rm`, after
+    checking the fork copy equals the old generator one). A conflict marks a file shared with an open PR — usually its
+    import block. Resolve it consciously: an import the new code needs can go missing silently once both PRs land
+    (`import react.*` in `master`, an explicit list without the new name in the open PR). Ask the human whether to put
+    the import into the open PR, stack the branch on it, or take the generator's block and accept a conflict for
+    whichever PR merges second.
+*   In step 4, merge the open branches into `tmp-union` as well; resolve any such accepted conflict with the generator's
+    version, and the `diff -rq` loop must still print nothing.
+*   Scripts that split file lists should run under `bash`: the agent shell may be `zsh`, which does not word-split
+    unquoted variables.
+
 ---
 
 ## Registry of Specialized Subagents
