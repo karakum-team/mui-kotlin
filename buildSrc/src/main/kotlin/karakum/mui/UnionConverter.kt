@@ -79,9 +79,8 @@ internal fun convertUnion(
         }
     }
 
-    val unhandled = lostTypes.filter { it !in PRIMITIVE_FACTORY_TYPES }
-    val lostDoc = if (unhandled.isNotEmpty()) {
-        "/**\n * Lost from union: ${unhandled.joinToString(" | ")}\n */\n"
+    val lostDoc = if (lostTypes.isNotEmpty()) {
+        "/**\n * Lost from union: ${lostTypes.joinToString(" | ")}\n */\n"
     } else ""
 
     return lostDoc + """
