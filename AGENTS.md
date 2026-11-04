@@ -22,10 +22,10 @@ Before starting work, read and apply every rule whose condition matches the task
 
 | When to read | File |
 |---|---|
-| Adding or changing generated declarations | [Kotlin type selection](agents/rules/kotlin-types.md) |
-| Preparing a commit message or a ready-to-use commit summary | [Commit messages](agents/rules/commit-messages.md) |
-| Changing generator code, generated declarations or playground code, or running browser verification | [Generator verification](agents/rules/generator-verification.md) |
-| Transferring generated declarations to a fork or preparing upstream PRs | [kotlin-wrappers transfer](agents/rules/kotlin-wrappers-transfer.md) |
+| Adding or changing generated declarations | [Kotlin type selection](.agents/rules/kotlin-types.md) |
+| Preparing a commit message or a ready-to-use commit summary | [Commit messages](.agents/rules/commit-messages.md) |
+| Changing generator code, generated declarations or playground code, or running browser verification | [Generator verification](.agents/rules/generator-verification.md) |
+| Transferring generated declarations to a fork or preparing upstream PRs | [kotlin-wrappers transfer](.agents/rules/kotlin-wrappers-transfer.md) |
 
 ---
 
@@ -56,7 +56,7 @@ Before finalizing any task, ensure:
 
 ## Registry of Specialized Subagents
 
-This repository contains specialized instruction files for specific agent roles, stored under the unified `agents/` directory:
+This repository contains specialized instruction files for specific agent roles, stored under the unified `.agents/` directory:
 
-1.  **`agents/mui-code-review.md` (Code Review):**
+1.  **`.agents/mui-code-review.md` (Code Review):**
     A comprehensive manual for performing semantic and structural code reviews on generator changes, generated output, and playground samples. Invoke this prompt when asked to review changes, check version bumps, or audit modifications before commit.

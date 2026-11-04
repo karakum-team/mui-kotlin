@@ -10,4 +10,4 @@ This project uses a unified, tool-agnostic AI agent manual. To maintain project 
 
 *   **Invariant:** `mui-kotlin/src/jsMain/kotlin/**` is 100% generated. NEVER edit it directly. All changes must be done in the generator source code under `buildSrc/src/main/kotlin/karakum/mui/**`.
 *   **Verification:** Verify generator changes by running `./gradlew build` and testing new API coverage on the playground with `./gradlew :playground:jsViteDev` (Vite port `5173`); see [`playground/README.md`](./playground/README.md) for routes, conventions and how to drive it.
-*   **Specialized Prompts:** Use the subagent instructions located under the `agents/` directory (e.g. `agents/mui-code-review.md`).
+*   **Specialized Prompts:** Use the subagent instructions located under the `.agents/` directory (e.g. `.agents/mui-code-review.md`).

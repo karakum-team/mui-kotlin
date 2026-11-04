@@ -388,7 +388,7 @@ The implementation history below describes the original integration unless it ex
 - **Flat part *values* are impossible.** The package's `exports` map has 81 keys and no wildcard, so
   `@base-ui/react/menu/popup/MenuPopup` is not importable; `menu/index.d.ts` re-exports the flat names
   via `export type *` only. Only the `Menu` namespace object is a value export. Flat *types* are real
-  declarations and are what we generate. See rule 10 in [agents/mui-code-review.md](agents/mui-code-review.md).
+  declarations and are what we generate. See rule 10 in [.agents/mui-code-review.md](.agents/mui-code-review.md).
 - **44 public top-level subpaths excluding `package.json`:** 31 with `index.parts.d.ts`, 12 flat
   runtime modules, and the type-only `types` entry. Thus there are 43 runtime modules. The 31 part
   files contain 282 value bindings plus toolbar's type-only `Orientation` binding; `combobox` (28)
@@ -699,7 +699,7 @@ Existing completed work in this backlog stays completed when the dependency vers
 - The coordinating agent owns the task brief and final acceptance. Implementation and independent
   read-only review are delegated to separate `gpt-6.1-sol` agents with `xhigh` reasoning. Questions
   from subagents go to the coordinator; unresolved scope/API/compatibility decisions go to the user.
-- Review follows [agents/mui-code-review.md](agents/mui-code-review.md). Freeze the implementation
+- Review follows [.agents/mui-code-review.md](.agents/mui-code-review.md). Freeze the implementation
   while verifying/reviewing; fixes invalidate affected checks and require another review.
 - Verify upstream types, library/playground compilation, clean regeneration, relevant browser
   scenarios, and existing-output regressions. Before a human commit, compare regenerated files and
