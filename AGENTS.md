@@ -43,42 +43,18 @@ Before preparing a commit message or a ready-to-use commit summary, read and app
 
 ## Technical & Build Workflows
 
-### 1. Generating & Formatting Declarations
-*   **Generate only:**
-    ```bash
-    ./gradlew :mui-kotlin:generateDeclarations
-    ```
-    *(Note: Running generate in isolation leaves the tree unformatted; always complete the work with `build` or format).*
-*   **Format and Verify:**
-    ```bash
-    ./gradlew :mui-kotlin:build
-    ```
+Before changing generator code, generated declarations or playground code, or running browser verification,
+read and apply the
+[generator verification rule](agents/rules/generator-verification.md).
 
-### 2. Live Stand / Playground
-The `playground/` directory is the verification stand. Any generator changes that alter types, expose new components, or change inheritance should be verified by running the playground in a real browser. Conventions, the "add a sample" checklist and a Chrome DevTools MCP recipe are in [`playground/README.md`](./playground/README.md).
-*   **Structure:** `playground/src/jsMain/kotlin/playground/shell/` is the infrastructure (routing, sample frame, `StatusLine` / `CheckList`, `Registry.kt`) and must not import `mui.*` / `muix.*` / `baseui.*` / `dateio.*`. The samples live under `playground/src/jsMain/kotlin/playground/samples/<library>/`, one `<Subject>Sample.kt` each, and are listed in `shell/Registry.kt`.
-*   **Routes:** `#/` (index of all samples), `#/all` (every sample, the smoke run), `#/<library>/<sample>` (one sample, e.g. `#/baseui/menu`).
-*   **What to assert:** the console lines `[playground] <library>/<sample> mounted`, `[playground] <library>/<sample> <checkId>: P/T PASS` and, on `#/all`, `[playground] all: N samples mounted, P/T checks PASS` — logged once the checks settle (~200 ms after the last CheckList mounts), with the same numbers in `#all-summary`. Also assert `document.querySelectorAll('[data-check="fail"]').length == 0`.
-*   **Running Vite Dev Server (Non-continuous):**
-    ```bash
-    ./gradlew :playground:jsViteDev
-    ```
-    *(Then navigate to `http://localhost:5173` using a browser or Chrome DevTools MCP tools).*
-*   **Compile / Bundle Rebuild Sync:**
-    ```bash
-    ./gradlew :playground:jsDevelopmentExecutableCompileSync
-    ```
-    *(Note: `jsViteDev` doesn't rebuild Kotlin on its own. Recompile and restart the Vite task to pick up changes).*
+### Definition of Done (DoD)
 
-### 3. Definition of Done (DoD)
 Before finalizing any task, ensure:
-1.  `./gradlew :mui-kotlin:compileKotlinJs :playground:compileKotlinJs` compiles with **0 errors**.
-2.  All changes under `mui-kotlin/src/jsMain/kotlin` match the generator output byte-for-byte in an empty directory. Verify with:
-    ```bash
-    ./gradlew :mui-kotlin:clean build
-    git diff --exit-code -- mui-kotlin/src/jsMain/kotlin
-    ```
-3.  New components or type un-widening must be integrated into a `Sample` under `playground/src/jsMain/kotlin/playground/samples/<library>/`, registered in `shell/Registry.kt`, rendered at its `#/<library>/<sample>` route and in `#/all`.
+
+1. Both the library and playground compile with **0 errors**.
+2. Generated declarations match a clean generation byte-for-byte.
+3. Generator changes affecting types, exposing components or changing inheritance pass real-browser verification
+   at the affected sample route and `#/all`. New components and type un-widening must have registered samples.
 
 ---
 
