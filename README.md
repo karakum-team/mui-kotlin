@@ -19,3 +19,14 @@ playground samples (`playground/src/jsMain/kotlin/playground/samples/baseui/`, r
 is still incomplete; the remaining modules and generator limitations are tracked in
 [BASE_UI_TODO.md](BASE_UI_TODO.md), the current migration status and handoff document. How to run and extend
 the samples is described in [playground/README.md](playground/README.md).
+
+## Integration with Agentic Tools
+
+[AGENTS.md](AGENTS.md) contains the shared project instructions for AI coding agents. The repository provides
+tool-specific entry points that reference it:
+
+- **Claude CLI (Claude Code):** [CLAUDE.md](CLAUDE.md).
+- **Gemini CLI:** [GEMINI.md](GEMINI.md).
+- **Codex:** [CODEX.md](CODEX.md).
+
+For Cursor or Windsurf, configure `.cursorrules` or `.windsurfrules` to reference [AGENTS.md](AGENTS.md).

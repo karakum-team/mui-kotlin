@@ -60,13 +60,3 @@ This repository contains specialized instruction files for specific agent roles,
 
 1.  **`agents/mui-code-review.md` (Code Review):**
     A comprehensive manual for performing semantic and structural code reviews on generator changes, generated output, and playground samples. Invoke this prompt when asked to review changes, check version bumps, or audit modifications before commit.
-
----
-
-## Integration with Agentic Tools
-
-To ensure various tools load these guidelines automatically:
-*   **Claude CLI (Claude Code):** Defer to this `AGENTS.md` and standard commands defined herein via `CLAUDE.md`.
-*   **Gemini CLI:** Follows the global preferences and reads `GEMINI.md` which references `AGENTS.md`.
-* **Codex:** Defer to this `AGENTS.md` and standard commands defined herein via `CODEX.md`.
-*   **Cursor / Windsurf:** Refer to this manual in `.cursorrules` or `.windsurfrules`.
