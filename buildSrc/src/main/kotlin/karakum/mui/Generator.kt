@@ -1810,11 +1810,25 @@ private fun RuntimeBindings.generate(
             else -> emptyMap()
         },
         collapseMemberValueObjects = pkg == Package.baseUi,
-        // The tree-view `*Slots` family is a closed set without `react.Props` in it (`TreeViewSlots` →
-        // `SimpleTreeViewSlots` / `RichTreeViewSlots` / `TreeViewStyleContextSlots`, `TreeItemIconSlots` →
-        // `TreeItemSlots`), so it can carry `@JsPlainObject` factories; the `TreeViewSelectionPropagation` model
-        // is a standalone one. The `*SlotProps` interfaces extend `Props` and stay plain `unsafeJso` territory.
+        // Annotate only closed families without `react.Props`, including every parent and child.
         jsPlainObject = when (pkg) {
+            // Both theme families and the typography family must include all their parents and children.
+            Package.system -> { name -> name in setOf("Theme", "ThemeOptions") }
+            Package.materialStyles -> { name ->
+                name in setOf(
+                    "ThemeOptions",
+                    "BaseTheme",
+                    "Theme",
+                    "FontStyle",
+                    "FontStyleOptions",
+                    "TypographyUtils",
+                    "TypographyVariants",
+                    "TypographyVariantsOptions",
+                )
+            }
+            // `TreeViewSlots` → `SimpleTreeViewSlots` / `RichTreeViewSlots` / `TreeViewStyleContextSlots`,
+            // `TreeItemIconSlots` → `TreeItemSlots`; `TreeViewSelectionPropagation` is standalone.
+            // The `*SlotProps` interfaces extend `Props` and stay plain `unsafeJso` territory.
             Package.treeView -> { name -> name.endsWith("Slots") || name == "TreeViewSelectionPropagation" }
             else -> { _ -> false }
         },

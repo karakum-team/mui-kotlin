@@ -2,6 +2,8 @@ package playground.samples.material
 
 import js.objects.unsafeJso
 import mui.material.PaletteMode
+import mui.material.styles.FontStyleOptions
+import mui.material.styles.Palette
 import mui.material.styles.PaletteOptions
 import mui.material.styles.ReducedMotionMode
 import mui.material.styles.ShapeOptions
@@ -25,40 +27,53 @@ import web.cssom.rem
 private val defaultTheme = createTheme()
 
 private val customTheme = createTheme(
-    unsafeJso<ThemeOptions> {
+    ThemeOptions(
         palette = unsafeJso<PaletteOptions> {
             mode = PaletteMode.dark
             primary = unsafeJso<SimplePaletteColorOptions> {
                 main = "#ff0000"
             }
-        }
-        typography = unsafeJso<TypographyVariantsOptions> {
+        },
+        typography = TypographyVariantsOptions(
             h1 = unsafeJso<CSSProperties> {
                 fontSize = 3.rem
-            }
-        }
+            },
+        ),
         shape = unsafeJso<ShapeOptions> {
             borderRadius = 8.px
-        }
+        },
         zIndex = unsafeJso<ZIndex> {
             appBar = 2000
-        }
-    }
+        },
+    ),
 )
 
 // `fontSize` scales `pxToRem`: 28 is twice the 14px default.
 private val largeTypography = createTypography(
     defaultTheme.palette,
-    unsafeJso<TypographyVariantsOptions> {
-        fontSize = 28
-    },
+    TypographyVariantsOptions(fontSize = 28.0),
 )
 
-private val cssVariablesTheme = createTheme(
-    unsafeJso<ThemeOptions> {
-        cssVariables = true
-    }
+private var callbackPalette: Palette? = null
+private val callbackTypography = createTypography(defaultTheme.palette) { palette ->
+    callbackPalette = palette
+    TypographyVariantsOptions(
+        fontSize = 28.0,
+        h1 = unsafeJso<CSSProperties> {
+            fontSize = 4.rem
+        },
+    )
+}
+
+private val fractionalTypography = createTypography(
+    defaultTheme.palette,
+    TypographyVariantsOptions(fontSize = 17.5, htmlFontSize = 12.5),
 )
+
+private val fontStyleOptions = FontStyleOptions(fontSize = 20.0)
+private val emptyTypographyOptions = TypographyVariantsOptions()
+
+private val cssVariablesTheme = createTheme(ThemeOptions(cssVariables = true))
 
 val ThemeTypingSample: Sample = Sample(
     id = "theme-typing",
@@ -68,18 +83,24 @@ val ThemeTypingSample: Sample = Sample(
     covers = listOf(
         "Theme.palette: Palette (mode, primary.main)",
         "Theme.typography: TypographyVariants (fontFamily, h1, pxToRem)",
+        "FontStyle / FontStyleOptions fontSize / htmlFontSize: Double",
         "Theme.shadows / shape / mixins.toolbar / zIndex / transitions / motion",
         "Theme.alpha / lighten / darken",
         "Theme.vars: ThemeVars",
         "ThemeOptions.palette / typography / shape / zIndex / cssVariables",
         "createTypography(palette, options)",
+        "createTypography(palette, callback)",
+        "ThemeOptions / FontStyleOptions / TypographyVariantsOptions @JsPlainObject factories",
     ),
     fileName = "ThemeTypingSample.kt",
     notes = "Only running this proves that the members converted from `createThemeNoVars.d.ts` read the " +
             "runtime theme under the names and shapes MUI builds: palette and typography values, the 25 shadows, " +
-            "the color helpers, the CSS variables `vars`, and that typed `ThemeOptions` reach `createTheme`.",
+            "the color helpers, the CSS variables `vars`, that `@JsPlainObject` options reach `createTheme`, " +
+            "and that both `createTypography` overloads preserve partial options and invoke the callback with the palette.",
     content = FC<Props> {
         val theme = defaultTheme
+        val fontSize: Double = fractionalTypography.fontSize
+        val htmlFontSize: Double = fractionalTypography.htmlFontSize
 
         CheckList {
             id = "theme-typing-checks"
@@ -109,6 +130,14 @@ val ThemeTypingSample: Sample = Sample(
                 Check("ThemeOptions.shape: borderRadius is 8px", "${customTheme.shape.borderRadius}" == "8px"),
                 Check("ThemeOptions.zIndex: appBar is 2000", customTheme.zIndex.appBar == 2000),
                 Check("createTypography(fontSize = 28).pxToRem(16) is 2rem", largeTypography.pxToRem(16) == "2rem"),
+                Check("createTypography callback receives the palette", callbackPalette === theme.palette),
+                Check("createTypography callback: pxToRem(16) is 2rem", callbackTypography.pxToRem(16) == "2rem"),
+                Check("createTypography callback: h1.fontSize is 4rem", "${callbackTypography.h1.fontSize}" == "4rem"),
+                Check("fractional font sizes are preserved", fontSize == 17.5 && htmlFontSize == 12.5),
+                Check("fractional font sizes: pxToRem(16) is 1.6rem", fractionalTypography.pxToRem(16) == "1.6rem"),
+                Check("FontStyleOptions factory preserves fontSize", fontStyleOptions.fontSize == 20.0),
+                Check("FontStyleOptions factory leaves fontFamily absent", fontStyleOptions.fontFamily == undefined),
+                Check("TypographyVariantsOptions factory allows empty options", emptyTypographyOptions.fontSize == undefined),
             )
         }
     },

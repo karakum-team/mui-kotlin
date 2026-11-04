@@ -161,6 +161,8 @@ private val NUMBER_AS_INT_PROPERTIES = setOf(
 )
 
 private val NUMBER_AS_DOUBLE_PROPERTIES = setOf(
+    // Typography sizes (px) — may be fractional
+    "fontSize", "htmlFontSize",
     // Opacity ratios (0.0–1.0)
     "hoverOpacity", "selectedOpacity", "disabledOpacity",
     "focusOpacity", "activatedOpacity",

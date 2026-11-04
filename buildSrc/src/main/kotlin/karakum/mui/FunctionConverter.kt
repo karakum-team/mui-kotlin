@@ -1,6 +1,7 @@
 package karakum.mui
 
 private const val QUERY_INPUT_TYPE = "string | ((theme: Theme) => string)"
+private const val TYPOGRAPHY_INPUT_TYPE = "TypographyVariantsOptions | ((palette: Palette) => TypographyVariantsOptions)"
 private const val DEFAULT_FUNCTION_PREFIX = "export default function "
 
 internal fun findDefaultFunction(
@@ -68,6 +69,11 @@ internal fun findDefaultFunction(
             .mapNotNull { findDefaultFunction(name, it) }
             .joinToString("\n\n")
 
+    if (name == "createTypography" && TYPOGRAPHY_INPUT_TYPE in content)
+        return TYPOGRAPHY_INPUT_TYPE.splitToSequence(" | ")
+            .mapNotNull { findDefaultFunction(name, content.replace(TYPOGRAPHY_INPUT_TYPE, it)) }
+            .joinToString("\n\n")
+
     val splitContent = content.split(DEFAULT_FUNCTION_PREFIX)
 
     val before = splitContent.getOrNull(0) ?: return null
@@ -104,10 +110,9 @@ internal fun findDefaultFunction(
         .replace(": string", ": String")
         .replace(": number", ": Number")
         .replace(": ((theme: Theme) => string)", ": (theme: Theme) -> String")
-        // `private_createTypography`'s options: an object or a `(palette) => options` callback.
         .replace(
-            "typography: TypographyVariantsOptions | ((palette: Palette) => TypographyVariantsOptions)",
-            "typography: Any /* TypographyVariantsOptions | ((palette: Palette) => TypographyVariantsOptions) */",
+            ": ((palette: Palette) => TypographyVariantsOptions)",
+            ": (palette: Palette) -> TypographyVariantsOptions",
         )
         // v6 `createSpacing` transform: a `Spacing`, a unit converter or a no-op — a union of function types.
         // Matched after the generic `: number` rewrite above has already turned `abs: number` into `abs: Number`.

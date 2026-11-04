@@ -23,11 +23,20 @@ fun String.adaptCreateTypography(): String {
     fun members(type: String, optional: Boolean): String =
         variants.joinToString("") { "  $it${if (optional) "?" else ""}: $type;\n" }
 
+    // `Partial<FontStyle>` cannot inherit the required font members in Kotlin. Expand them as optional
+    // fields so the `@JsPlainObject` options factories can accept just the values the caller overrides.
+    val fontStyleMembers = substringAfter("export interface FontStyle {\n").substringBefore("\n}")
+        .replace(Regex("""(?m)^(\s*\w+):"""), "$1?:")
+
     return replace(
         variantsHeader,
         "export interface TypographyVariants extends FontStyle, TypographyUtils {\n" +
                 members("React.CSSProperties", optional = false) + "}",
     )
+        .replace(
+            "export interface FontStyleOptions extends Partial<FontStyle> {",
+            "export interface FontStyleOptions {\n$fontStyleMembers",
+        )
         .replace(
             "export interface TypographyVariantsOptions extends Partial<Record<TypographyVariant, TypographyStyleOptions> & FontStyleOptions> {}",
             "export interface TypographyVariantsOptions extends FontStyleOptions {\n" +
