@@ -16,10 +16,16 @@ The path `mui-kotlin/src/jsMain/kotlin/**` is **100% generated**. On every execu
 
 ---
 
-## Generated Type Conventions
+## Task-Specific Rules
 
-When adding or changing generated declarations, read and apply the
-[Kotlin type selection rule](agents/rules/kotlin-types.md).
+Before starting work, read and apply every rule whose condition matches the task.
+
+| When to read | File |
+|---|---|
+| Adding or changing generated declarations | [Kotlin type selection](agents/rules/kotlin-types.md) |
+| Preparing a commit message or a ready-to-use commit summary | [Commit messages](agents/rules/commit-messages.md) |
+| Changing generator code, generated declarations or playground code, or running browser verification | [Generator verification](agents/rules/generator-verification.md) |
+| Transferring generated declarations to a fork or preparing upstream PRs | [kotlin-wrappers transfer](agents/rules/kotlin-wrappers-transfer.md) |
 
 ---
 
@@ -33,21 +39,11 @@ following git workflow:
 * **Rule #4:** When a task is complete and ready for commit, prepare a detailed summary of your changes, compile the
   project successfully, and request the human to verify and perform the commit (s). This allows human supervision over
   all generated and modified files before they are finalized.
-
-### Commit Message Convention
-
-Before preparing a commit message or a ready-to-use commit summary, read and apply the
-[commit message rule](agents/rules/commit-messages.md).
+* For `kotlin-wrappers` transfers: **never push**; the human pushes and opens the PRs.
 
 ---
 
-## Technical & Build Workflows
-
-Before changing generator code, generated declarations or playground code, or running browser verification,
-read and apply the
-[generator verification rule](agents/rules/generator-verification.md).
-
-### Definition of Done (DoD)
+## Definition of Done (DoD)
 
 Before finalizing any task, ensure:
 
@@ -55,14 +51,6 @@ Before finalizing any task, ensure:
 2. Generated declarations match a clean generation byte-for-byte.
 3. Generator changes affecting types, exposing components or changing inheritance pass real-browser verification
    at the affected sample route and `#/all`. New components and type un-widening must have registered samples.
-
----
-
-## Publishing Generated Declarations to `kotlin-wrappers`
-
-Before transferring generated declarations to a fork or preparing upstream PRs, read and apply the
-[kotlin-wrappers transfer rule](agents/rules/kotlin-wrappers-transfer.md).
-Never push; the human pushes and opens the PRs.
 
 ---
 
