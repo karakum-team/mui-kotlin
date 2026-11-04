@@ -14,5 +14,5 @@ and understand conventions, please defer to the root `AGENTS.md` file:
 * **Verification:** Verify generator changes by running `./gradlew build` and testing new API coverage on the playground
   with `./gradlew :playground:jsViteDev` (Vite port `5173`); see [`playground/README.md`](./playground/README.md) for
   routes, conventions and how to drive it.
-* **Specialized Prompts:** Use the subagent instructions located under the `.agents/` directory (e.g.
-  `.agents/mui-code-review.md`).
+* **Specialized Prompts:** Use the subagent instructions located under the `.agents/subagents/` directory (e.g.
+  `.agents/subagents/mui-code-review.md`).

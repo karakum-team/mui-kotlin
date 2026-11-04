@@ -56,7 +56,13 @@ Before finalizing any task, ensure:
 
 ## Registry of Specialized Subagents
 
-This repository contains specialized instruction files for specific agent roles, stored under the unified `.agents/` directory:
+Invoke a separate `mui-code-review` subagent using the
+[code review manual](.agents/subagents/mui-code-review.md):
 
-1.  **`.agents/mui-code-review.md` (Code Review):**
-    A comprehensive manual for performing semantic and structural code reviews on generator changes, generated output, and playground samples. Invoke this prompt when asked to review changes, check version bumps, or audit modifications before commit.
+* When the user requests a code review, a version bump check, or an audit before commit.
+* Before handing off changes to generator code, generated declarations, playground code or dependency versions
+  for human verification and commit.
+
+Provide the manual as the subagent's instructions and specify the diff, commit range or file list to review.
+The reviewer works read-only and must not edit files or run Gradle tasks. The parent agent handles findings and
+required verification within the scope of the user's task.

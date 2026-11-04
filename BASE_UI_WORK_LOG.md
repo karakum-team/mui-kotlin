@@ -116,7 +116,7 @@ human review and commit. No autonomous staging or commits; group 2 has not start
 
 ### Final independent review (2026-10-01)
 
-Separate `gpt-6.1-sol` / `xhigh` read-only review following `.agents/mui-code-review.md`: **zero findings**
+Separate `gpt-6.1-sol` / `xhigh` read-only review following `.agents/subagents/mui-code-review.md`: **zero findings**
 across all 27 changed paths (staged and unstaged). All new declarations and samples were checked
 against installed upstream typings and JS semantics; diagnostics and test results were inspected.
 The reviewer independently reproduced the current 759-file fingerprint above and confirmed that
