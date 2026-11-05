@@ -591,3 +591,28 @@ Verification:
   (`git diff --exit-code` on the post-regeneration tree compared to the first run, with only the 8 expected
   `muix/tree/view` files differing from `HEAD`).
 - No types, component exports, or inheritance hierarchies changed; browser verification was not required.
+
+## Tree View `@JsPlainObject` fork handoff (2026-11-05)
+
+The user committed the generator fix as `e654e5f74081488ff09944761a85738e63988fc1` and requested transferring
+its generated delta to the `muix-tree-view` branch of the
+[`aerialist7/kotlin-wrappers`](https://github.com/aerialist7/kotlin-wrappers) fork.
+
+- Applied only the 8 generated `muix/tree/view` file changes from `3e465547..e654e5f7` to the fork's
+  `muix-tree-view` branch at `e5259e791c371b294118ebce363ae28f36d3d0f7` (based on `master` at
+  `e874c92b9acd648714d2ecb1d41a4d30fd05e189`).
+- Every file in `kotlin-muix-tree-view/src/jsMain/generated/muix/tree/view` matched the `3e465547` baseline
+  byte-for-byte prior to transfer, and all **33** files now match the `e654e5f7` generator output byte-for-byte.
+  The scoped diff against `HEAD` (`e5259e791c`) is **8 modified files, +14 lines**:
+  `RichTreeViewItems.kt`, `RichTreeViewLoading.kt`, `TreeItem.types.kt`, `TreeItemLoader.types.kt`,
+  `TreeViewCancellableEvent.kt`, `TreeViewPublicAPI.kt`, `TreeViewStyleContext.kt`, and `useTreeItem.types.kt`.
+- All transferred changes remain **unstaged and uncommitted**. Fork `HEAD`, local `master`, index bytes, and
+  the pre-existing `AD` index entries for `domStructure.ext.kt`, `items.ext.kt`, and `items.kt` were preserved
+  unchanged.
+- `git diff --check` passes in both repositories. No compilation, builds, or tests were run in the fork, and
+  nothing was staged, committed, or pushed.
+
+Next step: human verification, staging, and commit of the 8 `kotlin-muix-tree-view` changes on `muix-tree-view`,
+followed by pushing to update [PR #2927](https://github.com/JetBrains/kotlin-wrappers/pull/2927).
+Prepared title-only commit message:
+`MUI X. Mark Tree View owner-state and model interfaces with @JsPlainObject`.
