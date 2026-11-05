@@ -85,8 +85,12 @@ Invoke a separate `mui-code-review` subagent using the
 [code review manual](.agents/subagents/mui-code-review.md):
 
 * When the user requests a code review, a version bump check, or an audit before commit.
-* Before handing off changes to generator code, generated declarations, playground code or dependency versions
-  for human verification and commit.
+* Before handing off entirely new functionality for human verification and commit, such as support for a new
+  component, a new generator capability, or a new playground feature.
+
+Bugfix-only tasks do not require automatic review. Adding regression tests or samples for a bug fix does not
+make it new functionality. If a task also introduces new functionality, the review requirement applies.
+Explicit user requests for review still apply to bug fixes.
 
 Provide the manual as the subagent's instructions and specify the diff, commit range or file list to review.
 The reviewer works read-only and must not edit files or run Gradle tasks. The parent agent handles findings and
