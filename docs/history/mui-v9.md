@@ -659,8 +659,8 @@ Verification:
 ## Tree View JSO `val` and union comment fork handoff (2026-11-05)
 
 Transferred only the Tree View (`muix/tree/view`) generated delta to the `muix-tree-view` branch of the
-[`aerialist7/kotlin-wrappers`](https://github.com/aerialist7/kotlin-wrappers) fork, leaving non-Tree View
-changes (`mui/base`, `mui/material`, `mui/system`, `muix/pickers`) out of `muix-tree-view` for separate PRs.
+fork, leaving non-Tree View changes (`mui/base`, `mui/material`, `mui/system`, `muix/pickers`) out of
+`muix-tree-view` for separate PRs.
 
 - Applied only the 18 generated `muix/tree/view` file changes to the fork's `muix-tree-view` branch at
   `5be28b876db6a7acf38158d71fe2c0aaf2498e53` (based on `master` at
