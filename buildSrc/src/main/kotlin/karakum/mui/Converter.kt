@@ -4,7 +4,7 @@ import java.io.File
 
 internal data class ConversionResult(
     val main: String,
-    val extensions: String,
+    val extensions: List<String>,
 )
 
 internal fun convertClasses(
@@ -495,7 +495,7 @@ internal fun convertDefinitions(
 
     return ConversionResult(
         main = mainContent,
-        extensions = (enums + functionInterfaces).joinToString("\n\n"),
+        extensions = enums + functionInterfaces,
     )
 }
 

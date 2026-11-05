@@ -1168,17 +1168,34 @@ private fun RuntimeBindings.generateTreeViewDeclarations(
         // merging (`declare module '@mui/x-tree-view/useTreeItem'`); `adaptUseTreeItemAugmentations` splices them
         // in, see adapters/treeview/UseTreeItem.kt.
         "useTreeItem/useTreeItem.types.d.ts" to { content: String -> adaptUseTreeItemAugmentations(content, typesDir) },
-        // The public model types (`@mui/x-tree-view/models`): `TreeViewSelectionPropagation` plus the
-        // `TreeViewItemSelectionStatus` / `TreeViewItemsReorderingAction` / `TreeViewDOMStructure` string unions,
-        // which the store parameters and the public API refer to. `TreeViewItemId` (a `string` alias, kept in
-        // TREE_VIEW_STUBS), `TreeViewDefaultItemModelProperties` / `TreeViewValidItem` (object-type aliases) and
-        // `models/events.d.ts` (an intersection alias) have nothing the converter can turn into a declaration
-        // and fall out on their own.
-        "models/items.d.ts" to null,
-        "models/domStructure.d.ts" to null,
     ).forEach { (rel, preprocess) ->
         val file = typesDir.resolve(rel)
         if (file.exists()) generate(file, targetDir, Package.treeView, typesOnly = true, preprocess = preprocess)
+    }
+
+    // Public model types belong in files named after their declarations, rather than `items.kt` /
+    // `items.ext.kt` / `domStructure.ext.kt`. Keep the converter's union declarations separate here.
+    // String/object/intersection aliases that the converter cannot emit remain covered by TREE_VIEW_STUBS
+    // or fall out as before; no model declarations are hand-written for this file naming.
+    sequenceOf("items", "domStructure").forEach { model ->
+        val file = typesDir.resolve("models/$model.d.ts")
+        if (file.exists()) {
+            val (body, extensions) = convertDefinitions(
+                file,
+                typesOnly = true,
+                knownTypes = TREE_VIEW_KNOWN_TYPES,
+                jsPlainObject = { it == "TreeViewSelectionPropagation" },
+            )
+            (listOf(body) + extensions).filter { it.isNotBlank() }.forEach { declaration ->
+                val names = Regex("""^[ \t]*(?:sealed )?external interface (\w+)""", RegexOption.MULTILINE)
+                    .findAll(declaration)
+                    .map { it.groupValues[1] }
+                    .toList()
+                check(names.size == 1) { "Expected one model type declaration in ${file.name}: $names" }
+                targetDir.resolve("${names.single()}.kt")
+                    .writeGenerated(fileContent(body = declaration, pkg = Package.treeView), file)
+            }
+        }
     }
 
     val handWritten = listOf(
@@ -1799,7 +1816,7 @@ private fun RuntimeBindings.generate(
         actualFile.name == "index.d.ts" -> actualFile.parentFile.name
         else -> actualFile.name.removeSuffix(".d.ts")
     }
-    val (body, extensions) = convertDefinitions(
+    val (body, extensionDeclarations) = convertDefinitions(
         actualFile,
         typesOnly = typesOnly,
         preprocess = preprocess,
@@ -1833,6 +1850,7 @@ private fun RuntimeBindings.generate(
             else -> { _ -> false }
         },
     )
+    val extensions = extensionDeclarations.joinToString("\n\n")
 
     val subpackage = when {
         pkg == Package.materialStyles

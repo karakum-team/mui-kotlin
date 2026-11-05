@@ -19,16 +19,3 @@ sealed external interface TreeViewItemsReorderingAction {
         val moveToParent: TreeViewItemsReorderingAction
     }
 }
-
-sealed external interface TreeViewItemSelectionStatus {
-    companion object {
-        @JsValue("selected")
-        val selected: TreeViewItemSelectionStatus
-
-        @JsValue("indeterminate")
-        val indeterminate: TreeViewItemSelectionStatus
-
-        @JsValue("unselected")
-        val unselected: TreeViewItemSelectionStatus
-    }
-}
