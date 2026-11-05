@@ -25,7 +25,7 @@ internal fun convertSpacingOptions(
             """.trimIndent()
         }
 
-    return "sealed external interface $name" +
+    return "sealed /* union */\nexternal interface $name" +
             "\n\n" +
             factories
 }

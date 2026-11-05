@@ -22,9 +22,9 @@ import mui.material.styles.createTheme as createMaterialTheme
 private val defaultSpacing = createTheme().spacing
 
 private val unitSpacing = createTheme(
-    unsafeJso<ThemeOptions> {
-        spacing = SpacingOptions(4)
-    }
+    ThemeOptions(
+        spacing = SpacingOptions(4),
+    ),
 ).spacing
 
 private val lengthSpacing = createSpacing(SpacingOptions(8.px))
@@ -34,9 +34,9 @@ private val functionSpacing = createSpacing(SpacingOptions { abs: Int -> (abs * 
 private val arraySpacing = createSpacing(SpacingOptions(arrayOf(0, 4, 8, 16)))
 
 private val materialSpacing = createMaterialTheme(
-    unsafeJso<MaterialThemeOptions> {
-        spacing = SpacingOptions(4)
-    }
+    MaterialThemeOptions(
+        spacing = SpacingOptions(4),
+    ),
 ).spacing
 
 val SpacingSample: Sample = Sample(

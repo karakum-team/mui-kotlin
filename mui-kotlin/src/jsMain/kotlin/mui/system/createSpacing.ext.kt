@@ -6,7 +6,8 @@ import js.array.ReadonlyArray
 import js.reflect.unsafeCast
 import web.cssom.Length
 
-sealed external interface SpacingOptions
+sealed /* union */
+external interface SpacingOptions
 
 inline fun SpacingOptions(
     value: Int,

@@ -138,9 +138,9 @@ external interface TransitionCreateOptions {
 """.trimIndent()
 
 // language=kotlin
-// language=kotlin
 private val MATERIAL_SIZE = """
-sealed external interface Size {
+sealed /* union */
+external interface Size {
     companion object {
         @JsValue("small")
         val small: small
@@ -161,8 +161,11 @@ sealed external interface Size {
     sealed interface large : Size
 }
 
-sealed external interface BaseSize
-sealed external interface NormalSize
+sealed /* union */
+external interface BaseSize
+
+sealed /* union */
+external interface NormalSize
 """.trimIndent()
 
 // language=kotlin
@@ -232,7 +235,8 @@ private val TREE_VIEW_SELECTION_VALUE = """
  * otherwise (`TreeViewSelectionValue<Multiple>` upstream). Built with the factories below and read back with
  * [asMultiple] or [asSingle], whichever the component is configured for.
  */
-sealed external interface TreeViewSelectionValue
+sealed /* union */
+external interface TreeViewSelectionValue
 
 /**
  * The selection of a `multiSelect` Tree View.
@@ -280,7 +284,8 @@ private val TREE_VIEW_SLOT_COMPONENT_PROPS = """
  * The props of a slot: a props object, or a function of the slot's owner state that returns one
  * (`SlotComponentProps<Component, Overrides, OwnerState>` from `@mui/utils/types`).
  */
-sealed external interface SlotComponentProps<P : react.Props, S>
+sealed /* union */
+external interface SlotComponentProps<P : react.Props, S>
 
 inline fun <P : react.Props, S> SlotComponentProps(
     props: P,
@@ -305,8 +310,8 @@ private val TREE_VIEW_RICH_TREE_VIEW_ITEMS = """
  */
 @JsPlainObject
 external interface RichTreeViewItemsOwnerState {
-    var itemId: TreeViewItemId
-    var label: String
+    val itemId: TreeViewItemId
+    val label: String
 }
 
 @JsPlainObject
@@ -315,7 +320,7 @@ external interface RichTreeViewItemsSlots {
      * Custom component to render a Tree Item.
      * @default TreeItem.
      */
-    var item: react.ElementType<TreeItemProps>?
+    val item: react.ElementType<TreeItemProps>?
 }
 
 external interface RichTreeViewItemsSlotProps : react.Props {
@@ -355,7 +360,7 @@ external interface RichTreeViewLoadingSlotOwnerState {
      * The id of the item whose children are loading.
      * `null` while the whole tree is loading.
      */
-    var itemId: TreeViewItemId?
+    val itemId: TreeViewItemId?
 }
 """.trimIndent()
 
@@ -373,7 +378,6 @@ private val TREE_VIEW_CANCELLABLE_EVENT = """
  * for the checkbox `onChange`; by the label editing plugin for the label input `onKeyDown` / `onBlur`; and by the
  * focus and keyboard navigation plugins for the Tree View root's `onFocus` / `onBlur` / `onKeyDown`.
  */
-@JsPlainObject
 external interface TreeViewCancellableEvent {
     var defaultMuiPrevented: Boolean?
 }
@@ -400,40 +404,40 @@ private val TREE_VIEW_PUBLIC_API = """
  */
 @JsPlainObject
 external interface SimpleTreeViewItem {
-    var id: TreeViewItemId
-    var label: String
-    var children: js.array.ReadonlyArray<SimpleTreeViewItem>?
+    val id: TreeViewItemId
+    val label: String
+    val children: js.array.ReadonlyArray<SimpleTreeViewItem>?
 }
 
 @JsPlainObject
 external interface SetIsItemDisabledParameters {
-    var itemId: TreeViewItemId
-    var shouldBeDisabled: Boolean?
+    val itemId: TreeViewItemId
+    val shouldBeDisabled: Boolean?
 }
 
 @JsPlainObject
 external interface SetItemExpansionParameters {
-    var itemId: TreeViewItemId
-    var event: react.dom.events.SyntheticEvent<*, *>?
-    var shouldBeExpanded: Boolean?
+    val itemId: TreeViewItemId
+    val event: react.dom.events.SyntheticEvent<*, *>?
+    val shouldBeExpanded: Boolean?
 }
 
 @JsPlainObject
 external interface SetItemSelectionParameters {
-    var itemId: TreeViewItemId
-    var event: react.dom.events.SyntheticEvent<*, *>?
+    val itemId: TreeViewItemId
+    val event: react.dom.events.SyntheticEvent<*, *>?
 
     /**
      * If `true` the item will be selected. If `false` the item will be deselected. If not defined, the item's
      * selection status will be toggled.
      */
-    var shouldBeSelected: Boolean?
+    val shouldBeSelected: Boolean?
 
     /**
      * If `true`, the other already selected items will remain selected, otherwise, they will be deselected.
      * Only relevant when `multiSelect` is `true`.
      */
-    var keepExistingSelection: Boolean?
+    val keepExistingSelection: Boolean?
 }
 
 @JsPlainObject
@@ -441,20 +445,20 @@ external interface AddItemsParameters<R : Any> {
     /**
      * The items to add to the tree.
      */
-    var items: js.array.ReadonlyArray<R>
+    val items: js.array.ReadonlyArray<R>
 
     /**
      * The id of the item to add the items to.
      * If `null` or not defined, the items are added at the root level.
      * @default null
      */
-    var parentId: TreeViewItemId?
+    val parentId: TreeViewItemId?
 
     /**
      * The position in the parent's children at which the items are inserted.
      * If not defined, the items are appended after the existing children.
      */
-    var index: Int?
+    val index: Int?
 }
 
 /**
@@ -1911,6 +1915,8 @@ private fun RuntimeBindings.generate(
         }
         if (componentName in VAR_TYPE_MISMATCH_ON_OVERRIDE_FIX_REQUIRED && !ownSlots)
             suppressKeys += "VAR_TYPE_MISMATCH_ON_OVERRIDE"
+        if (componentName in PROPERTY_TYPE_MISMATCH_ON_OVERRIDE_FIX_REQUIRED)
+            suppressKeys += "PROPERTY_TYPE_MISMATCH_ON_OVERRIDE"
         if (suppressKeys.isNotEmpty() && componentName != "TextField") {
             // `distinct()`: the two MUI sets are keyed by bare component name, and Base UI part files
             // named `Input` / `RadioGroup` collide with entries there — without it the Base UI branch

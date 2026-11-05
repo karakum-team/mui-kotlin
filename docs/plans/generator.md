@@ -29,19 +29,23 @@ Base UI module work has its own [canonical plan](base-ui.md).
   Next step for this follow-up: upstream review and any requested changes. Unrelated suppression limitations,
   including Base UI gap 12, remain deferred.
 - **Tree View transfer and PR #2927 review (2026-11-05):** the `muix-tree-view` branch was pushed to the fork and
-  opened as [`JetBrains/kotlin-wrappers#2927`](https://github.com/JetBrains/kotlin-wrappers/pull/2927). The local
-  generator follow-up for the PR #2927 review is committed as `e654e5f7` (`@JsPlainObject` emitted on
-  `RichTreeViewItemsOwnerState`, `RichTreeViewLoadingSlotOwnerState`, `TreeItemOwnerState`,
-  `TreeItemLoaderOwnerState`, `SimpleTreeViewItem`, `UseTreeItemStatus`, `UseTreeItemReturnValue`,
-  `TreeViewClasses`, `TreeViewStyleContextValue`, and `TreeViewCancellableEvent`; `apiRef` retained as
-  `RefObject<…>`), and its 8-file `muix/tree/view` delta is transferred unstaged onto the fork's `muix-tree-view`
-  branch (`e5259e791c`).
-  Next step: human verification, staging, commit, and push on the fork's `muix-tree-view` branch to update PR #2927.
+  opened as [`JetBrains/kotlin-wrappers#2927`](https://github.com/JetBrains/kotlin-wrappers/pull/2927). The first
+  review follow-up was committed locally as `e654e5f7` and on the fork's `muix-tree-view` branch as `5be28b876d`.
+  The second local generator follow-up for PR #2927 is complete: all `@JsPlainObject` interfaces across the
+  generator now emit `val` properties (`MemberConverter.kt`, `Converter.kt`, `Overrides.kt`, `Override.kt`, and
+  hand-written Tree View templates in `Generator.kt`), `TreeViewCancellableEvent` drops `@JsPlainObject` so
+  `SyntheticEvent.defaultMuiPrevented` can mutate `defaultMuiPrevented` in place on the event instance, and all
+  union interfaces emit `sealed /* union */` before `external interface` (`UnionConverter.kt`, `Spacing.kt`, and
+  `Generator.kt`).
+  Next step: human verification, staging, commit, and push of the transferred 18-file `muix/tree/view` delta on the
+  fork's `muix-tree-view` branch (`5be28b876d`) to update PR #2927, and commit in `mui-kotlin`.
   [Scope, baseline and verification](../history/mui-v9.md#tree-view-fork-handoff-2026-11-05).
   [Model filename follow-up](../history/mui-v9.md#tree-view-model-filenames-follow-up-2026-11-05).
   [Publication status](../history/mui-v9.md#tree-view-pull-request-opened-2026-11-05).
   [PR #2927 review follow-up](../history/mui-v9.md#tree-view-jsplainobject-review-follow-up--pr-2927-2026-11-05).
   [PR #2927 fork handoff](../history/mui-v9.md#tree-view-jsplainobject-fork-handoff-2026-11-05).
+  [PR #2927 JSO `val` and union comment follow-up](../history/mui-v9.md#tree-view-jso-val-and-union-comment-follow-up--pr-2927-2026-11-05).
+  [PR #2927 JSO `val` and union comment fork handoff](../history/mui-v9.md#tree-view-jso-val-and-union-comment-fork-handoff-2026-11-05).
   The filename follow-up also records one existing buildSrc test failure reproduced on the unchanged baseline;
   that separate runtime-binding test mismatch remains unresolved.
 - **Last recorded evidence:** [v6 audit resolutions](../history/mui-v6.md),

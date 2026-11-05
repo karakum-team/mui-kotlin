@@ -1,6 +1,5 @@
 package playground.samples.system
 
-import js.objects.unsafeJso
 import mui.system.Direction
 import mui.system.Theme
 import mui.system.ThemeOptions
@@ -18,9 +17,9 @@ import react.Props
 private val fallbackTheme = createTheme()
 
 private val providedTheme = createTheme(
-    unsafeJso<ThemeOptions> {
-        direction = Direction.rtl
-    }
+    ThemeOptions(
+        direction = Direction.rtl,
+    ),
 )
 
 private external interface ThemeProbeProps : Props {

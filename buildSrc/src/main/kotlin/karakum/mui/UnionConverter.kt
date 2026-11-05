@@ -84,7 +84,8 @@ internal fun convertUnion(
     } else ""
 
     return lostDoc + """
-        sealed external interface $name {
+        sealed /* union */
+        external interface $name {
             companion object {
                 $properties
             }
@@ -131,7 +132,8 @@ private fun convertSealed(
     name: String,
     companionContent: String,
 ): String = """
-    sealed external interface $name {
+    sealed /* union */
+    external interface $name {
         companion object {
             $companionContent
         }

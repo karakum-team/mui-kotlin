@@ -4,6 +4,7 @@ internal fun convertMembers(
     source: String,
     // See [kotlinType].
     knownTypes: Map<String, String> = emptyMap(),
+    readOnly: Boolean = false,
 ): String {
     if (source.isEmpty())
         return ""
@@ -23,7 +24,7 @@ internal fun convertMembers(
         .map { it.replace("??33??", ";\n  }[") }
         .map { it.replace("??44??", ";\n   * ") }
         .map { it.trimIndent() }
-        .map { convertMember(it, knownTypes) }
+        .map { convertMember(it, knownTypes, readOnly) }
         .filter { it.isNotEmpty() }
         .joinToString("\n\n")
 }
@@ -31,6 +32,7 @@ internal fun convertMembers(
 private fun convertMember(
     source: String,
     knownTypes: Map<String, String>,
+    readOnly: Boolean,
 ): String {
     // Peel ONLY the member's leading documentation (a `/** … */` block and/or `//` lines),
     // then convert the whole remainder as a single property. The property body may itself
@@ -73,7 +75,7 @@ private fun convertMember(
     if (body.isEmpty())
         return comments.joinToString("\n")
 
-    val property = convertProperty(body, knownTypes)
+    val property = convertProperty(body, knownTypes, readOnly)
     if (property.isEmpty())
         return ""
 
@@ -86,6 +88,7 @@ private const val CSS_RECORD = "[k: string]: unknown | CSSProperties"
 private fun convertProperty(
     source: String,
     knownTypes: Map<String, String>,
+    readOnly: Boolean,
 ): String {
     if (source == CSS_RECORD)
         return "// $CSS_RECORD"
@@ -134,7 +137,7 @@ private fun convertProperty(
     }
 
     if (name == "id")
-        return ID
+        return if (readOnly) "val id: ElementId?" else ID
 
     if (name == "className" && type == "String")
         return CLASS_NAME
@@ -161,7 +164,7 @@ private fun convertProperty(
         else -> "$type?"
     }
 
-    val modifier = if (": Readonly<" in source) "val" else "var"
+    val modifier = if (readOnly || ": Readonly<" in source) "val" else "var"
     val declaration = jsNameAnnotation + "$modifier $name: $fullType"
 
     return declaration

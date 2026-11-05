@@ -3,6 +3,7 @@ package playground.samples.material
 import js.objects.unsafeJso
 import mui.material.ClickAwayListener
 import mui.material.styles.Theme
+import mui.material.styles.ThemeOptions
 import mui.material.styles.ThemeProvider
 import mui.material.styles.createMixins
 import mui.material.styles.createStyles
@@ -26,7 +27,7 @@ import react.useState
 import web.cssom.ClassName
 import web.dom.ElementId
 
-private val importTheme = createTheme(unsafeJso { focusVisible = true })
+private val importTheme = createTheme(ThemeOptions(focusVisible = true))
 
 // `createBreakpoints` is only the argument `createMixins` needs; the system factories are covered by
 // `system/SystemFactoriesSample.kt`.

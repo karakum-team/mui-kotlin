@@ -5,7 +5,8 @@ package baseui
 import seskar.js.JsRawValue
 import seskar.js.JsValue
 
-sealed external interface Direction {
+sealed /* union */
+external interface Direction {
     companion object {
         @JsRawValue("-1")
         val sMinus1: Direction
@@ -15,7 +16,8 @@ sealed external interface Direction {
     }
 }
 
-sealed external interface DirectionalChangeReason {
+sealed /* union */
+external interface DirectionalChangeReason {
     companion object {
         @JsValue("increment-press")
         val incrementPress: DirectionalChangeReason

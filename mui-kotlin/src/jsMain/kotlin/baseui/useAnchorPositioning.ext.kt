@@ -4,7 +4,8 @@ package baseui
 
 import seskar.js.JsValue
 
-sealed external interface Side {
+sealed /* union */
+external interface Side {
     companion object {
         @JsValue("top")
         val top: Side
@@ -26,7 +27,8 @@ sealed external interface Side {
     }
 }
 
-sealed external interface Align {
+sealed /* union */
+external interface Align {
     companion object {
         @JsValue("start")
         val start: Align

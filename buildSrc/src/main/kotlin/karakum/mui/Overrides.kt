@@ -278,9 +278,18 @@ private fun String.override(
     name: String,
     last: Boolean = false,
     all: Boolean = false,
+): String =
+    override(name, "var", last, all)
+        .override(name, "val", last, all)
+
+private fun String.override(
+    name: String,
+    modifier: String,
+    last: Boolean,
+    all: Boolean,
 ): String {
-    val oldValue = "var $name:"
-    val newValue = "override var $name:"
+    val oldValue = "$modifier $name:"
+    val newValue = "override $modifier $name:"
 
     return when {
         all -> replace(oldValue, newValue)

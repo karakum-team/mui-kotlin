@@ -9,7 +9,8 @@ import seskar.js.JsValue
 import web.cssom.ClassName
 import web.html.HTMLElement
 
-sealed external interface NumberFieldScrubAreaDirection {
+sealed /* union */
+external interface NumberFieldScrubAreaDirection {
     companion object {
         @JsValue("horizontal")
         val horizontal: NumberFieldScrubAreaDirection

@@ -616,3 +616,70 @@ Next step: human verification, staging, and commit of the 8 `kotlin-muix-tree-vi
 followed by pushing to update [PR #2927](https://github.com/JetBrains/kotlin-wrappers/pull/2927).
 Prepared title-only commit message:
 `MUI X. Mark Tree View owner-state and model interfaces with @JsPlainObject`.
+
+## Tree View JSO `val` and union comment follow-up — PR #2927 (2026-11-05)
+
+Source baseline: `d55cd621` (fork `muix-tree-view` at `5be28b876db6a7acf38158d71fe2c0aaf2498e53`).
+Upstream review on [`JetBrains/kotlin-wrappers#2927`](https://github.com/JetBrains/kotlin-wrappers/pull/2927)
+requested `val` properties in `@JsPlainObject` interfaces (`RichTreeViewItems.kt`) and `sealed /* union */`
+comments on union interfaces (`TreeViewDOMStructure.kt` and `SlotComponentProps.kt`).
+
+- **`val` properties in `@JsPlainObject` interfaces (`MemberConverter.kt`, `Converter.kt`, `Overrides.kt`,
+  `Override.kt`, `Generator.kt`):** `convertMembers` now accepts `readOnly = isPlainObject` so every converted
+  `@JsPlainObject` interface across `muix.tree.view`, `mui.system`, and `mui.material.styles` emits `val`
+  properties; `createThemeNoVars` switches from `VAR_TYPE_MISMATCH_ON_OVERRIDE` to
+  `PROPERTY_TYPE_MISMATCH_ON_OVERRIDE`; and hand-written `@JsPlainObject` templates in `Generator.kt`
+  (`RichTreeViewItemsOwnerState`, `RichTreeViewItemsSlots`, `RichTreeViewLoadingSlotOwnerState`,
+  `SimpleTreeViewItem`, `SetIsItemDisabledParameters`, `SetItemExpansionParameters`,
+  `SetItemSelectionParameters`, `AddItemsParameters`) use `val`. Updated `RuntimeImportsSample.kt`,
+  `ThemeFocusVisibleSample.kt`, `SpacingSample.kt`, and `ThemeWithoutDefaultSample.kt` to construct
+  `ThemeOptions` via its `@JsPlainObject` factory instead of `unsafeJso`.
+- **`TreeViewCancellableEvent` (`Generator.kt`):** removed `@JsPlainObject` and kept
+  `var defaultMuiPrevented: Boolean?`. At runtime `@mui/x-tree-view` (`useTreeItem.js` and the focus,
+  keyboard-navigation, selection, and label-editing plugins) invokes `onKeyDown(event)` (`Unit` return) and
+  reads `event.defaultMuiPrevented` from the same `SyntheticEvent` instance, so `SyntheticEvent.defaultMuiPrevented`
+  must mutate the event in place rather than copying a plain object.
+- **Union comments (`UnionConverter.kt`, `Spacing.kt`, `Generator.kt`):** emitted `sealed /* union */` before
+  `external interface` in `convertUnion`, `convertSealed`, `convertSpacingOptions`, `MATERIAL_SIZE`,
+  `TREE_VIEW_SELECTION_VALUE`, and `TREE_VIEW_SLOT_COMPONENT_PROPS`, covering all 6 Tree View union files
+  (`SlotComponentProps.kt`, `TreeViewDOMStructure.kt`, `TreeViewExpansionTrigger.kt`,
+  `TreeViewItemSelectionStatus.kt`, `TreeViewItemsReorderingAction.kt`, `TreeViewSelectionValue.kt`) and all
+  other generated union files across the repository.
+
+Verification:
+
+- `./gradlew :mui-kotlin:clean build :playground:compileKotlinJs` passed with zero errors, including all 21
+  runtime-export tests and the production Vite bundle.
+- A second `./gradlew :mui-kotlin:clean build :playground:compileKotlinJs` reproduced all 778 generated files
+  byte-for-byte.
+- Verified that zero `@JsPlainObject` interfaces in `mui-kotlin/src/jsMain/kotlin` declare `var` members and
+  that the only `sealed external interface` declarations without `/* union */` are the two callable function
+  interfaces (`mui.system.Spacing` and `baseui.ToastManagerUpdate`).
+
+## Tree View JSO `val` and union comment fork handoff (2026-11-05)
+
+Transferred only the Tree View (`muix/tree/view`) generated delta to the `muix-tree-view` branch of the
+[`aerialist7/kotlin-wrappers`](https://github.com/aerialist7/kotlin-wrappers) fork, leaving non-Tree View
+changes (`mui/base`, `mui/material`, `mui/system`, `muix/pickers`) out of `muix-tree-view` for separate PRs.
+
+- Applied only the 18 generated `muix/tree/view` file changes to the fork's `muix-tree-view` branch at
+  `5be28b876db6a7acf38158d71fe2c0aaf2498e53` (based on `master` at
+  `e874c92b9acd648714d2ecb1d41a4d30fd05e189`).
+- Every file in `kotlin-muix-tree-view/src/jsMain/generated/muix/tree/view` matched the `d55cd621` baseline
+  byte-for-byte prior to transfer, and all **33** files now match the generator's `muix/tree/view` output
+  byte-for-byte. The scoped diff against `HEAD` (`5be28b876d`) is **18 modified files, +99 / -95 lines**:
+  `RichTreeView.types.kt`, `RichTreeViewItems.kt`, `RichTreeViewLoading.kt`, `SimpleTreeView.types.kt`,
+  `SlotComponentProps.kt`, `TreeItem.types.kt`, `TreeItemIcon.types.kt`, `TreeItemLoader.types.kt`,
+  `TreeViewCancellableEvent.kt`, `TreeViewDOMStructure.kt`, `TreeViewExpansionTrigger.kt`,
+  `TreeViewItemSelectionStatus.kt`, `TreeViewItemsReorderingAction.kt`, `TreeViewPublicAPI.kt`,
+  `TreeViewSelectionPropagation.kt`, `TreeViewSelectionValue.kt`, `TreeViewStyleContext.kt`, and
+  `useTreeItem.types.kt`.
+- All transferred changes remain **unstaged and uncommitted**. Fork `HEAD`, local `master`, and the pre-existing
+  staged `AD` index entries for `domStructure.ext.kt`, `items.ext.kt`, and `items.kt` were preserved unchanged.
+- `git diff --check` passes in both repositories. No compilation, builds, or tests were run in the fork, and
+  nothing was staged, committed, or pushed.
+
+Next step: human verification, staging, and commit of the 18 `kotlin-muix-tree-view` changes on `muix-tree-view`,
+followed by pushing to update [PR #2927](https://github.com/JetBrains/kotlin-wrappers/pull/2927).
+Prepared title-only commit message:
+`MUI X. Use val in Tree View JSOs and mark union interfaces`.

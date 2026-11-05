@@ -47,25 +47,25 @@ import web.dom.ElementId
 // `:focus-visible` and would make the rings look absent.
 
 private val defaultRingTheme = createTheme(
-    unsafeJso<ThemeOptions> {
-        focusVisible = true
-    }
+    ThemeOptions(
+        focusVisible = true,
+    ),
 )
 
 private val customRingTheme = createTheme(
-    unsafeJso<ThemeOptions> {
+    ThemeOptions(
         focusVisible = unsafeJso<FocusVisible> {
             outlineColor = NamedColor.magenta
             outlineWidth = 4.px
             outlineOffset = 6.px
-        }
-    }
+        },
+    ),
 )
 
 private val cssVariablesTheme = createTheme(
-    unsafeJso<ThemeOptions> {
-        cssVariables = true
-    }
+    ThemeOptions(
+        cssVariables = true,
+    ),
 )
 
 // `Theme.palette` is the plain `Palette`: its CSS variables fields (`CssVarsPalette`) exist only when

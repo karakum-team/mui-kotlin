@@ -4,7 +4,8 @@ package baseui
 
 import seskar.js.JsValue
 
-sealed external interface TransitionStatus {
+sealed /* union */
+external interface TransitionStatus {
     companion object {
         @JsValue("starting")
         val starting: TransitionStatus

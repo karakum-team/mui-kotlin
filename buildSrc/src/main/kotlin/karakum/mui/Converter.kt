@@ -1579,6 +1579,7 @@ private fun findAdditionalProps(
                 .substringBefore(";\n}\n")
         }
 
+        val isPlainObject = jsPlainObject(interfaceName)
         var propsBody = when {
             interfaceName.endsWith("Actions")
                 -> convertMethods(membersContent)
@@ -1586,7 +1587,7 @@ private fun findAdditionalProps(
             interfaceName == "IUtils"
                 -> convertDateUtils(membersContent)
 
-            else -> convertMembers(membersContent, knownTypes)
+            else -> convertMembers(membersContent, knownTypes, readOnly = isPlainObject)
         }
 
         when (interfaceName) {
@@ -1608,7 +1609,8 @@ private fun findAdditionalProps(
                 "typography",
                 "zIndex",
             ).fold(propsBody) { acc, propName ->
-                acc.replace("var $propName:", "override var $propName:")
+                val modifier = if (isPlainObject) "val" else "var"
+                acc.replace("$modifier $propName:", "override $modifier $propName:")
             }
         }
 
