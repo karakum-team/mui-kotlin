@@ -47,8 +47,8 @@ val SimpleTreeViewSample: Sample = Sample(
     fileName = "SimpleTreeViewSample.kt",
     refs = listOf(
         Ref(
-            "MUI_V9_TODO.md — Tree View behavioural props and typing gaps",
-            "https://github.com/karakum-team/mui-kotlin/blob/main/MUI_V9_TODO.md#tree-view-the-behavioural-props-and-the-typing-gaps-fixed-2026-10-31",
+            "docs/history/mui-v9.md — Tree View behavioural props and typing gaps",
+            "https://github.com/karakum-team/mui-kotlin/blob/main/docs/history/mui-v9.md#tree-view-the-behavioural-props-and-the-typing-gaps-fixed-2026-10-31",
         ),
         Ref("f6a260ab", "https://github.com/karakum-team/mui-kotlin/commit/f6a260ab"),
     ),

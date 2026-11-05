@@ -340,7 +340,7 @@ render = block
  * across newlines up to the opening brace.
  *
  * Deliberately does not match a declaration carrying type parameters (`MenuRootProps<Payload>:`): were
- * generics preserved one day (BASE_UI_TODO.md gap 4), whatever is built on top of this would need the
+ * generics preserved one day (docs/plans/base-ui.md gap 4), whatever is built on top of this would need the
  * parameter too, and getting nothing is the safe outcome until it does.
  */
 private fun declarationParents(
@@ -501,7 +501,7 @@ private val FOREIGN_ALIASES = mapOf(
  * Replaces a member whose type *is* one of its declaration's own type parameters with what upstream
  * bounds that parameter to.
  *
- * The converter drops type parameters from the declaration it emits (BASE_UI_TODO.md gap 4), which
+ * The converter drops type parameters from the declaration it emits (docs/plans/base-ui.md gap 4), which
  * leaves every member that mentioned one referring to a name that is no longer declared. That is
  * ordinarily harmless: an unknown name widens to `Any?` with the TypeScript recorded beside it, which is
  * what `MenuRootProps.payload` gets and is why `Payload` needs nothing here. It stops being harmless when

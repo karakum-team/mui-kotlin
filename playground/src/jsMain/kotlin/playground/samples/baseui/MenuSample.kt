@@ -59,10 +59,10 @@ val MenuSample: Sample = Sample(
     ),
     fileName = "MenuSample.kt",
     refs = listOf(
-        Ref("BASE_UI_TODO.md", "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_TODO.md"),
+        Ref("docs/plans/base-ui.md", "https://github.com/karakum-team/mui-kotlin/blob/main/docs/plans/base-ui.md"),
         Ref(
             "What only the sample can catch",
-            "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_TODO.md#what-only-the-sample-can-catch",
+            "https://github.com/karakum-team/mui-kotlin/blob/main/docs/plans/base-ui.md#what-only-the-sample-can-catch",
         ),
         Ref("b8bce901", "https://github.com/karakum-team/mui-kotlin/commit/b8bce901"),
     ),

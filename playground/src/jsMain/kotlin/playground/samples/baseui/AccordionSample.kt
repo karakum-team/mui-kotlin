@@ -39,7 +39,7 @@ val AccordionSample: Sample = Sample(
     ),
     fileName = "AccordionSample.kt",
     refs = listOf(
-        Ref("BASE_UI_TODO.md", "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_TODO.md"),
+        Ref("docs/plans/base-ui.md", "https://github.com/karakum-team/mui-kotlin/blob/main/docs/plans/base-ui.md"),
         Ref("49e7bc24", "https://github.com/karakum-team/mui-kotlin/commit/49e7bc24"),
     ),
     notes = "Mounts all five namespace members, so a key missing at runtime takes the page down. Toggling a " +

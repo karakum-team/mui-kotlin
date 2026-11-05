@@ -210,7 +210,7 @@ private fun String.dropMemberValueObjects(
                 // Off for `@mui/*`, where the same span is sometimes a *parameter* of a function type
                 // (`InputBase.renderSuffix: (state: { … }) => React.ReactNode`). Replacing it with `any`
                 // is what lets `toFunctionType` translate the callback; keeping it makes the parameter
-                // untranslatable and widens the whole function to `Any?` (BASE_UI_TODO.md gap 14). No Base
+                // untranslatable and widens the whole function to `Any?` (docs/plans/base-ui.md gap 14). No Base
                 // UI function type has an inline object parameter today.
                 if (collapse) {
                     val collapsed = substring(i + 2, closeBrace + 1)

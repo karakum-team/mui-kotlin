@@ -71,8 +71,8 @@ val RuntimeImportsSample: Sample = Sample(
     fileName = "RuntimeImportsSample.kt",
     refs = listOf(
         Ref(
-            "MUI_V9_TODO.md — Runtime imports",
-            "https://github.com/karakum-team/mui-kotlin/blob/main/MUI_V9_TODO.md#runtime-imports--resolved-from-npm-exports-during-generation",
+            "docs/history/mui-v9.md — Runtime imports",
+            "https://github.com/karakum-team/mui-kotlin/blob/main/docs/history/mui-v9.md#runtime-imports--resolved-from-npm-exports-during-generation",
         ),
         Ref("a3919d02", "https://github.com/karakum-team/mui-kotlin/commit/a3919d02"),
     ),

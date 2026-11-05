@@ -58,7 +58,7 @@ val ToastSample: Sample = Sample(
     ),
     fileName = "ToastSample.kt",
     refs = listOf(
-        Ref("BASE_UI_TODO.md", "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_TODO.md"),
+        Ref("docs/plans/base-ui.md", "https://github.com/karakum-team/mui-kotlin/blob/main/docs/plans/base-ui.md"),
         Ref("f296d5bd", "https://github.com/karakum-team/mui-kotlin/commit/f296d5bd"),
     ),
     notes = "An external manager drives `Toast.Provider`; the hook reads the list back, so `count` follows " +

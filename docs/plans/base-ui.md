@@ -4,10 +4,26 @@ Current status and handoff for the `@base-ui/react` generator target, the succes
 `@mui/base`. This is the canonical migration backlog. The original plan and review were removed in
 `9577387c`; use the generator, emitted Kotlin, and pinned upstream `.d.ts` as implementation evidence.
 
-**Status reviewed:** 2026-10-01. Latest committed module addition: `f296d5bd` (Toast, 2026-09-07).
-Current batch: group 1 implemented, verified, and independently reviewed with zero findings;
-ready for human review and commit. Group 2 has not started.
-See [the acceptance record](BASE_UI_WORK_LOG.md).
+## Resume here
+
+Status refreshed from git history and generator code on **2026-11-04**.
+
+- **Completed:** group 1 (Fieldset, Switch, Checkbox, diagnostics) is committed in `32dc8f4a`
+  (2026-10-01). The human commit checkpoint has passed. Its recorded compilation, clean generation,
+  browser checks, and independent review are historical evidence, not checks rerun for this refresh.
+- **Next task:** implement **direct component exports (gap 21)**. Modules without a namespace object
+  need usable runtime values at their public npm subpaths; the current generator still skips them.
+  Finish this bounded prerequisite before adding its consumers.
+- **Then:** integrate `separator`, `button`, `csp-provider`, `checkbox-group`, and `menubar`, one
+  independently verifiable task at a time. See [group 2](#group-2--after-prerequisites-bounded-fixes-and-repeatable-batches).
+- **Scope and prerequisites:** the approved cycle covers groups 1 and 2. Groups 3–5 remain deferred.
+  Check installed typings and exports before changing generation; module integration and full API/type
+  coverage remain separate milestones.
+- **Acceptance:** inspect new and existing output, compile library/playground, reproduce a clean
+  generation, verify affected samples and `#/all` in a browser, and obtain independent review under
+  the [execution protocol](#approved-execution-protocol). Append new evidence to the log.
+
+See [the acceptance record](../history/base-ui.md).
 
 **Target version:** `base-ui-react.version=1.8.0`. Updated from `1.6.0` on 2026-10-01, with generator
 adaptations and browser verification recorded below. The version remains pinned because Base UI
@@ -21,8 +37,7 @@ API or type coverage; the open gaps below affect existing modules as well as fut
 
 **Execution order:** start with predictable additions; defer work requiring new type-conversion
 design until the last implementation group. See [the ordered backlog](#execution-order-by-predictability).
-Group 1 is implemented. Group 2 starts after the human review/commit checkpoint, with direct exports
-and their dependent modules.
+Group 1 is committed. Resume group 2 with direct exports and their dependent modules.
 
 The pinned package has **43 public runtime modules**, plus the type-only `types` subpath. The earlier
 "44 modules" count included `types`; it was not a count of 44 component/runtime modules. Shared
@@ -31,15 +46,15 @@ enabled modules.
 
 | Module | Exposed namespace API | Playground sample | Route |
 |--------|-----------------------|-------------------|-------|
-| `menu` | 20 components, including shared `Separator`; `Handle` / `createHandle` omitted | [MenuSample.kt](playground/src/jsMain/kotlin/playground/samples/baseui/MenuSample.kt) | `#/baseui/menu` |
-| `slider` | 7 components | [SliderSample.kt](playground/src/jsMain/kotlin/playground/samples/baseui/SliderSample.kt) | `#/baseui/slider` |
-| `field` | 7 components | [FieldSample.kt](playground/src/jsMain/kotlin/playground/samples/baseui/FieldSample.kt) | `#/baseui/field` |
-| `fieldset` | 2 components: Root / Legend | [FieldsetSample.kt](playground/src/jsMain/kotlin/playground/samples/baseui/FieldsetSample.kt) | `#/baseui/fieldset` |
-| `switch` | 2 components: Root / Thumb | [SwitchSample.kt](playground/src/jsMain/kotlin/playground/samples/baseui/SwitchSample.kt) | `#/baseui/switch` |
-| `checkbox` | 2 components: Root / Indicator | [CheckboxSample.kt](playground/src/jsMain/kotlin/playground/samples/baseui/CheckboxSample.kt) | `#/baseui/checkbox` |
-| `accordion` | 5 components | [AccordionSample.kt](playground/src/jsMain/kotlin/playground/samples/baseui/AccordionSample.kt) | `#/baseui/accordion` |
-| `number-field` | 7 components | [NumberFieldSample.kt](playground/src/jsMain/kotlin/playground/samples/baseui/NumberFieldSample.kt) | `#/baseui/number-field` |
-| `toast` | 11 components + `createToastManager` / `useToastManager` | [ToastSample.kt](playground/src/jsMain/kotlin/playground/samples/baseui/ToastSample.kt) | `#/baseui/toast` |
+| `menu` | 20 components, including shared `Separator`; `Handle` / `createHandle` omitted | [MenuSample.kt](../../playground/src/jsMain/kotlin/playground/samples/baseui/MenuSample.kt) | `#/baseui/menu` |
+| `slider` | 7 components | [SliderSample.kt](../../playground/src/jsMain/kotlin/playground/samples/baseui/SliderSample.kt) | `#/baseui/slider` |
+| `field` | 7 components | [FieldSample.kt](../../playground/src/jsMain/kotlin/playground/samples/baseui/FieldSample.kt) | `#/baseui/field` |
+| `fieldset` | 2 components: Root / Legend | [FieldsetSample.kt](../../playground/src/jsMain/kotlin/playground/samples/baseui/FieldsetSample.kt) | `#/baseui/fieldset` |
+| `switch` | 2 components: Root / Thumb | [SwitchSample.kt](../../playground/src/jsMain/kotlin/playground/samples/baseui/SwitchSample.kt) | `#/baseui/switch` |
+| `checkbox` | 2 components: Root / Indicator | [CheckboxSample.kt](../../playground/src/jsMain/kotlin/playground/samples/baseui/CheckboxSample.kt) | `#/baseui/checkbox` |
+| `accordion` | 5 components | [AccordionSample.kt](../../playground/src/jsMain/kotlin/playground/samples/baseui/AccordionSample.kt) | `#/baseui/accordion` |
+| `number-field` | 7 components | [NumberFieldSample.kt](../../playground/src/jsMain/kotlin/playground/samples/baseui/NumberFieldSample.kt) | `#/baseui/number-field` |
+| `toast` | 11 components + `createToastManager` / `useToastManager` | [ToastSample.kt](../../playground/src/jsMain/kotlin/playground/samples/baseui/ToastSample.kt) | `#/baseui/toast` |
 
 Browser observations in "Done" are records from the implementation work. The 2026-10-01 toolchain
 update also has a separate browser smoke-test record below, including NumberField and Toast.
@@ -100,7 +115,7 @@ filenames/content hashes reproduce exactly (SHA-256 aggregate
 `a1509d3ad0368ff423566dc15113c9ed0564e6eec9fd31191969bd09e88e1e22`); all 744 pre-existing generated
 files are unchanged. No runtime exceptions after the Switch sample fix; the known Kotlin render-name
 warning and favicon 404 remain. Independent combined review: zero findings; coordinator acceptance
-complete. Human review/commit remains the checkpoint; details are recorded in the work log.
+complete. The subsequent human commit `32dc8f4a` passed the checkpoint; details are recorded in the work log.
 
 This closes **module integration**, not the shared `Omit`, reason-alias, polymorphic-ref/FC, and
 element-prop union limitations. Switch/Checkbox change callbacks themselves are typed; the event
@@ -388,7 +403,7 @@ The implementation history below describes the original integration unless it ex
 - **Flat part *values* are impossible.** The package's `exports` map has 81 keys and no wildcard, so
   `@base-ui/react/menu/popup/MenuPopup` is not importable; `menu/index.d.ts` re-exports the flat names
   via `export type *` only. Only the `Menu` namespace object is a value export. Flat *types* are real
-  declarations and are what we generate. See rule 10 in [.agents/subagents/mui-code-review.md](.agents/subagents/mui-code-review.md).
+  declarations and are what we generate. See rule 10 in [.agents/subagents/mui-code-review.md](../../.agents/subagents/mui-code-review.md).
 - **44 public top-level subpaths excluding `package.json`:** 31 with `index.parts.d.ts`, 12 flat
   runtime modules, and the type-only `types` entry. Thus there are 43 runtime modules. The 31 part
   files contain 282 value bindings plus toolbar's type-only `Orientation` binding; `combobox` (28)
@@ -699,19 +714,20 @@ Existing completed work in this backlog stays completed when the dependency vers
 - The coordinating agent owns the task brief and final acceptance. Implementation and independent
   read-only review are delegated to separate `gpt-6.1-sol` agents with `xhigh` reasoning. Questions
   from subagents go to the coordinator; unresolved scope/API/compatibility decisions go to the user.
-- Review follows [.agents/subagents/mui-code-review.md](.agents/subagents/mui-code-review.md). Freeze the implementation
+- Review follows [.agents/subagents/mui-code-review.md](../../.agents/subagents/mui-code-review.md). Freeze the implementation
   while verifying/reviewing; fixes invalidate affected checks and require another review.
 - Verify upstream types, library/playground compilation, clean regeneration, relevant browser
   scenarios, and existing-output regressions. Before a human commit, compare regenerated files and
   hashes against the prepared candidate, not HEAD, which legitimately lacks the new declarations.
 - Track **integrated** and **API complete** separately. Previously listed shared limitations may
   remain open; new type losses or exceptions require explicit assessment and are not silently accepted.
-- **Checkpoint updated by the user:** finish all of group 1 before the human review/commit; Fieldset
-  need not be committed before Switch/Checkbox. Compilation and independent review are required
-  again after the temporary pause of checks. Stop before group 2; no autonomous staging or commits.
+- **Group 1 checkpoint passed:** the user requested a combined review/commit after Fieldset,
+  Switch, Checkbox, and diagnostics. Recorded compilation and independent review passed, and the
+  combined batch was committed in `32dc8f4a`. Continue with group 2's prerequisites; no autonomous
+  staging or commits.
 
 Task briefs, acceptance evidence, review results, and handoffs live in
-[BASE_UI_WORK_LOG.md](BASE_UI_WORK_LOG.md).
+[Base UI acceptance log](../history/base-ui.md).
 
 **Planning decision, 2026-10-01:** implement predictable work first and leave the most uncertain
 design work until last. This supersedes the earlier recommendation to start with
@@ -724,8 +740,8 @@ that a trial generation has passed.
 
 | Order | Mark | Predictability | Module additions | Entry condition |
 |-------|------|----------------|------------------|-----------------|
-| 1 | **DONE — HUMAN CHECKPOINT** | High; existing compound-component shapes | 3 integrated | Current generator machinery |
-| 2 | **NEXT — AFTER PREREQUISITES** | Medium to high; known, bounded converter work | 20 | Human checkpoint, then the specific shared fix listed with each batch |
+| 1 | **DONE — COMMITTED** | High; existing compound-component shapes | 3 integrated | Human checkpoint passed in `32dc8f4a` |
+| 2 | **NEXT — AFTER PREREQUISITES** | Medium to high; known, bounded converter work | 20 | The specific shared fix listed with each batch |
 | 3 | **LATER** | Medium; composition and substantial browser verification | 8 | Portal/alias support and prerequisite components |
 | 4 | **LAST — DESIGN** | Low; Kotlin API or conversion strategy still needs design | 6 | Review the accumulated examples before choosing a general solution |
 | 5 | **FINAL — RETIREMENT** | Compatibility-dependent final step | No new modules | Coverage, type fidelity, and consumer migration verified |
@@ -850,7 +866,7 @@ This is last because of compatibility dependencies, separately from group 4's de
 
 ### Scheduling and completion rules
 
-- Start with group 1 in the listed order. Within later groups, satisfy prerequisites before taking
+- Resume the first unfinished task whose prerequisites are satisfied. Within each group, satisfy prerequisites before taking
   their consumers. If a task requires group 4 design work, mark that feature blocked and continue
   with the next independent task; promote only the prerequisite needed to unblock it.
 - Treat **module integrated** and **API complete** as separate milestones. An allow-list entry,

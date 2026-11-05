@@ -1,6 +1,17 @@
 # Base UI migration — execution and acceptance log
 
-Scope: groups 1 and 2 of [BASE_UI_TODO.md](BASE_UI_TODO.md#execution-order-by-predictability).
+## Current handoff
+
+Group 1 was committed in `32dc8f4a` (2026-10-01); its human commit checkpoint has passed.
+Status checked against git history on 2026-11-04. Continue from the
+[live plan's Resume here block](../plans/base-ui.md#resume-here), starting with group 2's direct-export
+prerequisite. The dated acceptance records below retain their original pre-commit wording and test
+results; they do not mean the checkpoint is still pending or that the checks were rerun today.
+Append new work and verification records here.
+
+## Group 1 acceptance record (2026-10-01)
+
+Scope: groups 1 and 2 of [Base UI plan](../plans/base-ui.md#execution-order-by-predictability).
 The user moved the first human review/commit checkpoint to the end of group 1 (Fieldset, Switch,
 Checkbox, and the listed diagnostics). Component samples have separate implementation agents and
 disjoint ownership; generation, compilation, and acceptance are coordinated centrally. Compilation
@@ -128,3 +139,15 @@ Modern Web Guidance influenced visible associated labels, non-color state indica
 render props/refs, and keyboard focus checks. Integration is complete for these modules; shared
 utility-type selection, reason aliases, value-or-callback unions, and polymorphic ref/FC fidelity
 remain explicit backlog items. No group 2 implementation has started.
+
+## Documentation relocation and handoff refresh (2026-11-04)
+
+- Moved the canonical plan to `docs/plans/base-ui.md` and this log to `docs/history/base-ui.md`;
+  updated repository links, sample references, and the generated stub's documentation through its generator.
+- Confirmed `32dc8f4a` is an ancestor of HEAD. Group 1's commit checkpoint is complete; direct exports
+  (gap 21) remain the next prerequisite. No group 2 implementation was added in this task.
+- `:mui-kotlin:build :playground:compileKotlinJs` and `:mui-kotlin:clean build` succeeded;
+  all 21 runtime-export tests passed. All 777 generated filenames/content hashes match across clean
+  regeneration. The only generated change from the starting revision is the plan path in `baseui/Stubs.kt`.
+- Browser checks were not repeated: changes affect documentation paths and sample reference metadata,
+  with no changes to types, components, inheritance, or sample interaction logic.

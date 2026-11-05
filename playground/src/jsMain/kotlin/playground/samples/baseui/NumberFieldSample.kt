@@ -28,7 +28,7 @@ val NumberFieldSample: Sample = Sample(
     ),
     fileName = "NumberFieldSample.kt",
     refs = listOf(
-        Ref("BASE_UI_TODO.md", "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_TODO.md"),
+        Ref("docs/plans/base-ui.md", "https://github.com/karakum-team/mui-kotlin/blob/main/docs/plans/base-ui.md"),
         Ref("1dfec5cd", "https://github.com/karakum-team/mui-kotlin/commit/1dfec5cd"),
     ),
     notes = "Mounts all seven parts, scrub area and cursor included. Pressing increment/decrement or using the " +

@@ -62,8 +62,8 @@ val RichTreeViewLoadingSample: Sample = Sample(
     fileName = "RichTreeViewLoadingSample.kt",
     refs = listOf(
         Ref(
-            "MUI_V9_TODO.md — MUI X 9.12 → 9.14",
-            "https://github.com/karakum-team/mui-kotlin/blob/main/MUI_V9_TODO.md#mui-x-912--914-update-2026-10-01",
+            "docs/history/mui-v9.md — MUI X 9.12 → 9.14",
+            "https://github.com/karakum-team/mui-kotlin/blob/main/docs/history/mui-v9.md#mui-x-912--914-update-2026-10-01",
         ),
         Ref("48b0e810", "https://github.com/karakum-team/mui-kotlin/commit/48b0e810"),
         Ref("10dc9f7c", "https://github.com/karakum-team/mui-kotlin/commit/10dc9f7c"),

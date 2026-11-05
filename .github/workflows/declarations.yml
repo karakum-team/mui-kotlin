@@ -27,7 +27,7 @@ jobs:
       #
       #     ./gradlew :mui-kotlin:compileKotlinJs && git diff --exit-code -- mui-kotlin/src/jsMain/kotlin
       #
-      # See "the generated tree is now reproducible" in BASE_UI_TODO.md.
+      # See "the generated tree is now reproducible" in docs/plans/base-ui.md.
       - name: Build
         run: |
           ./gradlew build -Pdeclarations.skip=true

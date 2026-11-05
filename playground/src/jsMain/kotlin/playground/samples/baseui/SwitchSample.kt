@@ -66,8 +66,8 @@ val SwitchSample: Sample = Sample(
     ),
     fileName = "SwitchSample.kt",
     refs = listOf(
-        Ref("BASE_UI_TODO.md", "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_TODO.md"),
-        Ref("BUI-002", "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_WORK_LOG.md#bui-002--switch"),
+        Ref("docs/plans/base-ui.md", "https://github.com/karakum-team/mui-kotlin/blob/main/docs/plans/base-ui.md"),
+        Ref("BUI-002", "https://github.com/karakum-team/mui-kotlin/blob/main/docs/history/base-ui.md#bui-002--switch"),
         Ref("32dc8f4a", "https://github.com/karakum-team/mui-kotlin/commit/32dc8f4a"),
     ),
     notes = "Click, Space and native-label activation must round-trip through `onCheckedChange`; submitting " +

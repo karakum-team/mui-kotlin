@@ -17,8 +17,19 @@ Migration to `@base-ui/react` is **in progress**, alongside the frozen `@mui/bas
 The target is pinned to **1.8.0**. Nine modules are generated in the `baseui` package and have
 playground samples (`playground/src/jsMain/kotlin/playground/samples/baseui/`, routes `#/baseui/<sample>`): **Menu, Slider, Field, Fieldset, Switch, Checkbox, Accordion, NumberField, and Toast**. Their type coverage
 is still incomplete; the remaining modules and generator limitations are tracked in
-[BASE_UI_TODO.md](BASE_UI_TODO.md), the current migration status and handoff document. How to run and extend
+[Base UI plan](docs/plans/base-ui.md), the current migration status and handoff document. How to run and extend
 the samples is described in [playground/README.md](playground/README.md).
+
+## Plans and history
+
+| Work area | Current plan | Completed work and verification |
+|---|---|---|
+| Base UI migration | [Base UI](docs/plans/base-ui.md) | [Acceptance log](docs/history/base-ui.md) |
+| Generator limitations and deferred MUI work | [Generator](docs/plans/generator.md) | [MUI 6](docs/history/mui-v6.md), [MUI 7](docs/history/mui-v7.md), [MUI 9](docs/history/mui-v9.md) |
+| Future work | [Future improvements](docs/plans/future-improvements.md) | Evidence linked from each plan |
+
+Live plans begin with **Resume here**: the current state, next task, prerequisites, and verification references.
+History preserves the results and decisions from the recorded revision.
 
 ## Integration with Agentic Tools
 

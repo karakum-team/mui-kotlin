@@ -386,7 +386,7 @@ private val STANDARD_TYPE_MAP = mapOf(
  * Both tables it consults were built for the MUI target, and a Base UI declaration's *type parameter*
  * can happen to share a name with one of their entries — `Value` is `Autocomplete`'s value parameter
  * here and `SliderRootProps`' in Base UI. Since type parameters are dropped from the emitted declaration
- * (BASE_UI_TODO.md gap 4), such a name resolves to the MUI type and the reference does not compile.
+ * (docs/plans/base-ui.md gap 4), such a name resolves to the MUI type and the reference does not compile.
  * See `substituteTypeParameterBounds` in BaseUi.kt, which is the only caller.
  */
 internal fun isKnownTypeName(

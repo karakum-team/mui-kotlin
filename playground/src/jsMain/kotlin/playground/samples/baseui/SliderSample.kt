@@ -56,7 +56,7 @@ import web.cssom.px
 // function name starts with a capital, on the assumption that it is a React component passed by mistake.
 // Kotlin/JS names a lambda after the declaration enclosing it, and a component `val` is `PascalCase` by
 // convention, so every Kotlin call site of the generated `render` helper trips the heuristic. The
-// callback really is a plain render callback and calls no hooks. See BASE_UI_TODO.md gap 15.
+// callback really is a plain render callback and calls no hooks. See docs/plans/base-ui.md gap 15.
 val SliderSample: Sample = Sample(
     id = "slider",
     library = Libraries.BaseUi,
@@ -71,10 +71,10 @@ val SliderSample: Sample = Sample(
     ),
     fileName = "SliderSample.kt",
     refs = listOf(
-        Ref("BASE_UI_TODO.md", "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_TODO.md"),
+        Ref("docs/plans/base-ui.md", "https://github.com/karakum-team/mui-kotlin/blob/main/docs/plans/base-ui.md"),
         Ref(
             "gap 15",
-            "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_TODO.md#open-gaps-in-the-generated-output",
+            "https://github.com/karakum-team/mui-kotlin/blob/main/docs/plans/base-ui.md#open-gaps-in-the-generated-output",
         ),
         Ref("b105b29b", "https://github.com/karakum-team/mui-kotlin/commit/b105b29b"),
     ),
@@ -255,7 +255,7 @@ val SliderSample: Sample = Sample(
             orientation = Orientation.vertical
 
             // `mui.system.Union` is `String`: the string-literal unions Base UI declares inline are not
-            // sealed types yet, so the raw value is what a call site writes. See BASE_UI_TODO.md gap 8.
+            // sealed types yet, so the raw value is what a call site writes. See docs/plans/base-ui.md gap 8.
             thumbCollisionBehavior = "swap"
 
             // A range slider's value is a JS array, which reaches Kotlin as `Array<*>` through the widened

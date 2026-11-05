@@ -29,8 +29,8 @@ val SliderStylingSample: Sample = Sample(
     fileName = "SliderStylingSample.kt",
     refs = listOf(
         Ref(
-            "BASE_UI_TODO.md — Group 5 (retirement)",
-            "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_TODO.md#group-5--final--retirement-remove-the-old-target-after-its-consumers-move",
+            "docs/plans/base-ui.md — Group 5 (retirement)",
+            "https://github.com/karakum-team/mui-kotlin/blob/main/docs/plans/base-ui.md#group-5--final--retirement-remove-the-old-target-after-its-consumers-move",
         ),
         Ref("916e234d", "https://github.com/karakum-team/mui-kotlin/commit/916e234d"),
         Ref("adbb1c2c", "https://github.com/karakum-team/mui-kotlin/commit/adbb1c2c"),

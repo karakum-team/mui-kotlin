@@ -371,7 +371,7 @@ internal fun convertDefinitions(
         //   `export type XxxSlotsAndSlotProps = CreateSlotsAndSlotProps<XxxSlots, { ...inline... }>;`
         // and then `extends ..., XxxSlotsAndSlotProps`. Convert the type alias to a real
         // interface so the generator emits `slots?: XxxSlots` and `slotProps?: ...` fields.
-        // Inner SlotProps typing is collapsed to `any` for now (see MUI_V6_TODO.md).
+        // Inner SlotProps typing is collapsed to `any` for now (see docs/plans/generator.md).
         .convertSlotsAndSlotPropsAliases()
         // AutocompleteOwnerState is a type alias `= AutocompleteProps<...>;` in the version
         // the generator processes (intersection body is absent). Convert it to an interface

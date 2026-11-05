@@ -26,8 +26,8 @@ val AutocompleteSample: Sample = Sample(
     fileName = "AutocompleteSample.kt",
     refs = listOf(
         Ref(
-            "BASE_UI_TODO.md — Open gaps (`+props`)",
-            "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_TODO.md#open-gaps-in-the-generated-output",
+            "docs/plans/base-ui.md — Open gaps (`+props`)",
+            "https://github.com/karakum-team/mui-kotlin/blob/main/docs/plans/base-ui.md#open-gaps-in-the-generated-output",
         ),
     ),
     notes = "Only running this proves that `+params` copies the ref and input props `renderInput` receives onto " +

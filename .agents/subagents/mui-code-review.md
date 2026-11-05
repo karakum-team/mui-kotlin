@@ -16,7 +16,7 @@ There are three kinds of Kotlin in this repo. Never review them the same way.
 | `playground/src/jsMain/kotlin/playground/shell/**` | Hand-written playground infrastructure: routing, sample frame, status/check helpers, `Registry.kt` | Review as real code; it must not import `mui.*` / `muix.*` / `baseui.*` / `dateio.*` |
 | `playground/src/jsMain/kotlin/playground/samples/**` | Hand-written usage samples — the compile-level smoke test for the declarations | Review as real code; check it covers the API the diff touched and that every new sample is registered in `shell/Registry.kt` |
 | `gradle.properties`, `package.json`, `*-lock.json` | Version bumps (kotlin, kotlin-wrappers, kfc, seskar, `@mui/*`) | Check the bump is consistent across properties + lockfiles, and that generator changes match the version actually installed |
-| `MUI_V*_TODO.md`, `BASE_UI_TODO.md`, `FUTURE_IMPROVEMENTS.md` | Handoff notes: what was excluded, what is deferred, why | Check they were updated when the exclusion/known-issue surface changed |
+| `docs/plans/*.md`, `docs/history/*.md` | Live backlogs and dated handoff/acceptance records: what was excluded, what is deferred, why | Check the relevant plan and history were updated when the exclusion/known-issue surface changed |
 
 Input to the generator is the npm-installed upstream typings at `build/js/node_modules/@mui/**` — read them when you need ground truth about a TS shape.
 
@@ -38,7 +38,7 @@ Project invariants. A violation is a finding, not a preference.
 2. **Generator header.** Every emitted file starts with `// Automatically generated - do not modify!` (emitted at `Generator.kt`). A path that writes Kotlin without it is a bug.
 3. **No empty stubs.** `generate()` bails out when the `.d.ts` is missing, after trying the `index.d.ts` fallback, instead of writing an empty file. A change that reintroduces stub files is a regression.
 4. **Regen noise vs signal.** A full regeneration can touch hundreds of files with pure reordering/whitespace churn. Separate the two: report how many changed generated files carry real semantic change and which components they are. Never let noise volume hide a behavioural diff, and never call a noise-only diff "reviewed clean" without saying it was noise.
-5. **Type widening must be justified.** New `Any` / `Any?` results in standard maps or `FunctionType` lose type safety silently. Each one needs a reason in the diff or in `MUI_V*_TODO.md`. The emitted marker `Any? /* <TsType> */` is a useful grep target for measuring how much was widened.
+5. **Type widening must be justified.** New `Any` / `Any?` results in standard maps or `FunctionType` lose type safety silently. Each one needs a reason in the diff or in `docs/plans/generator.md` or the relevant live plan. The emitted marker `Any? /* <TsType> */` is a useful grep target for measuring how much was widened.
 6. **String unions become enums.** TS string-literal unions (`side`, `align`, `orientation`, `Direction`, `TransitionStatus`, …) must map to seskar sealed/enum types, not to raw `String`.
 7. **Generics are preserved, not erased.** Generic components and models keep their type parameters; known types entries must not drop them.
 8. **Rejections and exclusions cost API surface.** New entries in `INTERNAL_REJECTED_PARENTS` or `EXCLUDED_TYPES` must be intentional and recorded. Rejecting a parent drops its props from every child — name what is lost.

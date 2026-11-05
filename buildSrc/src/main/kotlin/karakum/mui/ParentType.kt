@@ -211,7 +211,7 @@ private val TS_UTILITY_PREFIXES = setOf(
 
 // Internal MUI/utility types referenced by `extends` but not exported / not Kotlin-side.
 // Dropping them from the parent list loses some inheritance, but the alternative is unresolved
-// references at compile time. See MUI_V6_TODO.md for follow-up.
+// references at compile time. See docs/plans/generator.md for follow-up.
 private val INTERNAL_REJECTED_PARENTS = setOf(
     // Material types: stubbed in Generator.kt::generateMaterialDeclarations and removed from this set
     // (LinkBaseProps, TablePaginationBaseProps) — see MATERIAL_*_STUB.

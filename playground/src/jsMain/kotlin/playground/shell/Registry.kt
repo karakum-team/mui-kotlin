@@ -71,7 +71,7 @@ object Libraries {
         title = "MUI Base (legacy)",
         kotlinPackage = "mui.base",
         npmPackage = "@mui/base",
-        note = "legacy, frozen @mui/base — see BASE_UI_TODO.md",
+        note = "legacy, frozen @mui/base — see docs/plans/base-ui.md",
     )
 
     val BaseUi = Library(

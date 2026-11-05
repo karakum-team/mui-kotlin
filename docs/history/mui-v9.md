@@ -1,4 +1,11 @@
-# MUI v9 migration — handoff / TODO
+# MUI v9 migration — history
+
+> **Migration record.** Version tables, counts, warnings and verification results below describe their
+> recorded iterations, not a new check of the current tree. The later Phase 4 record completes the
+> type-quality pass previously marked pending in the initial handoff. Current generator limitations and
+> maintenance triggers are in [the generator plan](../plans/generator.md); Base UI / Menubar work is in
+> [the Base UI plan](../plans/base-ui.md). Use current [verification rules](../../.agents/rules/generator-verification.md)
+> rather than historical commands or baseline exceptions when continuing work.
 
 Migration of the generator from MUI v7 → **v9** (v8 skipped; the suite was realigned so MUI X is also v9).
 
@@ -10,8 +17,8 @@ Migration of the generator from MUI v7 → **v9** (v8 skipped; the suite was rea
 | `@mui/icons-material`                      | `9.5.0`                                                                        |
 | `@mui/lab`                                 | `9.0.0-beta.10`                                                                |
 | `@mui/x-date-pickers` / `@mui/x-tree-view` | `9.15.0`                                                                       |
-| `@mui/base`                                | `5.0.0-beta.70` (frozen; retained during [Base UI migration](BASE_UI_TODO.md)) |
-| `@base-ui/react`                           | `1.8.0` (nine modules included; see [current status](BASE_UI_TODO.md))         |
+| `@mui/base`                                | `5.0.0-beta.70` (frozen; retained during [Base UI migration](../plans/base-ui.md)) |
+| `@base-ui/react`                           | `1.8.0` (nine modules included; see [current status](../plans/base-ui.md))         |
 | kotlin-wrappers BOM                        | `2026.9.3`                                                                     |
 | kfc                                        | `19.16.0`                                                                      |
 | kotlin / seskar                            | `2.4.20` / `4.66.0`                                                            |
@@ -23,7 +30,7 @@ Migration of the generator from MUI v7 → **v9** (v8 skipped; the suite was rea
 
 - ✅ `:mui-kotlin:compileKotlinJs` — **0 errors**
 - ✅ `:playground:compileKotlinJs` — **0 errors**
-- ⏳ Type-quality / review-remark polish — **not yet done** (see "Remaining" below)
+- ✅ Type-quality / review-remark polish — **completed in the recorded Phase 4 pass** (see below)
 
 ## @date-io/core 2.17 → 3.2 update (2026-10-01)
 
@@ -274,8 +281,9 @@ Now `generateStylesDeclarations` converts `styles/createThemeNoVars.d.ts` (types
 `adapters/CreateThemeNoVars.kt` collapses each conditional type to its default — not-enabled — branch.
 The result is `ThemeOptions`, `BaseTheme` and `Theme` with typed `palette`, `typography`, `mixins`,
 `motion`, `shape`, `shadows`, `transitions`, `zIndex`, `focusVisible`, `vars`, `alpha`/`lighten`/`darken`,
-so members MUI adds to that file flow in on a bump. Details and the remaining simplifications are in
-[MUI_V6_TODO.md](MUI_V6_TODO.md#стабы-вместо-настоящей-генерации); the short version:
+so members MUI adds to that file flow in on a bump. Implementation details and the recorded simplifications
+are in [MUI v6 history](mui-v6.md#material); current follow-ups are in
+[the generator plan](../plans/generator.md#стабы-вместо-настоящей-генерации). The short version:
 
 - The material theme narrows `mui.system.Theme`/`ThemeOptions` members (`palette: Any?` → `Palette`), so
   `createThemeNoVars.kt` suppresses `VAR_TYPE_MISMATCH_ON_OVERRIDE`.
@@ -465,13 +473,18 @@ at **0 errors**. Findings refined the original task premises:
 
 ## Remaining work (post-green)
 
+This records the original post-green handoff. Active Base UI tasks continue in
+[its canonical plan](../plans/base-ui.md); generator limitations and maintenance follow-ups are indexed in
+[the generator plan](../plans/generator.md#follow-ups-recorded-during-the-v9-migration).
+The icons-version statement below refers to package availability at that iteration, not today's latest version.
+
 1. ~~Align `mui-icons-material` to `9.1.2` for consistency.~~ **N/A** — `@mui/icons-material@9.1.2`
    was never published; `9.1.1` is the latest on npm (the icons package doesn't ship a release for
    every core patch). Already on the newest available version; nothing to bump.
 2. `@mui/base` → Base UI migration is **in progress**: `menu`, `slider`, `field`, `fieldset`, `switch`,
    `checkbox`, `accordion`, `number-field`, and `toast` are generated with playground samples.
    Full type and module coverage
-   remains open — see [BASE_UI_TODO.md](BASE_UI_TODO.md).
+   remains open — see [the Base UI plan](../plans/base-ui.md).
 3. **`NumberField` is included; `Menubar` remains pending.** These belong to the separate
    `@base-ui/react` target, not the old `@mui/base` bindings. `NumberField` was added in `1dfec5cd`
    with all seven parts and a playground sample. `menubar` is not yet in `BASE_UI_MODULES`.

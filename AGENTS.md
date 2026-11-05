@@ -29,6 +29,31 @@ Before starting work, read and apply every rule whose condition matches the task
 
 ---
 
+## Work Plans and History
+
+Before continuing a work area, read its live plan's **Resume here** block and the sections relevant to the task.
+
+| Work area | Live plan | History and verification evidence |
+|---|---|---|
+| Base UI (`@base-ui/react`), including migration from frozen `@mui/base` | [Base UI](docs/plans/base-ui.md) | [Base UI log](docs/history/base-ui.md) |
+| Shared generator limitations, type fidelity, and deferred MUI work | [Generator](docs/plans/generator.md) | [MUI 6](docs/history/mui-v6.md), [MUI 7](docs/history/mui-v7.md), [MUI 9](docs/history/mui-v9.md) |
+| Future improvements and work without a dedicated plan | [Future improvements](docs/plans/future-improvements.md) | Follow the evidence links in the relevant plan |
+
+* Use the plan's next step and prerequisites to resume work. Reconcile recorded status with current generator code,
+  pinned upstream typings, git history, and the user's instructions before implementing. Keep completed work completed;
+  distinguish module integration from full API coverage.
+* Read the linked acceptance record when it affects the next step. Historical checklists and test results describe
+  their recorded revision; they neither reopen old tasks nor prove the current revision passes. Respect unresolved
+  checkpoints, but do not ask for approval again when existing authorization or git history already resolves them.
+* After work in the area, update the live plan's status, next step, prerequisites, and remaining gaps. Append completed
+  work, decisions, and verification evidence to `docs/history/`, with the date/revision and any checks not performed.
+  Keep stable task/gap IDs and update inbound links when moving sections. Link to the canonical backlog rather than
+  maintaining duplicate tasks in several plans.
+* Keep active work in `docs/plans/`, completed migration records and acceptance logs in `docs/history/`, and agent
+  operating instructions in `.agents/`. Plans guide the requested task; they do not authorize unrelated backlog work.
+
+---
+
 ## Commit & Git Restrictions (Human Verification Required)
 
 To ensure quality, prevent regressions, and enforce human-in-the-loop verification, all AI agents must adhere to the

@@ -58,7 +58,7 @@ import web.html.email
 // Class names are literal and `bui-field-` prefixed so they can be asserted against in the DOM.
 //
 // One expected Base UI warning about `render` for the whole page — not one per call site; see the
-// note in `SliderSample` and BASE_UI_TODO.md gap 15. This file adds another `render` call site and the
+// note in `SliderSample` and docs/plans/base-ui.md gap 15. This file adds another `render` call site and the
 // console still carries exactly one, naming whichever lambda reached Base UI first.
 
 // The shape `FieldValidityData.state` widens to. Upstream is an inline object of eleven booleans plus
@@ -86,10 +86,10 @@ val FieldSample: Sample = Sample(
     ),
     fileName = "FieldSample.kt",
     refs = listOf(
-        Ref("BASE_UI_TODO.md", "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_TODO.md"),
+        Ref("docs/plans/base-ui.md", "https://github.com/karakum-team/mui-kotlin/blob/main/docs/plans/base-ui.md"),
         Ref(
             "What only the sample can catch",
-            "https://github.com/karakum-team/mui-kotlin/blob/main/BASE_UI_TODO.md#what-only-the-sample-can-catch",
+            "https://github.com/karakum-team/mui-kotlin/blob/main/docs/plans/base-ui.md#what-only-the-sample-can-catch",
         ),
         Ref("8faa8911", "https://github.com/karakum-team/mui-kotlin/commit/8faa8911"),
     ),
@@ -158,7 +158,7 @@ val FieldSample: Sample = Sample(
 
             name = "email"
 
-            // `Form.ValidationMode` is still widened (BASE_UI_TODO.md gap 6), so the raw string is what a
+            // `Form.ValidationMode` is still widened (docs/plans/base-ui.md gap 6), so the raw string is what a
             // call site writes. `onChange` rather than the default `onSubmit` because there is no `<Form>`
             // here and the error has to be reachable by typing.
             validationMode = "onChange"

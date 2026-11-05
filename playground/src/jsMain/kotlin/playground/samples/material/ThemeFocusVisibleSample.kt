@@ -89,8 +89,8 @@ val ThemeFocusVisibleSample: Sample = Sample(
     fileName = "ThemeFocusVisibleSample.kt",
     refs = listOf(
         Ref(
-            "MUI_V9_TODO.md — material theme",
-            "https://github.com/karakum-team/mui-kotlin/blob/main/MUI_V9_TODO.md#the-material-theme-is-converted-from-createthemenovarsdts",
+            "docs/history/mui-v9.md — material theme",
+            "https://github.com/karakum-team/mui-kotlin/blob/main/docs/history/mui-v9.md#the-material-theme-is-converted-from-createthemenovarsdts",
         ),
         Ref("6ac39c87", "https://github.com/karakum-team/mui-kotlin/commit/6ac39c87"),
         Ref("f305a69c", "https://github.com/karakum-team/mui-kotlin/commit/f305a69c"),

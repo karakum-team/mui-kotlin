@@ -658,7 +658,7 @@ private val EXCLUDED_TYPES = setOf(
 
     // MUI-X v9: lab no longer re-exports these tree-view components cleanly — the generated lab
     // re-export points at `muix.tree.view.TreeViewProps`, which v9 x-tree-view no longer provides
-    // (see MUI_V9_TODO.md).
+    // (see docs/history/mui-v9.md).
     "TreeView",
     "TreeItem",
 )
@@ -1155,7 +1155,7 @@ private fun RuntimeBindings.generateTreeViewDeclarations(
     // MUI-X v9: type-only `internals/` slot bases that the public slot interfaces extend
     // (SimpleTreeViewSlots/RichTreeViewSlots → TreeViewSlots; TreeItemSlots → TreeItemIconSlots, …).
     // Generated with typesOnly to restore that inheritance without emitting their `declare const`
-    // Context/Memo vals. See MUI_V9_TODO.md "5c".
+    // Context/Memo vals. See docs/history/mui-v9.md "5c".
     // NB: `internals/components/RichTreeViewItems.d.ts` and `RichTreeViewLoading.d.ts` are still NOT generated —
     // their component props drag in a `<TProps>` generic, a `Ref<…>` and store types that don't translate, and
     // `RichTreeViewItemsOwnerState` is not exported. The slot interfaces they declare are hand-written instead
@@ -1261,7 +1261,7 @@ private fun RuntimeBindings.generatePickersDeclarations(
 
     // MUI-X v9: type-only source files living OUTSIDE the component directories that the picker props
     // aggregate via `extends` (DayCalendar slots + day props, date-validation props, view options).
-    // Generating them restores the inheritance that would otherwise be dropped. See MUI_V9_TODO.md "5c".
+    // Generating them restores the inheritance that would otherwise be dropped. See docs/history/mui-v9.md "5c".
     // NB: `internals/hooks/useViews.d.ts` (ExportedUseViewsOptions → views/openTo) is intentionally NOT
     // generated: the sibling `UseViewsOptions.onChange` has optional function-type params
     // (`selectionState?: …`) that Kotlin function types can't express. ExportedUseViewsOptions stays in
@@ -1346,7 +1346,7 @@ private val PICKERS_CLASSES_FILE = Regex("""[a-z][A-Za-z0-9]*Classes\.d\.ts""")
  * Duplicate Kotlin filenames are rejected here. The shared [RuntimeBindings] pass validates the
  * candidate module and export name against the npm export graph, rebinding when needed.
  *
- * See MUI_V9_TODO.md "5d".
+ * See docs/history/mui-v9.md "5d".
  */
 private fun RuntimeBindings.generatePickersClasses(
     typesDir: File,
@@ -1545,7 +1545,7 @@ external interface FloatingPortalProps : BaseUiDivProps {
 /**
  * The two arms of the 1.8 Toast manager update function. The manager's Data type is preserved;
  * the additional per-call T extends Data parameter is not represented. UpdateOptions' existing
- * Partial/Omit limitation is unchanged (see BASE_UI_TODO.md).
+ * Partial/Omit limitation is unchanged (see docs/plans/base-ui.md).
  */
 sealed external interface ToastManagerUpdate<Data> {
     operator fun invoke(id: String, updates: ToastManagerUpdateOptions<Data>)
@@ -1864,7 +1864,7 @@ private fun RuntimeBindings.generate(
         // documentation (`MenuSubmenuRootProps` re-states `onOpenChange` and `closeParentOnEsc` from
         // `MenuRootProps`). Emitting a real `override` needs the parent's member types, which the
         // Override machinery only resolves for MUI shapes — suppressed package-wide for now, see
-        // BASE_UI_TODO.md.
+        // docs/plans/base-ui.md.
         //
         // VAR_TYPE_MISMATCH_ON_OVERRIDE for the same reason plus one of Base UI's own: every DOM event
         // handler inherited through `BaseUIComponentProps` is re-typed by the `WithBaseUIEvent<T>` mapped

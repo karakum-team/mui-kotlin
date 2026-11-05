@@ -64,8 +64,8 @@ val PickersClassesSample: Sample = Sample(
     fileName = "PickersClassesSample.kt",
     refs = listOf(
         Ref(
-            "MUI_V9_TODO.md — Phase 5d",
-            "https://github.com/karakum-team/mui-kotlin/blob/main/MUI_V9_TODO.md#phase-5d--the-pickers-css-class-objects-16-of-27-were-never-generated",
+            "docs/history/mui-v9.md — Phase 5d",
+            "https://github.com/karakum-team/mui-kotlin/blob/main/docs/history/mui-v9.md#phase-5d--the-pickers-css-class-objects-16-of-27-were-never-generated",
         ),
         Ref("d9ca9532", "https://github.com/karakum-team/mui-kotlin/commit/d9ca9532"),
         Ref("adbb1c2c", "https://github.com/karakum-team/mui-kotlin/commit/adbb1c2c"),

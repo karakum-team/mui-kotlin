@@ -16,7 +16,7 @@ val ideaHomeSetting = providers.gradleProperty("idea.home")
 // tree and fail the very check it was meant to serve.
 //
 // So CI verifies that the committed declarations compile, and no longer that they are up to date; that
-// guarantee is now a local one, documented in BASE_UI_TODO.md. Deliberately an explicit opt-in rather than
+// guarantee is now a local one, documented in docs/plans/base-ui.md. Deliberately an explicit opt-in rather than
 // "skip when no IDEA is found": a silent skip would let a developer with no IDEA build against a stale
 // tree and never learn of it.
 val skipDeclarations = providers.gradleProperty("declarations.skip")

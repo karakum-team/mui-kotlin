@@ -1,4 +1,10 @@
-# MUI v6.5 → v7 bump — DONE (компиляция зелёная)
+# MUI v6.5 → v7 bump — history
+
+> **Archived migration record.** Versions, file counts and checks below describe the June 2026 migration,
+> not the current repository. The unperformed upstream comparison and smoke check at the end remain recorded
+> as unperformed historical checks; they are not active assignments. Follow [current agent instructions](../../AGENTS.md)
+> and [verification rules](../../.agents/rules/generator-verification.md) for new work.
+> Remaining generator capabilities are tracked in [the generator plan](../plans/generator.md).
 
 Бамп MUI core с 6.5.0 на 7.x. Этот файл — передача контекста.
 **Статус: `:mui-kotlin:compileKotlinJs` И `:playground:compileKotlinJs` — ЗЕЛЁНЫЕ (0 ошибок).**
@@ -7,7 +13,7 @@
 ## Текущее состояние
 
 - **Версии** (`gradle.properties`): `mui-material/system/icons = 7.3.11`, `mui-lab = 7.0.1-beta.25`.
-  `mui-base = 5.0.0-beta.70` (frozen, осознанно — см. `MUI_V6_TODO.md`),
+  `mui-base = 5.0.0-beta.70` (frozen, осознанно — см. [историю решения](mui-v6.md#почему-при-миграции-на-v6-оставили-muibase500-beta70)),
   `mui-x-date-pickers = 7.29.4`, `mui-x-tree-view = 7.29.10` (смигрировано 2026-06-28).
 - **`generateDeclarations` — зелёный**, 596 `.kt`.
 - **`compileKotlinJs`: 0 ошибок** (было 1050 → ~20 → 0).
@@ -122,6 +128,8 @@ sed -E 's|.*/kotlin/||; s/:[0-9]+:[0-9]+ .*//' /tmp/err.txt | sort | uniq -c | s
    что покрывает `VIRTUAL_MEMBER_HIDDEN` (Accordion уже в `OVERRIDE_FIX_REQUIRED`).
 
 ## После зелёной компиляции (осталось)
+
+Historical checklist retained as recorded; unchecked items below were not performed during this iteration.
 
 1. ✅ `:playground:compileKotlinJs` — зелёный (Grid→GridLegacy и пр. ренеймы не понадобились).
 2. ✅ `:buildSrc:test` — NO-SOURCE.

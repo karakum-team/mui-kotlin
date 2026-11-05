@@ -1,17 +1,22 @@
-# MUI v6 — backlog: что генератор пока не умеет
+# MUI v6 migration — history and resolved follow-ups
+
+This file records the original v5 → v6 migration decisions and the later resolution of its backlog.
+The implementation descriptions and verification counts below are records of those iterations, primarily
+last reconciled on **2026-10-31 against MUI 9.5.0**; they are not a fresh verification of today's tree.
+For remaining generator work and current limitations, read [the generator plan](../plans/generator.md).
+For the current Base UI migration, read [the Base UI plan](../plans/base-ui.md).
+
+## Исходный контекст
 
 Список v6-новинок и форм, которые при бампе с MUI v5 → v6 (`@mui/material` 5.18.0 → 6.5.0, `lab` 5.0.0-alpha.177 →
 6.0.1-beta.36, `base` остался на 5.0.0-beta.70) обработать целиком не удалось. Каждый пункт — кандидат на поддержку:
 либо отдельный адаптер, либо общий механизм в `Converter.kt` / `KotlinType.kt`.
 
-> **Статус на 2026-10-31.** Репозиторий давно ушёл дальше v6: `@mui/material`/`system` 9.5.0, `lab` 9.0.0-beta.10,
-> MUI X 9.17.0 (см. [MUI_V7_TODO.md](MUI_V7_TODO.md), [MUI_V9_TODO.md](MUI_V9_TODO.md)). Каждый пункт ниже перепроверен
-> по коду генератора, сгенерированному дереву и `.d.ts` 9.5.0 и помечен: ✅ — сделано, 🚫 — неактуально/не делаем,
-> ⏳ — ещё открыто. Закрытые пункты оставлены ради истории решений.
+The repository later moved to MUI 9.5.0 / Lab 9.0.0-beta.10 / MUI X 9.17.0; see
+[MUI v7 history](mui-v7.md) and [MUI v9 history](mui-v9.md).
+The original ✅ / 🚫 marks below retain their recorded meaning: completed / deliberately excluded or obsolete.
 
-Формат: `<имя>` — `<MUI .d.ts путь>` — Status / Reason / Workaround / To fix.
-
-## Сводка открытых пунктов (по практической ценности)
+## Сводка закрытых пунктов (2026-10-31)
 
 1. ~~**TextField без `slots`/`slotProps`**~~ — ✅ сделано 2026-10-31, см.
    [TextFieldSlotsAndSlotProps](#средняя-сложность).
@@ -25,15 +30,12 @@
    [«Известные потери»](#известные-потери--упрощения-в-публичном-api).
 6. ~~**`Grid` без HTML-атрибутов**~~ — ✅ сделано 2026-10-31 (вместе с system `Grid`/`Stack` и `GridOffset`). См.
    [«Известные потери»](#известные-потери--упрощения-в-публичном-api).
-7. Низкий приоритет: `createColorScheme`/`extendTheme`/CssVars-провайдер, `OverridableComponent`, Pigment-компоненты,
-   template literal types, JSDoc для `Omit`-ключей, `Rating.defaultValue`/`StepIcon`/`Autocomplete.key` (приемлемые
-   обходы уже есть).
 
 ## Почему при миграции на v6 оставили `@mui/base@5.0.0-beta.70`
 
 > Историческое решение для MUI v6. Миграция на `@base-ui/react@1.6.0` уже начата в этом
 > репозитории: шесть модулей генерируются в пакет `baseui` параллельно с `mui.base`.
-> Текущий статус и оставшиеся задачи — в [BASE_UI_TODO.md](BASE_UI_TODO.md).
+> Текущий статус и оставшиеся задачи — в [плане Base UI](../plans/base-ui.md).
 
 `@mui/base` помечен в npm как deprecated в пользу `@base-ui/react`. На этапе v6 миграцию отложили:
 
@@ -57,12 +59,15 @@
 
 ## Полностью скипнутые .d.ts файлы
 
+These entries record how formerly skipped APIs were restored, or why an API remains intentionally excluded.
+Open exclusions are tracked in [the generator plan](../plans/generator.md#полностью-скипнутые-dts-файлы).
+
 ### Material
 
 - **`createThemeNoVars`** — `@mui/material/styles/createThemeNoVars.d.ts` — ✅ (2026-10-31)
     - Генерируется (types only) в `generateStylesDeclarations`; ручной стаб `Theme`/`ThemeOptions` удалён, так что
       новые члены material-темы приезжают при бампе сами (см.
-      [MUI_V9_TODO.md](MUI_V9_TODO.md#the-material-theme-is-converted-from-createthemenovarsdts)).
+      [историю MUI v9](mui-v9.md#the-material-theme-is-converted-from-createthemenovarsdts)).
     - `adapters/CreateThemeNoVars.kt` (стоит первым в `adaptRawContent`, до `dropMemberValueObjects`) схлопывает
       conditional types `CssVarsOptions` / `palette & (… ? CssVarsPalette : {})` / `CssVarsProperties` в ветку
       «CSS variables не включены через аугментацию» и убирает хук `CssThemeVariables`.
@@ -103,14 +108,6 @@
       CSS-члены. Material `Shape`/`ShapeOptions` — `: mui.system.Shape`/`ShapeOptions` (белый список пустых
       интерфейсов в `Converter.kt::findAdditionalProps`), т.е. снова с `borderRadius`.
 
-- **`createThemeWithVars`** — `@mui/material/styles/createThemeWithVars.d.ts` — ⏳ (частично ✅)
-    - Status: excluded
-    - ✅ С v7 типы `CssVarsTheme`, `CssVarsPalette`, `ColorSystem`, `ColorSystemOptions`, `ThemeVars` живут в
-      `createThemeFoundation.d.ts` и генерируются оттуда (`adapters/CreateThemeFoundation.kt`).
-    - ⏳ Не хватает самой функции — она экспортируется как `extendTheme` из `@mui/material/styles` — и
-      `CssVarsThemeOptions`.
-    - To fix: ручной стаб `extendTheme` по образцу `createTheme.kt`, либо разбор mapped types (`{ [K in X]: Y }`).
-
 - **`createTheme` (material/styles)** — `@mui/material/styles/createTheme.d.ts` — ✅
     - Сам файл по-прежнему excluded, но функция есть: ручной стаб
       `external fun createTheme(options: ThemeOptions = definedExternally): Theme`, привязан к barrel
@@ -118,37 +115,10 @@
       `playground/.../samples/material/ThemeFocusVisibleSample.kt`.
     - `ThemeOptions` — сгенерированный (см. `createThemeNoVars`), с `cssVariables`/`colorSchemes`/`defaultColorScheme`.
 
-- **`createColorScheme`** — `@mui/material/styles/createColorScheme.d.ts` — ⏳ (низкий приоритет)
-    - Status: excluded
-    - Reason: v6 CssVars API. Тип-аргумент `ColorSystemOptions` теперь генерируется, так что блокер — только
-      стаб самой функции.
-    - To fix: ручной стаб `createColorScheme(options: ColorSystemOptions): ColorSystemOptions`.
-
 - **`useLazyRipple`** — `@mui/material/useLazyRipple/useLazyRipple.d.ts` — 🚫
     - Status: excluded, и так и остаётся.
     - Reason: хук не экспортируется ни из `@mui/material/index.d.ts`, ни через `exports` в `package.json` — это
       внутренний API, привязать его к runtime-модулю нельзя.
-
-- **`OverridableComponent`** — `@mui/material/OverridableComponent/index.d.ts` — ⏳ (низкий приоритет)
-    - Status: excluded (`Generator.kt::generateMaterialDeclarations`)
-    - Reason: type-only утилита: call signatures + intersection types в `interface OverridableComponent<TypeMap>`.
-    - Workaround: компоненты с `: OverridableComponent<` / `= OverridableComponent<` / `ExtendButtonBase<`
-      распознаются в `Converter.kt::findMapProps::hasComponent` и получают `mui.types.PropsWithComponent`.
-    - To fix: научить генератор обрабатывать call signatures на интерфейсе.
-
-- **`ThemeProvider`/`ThemeProviderNoVars`/`ThemeProviderWithVars`** — `@mui/material/styles/ThemeProvider*.d.ts` — ⏳
-    - Status: excluded
-    - Reason: TS conditional types для слотов CssVars (`extends X ? {...} : {}`).
-    - Workaround: ручной стаб `external val ThemeProvider: react.FC<ThemeProviderProps>` (children, theme), привязан
-      к barrel `@mui/material/styles` — deep path `styles/ThemeProvider` отсутствует в `exports`, Vite его не
-      резолвит. В `mui.system` с v9 такой же ручной стаб (там `ThemeProvider` стал generic-функцией).
-    - To fix: распознавать TS conditional types в `adaptRawContent`; тогда же — CssVars-варианты провайдера.
-
-- **Pigment-CSS варианты** — `@mui/material/Pigment*/...` — ⏳ (низкий приоритет)
-    - Status: excluded (`Generator.kt::generateMaterialDeclarations` filter `!startsWith("Pigment")`)
-    - В 9.5.0 это `PigmentContainer`, `PigmentGrid`, `PigmentStack`; все три есть в `exports`.
-    - Reason: дублируют Container/Grid/Stack-типы в том же пакете → Redeclaration.
-    - To fix: при необходимости — отдельный subpackage `mui.material.pigment`.
 
 ### System
 
@@ -183,32 +153,22 @@
   `createThemeNoVars.d.ts` (см. выше). Вручную остался только `typealias FocusVisible = react.CSSProperties`
   (`FocusVisible.kt`): генератор не эмитит простые type alias'ы.
 - **`mui.material.styles.createTheme`** — ручной стаб над barrel `@mui/material/styles` (см. выше).
-- **`mui.material.styles.ThemeProvider`**, **`mui.system.ThemeProvider`** — минимальные ручные обёртки (см. выше).
-- **`mui.system.SystemProps<T>`** — `typealias SystemProps<T> = react.Props`. Используется Typography.
 - **`mui.system.Breakpoints`/`BreakpointsOptions`** — генерируются из
   `@mui/system/createBreakpoints/createBreakpoints.d.ts` (раньше из createTheme.d.ts).
-- **`LinkBaseProps`, `TablePaginationBaseProps`** — пустые стабы, см. «Internal-rejected parents».
+
+The remaining stubs and their limitations are tracked in
+[the generator plan](../plans/generator.md#стабы-вместо-настоящей-генерации).
 
 ## Известные потери / упрощения в публичном API
 
-- **CssVars вселенная** — ✅ типы `CssVarsTheme`/`CssVarsPalette`/`ColorSystem`/`ColorSystemOptions`/`ThemeVars`
-  генерируются из `createThemeFoundation.d.ts`; `Theme.vars: ThemeVars?` и `ThemeOptions.cssVariables`/
-  `colorSchemes`/`defaultColorScheme` есть. ⏳ Нет `extendTheme`, `createColorScheme`, CssVars-провайдера.
-- **`Theme.applyStyles`** — `Any? /* ApplyStyles<…> */` в `mui.system.Theme`, material `BaseTheme` и `CssVarsTheme`.
-- **`Typography.color`** — теперь `Union? /* OverridableStringUnion<… `text${Capitalize<keyof TypeText>}` …> | string */`
-  (был `Any?`). Шаблонный литерал по-прежнему не раскрывается.
+Resolved items from the original audit:
+
 - **`Tooltip.placement`** — ✅ `TooltipPlacement?`, где `typealias TooltipPlacement = popper.core.Placement`
   эмитится в `Tooltip.ext.kt`. v7+ `.d.ts` пишет `PopperProps['placement']` вместо `TooltipProps['placement']`, и
   поле успело деградировать до `Any?`; ключ в `TypeAlias.kt::ALIAS_MAP` обновлён (2026-10-31). Тот же тип получил
   `SpeedDialActionTooltipProps.placement`. Покрыт `playground/.../samples/material/TooltipPlacementSample.kt`.
 - **`Autocomplete.key`** — переопределена как `react.Key? /* Key */`.
-- **`Rating.defaultValue`** — расширена с `Number?` до `Any? /* Number */`, чтобы не клешиться с inherited
-  `HTMLAttributes.defaultValue: Any?` (Kotlin var-invariance не позволяет diamond сузить тип).
-  В `Rating.ext.kt` есть `inline var RatingProps.defaultValueAsNumber: Number?` для типизированного доступа.
-- **`SlotProps` inner typing для всех `XxxSlotsAndSlotProps`** — структура по именам слотов сохранена:
-  generator парсит второй аргумент `CreateSlotsAndSlotProps<XxxSlots, { root: SlotProps<…>; input: …; }>` и эмитит
-  отдельный `XxxSlotProps` интерфейс с полем на каждый слот. Поля типизируются по RootComponent там, где он
-  распознаётся (см. «Низкая сложность — реализовано»), иначе `Any?`; исходный TS-тип — в `/** TS: SlotProps<…> */`.
+
 - **Компоненты со своими slots/slotProps поверх родительских** — ✅ (2026-10-31). Dialog/Drawer/Popover (Modal),
   Menu (Popover), SwipeableDrawer (Drawer), OutlinedInput (InputBase), Checkbox/Radio/Switch (SwitchBase) в TS
   `Omit`-ят родительские `slots`/`slotProps` и подмешивают свой `XxxSlotsAndSlotProps`. Раньше этот родитель
@@ -233,8 +193,7 @@
   сложность».
 - **`Switch.onBlur` / `onChange` / `onFocus`** — 🚫 неактуально: с v7 Material `SwitchProps` extends только
   `StandardProps<SwitchBaseProps, …>`, `UseSwitchParameters` в цепочке нет.
-- **`StepIcon`** — SvgIconOwnProps стрипнут из родителей (HTMLAttributes T-параметр не совмещался). Типизированный
-  доступ — `StepIcon.ext.kt::asSvgIconOwnProps()`.
+
 - **`GridSize` и литералы в юнионах** — ✅ (2026-10-31). Grid2 в v9 удалён, остался один `Grid` с
   `GridSize = 'auto' | 'grow' | number | false` (одинаково в material и system); `Grid.size` теперь
   `ResponsiveStyleValue<GridSize>` вместо `Union /* … */` (запись `STANDARD_TYPE_MAP["GridSize"]` удалена).
@@ -262,46 +221,15 @@
       один литерал» не даёт превратить каждый `number | string` в новый тип по всему API.
     - Покрыт `playground/.../samples/material/GridSample.kt` (`id`/`className`/`title`/`style` на `<div>`, отступ от
       `GridOffset(2)` и `GridOffset.auto`, `title` у system `Grid`/`Stack`).
-- **Internal-rejected parents** — `ParentType.kt::INTERNAL_REJECTED_PARENTS` (`BasePopperProps`,
-  `DialogActionsProps`, `CssContainerQueries`, `StyledComponentProps`, плюс десяток
-  mui-x-внутренних — список см. в коде и в MUI_V7/V9_TODO) отбрасываются из родительских списков. **`LinkBaseProps`
-  и `TablePaginationBaseProps`** эмитятся как пустые стабы (`MATERIAL_LINK_BASE_PROPS_STUB`,
-  `MATERIAL_TABLE_PAGINATION_BASE_PROPS_STUB`) — цепочка наследования сохранена на уровне символа.
+
 - **`LoadingButton`** — ✅ в lab 9 это `typeof Button`; генерируется как `FC<mui.material.ButtonProps>`, а
   `ButtonProps` уже содержит `loading`/`loadingIndicator`/`loadingPosition`.
-- **MUI-X** — ✅ обновлён до 9.17.0, см. [MUI_V9_TODO.md](MUI_V9_TODO.md).
-
-## Глобальные конвенции (после v6-этапа)
-
-- Фолбэк для непарсимых типов — `Any? /* оригинальный TS-тип */`, а не `dynamic`. Так сохраняется источник и
-  nullability. См. `KotlinType.kt::kotlinType` нижний `return`.
-- `ResponsiveStyleValue<T>` и `react.Ref<T>` имеют bound `T : Any` — фолбэк внутри них убирает `?`:
-  `Any? /* ... */` → `Any /* ... */`.
-- `XxxSlotsAndSlotProps` — type-alias из `CreateSlotsAndSlotProps<XxxSlots, {…}>` конвертируется в ДВА
-  интерфейса: `XxxSlotsAndSlotProps { slots?: XxxSlots; slotProps?: XxxSlotProps; }` и сам `XxxSlotProps` с
-  именованными полями на каждый слот (`Converter.kt::convertSlotsAndSlotPropsAliases` +
-  `parseInlineSlotProps` + `mapSlotPropsToKotlin`).
-- Компоненты, которые в TS `Omit`-ят родительские `slots/slotProps` ради своих, наследуют оба и переобъявляют
-  члены своими типами с подавлением `VAR_TYPE_MISMATCH_ON_OVERRIDE` (`adapters/OwnSlotsAndSlotProps.kt`).
-- При появлении новых `Omit<StandardProps<...>, '...'>` / `StandardProps<Omit<...>>` / `DistributiveOmit<...>` /
-  `Pick<...>` / `Partial<...>` форм — `Converter.kt::adaptRawContent` их распарсивает и коллапсирует. Partial
-  применяется только в extends-позиции (lookbehind `(?<=\bextends )` / `(?<=,\s{4})`), чтобы не сломать
-  `Partial<X>` в member-типах, где `kotlinType()` имеет специальные обработки.
-- `(?<!\w)Omit<` lookbehind не даёт регексу для `Omit<…>` "съесть" внутреннее имя из `DistributiveOmit<…>`.
-- `findParentType` разбирает multi-parent extends-списки depth-aware split'ом по top-level запятым и с v7
-  работает по принципу **filter-and-keep** (`ParentType.kt`): `Omit<X, …>`/`Pick<X, …>`/`Partial<X>` разворачиваются
-  до `X`, отвергнутые родители (TS-utilities, `INTERNAL_REJECTED_PARENTS`) выбрасываются, остальные сохраняются.
-  (На v6-этапе было «все-или-ничего» с дефолтом в `react.Props`.)
-- `Generator.kt::generate(...)` имеет fallback на `index.d.ts` если `${dir.name}/${dir.name}.d.ts` нет
-  (полезно для useMediaQuery, OverridableComponent).
-- Tooltip, Rating и StepIcon получают дополнительные `*.ext.kt` через спец.case в Generator (TooltipPlacement typealias,
-  `Rating.defaultValueAsNumber`, `StepIconProps.asSvgIconOwnProps()`).
-- Дефолтные generic-параметры функций переписываются точечно в `FunctionConverter.kt::findDefaultFunction`:
-  `<T = Theme>` → `<T : Theme>` (`useTheme`), `<T = null>` → `<T>` (`useThemeWithoutDefault`).
+- **MUI-X** — ✅ обновлён до 9.17.0, см. [историю MUI v9](mui-v9.md).
 
 ## Будущие доработки типизации
 
-Кандидаты на улучшение генератора. Сгруппировано по сложности.
+The following subsections preserve the implementation decisions that closed the original proposals.
+Remaining candidates are in [the generator plan](../plans/generator.md#будущие-доработки-типизации).
 
 ### ✅ Низкая сложность — реализовано
 
@@ -351,12 +279,6 @@
     - JSDoc `/** TS: … */` над полем `input` показывает уже подставленный `React.ElementType<InputBaseProps>`, а не
       исходный `InputPropsType`.
 
-- **DistributiveOmit/Omit — пометка "omitted keys" в JSDoc.** ⏳ Откладывается — ROI низкий.
-  Inline-комментарий (`extends X /* Omitted: 'a' */`) ломает разбор родителя; side-channel
-  (`Map<interfaceName, omittedKeys>` + два прохода) требует рефакторинга `adaptRawContent` (сейчас pure pipeline).
-  Большинство случаев — `'slots' | 'slotProps'`-омит на OwnerState'ах; интересные (`Omit<TransitionProps, 'children'>`
-  в Fade, `Omit<TypographyTypeMap['props'], 'classes'>` в DialogTitle) единичны.
-
 - **`Partial<X>` в member-позиции — обобщить.** ✅ В большой степени реализовано: `KotlinType.kt::kotlinType`
   делает generic unwrap `Partial<XxxProps>` → `XxxProps`; точечные исключения (`TouchRippleProps`,
   `NativeSelectInputProps` → `Any?`; `StandardInputProps` → `InputProps`; `SelectProps` → `SelectProps<*>`) остались
@@ -369,8 +291,8 @@
 - **Switch/Rating/StepIcon — более тонкие правки для diamond.**
     - **StepIcon** ✅ — `StepIcon.ext.kt::asSvgIconOwnProps()`.
     - **Switch** 🚫 — неактуально с v7 (см. «Известные потери»).
-    - **Rating** ⏳ — попробовать `override var defaultValue: Any?` в `RatingProps`; откладывается до пробы, обход
-      `defaultValueAsNumber` работает.
+
+  Rating remains a low-priority candidate in [the generator plan](../plans/generator.md#средняя-сложность).
 
 - **`GridSize` — смешанные литеральные юнионы.** ✅ См. «Известные потери» (включая `GridOffset`). Юнионы из одних
   примитивов (`GridSpacing = number | string`) по-прежнему `Any`.
@@ -381,32 +303,10 @@
   (см. `createThemeNoVars`). Конфликт с `mui.system.Theme` решён подавлением `VAR_TYPE_MISMATCH_ON_OVERRIDE` в
   сгенерированном файле, system-сторона не менялась.
 
-- **CssVars вселенная** (`extendTheme`, `createColorScheme`, CssVars-`ThemeProvider`). ⏳ Типы и `Theme.vars` уже
-  есть; требует:
-    - Поддержки TS conditional types в `Converter.kt::adaptRawContent` (или ручных стабов).
-    - Поддержки TS mapped types `{ [K in X]: Y }` → Kotlin `Record<X, Y>` или подобное.
-
-- **TS template literal types** (`text${Capitalize<keyof TypeText>}` в `Typography.color`). ⏳ Распознавать
-  `` `…${X}…` `` и схлопывать к `String` (либо к `mui.system.Union` с комментарием набора кейсов).
-
-- **TS overloaded call signatures на interface.** ⏳
-    - `interface Spacing { (): string; (v): string; (a, b): string; … }` — ✅ точечный конвертер
-      `Spacing.kt::convertSpacing` (см. System).
-    - `interface OverridableComponent { (props: …): JSX; (props: …): JSX; }` — общий механизм не реализован.
-
 - **TS generic с дефолтом конкретного типа.** ✅ для известных случаев (`useTheme`, `useThemeWithoutDefault`) —
   точечными переписываниями в `FunctionConverter.kt`. Общего механизма нет; при появлении новых — добавлять туда же.
-
-- **OverridableComponent с TypeMap.** ⏳ Типизация `<RootComponent extends ElementType>` для динамического
-  тега. Сейчас обходим через `mui.types.PropsWithComponent`, но это сильно упрощённо.
 
 ### Не вошло в v6-минимум
 
 - **MUI-X на v6 материале** — ✅ закрыто: MUI X обновлён вместе с core до 9.x.
 - **`LoadingButton` миграция** — ✅ закрыто (см. «Известные потери»).
-- **Pigment-CSS варианты в отдельный subpackage** (`mui.material.pigment`) вместо полного скипа — ⏳ низкий приоритет.
-
----
-
-*Файл обновляется по мере новых исключений в `buildSrc/src/main/kotlin/karakum/mui/`. Последняя сверка с кодом —
-2026-10-31 (MUI 9.5.0).*

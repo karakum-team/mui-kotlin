@@ -46,8 +46,8 @@ val DateIoUtilsSample: Sample = Sample(
     fileName = "DateIoUtilsSample.kt",
     refs = listOf(
         Ref(
-            "MUI_V9_TODO.md — @date-io/core 3.2",
-            "https://github.com/karakum-team/mui-kotlin/blob/main/MUI_V9_TODO.md#date-iocore-217--32-update-2026-10-01",
+            "docs/history/mui-v9.md — @date-io/core 3.2",
+            "https://github.com/karakum-team/mui-kotlin/blob/main/docs/history/mui-v9.md#date-iocore-217--32-update-2026-10-01",
         ),
         Ref("f29b6170", "https://github.com/karakum-team/mui-kotlin/commit/f29b6170"),
     ),
