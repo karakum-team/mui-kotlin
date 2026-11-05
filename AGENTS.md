@@ -22,6 +22,7 @@ Before starting work, read and apply every rule whose condition matches the task
 
 | When to read | File |
 |---|---|
+| Writing or updating documentation, plans, history, or agent instructions | [Documentation portability and privacy](.agents/rules/documentation.md) |
 | Adding or changing generated declarations | [Kotlin type selection](.agents/rules/kotlin-types.md) |
 | Preparing a commit message or a ready-to-use commit summary | [Commit messages](.agents/rules/commit-messages.md) |
 | Changing generator code, generated declarations or playground code, or running browser verification | [Generator verification](.agents/rules/generator-verification.md) |
