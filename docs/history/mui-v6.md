@@ -346,3 +346,37 @@ Verification on the final generator code, using the pinned Material `9.5.0` typi
 - A separate read-only agent checked property scoping and unchanged declaration content with no findings.
   No separate `:buildSrc:test` run was performed; its previously recorded RuntimeBindings failure is outside
   this change. No transfer or commit was performed; the next step is human review of this local diff.
+
+## Own-slot suppression fork handoff (2026-11-05)
+
+The user committed the generator fix as `22700a927489e05461fc17ba491f057873c82c58` and requested its transfer to
+`mui-own-slot-props`. This supersedes the pending local-commit/transfer status in the review record above.
+
+- Applied only the nine generated Material-file changes from `a49cc277..22700a92` to
+  the [`aerialist7/kotlin-wrappers`](https://github.com/aerialist7/kotlin-wrappers) fork, already on `mui-own-slot-props` at
+  `7e88c633c1e05f236a7b070649c75fb31cb69987`. The public GitHub API confirmed that revision is the current head
+  of PR #2924; upstream `master` is `e874c92b9acd648714d2ecb1d41a4d30fd05e189`.
+- Each fork file matched the generator's pre-fix baseline byte-for-byte. File-level three-way merges were
+  clean, and all nine resulting files match the committed generator output exactly. The scoped fork patch
+  equals the source commit's generated patch after path mapping: **9 modified files, +53 / -45 lines**,
+  covering only property-level suppressions and removal of the old file-level suppressions.
+- The transferred changes are **unstaged and uncommitted**. Fork `HEAD`, local `master`, index bytes, staged
+  diff and unrelated unstaged diff are unchanged. In particular, the pre-existing staged-added / working-tree-
+  deleted Tree View files `domStructure.ext.kt`, `items.ext.kt` and `items.kt` were preserved.
+- `git diff --check` passes in the fork. An independent read-only agent verified the scope, exact file
+  contents and preserved Git state with no findings. The source tree still matches all 778 hashes from the
+  preceding successful clean build; no generator code changed after that verification. No fork compilation,
+  builds or tests were run, and no additional source build or browser run was needed for this transfer-only
+  step. Nothing was staged, committed, pushed or posted to GitHub.
+
+Next step: human review, staging and commit of the nine Material changes, then push to update the existing PR.
+Prepared title-only commit message: `MUI. Scope override suppressions to properties`.
+
+## Own-slot suppression pull request updated (2026-11-05)
+
+The user confirmed committing the transferred changes on `mui-own-slot-props` and updating
+[PR #2924](https://github.com/JetBrains/kotlin-wrappers/pull/2924). The local fork records commit
+`25f85112f6` (`MUI. Scope override suppressions to properties`), and the nine Material files have no remaining
+working-tree changes. This supersedes the pending staging/commit/push status at the handoff above.
+The next step is upstream review and any requested follow-up changes. Only the plan and history were updated
+in this status-only step; no builds, tests or browser checks were repeated.

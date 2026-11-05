@@ -22,8 +22,12 @@ Base UI module work has its own [canonical plan](base-ui.md).
   properties; their file-level suppressions are removed. Types and inheritance are unchanged, and the clean
   build, byte-for-byte regeneration and browser checks passed.
   [Scope and verification](../history/mui-v6.md#own-slot-override-suppressions--pr-2924-review-2026-11-05).
-  Next step for this follow-up: human review and commit of the local diff. Transfer to the fork is outside the
-  current request; unrelated suppression limitations, including Base UI gap 12, remain deferred.
+  The generator fix is committed as `22700a92`; the user committed its nine-file generated delta as
+  `25f85112f6` on the fork's `mui-own-slot-props` branch and confirmed updating PR #2924.
+  [Transfer evidence](../history/mui-v6.md#own-slot-suppression-fork-handoff-2026-11-05).
+  [Publication status](../history/mui-v6.md#own-slot-suppression-pull-request-updated-2026-11-05).
+  Next step for this follow-up: upstream review and any requested changes. Unrelated suppression limitations,
+  including Base UI gap 12, remain deferred.
 - **Tree View transfer (2026-11-05):** the user confirmed pushing the `muix-tree-view` branch to the fork and
   opening a pull request, including the model filename corrections requested after the initial handoff.
   The next step is upstream review and any requested follow-up changes. The target already uses MUI X `9.17.0`,
