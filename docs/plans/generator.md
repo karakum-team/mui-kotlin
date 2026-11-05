@@ -17,6 +17,15 @@ Base UI module work has its own [canonical plan](base-ui.md).
 - **Completion:** follow [Kotlin type selection](../../.agents/rules/kotlin-types.md) and
   [generator verification](../../.agents/rules/generator-verification.md); update this plan and record the
   completed change and checks in the relevant history file.
+- **Tree View transfer (2026-11-05):** the user confirmed pushing the `muix-tree-view` branch to the fork and
+  opening a pull request, including the model filename corrections requested after the initial handoff.
+  The next step is upstream review and any requested follow-up changes. The target already uses MUI X `9.17.0`,
+  and no generator backlog item was reopened.
+  [Scope, baseline and verification](../history/mui-v9.md#tree-view-fork-handoff-2026-11-05).
+  [Model filename follow-up](../history/mui-v9.md#tree-view-model-filenames-follow-up-2026-11-05).
+  [Publication status](../history/mui-v9.md#tree-view-pull-request-opened-2026-11-05).
+  The latter also records one existing buildSrc test failure reproduced on the unchanged baseline; the filename
+  correction leaves that separate runtime-binding test mismatch unresolved.
 - **Last recorded evidence:** [v6 audit resolutions](../history/mui-v6.md),
   [material theme](../history/mui-v9.md#the-material-theme-is-converted-from-createthemenovarsdts), and
   [runtime-export verification](../history/mui-v9.md#runtime-imports--resolved-from-npm-exports-during-generation).

@@ -495,3 +495,70 @@ The icons-version statement below refers to package availability at that iterati
    generated automatically from the installed `.d.ts`; `InitColorSchemeScript`, `createMotion`/`ReducedMotionMode`
    are generated; and the rest (roving tabindex, Backdrop `aria-hidden`, `sx` perf, `color-mix()` runtime) are
    runtime-only behaviours with no declaration impact.
+
+## Tree View fork handoff (2026-11-05)
+
+Source revision: `9108550c`; generated Tree View delta: `f9a3a111..39ebe7ea` (unchanged since the latter).
+The functional changes end at `7dd944ce`; `39ebe7ea` aligns two React import blocks with the fork's existing style.
+
+- Prepared the pending Tree View API updates in the `aerialist7/kotlin-wrappers` fork,
+  branch `muix-tree-view`, based on
+  `e874c92b9acd648714d2ecb1d41a4d30fd05e189`. A fresh fetch confirmed that upstream `master` is at the same revision.
+- The fork baseline matched generator `f9a3a111` except for existing `react.*` imports in
+  `SimpleTreeView.types.kt` and `useTreeItem.types.kt`. Applied the generated delta with file-level three-way
+  merging; resolved those two import conflicts by retaining every existing import and adding the imports
+  required by the generated API changes.
+- The diff contains **23 files: 11 modified and 12 added**, all under
+  `kotlin-muix-tree-view/src/jsMain/generated/muix/tree/view`. It includes typed selection and expansion,
+  generic RichTreeView items, typed slots and slot factories, cancellable event handlers, useTreeItem plugin
+  props, flattened CSS classes, public API/hooks, and CSS-variable/data-attribute constants.
+- MUI X `9.17.0` was already installed in the fork. No version files, lockfiles, other modules, or hand-written
+  sources were changed. All transferred changes remain **unstaged and uncommitted**; `HEAD`, local `master`,
+  and the index SHA-256 stayed unchanged. Human verification and commit are the next step; nothing was pushed.
+
+Verification at this handoff:
+
+- `./gradlew :mui-kotlin:clean build` passed, including library and playground Kotlin/JS compilation with
+  zero errors and all 21 runtime-export tests.
+- `git diff --exit-code -- mui-kotlin/src/jsMain/kotlin` passed after clean generation and formatting.
+- All **32** files in the fork's Tree View package match the clean generator output byte-for-byte; the file
+  sets are identical. Inspected the scoped diff and confirmed `git diff --check` passes in the fork.
+- No compilation, builds, or tests were run in the fork, as required by the transfer rules. No browser run
+  was performed for this transfer-only task, and the review subagent was stopped at the user's request.
+
+## Tree View model filenames follow-up (2026-11-05)
+
+Source baseline: `df82e282`, with the generator changes left uncommitted. The user requested model filenames
+that match their declarations before pushing the Tree View handoff.
+
+- `ConversionResult.extensions` now retains individual converted declarations. The component emitter joins
+  them as before; the Tree View model emitter writes each model interface or union to its own named file.
+- Generated `TreeViewSelectionPropagation.kt` instead of `items.kt`, split `items.ext.kt` into
+  `TreeViewItemsReorderingAction.kt` and `TreeViewItemSelectionStatus.kt`, and generated `TreeViewDOMStructure.kt`
+  instead of `domStructure.ext.kt`. All four declaration bodies and their imports are unchanged.
+- Refreshed the same `muix-tree-view` fork checkout. All **33** Tree View files match the generator byte-for-byte.
+  The user had staged the earlier 12 additions since the initial handoff, including the three old model files;
+  their staged content and the index hash were preserved. The three removals and four new files remain unstaged
+  for human verification and staging. `HEAD` and local `master` are unchanged; nothing was committed or pushed.
+
+Verification:
+
+- The clean build and explicit library/playground Kotlin/JS compilation passed with zero errors; all 21
+  runtime-export tests passed. A second `:mui-kotlin:clean build` reproduced all **778** generated files byte-for-byte.
+- Compared the generated tree against the pre-change SHA-256 manifest: only the three removed and four new model
+  files differ; all **774** other files are unchanged. The two renames are byte-identical to their originals, and
+  each split union retains its complete original body and imports.
+- `git diff --check` passes in both repositories, including separate whitespace checks of the four new fork files.
+  No fork builds/tests or browser run were performed; this follow-up changes filenames only.
+- Additional `./gradlew -p buildSrc test` run: **14/15 passed**. The existing
+  `RuntimeBindingsTest.separatesModulesWithoutChangingKotlinNamesOrOverloads` fails at line 120 because it expects
+  the unused `other.Options` import in the split classes file, while `renderRuntimeBindings` removes it.
+  Reproduced the same failure by running that test against an isolated export of the unmodified `df82e282`
+  baseline. The runtime-binding implementation and test are unchanged; resolving that mismatch is outside this
+  filename follow-up.
+
+## Tree View pull request opened (2026-11-05)
+
+The user confirmed pushing the `muix-tree-view` changes to the `aerialist7/kotlin-wrappers` fork and opening a
+pull request after the model filename follow-up. This supersedes the pending staging/commit status recorded
+at the earlier handoffs. The next step is upstream review and any requested follow-up changes.
