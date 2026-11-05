@@ -35,8 +35,9 @@ Base UI module work has its own [canonical plan](base-ui.md).
   generator now emit `val` properties (`MemberConverter.kt`, `Converter.kt`, `Overrides.kt`, `Override.kt`, and
   hand-written Tree View templates in `Generator.kt`), `TreeViewCancellableEvent` is a `private external interface`
   without `@JsPlainObject` so non-`inline` `SyntheticEvent.defaultMuiPrevented` can mutate `defaultMuiPrevented` in
-  place on the event instance, and all union interfaces emit `sealed /* union */` before `external interface`
-  (`UnionConverter.kt`, `Spacing.kt`, and `Generator.kt`).
+  place on the event instance, `index`, `itemsCount`, and `itemDepth` are mapped to `Int` via
+  `NUMBER_AS_INT_PROPERTIES` (`KotlinType.kt`), and all union interfaces emit `sealed /* union */` before
+  `external interface` (`UnionConverter.kt`, `Spacing.kt`, and `Generator.kt`).
   Next step: human verification, staging, commit, and push of the transferred 18-file `muix/tree/view` delta on the
   fork's `muix-tree-view` branch (`5be28b876d`) to update PR #2927, and commit in `mui-kotlin`.
   [Scope, baseline and verification](../history/mui-v9.md#tree-view-fork-handoff-2026-11-05).

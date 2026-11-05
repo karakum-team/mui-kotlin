@@ -40,7 +40,7 @@ external interface AccordionItemState : AccordionRootState {
     /**
      * The item index.
      */
-    var index: Number
+    var index: Int
 
     /**
      * Whether the component is open.

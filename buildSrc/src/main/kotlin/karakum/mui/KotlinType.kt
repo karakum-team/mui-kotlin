@@ -156,6 +156,8 @@ private val NUMBER_AS_INT_PROPERTIES = setOf(
     "fixedWeekNumber",
     // Slider internal index
     "focusedThumbIndex",
+    // Item/row/step/tab/thumb indices, counts, and tree depth
+    "index", "itemsCount", "itemDepth",
     // Textarea row count (minRows/maxRows handled separately)
     "rows",
 )

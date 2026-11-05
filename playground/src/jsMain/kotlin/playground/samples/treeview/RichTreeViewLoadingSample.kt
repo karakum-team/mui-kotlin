@@ -33,7 +33,7 @@ private val LoadingRow = FC<TreeItemLoaderProps> { props ->
     TreeItemLoader {
         +props
         props.ownerState?.let { state ->
-            title = "Row ${state.index.toInt() + 1} of ${state.itemsCount.toInt()}, depth ${state.itemDepth.toInt()}"
+            title = "Row ${state.index + 1} of ${state.itemsCount}, depth ${state.itemDepth}"
         }
     }
 }

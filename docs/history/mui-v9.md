@@ -648,6 +648,10 @@ comments on union interfaces (`TreeViewDOMStructure.kt` and `SlotComponentProps.
   (`SlotComponentProps.kt`, `TreeViewDOMStructure.kt`, `TreeViewExpansionTrigger.kt`,
   `TreeViewItemSelectionStatus.kt`, `TreeViewItemsReorderingAction.kt`, `TreeViewSelectionValue.kt`) and all
   other generated union files across the repository.
+- **Integer properties (`KotlinType.kt`):** added `index`, `itemsCount`, and `itemDepth` to
+  `NUMBER_AS_INT_PROPERTIES` so `TreeItemLoaderOwnerState` (`TreeItemLoader.types.kt`) and item/step/tab/thumb
+  index properties in `mui.base` and `mui.material` emit `Int` instead of `Number`, and removed the redundant
+  `.toInt()` calls in `RichTreeViewLoadingSample.kt`.
 
 Verification:
 

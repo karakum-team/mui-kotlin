@@ -51,7 +51,7 @@ external interface SliderThumbProps :
      * </Slider.Root>
      * ```
      */
-    var index: Number?
+    var index: Int?
 
     /**
      * A ref to access the nested input element.
