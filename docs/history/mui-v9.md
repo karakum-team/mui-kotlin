@@ -634,11 +634,14 @@ comments on union interfaces (`TreeViewDOMStructure.kt` and `SlotComponentProps.
   `SetItemSelectionParameters`, `AddItemsParameters`) use `val`. Updated `RuntimeImportsSample.kt`,
   `ThemeFocusVisibleSample.kt`, `SpacingSample.kt`, and `ThemeWithoutDefaultSample.kt` to construct
   `ThemeOptions` via its `@JsPlainObject` factory instead of `unsafeJso`.
-- **`TreeViewCancellableEvent` (`Generator.kt`):** removed `@JsPlainObject` and kept
-  `var defaultMuiPrevented: Boolean?`. At runtime `@mui/x-tree-view` (`useTreeItem.js` and the focus,
+- **`TreeViewCancellableEvent` (`Generator.kt`):** removed `@JsPlainObject`, made `TreeViewCancellableEvent`
+  a `private external interface`, and removed `inline` from `SyntheticEvent<*, *>.defaultMuiPrevented` while
+  keeping `var defaultMuiPrevented: Boolean?`. At runtime `@mui/x-tree-view` (`useTreeItem.js` and the focus,
   keyboard-navigation, selection, and label-editing plugins) invokes `onKeyDown(event)` (`Unit` return) and
   reads `event.defaultMuiPrevented` from the same `SyntheticEvent` instance, so `SyntheticEvent.defaultMuiPrevented`
-  must mutate the event in place rather than copying a plain object.
+  must mutate the event in place rather than copying a plain object; because Kotlin callers access the flag
+  through the extension property rather than referencing `TreeViewCancellableEvent` directly, the helper
+  interface is kept `private`.
 - **Union comments (`UnionConverter.kt`, `Spacing.kt`, `Generator.kt`):** emitted `sealed /* union */` before
   `external interface` in `convertUnion`, `convertSealed`, `convertSpacingOptions`, `MATERIAL_SIZE`,
   `TREE_VIEW_SELECTION_VALUE`, and `TREE_VIEW_SLOT_COMPONENT_PROPS`, covering all 6 Tree View union files

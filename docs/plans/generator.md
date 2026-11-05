@@ -31,12 +31,12 @@ Base UI module work has its own [canonical plan](base-ui.md).
 - **Tree View transfer and PR #2927 review (2026-11-05):** the `muix-tree-view` branch was pushed to the fork and
   opened as [`JetBrains/kotlin-wrappers#2927`](https://github.com/JetBrains/kotlin-wrappers/pull/2927). The first
   review follow-up was committed locally as `e654e5f7` and on the fork's `muix-tree-view` branch as `5be28b876d`.
-  The second local generator follow-up for PR #2927 is complete: all `@JsPlainObject` interfaces across the
+  The local generator follow-ups for PR #2927 are complete: all `@JsPlainObject` interfaces across the
   generator now emit `val` properties (`MemberConverter.kt`, `Converter.kt`, `Overrides.kt`, `Override.kt`, and
-  hand-written Tree View templates in `Generator.kt`), `TreeViewCancellableEvent` drops `@JsPlainObject` so
-  `SyntheticEvent.defaultMuiPrevented` can mutate `defaultMuiPrevented` in place on the event instance, and all
-  union interfaces emit `sealed /* union */` before `external interface` (`UnionConverter.kt`, `Spacing.kt`, and
-  `Generator.kt`).
+  hand-written Tree View templates in `Generator.kt`), `TreeViewCancellableEvent` is a `private external interface`
+  without `@JsPlainObject` so non-`inline` `SyntheticEvent.defaultMuiPrevented` can mutate `defaultMuiPrevented` in
+  place on the event instance, and all union interfaces emit `sealed /* union */` before `external interface`
+  (`UnionConverter.kt`, `Spacing.kt`, and `Generator.kt`).
   Next step: human verification, staging, commit, and push of the transferred 18-file `muix/tree/view` delta on the
   fork's `muix-tree-view` branch (`5be28b876d`) to update PR #2927, and commit in `mui-kotlin`.
   [Scope, baseline and verification](../history/mui-v9.md#tree-view-fork-handoff-2026-11-05).
