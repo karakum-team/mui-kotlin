@@ -17,6 +17,13 @@ Base UI module work has its own [canonical plan](base-ui.md).
 - **Completion:** follow [Kotlin type selection](../../.agents/rules/kotlin-types.md) and
   [generator verification](../../.agents/rules/generator-verification.md); update this plan and record the
   completed change and checks in the relevant history file.
+- **PR #2924 review (2026-11-05):** the local generator follow-up is complete. The nine Material components
+  with own slots now suppress `VIRTUAL_MEMBER_HIDDEN` and `VAR_TYPE_MISMATCH_ON_OVERRIDE` on the affected
+  properties; their file-level suppressions are removed. Types and inheritance are unchanged, and the clean
+  build, byte-for-byte regeneration and browser checks passed.
+  [Scope and verification](../history/mui-v6.md#own-slot-override-suppressions--pr-2924-review-2026-11-05).
+  Next step for this follow-up: human review and commit of the local diff. Transfer to the fork is outside the
+  current request; unrelated suppression limitations, including Base UI gap 12, remain deferred.
 - **Tree View transfer (2026-11-05):** the user confirmed pushing the `muix-tree-view` branch to the fork and
   opening a pull request, including the model filename corrections requested after the initial handoff.
   The next step is upstream review and any requested follow-up changes. The target already uses MUI X `9.17.0`,
@@ -145,7 +152,9 @@ working on the affected API; compare each with current code before treating it a
   именованными полями на каждый слот (`Converter.kt::convertSlotsAndSlotPropsAliases` +
   `parseInlineSlotProps` + `mapSlotPropsToKotlin`).
 - Компоненты, которые в TS `Omit`-ят родительские `slots/slotProps` ради своих, наследуют оба и переобъявляют
-  члены своими типами с подавлением `VAR_TYPE_MISMATCH_ON_OVERRIDE` (`adapters/OwnSlotsAndSlotProps.kt`).
+  члены своими типами с подавлением `VAR_TYPE_MISMATCH_ON_OVERRIDE` на самих свойствах
+  (`adapters/OwnSlotsAndSlotProps.kt`, `Overrides.kt::overrideOwnSlots`). Остальные скрывающие свойства этих
+  девяти Material-компонентов получают точечный `VIRTUAL_MEMBER_HIDDEN`; file suppress для них не нужен.
 - При появлении новых `Omit<StandardProps<...>, '...'>` / `StandardProps<Omit<...>>` / `DistributiveOmit<...>` /
   `Pick<...>` / `Partial<...>` форм — `Converter.kt::adaptRawContent` их распарсивает и коллапсирует. Partial
   применяется только в extends-позиции (lookbehind `(?<=\bextends )` / `(?<=,\s{4})`), чтобы не сломать

@@ -14,6 +14,7 @@ internal fun fixOverrides(
 // `adaptOwnSlotsAndSlotProps` re-declares `slots`/`slotProps` in `XxxProps`; both parents declare them too.
 // Scoped to that interface: the file's `XxxSlotsAndSlotProps` declares the same members as their origin.
 // Keyed on the `XxxSlotsAndSlotProps` parent, because `@mui/base` has same-named files (Menu, Switch, …).
+// Suppress only the properties that need it: a file-level annotation also masks unrelated regressions.
 private fun String.overrideOwnSlots(
     name: String,
 ): String {
@@ -22,9 +23,27 @@ private fun String.overrideOwnSlots(
         return this
 
     val end = indexOf("\n}\n", start)
+    val hiddenProps = when (name) {
+        "Checkbox" -> setOf(
+            "checked", "checkedIcon", "classes", "disabled", "disableRipple", "icon", "id", "onChange", "required", "value",
+        )
+        "Dialog" -> setOf("ariaDescribedBy", "ariaLabelledBy", "ariaModal", "classes", "role")
+        "Drawer" -> setOf("classes", "open")
+        "Menu" -> setOf("anchorEl", "autoFocus", "classes", "onClose", "open", "transitionDuration")
+        "OutlinedInput", "Popover" -> setOf("classes")
+        "Radio" -> setOf("checkedIcon", "classes", "disabled", "icon")
+        "SwipeableDrawer" -> setOf("onClose")
+        "Switch" -> setOf("checkedIcon", "classes", "disabled", "icon", "value")
+        else -> error("Missing own-slot property suppressions for $name")
+    }
     val props = substring(start, end)
-        .replaceFirst("var slots:", "override var slots:")
-        .replaceFirst("var slotProps:", "override var slotProps:")
+        .replaceFirst("var slots:", "@Suppress(\"VAR_TYPE_MISMATCH_ON_OVERRIDE\")\noverride var slots:")
+        .replaceFirst("var slotProps:", "@Suppress(\"VAR_TYPE_MISMATCH_ON_OVERRIDE\")\noverride var slotProps:")
+        .replace(Regex("""(?m)^var (\w+):""")) { match ->
+            if (match.groupValues[1] in hiddenProps)
+                "@Suppress(\"VIRTUAL_MEMBER_HIDDEN\")\n${match.value}"
+            else match.value
+        }
     return substring(0, start) + props + substring(end)
 }
 

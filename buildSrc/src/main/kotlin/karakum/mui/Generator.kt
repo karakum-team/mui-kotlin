@@ -1877,7 +1877,10 @@ private fun RuntimeBindings.generate(
     // Combine into a single @file:Suppress(...) — Kotlin disallows repeating @file:Suppress.
     run {
         val suppressKeys = mutableListOf<String>()
-        if (componentName in OVERRIDE_FIX_REQUIRED) suppressKeys += "VIRTUAL_MEMBER_HIDDEN"
+        // These Material props get property-level suppressions in Overrides.kt::overrideOwnSlots.
+        // Other targets have same-named components and still use the existing file-level rules.
+        val ownSlots = pkg == Package.material && componentName in OWN_SLOTS_AND_SLOT_PROPS_COMPONENTS
+        if (componentName in OVERRIDE_FIX_REQUIRED && !ownSlots) suppressKeys += "VIRTUAL_MEMBER_HIDDEN"
         // Base UI parts routinely re-declare an inherited prop to give it a narrower type or their own
         // documentation (`MenuSubmenuRootProps` re-states `onOpenChange` and `closeParentOnEsc` from
         // `MenuRootProps`). Emitting a real `override` needs the parent's member types, which the
@@ -1892,10 +1895,7 @@ private fun RuntimeBindings.generate(
             suppressKeys += "VIRTUAL_MEMBER_HIDDEN"
             suppressKeys += "VAR_TYPE_MISMATCH_ON_OVERRIDE"
         }
-        if (componentName in VAR_TYPE_MISMATCH_ON_OVERRIDE_FIX_REQUIRED) suppressKeys += "VAR_TYPE_MISMATCH_ON_OVERRIDE"
-        // `slots`/`slotProps` re-declared with the component's own types over the parent's (see
-        // adapters/OwnSlotsAndSlotProps.kt). Material only: `@mui/base` has same-named components.
-        if (pkg == Package.material && componentName in OWN_SLOTS_AND_SLOT_PROPS_COMPONENTS)
+        if (componentName in VAR_TYPE_MISMATCH_ON_OVERRIDE_FIX_REQUIRED && !ownSlots)
             suppressKeys += "VAR_TYPE_MISMATCH_ON_OVERRIDE"
         if (suppressKeys.isNotEmpty() && componentName != "TextField") {
             // `distinct()`: the two MUI sets are keyed by bare component name, and Base UI part files

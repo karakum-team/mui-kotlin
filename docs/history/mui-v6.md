@@ -310,3 +310,39 @@ Remaining candidates are in [the generator plan](../plans/generator.md#буду�
 
 - **MUI-X на v6 материале** — ✅ закрыто: MUI X обновлён вместе с core до 9.x.
 - **`LoadingButton` миграция** — ✅ закрыто (см. «Известные потери»).
+
+## Own-slot override suppressions — PR #2924 review (2026-11-05)
+
+Local follow-up to [kotlin-wrappers PR #2924](https://github.com/JetBrains/kotlin-wrappers/pull/2924), based on
+`a49cc277`; changes are an uncommitted generator-repository diff. The reviewer
+[requested property-level suppressions for both diagnostics](https://github.com/JetBrains/kotlin-wrappers/pull/2924#discussion_r4480563304).
+No fork files or GitHub discussions were changed.
+
+- `Overrides.kt::overrideOwnSlots` emits `@Suppress("VAR_TYPE_MISMATCH_ON_OVERRIDE")` on the 18 `slots` /
+  `slotProps` overrides and `@Suppress("VIRTUAL_MEMBER_HIDDEN")` on the 35 hiding properties of Checkbox,
+  Dialog, Drawer, Menu, OutlinedInput, Popover, Radio, SwipeableDrawer and Switch. The property list comes from
+  compiling those declarations with their file suppressions removed: all mismatch diagnostics are on the
+  two slot properties, including in Menu; the other diagnostics are hidden members.
+- `Generator.kt` no longer emits either file suppress for these nine Material components. Their originating
+  `XxxSlotsAndSlotProps` declarations and same-named `mui.base` / `baseui` components are unaffected. Other
+  suppression rules remain outside this PR's scope, including [Base UI gap 12](../plans/base-ui.md).
+- All nine outputs were regenerated and formatted, with no manual edits to generated files. A comparison
+  after removing suppress annotations confirms the remaining declarations match `HEAD`: types, inheritance,
+  imports, module bindings and documentation are unchanged.
+
+Verification on the final generator code, using the pinned Material `9.5.0` typings and IDEA
+`IU-262.9437.185`:
+
+- `./gradlew :mui-kotlin:build :playground:compileKotlinJs` — passed; library and playground compile with zero
+  errors, and all 21 runtime-export tests pass.
+- `./gradlew :mui-kotlin:clean build :playground:jsDevelopmentExecutableCompileSync` — passed; SHA-256 manifests
+  of all 778 generated files match the preceding generation byte-for-byte. The generated diff contains
+  exactly the nine Material files listed above. `git diff --check` passes.
+- Browser at `#/material/own-slot-props` — the sample mounts and reports `9/9 PASS`.
+  At `#/all`, all 36 samples mount, all checks pass, and the settled console aggregate agrees with
+  `#all-summary`: `samples=36 checks=100/100`; zero failing checks. Console inspection found the unrelated
+  `/favicon.ico` 404 and the already-recorded Base UI render-callback-name warning; no application exception
+  was observed. No additional sample or playground source changes were needed for this annotation-only fix.
+- A separate read-only agent checked property scoping and unchanged declaration content with no findings.
+  No separate `:buildSrc:test` run was performed; its previously recorded RuntimeBindings failure is outside
+  this change. No transfer or commit was performed; the next step is human review of this local diff.

@@ -5,8 +5,8 @@ package karakum.mui.adapters
  *   export interface DialogProps extends StandardProps<ModalProps, 'children' | 'slots' | 'slotProps'>, DialogSlotsAndSlotProps
  * Kotlin cannot `Omit`, so `XxxProps` inherits both declarations; [adaptOwnSlotsAndSlotProps] re-declares
  * them with the component's own types, and `Converter.kt::findAdditionalProps` marks them `override`. Their
- * types differ from the parent's (`DialogSlots?` vs `ModalSlots?`), so these files suppress
- * `VAR_TYPE_MISMATCH_ON_OVERRIDE` (`Override.kt`). FilledInput is absent on purpose: in v9 it really uses
+ * types differ from the parent's (`DialogSlots?` vs `ModalSlots?`), so those two properties suppress
+ * `VAR_TYPE_MISMATCH_ON_OVERRIDE` (`Overrides.kt`). FilledInput is absent on purpose: in v9 it really uses
  * InputBase's slots.
  */
 internal val OWN_SLOTS_AND_SLOT_PROPS_COMPONENTS = setOf(
