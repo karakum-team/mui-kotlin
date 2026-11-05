@@ -947,9 +947,9 @@ The formatter is **IntelliJ IDEA's own**, run headless:
 
     format.sh -s gradle/idea-code-style.xml -charset UTF-8 -r -m '*.kt' <tree>
 
-so a local IDEA is a build requirement. It is found automatically in `~/Applications` and
-`/Applications`; `idea.home` (in `~/.gradle/gradle.properties`, or `-Pidea.home=…`) or `$IDEA_HOME` names
-a different one, and finding two installations is an error rather than a guess. `IDEA_PROPERTIES` points
+so a local IDEA is a build requirement. It is found automatically in the user's and system-wide
+Applications directories on macOS; `idea.home` (in `~/.gradle/gradle.properties`, or `-Pidea.home=…`) or
+`$IDEA_HOME` names a different one, and finding two installations is an error rather than a guess. `IDEA_PROPERTIES` points
 the spawned IDE at `build/idea-format/`, which is not optional: without it the run collides with the
 desktop IDE's locked configuration directory and dies with "Only one instance of IDEA can be run at a
 time", so a build could not be started from the IDE that has the project open. The isolation also keeps

@@ -61,10 +61,11 @@
 # регенерация после правок генератора:
 ./gradlew :mui-kotlin:clean :mui-kotlin:generateDeclarations --console=plain
 # компиляция со сбором ошибок (ВАЖНО --rerun-tasks, иначе UP-TO-DATE покажет 0):
-./gradlew :mui-kotlin:compileKotlinJs --rerun-tasks --console=plain 2>&1 | grep -E "^e: " > /tmp/err.txt
-wc -l < /tmp/err.txt
-sed -E 's|^e: file://[^ ]*/kotlin/||' /tmp/err.txt          # читаемый список
-sed -E 's|.*/kotlin/||; s/:[0-9]+:[0-9]+ .*//' /tmp/err.txt | sort | uniq -c | sort -rn  # по файлам
+error_log=$(mktemp)
+./gradlew :mui-kotlin:compileKotlinJs --rerun-tasks --console=plain 2>&1 | grep -E "^e: " > "$error_log"
+wc -l < "$error_log"
+sed -E 's|^e: file://[^ ]*/kotlin/||' "$error_log"          # читаемый список
+sed -E 's|.*/kotlin/||; s/:[0-9]+:[0-9]+ .*//' "$error_log" | sort | uniq -c | sort -rn  # по файлам
 ```
 
 Генератор: `buildSrc/src/main/kotlin/karakum/mui/`. node_modules: `build/js/node_modules/@mui/<pkg>` (v7 .d.ts тут).

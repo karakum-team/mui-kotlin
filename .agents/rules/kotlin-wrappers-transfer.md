@@ -57,15 +57,16 @@ Hand-written fork sources are out of scope and must not be touched:
     Establish the source commit range and exact topic being transferred.
 3.  List the differences per mapped pair to identify candidate files:
     ```bash
-    SRC=$PWD/mui-kotlin/src/jsMain/kotlin; FORK=/path/to/kotlin-wrappers
+    SRC=mui-kotlin/src/jsMain/kotlin; FORK=../kotlin-wrappers
     for p in mui/base:kotlin-mui-base mui/material:kotlin-mui-material mui/system:kotlin-mui-system \
              mui/types:kotlin-mui-system mui/icons/material:kotlin-mui-icons-material mui/lab:kotlin-mui-lab \
              muix/pickers:kotlin-muix-date-pickers dateio/core:kotlin-muix-date-pickers muix/tree/view:kotlin-muix-tree-view; do
       diff -rq "$SRC/${p%%:*}" "$FORK/${p##*:}/src/jsMain/generated/${p%%:*}"
     done
     ```
-    Differences from other topics or still-open PRs are not part of the transfer. For a scoped fix, use the
-    generator delta for that fix rather than copying all differing files.
+    Adjust `FORK` to the relative path of the fork checkout. Differences from other topics or still-open PRs
+    are not part of the transfer. For a scoped fix, use the generator delta for that fix rather than copying
+    all differing files.
 4.  Apply the selected generated delta to the target branch without staging or committing. Copy whole files only
     when their complete change belongs to the requested topic; otherwise apply the relevant hunks or use the
     three-way procedure below. For a version PR, apply only the requested toml bump as well.
