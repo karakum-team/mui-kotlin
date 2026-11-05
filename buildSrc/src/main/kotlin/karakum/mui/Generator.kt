@@ -303,6 +303,7 @@ private val TREE_VIEW_RICH_TREE_VIEW_ITEMS = """
 /**
  * The owner state handed to the `item` slot's props resolver.
  */
+@JsPlainObject
 external interface RichTreeViewItemsOwnerState {
     var itemId: TreeViewItemId
     var label: String
@@ -348,6 +349,7 @@ external interface RichTreeViewLoadingSlotOwnProps : react.dom.html.HTMLAttribut
 /**
  * The owner state of the `loading` slot.
  */
+@JsPlainObject
 external interface RichTreeViewLoadingSlotOwnerState {
     /**
      * The id of the item whose children are loading.
@@ -371,6 +373,7 @@ private val TREE_VIEW_CANCELLABLE_EVENT = """
  * for the checkbox `onChange`; by the label editing plugin for the label input `onKeyDown` / `onBlur`; and by the
  * focus and keyboard navigation plugins for the Tree View root's `onFocus` / `onBlur` / `onKeyDown`.
  */
+@JsPlainObject
 external interface TreeViewCancellableEvent {
     var defaultMuiPrevented: Boolean?
 }
@@ -395,6 +398,7 @@ private val TREE_VIEW_PUBLIC_API = """
 /**
  * The item model of a `SimpleTreeView` (`SimpleTreeViewItem` of `internals/SimpleTreeViewStore`).
  */
+@JsPlainObject
 external interface SimpleTreeViewItem {
     var id: TreeViewItemId
     var label: String
@@ -1844,9 +1848,19 @@ private fun RuntimeBindings.generate(
                 )
             }
             // `TreeViewSlots` → `SimpleTreeViewSlots` / `RichTreeViewSlots` / `TreeViewStyleContextSlots`,
-            // `TreeItemIconSlots` → `TreeItemSlots`; `TreeViewSelectionPropagation` is standalone.
+            // `TreeItemIconSlots` → `TreeItemSlots`; plus standalone owner-state, status, return-value and model objects.
             // The `*SlotProps` interfaces extend `Props` and stay plain `unsafeJso` territory.
-            Package.treeView -> { name -> name.endsWith("Slots") || name == "TreeViewSelectionPropagation" }
+            Package.treeView -> { name ->
+                name.endsWith("Slots") ||
+                        name.endsWith("OwnerState") ||
+                        name in setOf(
+                    "TreeViewClasses",
+                    "TreeViewSelectionPropagation",
+                    "TreeViewStyleContextValue",
+                    "UseTreeItemReturnValue",
+                    "UseTreeItemStatus",
+                )
+            }
             else -> { _ -> false }
         },
     )

@@ -562,3 +562,32 @@ Verification:
 The user confirmed pushing the `muix-tree-view` changes to the `aerialist7/kotlin-wrappers` fork and opening a
 pull request after the model filename follow-up. This supersedes the pending staging/commit status recorded
 at the earlier handoffs. The next step is upstream review and any requested follow-up changes.
+
+## Tree View `@JsPlainObject` review follow-up — PR #2927 (2026-11-05)
+
+Source baseline: `3e465547`. Upstream review on
+[`JetBrains/kotlin-wrappers#2927`](https://github.com/JetBrains/kotlin-wrappers/pull/2927) requested
+`@JsPlainObject` on `RichTreeViewItemsOwnerState` and `RichTreeViewLoadingSlotOwnerState`, and asked whether
+`SimpleTreeViewProps.apiRef` uses `RefObject` upstream.
+
+- **Hand-written templates (`Generator.kt`):** added `@JsPlainObject` to `RichTreeViewItemsOwnerState`
+  (`TREE_VIEW_RICH_TREE_VIEW_ITEMS`), `RichTreeViewLoadingSlotOwnerState` (`TREE_VIEW_RICH_TREE_VIEW_LOADING`),
+  `TreeViewCancellableEvent` (`TREE_VIEW_CANCELLABLE_EVENT`), and `SimpleTreeViewItem` (`TREE_VIEW_PUBLIC_API`).
+- **Converted Tree View interfaces (`Generator.kt`):** extended the `Package.treeView` `jsPlainObject` predicate
+  to include `*OwnerState` (`TreeItemOwnerState`, `TreeItemLoaderOwnerState`) plus `TreeViewClasses`,
+  `TreeViewStyleContextValue`, `UseTreeItemStatus`, and `UseTreeItemReturnValue`. Every plain-object interface
+  in `muix.tree.view` without `react.Props` or method declarations now carries `@JsPlainObject`.
+- **`apiRef` type retained as `RefObject<…>`:** upstream `SimpleTreeView.types.d.ts` and `RichTreeView.types.d.ts`
+  define `SimpleTreeViewApiRef` and `RichTreeViewApiRef` as `React.RefObject<Partial<TreeViewPublicAPI<…>> | undefined>`,
+  `useSimpleTreeViewApiRef` / `useRichTreeViewApiRef` return `React.RefObject<…>`, and runtime
+  `initializeInputApiRef` (`useTreeViewBuildContext.js`) mutates `apiRef.current = publicAPI` directly without
+  invoking callback refs.
+
+Verification:
+
+- `./gradlew :mui-kotlin:clean build :playground:compileKotlinJs` passed with zero errors, including all 21
+  runtime-export tests and the production Vite bundle.
+- A second `./gradlew :mui-kotlin:clean build` reproduced the generated tree byte-for-byte
+  (`git diff --exit-code` on the post-regeneration tree compared to the first run, with only the 8 expected
+  `muix/tree/view` files differing from `HEAD`).
+- No types, component exports, or inheritance hierarchies changed; browser verification was not required.

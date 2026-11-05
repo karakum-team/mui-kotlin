@@ -28,15 +28,21 @@ Base UI module work has its own [canonical plan](base-ui.md).
   [Publication status](../history/mui-v6.md#own-slot-suppression-pull-request-updated-2026-11-05).
   Next step for this follow-up: upstream review and any requested changes. Unrelated suppression limitations,
   including Base UI gap 12, remain deferred.
-- **Tree View transfer (2026-11-05):** the user confirmed pushing the `muix-tree-view` branch to the fork and
-  opening a pull request, including the model filename corrections requested after the initial handoff.
-  The next step is upstream review and any requested follow-up changes. The target already uses MUI X `9.17.0`,
-  and no generator backlog item was reopened.
+- **Tree View transfer and PR #2927 review (2026-11-05):** the `muix-tree-view` branch was pushed to the fork and
+  opened as [`JetBrains/kotlin-wrappers#2927`](https://github.com/JetBrains/kotlin-wrappers/pull/2927). The local
+  generator follow-up for the PR #2927 review is complete: `@JsPlainObject` is now emitted on
+  `RichTreeViewItemsOwnerState`, `RichTreeViewLoadingSlotOwnerState`, `TreeItemOwnerState`,
+  `TreeItemLoaderOwnerState`, `SimpleTreeViewItem`, `UseTreeItemStatus`, `UseTreeItemReturnValue`,
+  `TreeViewClasses`, `TreeViewStyleContextValue`, and `TreeViewCancellableEvent`, while `apiRef` retains
+  `RefObject<…>` matching upstream `SimpleTreeViewApiRef` / `RichTreeViewApiRef` and `initializeInputApiRef`.
+  Next step: human verification, commit, and transfer of the 8-file `muix/tree/view` delta to the fork's
+  `muix-tree-view` branch.
   [Scope, baseline and verification](../history/mui-v9.md#tree-view-fork-handoff-2026-11-05).
   [Model filename follow-up](../history/mui-v9.md#tree-view-model-filenames-follow-up-2026-11-05).
   [Publication status](../history/mui-v9.md#tree-view-pull-request-opened-2026-11-05).
-  The latter also records one existing buildSrc test failure reproduced on the unchanged baseline; the filename
-  correction leaves that separate runtime-binding test mismatch unresolved.
+  [PR #2927 review follow-up](../history/mui-v9.md#tree-view-jsplainobject-review-follow-up--pr-2927-2026-11-05).
+  The filename follow-up also records one existing buildSrc test failure reproduced on the unchanged baseline;
+  that separate runtime-binding test mismatch remains unresolved.
 - **Last recorded evidence:** [v6 audit resolutions](../history/mui-v6.md),
   [material theme](../history/mui-v9.md#the-material-theme-is-converted-from-createthemenovarsdts), and
   [runtime-export verification](../history/mui-v9.md#runtime-imports--resolved-from-npm-exports-during-generation).
