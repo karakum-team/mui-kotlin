@@ -89,6 +89,11 @@ internal fun findDefaultFunction(
         .replace(": Spacing,", ": mui.system.Spacing,")
         .replace("?: ThemeOptions", ": ThemeOptions? = definedExternally")
         .replace("?: SpacingOptions", ": SpacingOptions? = definedExternally")
+        // Internal `createThemeWithVars` hook (`createUnarySpacing(this)`); omit from the public `createSpacing` signature.
+        .replace(
+            ", transform?: Spacing | ((abs: number | string) => number | number) | (() => undefined)",
+            "",
+        )
         .replace("...args: object[]", "vararg args: Any")
         .replace("(styles: any): never", "(styles: Any)")
         .replace("useTheme<T = Theme>", "<T : Theme> useTheme")
@@ -113,12 +118,6 @@ internal fun findDefaultFunction(
         .replace(
             ": ((palette: Palette) => TypographyVariantsOptions)",
             ": (palette: Palette) -> TypographyVariantsOptions",
-        )
-        // v6 `createSpacing` transform: a `Spacing`, a unit converter or a no-op — a union of function types.
-        // Matched after the generic `: number` rewrite above has already turned `abs: number` into `abs: Number`.
-        .replace(
-            "transform?: Spacing | ((abs: Number | string) => number | number) | (() => undefined)",
-            "transform: Any? /* Spacing | ((abs: number | string) => number) | (() => undefined) */ = definedExternally",
         )
 
     if ("()" !in declaration && "(\n" !in declaration)

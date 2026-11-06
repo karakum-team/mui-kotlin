@@ -36,13 +36,13 @@ internal fun convertSpacing(
 ): String {
     val members = body
         .splitToSequence("\n")
-        .joinToString("\n") { source ->
+        .joinToString("\n\n") { source ->
             val declaration = source
                 .removeSuffix(";")
                 .replace(": number", ": Int")
                 .replace(": string", ": web.cssom.Length")
 
-            "\noperator fun invoke$declaration"
+            "operator fun invoke$declaration"
         }
 
     return "sealed external interface $name {\n" +
