@@ -380,3 +380,43 @@ The user confirmed committing the transferred changes on `mui-own-slot-props` an
 working-tree changes. This supersedes the pending staging/commit/push status at the handoff above.
 The next step is upstream review and any requested follow-up changes. Only the plan and history were updated
 in this status-only step; no builds, tests or browser checks were repeated.
+
+## Own-slot inherited property overrides — PR #2924 follow-up (2026-11-06)
+
+Implemented the [missing-override review comment](https://github.com/JetBrains/kotlin-wrappers/pull/2924#discussion_r4481926744)
+in the generator, based on `bd845fc2`. The changes remain an uncommitted local diff.
+
+- Checked all 35 properties previously annotated with `VIRTUAL_MEMBER_HIDDEN` in Checkbox, Dialog, Drawer,
+  Menu, OutlinedInput, Popover, Radio, SwipeableDrawer and Switch. `Overrides.kt::overrideOwnSlots` now emits
+  `override` on every one. Seventeen match their inherited types and require no suppression.
+- Compiling with the new overrides and no additional suppressions confirmed 18 real type mismatches:
+  eight component-specific `classes`, six nullable `checkedIcon` / `icon` properties, `Dialog.role`,
+  `Drawer.open`, `Menu.anchorEl`, and `SwipeableDrawer.onClose`. These properties now suppress only
+  `VAR_TYPE_MISMATCH_ON_OVERRIDE`; upstream types and optionality are preserved. Together with the existing
+  18 slot-property suppressions, the nine files contain 36 property-level mismatch suppressions and no
+  `VIRTUAL_MEMBER_HIDDEN`.
+- Removed the three own `@JsName` annotations from Dialog's `ariaDescribedBy`, `ariaLabelledBy` and
+  `ariaModal`: overrides inherit the ARIA names from `AriaAttributes`. No other types, imports, documentation,
+  module bindings or declarations were changed. The originating `XxxSlotsAndSlotProps` interfaces are
+  unaffected; only the nine expected generated files differ from the baseline.
+- Extended the existing registered `material/own-slot-props` sample with five DOM checks: the three actual
+  dashed ARIA attributes on Dialog Paper, plus the Checkbox input's checked and disabled states. The original
+  nine slot checks remain. An independent read-only audit confirmed the complete property classification,
+  exact generated transformation and meaningful sample assertions with no findings.
+- A separate read-only audit also inspected older `VIRTUAL_MEMBER_HIDDEN` emission outside these nine
+  components. Those existing file-level rules, including the intentional `SpeedDial.ariaLabel` JS-name
+  distinction and Base UI's recorded limitations, remain outside this PR-scoped fix.
+
+Verification on the final generator code and sample:
+
+- `./gradlew :mui-kotlin:build :playground:compileKotlinJs` — passed with zero compilation errors and all
+  21 runtime-export tests passing.
+- `./gradlew :mui-kotlin:clean build :playground:jsDevelopmentExecutableCompileSync` — passed. SHA-256
+  manifests of all 778 generated files match the preceding generation byte-for-byte. `git diff --check`
+  passes. No separate `:buildSrc:test` run was performed.
+- Browser at `#/material/own-slot-props` — sample mounted, `14/14 PASS`, including all five new checks.
+  At `#/all`, all 36 samples mounted and the settled console aggregate matched `#all-summary`:
+  `samples=36 checks=105/105`, with zero failing checks. Console inspection found only the unrelated favicon
+  404 and the previously recorded Base UI render-callback-name warning; no application exception occurred.
+- No fork files were changed, and no transfer, staging, commit, push or GitHub reply was performed.
+  Next step: human review and commit of the local generator fix.

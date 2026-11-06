@@ -48,6 +48,8 @@ import web.html.HTMLInputElement
 import web.html.HTMLSpanElement
 
 private const val ROOT_ID = "own-slot-props"
+private const val DIALOG_LABEL_ID = "$ROOT_ID-dialog-label"
+private const val DIALOG_DESCRIPTION_ID = "$ROOT_ID-dialog-description"
 
 // Each component marks the element its own slot renders; the checks look the markers up inside the sample.
 private val MARKERS = listOf(
@@ -80,12 +82,15 @@ val OwnSlotPropsSample: Sample = Sample(
         "SwipeableDrawerProps.slotProps: SwipeableDrawerSlotProps : DrawerSlotProps",
         "OutlinedInputProps.slotProps: OutlinedInputSlotProps : InputBaseProps.SlotProps",
         "Checkbox / Radio / SwitchProps.slotProps (over SwitchBaseProps)",
+        "DialogProps.ariaDescribedBy / ariaLabelledBy / ariaModal overrides",
+        "CheckboxProps.checked / disabled overrides",
     ),
     fileName = "OwnSlotPropsSample.kt",
     notes = "Only running this proves that the re-declared `slotProps` reach each component's OWN slots — the ones " +
             "TypeScript gets by `Omit`-ing the parent's (`Modal`, `Popover`, `InputBase`, `SwitchBase`): every slot " +
             "below sets a marker class that must land on the element that slot renders. Dialog, Menu and Popover " +
-            "stay closed with `keepMounted` so nothing overlays the page.",
+            "stay closed with `keepMounted` so nothing overlays the page. The Dialog ARIA overrides and inherited " +
+            "Checkbox flags are also checked on their DOM elements.",
     content = FC<Props> {
         // Null until the swipe area mounts: SwipeableDrawer renders it inside `NoSsr`, after the first commit.
         var checks by useState<List<Check>?>(null)
@@ -93,9 +98,17 @@ val OwnSlotPropsSample: Sample = Sample(
         useEffectOnce {
             delay(100)
             val root = document.getElementById(ElementId(ROOT_ID))
+            val dialog = root?.querySelector(".${marker("Dialog.slotProps.paper")}")
+            val checkbox = root?.querySelector(".${marker("Checkbox.slotProps.input")}")
             checks = MARKERS.map { (slot, className) ->
                 Check("$slot reaches its element", root?.querySelector(".$className") != null)
-            }
+            } + listOf(
+                Check("Dialog.ariaDescribedBy uses aria-describedby", dialog?.getAttribute("aria-describedby") == DIALOG_DESCRIPTION_ID),
+                Check("Dialog.ariaLabelledBy uses aria-labelledby", dialog?.getAttribute("aria-labelledby") == DIALOG_LABEL_ID),
+                Check("Dialog.ariaModal uses aria-modal", dialog?.getAttribute("aria-modal") == "false"),
+                Check("Checkbox.checked reaches its input", checkbox?.matches(":checked") == true),
+                Check("Checkbox.disabled reaches its input", checkbox?.matches(":disabled") == true),
+            )
         }
 
         div {
@@ -105,8 +118,20 @@ val OwnSlotPropsSample: Sample = Sample(
                 open = false
                 keepMounted = true
                 disablePortal = true
+                ariaDescribedBy = ElementId(DIALOG_DESCRIPTION_ID)
+                ariaLabelledBy = ElementId(DIALOG_LABEL_ID)
+                ariaModal = false
                 slotProps = unsafeJso<DialogSlotProps> {
                     paper = paper("Dialog.slotProps.paper")
+                }
+
+                div {
+                    id = ElementId(DIALOG_LABEL_ID)
+                    +"Dialog label"
+                }
+                div {
+                    id = ElementId(DIALOG_DESCRIPTION_ID)
+                    +"Dialog description"
                 }
             }
 
@@ -167,6 +192,8 @@ val OwnSlotPropsSample: Sample = Sample(
             }
 
             Checkbox {
+                checked = true
+                disabled = true
                 slotProps = unsafeJso<CheckboxSlotProps> {
                     input = unsafeJso<InputHTMLAttributes<HTMLInputElement>> {
                         className = marker("Checkbox.slotProps.input")

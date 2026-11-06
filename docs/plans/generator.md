@@ -20,17 +20,20 @@ Base UI module work has its own [canonical plan](base-ui.md).
 - **Completion:** follow [Kotlin type selection](../../.agents/rules/kotlin-types.md) and
   [generator verification](../../.agents/rules/generator-verification.md); update this plan and record the
   completed change and checks in the relevant history file.
-- **PR #2924 review (2026-11-05):** the local generator follow-up is complete. The nine Material components
-  with own slots now suppress `VIRTUAL_MEMBER_HIDDEN` and `VAR_TYPE_MISMATCH_ON_OVERRIDE` on the affected
-  properties; their file-level suppressions are removed. Types and inheritance are unchanged, and the clean
-  build, byte-for-byte regeneration and browser checks passed.
+- **PR #2924 review (2026-11-06):** the nine Material components with own slots now emit `override` for all
+  35 inherited properties identified in the latest review. Seventeen need no suppression; eighteen retain
+  a property-level `VAR_TYPE_MISMATCH_ON_OVERRIDE` for actual type differences. Their slot overrides keep
+  the same targeted suppression, and `VIRTUAL_MEMBER_HIDDEN` is absent from all nine files. Types and
+  optionality are preserved; the clean build, byte-for-byte regeneration and expanded browser checks passed.
   [Scope and verification](../history/mui-v6.md#own-slot-override-suppressions--pr-2924-review-2026-11-05).
-  The generator fix is committed as `22700a92`; the user committed its nine-file generated delta as
+  The earlier suppression-scoping fix is committed as `22700a92`; its nine-file generated delta is committed as
   `25f85112f6` on the fork's `mui-own-slot-props` branch and confirmed updating PR #2924.
   [Transfer evidence](../history/mui-v6.md#own-slot-suppression-fork-handoff-2026-11-05).
   [Publication status](../history/mui-v6.md#own-slot-suppression-pull-request-updated-2026-11-05).
-  Next step for this follow-up: upstream review and any requested changes. Unrelated suppression limitations,
-  including Base UI gap 12, remain deferred.
+  The new missing-override fix is an uncommitted local diff.
+  [Latest review resolution and verification](../history/mui-v6.md#own-slot-inherited-property-overrides--pr-2924-follow-up-2026-11-06).
+  Next step for this follow-up: human review and commit of the local generator fix, then refresh the existing
+  PR when transfer is requested. Unrelated suppression limitations, including Base UI gap 12, remain deferred.
 - **Tree View transfer and PR #2927 review (2026-11-06):** [`JetBrains/kotlin-wrappers#2927`](https://github.com/JetBrains/kotlin-wrappers/pull/2927)
   is **merged** into `JetBrains/kotlin-wrappers` (`67f0cceaf3`). One open review thread on
   `TreeViewSelectionValue.kt`
@@ -180,8 +183,9 @@ working on the affected API; compare each with current code before treating it a
   `parseInlineSlotProps` + `mapSlotPropsToKotlin`).
 - Компоненты, которые в TS `Omit`-ят родительские `slots/slotProps` ради своих, наследуют оба и переобъявляют
   члены своими типами с подавлением `VAR_TYPE_MISMATCH_ON_OVERRIDE` на самих свойствах
-  (`adapters/OwnSlotsAndSlotProps.kt`, `Overrides.kt::overrideOwnSlots`). Остальные скрывающие свойства этих
-  девяти Material-компонентов получают точечный `VIRTUAL_MEMBER_HIDDEN`; file suppress для них не нужен.
+  (`adapters/OwnSlotsAndSlotProps.kt`, `Overrides.kt::overrideOwnSlots`). Остальные унаследованные свойства этих
+  девяти Material-компонентов также объявляются с `override`; точечный suppress нужен только при расхождении
+  типов. ARIA-свойства Dialog наследуют `@JsName` родителя. `VIRTUAL_MEMBER_HIDDEN` для этих компонентов не нужен.
 - При появлении новых `Omit<StandardProps<...>, '...'>` / `StandardProps<Omit<...>>` / `DistributiveOmit<...>` /
   `Pick<...>` / `Partial<...>` форм — `Converter.kt::adaptRawContent` их распарсивает и коллапсирует. Partial
   применяется только в extends-позиции (lookbehind `(?<=\bextends )` / `(?<=,\s{4})`), чтобы не сломать
