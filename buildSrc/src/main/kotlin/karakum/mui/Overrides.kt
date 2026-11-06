@@ -232,9 +232,12 @@ private fun fixComponentOverrides(
             -> content
             // SpeedDial.js reads `props.ariaLabel` (camelCase), while HTMLAttributes → AriaAttributes
             // declares `@JsName("aria-label") var ariaLabel: String?`. Keep it as a hiding member
-            // (SpeedDial ∈ OVERRIDE_FIX_REQUIRED) with an explicit `@JsName("ariaLabel")` so Kotlin/JS IR
-            // does not inherit `"aria-label"` from the superinterface.
-            .replace("var ariaLabel: String", "@JsName(\"ariaLabel\")\nvar ariaLabel: String")
+            // with an explicit `@JsName("ariaLabel")` so Kotlin/JS IR does not inherit `"aria-label"`
+            // from the superinterface, and scope `@Suppress("VIRTUAL_MEMBER_HIDDEN")` to the property.
+            .replace(
+                "var ariaLabel: String",
+                "@Suppress(\"VIRTUAL_MEMBER_HIDDEN\")\n@JsName(\"ariaLabel\")\nvar ariaLabel: String",
+            )
             .override("hidden")
             .replace("override var hidden: Boolean?", "override var hidden: Hidden?")
 
