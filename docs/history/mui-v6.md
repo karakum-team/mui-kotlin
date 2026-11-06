@@ -420,3 +420,28 @@ Verification on the final generator code and sample:
   404 and the previously recorded Base UI render-callback-name warning; no application exception occurred.
 - No fork files were changed, and no transfer, staging, commit, push or GitHub reply was performed.
   Next step: human review and commit of the local generator fix.
+
+## Own-slot inherited override fork handoff (2026-11-06)
+
+The generator fix is committed as `4a526f76`. The user requested transfer of its generated delta to the
+fork's existing `mui-own-slot-props` branch. This supersedes the pending local-commit/transfer status above.
+
+- The fork was already on `mui-own-slot-props` at `25f85112f6`, with a clean working tree and index. The
+  public GitHub API confirmed that revision as the current head of PR #2924; upstream `master` was
+  `b2bea1c45ce4b8a0aa0c528cabd965c93c991154` at this check.
+- Applied only the nine generated Material-file changes from `bd845fc2..4a526f76`: Checkbox, Dialog, Drawer,
+  Menu, OutlinedInput, Popover, Radio, SwipeableDrawer and Switch. Each fork file matched the pre-fix
+  generator baseline byte-for-byte, all file-level three-way merges were clean, and all results exactly
+  match the committed generator output. Generator sources, playground samples and documentation were not
+  transferred to the fork.
+- The scoped fork patch matches the source commit's generated patch after path mapping:
+  **9 modified files, +53 / -73 lines**. The transferred changes remain **unstaged and uncommitted**.
+  Fork `HEAD`, local `master`, index bytes, staged diff and all other working-tree content are unchanged.
+- `git diff --check` passes in the fork. An independent read-only agent verified the exact file contents,
+  scope and preserved Git state with no findings. All 778 source files still match the hashes from the
+  preceding successful clean generation; the source commit contains that verified implementation.
+  No additional source build or browser run was needed for this transfer-only step, and no compilation,
+  builds or tests were run in the fork. Nothing was staged, committed, pushed or posted to GitHub.
+
+Next step: human review, staging, commit and push of the nine Material changes to update PR #2924.
+Prepared title-only commit message: `MUI. Add missing overrides to inherited props`.

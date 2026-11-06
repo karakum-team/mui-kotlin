@@ -26,14 +26,16 @@ Base UI module work has its own [canonical plan](base-ui.md).
   the same targeted suppression, and `VIRTUAL_MEMBER_HIDDEN` is absent from all nine files. Types and
   optionality are preserved; the clean build, byte-for-byte regeneration and expanded browser checks passed.
   [Scope and verification](../history/mui-v6.md#own-slot-override-suppressions--pr-2924-review-2026-11-05).
-  The earlier suppression-scoping fix is committed as `22700a92`; its nine-file generated delta is committed as
+  The earlier suppression-scoping fix is committed as `22700a92`; the user committed its nine-file generated delta as
   `25f85112f6` on the fork's `mui-own-slot-props` branch and confirmed updating PR #2924.
   [Transfer evidence](../history/mui-v6.md#own-slot-suppression-fork-handoff-2026-11-05).
   [Publication status](../history/mui-v6.md#own-slot-suppression-pull-request-updated-2026-11-05).
-  The new missing-override fix is an uncommitted local diff.
+  The missing-override generator fix is committed as `4a526f76`; its nine-file generated delta is prepared as
+  an unstaged, uncommitted diff on the fork's `mui-own-slot-props` branch.
   [Latest review resolution and verification](../history/mui-v6.md#own-slot-inherited-property-overrides--pr-2924-follow-up-2026-11-06).
-  Next step for this follow-up: human review and commit of the local generator fix, then refresh the existing
-  PR when transfer is requested. Unrelated suppression limitations, including Base UI gap 12, remain deferred.
+  [Latest transfer evidence](../history/mui-v6.md#own-slot-inherited-override-fork-handoff-2026-11-06).
+  Next step for this follow-up: human review, staging, commit and push of the fork diff to update PR #2924.
+  Unrelated suppression limitations, including Base UI gap 12, remain deferred.
 - **Tree View transfer and PR #2927 review (2026-11-06):** [`JetBrains/kotlin-wrappers#2927`](https://github.com/JetBrains/kotlin-wrappers/pull/2927)
   is **merged** into `JetBrains/kotlin-wrappers` (`67f0cceaf3`). One open review thread on
   `TreeViewSelectionValue.kt`
