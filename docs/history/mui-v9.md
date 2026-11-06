@@ -690,3 +690,49 @@ Next step: human verification, staging, and commit of the 18 `kotlin-muix-tree-v
 followed by pushing to update [PR #2927](https://github.com/JetBrains/kotlin-wrappers/pull/2927).
 Prepared title-only commit message:
 `MUI X. Use val in Tree View JSOs and mark union interfaces`.
+
+## Tree View `private` event and `Int` loader properties fork handoff (2026-11-05)
+
+Transferred only the Tree View (`muix/tree/view`) generated delta from local commits `281573ce` and `2ecdba0e` to
+the `muix-tree-view` branch of the fork, leaving non-Tree View `index: Int` changes (`baseui`, `mui/base`,
+`mui/material`) out of `muix-tree-view`.
+
+- Applied only the 2 generated `muix/tree/view` file changes from `2d025ca7..2ecdba0e` to the fork's
+  `muix-tree-view` branch at `e6df0fc7891e2895648b74991a5c9f92f906589a` (based on `master` at
+  `e874c92b9acd648714d2ecb1d41a4d30fd05e189`).
+- Every file in `kotlin-muix-tree-view/src/jsMain/generated/muix/tree/view` now matches the `2ecdba0e`
+  generator output byte-for-byte (**33** files). The scoped diff against `HEAD` (`e6df0fc789`) is **2 modified
+  files, +5 / -5 lines**:
+  `TreeItemLoader.types.kt` (`index: Int`, `itemsCount: Int`, `itemDepth: Int`) and
+  `TreeViewCancellableEvent.kt` (`private external interface TreeViewCancellableEvent` and non-`inline`
+  `SyntheticEvent<*, *>.defaultMuiPrevented`).
+- All transferred changes remain **unstaged and uncommitted**. Fork `HEAD`, local `master`, index bytes, and
+  the pre-existing staged `AD` index entries for `domStructure.ext.kt`, `items.ext.kt`, and `items.kt` were
+  preserved unchanged.
+- `git diff --check` passes in both repositories. No compilation, builds, or tests were run in either
+  repository during transfer, and nothing was staged, committed, or pushed.
+
+Next step: human verification, staging, and commit of the 2 `kotlin-muix-tree-view` changes on `muix-tree-view`,
+followed by pushing to update [PR #2927](https://github.com/JetBrains/kotlin-wrappers/pull/2927).
+Prepared title-only commit message:
+`MUI X. Use Int in TreeItemLoaderOwnerState and hide TreeViewCancellableEvent`.
+
+## Tree View pull request merged and `TreeViewSelectionValue` follow-up (2026-11-06)
+
+[`JetBrains/kotlin-wrappers#2927`](https://github.com/JetBrains/kotlin-wrappers/pull/2927) was merged into
+`JetBrains/kotlin-wrappers` as `67f0cceaf30b75a69ac864e1fe8725707d744123` on 2026-11-06.
+
+- One remaining review thread on
+  `kotlin-muix-tree-view/src/jsMain/generated/muix/tree/view/TreeViewSelectionValue.kt`
+  ([`#discussion_r4484280313`](https://github.com/JetBrains/kotlin-wrappers/pull/2927#discussion_r4484280313),
+  [`#discussion_r4485031537`](https://github.com/JetBrains/kotlin-wrappers/pull/2927#discussion_r4485031537))
+  noted that single/multi-value selection typing is a common wrapper problem (analogous to `kotlin-react-select`)
+  and that `TreeViewSelectionValue.kt` may keep `sealed /* union */ external interface TreeViewSelectionValue`
+  (or use a shared wrapper type) while dropping the four custom adapter/factory helper functions
+  (`TreeViewSelectionValue(ids: ReadonlyArray<TreeViewItemId>)`, `TreeViewSelectionValue(id: TreeViewItemId?)`,
+  `asMultiple()`, `asSingle()`).
+- Upstream agreed to handle this adjustment in a separate follow-up pull request so the current Tree View bindings
+  could ship in the nearest release.
+- Recorded as the **highest-priority** open task in
+  [`docs/plans/future-improvements.md`](../plans/future-improvements.md#highest-priority-treeviewselectionvalue-common-singlemulti-value-representation-pr-2927-follow-up)
+  and [`docs/plans/generator.md`](../plans/generator.md#сводка-открытых-пунктов-по-практической-ценности).

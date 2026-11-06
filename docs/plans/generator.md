@@ -8,10 +8,13 @@ Base UI module work has its own [canonical plan](base-ui.md).
 ## Resume here
 
 - **Recorded phase:** the high-value v6 typing fixes were closed on 2026-10-31 against MUI 9.5.0.
-  The remaining candidates below were low priority; no new implementation is implied by this reorganization.
+  The highest-priority open generator item is the `TreeViewSelectionValue` follow-up from merged
+  [`JetBrains/kotlin-wrappers#2927`](https://github.com/JetBrains/kotlin-wrappers/pull/2927); the remaining v6/v9
+  candidates below are low priority.
 - **Next step:** select the item requested by the user and recheck it against the current generator and installed
-  upstream `.d.ts` / runtime exports. If continuing this backlog without a selected item, first assess the bounded
-  `createColorScheme` binding described below, then implement it as a separate task if still missing.
+  upstream `.d.ts` / runtime exports. If continuing this backlog without a selected item, start with the
+  **highest-priority** `TreeViewSelectionValue` follow-up
+  ([details in `future-improvements.md`](future-improvements.md#highest-priority-treeviewselectionvalue-common-singlemulti-value-representation-pr-2927-follow-up)).
 - **Prerequisites:** confirm the current package versions in `gradle.properties`, the API's public runtime export,
   and existing generated/sample coverage. Older audit signatures and workarounds are evidence to verify.
 - **Completion:** follow [Kotlin type selection](../../.agents/rules/kotlin-types.md) and
@@ -28,18 +31,16 @@ Base UI module work has its own [canonical plan](base-ui.md).
   [Publication status](../history/mui-v6.md#own-slot-suppression-pull-request-updated-2026-11-05).
   Next step for this follow-up: upstream review and any requested changes. Unrelated suppression limitations,
   including Base UI gap 12, remain deferred.
-- **Tree View transfer and PR #2927 review (2026-11-05):** the `muix-tree-view` branch was pushed to the fork and
-  opened as [`JetBrains/kotlin-wrappers#2927`](https://github.com/JetBrains/kotlin-wrappers/pull/2927). The first
-  review follow-up was committed locally as `e654e5f7` and on the fork's `muix-tree-view` branch as `5be28b876d`.
-  The local generator follow-ups for PR #2927 are complete: all `@JsPlainObject` interfaces across the
-  generator now emit `val` properties (`MemberConverter.kt`, `Converter.kt`, `Overrides.kt`, `Override.kt`, and
-  hand-written Tree View templates in `Generator.kt`), `TreeViewCancellableEvent` is a `private external interface`
-  without `@JsPlainObject` so non-`inline` `SyntheticEvent.defaultMuiPrevented` can mutate `defaultMuiPrevented` in
-  place on the event instance, `index`, `itemsCount`, and `itemDepth` are mapped to `Int` via
-  `NUMBER_AS_INT_PROPERTIES` (`KotlinType.kt`), and all union interfaces emit `sealed /* union */` before
-  `external interface` (`UnionConverter.kt`, `Spacing.kt`, and `Generator.kt`).
-  Next step: human verification, staging, commit, and push of the transferred 18-file `muix/tree/view` delta on the
-  fork's `muix-tree-view` branch (`5be28b876d`) to update PR #2927, and commit in `mui-kotlin`.
+- **Tree View transfer and PR #2927 review (2026-11-06):** [`JetBrains/kotlin-wrappers#2927`](https://github.com/JetBrains/kotlin-wrappers/pull/2927)
+  is **merged** into `JetBrains/kotlin-wrappers` (`67f0cceaf3`). One open review thread on
+  `TreeViewSelectionValue.kt`
+  ([`#discussion_r4484280313`](https://github.com/JetBrains/kotlin-wrappers/pull/2927#discussion_r4484280313),
+  [`#discussion_r4485031537`](https://github.com/JetBrains/kotlin-wrappers/pull/2927#discussion_r4485031537) —
+  keep `sealed /* union */ external interface TreeViewSelectionValue` or use a common type, and remove the custom
+  adapter/factory helpers) was agreed to be addressed in a separate follow-up PR and is tracked as the
+  **highest-priority** item in
+  [`future-improvements.md`](future-improvements.md#highest-priority-treeviewselectionvalue-common-singlemulti-value-representation-pr-2927-follow-up)
+  and in the summary below.
   [Scope, baseline and verification](../history/mui-v9.md#tree-view-fork-handoff-2026-11-05).
   [Model filename follow-up](../history/mui-v9.md#tree-view-model-filenames-follow-up-2026-11-05).
   [Publication status](../history/mui-v9.md#tree-view-pull-request-opened-2026-11-05).
@@ -47,6 +48,8 @@ Base UI module work has its own [canonical plan](base-ui.md).
   [PR #2927 fork handoff](../history/mui-v9.md#tree-view-jsplainobject-fork-handoff-2026-11-05).
   [PR #2927 JSO `val` and union comment follow-up](../history/mui-v9.md#tree-view-jso-val-and-union-comment-follow-up--pr-2927-2026-11-05).
   [PR #2927 JSO `val` and union comment fork handoff](../history/mui-v9.md#tree-view-jso-val-and-union-comment-fork-handoff-2026-11-05).
+  [PR #2927 `private` event and `Int` loader properties fork handoff](../history/mui-v9.md#tree-view-private-event-and-int-loader-properties-fork-handoff-2026-11-05).
+  [PR #2927 merged and `TreeViewSelectionValue` follow-up](../history/mui-v9.md#tree-view-pull-request-merged-and-treeviewselectionvalue-follow-up-2026-11-06).
   The filename follow-up also records one existing buildSrc test failure reproduced on the unchanged baseline;
   that separate runtime-binding test mismatch remains unresolved.
 - **Last recorded evidence:** [v6 audit resolutions](../history/mui-v6.md),
@@ -55,6 +58,14 @@ Base UI module work has its own [canonical plan](base-ui.md).
   These records do not replace verification of a new change.
 
 ## Сводка открытых пунктов (по практической ценности)
+
+**Наивысший приоритет:** `TreeViewSelectionValue` (`@mui/x-tree-view`) — убрать кастомные адаптеры/фабрики
+(`TreeViewSelectionValue(...)`, `asMultiple()`, `asSingle()`) из `TreeViewSelectionValue.kt` и использовать общий
+подход `kotlin-wrappers` для single/multi-value по замечаниям в
+[`PR #2927#discussion_r4484280313`](https://github.com/JetBrains/kotlin-wrappers/pull/2927#discussion_r4484280313) и
+[`PR #2927#discussion_r4485031537`](https://github.com/JetBrains/kotlin-wrappers/pull/2927#discussion_r4485031537)
+(подробности в
+[`future-improvements.md`](future-improvements.md#highest-priority-treeviewselectionvalue-common-singlemulti-value-representation-pr-2927-follow-up)).
 
 Низкий приоритет: `createColorScheme`/`extendTheme`/CssVars-провайдер, `OverridableComponent`, Pigment-компоненты,
 template literal types, JSDoc для `Omit`-ключей, `Rating.defaultValue`/`StepIcon`/`Autocomplete.key` (приемлемые
