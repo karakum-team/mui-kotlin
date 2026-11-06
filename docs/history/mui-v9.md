@@ -736,3 +736,139 @@ Prepared title-only commit message:
 - Recorded as the **highest-priority** open task in
   [`docs/plans/future-improvements.md`](../plans/future-improvements.md#highest-priority-treeviewselectionvalue-common-singlemulti-value-representation-pr-2927-follow-up)
   and [`docs/plans/generator.md`](../plans/generator.md#сводка-открытых-пунктов-по-практической-ценности).
+
+## Full generated-tree master fork handoff (2026-11-06)
+
+The user explicitly requested the complete current generated-declaration delta directly in the fork's
+existing `master` working tree for review before deciding whether to prepare upstream PRs. This request
+overrides the usual topic-branch and topic-only transfer defaults for this handoff.
+
+- Source revision: `8f9292b4`; target: fork `master` at `6cf8ce4e66`, initially clean with an empty staged diff.
+  All nine published package mappings from the transfer rules were synchronized, including additions and
+  deletions. The WIP `baseui` package, hand-written sources, package versions and lockfiles were excluded.
+- The resulting unstaged, uncommitted delta has **109 files**: 102 modified, 5 added and 2 deleted.
+  Module counts: Material 80, Base 15, System 8, Lab 2, Date Pickers 3 and Tree View 1.
+  Icons, `mui/types` and `dateio/core` already matched. All **632** mapped generated files and their file
+  sets now match the generator byte-for-byte.
+- Changes include union markers, concrete numeric types, `SpeedDial.ariaLabel`, typed Material theme and
+  typography declarations, plain-object theme interfaces, and callable spacing declarations. The old
+  `styles/Theme.kt` and `system/Spacing.kt` stubs are replaced by the generator's current files.
+- **Review caveat:** `master` had already removed the custom `TreeViewSelectionValue` factories and
+  `asMultiple`/`asSingle` helpers. Exact synchronization restores them from the generator. This handoff
+  does not resolve or reverse the separate cleanup decision recorded above; its canonical backlog remains
+  [the highest-priority follow-up](../plans/future-improvements.md#highest-priority-treeviewselectionvalue-common-singlemulti-value-representation-pr-2927-follow-up).
+- PR #2924 is present in the current fork `master` as `88b72cebfa`; all nine affected Material component
+  files already matched the generator and needed no transfer. This supersedes their earlier pending
+  handoff status.
+- Verification: `./gradlew :mui-kotlin:clean build` passed, compiling the library and playground with
+  zero errors and passing all 21 runtime-export tests. All **778** source declaration files matched their
+  pre-build hashes, and `git diff --exit-code -- mui-kotlin/src/jsMain/kotlin` passed. The transferred
+  contents match the planned delta exactly. Fork `git diff --check` and separate checks of all five new
+  files passed; `HEAD`, all refs, index bytes and the empty staged diff are unchanged.
+- No generator implementation changed. Browser verification and `buildSrc:test` were not rerun for this
+  transfer-only task. No compilation, builds or tests were run in the fork. Nothing was staged, committed,
+  pushed or posted to GitHub.
+
+Next step: human review of the aggregate `master` diff and selection of any upstream PR scope.
+Prepared title-only commit message: `MUI. Update generated declarations`.
+
+## Open-PR subtraction from master review diff (2026-11-06)
+
+The user requested removing changes already represented in open upstream PRs from the aggregate fork diff.
+This supersedes the 109-file working-tree status recorded above; the source remains `8f9292b4` and fork
+`master` remains at `6cf8ce4e66`.
+
+- Scanned all **six** open PRs using the public GitHub API, their file lists and complete patches.
+  Three overlap the aggregate diff:
+  [#2914](https://github.com/JetBrains/kotlin-wrappers/pull/2914) (`23208afd16`),
+  [#2922](https://github.com/JetBrains/kotlin-wrappers/pull/2922) (`19a6aa90f0`), and
+  [#2923](https://github.com/JetBrains/kotlin-wrappers/pull/2923) (`34dcc9073c`).
+  #2925, #2912 and #2910 affect other modules. A second API check confirmed the same six PRs and head revisions.
+- Restored all **12** paths covered by the three MUI PRs to fork `HEAD`, excluding their SpeedDial/slider,
+  spacing and typed-theme changes from the aggregate review diff. Five added files had been staged by the
+  human after the initial handoff; only those duplicate additions were unstaged. All other index entries,
+  `HEAD` and refs were preserved. The resulting staged diff is empty.
+- #2923 still uses mutable properties in its plain-object theme/typography declarations. Preserved the
+  nonduplicate generator corrections separately in `build/transfers/pr-2923-follow-up.patch`:
+  **3 files, +104 / -104 lines**. The patch changes properties to `val` in Material `createThemeNoVars.kt`,
+  Material `createTypography.kt` and System `createTheme.kt`, and changes the first file's suppression to
+  `PROPERTY_TYPE_MISMATCH_ON_OVERRIDE`. It applies after #2923 and #2922, keeping their shared theme
+  hierarchy consistent without repeating new-file additions in the `master` diff.
+- The remaining fork diff is **97 modified files, +341 / -155 lines**, unstaged and uncommitted: Material
+  73, Base 14, System 4, Lab 2, Date Pickers 3 and Tree View 1. Every remaining file is byte-identical to
+  its pre-filter version. Union markers, numeric-index changes and the custom `TreeViewSelectionValue`
+  helpers remain; the separate helper-cleanup decision is unchanged.
+- Verification: applied the three exact PR patches and the separate follow-up over a scratch copy of the
+  remaining aggregate tree. All **632** mapped generated files and their complete file sets then match
+  the generator byte-for-byte. `git diff --check` passes, and no open-PR path remains in the aggregate diff.
+  All **778** source declaration hashes still match the preceding successful clean build; no additional
+  source build or browser run was needed for this subtraction-only step. No fork builds or tests were run.
+  Nothing was staged, committed, pushed or posted to GitHub.
+
+Next step: human review of the remaining `master` diff and the separate patch for #2923.
+Prepared aggregate title-only commit message: `MUI. Update generated declarations`.
+
+## Union-marker and numeric-index topic commits (2026-11-06)
+
+The user explicitly requested splitting the `sealed` and numeric changes into independent branches and
+committing them locally, while retaining the rest as a `master` working-tree diff. This authorization
+supersedes the diff-only handoff default for these two scoped commits; pushing and opening PRs remain
+the human's responsibility.
+
+- Both branches start directly from fork `master` at `6cf8ce4e66` and contain one local commit each:
+  `mui-union-markers` at `7eebf700b3146f351d5c9a90fe72e682cb3efa6b`, titled
+  ``MUI. Add `/* union */` markers to sealed unions`` (**88 files, +293 / -146 lines**), and
+  `mui-int-indices` at `129933643ff14cbce0d35128f8d61c0549f12c7d`, titled
+  ``MUI. Use `Int` for indices`` (**8 files, +9 / -9 lines**).
+- The union branch contains only the generated union markers and related spacing between adjacent
+  union declarations. The numeric branch changes nine index properties in Base and Material to `Int`,
+  preserving optionality, including `Step.index: Int?`. The topics have disjoint file sets and neither
+  branch includes the other's changes or changes from open PRs #2914, #2922 and #2923.
+- Fork `master` is still at `6cf8ce4e66` and checked out in the original checkout. Its sole remaining
+  working-tree change is `TreeViewSelectionValue.kt` (**1 file, +39 lines**), unstaged and uncommitted,
+  exactly matching the pre-split helper delta. The staged diff is empty. Existing branch, tag and remote
+  refs are unchanged. The separate `build/transfers/pr-2923-follow-up.patch` is preserved.
+- Verification: each committed patch exactly matches its selected pre-split generator delta, each
+  commit's parent is the original `master`, and whitespace checks pass. Combining both committed
+  patches with the `master` remainder exactly reconstructs every file of the original 97-file diff.
+  Adding the three excluded open PRs and the separate theme follow-up then reproduces all **632** mapped
+  generated files and their file sets byte-for-byte.
+- All **778** source declaration hashes still match the preceding successful clean build, including
+  successful library/playground compilation and the 21 runtime-export tests. No generator code changed;
+  no additional source build or browser run was needed for this Git-only split. No fork builds or tests
+  were run. Temporary topic worktrees were removed after the verified commits; both local branches remain.
+  Nothing was pushed or posted to GitHub. Generator-repository documentation remains uncommitted.
+
+Next step: human push and upstream PR creation for the two topic branches, followed by separate review
+of the remaining helper diff and theme follow-up.
+
+## Corrected upstream ancestry for topic branches (2026-11-06)
+
+After pushing the two topic branches, the user found nine commits in each upstream PR comparison.
+The initial split had verified each topic against fork `master`, but had missed that the fork contained
+copies of upstream commits with different SHAs. Those copies were therefore additional ancestors in
+the comparison with actual upstream `master`; a one-commit delta against the fork was insufficient.
+
+- Fetched actual `upstream/master` at `2d429a93fb`. All 96 topic-file baselines matched their upstream
+  versions byte-for-byte, so each original topic commit was cherry-picked independently onto that exact
+  upstream revision, preserving its complete patch and title.
+- Updated local `mui-union-markers` to `706d6b761f92142b7cb071361156ff29f5aa45af` and
+  `mui-int-indices` to `39afca4b07bae4cb6b30bb23e3609b8701d0779b`. Their previous tips remain available
+  under `refs/backup/mui-union-markers-before-upstream-base` and
+  `refs/backup/mui-int-indices-before-upstream-base`.
+- Verified each parent and merge base is the fetched upstream revision and
+  `git rev-list --left-right --count upstream/master...<topic-branch>` returns `0 1`.
+  The corresponding three-dot diffs exactly equal the original selected patches: **88 files,
+  +293 / -146 lines** for union markers and **8 files, +9 / -9 lines** for numeric indices.
+  Both comparisons pass `git diff --check` and contain no unrelated commits or files.
+- The fork's original checkout was already on `master` at `b52c5a7c98` when this correction began.
+  That revision, its index entries and its exact unstaged `TreeViewSelectionValue.kt` diff
+  (**1 file, +39 lines**) are unchanged. The separate theme follow-up patch is preserved.
+- All **778** source declaration hashes still match the preceding successful clean build. No generator
+  code or declaration content changed, so no additional source build, browser run or fork build/test
+  was performed. Temporary detached worktrees were removed after verification. No push or GitHub write
+  was performed; the published branches still need the human's update using `--force-with-lease`.
+
+Next step: human force-with-lease push of the two corrected topic branches, then upstream PR creation.
+Commit titles remain ``MUI. Add `/* union */` markers to sealed unions`` and
+``MUI. Use `Int` for indices``.

@@ -20,6 +20,27 @@ Base UI module work has its own [canonical plan](base-ui.md).
 - **Completion:** follow [Kotlin type selection](../../.agents/rules/kotlin-types.md) and
   [generator verification](../../.agents/rules/generator-verification.md); update this plan and record the
   completed change and checks in the relevant history file.
+- **Fork topic split, upstream ancestry corrected (2026-11-06):** split the review diff from source
+  `8f9292b4` into two independent branches, with local commits explicitly requested by the user.
+  The initial fork-based commits were replaced with commits based directly on actual `upstream/master`
+  at `2d429a93fb`: `mui-union-markers` at `706d6b761f92` (88 files) and `mui-int-indices` at
+  `39afca4b07ba` (8 files). Each branch is exactly one commit ahead and zero behind upstream; its
+  three-dot comparison contains only the intended topic. The fork's `master`, found at `b52c5a7c98`
+  during the correction, retains only the unstaged, uncommitted `TreeViewSelectionValue.kt` helper delta
+  (+39 lines). Changes covered by open PRs #2914, #2922 and #2923 remain excluded.
+  Nonduplicate theme `var` → `val` corrections and the corresponding suppression correction remain in
+  `build/transfers/pr-2923-follow-up.patch` for separate review against #2923.
+  Next step: the human updates the already-pushed topic branches using `--force-with-lease` and opens
+  their upstream PRs, then reviews the remaining helper diff and separate theme follow-up. Before
+  publication, compare ancestry and the three-dot diff with actual `upstream/master`, rather than the
+  fork's rewritten history. The two unchanged topic patches plus the remainder reproduce the
+  original 97-file diff exactly; adding the excluded PRs and theme follow-up reproduces all 632 mapped
+  generator files. Source verification remains valid for the unchanged declaration tree. WIP `baseui`
+  remains excluded; helper cleanup remains the separate highest-priority follow-up below.
+  [Initial handoff](../history/mui-v9.md#full-generated-tree-master-fork-handoff-2026-11-06).
+  [PR subtraction and verification](../history/mui-v9.md#open-pr-subtraction-from-master-review-diff-2026-11-06).
+  [Local topic commits and remainder](../history/mui-v9.md#union-marker-and-numeric-index-topic-commits-2026-11-06).
+  [Upstream ancestry correction](../history/mui-v9.md#corrected-upstream-ancestry-for-topic-branches-2026-11-06).
 - **PR #2924 review (2026-11-06):** the nine Material components with own slots now emit `override` for all
   35 inherited properties identified in the latest review. Seventeen need no suppression; eighteen retain
   a property-level `VAR_TYPE_MISMATCH_ON_OVERRIDE` for actual type differences. Their slot overrides keep
@@ -30,11 +51,11 @@ Base UI module work has its own [canonical plan](base-ui.md).
   `25f85112f6` on the fork's `mui-own-slot-props` branch and confirmed updating PR #2924.
   [Transfer evidence](../history/mui-v6.md#own-slot-suppression-fork-handoff-2026-11-05).
   [Publication status](../history/mui-v6.md#own-slot-suppression-pull-request-updated-2026-11-05).
-  The missing-override generator fix is committed as `4a526f76`; its nine-file generated delta is prepared as
-  an unstaged, uncommitted diff on the fork's `mui-own-slot-props` branch.
+  The missing-override generator fix is committed as `4a526f76`; its nine-file generated delta was handed off
+  on the fork's `mui-own-slot-props` branch. The current fork `master` now includes PR #2924 as `88b72cebfa`,
+  and all nine component files already match the generator, superseding the pending review/commit/push step.
   [Latest review resolution and verification](../history/mui-v6.md#own-slot-inherited-property-overrides--pr-2924-follow-up-2026-11-06).
   [Latest transfer evidence](../history/mui-v6.md#own-slot-inherited-override-fork-handoff-2026-11-06).
-  Next step for this follow-up: human review, staging, commit and push of the fork diff to update PR #2924.
   Unrelated suppression limitations, including Base UI gap 12, remain deferred.
 - **Tree View transfer and PR #2927 review (2026-11-06):** [`JetBrains/kotlin-wrappers#2927`](https://github.com/JetBrains/kotlin-wrappers/pull/2927)
   is **merged** into `JetBrains/kotlin-wrappers` (`67f0cceaf3`). One open review thread on
