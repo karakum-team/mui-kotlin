@@ -872,3 +872,37 @@ the comparison with actual upstream `master`; a one-commit delta against the for
 Next step: human force-with-lease push of the two corrected topic branches, then upstream PR creation.
 Commit titles remain ``MUI. Add `/* union */` markers to sealed unions`` and
 ``MUI. Use `Int` for indices``.
+
+## Shared `mui.types.Value` and `TreeViewSelectionValue` typealias (2026-11-06)
+
+Addressed the deferred review thread from [`JetBrains/kotlin-wrappers#2927`](https://github.com/JetBrains/kotlin-wrappers/pull/2927)
+([`#discussion_r4484280313`](https://github.com/JetBrains/kotlin-wrappers/pull/2927#discussion_r4484280313),
+[`#discussion_r4485031537`](https://github.com/JetBrains/kotlin-wrappers/pull/2927#discussion_r4485031537)) by
+introducing a shared generic single/multi-value union type `mui.types.Value<T : Any>` and aliasing
+`TreeViewSelectionValue` to it:
+
+- **`mui/types/Value.kt` (`TYPES_VALUE` in `Generator.kt`):** emits `sealed /* union */ external interface Value<T : Any>`,
+  `inline fun <T : Any> Value(value: T?): Value<T>? = unsafeCast(value)` (preserving single-select `T | null` runtime
+  shape required by `TreeViewSelectionPlugin.js`), `inline fun <T : Any> Value(value: ReadonlyArray<T>): Value<T> = unsafeCast(value)`,
+  and strict `Value<T>?.asArray(): ReadonlyArray<T>` and `Value<T>.single(): T` extensions matching
+  `react.select.Value` (`require(value is Array<*>)` / `require(value !is Array<*>)`).
+- **`muix/tree/view/TreeViewSelectionValue.kt` (`TREE_VIEW_SELECTION_VALUE` in `Generator.kt`):** replaced the custom
+  `TreeViewSelectionValue(...)` factories and lenient `asMultiple()` / `asSingle()` adapters with
+  `typealias TreeViewSelectionValue = Value<TreeViewItemId>` (and added `"mui.types.Value"` to `IMPORTED_FQNS`).
+- **Playground samples:** updated `RichTreeViewSelectionSample.kt` (`Value(selectedItem)` and `itemIds?.single()`) and
+  `playground/samples/treeview/consumer/TreeView.kt` (`Value(selected)` and `keys.asArray().toSet()`).
+
+Verification:
+
+- `./gradlew :mui-kotlin:clean build :playground:compileKotlinJs` passed with 0 errors and 21/21
+  `testRuntimeExports` tests passing.
+- A second `./gradlew :mui-kotlin:clean build` produced byte-for-byte identical output across all **779** generated
+  files (`shasum -a 256` before and after matched with empty `diff -u`).
+- Browser verification in Chrome against `./gradlew :playground:jsViteDev`:
+  - `#/treeview/rich-tree-view-selection`: mounted with `selected=item-1 lastClick=-`; clicking `"Item 2"` updated
+    status to `selected=item-2 lastClick=item-2`.
+  - `#/treeview/consumer-tree-view`: completed with `selected=a-2 changes=2 phase=Done` and
+    `[playground] treeview/consumer-tree-view consumer-tree-view-checks: 9/9 PASS`.
+  - `#/all`: settled at `[playground] all: 36 samples mounted, 105/105 checks PASS` (`#all-summary` =
+    `samples=36 checks=105/105`, `failed=0`).
+- `buildSrc:test` was not run (see pre-existing baseline mismatch noted above).

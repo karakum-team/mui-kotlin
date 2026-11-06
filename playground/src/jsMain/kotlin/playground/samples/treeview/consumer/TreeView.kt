@@ -1,6 +1,8 @@
 package playground.samples.treeview.consumer
 
 import js.objects.unsafeJso
+import mui.types.Value
+import mui.types.asArray
 import muix.tree.view.RichTreeViewItemsOwnerState
 import muix.tree.view.RichTreeViewProps
 import muix.tree.view.RichTreeViewPublicAPI
@@ -12,8 +14,6 @@ import muix.tree.view.TreeItemSlots
 import muix.tree.view.TreeViewExpansionTrigger
 import muix.tree.view.TreeViewItemSelectionStatus
 import muix.tree.view.TreeViewSelectionPropagation
-import muix.tree.view.TreeViewSelectionValue
-import muix.tree.view.asMultiple
 import muix.tree.view.defaultMuiPrevented
 import muix.tree.view.useRichTreeViewApiRef
 import react.FC
@@ -140,9 +140,9 @@ val TreeView: FC<TreeViewProps> = FC { props ->
             defaultExpandedItems = defaultExpanded
         }
 
-        selectedItems = TreeViewSelectionValue(selected)
+        selectedItems = Value(selected)
         onSelectedItemsChange = { _, keys ->
-            val selectedKeys = keys.asMultiple().toSet()
+            val selectedKeys = keys.asArray().toSet()
             props.onChange?.invoke(
                 if (cascade) selectedKeys.withoutIncompleteParents(nodes) else selectedKeys,
             )

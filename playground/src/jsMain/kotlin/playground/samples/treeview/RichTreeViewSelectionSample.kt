@@ -2,12 +2,12 @@ package playground.samples.treeview
 
 import js.array.ReadonlyArray
 import js.objects.unsafeJso
+import mui.types.Value
+import mui.types.single
 import muix.tree.view.RichTreeView
 import muix.tree.view.RichTreeViewProps
 import muix.tree.view.SimpleTreeView
 import muix.tree.view.TreeItem
-import muix.tree.view.TreeViewSelectionValue
-import muix.tree.view.asSingle
 import playground.shell.Kind
 import playground.shell.Libraries
 import playground.shell.Ref
@@ -40,8 +40,8 @@ val RichTreeViewSelectionSample: Sample = Sample(
     title = "RichTreeView selection",
     kind = Kind.Check,
     covers = listOf(
-        "RichTreeView.items/selectedItems (TreeViewSelectionValue)",
-        "RichTreeView.onSelectedItemsChange (asSingle)",
+        "RichTreeView.items/selectedItems (TreeViewSelectionValue / Value)",
+        "RichTreeView.onSelectedItemsChange (single)",
         "RichTreeView.onItemClick",
         "SimpleTreeView.multiSelect",
         "TreeItem.itemId/label",
@@ -67,9 +67,9 @@ val RichTreeViewSelectionSample: Sample = Sample(
         // 1. Verify RichTreeView with items and selection handlers
         RichTreeView<RichTreeViewProps<SampleTreeItem>> {
             items = sampleTreeItems
-            selectedItems = TreeViewSelectionValue(selectedItem)
+            selectedItems = Value(selectedItem)
             onSelectedItemsChange = { _, itemIds ->
-                selectedItem = itemIds.asSingle()
+                selectedItem = itemIds?.single()
             }
             onItemClick = { _, itemId ->
                 lastClick = itemId
