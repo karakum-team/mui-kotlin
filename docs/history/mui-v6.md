@@ -487,3 +487,26 @@ Verification:
 Next step: human review and commit of the local generator fix, then a separate scoped transfer to update
 PR #2923 if requested. No fork files were changed and no staging, commit, push or GitHub reply was performed.
 The older `build/transfers/pr-2923-follow-up.patch` predates these fixes and must not be used as the current handoff.
+
+## Theme and typography fork handoff — PR #2923 (2026-11-06)
+
+The source fix is committed as `631fac2e`. At the user's request, transferred its generated corrections
+and the pending JSO `var` → `val` changes to the fork's existing `mui-theme` branch, without staging or committing.
+This supersedes the pending transfer step above.
+
+- The fork started clean on `mui-theme` at `34dcc9073ce8e7b3db92e2076132185e79b82f82`.
+  Changed exactly three generated files: Material `styles/createThemeNoVars.kt` and
+  `styles/createTypography.kt`, plus System `createTheme.kt`.
+- Both Material files match the current generator output byte-for-byte, including the eight targeted
+  override suppressions, CSS imports and `pxToRem(Double)`. The System file receives only `var` → `val`;
+  its `ThemeOptions.spacing` remains `Any? /* SpacingOptions */`, preserving the separate PR #2922 delta.
+  `createThemeFoundation.kt` already matches the generator and was not changed.
+- The fork diff is **3 files, +113 / -107 lines**. `git diff --check` passes. Exact-content comparisons
+  confirm the scoped result; fork HEAD, `master` and index bytes are unchanged. The transferred changes
+  remain unstaged and uncommitted, with no other working-tree changes.
+- All 778 source files still match the previously verified clean-generation hashes. No new source build
+  or browser run was needed for this transfer-only step. No compilation, builds or tests were run in
+  the fork; nothing was staged, committed, pushed or posted to GitHub.
+
+Next step: human review, commit and push of the three-file diff to update PR #2923.
+Prepared title-only commit message: `MUI. Fix theme JSO properties and typography types`.

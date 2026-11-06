@@ -17,8 +17,12 @@ Base UI module work has its own [canonical plan](base-ui.md).
   and typography imports `FontFamily` / `FontWeight` by short name. Clean generation reproduces all 778 files;
   the theme sample passes 32/32 checks and `#/all` passes 107/107 checks across 36 samples.
   [Scope and verification](../history/mui-v6.md#theme-and-typography-review-follow-up--pr-2923-2026-11-06).
-  These fixes are local to the generator repository. Prepare a fresh scoped delta for the next transfer;
-  the earlier `build/transfers/pr-2923-follow-up.patch` predates the property-level suppressions and typography fixes.
+  The source fix is committed as `631fac2e`; its changes and the pending JSO `var` → `val` correction were
+  transferred to the fork's `mui-theme` branch as a three-file unstaged, uncommitted diff. The separate
+  `spacing` type change from PR #2922 is excluded. No fork compilation, builds or tests were run.
+  [Fork handoff](../history/mui-v6.md#theme-and-typography-fork-handoff--pr-2923-2026-11-06).
+  Next step: human review, commit and push of that diff. The earlier
+  `build/transfers/pr-2923-follow-up.patch` predates these fixes and is superseded by this handoff.
 - **Next step:** select the item requested by the user and recheck it against the current generator and installed
   upstream `.d.ts` / runtime exports. If continuing this backlog without a selected item, first assess the bounded
   `createColorScheme` binding described below, then implement it as a separate task if still missing.
