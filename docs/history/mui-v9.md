@@ -906,3 +906,20 @@ Verification:
   - `#/all`: settled at `[playground] all: 36 samples mounted, 105/105 checks PASS` (`#all-summary` =
     `samples=36 checks=105/105`, `failed=0`).
 - `buildSrc:test` was not run (see pre-existing baseline mismatch noted above).
+
+## Shared `mui.types.Value` fork branch commit (2026-11-06)
+
+Following the user's commit of the `mui.types.Value` generator change in `mui-kotlin` (`db33c3d8`), the user
+explicitly requested transferring the generated delta to a new fork branch and committing it locally without pushing:
+
+- **Branch & ancestry:** created local branch `mui-value` directly from `upstream/master` (`f018fed8af9501498c2028cfb5d909653e032d75`,
+  which already includes merged PRs `#2927`, `#2928`, and `#2929`) and committed `a58a7347ab3330a20f0651d4801a112a2087354c`
+  with title ``MUI. Add shared `Value` type for `TreeViewSelectionValue` ``.
+- **Transferred files (2 files, `+42 / -4` lines):**
+  - `kotlin-mui-system/src/jsMain/generated/mui/types/Value.kt` (new file, `+40` lines)
+  - `kotlin-muix-tree-view/src/jsMain/generated/muix/tree/view/TreeViewSelectionValue.kt` (`+2 / -4` lines)
+- **Verification:** `git rev-list --left-right --count upstream/master...mui-value` is `0 1`; all files in
+  `kotlin-mui-system/src/jsMain/generated/mui/types` and `kotlin-muix-tree-view/src/jsMain/generated/muix/tree/view`
+  match the generator (`db33c3d8`) byte-for-byte (`diff -ru` empty); `git diff --check upstream/master...mui-value`
+  passes; branch remote config is set to `origin` (`refs/heads/mui-value`); fork `master` working tree and index
+  were preserved untouched, and nothing was pushed.

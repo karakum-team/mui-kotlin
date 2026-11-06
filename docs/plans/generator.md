@@ -61,12 +61,13 @@ Base UI module work has its own [canonical plan](base-ui.md).
   `TreeViewSelectionValue.kt`
   ([`#discussion_r4484280313`](https://github.com/JetBrains/kotlin-wrappers/pull/2927#discussion_r4484280313),
   [`#discussion_r4485031537`](https://github.com/JetBrains/kotlin-wrappers/pull/2927#discussion_r4485031537)) is now
-  implemented in the generator: `mui/types/Value.kt` emits the shared `mui.types.Value<T : Any>` union type with
+  implemented in the generator (`db33c3d8`) and transferred to the fork's `mui-value` branch (`a58a7347ab` on top of
+  `upstream/master` `f018fed8af`): `mui/types/Value.kt` emits the shared `mui.types.Value<T : Any>` union type with
   `Value(value: T?)`, `Value(value: ReadonlyArray<T>)`, and strict `asArray()` / `single()` extensions (matching
   `react.select.Value`), and `muix/tree/view/TreeViewSelectionValue.kt` emits
   `typealias TreeViewSelectionValue = Value<TreeViewItemId>`.
-  Next step: human verification and commit in `mui-kotlin`, followed by transferring `mui/types/Value.kt` and
-  `muix/tree/view/TreeViewSelectionValue.kt` to a fork branch for the follow-up PR.
+  Next step: human push of `mui-value` (`git push -u origin mui-value`) and opening the follow-up PR to
+  `JetBrains/kotlin-wrappers`.
   [Scope, baseline and verification](../history/mui-v9.md#tree-view-fork-handoff-2026-11-05).
   [Model filename follow-up](../history/mui-v9.md#tree-view-model-filenames-follow-up-2026-11-05).
   [Publication status](../history/mui-v9.md#tree-view-pull-request-opened-2026-11-05).
@@ -77,6 +78,7 @@ Base UI module work has its own [canonical plan](base-ui.md).
   [PR #2927 `private` event and `Int` loader properties fork handoff](../history/mui-v9.md#tree-view-private-event-and-int-loader-properties-fork-handoff-2026-11-05).
   [PR #2927 merged and `TreeViewSelectionValue` follow-up](../history/mui-v9.md#tree-view-pull-request-merged-and-treeviewselectionvalue-follow-up-2026-11-06).
   [`mui.types.Value` implementation and verification](../history/mui-v9.md#shared-muitypesvalue-and-treeviewselectionvalue-typealias-2026-11-06).
+  [`mui.types.Value` fork branch commit](../history/mui-v9.md#shared-muitypesvalue-fork-branch-commit-2026-11-06).
   The filename follow-up also records one existing buildSrc test failure reproduced on the unchanged baseline;
   that separate runtime-binding test mismatch remains unresolved.
 - **Last recorded evidence:** [v6 audit resolutions](../history/mui-v6.md),
