@@ -1,9 +1,5 @@
 // Automatically generated - do not modify!
 
-@file:Suppress(
-    "PROPERTY_TYPE_MISMATCH_ON_OVERRIDE",
-)
-
 package mui.material.styles
 
 import js.array.ReadonlyArray
@@ -27,8 +23,10 @@ external interface ThemeOptions : mui.system.ThemeOptions {
      */
     val defaultColorScheme: DefaultColorScheme?
 
+    @Suppress("PROPERTY_TYPE_MISMATCH_ON_OVERRIDE")
     override val mixins: MixinsOptions?
 
+    @Suppress("PROPERTY_TYPE_MISMATCH_ON_OVERRIDE")
     override val components: Any? /* Components<Theme> */
 
     val motion: MotionOptions?
@@ -39,10 +37,12 @@ external interface ThemeOptions : mui.system.ThemeOptions {
 
     override val shape: ShapeOptions?
 
+    @Suppress("PROPERTY_TYPE_MISMATCH_ON_OVERRIDE")
     override val transitions: TransitionsOptions?
 
     override val typography: TypographyVariantsOptions?
 
+    @Suppress("PROPERTY_TYPE_MISMATCH_ON_OVERRIDE")
     override val zIndex: ZIndex?
 
     val focusVisible: Any? /* boolean | FocusVisible */
@@ -56,6 +56,7 @@ external interface ThemeOptions : mui.system.ThemeOptions {
 
 @JsPlainObject
 external interface BaseTheme : mui.system.Theme {
+    @Suppress("PROPERTY_TYPE_MISMATCH_ON_OVERRIDE")
     override val mixins: Mixins
 
     val motion: Motion
@@ -66,10 +67,12 @@ external interface BaseTheme : mui.system.Theme {
 
     override val shape: Shape
 
+    @Suppress("PROPERTY_TYPE_MISMATCH_ON_OVERRIDE")
     override val transitions: Transitions
 
     override val typography: TypographyVariants
 
+    @Suppress("PROPERTY_TYPE_MISMATCH_ON_OVERRIDE")
     override val zIndex: ZIndex
 
     val focusVisible: FocusVisible?
@@ -85,6 +88,7 @@ external interface Theme : BaseTheme {
 
     val cssVariables: Boolean? /* false */
 
+    @Suppress("PROPERTY_TYPE_MISMATCH_ON_OVERRIDE")
     override val components: Any? /* Components<BaseTheme> */
 
     override val unstable_sx: (props: SxProps<Theme>) -> Any /* CSSObject from `@mui/styled-engine` */

@@ -1875,8 +1875,6 @@ private fun RuntimeBindings.generate(
         }
         if (componentName in VAR_TYPE_MISMATCH_ON_OVERRIDE_FIX_REQUIRED && !ownSlots)
             suppressKeys += "VAR_TYPE_MISMATCH_ON_OVERRIDE"
-        if (componentName in PROPERTY_TYPE_MISMATCH_ON_OVERRIDE_FIX_REQUIRED)
-            suppressKeys += "PROPERTY_TYPE_MISMATCH_ON_OVERRIDE"
         if (suppressKeys.isNotEmpty() && componentName != "TextField") {
             // `distinct()`: the two MUI sets are keyed by bare component name, and Base UI part files
             // named `Input` / `RadioGroup` collide with entries there — without it the Base UI branch
@@ -2218,6 +2216,8 @@ private val IMPORTED_FQNS = listOf(
     "web.cssom.ClassName",
     "web.cssom.Color",
     "web.cssom.CustomPropertyName",
+    "web.cssom.FontFamily",
+    "web.cssom.FontWeight",
     "web.cssom.Length",
     "web.cssom.MediaQueryList",
     "web.cssom.Transition",

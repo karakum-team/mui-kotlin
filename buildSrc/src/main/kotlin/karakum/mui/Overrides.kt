@@ -275,6 +275,7 @@ private fun fixComponentOverrides(
             .override("unstable_sx")
             .override("applyStyles")
             .override("shape", all = true)
+            .suppressThemePropertyMismatches()
 
         "createTheme",
             -> {
@@ -288,6 +289,14 @@ private fun fixComponentOverrides(
         }
 
         else -> content
+    }
+
+// Material's Mixins / Transitions / ZIndex do not inherit System's marker interfaces, and its
+// components fallback broadens System's Record to Any. Suppress only these incompatible overrides;
+// the other read-only theme properties can narrow their parent types without a suppression.
+private fun String.suppressThemePropertyMismatches(): String =
+    replace(Regex("""(?m)^override val (?:mixins|transitions|zIndex|components):""")) { match ->
+        "@Suppress(\"PROPERTY_TYPE_MISMATCH_ON_OVERRIDE\")\n${match.value}"
     }
 
 private fun String.override(

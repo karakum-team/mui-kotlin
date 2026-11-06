@@ -6,37 +6,39 @@ package mui.material.styles
 
 import kotlinx.js.JsPlainObject
 import react.CSSProperties
+import web.cssom.FontFamily
+import web.cssom.FontWeight
 
 @JsPlainObject
 external interface FontStyle {
-    val fontFamily: web.cssom.FontFamily
+    val fontFamily: FontFamily
 
     val fontSize: Double
 
-    val fontWeightLight: web.cssom.FontWeight
+    val fontWeightLight: FontWeight
 
-    val fontWeightRegular: web.cssom.FontWeight
+    val fontWeightRegular: FontWeight
 
-    val fontWeightMedium: web.cssom.FontWeight
+    val fontWeightMedium: FontWeight
 
-    val fontWeightBold: web.cssom.FontWeight
+    val fontWeightBold: FontWeight
 
     val htmlFontSize: Double
 }
 
 @JsPlainObject
 external interface FontStyleOptions {
-    val fontFamily: web.cssom.FontFamily?
+    val fontFamily: FontFamily?
 
     val fontSize: Double?
 
-    val fontWeightLight: web.cssom.FontWeight?
+    val fontWeightLight: FontWeight?
 
-    val fontWeightRegular: web.cssom.FontWeight?
+    val fontWeightRegular: FontWeight?
 
-    val fontWeightMedium: web.cssom.FontWeight?
+    val fontWeightMedium: FontWeight?
 
-    val fontWeightBold: web.cssom.FontWeight?
+    val fontWeightBold: FontWeight?
 
     val htmlFontSize: Double?
 
@@ -45,7 +47,7 @@ external interface FontStyleOptions {
 
 @JsPlainObject
 external interface TypographyUtils {
-    val pxToRem: (px: Number) -> String
+    val pxToRem: (px: Double) -> String
 }
 
 @JsPlainObject

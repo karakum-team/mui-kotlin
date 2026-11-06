@@ -9,6 +9,7 @@ import mui.material.styles.ReducedMotionMode
 import mui.material.styles.ShapeOptions
 import mui.material.styles.SimplePaletteColorOptions
 import mui.material.styles.ThemeOptions
+import mui.material.styles.TypographyUtils
 import mui.material.styles.TypographyVariantsOptions
 import mui.material.styles.ZIndex
 import mui.material.styles.createTheme
@@ -73,6 +74,11 @@ private val fractionalTypography = createTypography(
 private val fontStyleOptions = FontStyleOptions(fontSize = 20.0)
 private val emptyTypographyOptions = TypographyVariantsOptions()
 
+// An explicitly Double-typed callback must be accepted by the generated factory, not widened to Number.
+private val typographyUtils = TypographyUtils(
+    pxToRem = { px: Double -> defaultTheme.typography.pxToRem(px) },
+)
+
 private val cssVariablesTheme = createTheme(ThemeOptions(cssVariables = true))
 
 val ThemeTypingSample: Sample = Sample(
@@ -83,6 +89,7 @@ val ThemeTypingSample: Sample = Sample(
     covers = listOf(
         "Theme.palette: Palette (mode, primary.main)",
         "Theme.typography: TypographyVariants (fontFamily, h1, pxToRem)",
+        "TypographyUtils.pxToRem: (Double) -> String, including fractional pixels",
         "FontStyle / FontStyleOptions fontSize / htmlFontSize: Double",
         "Theme.shadows / shape / mixins.toolbar / zIndex / transitions / motion",
         "Theme.alpha / lighten / darken",
@@ -109,7 +116,9 @@ val ThemeTypingSample: Sample = Sample(
                 Check("palette.primary.main is #1976d2", theme.palette.primary.main == "#1976d2"),
                 Check("typography.fontFamily mentions Roboto", "${theme.typography.fontFamily}".contains("Roboto")),
                 Check("typography.h1.fontSize is 6rem", "${theme.typography.h1.fontSize}" == "6rem"),
-                Check("typography.pxToRem(16) is 1rem", theme.typography.pxToRem(16) == "1rem"),
+                Check("typography.pxToRem(16) is 1rem", theme.typography.pxToRem(16.0) == "1rem"),
+                Check("typography.pxToRem(16.5) preserves fractional pixels", theme.typography.pxToRem(16.5) == "1.03125rem"),
+                Check("TypographyUtils factory accepts a Double callback", typographyUtils.pxToRem(16.5) == "1.03125rem"),
                 Check("shadows has 25 entries, [0] is none", theme.shadows.size == 25 && theme.shadows[0] == "none"),
                 Check("shape.borderRadius is 4", "${theme.shape.borderRadius}" == "4"),
                 Check("mixins.toolbar.minHeight is 56", "${theme.mixins.toolbar.minHeight}" == "56"),
@@ -129,12 +138,12 @@ val ThemeTypingSample: Sample = Sample(
                 Check("ThemeOptions.typography: h1.fontSize is 3rem", "${customTheme.typography.h1.fontSize}" == "3rem"),
                 Check("ThemeOptions.shape: borderRadius is 8px", "${customTheme.shape.borderRadius}" == "8px"),
                 Check("ThemeOptions.zIndex: appBar is 2000", customTheme.zIndex.appBar == 2000),
-                Check("createTypography(fontSize = 28).pxToRem(16) is 2rem", largeTypography.pxToRem(16) == "2rem"),
+                Check("createTypography(fontSize = 28).pxToRem(16) is 2rem", largeTypography.pxToRem(16.0) == "2rem"),
                 Check("createTypography callback receives the palette", callbackPalette === theme.palette),
-                Check("createTypography callback: pxToRem(16) is 2rem", callbackTypography.pxToRem(16) == "2rem"),
+                Check("createTypography callback: pxToRem(16) is 2rem", callbackTypography.pxToRem(16.0) == "2rem"),
                 Check("createTypography callback: h1.fontSize is 4rem", "${callbackTypography.h1.fontSize}" == "4rem"),
                 Check("fractional font sizes are preserved", fontSize == 17.5 && htmlFontSize == 12.5),
-                Check("fractional font sizes: pxToRem(16) is 1.6rem", fractionalTypography.pxToRem(16) == "1.6rem"),
+                Check("fractional font sizes: pxToRem(16) is 1.6rem", fractionalTypography.pxToRem(16.0) == "1.6rem"),
                 Check("FontStyleOptions factory preserves fontSize", fontStyleOptions.fontSize == 20.0),
                 Check("FontStyleOptions factory leaves fontFamily absent", fontStyleOptions.fontFamily == undefined),
                 Check("TypographyVariantsOptions factory allows empty options", emptyTypographyOptions.fontSize == undefined),

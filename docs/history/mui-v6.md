@@ -445,3 +445,45 @@ fork's existing `mui-own-slot-props` branch. This supersedes the pending local-c
 
 Next step: human review, staging, commit and push of the nine Material changes to update PR #2924.
 Prepared title-only commit message: `MUI. Add missing overrides to inherited props`.
+
+## Theme and typography review follow-up — PR #2923 (2026-11-06)
+
+Applied the recurring review conventions to the generator following the general comment on
+[PR #2923](https://github.com/JetBrains/kotlin-wrappers/pull/2923#issuecomment-6693746527).
+Starting source revision: `2886fc3a`; the working tree was clean. The ten theme/typography
+`@JsPlainObject` interfaces already had `val` properties locally, although the open PR still used `var`.
+
+- Removed the file-wide `PROPERTY_TYPE_MISMATCH_ON_OVERRIDE` rule for `createThemeNoVars` from
+  `Override.kt` / `Generator.kt`. `Overrides.kt` now emits property-level suppressions only for
+  `ThemeOptions.{mixins, components, transitions, zIndex}`, `BaseTheme.{mixins, transitions, zIndex}`,
+  and `Theme.components`. Their existing types and optionality are preserved; other overrides receive
+  no suppression. Material marker types differ from their System counterparts, and `components`
+  widens the System record type to the existing `Any?` fallback.
+- Added a narrow `KotlinType.kt` conversion for the upstream `pxToRem: (px: number) => string`
+  signature to `(px: Double) -> String`; other numeric callback conversions are unchanged.
+- Added `web.cssom.FontFamily` and `web.cssom.FontWeight` to `Generator.kt` import resolution.
+  Only `createTypography.kt` uses these previously qualified names; unrelated required qualifications
+  are preserved.
+- Updated `ThemeTypingSample.kt` calls to use `Double` and added two meaningful checks:
+  the real MUI function maps `16.5` pixels to `1.03125rem`, and a `TypographyUtils` factory accepts an
+  explicitly `Double`-typed callback and preserves its fractional result. The latter also rejects the
+  old `(Number) -> String` factory signature at compilation.
+
+Verification:
+
+- `./gradlew :mui-kotlin:build :playground:compileKotlinJs :playground:jsDevelopmentExecutableCompileSync`
+  and `./gradlew :mui-kotlin:clean build` passed with zero compilation errors. All 21 runtime-export
+  tests passed; no separate `:buildSrc:test` run was performed.
+- SHA-256 manifests of all 778 generated filenames and contents match across clean regeneration.
+  Exactly two generated files differ from the starting revision: `createThemeNoVars.kt` and
+  `createTypography.kt`, both under `mui.material.styles`. No generated files were hand-edited.
+- Chrome DevTools MCP verified `#/material/theme-typing`: mounted sample, 32/32 PASS, including both
+  fractional-pixel checks. The screenshot showed all checks passing.
+- At `#/all`, all 36 samples mounted, all 107 checks passed, and the settled console aggregate matched
+  `#all-summary` (`samples=36 checks=107/107`). No application exception or failed check occurred.
+  The only console error was the unrelated `favicon.ico` 404; the previously recorded Base UI
+  render-callback-name warning remains.
+
+Next step: human review and commit of the local generator fix, then a separate scoped transfer to update
+PR #2923 if requested. No fork files were changed and no staging, commit, push or GitHub reply was performed.
+The older `build/transfers/pr-2923-follow-up.patch` predates these fixes and must not be used as the current handoff.

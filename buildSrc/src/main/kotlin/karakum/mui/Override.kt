@@ -64,9 +64,3 @@ internal val VAR_TYPE_MISMATCH_ON_OVERRIDE_FIX_REQUIRED = setOf(
     "Drawer", // onClose
     "Popover", // onClose
 )
-
-internal val PROPERTY_TYPE_MISMATCH_ON_OVERRIDE_FIX_REQUIRED = setOf(
-    // The material theme replaces `mui.system.Theme` / `ThemeOptions` marker members (`Mixins`, `Transitions`,
-    // `ZIndex`, `components`) with its own material-specific interfaces.
-    "createThemeNoVars",
-)

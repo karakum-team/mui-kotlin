@@ -447,6 +447,11 @@ internal fun kotlinType(
     if (type == "number" && name in NUMBER_AS_DOUBLE_PROPERTIES)
         return "Double"
 
+    // Typography converts fractional pixel sizes as well as whole pixels. Keep this callback concrete
+    // without changing the general function-type conversion of TypeScript `number` parameters.
+    if (name == "pxToRem" && type == "(px: number) => string")
+        return "(px: Double) -> String"
+
     if (type == "string" && name != null && name.endsWith("ClassName"))
         return "ClassName"
 

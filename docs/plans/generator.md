@@ -12,6 +12,13 @@ Base UI module work has its own [canonical plan](base-ui.md).
   without package-local adapter helpers, following [`#2927`](https://github.com/JetBrains/kotlin-wrappers/pull/2927)
   and [`#2930`](https://github.com/JetBrains/kotlin-wrappers/pull/2930)). The remaining v6/v9 candidates below are low
   priority.
+- **PR #2923 theme review follow-up (2026-11-06):** the existing JSO families retain `val` properties;
+  theme override suppressions now apply only to eight incompatible properties, `pxToRem` accepts `Double`,
+  and typography imports `FontFamily` / `FontWeight` by short name. Clean generation reproduces all 778 files;
+  the theme sample passes 32/32 checks and `#/all` passes 107/107 checks across 36 samples.
+  [Scope and verification](../history/mui-v6.md#theme-and-typography-review-follow-up--pr-2923-2026-11-06).
+  These fixes are local to the generator repository. Prepare a fresh scoped delta for the next transfer;
+  the earlier `build/transfers/pr-2923-follow-up.patch` predates the property-level suppressions and typography fixes.
 - **Next step:** select the item requested by the user and recheck it against the current generator and installed
   upstream `.d.ts` / runtime exports. If continuing this backlog without a selected item, first assess the bounded
   `createColorScheme` binding described below, then implement it as a separate task if still missing.
