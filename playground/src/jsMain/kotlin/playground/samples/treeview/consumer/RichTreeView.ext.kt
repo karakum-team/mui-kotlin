@@ -1,9 +1,13 @@
 package playground.samples.treeview.consumer
 
+import js.array.ReadonlyArray
 import js.objects.unsafeJso
+import js.reflect.unsafeCast
 import muix.tree.view.TreeItemProps
 import muix.tree.view.TreeItemSlotProps
 import muix.tree.view.TreeItemSlots
+import muix.tree.view.TreeViewItemId
+import muix.tree.view.TreeViewSelectionValue
 import react.Props
 import react.dom.events.KeyboardEventHandler
 import react.dom.html.HTMLAttributes
@@ -18,6 +22,24 @@ import web.html.HTMLLIElement
 // `asDynamic()` is knowingly used here (`dataUnselectable`) although playground/README.md
 // confines it to `MissedWrappers.kt`: the point of this port is to reproduce the workarounds exactly as the
 // original wrapper has them, until the generator makes them unnecessary.
+
+// `TreeViewSelectionValue` is a marker union interface in `kotlin-muix-tree-view` without factory/reader helpers
+// until a shared union mechanism lands in `kotlin-wrappers` (JetBrains/kotlin-wrappers#2927, #2930).
+internal inline fun TreeViewSelectionValue(
+    ids: ReadonlyArray<TreeViewItemId>,
+): TreeViewSelectionValue =
+    unsafeCast(ids)
+
+internal fun TreeViewSelectionValue?.asArray(): ReadonlyArray<TreeViewItemId> {
+    val value: Any = this
+        ?: return emptyArray()
+
+    require(value is Array<*>) {
+        "Multivalue required, but `$value` found instead"
+    }
+
+    return unsafeCast(value)
+}
 
 // `TreeItemProps` and `TreeItemSlotProps` extend `react.Props`, which the js-plain-objects plugin does not accept
 // as a supertype, so these two factories stay hand-written for good.

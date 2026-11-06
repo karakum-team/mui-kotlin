@@ -2,12 +2,13 @@ package playground.samples.treeview
 
 import js.array.ReadonlyArray
 import js.objects.unsafeJso
-import mui.types.Value
-import mui.types.single
+import js.reflect.unsafeCast
 import muix.tree.view.RichTreeView
 import muix.tree.view.RichTreeViewProps
 import muix.tree.view.SimpleTreeView
 import muix.tree.view.TreeItem
+import muix.tree.view.TreeViewItemId
+import muix.tree.view.TreeViewSelectionValue
 import playground.shell.Kind
 import playground.shell.Libraries
 import playground.shell.Ref
@@ -17,6 +18,21 @@ import react.FC
 import react.Props
 import react.ReactNode
 import react.useState
+
+private inline fun TreeViewSelectionValue(
+    id: TreeViewItemId?,
+): TreeViewSelectionValue? =
+    unsafeCast(id)
+
+private fun TreeViewSelectionValue.single(): TreeViewItemId {
+    val value: Any = this
+
+    require(value !is Array<*>) {
+        "Single value required, but array found instead"
+    }
+
+    return unsafeCast(value)
+}
 
 private external interface SampleTreeItem {
     var id: String
@@ -40,8 +56,8 @@ val RichTreeViewSelectionSample: Sample = Sample(
     title = "RichTreeView selection",
     kind = Kind.Check,
     covers = listOf(
-        "RichTreeView.items/selectedItems (TreeViewSelectionValue / Value)",
-        "RichTreeView.onSelectedItemsChange (single)",
+        "RichTreeView.items/selectedItems (TreeViewSelectionValue)",
+        "RichTreeView.onSelectedItemsChange",
         "RichTreeView.onItemClick",
         "SimpleTreeView.multiSelect",
         "TreeItem.itemId/label",
@@ -67,7 +83,7 @@ val RichTreeViewSelectionSample: Sample = Sample(
         // 1. Verify RichTreeView with items and selection handlers
         RichTreeView<RichTreeViewProps<SampleTreeItem>> {
             items = sampleTreeItems
-            selectedItems = Value(selectedItem)
+            selectedItems = TreeViewSelectionValue(selectedItem)
             onSelectedItemsChange = { _, itemIds ->
                 selectedItem = itemIds?.single()
             }

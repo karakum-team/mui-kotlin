@@ -923,3 +923,23 @@ explicitly requested transferring the generated delta to a new fork branch and c
   match the generator (`db33c3d8`) byte-for-byte (`diff -ru` empty); `git diff --check upstream/master...mui-value`
   passes; branch remote config is set to `origin` (`refs/heads/mui-value`); fork `master` working tree and index
   were preserved untouched, and nothing was pushed.
+
+## PR #2930 resolution — marker-only `TreeViewSelectionValue` (2026-11-06)
+
+In [`JetBrains/kotlin-wrappers#2930`](https://github.com/JetBrains/kotlin-wrappers/pull/2930#pullrequestreview-5805286420),
+`@turansky` responded *"Local solution isn't expected"*, clarifying that a package-local `mui.types.Value<T>` should
+not be introduced in `kotlin-mui-system` and that `TreeViewSelectionValue.kt` should remain just the marker union
+interface (`sealed /* union */ external interface TreeViewSelectionValue`, as committed upstream in `cb8b60a998`
+before merging PR #2927) until a cross-wrapper union mechanism exists in `kotlin-wrappers`:
+
+- **`Generator.kt` (`TREE_VIEW_SELECTION_VALUE`):** removed `TYPES_VALUE` (`mui/types/Value.kt`) and emitted
+  `sealed /* union */ external interface TreeViewSelectionValue` in
+  `mui-kotlin/src/jsMain/kotlin/muix/tree/view/TreeViewSelectionValue.kt` without adapter functions or unused imports.
+- **Playground samples:** moved the consumer multi-select helpers (`TreeViewSelectionValue(ids)` and `asArray()`) into
+  `playground/src/jsMain/kotlin/playground/samples/treeview/consumer/RichTreeView.ext.kt` and the single-select
+  helpers (`TreeViewSelectionValue(id)` and `single()`) into
+  `playground/src/jsMain/kotlin/playground/samples/treeview/RichTreeViewSelectionSample.kt`.
+- **Fork cleanup:** deleted the local `mui-value` branch in the fork checkout.
+- **Verification:** two clean runs of `./gradlew :mui-kotlin:clean build :playground:compileKotlinJs` passed with 0
+  errors and 21/21 `testRuntimeExports` tests, producing byte-for-byte identical output across all **778** generated
+  files (`shasum -a 256` matched with empty `diff -u`).

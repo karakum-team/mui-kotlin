@@ -2,6 +2,5 @@
 
 package muix.tree.view
 
-import mui.types.Value
-
-typealias TreeViewSelectionValue = Value<TreeViewItemId>
+sealed /* union */
+external interface TreeViewSelectionValue

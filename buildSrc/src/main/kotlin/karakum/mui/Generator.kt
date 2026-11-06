@@ -48,43 +48,6 @@ external interface PropsWithComponent : react.Props {
 """.trimIndent()
 
 // language=kotlin
-private val TYPES_VALUE = """
-sealed /* union */
-external interface Value<T : Any>
-
-inline fun <T : Any> Value(
-    value: T?,
-): Value<T>? =
-    unsafeCast(value)
-
-inline fun <T : Any> Value(
-    value: js.array.ReadonlyArray<T>,
-): Value<T> =
-    unsafeCast(value)
-
-fun <T : Any> Value<T>?.asArray(): js.array.ReadonlyArray<T> {
-    val value: Any = this
-        ?: return emptyArray()
-
-    require(value is Array<*>) {
-        "Multivalue required, but `${'$'}value` found instead"
-    }
-
-    return unsafeCast(value)
-}
-
-fun <T : Any> Value<T>.single(): T {
-    val value: Any = this
-
-    require(value !is Array<*>) {
-        "Single value required, but array found instead"
-    }
-
-    return unsafeCast(value)
-}
-""".trimIndent()
-
-// language=kotlin
 private val SYSTEM_ALIASES = """
 typealias Union = String
 """.trimIndent()
@@ -262,11 +225,12 @@ private val TREE_VIEW_EXPANSION_TRIGGER = convertUnion("TreeViewExpansionTrigger
 
 // TreeViewSelectionValue:
 //  Upstream `TreeViewSelectionValue<Multiple>` is a conditional type: `TreeViewItemId[]` when `Multiple` is `true`,
-//  `TreeViewItemId | null` otherwise. The props interfaces here do not carry `Multiple`, so both shapes are
-//  represented via the shared `mui.types.Value<T>` union type.
+//  `TreeViewItemId | null` otherwise. The props interfaces here do not carry `Multiple`, so both shapes share
+//  this marker union interface (`JetBrains/kotlin-wrappers#2927`, `#2930`).
 // language=kotlin
 private val TREE_VIEW_SELECTION_VALUE = """
-typealias TreeViewSelectionValue = mui.types.Value<TreeViewItemId>
+sealed /* union */
+external interface TreeViewSelectionValue
 """.trimIndent()
 
 // SlotComponentProps:
@@ -735,9 +699,6 @@ private fun RuntimeBindings.generateTypesDeclarations(
 
     targetDir.resolve("PropsWithComponent.kt")
         .writeGenerated(fileContent(body = TYPES_PROPS_WITH_COMPONENT, pkg = Package.types))
-
-    targetDir.resolve("Value.kt")
-        .writeGenerated(fileContent(body = TYPES_VALUE, pkg = Package.types))
 }
 
 private fun RuntimeBindings.generateBaseDeclarations(
@@ -2175,7 +2136,6 @@ private val IMPORTED_FQNS = listOf(
 
     // mui.types
     "mui.types.PropsWithComponent",
-    "mui.types.Value",
 
     // mui.system
     "mui.system.Breakpoints",

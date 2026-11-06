@@ -7,10 +7,11 @@ Base UI module work has its own [canonical plan](base-ui.md).
 
 ## Resume here
 
-- **Recorded phase:** the high-value v6 typing fixes were closed on 2026-10-31 against MUI 9.5.0, and the
-  `TreeViewSelectionValue` follow-up from merged
-  [`JetBrains/kotlin-wrappers#2927`](https://github.com/JetBrains/kotlin-wrappers/pull/2927) is implemented locally via
-  the shared `mui.types.Value<T : Any>` union type. The remaining v6/v9 candidates below are low priority.
+- **Recorded phase:** the high-value v6 typing fixes were closed on 2026-10-31 against MUI 9.5.0, and
+  `TreeViewSelectionValue.kt` is aligned with `JetBrains/kotlin-wrappers` `master` (`sealed /* union */ external interface TreeViewSelectionValue`
+  without package-local adapter helpers, following [`#2927`](https://github.com/JetBrains/kotlin-wrappers/pull/2927)
+  and [`#2930`](https://github.com/JetBrains/kotlin-wrappers/pull/2930)). The remaining v6/v9 candidates below are low
+  priority.
 - **Next step:** select the item requested by the user and recheck it against the current generator and installed
   upstream `.d.ts` / runtime exports. If continuing this backlog without a selected item, first assess the bounded
   `createColorScheme` binding described below, then implement it as a separate task if still missing.
@@ -56,18 +57,14 @@ Base UI module work has its own [canonical plan](base-ui.md).
   [Latest review resolution and verification](../history/mui-v6.md#own-slot-inherited-property-overrides--pr-2924-follow-up-2026-11-06).
   [Latest transfer evidence](../history/mui-v6.md#own-slot-inherited-override-fork-handoff-2026-11-06).
   Unrelated suppression limitations, including Base UI gap 12, remain deferred.
-- **Tree View transfer and PR #2927 review (2026-11-06):** [`JetBrains/kotlin-wrappers#2927`](https://github.com/JetBrains/kotlin-wrappers/pull/2927)
-  is **merged** into `JetBrains/kotlin-wrappers` (`67f0cceaf3`). The remaining review thread on
-  `TreeViewSelectionValue.kt`
-  ([`#discussion_r4484280313`](https://github.com/JetBrains/kotlin-wrappers/pull/2927#discussion_r4484280313),
-  [`#discussion_r4485031537`](https://github.com/JetBrains/kotlin-wrappers/pull/2927#discussion_r4485031537)) is now
-  implemented in the generator (`db33c3d8`) and transferred to the fork's `mui-value` branch (`a58a7347ab` on top of
-  `upstream/master` `f018fed8af`): `mui/types/Value.kt` emits the shared `mui.types.Value<T : Any>` union type with
-  `Value(value: T?)`, `Value(value: ReadonlyArray<T>)`, and strict `asArray()` / `single()` extensions (matching
-  `react.select.Value`), and `muix/tree/view/TreeViewSelectionValue.kt` emits
-  `typealias TreeViewSelectionValue = Value<TreeViewItemId>`.
-  Next step: human push of `mui-value` (`git push -u origin mui-value`) and opening the follow-up PR to
-  `JetBrains/kotlin-wrappers`.
+- **Tree View transfer and PR #2927 / #2930 resolution (2026-11-06):** [`JetBrains/kotlin-wrappers#2927`](https://github.com/JetBrains/kotlin-wrappers/pull/2927)
+  is **merged** into `JetBrains/kotlin-wrappers` (`67f0cceaf3`), and PRs `#2928` (`/* union */` markers) and `#2929`
+  (`Int` indices) are also merged. Following upstream review on follow-up
+  [`JetBrains/kotlin-wrappers#2930`](https://github.com/JetBrains/kotlin-wrappers/pull/2930#pullrequestreview-5805286420)
+  (*"Local solution isn't expected"*), `mui.types.Value` was removed from the generator, `TreeViewSelectionValue.kt`
+  emits only `sealed /* union */ external interface TreeViewSelectionValue` (matching `JetBrains/kotlin-wrappers`
+  `master` `cb8b60a998` without unused imports), selection helpers live in `playground` samples (`consumer/RichTreeView.ext.kt`
+  and `RichTreeViewSelectionSample.kt`), and the local `mui-value` branch in the fork was deleted.
   [Scope, baseline and verification](../history/mui-v9.md#tree-view-fork-handoff-2026-11-05).
   [Model filename follow-up](../history/mui-v9.md#tree-view-model-filenames-follow-up-2026-11-05).
   [Publication status](../history/mui-v9.md#tree-view-pull-request-opened-2026-11-05).
@@ -79,6 +76,7 @@ Base UI module work has its own [canonical plan](base-ui.md).
   [PR #2927 merged and `TreeViewSelectionValue` follow-up](../history/mui-v9.md#tree-view-pull-request-merged-and-treeviewselectionvalue-follow-up-2026-11-06).
   [`mui.types.Value` implementation and verification](../history/mui-v9.md#shared-muitypesvalue-and-treeviewselectionvalue-typealias-2026-11-06).
   [`mui.types.Value` fork branch commit](../history/mui-v9.md#shared-muitypesvalue-fork-branch-commit-2026-11-06).
+  [PR #2930 resolution and marker-only `TreeViewSelectionValue`](../history/mui-v9.md#pr-2930-resolution--marker-only-treeviewselectionvalue-2026-11-06).
   The filename follow-up also records one existing buildSrc test failure reproduced on the unchanged baseline;
   that separate runtime-binding test mismatch remains unresolved.
 - **Last recorded evidence:** [v6 audit resolutions](../history/mui-v6.md),
