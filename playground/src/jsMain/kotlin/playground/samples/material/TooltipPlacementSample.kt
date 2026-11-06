@@ -71,7 +71,7 @@ val TooltipPlacementSample: Sample = Sample(
             id = ElementId(DIAL_ID)
 
             SpeedDial {
-                ariaLabel = "Tooltip placement"
+                muiAriaLabel = "Tooltip placement"
                 open = true
                 icon = SpeedDialIcon.create()
 

@@ -71,7 +71,7 @@ val MaterialV9Sample: Sample = Sample(
 
         // 3. Verify SpeedDial with slots and slotProps
         SpeedDial {
-            ariaLabel = "SpeedDial example"
+            muiAriaLabel = "SpeedDial example"
             open = isSpeedDialOpen
             onOpen = { _, _ -> isSpeedDialOpen = true }
             onClose = { _, _ -> isSpeedDialOpen = false }
