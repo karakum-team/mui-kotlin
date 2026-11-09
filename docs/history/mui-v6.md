@@ -554,3 +554,28 @@ Verification:
 
 Next step: human review and commit of the generator changes and generated output, then a separate scoped
 fork transfer when requested. The local diff is unstaged and uncommitted; no fork files were changed.
+
+## Theme compatibility fork handoff — PR #2923 (2026-11-09)
+
+The source compatibility fix is committed as `9c013653`. At the user's request, transferred only its
+generated delta to the fork's existing `mui-theme` branch, without staging or committing.
+This completes the transfer step recorded above.
+
+- The fork started clean on `mui-theme` at `73482f080d5c3cea1dddce1378950ada152552d7`.
+  Changed exactly five generated files: Material `styles/createMixins.kt`, `styles/createTransitions.kt`,
+  `styles/zIndex.kt`, `styles/createThemeNoVars.kt`, and System `createTheme.kt`.
+- Applied the source delta from `1532524c` to `9c013653` using three-way file merging in scratch files.
+  All four Material files match the source output byte-for-byte. The System file receives only the
+  three marker annotations; its `ThemeOptions.spacing` remains `Any? /* SpacingOptions */`, preserving
+  the separate PR #2922 difference. No unrelated declarations or hand-written fork sources were copied.
+- The fork diff is **5 files, +36 / -31 lines**. Exact-content comparisons and `git diff --check` pass.
+  The target branch, HEAD, `master` and index bytes are unchanged. Only the five intended generated
+  files are modified, all unstaged and uncommitted.
+- All 778 source files still match the clean-generation hashes verified for the compatibility fix.
+  Its successful source builds, 21 runtime-export tests, 42/42 theme checks and 117/117 aggregate checks
+  remain applicable; no new source build or browser run was needed for this transfer-only step.
+  No compilation, builds or tests were run in the fork. Nothing was staged, committed, pushed or
+  posted to GitHub.
+
+Next step: human review, commit and push of the five-file diff to update PR #2923.
+Prepared title-only commit message: `MUI. Fix Material and System theme type compatibility`.

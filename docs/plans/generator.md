@@ -23,9 +23,13 @@ Base UI module work has its own [canonical plan](base-ui.md).
   `mui-theme` branch as `73482f080d`; this follow-up supersedes their suppression workaround.
   [Earlier source fix](../history/mui-v6.md#theme-and-typography-review-follow-up--pr-2923-2026-11-06).
   [Earlier fork handoff](../history/mui-v6.md#theme-and-typography-fork-handoff--pr-2923-2026-11-06).
-  Next step: human review and commit of the local generator, sample and five-file generated delta;
-  transfer that scoped delta to `mui-theme` when requested. The separate `spacing` work from PR #2922
-  remains outside this topic. The older `build/transfers/pr-2923-follow-up.patch` is superseded.
+  The compatibility fix is committed as `9c013653`; its five-file generated delta has been transferred
+  to the fork's `mui-theme` branch at `73482f080d` as an unstaged, uncommitted diff (+36 / -31 lines).
+  The separate `spacing` work from PR #2922 is preserved outside this topic. HEAD, `master` and index
+  bytes are unchanged; no fork compilation, builds or tests were run.
+  [Compatibility fork handoff](../history/mui-v6.md#theme-compatibility-fork-handoff--pr-2923-2026-11-09).
+  Next step: human review, commit and push of that five-file diff. The older
+  `build/transfers/pr-2923-follow-up.patch` is superseded.
 - **Next step:** select the item requested by the user and recheck it against the current generator and installed
   upstream `.d.ts` / runtime exports. If continuing this backlog without a selected item, first assess the bounded
   `createColorScheme` binding described below, then implement it as a separate task if still missing.
