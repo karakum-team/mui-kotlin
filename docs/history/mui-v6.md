@@ -510,3 +510,47 @@ This supersedes the pending transfer step above.
 
 Next step: human review, commit and push of the three-file diff to update PR #2923.
 Prepared title-only commit message: `MUI. Fix theme JSO properties and typography types`.
+
+## Theme type compatibility without override suppressions — PR #2923 (2026-11-09)
+
+Resolved the type incompatibilities behind the eight property-level suppressions following
+[the latest PR #2923 review](https://github.com/JetBrains/kotlin-wrappers/pull/2923#pullrequestreview-5807836971).
+Starting source revision: `1532524c`, with a clean working tree. The earlier fork handoff has been
+committed and published as `73482f080d` on `mui-theme`.
+
+- `Overrides.kt` explicitly makes Material `Mixins`, `Transitions`, `TransitionsOptions` and `ZIndex`
+  inherit their matching System marker interfaces. `MixinsOptions` inherits the System marker through
+  Material `Mixins`. Upstream's empty System interfaces are structural extension points; these explicit
+  parents express their compatibility in Kotlin without weakening the named property types.
+- `Generator.kt` annotates the three System markers and their five Material descendants with
+  `@JsPlainObject`, keeping every parent and child annotated. The corresponding data properties use
+  `val`; none of these interfaces inherits from `react.Props` or represents an object mutated in place.
+- `KotlinType.kt` converts theme `Components<...>` properties to `Record<String, *>`, preserving
+  optionality and the dictionary shape inherited from System. Generic per-component configuration
+  typing remains unsupported; the original TypeScript type is retained in a comment.
+- Removed `suppressThemePropertyMismatches` and its call. All eight
+  `PROPERTY_TYPE_MISMATCH_ON_OVERRIDE` annotations disappear from `createThemeNoVars.kt`.
+- Expanded the existing registered `ThemeTypingSample` with ten checks. Material option values pass
+  directly to the System `ThemeOptions` factory, and built Material mixins, transitions and z-index values assign to
+  System marker types without casts or suppressions. The sample also reads `components` as a record
+  and verifies that custom toolbar height, transition duration and component configuration reach MUI.
+  The newly annotated objects are constructed with their generated factories.
+
+Verification:
+
+- `./gradlew :mui-kotlin:build :playground:compileKotlinJs :playground:jsDevelopmentExecutableCompileSync`
+  and `./gradlew :mui-kotlin:clean build` passed with zero compilation errors. All 21 runtime-export
+  tests passed. No separate `:buildSrc:test` run was performed.
+- SHA-256 manifests of all 778 generated filenames and contents match across clean regeneration and
+  the later dev-server generation. Exactly five generated files differ from the starting revision:
+  Material `styles/createMixins.kt`, `styles/createTransitions.kt`, `styles/zIndex.kt`,
+  `styles/createThemeNoVars.kt`, and System `createTheme.kt`. No generated files were hand-edited.
+- Chrome DevTools MCP verified `#/material/theme-typing`: the sample mounted and all 42/42 checks
+  passed. The full-page screenshot was inspected.
+- At `#/all`, all 36 samples mounted, all 117/117 checks passed, and the settled console aggregate
+  matched `#all-summary` (`samples=36 checks=117/117`). There were zero failing checks and no application
+  exception. The existing favicon 404 and Base UI render-callback-name warning remain unrelated.
+- `git diff --check` passed. No fork compilation, builds or tests were run.
+
+Next step: human review and commit of the generator changes and generated output, then a separate scoped
+fork transfer when requested. The local diff is unstaged and uncommitted; no fork files were changed.

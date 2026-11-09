@@ -1797,13 +1797,18 @@ private fun RuntimeBindings.generate(
         collapseMemberValueObjects = pkg == Package.baseUi,
         // Annotate only closed families without `react.Props`, including every parent and child.
         jsPlainObject = when (pkg) {
-            // Both theme families and the typography family must include all their parents and children.
-            Package.system -> { name -> name in setOf("Theme", "ThemeOptions") }
+            // Both theme families and their marker hierarchies must include all their parents and children.
+            Package.system -> { name -> name in setOf("Theme", "ThemeOptions", "Mixins", "Transitions", "ZIndex") }
             Package.materialStyles -> { name ->
                 name in setOf(
                     "ThemeOptions",
                     "BaseTheme",
                     "Theme",
+                    "Mixins",
+                    "MixinsOptions",
+                    "Transitions",
+                    "TransitionsOptions",
+                    "ZIndex",
                     "FontStyle",
                     "FontStyleOptions",
                     "TypographyUtils",

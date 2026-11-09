@@ -12,17 +12,20 @@ Base UI module work has its own [canonical plan](base-ui.md).
   without package-local adapter helpers, following [`#2927`](https://github.com/JetBrains/kotlin-wrappers/pull/2927)
   and [`#2930`](https://github.com/JetBrains/kotlin-wrappers/pull/2930)). The remaining v6/v9 candidates below are low
   priority.
-- **PR #2923 theme review follow-up (2026-11-06):** the existing JSO families retain `val` properties;
-  theme override suppressions now apply only to eight incompatible properties, `pxToRem` accepts `Double`,
-  and typography imports `FontFamily` / `FontWeight` by short name. Clean generation reproduces all 778 files;
-  the theme sample passes 32/32 checks and `#/all` passes 107/107 checks across 36 samples.
-  [Scope and verification](../history/mui-v6.md#theme-and-typography-review-follow-up--pr-2923-2026-11-06).
-  The source fix is committed as `631fac2e`; its changes and the pending JSO `var` → `val` correction were
-  transferred to the fork's `mui-theme` branch as a three-file unstaged, uncommitted diff. The separate
-  `spacing` type change from PR #2922 is excluded. No fork compilation, builds or tests were run.
-  [Fork handoff](../history/mui-v6.md#theme-and-typography-fork-handoff--pr-2923-2026-11-06).
-  Next step: human review, commit and push of that diff. The earlier
-  `build/transfers/pr-2923-follow-up.patch` predates these fixes and is superseded by this handoff.
+- **PR #2923 theme type compatibility (2026-11-09):** Material `Mixins`, `Transitions` / `TransitionsOptions`
+  and `ZIndex` now inherit the matching System markers; `MixinsOptions` inherits its marker through `Mixins`.
+  These complete families use `@JsPlainObject` and `val`. Material `components` preserves the System
+  `Record<String, *>?` shape, so all eight theme override suppressions and their generator helper are removed.
+  Clean regeneration reproduces all 778 files; the theme sample passes 42/42 checks and `#/all` passes
+  117/117 checks across 36 samples. The generic per-component configuration types remain unsupported.
+  [Compatibility fix and verification](../history/mui-v6.md#theme-type-compatibility-without-override-suppressions--pr-2923-2026-11-09).
+  The earlier source fix `631fac2e` and its JSO `var` → `val` handoff are published on the fork's
+  `mui-theme` branch as `73482f080d`; this follow-up supersedes their suppression workaround.
+  [Earlier source fix](../history/mui-v6.md#theme-and-typography-review-follow-up--pr-2923-2026-11-06).
+  [Earlier fork handoff](../history/mui-v6.md#theme-and-typography-fork-handoff--pr-2923-2026-11-06).
+  Next step: human review and commit of the local generator, sample and five-file generated delta;
+  transfer that scoped delta to `mui-theme` when requested. The separate `spacing` work from PR #2922
+  remains outside this topic. The older `build/transfers/pr-2923-follow-up.patch` is superseded.
 - **Next step:** select the item requested by the user and recheck it against the current generator and installed
   upstream `.d.ts` / runtime exports. If continuing this backlog without a selected item, first assess the bounded
   `createColorScheme` binding described below, then implement it as a separate task if still missing.
@@ -39,8 +42,8 @@ Base UI module work has its own [canonical plan](base-ui.md).
   three-dot comparison contains only the intended topic. The fork's `master`, found at `b52c5a7c98`
   during the correction, retains only the unstaged, uncommitted `TreeViewSelectionValue.kt` helper delta
   (+39 lines). Changes covered by open PRs #2914, #2922 and #2923 remain excluded.
-  Nonduplicate theme `var` → `val` corrections and the corresponding suppression correction remain in
-  `build/transfers/pr-2923-follow-up.patch` for separate review against #2923.
+  The old theme `var` → `val` and suppression snapshot in `build/transfers/pr-2923-follow-up.patch`
+  is superseded by the PR #2923 compatibility entry above; use its current generator delta instead.
   Next step: the human updates the already-pushed topic branches using `--force-with-lease` and opens
   their upstream PRs, then reviews the remaining helper diff and separate theme follow-up. Before
   publication, compare ancestry and the three-dot diff with actual `upstream/master`, rather than the

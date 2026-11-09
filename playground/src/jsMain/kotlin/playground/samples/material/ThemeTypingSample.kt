@@ -1,14 +1,21 @@
 package playground.samples.material
 
+import js.objects.Record
+import js.objects.get
+import js.objects.recordOf
 import js.objects.unsafeJso
+import mui.material.ButtonProps
 import mui.material.PaletteMode
+import mui.material.styles.Duration
 import mui.material.styles.FontStyleOptions
+import mui.material.styles.MixinsOptions
 import mui.material.styles.Palette
 import mui.material.styles.PaletteOptions
 import mui.material.styles.ReducedMotionMode
 import mui.material.styles.ShapeOptions
 import mui.material.styles.SimplePaletteColorOptions
 import mui.material.styles.ThemeOptions
+import mui.material.styles.TransitionsOptions
 import mui.material.styles.TypographyUtils
 import mui.material.styles.TypographyVariantsOptions
 import mui.material.styles.ZIndex
@@ -27,26 +34,58 @@ import web.cssom.rem
 
 private val defaultTheme = createTheme()
 
-private val customTheme = createTheme(
-    ThemeOptions(
-        palette = unsafeJso<PaletteOptions> {
-            mode = PaletteMode.dark
-            primary = unsafeJso<SimplePaletteColorOptions> {
-                main = "#ff0000"
-            }
-        },
-        typography = TypographyVariantsOptions(
-            h1 = unsafeJso<CSSProperties> {
-                fontSize = 3.rem
-            },
-        ),
-        shape = unsafeJso<ShapeOptions> {
-            borderRadius = 8.px
-        },
-        zIndex = unsafeJso<ZIndex> {
-            appBar = 2000
+private val customThemeOptions = ThemeOptions(
+    palette = unsafeJso<PaletteOptions> {
+        mode = PaletteMode.dark
+        primary = unsafeJso<SimplePaletteColorOptions> {
+            main = "#ff0000"
+        }
+    },
+    typography = TypographyVariantsOptions(
+        h1 = unsafeJso<CSSProperties> {
+            fontSize = 3.rem
         },
     ),
+    shape = unsafeJso<ShapeOptions> {
+        borderRadius = 8.px
+    },
+    mixins = MixinsOptions(
+        toolbar = unsafeJso<mui.material.styles.CSSProperties> {
+            minHeight = 64.px
+        },
+    ),
+    transitions = TransitionsOptions(
+        duration = unsafeJso<Duration> {
+            standard = 450
+        },
+    ),
+    zIndex = ZIndex(
+        mobileStepper = defaultTheme.zIndex.mobileStepper,
+        speedDial = defaultTheme.zIndex.speedDial,
+        appBar = 2000,
+        drawer = defaultTheme.zIndex.drawer,
+        modal = defaultTheme.zIndex.modal,
+        snackbar = defaultTheme.zIndex.snackbar,
+        tooltip = defaultTheme.zIndex.tooltip,
+        fab = defaultTheme.zIndex.fab,
+    ),
+    components = recordOf(
+        "MuiButton" to recordOf(
+            "defaultProps" to unsafeJso<ButtonProps> {
+                disabled = true
+            },
+        ),
+    ),
+)
+
+private val customTheme = createTheme(customThemeOptions)
+
+// Every Material option must be assignable to its System counterpart without casts or suppressions.
+private val systemOptions = mui.system.ThemeOptions(
+    mixins = customThemeOptions.mixins,
+    transitions = customThemeOptions.transitions,
+    zIndex = customThemeOptions.zIndex,
+    components = customThemeOptions.components,
 )
 
 // `fontSize` scales `pxToRem`: 28 is twice the 14px default.
@@ -94,20 +133,28 @@ val ThemeTypingSample: Sample = Sample(
         "Theme.shadows / shape / mixins.toolbar / zIndex / transitions / motion",
         "Theme.alpha / lighten / darken",
         "Theme.vars: ThemeVars",
-        "ThemeOptions.palette / typography / shape / zIndex / cssVariables",
+        "ThemeOptions.palette / typography / shape / mixins / transitions / zIndex / components / cssVariables",
+        "Material Mixins / Transitions / ZIndex and their options are assignable to System markers",
+        "Theme.components / ThemeOptions.components: Record<String, *> shared with System",
         "createTypography(palette, options)",
         "createTypography(palette, callback)",
-        "ThemeOptions / FontStyleOptions / TypographyVariantsOptions @JsPlainObject factories",
+        "ThemeOptions / FontStyleOptions / TypographyVariantsOptions / MixinsOptions / TransitionsOptions @JsPlainObject factories",
     ),
     fileName = "ThemeTypingSample.kt",
     notes = "Only running this proves that the members converted from `createThemeNoVars.d.ts` read the " +
             "runtime theme under the names and shapes MUI builds: palette and typography values, the 25 shadows, " +
             "the color helpers, the CSS variables `vars`, that `@JsPlainObject` options reach `createTheme`, " +
-            "and that both `createTypography` overloads preserve partial options and invoke the callback with the palette.",
+            "that both `createTypography` overloads preserve partial options and invoke the callback with the palette, " +
+            "and that Material's theme fields remain usable through System types without casts.",
     content = FC<Props> {
         val theme = defaultTheme
         val fontSize: Double = fractionalTypography.fontSize
         val htmlFontSize: Double = fractionalTypography.htmlFontSize
+        val systemTheme: mui.system.Theme = customTheme
+        val systemMixins: mui.system.Mixins = customTheme.mixins
+        val systemTransitions: mui.system.Transitions = customTheme.transitions
+        val systemZIndex: mui.system.ZIndex = customTheme.zIndex
+        val components: Record<String, *>? = customTheme.components
 
         CheckList {
             id = "theme-typing-checks"
@@ -138,6 +185,19 @@ val ThemeTypingSample: Sample = Sample(
                 Check("ThemeOptions.typography: h1.fontSize is 3rem", "${customTheme.typography.h1.fontSize}" == "3rem"),
                 Check("ThemeOptions.shape: borderRadius is 8px", "${customTheme.shape.borderRadius}" == "8px"),
                 Check("ThemeOptions.zIndex: appBar is 2000", customTheme.zIndex.appBar == 2000),
+                Check("ThemeOptions.mixins: toolbar.minHeight is 64px", "${customTheme.mixins.toolbar.minHeight}" == "64px"),
+                Check("ThemeOptions.transitions: duration.standard is 450", customTheme.transitions.duration.standard == 450),
+                Check("System ThemeOptions accepts Material MixinsOptions", systemOptions.mixins === customThemeOptions.mixins),
+                Check("System ThemeOptions accepts Material TransitionsOptions", systemOptions.transitions === customThemeOptions.transitions),
+                Check("System ThemeOptions accepts Material ZIndex", systemOptions.zIndex === customThemeOptions.zIndex),
+                Check("System ThemeOptions accepts Material components", systemOptions.components === customThemeOptions.components),
+                Check("Material Mixins is usable as System Mixins", systemTheme.mixins === systemMixins),
+                Check("Material Transitions is usable as System Transitions", systemTheme.transitions === systemTransitions),
+                Check("Material ZIndex is usable as System ZIndex", systemTheme.zIndex === systemZIndex),
+                Check(
+                    "Material components is a System-compatible record containing MuiButton",
+                    components?.get("MuiButton") != undefined && systemTheme.components === components,
+                ),
                 Check("createTypography(fontSize = 28).pxToRem(16) is 2rem", largeTypography.pxToRem(16.0) == "2rem"),
                 Check("createTypography callback receives the palette", callbackPalette === theme.palette),
                 Check("createTypography callback: pxToRem(16) is 2rem", callbackTypography.pxToRem(16.0) == "2rem"),
