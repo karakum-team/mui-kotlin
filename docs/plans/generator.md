@@ -30,6 +30,20 @@ Base UI module work has its own [canonical plan](base-ui.md).
   [Compatibility fork handoff](../history/mui-v6.md#theme-compatibility-fork-handoff--pr-2923-2026-11-09).
   Next step: human review, commit and push of that five-file diff. The older
   `build/transfers/pr-2923-follow-up.patch` is superseded.
+- **Spacing Kotlin API (`GEN-SPACING-01`, completed 2026-11-09):** numeric units, factors, callback
+  inputs and scale entries use `Double`; CSS values and callback results use typed `Length`.
+  `SpacingArgument` is an alias for `Double`, with the original five call arities. The six
+  `SpacingOptions` factories cover `Double`, `Length`, `Spacing`, `(Double) -> Length`, and arrays
+  of either value type. Parallel `Int` / raw `String` overloads and mixed primitive unions are
+  intentionally outside this idiomatic Kotlin API. The registered `SpacingSample` passes 27/27
+  browser checks; `#/all` passes 134/134 checks across 36 samples.
+  Clean regeneration reproduces all 778 files, with only `createSpacing.ext.kt` changed from the
+  starting revision. The internal `createSpacing.transform` parameter remains intentionally omitted.
+  [Audit evidence](../history/mui-v6.md#spacing-pr-synchronization-and-type-audit--pr-2922-2026-11-09).
+  [Implementation and verification](../history/mui-v6.md#spacing-type-fidelity--gen-spacing-01-2026-11-09).
+  Next step: human review and commit of the source diff, then a focused transfer to the existing
+  `mui-create-spacing` branch when requested. No fork files were changed; keep PR #2923's theme
+  differences outside the spacing transfer.
 - **Next step:** select the item requested by the user and recheck it against the current generator and installed
   upstream `.d.ts` / runtime exports. If continuing this backlog without a selected item, first assess the bounded
   `createColorScheme` binding described below, then implement it as a separate task if still missing.
@@ -200,8 +214,17 @@ working on the affected API; compare each with current code before treating it a
 - **Material theme:** object-form `cssVariables`, the `ThemeOptions.typography` callback, `focusVisible | false`,
   tuple/partial handling for `Shadows` / `ZIndexOptions`, loose theme fields, and CssVars palette access.
   [Recorded details](../history/mui-v6.md#material).
-- **Spacing:** string arguments through `SpacingArgument` and the widened `createSpacing.transform` callback.
-  [Recorded details](../history/mui-v6.md#system).
+- **Spacing (`GEN-SPACING-01`, resolved 2026-11-09):** fractional units/factors, CSS-length callbacks
+  and scales are supported and verified in `SpacingSample`. The chosen Kotlin surface uses `Double`
+  for numeric values and typed `Length` for CSS values, with one `(Double) -> Length` callback factory.
+  Raw string arguments, extra `Int` overloads and mixed primitive union factories are deliberately
+  excluded; do not reopen
+  them as missing TypeScript coverage. Only scale-array indices must have integral values. The
+  optional internal `createSpacing.transform` parameter remains deliberately omitted by
+  `FunctionConverter.kt`; it is not an outstanding typing gap.
+  [Original compromise](../history/mui-v6.md#system).
+  [Audit](../history/mui-v6.md#spacing-pr-synchronization-and-type-audit--pr-2922-2026-11-09).
+  [Resolution and verification](../history/mui-v6.md#spacing-type-fidelity--gen-spacing-01-2026-11-09).
 - **TextField and Grid:** simplified generic `InputBaseProps` and widened `GridSpacing`.
   [Recorded details](../history/mui-v6.md#известные-потери--упрощения-в-публичном-api).
 

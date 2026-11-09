@@ -1,33 +1,63 @@
 package karakum.mui
 
+private val SPACING_VALUE_TYPES = listOf("Double", "web.cssom.Length")
+
 internal fun convertSpacingOptions(
     name: String,
     body: String,
 ): String {
-    val factories = body
-        // v6+ leads with `number | string |`: keep the numeric spacing unit (`spacing: 4`) as its own `Int`
-        // factory instead of letting the rule below fold both into `Length`.
-        .replaceFirst(Regex("""^number \| string \| """), "number | web.cssom.Length | ")
-        .replace("number | string", "web.cssom.Length")
-        .replace("string | number", "Int")
-        .replace("number", "Int")
-        .replace("=>", "->")
-        .splitToSequence(" | ")
-        .map { it.removeSurrounding("(", ")") }
-        .joinToString("\n\n") { type ->
-            val modifier = if (type.startsWith("(")) "noinline" else ""
+    val types = splitSpacingUnion(body).flatMap { branch ->
+        when (branch) {
+            "number" -> listOf("Double")
+            "string" -> listOf("web.cssom.Length")
+            "Spacing" -> listOf("Spacing")
+            "((abs: number) => number | string)",
+            "((abs: number | string) => number | string)" ->
+                listOf("(abs: Double) -> web.cssom.Length")
 
-            """
-                inline fun $name(
-                    $modifier value: $type,
-                ): $name =
-                    unsafeCast(value)
-            """.trimIndent()
+            "ReadonlyArray<string | number>" ->
+                SPACING_VALUE_TYPES.map { "ReadonlyArray<$it>" }
+
+            else -> error("Unsupported SpacingOptions branch: $branch")
         }
+    }
 
-    return "sealed /* union */\nexternal interface $name" +
-            "\n\n" +
-            factories
+    // Expose numeric factors and typed CSS lengths rather than every primitive union combination.
+    val factories = types.distinct().joinToString("\n\n") { type ->
+        val modifier = if (type.startsWith("(")) "noinline " else ""
+
+        """
+            inline fun $name(
+                ${modifier}value: $type,
+            ): $name =
+                unsafeCast(value)
+        """.trimIndent()
+    }
+
+    return "sealed /* union */\nexternal interface $name\n\n$factories"
+}
+
+// Callback inputs/results and array elements contain their own unions. Split only the outer union;
+// unlike a closing generic bracket, the '>' in a function arrow must not change bracket depth.
+private fun splitSpacingUnion(body: String): List<String> {
+    val parts = mutableListOf<String>()
+    var depth = 0
+    var start = 0
+    for (index in body.indices) {
+        when (body[index]) {
+            '(', '<' -> depth++
+            ')' -> depth--
+            '>' -> if (body.getOrNull(index - 1) != '=') depth--
+            '|' -> if (depth == 0) {
+                parts += body.substring(start, index).trim()
+                start = index + 1
+            }
+        }
+        check(depth >= 0) { "Unbalanced SpacingOptions: $body" }
+    }
+    check(depth == 0) { "Unbalanced SpacingOptions: $body" }
+    parts += body.substring(start).trim()
+    return parts
 }
 
 internal fun convertSpacing(
@@ -35,14 +65,14 @@ internal fun convertSpacing(
     body: String,
 ): String {
     val members = body
-        .splitToSequence("\n")
+        .lineSequence()
+        .filter { it.isNotBlank() }
         .joinToString("\n\n") { source ->
-            val declaration = source
-                .removeSuffix(";")
-                .replace(": number", ": Int")
-                .replace(": string", ": web.cssom.Length")
+            val declaration = source.trim().removeSuffix(";")
+            check(declaration.endsWith("): string")) { "Unsupported Spacing signature: $source" }
+            val signature = declaration.removeSuffix(": string")
 
-            "operator fun invoke$declaration"
+            "operator fun invoke$signature: web.cssom.Length"
         }
 
     return "sealed external interface $name {\n" +

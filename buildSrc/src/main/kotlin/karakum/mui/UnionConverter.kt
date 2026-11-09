@@ -19,7 +19,7 @@ internal fun convertUnion(
         "SpacingOptions" -> return convertSpacingOptions(name, body)
         "SpacingArgument" -> {
             check(body == "number | string")
-            return "typealias $name = Int /* web.cssom.Auto */"
+            return "typealias $name = Double"
         }
 
         "TableCellAlign" -> return "typealias $name = react.dom.html.TdAlign /* $body */"

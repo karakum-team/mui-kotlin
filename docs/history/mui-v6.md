@@ -579,3 +579,88 @@ This completes the transfer step recorded above.
 
 Next step: human review, commit and push of the five-file diff to update PR #2923.
 Prepared title-only commit message: `MUI. Fix Material and System theme type compatibility`.
+
+## Spacing PR synchronization and type audit — PR #2922 (2026-11-09)
+
+Reviewed [PR #2922](https://github.com/JetBrains/kotlin-wrappers/pull/2922) and the fork's
+`mui-create-spacing` branch at `19a6aa90f0a220799495fc758feb501ccb3fe773` against source revision
+`d2d48ecb`. The source and fork checkouts started clean; the fork's active `mui-theme` branch was at
+`0ed69404cb64c6db3451078ffbb1086047f46ea3`. A separate read-only `mui-code-review` subagent checked
+the spacing conversion rules against installed upstream declarations and runtime source.
+
+- The published PR contains four generated-file changes: removal of the empty `Spacing.kt`, addition
+  of `createSpacing.kt` and `createSpacing.ext.kt`, and the `ThemeOptions.spacing` type refinement.
+  Both spacing files at the latest cleanup commit match the current generator output byte-for-byte.
+  Union markers, the callable interface, all five call arities, optionality and the named runtime export
+  are consistent; no new convention blocker was found.
+- Differences in System `createTheme.kt` are the annotations and `var` → `val` changes owned by
+  PR #2923. Applying only the spacing property type to the current theme-branch file reproduces the
+  generator's System theme exactly. Copying that whole file into #2922 would mix the two PR topics.
+- Two inherited type-fidelity gaps remain in the generator: `Int` limits valid fractional units,
+  factors and scale values; global union replacements lose numeric callback inputs/results and
+  string/mixed scale arrays. MUI's integer restriction applies to array indices, not to all spacing
+  numbers. These rules predate the latest cleanup, but refining `ThemeOptions.spacing` from `Any?`
+  exposes their restrictions to consumers.
+- String arguments such as `auto` are also excluded by `SpacingArgument = Int`; this is the already
+  documented v5 compromise. The optional internal `createSpacing.transform` parameter is deliberately
+  omitted since the cleanup in `8f9292b4`, so the older widened-callback plan entry was stale.
+  The canonical follow-up is [GEN-SPACING-01](../plans/generator.md#recorded-compromises-in-completed-support).
+- Chrome DevTools MCP showed the PR still open at the same head, with four successful checks and no
+  formal reviews or inline comments. The maintainer's only published comment asks for another check
+  before the latest cleanup; no later maintainer feedback is visible.
+
+No source or fork code was changed, and no branches, commits or index entries were modified. No local
+builds, tests, generation or browser sample verification were run for this read-only audit. All 778
+source declaration hashes still match the previously verified generation; the existing spacing sample
+does not cover the additional cases identified above. The fork's builds and tests remain out of scope.
+
+No synchronization transfer is needed. Revisit `GEN-SPACING-01` in the generator when spacing API
+improvements are requested, extend its registered sample, then prepare a focused generated delta.
+
+## Spacing type fidelity — GEN-SPACING-01 (2026-11-09)
+
+Implemented the spacing audit follow-up against installed MUI System / Material 9.5.0, starting from
+source revision `d2d48ecb`. The chosen idiomatic Kotlin API uses `Double` for numbers and typed CSS
+`Length` for CSS values. It deliberately omits parallel `Int` / raw `String` overloads and custom
+mixed primitive union factories. No changes were transferred to the fork.
+
+- `Spacing.kt` splits only the outer `SpacingOptions` union, respecting callback arrows and nested
+  argument/result and array-element unions. Each supported branch is mapped explicitly; an unknown
+  branch fails generation instead of silently losing part of its type.
+- Numeric units and scale entries use `Double`. Both upstream callback input forms map to
+  a numeric `Double` factor and a CSS `Length` result. There is one callback factory, without
+  experimental type-inference or overload-resolution annotations; numeric calculations return
+  typed lengths such as `(abs * 3).px`.
+- `UnionConverter.kt` emits `typealias SpacingArgument = Double`. `Spacing` retains exactly the five
+  zero-to-four-argument signatures: calls use `spacing(1.0, 2.0)` or fractional factors such as
+  `spacing(0.5, -1.5)`, and return CSS `Length` values.
+- The six `SpacingOptions` factories accept `Double`, `Length`, `Spacing`, `(Double) -> Length`,
+  `ReadonlyArray<Double>` and `ReadonlyArray<Length>`. CSS scales express
+  values uniformly with typed units, for example `arrayOf(0.px, 6.5.px, 1.rem)`. Only scale-array
+  indices must have integral values, even though passed as `Double`. The optional internal
+  `createSpacing.transform` argument remains deliberately omitted.
+- Regenerated the declarations without manual edits. Only System `createSpacing.ext.kt` changes;
+  `createSpacing.kt`, theme declarations and runtime bindings are unchanged.
+- Expanded the existing registered `SpacingSample` from 10 to 27 checks. They exercise all call
+  arities, fractional units and negative factors, CSS-length callbacks with inferred input types,
+  fractional and CSS-length scales, spacing-function reuse, System/Material theme integration, and assignment to
+  a CSS property.
+
+Verification:
+
+- `./gradlew :mui-kotlin:build :playground:compileKotlinJs :playground:jsDevelopmentExecutableCompileSync`
+  and `./gradlew :mui-kotlin:clean build` passed with zero compilation errors. All 21 runtime-export
+  tests passed. No separate `:buildSrc:test` run was performed.
+- SHA-256 manifests of all 778 generated filenames and contents match across the candidate build,
+  clean regeneration and dev-server generation.
+- Chrome DevTools MCP verified `#/system/spacing`: the sample mounted and all 27/27 checks passed.
+  The DOM snapshot was inspected; the padding example has both inline and computed `padding: 8px 16px`.
+- At `#/all`, all 36 samples mounted, all 134/134 checks passed, and the settled console aggregate
+  matched `#all-summary` (`samples=36 checks=134/134`). There were zero failing checks and no console
+  errors or application exceptions. The existing Base UI render-callback-name warning is unrelated.
+- `git diff --check` passed. No fork compilation, builds or tests were run. Nothing was staged,
+  committed, pushed or posted to GitHub.
+
+Next step: human review and commit of the generator, generated declaration, sample and documentation
+changes. A later requested fork transfer should carry only the generated spacing delta and preserve
+the separate theme PR's changes.
