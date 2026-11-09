@@ -664,3 +664,30 @@ Verification:
 Next step: human review and commit of the generator, generated declaration, sample and documentation
 changes. A later requested fork transfer should carry only the generated spacing delta and preserve
 the separate theme PR's changes.
+
+## Spacing fork handoff — PR #2922 (2026-11-09)
+
+The source spacing fix is committed as `7fa60abe`. At the user's request, transferred only its
+generated delta to the fork's existing `mui-create-spacing` branch, without staging or committing.
+This completes the transfer step recorded above.
+
+- The fork started clean on `mui-theme` at `0ed69404cb64c6db3451078ffbb1086047f46ea3`. Switched the
+  existing checkout to `mui-create-spacing` at `19a6aa90f0a220799495fc758feb501ccb3fe773`.
+- Changed exactly one generated file:
+  `kotlin-mui-system/src/jsMain/generated/mui/system/createSpacing.ext.kt` (+5 / -5 lines).
+  Its branch version matches the generator immediately before the fix byte-for-byte, so copying
+  the verified generated file applies exactly the source delta from `d2d48ecb` to `7fa60abe`.
+- The transferred file matches the generator output byte-for-byte. `createSpacing.kt` already
+  matches the source; it is unchanged. No theme files, hand-written sources or unrelated PR changes
+  were copied.
+- Exact-content comparisons and `git diff --check` pass. The target HEAD, all local branch refs
+  (including `master` and `mui-theme`) and target index bytes are unchanged. Only the intended file
+  is modified, unstaged and uncommitted; there are no untracked files.
+- All 778 source declaration hashes still match the clean-generation manifest verified for the
+  spacing fix. Its source builds, 21 runtime-export tests, 27/27 spacing checks and 134/134 aggregate
+  checks remain applicable; no new source build or browser run was needed for this transfer-only
+  step. No compilation, builds or tests were run in the fork. Nothing was staged, committed,
+  pushed or posted to GitHub.
+
+Next step: human review, commit and push of the one-file diff to update PR #2922.
+Prepared title-only commit message: ``MUI. Fix `Spacing` types for fractional values and CSS lengths``.

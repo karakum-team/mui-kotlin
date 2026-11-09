@@ -41,9 +41,13 @@ Base UI module work has its own [canonical plan](base-ui.md).
   starting revision. The internal `createSpacing.transform` parameter remains intentionally omitted.
   [Audit evidence](../history/mui-v6.md#spacing-pr-synchronization-and-type-audit--pr-2922-2026-11-09).
   [Implementation and verification](../history/mui-v6.md#spacing-type-fidelity--gen-spacing-01-2026-11-09).
-  Next step: human review and commit of the source diff, then a focused transfer to the existing
-  `mui-create-spacing` branch when requested. No fork files were changed; keep PR #2923's theme
-  differences outside the spacing transfer.
+  The source fix is committed as `7fa60abe`; its one-file generated delta has been transferred to
+  the fork's existing `mui-create-spacing` branch at `19a6aa90f0` as an unstaged, uncommitted diff
+  (+5 / -5 lines). `createSpacing.ext.kt` matches the generator byte-for-byte; the runtime binding
+  and PR #2923's theme differences remain untouched. HEAD, local branch refs and index bytes are
+  unchanged; no fork compilation, builds or tests were run.
+  [Fork handoff](../history/mui-v6.md#spacing-fork-handoff--pr-2922-2026-11-09).
+  Next step: human review, commit and push of that one-file diff to update PR #2922.
 - **Next step:** select the item requested by the user and recheck it against the current generator and installed
   upstream `.d.ts` / runtime exports. If continuing this backlog without a selected item, first assess the bounded
   `createColorScheme` binding described below, then implement it as a separate task if still missing.
