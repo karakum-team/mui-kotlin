@@ -216,7 +216,7 @@ internal fun String.toFunctionType(
         // MUI-X v9 `PickerValidDate` / `PickerValue` are kept as NAMED types (PICKERS_STUBS); generic
         // params (`TSectionValue` / `TView`) are preserved on their declaring interfaces — no widening here.
         .replace("string", "String")
-        .replace("Record<String, any>", "Record<String, *>")
+        .replace("Record<String, any>", "ReadonlyRecord<String, *>")
         .replace("boolean", "Boolean")
         .replace("number", "Number")
         .replace("void", "Unit")

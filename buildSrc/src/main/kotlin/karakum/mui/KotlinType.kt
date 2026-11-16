@@ -348,9 +348,9 @@ private val STANDARD_TYPE_MAP = mapOf(
 
     "SelectionMode" to "mui.system.Union /* 'none' | 'single' | 'multiple' */",
 
-    "{ [key in Breakpoint]: number }" to "Record<Breakpoint, Number>",
-    "Record<string, any>" to "Record<String, *>",
-    "Record<string, any> & { mode: 'light' | 'dark' }" to "Record<String, *>",
+    "{ [key in Breakpoint]: number }" to "ReadonlyRecord<Breakpoint, Number>",
+    "Record<string, any>" to "ReadonlyRecord<String, *>",
+    "Record<string, any> & { mode: 'light' | 'dark' }" to "ReadonlyRecord<String, *>",
 
     CREATE_TRANSITION to "(props: ReadonlyArray<String>, options: TransitionCreateOptions?) -> web.cssom.Transition",
     SWIPEABLE_DRAWER_PROPS_ALLOW_SWIPE_IN_CHILDREN to "Boolean /* or (e: TouchEvent, swipeArea: HTMLDivElement, paper: HTMLDivElement) -> Boolean*/",
@@ -531,12 +531,10 @@ internal fun kotlinType(
         return "Any? /* ${STANDARD_TYPE_MAP[baseType] ?: baseType} */"
     }
 
-    // Material's and System's component configuration is an object keyed by component name.
-    // It is read-only on both Theme and ThemeOptions.
-    if (name == "components" && (type.startsWith("Components<") || type.startsWith("Record<string, any>"))) {
-        val comment = if (type.startsWith("Components<")) " /* $type */" else ""
-        return "ReadonlyRecord<String, *>$comment"
-    }
+    // Material's component configuration is an object keyed by component name, compatible with
+    // System's ReadonlyRecord<string, any>. Keep that shape while its generic per-component types are unsupported.
+    if (name == "components" && type.startsWith("Components<"))
+        return "ReadonlyRecord<String, *> /* $type */"
 
     if (name == "dateAdapter")
         return "$DATE_ADAPTER /* $type */"

@@ -25,7 +25,11 @@ val SystemFactoriesSample: Sample = Sample(
     library = Libraries.System,
     title = "System factories",
     kind = Kind.ImportSmoke,
-    covers = listOf("createBreakpoints(...).up", "createTheme().breakpoints.up"),
+    covers = listOf(
+        "createBreakpoints(...).up",
+        "createTheme().breakpoints.up",
+        "createBreakpoints(...).values: ReadonlyRecord<Breakpoint, Number>",
+    ),
     fileName = "SystemFactoriesSample.kt",
     refs = listOf(
         Ref(
@@ -46,6 +50,8 @@ val SystemFactoriesSample: Sample = Sample(
             checks = listOf(
                 Check("createBreakpoints({}).up(md) is $MEDIUM_UP", breakpointsUp == MEDIUM_UP),
                 Check("createTheme().breakpoints.up(md) is $MEDIUM_UP", themeUp == MEDIUM_UP),
+                Check("createBreakpoints({}).values[md] is 900", factoryBreakpoints.values[md] == 900),
+                Check("createTheme().breakpoints.values[md] is 900", factoryTheme.breakpoints.values[md] == 900),
             )
         }
 
