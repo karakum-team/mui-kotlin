@@ -771,3 +771,24 @@ requesting `ReadonlyRecord` instead of `Record` for `ThemeOptions.components` an
     `createThemeNoVars.kt` and `createTheme.kt` updated for theme components.
   - Chrome DevTools MCP verified `#/material/theme-typing`: all 45/45 checks pass.
   - Chrome DevTools MCP verified `#/all`: all 36 samples mount and all 137/137 checks pass.
+
+## System theme types and ReadonlyArray review follow-up — PR #2934 (2026-11-16)
+
+Addressed reviewer feedback on [PR #2934](https://github.com/JetBrains/kotlin-wrappers/pull/2934)
+requesting `ReadonlyArray` for `generateStyleSheets` and uncommenting `palette` and `shadows` in `createTheme.kt`.
+
+- **Type compatibility solution:**
+  - `Palette` and `PaletteOptions` in `createPalette.kt` now explicitly inherit from `js.objects.ReadonlyRecord<String, Any?>`.
+    This allows `palette: ReadonlyRecord<String, *>?` in `mui.system.ThemeOptions` and `val palette: ReadonlyRecord<String, *>`
+    in `mui.system.Theme` to be typed directly, while Material's `override val palette: PaletteOptions?` and
+    `override val palette: Palette` satisfy Kotlin's subtyping rules without widening to `Any?`.
+  - `mui.system.Shadows` is mapped to `typealias Shadows = js.array.ReadonlyArray<String>`, aligning System and Material
+    shadow array types so `val shadows: Shadows?` is typed concretely.
+  - `mui.system.Typography` is marked `@JsPlainObject` and implemented by Material's `TypographyVariants` and
+    `TypographyVariantsOptions` via `CreateTypography.kt` and `ParentType.kt`.
+  - `generateStyleSheets` in `createThemeFoundation.kt` returns `ReadonlyArray<ReadonlyRecord<String, *>>`
+    instead of `Array`.
+- **Verification:**
+  - Clean regeneration reproduces all 778 files byte-for-byte with only the 4 expected files updated.
+  - Chrome DevTools MCP verified `#/material/theme-typing`: all 45/45 checks pass.
+  - Chrome DevTools MCP verified `#/all`: all 36 samples mount and all 139/139 checks pass.

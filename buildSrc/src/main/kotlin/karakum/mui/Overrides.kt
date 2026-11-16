@@ -230,6 +230,17 @@ private fun fixComponentOverrides(
         "zIndex",
             -> content.extendSystemThemeMarker("ZIndex")
 
+        "createPalette",
+            -> content
+            .replace(
+                "external interface Palette {",
+                "external interface Palette : ReadonlyRecord<String, Any?> {",
+            )
+            .replace(
+                "external interface PaletteOptions {",
+                "external interface PaletteOptions : ReadonlyRecord<String, Any?> {",
+            )
+
         "TreeItem",
             -> content
             // v9: TreeItemProps's parents (`Omit<UseTreeItemParameters,'rootRef'>` and
@@ -291,10 +302,11 @@ private fun fixComponentOverrides(
 
         "createTheme",
             -> {
-            if ("mui.system.ThemeOptions" !in content) {
-                content
+            val withShadows = content.replace("external interface Shadows", "typealias Shadows = js.array.ReadonlyArray<String>")
+            if ("mui.system.ThemeOptions" !in withShadows) {
+                withShadows
             } else {
-                content
+                withShadows
                     .override("unstable_sxConfig", all = true)
                     .override("unstable_sx")
             }

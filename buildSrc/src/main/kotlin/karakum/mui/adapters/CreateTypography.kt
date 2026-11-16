@@ -30,7 +30,7 @@ fun String.adaptCreateTypography(): String {
 
     return replace(
         variantsHeader,
-        "export interface TypographyVariants extends FontStyle, TypographyUtils {\n" +
+        "export interface TypographyVariants extends FontStyle, TypographyUtils, SystemTypography {\n" +
                 members("React.CSSProperties", optional = false) + "}",
     )
         .replace(
@@ -39,7 +39,7 @@ fun String.adaptCreateTypography(): String {
         )
         .replace(
             "export interface TypographyVariantsOptions extends Partial<Record<TypographyVariant, TypographyStyleOptions> & FontStyleOptions> {}",
-            "export interface TypographyVariantsOptions extends FontStyleOptions {\n" +
+            "export interface TypographyVariantsOptions extends FontStyleOptions, SystemTypography {\n" +
                     members("React.CSSProperties", optional = true) + "}",
         )
         .replace(Regex("""\nexport type TypographyStyle = CSSProperties;"""), "")

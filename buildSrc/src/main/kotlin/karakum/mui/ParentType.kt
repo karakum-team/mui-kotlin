@@ -190,6 +190,8 @@ internal fun findParentType(
                             parent.removeSurrounding("Partial<", ">").trim()
                         }
 
+                        parent == "SystemTypography" -> "mui.system.Typography"
+
                         else -> parent
                     }
                 }
@@ -262,6 +264,7 @@ private val INTERNAL_REJECTED_PARENTS = setOf(
 )
 
 private fun String.isAcceptableParent(): Boolean {
+    if (this == "mui.system.Typography") return true
     val prefix = substringBefore("<")
     if (prefix in TS_UTILITY_PREFIXES) return false
     if (prefix in INTERNAL_REJECTED_PARENTS) return false

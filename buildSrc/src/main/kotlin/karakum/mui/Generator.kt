@@ -34,6 +34,7 @@ private val DEFAULT_IMPORTS = listOf(
     "BoxProps" to "mui.system.BoxProps",
     "SystemProps" to "mui.system.SystemProps",
     "UseMediaQueryOptions" to "mui.system.UseMediaQueryOptions",
+    "Shadows" to "mui.system.Shadows",
 
     "JsVirtual" to "seskar.js.JsVirtual",
     "JsValue" to "seskar.js.JsValue",
@@ -1801,7 +1802,7 @@ private fun RuntimeBindings.generate(
         // Annotate only closed families without `react.Props`, including every parent and child.
         jsPlainObject = when (pkg) {
             // Both theme families and their marker hierarchies must include all their parents and children.
-            Package.system -> { name -> name in setOf("Theme", "ThemeOptions", "Mixins", "Transitions", "ZIndex", "Shape") }
+            Package.system -> { name -> name in setOf("Theme", "ThemeOptions", "Mixins", "Transitions", "ZIndex", "Shape", "Typography") }
             Package.materialStyles -> { name ->
                 name in setOf(
                     "ThemeOptions",

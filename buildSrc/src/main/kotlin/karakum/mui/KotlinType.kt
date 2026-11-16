@@ -73,7 +73,9 @@ private val KNOWN_TYPES = setOf(
 
     "Mixins",
     "Palette",
+    "Shadows",
     "Transitions",
+    "Typography",
     "ZIndex",
 
     // Material v9 additions (createMotion.d.ts): the `Motion` interface (createMotion.kt) and its
@@ -522,14 +524,6 @@ internal fun kotlinType(
     // For `useTabs`
     if (name == "tabsContextValue" && type == "TabsContextValue")
         return "Any /* TabsContextValue */"
-
-    // For system theme interfaces
-    // v7 widened this to `Record<string, any> | undefined`; strip the optional suffix
-    // before the map lookup and fall back to the raw type so we never throw on a miss.
-    if (name == "palette" && type.startsWith("Record<")) {
-        val baseType = type.removeSuffix(" | undefined")
-        return "Any? /* ${STANDARD_TYPE_MAP[baseType] ?: baseType} */"
-    }
 
     // Material's component configuration is an object keyed by component name, compatible with
     // System's ReadonlyRecord<string, any>. Keep that shape while its generic per-component types are unsupported.
