@@ -28,8 +28,13 @@ Base UI module work has its own [canonical plan](base-ui.md).
   The separate `spacing` work from PR #2922 is preserved outside this topic. HEAD, `master` and index
   bytes are unchanged; no fork compilation, builds or tests were run.
   [Compatibility fork handoff](../history/mui-v6.md#theme-compatibility-fork-handoff--pr-2923-2026-11-09).
-  Next step: human review, commit and push of that five-file diff. The older
-  `build/transfers/pr-2923-follow-up.patch` is superseded.
+- **PR #2923 theme JSO review follow-up (2026-11-16):** Addressed Victor Turansky's review feedback.
+  Converted `Shape`, `ShapeOptions`, `ColorSystemOptions`, `Easing`, `Duration`, `TransitionCreateOptions`,
+  `Motion`, and `MotionOptions` to `@JsPlainObject` with `val` properties across System and Material.
+  Added `ColorSystemOptions` and `TransitionCreateOptions` to `KNOWN_TYPES`. The theme sample passes
+  45/45 checks and `#/all` passes 137/137 checks.
+  [Theme JSO review follow-up and verification](../history/mui-v6.md#theme-jso-review-follow-up--pr-2923-2026-11-16).
+  Next step: human review and fork handoff to the `mui-theme` branch.
 - **Spacing Kotlin API (`GEN-SPACING-01`, completed 2026-11-09):** numeric units, factors, callback
   inputs and scale entries use `Double`; CSS values and callback results use typed `Length`.
   `SpacingArgument` is an alias for `Double`, with the original five call arities. The six

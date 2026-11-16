@@ -113,8 +113,9 @@ private val SYSTEM_BREAKPOINT = convertUnion("Breakpoint = 'xs' | 'sm' | 'md' | 
 
 // language=kotlin
 private val SYSTEM_SHAPE = """
+@JsPlainObject
 external interface Shape {
-    var borderRadius: web.cssom.BorderRadius
+    val borderRadius: web.cssom.BorderRadius
 }
 
 typealias ShapeOptions = Shape
@@ -130,10 +131,11 @@ typealias Orientation = mui.base.Orientation
 
 // language=kotlin
 private val STYLE_TRANSITION_CREATE_OPTIONS = """
+@JsPlainObject
 external interface TransitionCreateOptions {
-    var duration: Number?
-    var easing: String?
-    var delay: Number?
+    val duration: Number?
+    val easing: String?
+    val delay: Number?
 }
 """.trimIndent()
 
@@ -1798,7 +1800,7 @@ private fun RuntimeBindings.generate(
         // Annotate only closed families without `react.Props`, including every parent and child.
         jsPlainObject = when (pkg) {
             // Both theme families and their marker hierarchies must include all their parents and children.
-            Package.system -> { name -> name in setOf("Theme", "ThemeOptions", "Mixins", "Transitions", "ZIndex") }
+            Package.system -> { name -> name in setOf("Theme", "ThemeOptions", "Mixins", "Transitions", "ZIndex", "Shape") }
             Package.materialStyles -> { name ->
                 name in setOf(
                     "ThemeOptions",
@@ -1814,6 +1816,13 @@ private fun RuntimeBindings.generate(
                     "TypographyUtils",
                     "TypographyVariants",
                     "TypographyVariantsOptions",
+                    "Shape",
+                    "ShapeOptions",
+                    "ColorSystemOptions",
+                    "Easing",
+                    "Duration",
+                    "Motion",
+                    "MotionOptions",
                 )
             }
             // `TreeViewSlots` → `SimpleTreeViewSlots` / `RichTreeViewSlots` / `TreeViewStyleContextSlots`,

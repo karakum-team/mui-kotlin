@@ -691,3 +691,34 @@ This completes the transfer step recorded above.
 
 Next step: human review, commit and push of the one-file diff to update PR #2922.
 Prepared title-only commit message: ``MUI. Fix `Spacing` types for fractional values and CSS lengths``.
+
+## Theme JSO review follow-up — PR #2923 (2026-11-16)
+
+Addressed reviewer feedback on [PR #2923](https://github.com/JetBrains/kotlin-wrappers/pull/2923#pullrequestreview-5862430332)
+requesting `@JsPlainObject` typing for `Shape`, `ShapeOptions`, and `ColorSystemOptions`. Extended the review
+to all related plain data and options interfaces in the theme subsystem (`Easing`, `Duration`, `TransitionCreateOptions`,
+`Motion`, and `MotionOptions`).
+
+- **Entities converted to `@JsPlainObject` with `val` properties:**
+  - `mui.system.Shape` and `typealias ShapeOptions` (`mui/system/shape.kt` via `SYSTEM_SHAPE` in `Generator.kt`):
+    `@JsPlainObject external interface Shape { val borderRadius: web.cssom.BorderRadius }`.
+  - `mui.material.styles.Shape` and `ShapeOptions` (`mui/material/styles/createThemeFoundation.kt`):
+    both interfaces marked `@JsPlainObject` in closed inheritance with `mui.system.Shape` / `ShapeOptions`.
+  - `mui.material.styles.ColorSystemOptions` (`mui/material/styles/createThemeFoundation.kt`):
+    converted to `@JsPlainObject` with `val palette: PaletteOptions?`, `val opacity`, and `val overlays`.
+  - `mui.material.styles.Easing` and `Duration` (`mui/material/styles/createTransitions.kt`):
+    converted to `@JsPlainObject` with `val` properties, mirroring `ZIndex`.
+  - `mui.material.styles.TransitionCreateOptions` (`mui/material/styles/createTransitions.kt` via `STYLE_TRANSITION_CREATE_OPTIONS` in `Generator.kt`):
+    converted to `@JsPlainObject` with `val` properties.
+  - `mui.material.styles.Motion` and `MotionOptions` (`mui/material/styles/createMotion.kt`):
+    converted to `@JsPlainObject` with `val reducedMotion`.
+  - Added `"ColorSystemOptions"` and `"TransitionCreateOptions"` to `KNOWN_TYPES` in `KotlinType.kt`.
+- **Sample and verification:**
+  - `ThemeTypingSample.kt` updated to use generated `@JsPlainObject` factories `ShapeOptions(borderRadius = 8.px)`,
+    `MotionOptions(reducedMotion = ReducedMotionMode.never)`, `Duration(...)`, `TransitionCreateOptions(...)`, and
+    `ColorSystemOptions()`, replacing `unsafeJso` workarounds.
+  - Added verification checks: `System ThemeOptions accepts Material ShapeOptions`, `TransitionCreateOptions factory works with create()`,
+    and `ColorSystemOptions factory allows empty options`.
+  - Clean regeneration (`./gradlew :mui-kotlin:clean build`) reproduces all 778 files byte-for-byte with only the 4 expected files changed in `mui-kotlin`.
+  - Chrome DevTools MCP verified `#/material/theme-typing`: all 45/45 checks pass.
+  - Chrome DevTools MCP verified `#/all`: all 36 samples mount and all 137/137 checks pass.

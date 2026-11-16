@@ -6,15 +6,18 @@ import js.objects.recordOf
 import js.objects.unsafeJso
 import mui.material.ButtonProps
 import mui.material.PaletteMode
+import mui.material.styles.ColorSystemOptions
 import mui.material.styles.Duration
 import mui.material.styles.FontStyleOptions
 import mui.material.styles.MixinsOptions
+import mui.material.styles.MotionOptions
 import mui.material.styles.Palette
 import mui.material.styles.PaletteOptions
 import mui.material.styles.ReducedMotionMode
 import mui.material.styles.ShapeOptions
 import mui.material.styles.SimplePaletteColorOptions
 import mui.material.styles.ThemeOptions
+import mui.material.styles.TransitionCreateOptions
 import mui.material.styles.TransitionsOptions
 import mui.material.styles.TypographyUtils
 import mui.material.styles.TypographyVariantsOptions
@@ -46,18 +49,27 @@ private val customThemeOptions = ThemeOptions(
             fontSize = 3.rem
         },
     ),
-    shape = unsafeJso<ShapeOptions> {
-        borderRadius = 8.px
-    },
+    shape = ShapeOptions(
+        borderRadius = 8.px,
+    ),
+    motion = MotionOptions(
+        reducedMotion = ReducedMotionMode.never,
+    ),
     mixins = MixinsOptions(
         toolbar = unsafeJso<mui.material.styles.CSSProperties> {
             minHeight = 64.px
         },
     ),
     transitions = TransitionsOptions(
-        duration = unsafeJso<Duration> {
-            standard = 450
-        },
+        duration = Duration(
+            shortest = defaultTheme.transitions.duration.shortest,
+            shorter = defaultTheme.transitions.duration.shorter,
+            short = defaultTheme.transitions.duration.short,
+            standard = 450,
+            complex = defaultTheme.transitions.duration.complex,
+            enteringScreen = defaultTheme.transitions.duration.enteringScreen,
+            leavingScreen = defaultTheme.transitions.duration.leavingScreen,
+        ),
     ),
     zIndex = ZIndex(
         mobileStepper = defaultTheme.zIndex.mobileStepper,
@@ -82,6 +94,7 @@ private val customTheme = createTheme(customThemeOptions)
 
 // Every Material option must be assignable to its System counterpart without casts or suppressions.
 private val systemOptions = mui.system.ThemeOptions(
+    shape = customThemeOptions.shape,
     mixins = customThemeOptions.mixins,
     transitions = customThemeOptions.transitions,
     zIndex = customThemeOptions.zIndex,
@@ -112,6 +125,11 @@ private val fractionalTypography = createTypography(
 
 private val fontStyleOptions = FontStyleOptions(fontSize = 20.0)
 private val emptyTypographyOptions = TypographyVariantsOptions()
+private val colorSystemOptions = ColorSystemOptions()
+private val transitionWithCreateOptions = defaultTheme.transitions.create(
+    arrayOf("margin"),
+    TransitionCreateOptions(duration = 300),
+)
 
 // An explicitly Double-typed callback must be accepted by the generated factory, not widened to Number.
 private val typographyUtils = TypographyUtils(
@@ -138,7 +156,7 @@ val ThemeTypingSample: Sample = Sample(
         "Theme.components / ThemeOptions.components: Record<String, *> shared with System",
         "createTypography(palette, options)",
         "createTypography(palette, callback)",
-        "ThemeOptions / FontStyleOptions / TypographyVariantsOptions / MixinsOptions / TransitionsOptions @JsPlainObject factories",
+        "ThemeOptions / FontStyleOptions / TypographyVariantsOptions / MixinsOptions / TransitionsOptions / ShapeOptions / MotionOptions @JsPlainObject factories",
     ),
     fileName = "ThemeTypingSample.kt",
     notes = "Only running this proves that the members converted from `createThemeNoVars.d.ts` read the " +
@@ -187,6 +205,7 @@ val ThemeTypingSample: Sample = Sample(
                 Check("ThemeOptions.zIndex: appBar is 2000", customTheme.zIndex.appBar == 2000),
                 Check("ThemeOptions.mixins: toolbar.minHeight is 64px", "${customTheme.mixins.toolbar.minHeight}" == "64px"),
                 Check("ThemeOptions.transitions: duration.standard is 450", customTheme.transitions.duration.standard == 450),
+                Check("System ThemeOptions accepts Material ShapeOptions", systemOptions.shape === customThemeOptions.shape),
                 Check("System ThemeOptions accepts Material MixinsOptions", systemOptions.mixins === customThemeOptions.mixins),
                 Check("System ThemeOptions accepts Material TransitionsOptions", systemOptions.transitions === customThemeOptions.transitions),
                 Check("System ThemeOptions accepts Material ZIndex", systemOptions.zIndex === customThemeOptions.zIndex),
@@ -207,6 +226,8 @@ val ThemeTypingSample: Sample = Sample(
                 Check("FontStyleOptions factory preserves fontSize", fontStyleOptions.fontSize == 20.0),
                 Check("FontStyleOptions factory leaves fontFamily absent", fontStyleOptions.fontFamily == undefined),
                 Check("TypographyVariantsOptions factory allows empty options", emptyTypographyOptions.fontSize == undefined),
+                Check("TransitionCreateOptions factory works with create()", "${transitionWithCreateOptions}".contains("margin")),
+                Check("ColorSystemOptions factory allows empty options", colorSystemOptions.palette == undefined),
             )
         }
     },

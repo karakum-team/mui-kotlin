@@ -104,8 +104,10 @@ private val KNOWN_TYPES = setOf(
     "SimplePaletteColorOptions",
     "CommonColorsOptions",
 
+    "ColorSystemOptions",
     "Easing",
     "Duration",
+    "TransitionCreateOptions",
 
     "SxProps<Theme>",
 )
