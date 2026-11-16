@@ -531,10 +531,12 @@ internal fun kotlinType(
         return "Any? /* ${STANDARD_TYPE_MAP[baseType] ?: baseType} */"
     }
 
-    // Material's component configuration is an object keyed by component name, compatible with
-    // System's Record<string, any>. Keep that shape while its generic per-component types are unsupported.
-    if (name == "components" && type.startsWith("Components<"))
-        return "Record<String, *> /* $type */"
+    // Material's and System's component configuration is an object keyed by component name.
+    // It is read-only on both Theme and ThemeOptions.
+    if (name == "components" && (type.startsWith("Components<") || type.startsWith("Record<string, any>"))) {
+        val comment = if (type.startsWith("Components<")) " /* $type */" else ""
+        return "ReadonlyRecord<String, *>$comment"
+    }
 
     if (name == "dateAdapter")
         return "$DATE_ADAPTER /* $type */"

@@ -722,3 +722,52 @@ to all related plain data and options interfaces in the theme subsystem (`Easing
   - Clean regeneration (`./gradlew :mui-kotlin:clean build`) reproduces all 778 files byte-for-byte with only the 4 expected files changed in `mui-kotlin`.
   - Chrome DevTools MCP verified `#/material/theme-typing`: all 45/45 checks pass.
   - Chrome DevTools MCP verified `#/all`: all 36 samples mount and all 137/137 checks pass.
+
+## SpacingOptions review follow-up — PR #2922 (2026-11-16)
+
+Addressed reviewer question on [PR #2922](https://github.com/JetBrains/kotlin-wrappers/pull/2922#pullrequestreview-5862446643)
+asking whether `inline fun SpacingOptions(value: Spacing): SpacingOptions = unsafeCast(value)` is required.
+
+- **Design decision (Option 1):**
+  Instead of an `unsafeCast` wrapper function, `Spacing` directly inherits from `SpacingOptions`:
+  `sealed external interface Spacing : SpacingOptions`.
+  This reflects the TypeScript union `export type SpacingOptions = ... | Spacing | ...` using idiomatic Kotlin
+  subtyping. The redundant `SpacingOptions(value: Spacing)` factory was removed from `Spacing.kt`.
+- **Generator updates:**
+  - `buildSrc/src/main/kotlin/karakum/mui/Spacing.kt`:
+    - In `convertSpacingOptions`: excluded `"Spacing"` from generating an `unsafeCast` factory.
+    - In `convertSpacing`: emitted `sealed external interface $name : SpacingOptions`.
+  - `buildSrc/src/main/kotlin/karakum/mui/Converter.kt`:
+    - Updated `functionInterfaces` filter to recognize `interface Spacing : SpacingOptions`, ensuring `Spacing`
+      remains in `createSpacing.ext.kt` alongside `SpacingOptions` rather than shifting into `createSpacing.kt`.
+- **Sample and verification:**
+  - `SpacingSample.kt` updated to pass `defaultSpacing` directly to `createSpacing(defaultSpacing)` without wrapping.
+  - Clean regeneration (`./gradlew :mui-kotlin:clean build`) reproduces all 778 files byte-for-byte with only
+    `mui/system/createSpacing.ext.kt` changed.
+  - Chrome DevTools MCP verified `#/system/spacing`: all 27/27 checks pass.
+  - Chrome DevTools MCP verified `#/all`: all 36 samples mount and all 137/137 checks pass.
+
+## Theme components ReadonlyRecord review follow-up — PR #2923 (2026-11-16)
+
+Addressed reviewer feedback on [PR #2923](https://github.com/JetBrains/kotlin-wrappers/pull/2923#discussion_r4589272840)
+and [discussion_r4589268753](https://github.com/JetBrains/kotlin-wrappers/pull/2923#discussion_r4589268753)
+requesting `ReadonlyRecord` instead of `Record` for `ThemeOptions.components` and `Theme.components`.
+
+- **Scope analysis:**
+  - Evaluated all occurrences of `Record` across the PR #2923 diff.
+  - Found that `components` in Material's `ThemeOptions` and `BaseTheme` overrides System's `ThemeOptions.components`
+    and `Theme.components`. Therefore, both Material and System theme `components` must use `ReadonlyRecord<String, *>?`
+    to maintain valid property override subtyping and read-only semantics.
+  - Other theme collections (such as `shadows: ReadonlyArray<String>`) are already read-only.
+- **Generator updates:**
+  - `buildSrc/src/main/kotlin/karakum/mui/Generator.kt`:
+    - Added `"ReadonlyRecord"` to `DEFAULT_IMPORTS`.
+  - `buildSrc/src/main/kotlin/karakum/mui/KotlinType.kt`:
+    - Updated `kotlinType` for `name == "components"` to return `ReadonlyRecord<String, *>` for both
+      Material (`Components<...>`) and System (`Record<string, any>`).
+- **Sample and verification:**
+  - `ThemeTypingSample.kt` updated to type `val components: ReadonlyRecord<String, *>?`.
+  - Clean regeneration (`./gradlew :mui-kotlin:clean build`) reproduces all 778 files byte-for-byte with only
+    `createThemeNoVars.kt` and `createTheme.kt` updated for theme components.
+  - Chrome DevTools MCP verified `#/material/theme-typing`: all 45/45 checks pass.
+  - Chrome DevTools MCP verified `#/all`: all 36 samples mount and all 137/137 checks pass.

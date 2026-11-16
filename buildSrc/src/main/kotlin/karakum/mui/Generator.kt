@@ -13,6 +13,7 @@ private val DEFAULT_IMPORTS = listOf(
     "SlideDirection" to "mui.material.SlideDirection",
 
     "ReadonlyArray" to "js.array.ReadonlyArray",
+    "ReadonlyRecord" to "js.objects.ReadonlyRecord",
     "Record<" to "js.objects.Record",
     "recordOf(" to "js.objects.recordOf",
     // Bare name, not `unsafeCast(`: a call with an explicit type argument (`unsafeCast<T>(x)`) must import it

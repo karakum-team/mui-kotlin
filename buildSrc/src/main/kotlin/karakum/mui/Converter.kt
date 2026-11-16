@@ -445,7 +445,7 @@ internal fun convertDefinitions(
 
     val additionalInterfaces = findAdditionalProps(propsName, content, keepEmptyBodyParents, knownTypes, jsPlainObject)
     val functionInterfaces = additionalInterfaces
-        .filter { "interface Spacing {" in it }
+        .filter { "interface Spacing " in it || "interface Spacing\n" in it || "interface Spacing:" in it }
 
     declarations += (additionalInterfaces - functionInterfaces)
 

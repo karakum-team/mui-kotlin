@@ -1,5 +1,6 @@
 package playground.samples.material
 
+import js.objects.ReadonlyRecord
 import js.objects.Record
 import js.objects.get
 import js.objects.recordOf
@@ -153,7 +154,7 @@ val ThemeTypingSample: Sample = Sample(
         "Theme.vars: ThemeVars",
         "ThemeOptions.palette / typography / shape / mixins / transitions / zIndex / components / cssVariables",
         "Material Mixins / Transitions / ZIndex and their options are assignable to System markers",
-        "Theme.components / ThemeOptions.components: Record<String, *> shared with System",
+        "Theme.components / ThemeOptions.components: ReadonlyRecord<String, *> shared with System",
         "createTypography(palette, options)",
         "createTypography(palette, callback)",
         "ThemeOptions / FontStyleOptions / TypographyVariantsOptions / MixinsOptions / TransitionsOptions / ShapeOptions / MotionOptions @JsPlainObject factories",
@@ -172,7 +173,7 @@ val ThemeTypingSample: Sample = Sample(
         val systemMixins: mui.system.Mixins = customTheme.mixins
         val systemTransitions: mui.system.Transitions = customTheme.transitions
         val systemZIndex: mui.system.ZIndex = customTheme.zIndex
-        val components: Record<String, *>? = customTheme.components
+        val components: ReadonlyRecord<String, *>? = customTheme.components
 
         CheckList {
             id = "theme-typing-checks"

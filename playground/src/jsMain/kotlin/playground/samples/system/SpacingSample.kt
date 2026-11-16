@@ -44,7 +44,7 @@ private val arraySpacing = createSpacing(SpacingOptions(arrayOf(0.0, 4.0, 6.5, 1
 
 private val lengthArraySpacing = createSpacing(SpacingOptions(arrayOf(0.px, 4.px, 6.5.px, 1.rem)))
 
-private val reusedSpacing = createSpacing(SpacingOptions(defaultSpacing))
+private val reusedSpacing = createSpacing(defaultSpacing)
 
 private val materialSpacing = createMaterialTheme(
     MaterialThemeOptions(
@@ -67,7 +67,8 @@ val SpacingSample: Sample = Sample(
         "Spacing.invoke() / (value) / (topBottom, rightLeft) / (top, rightLeft, bottom) / (top, right, bottom, left)",
         "createSpacing(SpacingOptions)",
         "SpacingArgument = Double",
-        "SpacingOptions(Double / Length / Spacing)",
+        "SpacingOptions(Double / Length)",
+        "Spacing : SpacingOptions",
         "SpacingOptions((Double) -> Length)",
         "SpacingOptions(ReadonlyArray<Double> / ReadonlyArray<Length>)",
         "ThemeOptions.spacing",

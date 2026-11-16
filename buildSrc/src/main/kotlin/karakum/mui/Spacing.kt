@@ -10,7 +10,8 @@ internal fun convertSpacingOptions(
         when (branch) {
             "number" -> listOf("Double")
             "string" -> listOf("web.cssom.Length")
-            "Spacing" -> listOf("Spacing")
+            // Spacing directly inherits SpacingOptions, so no unsafeCast wrapper is needed.
+            "Spacing" -> emptyList()
             "((abs: number) => number | string)",
             "((abs: number | string) => number | string)" ->
                 listOf("(abs: Double) -> web.cssom.Length")
@@ -75,7 +76,7 @@ internal fun convertSpacing(
             "operator fun invoke$signature: web.cssom.Length"
         }
 
-    return "sealed external interface $name {\n" +
+    return "sealed external interface $name : SpacingOptions {\n" +
             members +
             "\n}"
 }
