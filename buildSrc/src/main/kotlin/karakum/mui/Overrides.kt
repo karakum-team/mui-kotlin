@@ -232,14 +232,8 @@ private fun fixComponentOverrides(
 
         "createPalette",
             -> content
-            .replace(
-                "external interface Palette {",
-                "external interface Palette : ReadonlyRecord<String, Any?> {",
-            )
-            .replace(
-                "external interface PaletteOptions {",
-                "external interface PaletteOptions : ReadonlyRecord<String, Any?> {",
-            )
+            .extendSystemThemeMarker("Palette")
+            .extendSystemThemeMarker("PaletteOptions")
 
         "TreeItem",
             -> content

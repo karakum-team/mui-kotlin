@@ -1802,7 +1802,7 @@ private fun RuntimeBindings.generate(
         // Annotate only closed families without `react.Props`, including every parent and child.
         jsPlainObject = when (pkg) {
             // Both theme families and their marker hierarchies must include all their parents and children.
-            Package.system -> { name -> name in setOf("Theme", "ThemeOptions", "Mixins", "Transitions", "ZIndex", "Shape", "Typography") }
+            Package.system -> { name -> name in setOf("Theme", "ThemeOptions", "Mixins", "Transitions", "ZIndex", "Shape", "Typography", "Palette", "PaletteOptions") }
             Package.materialStyles -> { name ->
                 name in setOf(
                     "ThemeOptions",
@@ -1825,6 +1825,8 @@ private fun RuntimeBindings.generate(
                     "Duration",
                     "Motion",
                     "MotionOptions",
+                    "Palette",
+                    "PaletteOptions",
                 )
             }
             // `TreeViewSlots` → `SimpleTreeViewSlots` / `RichTreeViewSlots` / `TreeViewStyleContextSlots`,

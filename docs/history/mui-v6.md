@@ -792,3 +792,30 @@ requesting `ReadonlyArray` for `generateStyleSheets` and uncommenting `palette` 
   - Clean regeneration reproduces all 778 files byte-for-byte with only the 4 expected files updated.
   - Chrome DevTools MCP verified `#/material/theme-typing`: all 45/45 checks pass.
   - Chrome DevTools MCP verified `#/all`: all 36 samples mount and all 139/139 checks pass.
+
+## System Palette marker interfaces and JSO unblocking — PR #2934 (2026-11-17)
+
+Addressed reviewer feedback on [PR #2934 (discussion_r4591925064)](https://github.com/JetBrains/kotlin-wrappers/pull/2934#discussion_r4591925064):
+*"It will block JSO usage."*
+
+- **Problem analysis:**
+  - In `kotlin-wrappers`, JSO refers to `@JsPlainObject` declarations and factories.
+  - Under Kotlin K2 rules, interfaces annotated with `@JsPlainObject` cannot inherit from non-`@JsPlainObject` interfaces
+    (`JS_PLAIN_OBJECT_SUPERINTERFACE_NOT_JS_PLAIN_OBJECT`), nor can `@JsPlainObject` interfaces declare or inherit member
+    functions (`operator fun get` in `ReadonlyRecord`).
+  - Making `Palette` and `PaletteOptions` extend `ReadonlyRecord<String, Any?>` permanently blocked them from being `@JsPlainObject`.
+    Furthermore, plain options/theme objects are conceptually JSOs, not dictionaries.
+- **Solution:**
+  - Declared `@JsPlainObject external interface Palette` and `@JsPlainObject external interface PaletteOptions` as marker interfaces
+    in `mui.system`, mirroring `Typography`, `Mixins`, `Transitions`, and `ZIndex`.
+  - Added `buildSrc/src/main/kotlin/karakum/mui/adapters/CreateTheme.kt` (`String.adaptCreateTheme()`) to declare these marker interfaces
+    in `@mui/system/createTheme/createTheme.d.ts` and type `ThemeOptions.palette: PaletteOptions?` and `Theme.palette: Palette`.
+  - Added `Palette` and `PaletteOptions` to `Package.system` and `Package.materialStyles` in `Generator.kt`'s `jsPlainObject` sets.
+  - In `buildSrc/src/main/kotlin/karakum/mui/Overrides.kt`, removed `ReadonlyRecord` inheritance from `createPalette.kt` and applied
+    `extendSystemThemeMarker("Palette")` and `extendSystemThemeMarker("PaletteOptions")`.
+- **Verification:**
+  - `./gradlew build` succeeded cleanly with all 778 files formatted and 21 runtime exports tests passing.
+  - `ThemeTypingSample.kt` updated to use `PaletteOptions(...)` `@JsPlainObject` factory directly instead of `unsafeJso<PaletteOptions>`,
+    and added checks confirming `systemOptions.palette === customThemeOptions.palette` and `systemTheme.palette === customTheme.palette`.
+  - Chrome DevTools MCP verified `#/material/theme-typing`: all 47/47 checks pass.
+  - Chrome DevTools MCP verified `#/all`: all 36 samples mount and all 141/141 checks pass.

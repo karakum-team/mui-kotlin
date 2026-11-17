@@ -11,6 +11,7 @@ fun String.adaptRawContent(
 ): String = this
     // Must run before the generic passes below: `dropMemberValueObjects` turns the `{}` branches of the
     // conditional types it collapses into `any`, after which its patterns no longer match.
+    .adaptCreateTheme()
     .adaptCreateThemeNoVars()
     .adaptCreateTypography()
     // MUI-X v9 `internals/models/validation.d.ts` declares `FutureAndPastValidationProps` WITHOUT `export`

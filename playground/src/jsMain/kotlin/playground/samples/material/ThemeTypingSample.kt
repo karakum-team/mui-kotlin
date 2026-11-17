@@ -39,12 +39,12 @@ import web.cssom.rem
 private val defaultTheme = createTheme()
 
 private val customThemeOptions = ThemeOptions(
-    palette = unsafeJso<PaletteOptions> {
-        mode = PaletteMode.dark
+    palette = PaletteOptions(
+        mode = PaletteMode.dark,
         primary = unsafeJso<SimplePaletteColorOptions> {
             main = "#ff0000"
-        }
-    },
+        },
+    ),
     typography = TypographyVariantsOptions(
         h1 = unsafeJso<CSSProperties> {
             fontSize = 3.rem
@@ -95,6 +95,7 @@ private val customTheme = createTheme(customThemeOptions)
 
 // Every Material option must be assignable to its System counterpart without casts or suppressions.
 private val systemOptions = mui.system.ThemeOptions(
+    palette = customThemeOptions.palette,
     shape = customThemeOptions.shape,
     mixins = customThemeOptions.mixins,
     transitions = customThemeOptions.transitions,
@@ -154,10 +155,11 @@ val ThemeTypingSample: Sample = Sample(
         "Theme.vars: ThemeVars",
         "ThemeOptions.palette / typography / shape / mixins / transitions / zIndex / components / cssVariables",
         "Material Mixins / Transitions / ZIndex and their options are assignable to System markers",
+        "Material Palette and PaletteOptions are assignable to System markers",
         "Theme.components / ThemeOptions.components: ReadonlyRecord<String, *> shared with System",
         "createTypography(palette, options)",
         "createTypography(palette, callback)",
-        "ThemeOptions / FontStyleOptions / TypographyVariantsOptions / MixinsOptions / TransitionsOptions / ShapeOptions / MotionOptions @JsPlainObject factories",
+        "ThemeOptions / FontStyleOptions / TypographyVariantsOptions / MixinsOptions / TransitionsOptions / ShapeOptions / MotionOptions / PaletteOptions @JsPlainObject factories",
     ),
     fileName = "ThemeTypingSample.kt",
     notes = "Only running this proves that the members converted from `createThemeNoVars.d.ts` read the " +
@@ -173,6 +175,8 @@ val ThemeTypingSample: Sample = Sample(
         val systemMixins: mui.system.Mixins = customTheme.mixins
         val systemTransitions: mui.system.Transitions = customTheme.transitions
         val systemZIndex: mui.system.ZIndex = customTheme.zIndex
+        val systemPalette: mui.system.Palette = customTheme.palette
+        val systemOptionsPalette: mui.system.PaletteOptions? = customThemeOptions.palette
         val components: ReadonlyRecord<String, *>? = customTheme.components
 
         CheckList {
@@ -210,10 +214,12 @@ val ThemeTypingSample: Sample = Sample(
                 Check("System ThemeOptions accepts Material MixinsOptions", systemOptions.mixins === customThemeOptions.mixins),
                 Check("System ThemeOptions accepts Material TransitionsOptions", systemOptions.transitions === customThemeOptions.transitions),
                 Check("System ThemeOptions accepts Material ZIndex", systemOptions.zIndex === customThemeOptions.zIndex),
+                Check("System ThemeOptions accepts Material PaletteOptions", systemOptions.palette === systemOptionsPalette),
                 Check("System ThemeOptions accepts Material components", systemOptions.components === customThemeOptions.components),
                 Check("Material Mixins is usable as System Mixins", systemTheme.mixins === systemMixins),
                 Check("Material Transitions is usable as System Transitions", systemTheme.transitions === systemTransitions),
                 Check("Material ZIndex is usable as System ZIndex", systemTheme.zIndex === systemZIndex),
+                Check("Material Palette is usable as System Palette", systemTheme.palette === systemPalette),
                 Check(
                     "Material components is a System-compatible record containing MuiButton",
                     components?.get("MuiButton") != undefined && systemTheme.components === components,
