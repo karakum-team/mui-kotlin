@@ -18,3 +18,15 @@ fun String.adaptCreateThemeFoundation(): String =
         .replace("(colorScheme: SupportedColorScheme)", "(colorScheme: String /* SupportedColorScheme */)")
         // SxProps is from @mui/system but not imported in this generated file; collapse to Any.
         .replace("SxProps<CssVarsTheme>", "Any /* SxProps<CssVarsTheme> */")
+        .replace("zIndex: { [K in keyof ZIndex]: string };", "zIndex: ZIndex;")
+        .replace("opacity: { [K in keyof Opacity]: string };", "opacity: Opacity;")
+        .replace(
+            Regex("""export interface FocusVisibleThemeMembers \{.*?\n\}""", RegexOption.DOT_MATCHES_ALL),
+            """
+            export interface FocusVisibleThemeMembers {
+              focusVisible?: React.CSSProperties | undefined;
+              /** The `focusVisible.insetOverrides` the theme was created with. */
+              unstable_focusVisibleInsetOverrides?: React.CSSProperties | undefined;
+            }
+            """.trimIndent(),
+        )

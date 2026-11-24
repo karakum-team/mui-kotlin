@@ -270,6 +270,7 @@ private fun fixComponentOverrides(
             -> content
             .override("autoFocus")
             .override("onClick")
+            .override("tabIndex")
             .replace(
                 "onClick: react.dom.events.MouseEventHandler<web.html.HTMLElement>?",
                 "onClick: react.dom.events.MouseEventHandler<web.html.HTMLLIElement>?"

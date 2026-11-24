@@ -13,6 +13,7 @@ fun String.adaptRawContent(
     // conditional types it collapses into `any`, after which its patterns no longer match.
     .adaptCreateTheme()
     .adaptCreateThemeNoVars()
+    .adaptCreateThemeFoundation()
     .adaptCreateTypography()
     // MUI-X v9 `internals/models/validation.d.ts` declares `FutureAndPastValidationProps` WITHOUT `export`
     // (the generator skips non-exported interfaces), yet Base{Date,Time}ValidationProps extend it for
@@ -68,7 +69,6 @@ fun String.adaptRawContent(
     .adaptUseMenu()
     .adaptUseSlider()
     .adaptInitColorSchemeScript()
-    .adaptCreateThemeFoundation()
     .adaptRichTreeView()
     .adaptLocalizationProvider()
 

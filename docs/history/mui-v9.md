@@ -13,15 +13,15 @@ Migration of the generator from MUI v7 → **v9** (v8 skipped; the suite was rea
 
 | package                                    | version                                                                        |
 |--------------------------------------------|--------------------------------------------------------------------------------|
-| `@mui/material` / `@mui/system`            | `9.5.0`                                                                        |
-| `@mui/icons-material`                      | `9.5.0`                                                                        |
-| `@mui/lab`                                 | `9.0.0-beta.10`                                                                |
-| `@mui/x-date-pickers` / `@mui/x-tree-view` | `9.15.0`                                                                       |
+| `@mui/material` / `@mui/system`            | `9.6.0`                                                                        |
+| `@mui/icons-material`                      | `9.6.0`                                                                        |
+| `@mui/lab`                                 | `9.0.0-beta.11`                                                                |
+| `@mui/x-date-pickers` / `@mui/x-tree-view` | `9.17.0`                                                                       |
 | `@mui/base`                                | `5.0.0-beta.70` (frozen; retained during [Base UI migration](../plans/base-ui.md)) |
 | `@base-ui/react`                           | `1.8.0` (nine modules included; see [current status](../plans/base-ui.md))         |
-| kotlin-wrappers BOM                        | `2026.9.3`                                                                     |
+| kotlin-wrappers BOM                        | `2026.10.6`                                                                    |
 | kfc                                        | `19.16.0`                                                                      |
-| kotlin / seskar                            | `2.4.20` / `4.66.0`                                                            |
+| kotlin / seskar                            | `2.4.21` / `4.66.0`                                                            |
 
 > mui-x **had** to bump together with core: `@mui/x-tree-view@7` pins its peer to `@mui/material@"^5||^6||^7"`,
 > so npm refuses to install it next to `@mui/material@9`. The whole v9 suite installs as one.
@@ -30,7 +30,25 @@ Migration of the generator from MUI v7 → **v9** (v8 skipped; the suite was rea
 
 - ✅ `:mui-kotlin:compileKotlinJs` — **0 errors**
 - ✅ `:playground:compileKotlinJs` — **0 errors**
-- ✅ Type-quality / review-remark polish — **completed in the recorded Phase 4 pass** (see below)
+- ✅ `#/all` smoke run in Chrome DevTools — **36 samples, 148/148 checks PASS**
+
+## MUI Core 9.5.0 → 9.6.0 update (2026-11-24)
+
+- Bumped `@mui/material`, `@mui/system`, `@mui/icons-material` to `9.6.0` and `@mui/lab` to `9.0.0-beta.11`
+  in `gradle.properties`. Synchronized `.kotlin-locks/js/package-lock.json` via `kotlinUpgradePackageLock --rerun-tasks`.
+- **Density API:** Supported `unstable_enhanceDensity` (and inline `enhanceDensity` alias) in `enhanceDensity.kt`
+  and `enhanceDensity.ext.kt`, along with `densityScale.kt` declaring `@JsPlainObject` `ResolvedDensityScale`,
+  `DensityScaleOverrides`, and unions `DensityKey` / `DensitySizingKey`.
+- **FocusVisible API:** Supported `FocusVisiblePosition` (`'inset' | 'outset'`), `FocusVisibleOptions`, and
+  `BaseTheme.applyFocusVisible(position)`. `CreateThemeNoVars.kt` inlines `FocusVisibleThemeMembers` into
+  `BaseTheme` so `BaseTheme` inherits exclusively from `mui.system.Theme`, preserving closed `@JsPlainObject`
+  hierarchy while keeping all focus members on `Theme`.
+- **SpacingArgument:** Updated `UnionConverter.kt` to accept the widened 9.6.0 union `number | SpacingKey | string`,
+  retaining idiomatic `typealias SpacingArgument = Double`.
+- **MenuItem tabIndex:** Added `override var tabIndex: Int?` in `Overrides.kt` to resolve inheritance clash with
+  `HTMLAttributes`.
+- **Verification:** Verified in Chrome DevTools MCP: `#/material/theme-typing` (54/54 PASS),
+  `#/material/theme-focus-visible` mounted with 0 errors, and `#/all` (36 samples, 148/148 checks PASS, 0 fails).
 
 ## @date-io/core 2.17 → 3.2 update (2026-10-01)
 

@@ -12,7 +12,7 @@ package karakum.mui.adapters
 // `cssVariables` / `colorSchemes` / `defaultColorScheme`. It reuses the same name, so it cannot be generated
 // next to this one; its three CSS variables entry points are appended here instead.
 fun String.adaptCreateThemeNoVars(): String {
-    if ("export interface BaseTheme extends SystemTheme {" !in this)
+    if ("export interface BaseTheme extends SystemTheme" !in this)
         return this
 
     // The augmentation hook itself (and its JSDoc, whose `{ enabled: true }` example breaks member parsing).
@@ -40,6 +40,15 @@ fun String.adaptCreateThemeNoVars(): String {
         .replace(
             Regex("""palette: Palette & \(CssThemeVariables extends \{\s*enabled: true;\s*} \? CssVarsPalette : \{}\);"""),
             "palette: Palette;",
+        )
+        .replace(
+            "export interface BaseTheme extends SystemTheme, FocusVisibleThemeMembers {",
+            """
+            export interface BaseTheme extends SystemTheme {
+              focusVisible?: FocusVisible | undefined;
+              /** The `focusVisible.insetOverrides` the theme was created with. */
+              unstable_focusVisibleInsetOverrides?: React.CSSProperties | undefined;
+            """.trimIndent(),
         )
         // `Shadows` is a 25-tuple (`['none', string, …]`) — `shadows.d.ts` is not generated; an array is what
         // Kotlin can say. `ZIndexOptions = Partial<ZIndex>`, likewise not generated.

@@ -18,7 +18,7 @@ internal fun convertUnion(
         "NativeFormControlElement" -> return "typealias $name = web.html.HTMLElement /* $body */"
         "SpacingOptions" -> return convertSpacingOptions(name, body)
         "SpacingArgument" -> {
-            check(body == "number | string")
+            check(body == "number | string" || body == "number | SpacingKey | string")
             return "typealias $name = Double"
         }
 

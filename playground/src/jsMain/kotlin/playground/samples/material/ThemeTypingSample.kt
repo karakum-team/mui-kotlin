@@ -8,7 +8,10 @@ import js.objects.unsafeJso
 import mui.material.ButtonProps
 import mui.material.PaletteMode
 import mui.material.styles.ColorSystemOptions
+import mui.material.styles.DensityKey
 import mui.material.styles.Duration
+import mui.material.styles.FocusVisibleOptions
+import mui.material.styles.FocusVisiblePosition
 import mui.material.styles.FontStyleOptions
 import mui.material.styles.MixinsOptions
 import mui.material.styles.MotionOptions
@@ -23,8 +26,10 @@ import mui.material.styles.TransitionsOptions
 import mui.material.styles.TypographyUtils
 import mui.material.styles.TypographyVariantsOptions
 import mui.material.styles.ZIndex
+import mui.material.styles.applyFocusVisible
 import mui.material.styles.createTheme
 import mui.material.styles.createTypography
+import mui.material.styles.enhanceDensity
 import playground.shell.Check
 import playground.shell.CheckList
 import playground.shell.Kind
@@ -33,10 +38,23 @@ import playground.shell.Sample
 import react.CSSProperties
 import react.FC
 import react.Props
+import web.cssom.NamedColor
 import web.cssom.px
 import web.cssom.rem
 
 private val defaultTheme = createTheme()
+private val densityEnhancedTheme = enhanceDensity(defaultTheme)
+
+private val insetRingTheme = createTheme(
+    ThemeOptions(
+        focusVisible = FocusVisibleOptions {
+            outlineColor = NamedColor.magenta
+            insetOverrides = unsafeJso {
+                outlineColor = NamedColor.red
+            }
+        },
+    ),
+)
 
 private val customThemeOptions = ThemeOptions(
     palette = PaletteOptions(
@@ -235,6 +253,19 @@ val ThemeTypingSample: Sample = Sample(
                 Check("TypographyVariantsOptions factory allows empty options", emptyTypographyOptions.fontSize == undefined),
                 Check("TransitionCreateOptions factory works with create()", "${transitionWithCreateOptions}".contains("margin")),
                 Check("ColorSystemOptions factory allows empty options", colorSystemOptions.palette == undefined),
+                Check("enhanceDensity attaches unstable_densityScale", densityEnhancedTheme.unstable_densityScale != null),
+                Check("enhanceDensity: touchTarget is 32", densityEnhancedTheme.unstable_densityScale?.touchTarget == 32.0),
+                Check("enhanceDensity: iconSize is 16", densityEnhancedTheme.unstable_densityScale?.iconSize == 16.0),
+                Check("enhanceDensity: spacing.small is 12", densityEnhancedTheme.unstable_densityScale?.spacing?.get(DensityKey.small) == 12.0),
+                Check(
+                    "theme.applyFocusVisible(outset) returns outset styles",
+                    insetRingTheme.applyFocusVisible(FocusVisiblePosition.outset).asDynamic().outlineColor == NamedColor.magenta,
+                ),
+                Check(
+                    "theme.applyFocusVisible(inset) merges inset overrides",
+                    insetRingTheme.applyFocusVisible(FocusVisiblePosition.inset).asDynamic().outlineColor == NamedColor.red,
+                ),
+                Check("FocusVisibleOptions with insetOverrides reaches theme", insetRingTheme.unstable_focusVisibleInsetOverrides != null),
             )
         }
     },

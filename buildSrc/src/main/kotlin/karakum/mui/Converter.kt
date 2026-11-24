@@ -1595,11 +1595,8 @@ private fun findAdditionalProps(
                 -> propsBody = propsBody.replace("override var sx:", "var sx:")
         }
 
-        when (parentType) {
-            "mui.system.ThemeOptions",
-            "mui.system.Theme",
-            "BaseTheme",
-                -> propsBody = sequenceOf(
+        if (parentType != null && ("mui.system.Theme" in parentType || "BaseTheme" in parentType)) {
+            propsBody = sequenceOf(
                 "mixins",
                 "components",
                 "slots",

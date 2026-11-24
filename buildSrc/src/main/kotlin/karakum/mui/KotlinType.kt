@@ -92,6 +92,13 @@ private val KNOWN_TYPES = setOf(
     "TypographyVariants",
     "TypographyVariantsOptions",
     "FocusVisible",
+    "FocusVisibleOptions",
+    "FocusVisiblePosition",
+    "FocusVisibleThemeMembers",
+    "ResolvedDensityScale",
+    "DensityScaleOverrides",
+    "DensityKey",
+    "DensitySizingKey",
 
     "MixinsOptions",
     "PaletteOptions",

@@ -1000,10 +1000,106 @@ private fun RuntimeBindings.generateStylesDeclarations(
         .writeGenerated(
             fileContent(
                 body = """
+                    ${convertUnion("FocusVisiblePosition = 'inset' | 'outset'")!!}
+
                     /**
                      * CSS of the keyboard focus ring, spread onto the `Mui-focusVisible` state.
                      */
                     typealias FocusVisible = react.CSSProperties
+
+                    /**
+                     * The `focusVisible` theme option. `insetOverrides` holds the styles that change on components that
+                     * draw the ring inside their edge.
+                     */
+                    external interface FocusVisibleOptions : react.CSSProperties {
+                        var insetOverrides: react.CSSProperties?
+                    }
+
+                    inline fun FocusVisibleOptions(
+                        block: FocusVisibleOptions.() -> Unit,
+                    ): FocusVisibleOptions =
+                        js.objects.unsafeJso(block)
+
+                    /**
+                     * Returns the `theme.focusVisible` ring for a focus selector. `'outset'` is `theme.focusVisible`,
+                     * and `'inset'` merges the inset ring over it. Returns `{}` when `theme.focusVisible` is off.
+                     */
+                    inline fun BaseTheme.applyFocusVisible(
+                        position: FocusVisiblePosition,
+                    ): react.CSSProperties =
+                        asDynamic().applyFocusVisible(position)
+                """.trimIndent(),
+                pkg = Package.materialStyles,
+            )
+        )
+
+    targetDir.resolve("densityScale.kt")
+        .writeGenerated(
+            fileContent(
+                body = """
+                    ${convertUnion("DensityKey = 'xxSmall' | 'xSmall' | 'small' | 'medium' | 'large' | 'xLarge' | 'xxLarge'")!!}
+
+                    ${convertUnion("DensitySizingKey = 'touchTarget' | 'iconSize'")!!}
+
+                    /**
+                     * The scale a theme ended up with, in px numbers, for code that needs the
+                     * values in JS (MUI X derives row heights from `touchTarget + small`). Written
+                     * to `theme.unstable_densityScale` by `enhanceDensity`.
+                     */
+                    @JsPlainObject
+                    external interface ResolvedDensityScale {
+                        val touchTarget: Double
+                        val iconSize: Double
+                        val spacing: ReadonlyRecord<DensityKey, Double>
+                    }
+
+                    /**
+                     * What `enhanceDensity` accepts as its second argument.
+                     */
+                    @JsPlainObject
+                    external interface DensityScaleOverrides {
+                        val touchTarget: Double?
+                        val iconSize: Double?
+                        val spacing: ReadonlyRecord<DensityKey, Double>?
+                    }
+                """.trimIndent(),
+                pkg = Package.materialStyles,
+            )
+        )
+
+    targetDir.resolve("enhanceDensity.kt")
+        .writeGenerated(
+            fileContent(
+                annotations = "@file:JsModule(\"@mui/material/styles\")",
+                body = """
+                    /**
+                     * Make every component density-aware on the one shipped scale (`scale`
+                     * overrides any step). Apply LAST, on the final composed theme — later
+                     * `createTheme()` wraps rebuild the vars machinery and drop the emitted scale.
+                     */
+                    external fun <T : Theme> unstable_enhanceDensity(
+                        theme: T,
+                        scale: DensityScaleOverrides = definedExternally,
+                    ): T
+                """.trimIndent(),
+                pkg = Package.materialStyles,
+            )
+        )
+
+    targetDir.resolve("enhanceDensity.ext.kt")
+        .writeGenerated(
+            fileContent(
+                body = """
+                    inline fun <T : Theme> enhanceDensity(
+                        theme: T,
+                    ): T =
+                        unstable_enhanceDensity(theme)
+
+                    inline fun <T : Theme> enhanceDensity(
+                        theme: T,
+                        scale: DensityScaleOverrides,
+                    ): T =
+                        unstable_enhanceDensity(theme, scale)
                 """.trimIndent(),
                 pkg = Package.materialStyles,
             )

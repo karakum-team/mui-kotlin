@@ -191,6 +191,8 @@ internal fun findParentType(
                         }
 
                         parent == "SystemTypography" -> "mui.system.Typography"
+                        parent == "SystemTheme" -> "mui.system.Theme"
+                        parent == "SystemThemeOptions" -> "mui.system.ThemeOptions"
 
                         else -> parent
                     }
@@ -264,7 +266,7 @@ private val INTERNAL_REJECTED_PARENTS = setOf(
 )
 
 private fun String.isAcceptableParent(): Boolean {
-    if (this == "mui.system.Typography") return true
+    if (startsWith("mui.")) return true
     val prefix = substringBefore("<")
     if (prefix in TS_UTILITY_PREFIXES) return false
     if (prefix in INTERNAL_REJECTED_PARENTS) return false
