@@ -41,15 +41,6 @@ fun String.adaptCreateThemeNoVars(): String {
             Regex("""palette: Palette & \(CssThemeVariables extends \{\s*enabled: true;\s*} \? CssVarsPalette : \{}\);"""),
             "palette: Palette;",
         )
-        .replace(
-            "export interface BaseTheme extends SystemTheme, FocusVisibleThemeMembers {",
-            """
-            export interface BaseTheme extends SystemTheme {
-              focusVisible?: FocusVisible | undefined;
-              /** The `focusVisible.insetOverrides` the theme was created with. */
-              unstable_focusVisibleInsetOverrides?: React.CSSProperties | undefined;
-            """.trimIndent(),
-        )
         // `Shadows` is a 25-tuple (`['none', string, …]`) — `shadows.d.ts` is not generated; an array is what
         // Kotlin can say. `ZIndexOptions = Partial<ZIndex>`, likewise not generated.
         .replace("shadows?: Shadows | undefined;", "shadows?: string[] | undefined;")

@@ -1000,8 +1000,6 @@ private fun RuntimeBindings.generateStylesDeclarations(
         .writeGenerated(
             fileContent(
                 body = """
-                    ${convertUnion("FocusVisiblePosition = 'inset' | 'outset'")!!}
-
                     /**
                      * CSS of the keyboard focus ring, spread onto the `Mui-focusVisible` state.
                      */
@@ -1019,15 +1017,6 @@ private fun RuntimeBindings.generateStylesDeclarations(
                         block: FocusVisibleOptions.() -> Unit,
                     ): FocusVisibleOptions =
                         js.objects.unsafeJso(block)
-
-                    /**
-                     * Returns the `theme.focusVisible` ring for a focus selector. `'outset'` is `theme.focusVisible`,
-                     * and `'inset'` merges the inset ring over it. Returns `{}` when `theme.focusVisible` is off.
-                     */
-                    inline fun BaseTheme.applyFocusVisible(
-                        position: FocusVisiblePosition,
-                    ): react.CSSProperties =
-                        asDynamic().applyFocusVisible(position)
                 """.trimIndent(),
                 pkg = Package.materialStyles,
             )
@@ -1904,6 +1893,9 @@ private fun RuntimeBindings.generate(
                     "ThemeOptions",
                     "BaseTheme",
                     "Theme",
+                    "FocusVisibleThemeMembers",
+                    "ColorSystem",
+                    "CssVarsTheme",
                     "Mixins",
                     "MixinsOptions",
                     "Transitions",

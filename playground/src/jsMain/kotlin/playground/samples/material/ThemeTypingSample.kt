@@ -11,7 +11,6 @@ import mui.material.styles.ColorSystemOptions
 import mui.material.styles.DensityKey
 import mui.material.styles.Duration
 import mui.material.styles.FocusVisibleOptions
-import mui.material.styles.FocusVisiblePosition
 import mui.material.styles.FontStyleOptions
 import mui.material.styles.MixinsOptions
 import mui.material.styles.MotionOptions
@@ -26,7 +25,6 @@ import mui.material.styles.TransitionsOptions
 import mui.material.styles.TypographyUtils
 import mui.material.styles.TypographyVariantsOptions
 import mui.material.styles.ZIndex
-import mui.material.styles.applyFocusVisible
 import mui.material.styles.createTheme
 import mui.material.styles.createTypography
 import mui.material.styles.enhanceDensity
@@ -257,14 +255,6 @@ val ThemeTypingSample: Sample = Sample(
                 Check("enhanceDensity: touchTarget is 32", densityEnhancedTheme.unstable_densityScale?.touchTarget == 32.0),
                 Check("enhanceDensity: iconSize is 16", densityEnhancedTheme.unstable_densityScale?.iconSize == 16.0),
                 Check("enhanceDensity: spacing.small is 12", densityEnhancedTheme.unstable_densityScale?.spacing?.get(DensityKey.small) == 12.0),
-                Check(
-                    "theme.applyFocusVisible(outset) returns outset styles",
-                    insetRingTheme.applyFocusVisible(FocusVisiblePosition.outset).asDynamic().outlineColor == NamedColor.magenta,
-                ),
-                Check(
-                    "theme.applyFocusVisible(inset) merges inset overrides",
-                    insetRingTheme.applyFocusVisible(FocusVisiblePosition.inset).asDynamic().outlineColor == NamedColor.red,
-                ),
                 Check("FocusVisibleOptions with insetOverrides reaches theme", insetRingTheme.unstable_focusVisibleInsetOverrides != null),
             )
         }
