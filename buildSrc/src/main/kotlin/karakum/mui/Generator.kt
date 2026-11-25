@@ -1506,6 +1506,10 @@ private val BASE_UI_EXTRA_FILES = setOf(
     "collapsible/root/useCollapsibleRoot.d.ts",
     "collapsible/root/CollapsibleRoot.d.ts",
     "number-field/utils/types.d.ts",
+    "menu/filter-provider/MenuFilterProviderOptions.d.ts",
+    "filter-dropdown/input/FilterDropdownInput.d.ts",
+    "filter-dropdown/clear/FilterDropdownClear.d.ts",
+    "filter-dropdown/empty/FilterDropdownEmpty.d.ts",
 )
 
 // `Side` and `Align` are *not* here: both are declared in `internals/useAnchorPositioning.d.ts`, which
@@ -1593,6 +1597,8 @@ external interface BaseUIGenericEventDetails {
     var reason: String
     var event: web.events.Event
 }
+
+external interface BaseUIHighlightEventDetails : BaseUIGenericEventDetails
 
 /**
  * `floating-ui-react/components/FloatingPortal.d.ts`, where it is `interface Props<TState>` declared

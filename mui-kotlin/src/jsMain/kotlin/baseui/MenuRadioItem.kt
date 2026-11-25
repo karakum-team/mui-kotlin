@@ -30,7 +30,8 @@ external interface MenuRadioItemProps :
     var disabled: Boolean?
 
     /**
-     * Overrides the text label to use when the item is matched during keyboard text navigation.
+     * Overrides the text used for keyboard text navigation and filtering.
+     * Falls back to the rendered text when not provided.
      */
     var label: String?
 

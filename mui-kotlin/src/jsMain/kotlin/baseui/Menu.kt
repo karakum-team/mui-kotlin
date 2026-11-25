@@ -19,10 +19,15 @@ external object Menu {
     val Backdrop: FC<MenuBackdropProps>
     val CheckboxItem: FC<MenuCheckboxItemProps>
     val CheckboxItemIndicator: FC<MenuCheckboxItemIndicatorProps>
+    val Clear: FC<MenuClearProps>
+    val Empty: FC<MenuEmptyProps>
+    val FilterProvider: FC<MenuFilterProviderProps>
     val Group: FC<MenuGroupProps>
     val GroupLabel: FC<MenuGroupLabelProps>
+    val Input: FC<MenuInputProps>
     val Item: FC<MenuItemProps>
     val LinkItem: FC<MenuLinkItemProps>
+    val List: FC<MenuListProps>
     val Popup: FC<MenuPopupProps>
     val Portal: FC<MenuPortalProps>
     val Positioner: FC<MenuPositionerProps>

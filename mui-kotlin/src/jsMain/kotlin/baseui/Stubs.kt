@@ -43,6 +43,8 @@ external interface BaseUIGenericEventDetails {
     var event: Event
 }
 
+external interface BaseUIHighlightEventDetails : BaseUIGenericEventDetails
+
 /**
  * `floating-ui-react/components/FloatingPortal.d.ts`, where it is `interface Props<TState>` declared
  * inside the `FloatingPortal` namespace — a shape with no flat declaration to redirect to, and one

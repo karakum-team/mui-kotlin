@@ -180,7 +180,11 @@ external interface UseAnchorPositioningParameters : UseAnchorPositioningSharedPa
 
     var shift: Any? /* { crossAxis?: boolean | undefined; rootBoundary?: 'layoutViewport' | undefined; } */
 
-    var lazyFlip: Boolean?
+    /**
+     * Locks a flipped placement so it doesn't flip back eagerly while filtering resizes the
+     * popup. `true` locks the side only; `'placement'` also locks the alignment.
+     */
+    var lazyFlip: Any? /* boolean | 'placement' */
 
     var externalTree: Any? /* FloatingTreeStore */
 

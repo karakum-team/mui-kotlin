@@ -56,6 +56,7 @@ internal fun parseBaseUiParts(
     val moduleDir = indexPartsFile.parentFile
 
     return EXPORT_CLAUSE.findAll(indexPartsFile.readText())
+        .filter { !it.groupValues[2].contains("/internals/") }
         .flatMap { match ->
             val (bindings, path) = match.destructured
 
@@ -415,6 +416,8 @@ internal fun adaptBaseUiContent(
         .expandEmptyInterfaceBodies()
         .flattenBaseUiNamespaces(aliases)
         .substituteTypeParameterBounds(knownTypes)
+        .replace("FilterDropdownRoot.ChangeEventReason", "'inputChange' | 'inputClear' | 'clearPress' | 'popupClose'")
+        .replace("FilterDropdownRoot.ChangeEventDetails", "BaseUIChangeEventDetails")
         .interfaceStateAliases()
         .interfaceEventDetails()
         .resolveNamespaceStubs()

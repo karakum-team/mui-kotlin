@@ -56,6 +56,19 @@ external interface MenuRootProps : PropsWithChildren {
     var onOpenChangeComplete: ((open: Boolean) -> Unit)?
 
     /**
+     * Callback fired when an item is highlighted or unhighlighted.
+     * Receives the highlighted item element (or `undefined` if no item is highlighted) and details
+     * containing the reason for the change, the event, and the item's text label.
+     * The `reason` can be:
+     * - `'keyboard'`: the highlight changed due to keyboard navigation.
+     * - `'pointer'`: the highlight changed due to pointer hovering. The event may be a `MouseEvent`
+     *   rather than a `PointerEvent`.
+     * - `'none'`: the highlight changed for another reason, such as automatic highlighting while
+     *   filtering, the item list changing, or the popup opening or closing.
+     */
+    var onItemHighlighted: Any? /* (highlightedItem: HTMLElement | undefined, eventDetails: MenuRootHighlightEventDetails) => void */
+
+    /**
      * Whether the menu is currently open.
      */
     var open: Boolean?
@@ -82,9 +95,10 @@ external interface MenuRootProps : PropsWithChildren {
 
     /**
      * A ref to imperative actions.
-     * - `unmount`: Manually unmounts the menu.
-     *   Call this after any externally controlled closing animation finishes.
-     * - `close`: When specified, the menu can be closed imperatively.
+     * - `unmount`: Ends the closing phase of the menu after an externally controlled closing animation finishes.
+     *   Call `preventUnmountOnClose()` in `onOpenChange` first, otherwise the menu completes closing on its own.
+     *   Whether it leaves the DOM is decided by `keepMounted` on the portal.
+     * - `close`: Closes the menu imperatively when called.
      */
     var actionsRef: Any? /* React.RefObject<MenuRootActions | null> */
 
@@ -122,5 +136,8 @@ external interface MenuRootActions {
 }
 
 external interface MenuRootChangeEventDetails : BaseUIChangeEventDetails {
+    /** Prevents the popup from unmounting until the `unmount` action is called. */
     var preventUnmountOnClose: () -> Unit
 }
+
+external interface MenuRootHighlightEventDetails : BaseUIHighlightEventDetails

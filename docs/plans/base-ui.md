@@ -25,8 +25,9 @@ Status refreshed from git history and generator code on **2026-11-04**.
 
 See [the acceptance record](../history/base-ui.md).
 
-**Target version:** `base-ui-react.version=1.8.0`. Updated from `1.6.0` on 2026-10-01, with generator
-adaptations and browser verification recorded below. The version remains pinned because Base UI
+**Target version:** `base-ui-react.version=1.9.0`. Updated from `1.8.0` on 2026-11-24, supporting Menu
+filtering components (`FilterProvider`, `Input`, `List`, `Clear`, `Empty`) via `filter-dropdown` integration in `BASE_UI_EXTRA_FILES`,
+with generator adaptations and browser verification recorded below. The version remains pinned because Base UI
 has changed declaration shapes across 1.x.
 
 **Where this stands:** nine modules are in `BASE_UI_MODULES` in `Generator.kt`: `menu`, `slider`,

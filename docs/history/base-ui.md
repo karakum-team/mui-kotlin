@@ -151,3 +151,18 @@ remain explicit backlog items. No group 2 implementation has started.
   regeneration. The only generated change from the starting revision is the plan path in `baseui/Stubs.kt`.
 - Browser checks were not repeated: changes affect documentation paths and sample reference metadata,
   with no changes to types, components, inheritance, or sample interaction logic.
+
+## Base UI 1.8.0 → 1.9.0 update (2026-11-24)
+
+- Bumped `base-ui-react.version` to `1.9.0` in `gradle.properties`.
+- Synchronized `.kotlin-locks/js/package-lock.json` via `kotlinUpgradePackageLock --rerun-tasks`.
+- Integrated `filter-dropdown` internal types (`FilterDropdownInput`, `FilterDropdownClear`, `FilterDropdownEmpty`)
+  and `menu/filter-provider/MenuFilterProviderOptions` in `BASE_UI_EXTRA_FILES` in `Generator.kt`.
+- Added `BaseUIHighlightEventDetails` stub in `baseui/Stubs.kt`.
+- Generated 5 new Menu filtering components on the `Menu` namespace object:
+  `Menu.FilterProvider`, `Menu.Input`, `Menu.List`, `Menu.Clear`, `Menu.Empty` (25 parts total).
+- Updated `MenuSample.kt` with `Menu.FilterProvider`, `Menu.Input`, `Menu.Clear`, `Menu.List`, and `Menu.Empty`,
+  and updated covers to 25 parts.
+- Verified in Chrome DevTools MCP: `#/baseui/menu` mounted and searchable without errors, and `#/all` smoke run
+  (146/146 checks PASS, 0 failures).
+- All 21 runtime export tests passed; `./gradlew :mui-kotlin:clean build` completed with 0 errors.

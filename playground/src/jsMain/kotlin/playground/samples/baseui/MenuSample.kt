@@ -38,6 +38,7 @@ import web.cssom.pct
 import web.cssom.px
 import web.cssom.rem
 import web.cssom.rgb
+import web.dom.ElementId
 import web.dom.document
 
 // Both arms of each value-or-callback prop appear at least once: the callback arm resolves to the extension
@@ -52,7 +53,7 @@ val MenuSample: Sample = Sample(
     covers = listOf(
         "Menu.Root/Trigger/Portal/Backdrop/Positioner/Popup/Arrow/Viewport/Item/CheckboxItem/" +
             "CheckboxItemIndicator/RadioGroup/RadioItem/RadioItemIndicator/Group/GroupLabel/LinkItem/" +
-            "SubmenuRoot/SubmenuTrigger/Separator (20 parts)",
+            "SubmenuRoot/SubmenuTrigger/Separator/FilterProvider/Input/List/Clear/Empty (25 parts)",
         "className/style/render state helpers",
         "value-or-callback props",
         "anchor positioning (side/align/offsets/collisionPadding)",
@@ -157,8 +158,9 @@ val MenuSample: Sample = Sample(
             className = ClassName("bui-status")
         }
 
-        Menu.Root {
-            // Same as the default, and the only place in the repo where a generated seskar union is assigned
+        Menu.FilterProvider {
+            Menu.Root {
+                // Same as the default, and the only place in the repo where a generated seskar union is assigned
             // to a prop that gap 5 widened to `Any?` — proving those unions are still usable.
             orientation = MenuRootOrientation.vertical
 
@@ -239,17 +241,30 @@ val MenuSample: Sample = Sample(
                                 else ClassName("bui-viewport")
                             }
 
-                            Menu.Item {
-                                className { state ->
-                                    if (state.highlighted) ClassName("bui-item bui-item--highlighted")
-                                    else ClassName("bui-item")
-                                }
-                                // `MouseEvent`, not the declared `Any?`: the indexed-access type
-                                // `BaseUiDivProps['onClick']` is not resolved yet (gap 10), and annotating the
-                                // real type here keeps call sites honest until it is.
-                                onClick = { _: MouseEvent<*, *> -> lastAction = "add-to-library" }
-                                +"Add to Library"
+                            Menu.Input {
+                                id = ElementId("bui-filter-input")
+                                className = ClassName("bui-item")
+                                placeholder = "Filter items…"
                             }
+                            Menu.Clear {
+                                id = ElementId("bui-filter-clear")
+                                className = ClassName("bui-item")
+                                +"Clear"
+                            }
+                            Menu.List {
+                                    className = ClassName("bui-group")
+
+                                    Menu.Item {
+                                        className { state ->
+                                            if (state.highlighted) ClassName("bui-item bui-item--highlighted")
+                                            else ClassName("bui-item")
+                                        }
+                                        // `MouseEvent`, not the declared `Any?`: the indexed-access type
+                                        // `BaseUiDivProps['onClick']` is not resolved yet (gap 10), and annotating the
+                                        // real type here keeps call sites honest until it is.
+                                        onClick = { _: MouseEvent<*, *> -> lastAction = "add-to-library" }
+                                        +"Add to Library"
+                                    }
 
                             // `render` with the props applied. No children in this builder: `+props` already
                             // carries them, which is what the helper's KDoc warns about.
@@ -430,9 +445,17 @@ val MenuSample: Sample = Sample(
                                 }
                             }
                         }
+
+                        Menu.Empty {
+                            id = ElementId("bui-filter-empty")
+                            className = ClassName("bui-item")
+                            +"No items found"
+                        }
                     }
                 }
             }
         }
+    }
+}
     },
 )
