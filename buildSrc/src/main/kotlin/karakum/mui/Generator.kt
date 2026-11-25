@@ -2279,9 +2279,9 @@ private val IMPORTED_FQNS = listOf(
     "react.RefObject",
     "react.StateSetter",
 
-    // react.dom.aria
-    "react.dom.aria.AriaChecked",
-    "react.dom.aria.AriaRole",
+    // web.aria
+    "web.aria.AriaChecked",
+    "web.aria.AriaRole",
 
     // react.dom.events (order doesn't matter due to negative-lookahead in replace)
     "react.dom.events.ChangeEvent",

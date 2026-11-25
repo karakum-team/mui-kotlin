@@ -6,7 +6,7 @@ import playground.dataStatus
 import react.FC
 import react.Key
 import react.Props
-import react.dom.aria.AriaLive
+import web.aria.*
 import react.dom.html.ReactHTML.li
 import react.dom.html.ReactHTML.p
 import react.dom.html.ReactHTML.ul

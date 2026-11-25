@@ -8,7 +8,7 @@ private val ALIAS_MAP = mapOf(
     "InputProps['inputProps']" to "InputBaseComponentProps",
     "NativeSelectInputProps['onChange']" to "react.dom.events.ChangeEventHandler<*, *>",
     "OutlinedInputProps['onChange']" to "react.dom.events.ChangeEventHandler<web.html.HTMLElement, *>",
-    "PaperProps['role']" to "react.dom.aria.AriaRole",
+    "PaperProps['role']" to "web.aria.AriaRole",
     // createTypography.d.ts `FontStyle`.
     "React.CSSProperties['fontFamily']" to "web.cssom.FontFamily",
     "React.CSSProperties['fontWeight']" to "web.cssom.FontWeight",

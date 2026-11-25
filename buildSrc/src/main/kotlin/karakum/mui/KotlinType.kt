@@ -303,7 +303,7 @@ private val STANDARD_TYPE_MAP = mapOf(
     "React.Ref<unknown>" to "react.Ref<*>",
     "React.Ref<any>" to "react.Ref<*>",
 
-    "React.AriaRole" to "react.dom.aria.AriaRole",
+    "React.AriaRole" to "web.aria.AriaRole",
 
     "PaletteMode" to "mui.material.PaletteMode",
     "TransitionProps" to "mui.material.transitions.TransitionProps",

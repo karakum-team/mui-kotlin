@@ -20,7 +20,6 @@ import react.CSSProperties
 import react.FC
 import react.Props
 import react.create
-import react.dom.aria.AriaLive
 import react.dom.html.ReactHTML.button
 import react.dom.html.ReactHTML.form
 import react.dom.html.ReactHTML.p
@@ -28,6 +27,7 @@ import react.dom.html.ReactHTML.section
 import react.dom.html.ReactHTML.span
 import react.useRef
 import react.useState
+import web.aria.*
 import web.cssom.AlignItems
 import web.cssom.Border
 import web.cssom.BoxSizing

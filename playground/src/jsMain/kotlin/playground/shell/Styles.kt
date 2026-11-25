@@ -17,6 +17,7 @@ import web.cssom.LineStyle.Companion.solid
 import web.cssom.Margin
 import web.cssom.NamedColor
 import web.cssom.None.Companion.none
+import web.cssom.Normal.Companion.normal
 import web.cssom.Padding
 import web.cssom.Position
 import web.cssom.TextAlign
@@ -84,7 +85,7 @@ val ShellStyles = FC<Props> {
             ".pg-nav-library small, .pg-nav-empty" {
                 display = Display.block
                 color = textMuted
-                fontWeight = FontWeight.normal
+                fontWeight = normal
             }
 
             ".pg-main" {

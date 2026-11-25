@@ -3,7 +3,7 @@ package playground.shell
 import react.FC
 import react.Key
 import react.Props
-import react.dom.aria.AriaCurrent
+import web.aria.*
 import react.dom.html.ReactHTML.a
 import react.dom.html.ReactHTML.h3
 import react.dom.html.ReactHTML.li
