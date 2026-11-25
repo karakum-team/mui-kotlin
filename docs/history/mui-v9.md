@@ -16,7 +16,7 @@ Migration of the generator from MUI v7 → **v9** (v8 skipped; the suite was rea
 | `@mui/material` / `@mui/system`            | `9.6.0`                                                                        |
 | `@mui/icons-material`                      | `9.6.0`                                                                        |
 | `@mui/lab`                                 | `9.0.0-beta.11`                                                                |
-| `@mui/x-date-pickers` / `@mui/x-tree-view` | `9.17.0`                                                                       |
+| `@mui/x-date-pickers` / `@mui/x-tree-view` | `9.18.0`                                                                       |
 | `@mui/base`                                | `5.0.0-beta.70` (frozen; retained during [Base UI migration](../plans/base-ui.md)) |
 | `@base-ui/react`                           | `1.8.0` (nine modules included; see [current status](../plans/base-ui.md))         |
 | kotlin-wrappers BOM                        | `2026.10.6`                                                                    |
@@ -31,6 +31,13 @@ Migration of the generator from MUI v7 → **v9** (v8 skipped; the suite was rea
 - ✅ `:mui-kotlin:compileKotlinJs` — **0 errors**
 - ✅ `:playground:compileKotlinJs` — **0 errors**
 - ✅ `#/all` smoke run in Chrome DevTools — **36 samples, 148/148 checks PASS**
+
+## MUI X 9.17.0 → 9.18.0 update (2026-11-24)
+
+- Bumped `@mui/x-date-pickers` and `@mui/x-tree-view` to `9.18.0` in `gradle.properties`.
+- Synchronized `.kotlin-locks/js/package-lock.json` via `kotlinUpgradePackageLock --rerun-tasks`.
+- Upstream changes consisted of `@default` JSDoc annotations in `RichTreeView.types.d.ts` and `TreeItemIcon.types.d.ts`, and internal style context tweaks.
+- Verified in Chrome DevTools MCP: `#/treeview/consumer-tree-view`, `#/pickers/classes`, and `#/all` (146/146 checks PASS, 0 failures).
 
 ## MUI Core 9.5.0 → 9.6.0 update (2026-11-24)
 
