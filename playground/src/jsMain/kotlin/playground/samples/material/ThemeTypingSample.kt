@@ -45,11 +45,12 @@ private val densityEnhancedTheme = enhanceDensity(defaultTheme)
 
 private val insetRingTheme = createTheme(
     ThemeOptions(
-        focusVisible = FocusVisibleOptions {
-            outlineColor = NamedColor.magenta
+        focusVisible = FocusVisibleOptions(
             insetOverrides = unsafeJso {
                 outlineColor = NamedColor.red
-            }
+            },
+        ) {
+            outlineColor = NamedColor.magenta
         },
     ),
 )

@@ -1009,14 +1009,33 @@ private fun RuntimeBindings.generateStylesDeclarations(
                      * The `focusVisible` theme option. `insetOverrides` holds the styles that change on components that
                      * draw the ring inside their edge.
                      */
-                    external interface FocusVisibleOptions : react.CSSProperties {
-                        var insetOverrides: react.CSSProperties?
+                    @JsPlainObject
+                    external interface FocusVisibleOptions {
+                        val insetOverrides: react.CSSProperties?
                     }
 
                     inline fun FocusVisibleOptions(
-                        block: FocusVisibleOptions.() -> Unit,
+                        style: react.CSSProperties,
+                        insetOverrides: react.CSSProperties? = null,
                     ): FocusVisibleOptions =
-                        js.objects.unsafeJso(block)
+                        js.objects.Object.assign(
+                            js.objects.unsafeJso(),
+                            style,
+                            FocusVisibleOptions(
+                                insetOverrides = insetOverrides,
+                            ),
+                        )
+
+                    inline fun FocusVisibleOptions(
+                        insetOverrides: react.CSSProperties? = null,
+                        crossinline block: csstype.PropertiesBuilder.() -> Unit,
+                    ): FocusVisibleOptions =
+                        js.objects.Object.assign(
+                            js.objects.unsafeJso(block),
+                            FocusVisibleOptions(
+                                insetOverrides = insetOverrides,
+                            ),
+                        )
                 """.trimIndent(),
                 pkg = Package.materialStyles,
             )
@@ -2315,7 +2334,9 @@ private val IMPORTED_FQNS = listOf(
     // js
     "js.array.ReadonlyArray",
     "js.array.Tuple",
+    "js.objects.Object",
     "js.objects.Record",
+    "js.objects.unsafeJso",
 
     // seskar
     "seskar.js.JsValue",
