@@ -43,9 +43,8 @@ Migration of the generator from MUI v7 → **v9** (v8 skipped; the suite was rea
 
 - Bumped `@mui/material`, `@mui/system`, `@mui/icons-material` to `9.6.0` and `@mui/lab` to `9.0.0-beta.11`
   in `gradle.properties`. Synchronized `.kotlin-locks/js/package-lock.json` via `kotlinUpgradePackageLock --rerun-tasks`.
-- **Density API:** Supported `unstable_enhanceDensity` (and inline `enhanceDensity` alias) in `enhanceDensity.kt`
-  and `enhanceDensity.ext.kt`, along with `densityScale.kt` declaring `@JsPlainObject` `ResolvedDensityScale`,
-  `DensityScaleOverrides`, and unions `DensityKey` / `DensitySizingKey`.
+- **Density API:** Supported `unstable_enhanceDensity` in `enhanceDensity.kt`, along with `densityScale.kt`
+  declaring `@JsPlainObject` `ResolvedDensityScale`, `DensityScaleOverrides`, and unions `DensityKey` / `DensitySizingKey`.
 - **FocusVisible API:** Supported `FocusVisiblePosition` (`'inset' | 'outset'`), `FocusVisibleOptions`, and
   `BaseTheme.applyFocusVisible(position)`. `CreateThemeNoVars.kt` inlines `FocusVisibleThemeMembers` into
   `BaseTheme` so `BaseTheme` inherits exclusively from `mui.system.Theme`, preserving closed `@JsPlainObject`

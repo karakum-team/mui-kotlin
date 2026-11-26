@@ -1052,7 +1052,7 @@ private fun RuntimeBindings.generateStylesDeclarations(
                     /**
                      * The scale a theme ended up with, in px numbers, for code that needs the
                      * values in JS (MUI X derives row heights from `touchTarget + small`). Written
-                     * to `theme.unstable_densityScale` by `enhanceDensity`.
+                     * to `theme.unstable_densityScale` by `unstable_enhanceDensity`.
                      */
                     @JsPlainObject
                     external interface ResolvedDensityScale {
@@ -1062,7 +1062,7 @@ private fun RuntimeBindings.generateStylesDeclarations(
                     }
 
                     /**
-                     * What `enhanceDensity` accepts as its second argument.
+                     * What `unstable_enhanceDensity` accepts as its second argument.
                      */
                     @JsPlainObject
                     external interface DensityScaleOverrides {
@@ -1089,25 +1089,6 @@ private fun RuntimeBindings.generateStylesDeclarations(
                         theme: T,
                         scale: DensityScaleOverrides = definedExternally,
                     ): T
-                """.trimIndent(),
-                pkg = Package.materialStyles,
-            )
-        )
-
-    targetDir.resolve("enhanceDensity.ext.kt")
-        .writeGenerated(
-            fileContent(
-                body = """
-                    inline fun <T : Theme> enhanceDensity(
-                        theme: T,
-                    ): T =
-                        unstable_enhanceDensity(theme)
-
-                    inline fun <T : Theme> enhanceDensity(
-                        theme: T,
-                        scale: DensityScaleOverrides,
-                    ): T =
-                        unstable_enhanceDensity(theme, scale)
                 """.trimIndent(),
                 pkg = Package.materialStyles,
             )
