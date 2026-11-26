@@ -1009,33 +1009,9 @@ private fun RuntimeBindings.generateStylesDeclarations(
                      * The `focusVisible` theme option. `insetOverrides` holds the styles that change on components that
                      * draw the ring inside their edge.
                      */
-                    @JsPlainObject
-                    external interface FocusVisibleOptions {
-                        val insetOverrides: react.CSSProperties?
+                    external interface FocusVisibleOptions : react.CSSProperties {
+                        var insetOverrides: react.CSSProperties?
                     }
-
-                    inline fun FocusVisibleOptions(
-                        style: react.CSSProperties,
-                        insetOverrides: react.CSSProperties? = null,
-                    ): FocusVisibleOptions =
-                        js.objects.Object.assign(
-                            js.objects.unsafeJso(),
-                            style,
-                            FocusVisibleOptions(
-                                insetOverrides = insetOverrides,
-                            ),
-                        )
-
-                    inline fun FocusVisibleOptions(
-                        insetOverrides: react.CSSProperties? = null,
-                        crossinline block: csstype.PropertiesBuilder.() -> Unit,
-                    ): FocusVisibleOptions =
-                        js.objects.Object.assign(
-                            js.objects.unsafeJso(block),
-                            FocusVisibleOptions(
-                                insetOverrides = insetOverrides,
-                            ),
-                        )
                 """.trimIndent(),
                 pkg = Package.materialStyles,
             )
