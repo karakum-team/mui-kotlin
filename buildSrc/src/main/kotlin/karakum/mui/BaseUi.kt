@@ -1011,6 +1011,7 @@ private fun String.flattenBaseUiNamespaces(
  */
 internal fun buildBaseUiAliases(
     files: Iterable<File>,
+    modules: Iterable<BaseUiModule> = emptyList(),
 ): Map<String, String> {
     val aliases = mutableMapOf<String, String>()
 
@@ -1028,6 +1029,20 @@ internal fun buildBaseUiAliases(
             for (alias in NAMESPACE_ALIAS.findAll(body)) {
                 val (member, target) = alias.destructured
                 aliases["$namespace.$member"] = target
+            }
+        }
+    }
+
+    // Two-level namespace references across modules: `Field.Control.Props` (used by `input`),
+    // `Menu.Root.Props` (used by `context-menu`), etc.
+    // Maps `$namespace.${part.alias}.$member` -> target for every member discovered above.
+    for (module in modules) {
+        val namespace = module.namespace ?: continue
+        for (part in module.parts) {
+            val prefix = "${part.declaredName}."
+            for ((key, target) in aliases.filterKeys { it.startsWith(prefix) }) {
+                val member = key.removePrefix(prefix)
+                aliases["$namespace.${part.alias}.$member"] = target
             }
         }
     }

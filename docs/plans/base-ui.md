@@ -14,8 +14,9 @@ Status refreshed from git history and generator code on **2026-11-27**.
   five direct export modules (`separator`, `button`, `csp-provider`, `checkbox-group`, and `menubar`).
   Resolved **simple named aliases/unions (gap 5 follow-up and gap 8)**, completely eliminating `mui.system.Union`
   from `package baseui` and strongly typing per-part unions (`MenuRootOrientation`) and inline unions (`SliderRootThumbCollisionBehavior`, `MenuPopupInstant`, etc.).
-- **Next task:** resolve concrete cross-module references (the bounded part of gap 6), then integrate
-  `input` and `toolbar`, one independently verifiable task at a time. See [group 2](#group-2--after-prerequisites-bounded-fixes-and-repeatable-batches).
+  Resolved **concrete cross-module references (the bounded part of gap 6)** by mapping `$namespace.${part.alias}.$member`
+  to part declaration targets across all parsed modules in `buildBaseUiAliases`.
+- **Next task:** integrate `input` and `toolbar`, one independently verifiable task at a time. See [group 2](#group-2--after-prerequisites-bounded-fixes-and-repeatable-batches).
 - **Scope and prerequisites:** the approved cycle covers groups 1 and 2. Groups 3–5 remain deferred.
   Check installed typings and exports before changing generation; module integration and full API/type
   coverage remain separate milestones.
@@ -495,10 +496,11 @@ Gap 21 records the direct-export prerequisite identified while ordering the rema
    `.ChangeEventReason`, `.HighlightEventDetails`), and field loses `Form.ValidationMode` / `Form.Values`.
    The old Toast portal loss is closed by 1.8's direct `BaseUIComponentProps` parent; Tooltip and
    PreviewCard upstream portals now have that shape too, but their modules are not integrated yet.
-   Also the two-level form `Menu.Root.Props`
-   (`context-menu`) and `Field.Control.Props` (`input`) is not expressible by the current
-   `Namespace.Member` keys at all — the needed mapping already exists in `BaseUiPart(alias,
-   declaredName)` as `"$Namespace.$alias" -> declaredName`.
+   
+   The two-level form `Menu.Root.Props` (`context-menu`) and `Field.Control.Props` (`input`) is now resolved:
+   `buildBaseUiAliases` accepts `modules` and maps `$namespace.${part.alias}.$member` to target declarations
+   from per-part namespace members (e.g. `Field.Control.Props` → `FieldControlProps`, `Field.Control.ChangeEventDetails` → `FieldControlChangeEventDetails`),
+   enabling cross-module references while leaving bare identifiers untouched to preserve comments.
 
    Distinct from the alias-map bug `slider` closed (see Done): that one dropped the *first* member of
    every block it did read. This one is about which files get read at all.
@@ -772,9 +774,8 @@ dependencies are satisfied; this group does not require one large generator rewr
   - [x] `avatar` — namespace `Avatar` (`Root`, `Image`, `Fallback`), `ImageLoadingStatus` (`idle`, `loading`, `loaded`, `error`) strongly typed, `AvatarSample.kt` covering dynamic loading status and fallback rendering, verified interactive and in `#/all` (166/166 checks pass).
   - [x] `tabs` — namespace `Tabs` (`Root`, `List`, `Tab`, `Panel`, `Indicator`), `TabsRootOrientation` resolving to `Orientation` and `TabsTabActivationDirection` (`left`, `right`, `up`, `down`, `none`) strongly typed, `TabsSample.kt` covering tab switching, moving indicator, horizontal/vertical orientation, and disabled tab, verified interactive and in `#/all` (172/172 checks pass).
   - [x] `collapsible` — namespace `Collapsible` (`Root`, `Trigger`, `Panel`), `CollapsibleSample.kt` covering interactive panel expansion/collapse and disabled state, verified interactive and in `#/all` (177/177 checks pass).
-- [ ] **Resolve concrete cross-module references** (the bounded part of gap 6), then `input` and
-  `toolbar` — two modules. Input needs direct exports and `Field.Control.*`; Toolbar reuses
-  `Separator.Props`. Preserve event-details types as well as component props.
+- [x] **Resolve concrete cross-module references** (the bounded part of gap 6 implemented: `buildBaseUiAliases` accepts `modules` and maps `$namespace.${part.alias}.$member` to target declarations, enabling two-level references like `Field.Control.Props`, `Field.Control.ChangeEventDetails`, `Field.Control.ChangeEventReason`, and `Menu.Root.Props`).
+  - [ ] `input` and `toolbar` — two modules. Input needs direct exports and `Field.Control.*`; Toolbar reuses `Separator.Props`. Preserve event-details types as well as component props.
 - [ ] **Typed formatting callbacks** (gap 17), then `meter` and `progress` — two modules. Reuse the
   Slider.Value example; nullable values/format strings are part of the Progress contract. A focused
   helper is bounded work; replacing the general function-type parser belongs to group 4.

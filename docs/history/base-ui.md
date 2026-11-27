@@ -4,12 +4,11 @@
 
 Group 1 was committed in `32dc8f4a` (2026-10-01); its human commit checkpoint has passed.
 Status checked against git history on 2026-11-27.
-The bounded prerequisites for Group 2 — **direct component exports (gap 21)** and **simple named aliases/unions (gap 5 follow-up and gap 8)** — have been implemented and verified.
+The bounded prerequisites for Group 2 — **direct component exports (gap 21)**, **simple named aliases/unions (gap 5 follow-up and gap 8)**, and **concrete cross-module references (gap 6 bounded part)** — have been implemented and verified.
 All five direct component export modules, `avatar` (BUI-010), `tabs` (BUI-011), and `collapsible` (BUI-012) are integrated, browser-verified (177/177 checks in `#/all`), and accepted.
 `mui.system.Union` has been completely eliminated from `package baseui`.
 Continue from the [live plan's Resume here block](../plans/base-ui.md#resume-here), proceeding to
-the next Group 2 task: resolve concrete cross-module references (the bounded part of gap 6), then integrate
-`input` and `toolbar`. The dated acceptance records below retain their original
+integrate the next Group 2 modules (`input` and `toolbar`). The dated acceptance records below retain their original
 pre-commit wording and test results.
 Append new work and verification records here.
 
@@ -381,3 +380,18 @@ remain explicit backlog items. No group 2 implementation has started.
       - Panel expansion: clicking trigger button expands panel, updates trigger text to "Collapse content ▲", and renders content smoothly.
       - Disabled interaction: "Disable Collapsible" disables root and trigger (`data-disabled`, `aria-disabled="true"`).
     - `#/all`: all 44 samples mounted, settled summary `samples=44 checks=177/177` (all PASS, 0 failures).
+
+## Group 2 — Gap 6 (bounded part): Cross-module two-level namespace references (2026-11-27)
+
+- **Status:** implemented, tested, verified on clean build, and accepted.
+- **Baseline:** clean working tree with `collapsible` (BUI-012) integrated.
+- **Scope:** resolve two-level cross-module references such as `Field.Control.Props`, `Field.Control.ChangeEventDetails`, `Field.Control.ChangeEventReason`, and `Menu.Root.Props` in `buildBaseUiAliases` by accepting `modules: Iterable<BaseUiModule>` and deriving `$namespace.${part.alias}.$member` mappings from the per-part aliases collected from `export declare namespace ...`. Keep bare identifiers (e.g. `Field.Control`, `Accordion.Root`) un-aliased to prevent accidental replacement in JSDoc comments and code snippets.
+- **Implementation:**
+  - `buildSrc/src/main/kotlin/karakum/mui/BaseUi.kt`: added `modules: Iterable<BaseUiModule> = emptyList()` to `buildBaseUiAliases`; populated `$namespace.${part.alias}.$member` -> `target` for every member discovered on `${part.declaredName}.`.
+  - `buildSrc/src/main/kotlin/karakum/mui/Generator.kt`: passed `modules` to `buildBaseUiAliases(files, modules)`.
+  - `buildSrc/src/test/kotlin/karakum/mui/BaseUiAliasesTest.kt`: unit test verifying resolution of two-level cross-module namespace aliases (`Field.Control.Props`, `Field.Control.ChangeEventDetails`, etc.) while ensuring bare identifiers are untouched.
+- **Verification:**
+  - `./gradlew :buildSrc:test`: 100% tests passed.
+  - `./gradlew :mui-kotlin:formatDeclarations`: 0 errors; verified 11,189 runtime bindings.
+  - `./gradlew :mui-kotlin:clean build`: clean build passed, reproducing existing 785 generated files byte-for-byte with zero uncommitted drift (`git diff --exit-code`).
+  - `./gradlew build`: full build successful.

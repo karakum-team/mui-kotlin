@@ -1705,7 +1705,7 @@ private fun RuntimeBindings.generateBaseUiDeclarations(
 
     // Built over the whole file set up front: namespace references cross files (`MenuSubmenuRoot.d.ts`
     // extends `MenuRoot.Props`), so a per-file map would leave those unresolved.
-    val aliases = buildBaseUiAliases(files)
+    val aliases = buildBaseUiAliases(files, modules)
     val harvestedTypes = harvestBaseUiExportedTypes(files)
     val baseUiKnownTypes = BASE_UI_KNOWN_TYPES + harvestedTypes
     val reasonParts = typesDir.resolve("internals/reason-parts.d.ts").readText()
