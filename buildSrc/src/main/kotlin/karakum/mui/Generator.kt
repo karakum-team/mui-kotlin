@@ -1701,6 +1701,7 @@ private fun RuntimeBindings.generateBaseUiDeclarations(
     val aliases = buildBaseUiAliases(files)
     val reasonParts = typesDir.resolve("internals/reason-parts.d.ts").readText()
 
+    val bodiesByFile = mutableMapOf<File, String>()
     val bodies = files.mapNotNull { file ->
         generate(
             definitionFile = file,
@@ -1710,7 +1711,9 @@ private fun RuntimeBindings.generateBaseUiDeclarations(
             preprocess = {
                 adaptBaseUiContent(resolveBaseUiDirectionalReasons(it, reasonParts), aliases, BASE_UI_KNOWN_TYPES)
             },
-        )
+        )?.also { body ->
+            bodiesByFile[file] = body
+        }
     }
 
     val handWritten = listOf(
@@ -1746,26 +1749,58 @@ private fun RuntimeBindings.generateBaseUiDeclarations(
         println("Base UI: '$parent' is named as a parent but not generated — add its file to BASE_UI_EXTRA_FILES?")
 
     modules.forEach { module ->
-        // A flat module has no namespace object — its values are exported directly.
-        val namespace = module.namespace ?: return@forEach
-        val body = baseUiNamespaceObject(module, declaredTypes)
-            ?: return@forEach
+        val namespace = module.namespace
+        if (namespace != null) {
+            val body = baseUiNamespaceObject(module, declaredTypes)
+                ?: return@forEach
 
-        targetDir.resolve("$namespace.kt")
-            .writeGenerated(
-                fileContent(
-                    // `Package.baseUi.id` is empty and `generate` derives no subpackage for it, so the
-                    // module segment has to be passed here — otherwise the annotation would come out as
-                    // `@file:JsModule("@base-ui/react")` and resolve to the package root.
-                    annotations = moduleDeclaration(
+            targetDir.resolve("$namespace.kt")
+                .writeGenerated(
+                    fileContent(
+                        // `Package.baseUi.id` is empty and `generate` derives no subpackage for it, so the
+                        // module segment has to be passed here — otherwise the annotation would come out as
+                        // `@file:JsModule("@base-ui/react")` and resolve to the package root.
+                        annotations = moduleDeclaration(
+                            pkg = Package.baseUi,
+                            subpackage = module.id,
+                            componentName = null,
+                        ),
+                        body = body,
+                        pkg = Package.baseUi,
+                    )
+                )
+        } else {
+            val directExports = baseUiDirectExports(module, declaredTypes)
+            val exportsByFile = directExports.groupBy { it.part.file }
+
+            exportsByFile.forEach { (file, exports) ->
+                val originalBody = bodiesByFile[file]
+                    ?: return@forEach
+
+                val declarations = exports.joinToString("\n\n") { it.declaration }
+                val baseAnnotations = listOf(
+                    moduleDeclaration(
                         pkg = Package.baseUi,
                         subpackage = module.id,
                         componentName = null,
                     ),
-                    body = body,
-                    pkg = Package.baseUi,
-                )
-            )
+                    "@file:Suppress(\n\"VIRTUAL_MEMBER_HIDDEN\",\n\"VAR_TYPE_MISMATCH_ON_OVERRIDE\",\n)",
+                ).joinToString("\n\n")
+
+                val updatedBody = originalBody + "\n\n" + declarations
+                val targetFileName = file.name.removeSuffix(".d.ts") + ".kt"
+
+                targetDir.resolve(targetFileName)
+                    .writeGenerated(
+                        fileContent(
+                            annotations = baseAnnotations,
+                            body = updatedBody,
+                            pkg = Package.baseUi,
+                        ),
+                        file,
+                    )
+            }
+        }
     }
 }
 

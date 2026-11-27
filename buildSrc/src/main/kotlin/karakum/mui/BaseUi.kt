@@ -137,13 +137,116 @@ internal fun baseUiModules(
                 }
             }
 
+            val namespace = parseBaseUiNamespace(dir.resolve("index.d.ts"))
+            val resolvedParts = if (namespace == null && indexParts.exists()) {
+                resolveOuterExportRenames(parts, dir.resolve("index.d.ts"))
+            } else {
+                parts
+            }
+
             BaseUiModule(
                 id = id,
-                namespace = parseBaseUiNamespace(dir.resolve("index.d.ts")),
-                parts = parts.filter { it.file.exists() },
+                namespace = namespace,
+                parts = resolvedParts.filter { it.file.exists() },
             )
         }
         .filter { it.parts.isNotEmpty() }
+
+/**
+ * Resolves outer export renames from a module's `index.d.ts` when the module exports its values
+ * directly from `./index.parts.js` without a namespace object (e.g. `direction-provider`, where
+ * `index.parts.d.ts` exports `DirectionProvider as Provider` and `index.d.ts` re-exports
+ * `Provider as DirectionProvider`).
+ */
+internal fun resolveOuterExportRenames(
+    parts: List<BaseUiPart>,
+    indexFile: File,
+): List<BaseUiPart> {
+    if (!indexFile.exists())
+        return parts
+
+    val outerRenames = EXPORT_CLAUSE.findAll(indexFile.readText())
+        .filter { it.groupValues[2].contains("index.parts") }
+        .flatMap { match ->
+            match.groupValues[1].split(",")
+                .map { it.trim() }
+                .filter { it.isNotEmpty() && !it.startsWith("type ") }
+                .map { binding ->
+                    val from = binding.substringBefore(" as ").trim()
+                    val to = binding.substringAfter(" as ", from).trim()
+                    from to to
+                }
+        }
+        .toMap()
+
+    if (outerRenames.isEmpty())
+        return parts
+
+    return parts.map { part ->
+        val newAlias = outerRenames[part.alias] ?: part.alias
+        if (newAlias != part.alias) part.copy(alias = newAlias) else part
+    }
+}
+
+/**
+ * Extracts the JSDoc documentation comment preceding the declaration of [declaredName] in [file],
+ * if present.
+ */
+internal fun extractComponentKDoc(
+    file: File,
+    declaredName: String,
+): String? {
+    if (!file.exists())
+        return null
+
+    val content = file.readText()
+    val pattern = Regex("""(/\*\*[\s\S]*?\*/)\s*export\s+declare\s+(?:const|function)\s+$declaredName\b""")
+    return pattern.find(content)?.groupValues?.get(1)?.trim()
+}
+
+/**
+ * Generates the direct component export declaration for a part of a flat module (e.g. `Button`, `Separator`).
+ */
+internal fun baseUiDirectComponentDeclaration(
+    part: BaseUiPart,
+): String {
+    val kdoc = extractComponentKDoc(part.file, part.declaredName)
+    val doc = if (kdoc != null) "$kdoc\n" else ""
+    return "${doc}external val ${part.alias}: react.FC<${part.declaredName}Props>"
+}
+
+internal data class BaseUiDirectExport(
+    val part: BaseUiPart,
+    val declaration: String,
+)
+
+/**
+ * Resolves direct component exports for a module without a namespace object.
+ * Returns the list of exposed component declarations, and reports diagnostics for omitted parts.
+ */
+internal fun baseUiDirectExports(
+    module: BaseUiModule,
+    declaredTypes: Set<String>,
+    reportDiagnostic: (String) -> Unit = ::println,
+): List<BaseUiDirectExport> {
+    if (module.namespace != null)
+        return emptyList()
+
+    val (components, nonComponents) = module.parts
+        .distinctBy { it.alias }
+        .sortedBy { it.alias }
+        .partition { "${it.declaredName}Props" in declaredTypes }
+
+    for (part in nonComponents)
+        reportDiagnostic("Base UI ${module.id}: no generated ${part.declaredName}Props, '${part.alias}' not exposed")
+
+    return components.map { part ->
+        BaseUiDirectExport(
+            part = part,
+            declaration = baseUiDirectComponentDeclaration(part),
+        )
+    }
+}
 
 /**
  * Synthesizes the module's namespace object — the values that make the generated types renderable.

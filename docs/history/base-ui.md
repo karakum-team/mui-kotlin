@@ -3,10 +3,13 @@
 ## Current handoff
 
 Group 1 was committed in `32dc8f4a` (2026-10-01); its human commit checkpoint has passed.
-Status checked against git history on 2026-11-04. Continue from the
-[live plan's Resume here block](../plans/base-ui.md#resume-here), starting with group 2's direct-export
-prerequisite. The dated acceptance records below retain their original pre-commit wording and test
-results; they do not mean the checkpoint is still pending or that the checks were rerun today.
+Status checked against git history on 2026-11-27.
+The bounded prerequisite for Group 2 — **direct component exports (gap 21)** — has been implemented
+in the generator and verified with comprehensive unit tests (`BaseUiDirectExportsTest.kt`).
+Continue from the [live plan's Resume here block](../plans/base-ui.md#resume-here), proceeding to
+integrate the Group 2 modules (`separator`, `button`, `csp-provider`, `checkbox-group`, and `menubar`),
+one independently verifiable task at a time. The dated acceptance records below retain their original
+pre-commit wording and test results.
 Append new work and verification records here.
 
 ## Group 1 acceptance record (2026-10-01)
@@ -166,3 +169,28 @@ remain explicit backlog items. No group 2 implementation has started.
 - Verified in Chrome DevTools MCP: `#/baseui/menu` mounted and searchable without errors, and `#/all` smoke run
   (146/146 checks PASS, 0 failures).
 - All 21 runtime export tests passed; `./gradlew :mui-kotlin:clean build` completed with 0 errors.
+
+## Group 2 prerequisite: Direct component exports (gap 21) (2026-11-27)
+
+- **Scope:** Generator prerequisite for Group 2 (gap 21). Implemented direct component value generation
+  for Base UI modules without a namespace object (`module.namespace == null`).
+- **Generator enhancements:**
+  - Added `resolveOuterExportRenames`: parses outer re-exports from `index.d.ts` when a module exports
+    directly from `./index.parts.js` (e.g. `direction-provider`, preserving `Provider as DirectionProvider`).
+  - Added `extractComponentKDoc`: extracts official JSDoc documentation preceding `declare const` or
+    `declare function` declarations from upstream definition files.
+  - Added `baseUiDirectComponentDeclaration`: generates typed `external val ${part.alias}: react.FC<${part.declaredName}Props>`.
+  - Added `baseUiDirectExports`: filters and exposes components whose props exist in `declaredTypes`, logging
+    unexposed diagnostics for missing props interfaces.
+  - Updated `Generator.kt`: records `bodiesByFile`, groups direct exports by file, attaches `@file:JsModule("@base-ui/react/<module.id>")`
+    and `@file:Suppress(...)`, appends the component declarations, and registers them in `RuntimeBindings`.
+- **Verification:**
+  - Added unit test suite `BaseUiDirectExportsTest.kt` covering outer rename resolution, KDoc extraction,
+    direct component declaration formatting, namespace object filtering, unexposed diagnostics, and installed package discovery.
+    100% pass via `./gradlew :buildSrc:test`.
+  - Re-generation check: with existing 9 modules in `BASE_UI_MODULES`, generated declarations under `mui-kotlin/src/jsMain/kotlin`
+    remain byte-for-byte identical (clean working tree).
+  - Test verification: tested enabling `separator`, successfully generated `Separator.kt` with `@file:JsModule("@base-ui/react/separator")`
+    and `external val Separator: FC<SeparatorProps>`, verified 11182 runtime bindings with Babel parser in `runtime-exports.cjs`,
+    and compiled library and playground with 0 errors. Reverted `separator` from allow-list to maintain bounded task scope.
+  - Full build: `./gradlew build` completed with 0 errors, all 21 runtime-export tests PASS.

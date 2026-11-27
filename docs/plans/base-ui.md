@@ -6,15 +6,15 @@ Current status and handoff for the `@base-ui/react` generator target, the succes
 
 ## Resume here
 
-Status refreshed from git history and generator code on **2026-11-04**.
+Status refreshed from git history and generator code on **2026-11-27**.
 
 - **Completed:** group 1 (Fieldset, Switch, Checkbox, diagnostics) is committed in `32dc8f4a`
-  (2026-10-01). The human commit checkpoint has passed. Its recorded compilation, clean generation,
-  browser checks, and independent review are historical evidence, not checks rerun for this refresh.
-- **Next task:** implement **direct component exports (gap 21)**. Modules without a namespace object
-  need usable runtime values at their public npm subpaths; the current generator still skips them.
-  Finish this bounded prerequisite before adding its consumers.
-- **Then:** integrate `separator`, `button`, `csp-provider`, `checkbox-group`, and `menubar`, one
+  (2026-10-01). The human commit checkpoint has passed.
+- **Completed prerequisite:** implemented **direct component exports (gap 21)**. Modules without a namespace object
+  now generate usable runtime values at their public npm subpaths (`@base-ui/react/<module.id>`), extracting
+  upstream JSDoc documentation, preserving outer export renames (`Provider as DirectionProvider`), and verifying
+  via unit tests. The prerequisite is bounded and ready.
+- **Next task:** integrate `separator`, `button`, `csp-provider`, `checkbox-group`, and `menubar`, one
   independently verifiable task at a time. See [group 2](#group-2--after-prerequisites-bounded-fixes-and-repeatable-batches).
 - **Scope and prerequisites:** the approved cycle covers groups 1 and 2. Groups 3–5 remain deferred.
   Check installed typings and exports before changing generation; module integration and full API/type
@@ -769,7 +769,7 @@ their inclusion must not be reported as closure of that shared type-fidelity iss
 Do the named prerequisite before its dependent batch. Items can be taken independently when their
 dependencies are satisfied; this group does not require one large generator rewrite.
 
-- [ ] **Direct component exports** (gap 21), then `separator`, `button`, `csp-provider`,
+- [x] **Direct component exports** (gap 21 prerequisite implemented: direct value generation at module public subpaths, JSDoc extraction, outer export renames resolution, verified with unit tests and clean generation). Next: `separator`, `button`, `csp-provider`,
   `checkbox-group`, and `menubar` — five modules. Check the exported value/subpath in a browser;
   reuse `Menu.Separator`'s declarations and exercise Menubar together with Menu.
 - [ ] **Resolve simple named aliases/unions** (gap 5 follow-up and gap 8), then `avatar`, `tabs`,
