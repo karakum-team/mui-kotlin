@@ -11,6 +11,7 @@ import playground.samples.baseui.CheckboxSample
 import playground.samples.baseui.CollapsibleSample
 import playground.samples.baseui.FieldSample
 import playground.samples.baseui.FieldsetSample
+import playground.samples.baseui.InputSample
 import playground.samples.baseui.MenuSample
 import playground.samples.baseui.MenubarSample
 import playground.samples.baseui.NumberFieldSample
@@ -163,6 +164,7 @@ val samples: List<Sample> = listOf(
     AvatarSample,
     TabsSample,
     CollapsibleSample,
+    InputSample,
 
     // pickers
     PickersClassesSample,

@@ -5,10 +5,10 @@
 Group 1 was committed in `32dc8f4a` (2026-10-01); its human commit checkpoint has passed.
 Status checked against git history on 2026-11-27.
 The bounded prerequisites for Group 2 — **direct component exports (gap 21)**, **simple named aliases/unions (gap 5 follow-up and gap 8)**, and **concrete cross-module references (gap 6 bounded part)** — have been implemented and verified.
-All five direct component export modules, `avatar` (BUI-010), `tabs` (BUI-011), and `collapsible` (BUI-012) are integrated, browser-verified (177/177 checks in `#/all`), and accepted.
+All five direct component export modules, `avatar` (BUI-010), `tabs` (BUI-011), `collapsible` (BUI-012), and `input` (BUI-013) are integrated, browser-verified (179/179 checks in `#/all`), and accepted.
 `mui.system.Union` has been completely eliminated from `package baseui`.
 Continue from the [live plan's Resume here block](../plans/base-ui.md#resume-here), proceeding to
-integrate the next Group 2 modules (`input` and `toolbar`). The dated acceptance records below retain their original
+integrate the remaining Group 2 module (`toolbar`). The dated acceptance records below retain their original
 pre-commit wording and test results.
 Append new work and verification records here.
 
@@ -395,3 +395,22 @@ remain explicit backlog items. No group 2 implementation has started.
   - `./gradlew :mui-kotlin:formatDeclarations`: 0 errors; verified 11,189 runtime bindings.
   - `./gradlew :mui-kotlin:clean build`: clean build passed, reproducing existing 785 generated files byte-for-byte with zero uncommitted drift (`git diff --exit-code`).
   - `./gradlew build`: full build successful.
+
+## Group 2 — BUI-013: Input direct component export & Field.Control integration (2026-11-28)
+
+- **Status:** integrated, compiled, browser-verified, and accepted.
+- **Baseline:** clean working tree with Gap 6 bounded part implemented.
+- **Scope:** add `"input"` to `BASE_UI_MODULES` in `Generator.kt`; emit direct component export `external val Input: FC<InputProps>` with `@file:JsModule("@base-ui/react/input")`; resolve cross-module references `Field.Control.Props['defaultValue']` and `Field.Control.ChangeEventDetails`; inherit `InputState : FieldControlState` and emit `InputChangeEventDetails : FieldControlChangeEventDetails`; create interactive playground sample `InputSample.kt` with standalone controlled input, Field.Root integration with Field.Label, and disabled toggle; register route `#/baseui/input` in `Registry.kt`.
+- **Generated declarations:** `Input.kt` and `Input.ext.kt` added under `baseui/`. Pre-existing 785 generated files remain byte-for-byte identical.
+- **Verification:**
+  - `./gradlew :mui-kotlin:formatDeclarations`: 0 errors; verified 11,190 runtime bindings.
+  - `./gradlew :mui-kotlin:clean build`: clean build passed, reproducing `mui-kotlin/src/jsMain/kotlin` byte-for-byte with zero uncommitted drift (`git diff --exit-code`).
+  - `./gradlew :buildSrc:test`: all unit tests passed.
+  - `./gradlew :mui-kotlin:compileKotlinJs :playground:compileKotlinJs`: 0 errors.
+  - Browser verification (Chrome DevTools MCP) on `:playground:jsViteDev` (port 5173):
+    - `#/baseui/input`:
+      - All 2/2 checks PASS (`Input component is loaded`, `Input direct component export exists`).
+      - Controlled input: typing "Hello Base UI Input" fires `onValueChange`, updates `StatusLine` (`value=Hello Base UI Input hasEventDetails=true`).
+      - Integration with `Field.Root`: renders with `Field.Label` and `Field.Description` with pre-filled default value `defaultValue="alex"`.
+      - Disabled interaction: "Disable Input" sets `data-disabled` and disables input element.
+    - `#/all`: all 45 samples mounted, settled summary `samples=45 checks=179/179` (all PASS, 0 failures).
