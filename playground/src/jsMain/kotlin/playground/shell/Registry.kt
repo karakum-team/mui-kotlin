@@ -4,6 +4,7 @@ import playground.samples.base.RuntimeHooksSample
 import playground.samples.base.SliderStylingSample
 import playground.samples.baseui.AccordionSample
 import playground.samples.baseui.ButtonSample
+import playground.samples.baseui.CSPProviderSample
 import playground.samples.baseui.CheckboxSample
 import playground.samples.baseui.FieldSample
 import playground.samples.baseui.FieldsetSample
@@ -151,6 +152,7 @@ val samples: List<Sample> = listOf(
     ToastSample,
     SeparatorSample,
     ButtonSample,
+    CSPProviderSample,
 
     // pickers
     PickersClassesSample,

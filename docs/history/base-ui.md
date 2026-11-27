@@ -6,10 +6,10 @@ Group 1 was committed in `32dc8f4a` (2026-10-01); its human commit checkpoint ha
 Status checked against git history on 2026-11-27.
 The bounded prerequisite for Group 2 — **direct component exports (gap 21)** — has been implemented
 and verified.
-The first two direct component export modules — `separator` (BUI-005) and `button` (BUI-006) — are integrated,
-browser-verified (152/152 checks in `#/all`), and accepted.
+The first three direct component export modules — `separator` (BUI-005), `button` (BUI-006), and `csp-provider` (BUI-007) — are integrated,
+browser-verified (155/155 checks in `#/all`), and accepted.
 Continue from the [live plan's Resume here block](../plans/base-ui.md#resume-here), proceeding to
-integrate the remaining Group 2 modules (`csp-provider`, `checkbox-group`, and `menubar`),
+integrate the remaining Group 2 modules (`checkbox-group` and `menubar`),
 one independently verifiable task at a time. The dated acceptance records below retain their original
 pre-commit wording and test results.
 Append new work and verification records here.
@@ -237,3 +237,22 @@ remain explicit backlog items. No group 2 implementation has started.
       - Custom element rendering: `render { props, state -> a.create { +props; href = "#custom-link" } }` with `nativeButton = false` renders `<a role="button" href="#custom-link" class="bui-btn bui-btn--link">` with 0 console warnings or errors.
       - `StatusLine` (`clicks=1 disabled=false focusable=true`) updates reactively.
     - `#/all`: all 38 samples mounted, settled summary `samples=38 checks=152/152` (all PASS, 0 failures).
+
+## Group 2 — BUI-007: CSPProvider direct export (2026-11-27)
+
+- **Status:** integrated, compiled, browser-verified, and accepted.
+- **Baseline:** clean working tree with `separator` and `button` integrated.
+- **Scope:** add `"csp-provider"` to `BASE_UI_MODULES` in `Generator.kt`; emit `@file:JsModule("@base-ui/react/csp-provider")` and `external val CSPProvider: FC<CSPProviderProps>` with official JSDoc; generate `CSPProviderProps` (`PropsWithChildren`, `nonce`, `disableStyleElements`); verify runtime export bindings; create interactive playground sample `CSPProviderSample.kt` with nonce rotation, disableStyleElements toggle, and child content verification; register route `#/baseui/csp-provider` in `Registry.kt`.
+- **Generated declarations:** `CSPProvider.kt` added under `baseui/`. Pre-existing 761 generated files remain byte-for-byte identical.
+- **Verification:**
+  - `./gradlew :mui-kotlin:formatDeclarations`: 0 errors; verified 11,184 runtime bindings.
+  - `./gradlew :mui-kotlin:clean build`: clean build passed, reproducing `mui-kotlin/src/jsMain/kotlin` byte-for-byte with zero uncommitted drift (`git diff --exit-code`).
+  - `./gradlew :buildSrc:test`: all unit tests passed.
+  - `./gradlew :mui-kotlin:compileKotlinJs :playground:compileKotlinJs`: 0 errors.
+  - Browser verification (Chrome DevTools MCP) on `:playground:jsViteDev` (port 5173):
+    - `#/baseui/csp-provider`:
+      - All 3/3 checks PASS (`CSPProvider component is loaded`, `nonce state is non-empty`, `disableStyleElements is boolean`).
+      - Nonce rotation interaction: clicking "Rotate nonce" updates active nonce in `StatusLine` (`nonce=csp-nonce-2`).
+      - Disable style elements toggle: clicking button updates `disableStyleElements` in `StatusLine` (`disableStyleElements=true`).
+      - Provider wraps child content seamlessly without errors.
+    - `#/all`: all 39 samples mounted, settled summary `samples=39 checks=155/155` (all PASS, 0 failures).

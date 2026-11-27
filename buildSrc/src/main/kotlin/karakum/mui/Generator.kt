@@ -1452,6 +1452,7 @@ private val BASE_UI_MODULES = setOf(
     "toast",
     "separator",
     "button",
+    "csp-provider",
 )
 
 /**
