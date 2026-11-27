@@ -14,7 +14,7 @@ Status refreshed from git history and generator code on **2026-11-27**.
   now generate usable runtime values at their public npm subpaths (`@base-ui/react/<module.id>`), extracting
   upstream JSDoc documentation, preserving outer export renames (`Provider as DirectionProvider`), and verifying
   via unit tests. The prerequisite is bounded and ready.
-- **Next task:** integrate `separator`, `button`, `csp-provider`, `checkbox-group`, and `menubar`, one
+- **Next task:** integrate `button`, `csp-provider`, `checkbox-group`, and `menubar`, one
   independently verifiable task at a time. See [group 2](#group-2--after-prerequisites-bounded-fixes-and-repeatable-batches).
 - **Scope and prerequisites:** the approved cycle covers groups 1 and 2. Groups 3–5 remain deferred.
   Check installed typings and exports before changing generation; module integration and full API/type
@@ -30,9 +30,9 @@ filtering components (`FilterProvider`, `Input`, `List`, `Clear`, `Empty`) via `
 with generator adaptations and browser verification recorded below. The version remains pinned because Base UI
 has changed declaration shapes across 1.x.
 
-**Where this stands:** nine modules are in `BASE_UI_MODULES` in `Generator.kt`: `menu`, `slider`,
-`field`, `fieldset`, `switch`, `checkbox`, `accordion`, `number-field`, and `toast`. All have generated declarations, runtime namespace
-objects, and samples under `playground/src/jsMain/kotlin/playground/samples/baseui/`, registered in
+**Where this stands:** ten modules are in `BASE_UI_MODULES` in `Generator.kt`: `menu`, `slider`,
+`field`, `fieldset`, `switch`, `checkbox`, `accordion`, `number-field`, `toast`, and `separator`. All have generated declarations, runtime namespace
+objects or direct component exports, and samples under `playground/src/jsMain/kotlin/playground/samples/baseui/`, registered in
 `playground/src/jsMain/kotlin/playground/shell/Registry.kt`. Inclusion does **not** mean full
 API or type coverage; the open gaps below affect existing modules as well as future additions.
 
@@ -769,9 +769,9 @@ their inclusion must not be reported as closure of that shared type-fidelity iss
 Do the named prerequisite before its dependent batch. Items can be taken independently when their
 dependencies are satisfied; this group does not require one large generator rewrite.
 
-- [x] **Direct component exports** (gap 21 prerequisite implemented: direct value generation at module public subpaths, JSDoc extraction, outer export renames resolution, verified with unit tests and clean generation). Next: `separator`, `button`, `csp-provider`,
-  `checkbox-group`, and `menubar` — five modules. Check the exported value/subpath in a browser;
-  reuse `Menu.Separator`'s declarations and exercise Menubar together with Menu.
+- [x] **Direct component exports** (gap 21 prerequisite implemented: direct value generation at module public subpaths, JSDoc extraction, outer export renames resolution, verified with unit tests and clean generation).
+  - [x] `separator` — direct component export `external val Separator: FC<SeparatorProps>` with `@file:JsModule("@base-ui/react/separator")`, `SeparatorSample.kt` covering horizontal/vertical/dynamic orientations, className/style/render helpers, verified interactive and in `#/all` (149/149 checks pass).
+  - [ ] `button`, `csp-provider`, `checkbox-group`, and `menubar` — four modules remaining in batch. Check the exported value/subpath in a browser; exercise Menubar together with Menu.
 - [ ] **Resolve simple named aliases/unions** (gap 5 follow-up and gap 8), then `avatar`, `tabs`,
   and `collapsible` — three modules. Avatar introduces `ImageLoadingStatus`; Tabs has per-part
   aliases; Collapsible already has root/use-root declarations generated for Accordion. Its `Pick`

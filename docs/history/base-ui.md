@@ -5,9 +5,11 @@
 Group 1 was committed in `32dc8f4a` (2026-10-01); its human commit checkpoint has passed.
 Status checked against git history on 2026-11-27.
 The bounded prerequisite for Group 2 — **direct component exports (gap 21)** — has been implemented
-in the generator and verified with comprehensive unit tests (`BaseUiDirectExportsTest.kt`).
+and verified.
+The first direct component export module — `separator` (BUI-005) — is integrated, browser-verified
+(149/149 checks in `#/all`), and accepted.
 Continue from the [live plan's Resume here block](../plans/base-ui.md#resume-here), proceeding to
-integrate the Group 2 modules (`separator`, `button`, `csp-provider`, `checkbox-group`, and `menubar`),
+integrate the remaining Group 2 modules (`button`, `csp-provider`, `checkbox-group`, and `menubar`),
 one independently verifiable task at a time. The dated acceptance records below retain their original
 pre-commit wording and test results.
 Append new work and verification records here.
@@ -194,3 +196,23 @@ remain explicit backlog items. No group 2 implementation has started.
     and `external val Separator: FC<SeparatorProps>`, verified 11182 runtime bindings with Babel parser in `runtime-exports.cjs`,
     and compiled library and playground with 0 errors. Reverted `separator` from allow-list to maintain bounded task scope.
   - Full build: `./gradlew build` completed with 0 errors, all 21 runtime-export tests PASS.
+
+## Group 2 — BUI-005: Separator direct export (2026-11-27)
+
+- **Status:** integrated, compiled, browser-verified, and accepted.
+- **Baseline:** clean working tree with Group 2 direct component export prerequisite in place.
+- **Scope:** add `"separator"` to `BASE_UI_MODULES` in `Generator.kt`; emit `@file:JsModule("@base-ui/react/separator")` and `external val Separator: FC<SeparatorProps>` with official JSDoc; verify runtime export bindings; create interactive playground sample `SeparatorSample.kt` with horizontal, vertical, and dynamic orientations, state-typed `className`/`style`/`render` helpers, and register route `#/baseui/separator` in `Registry.kt`.
+- **Generated declarations:** `Separator.kt` gained `@file:JsModule("@base-ui/react/separator")` and `external val Separator: FC<SeparatorProps>`. Pre-existing `SeparatorProps`, `SeparatorState`, and `Separator.ext.kt` helpers remain intact. All other 758 generated files remain byte-for-byte identical.
+- **Verification:**
+  - `./gradlew :mui-kotlin:formatDeclarations`: 0 errors; verified 11,182 runtime bindings.
+  - `./gradlew :mui-kotlin:clean build`: clean build passed, reproducing `mui-kotlin/src/jsMain/kotlin` byte-for-byte with zero uncommitted drift (`git diff --exit-code`).
+  - `./gradlew :buildSrc:test`: all unit tests passed.
+  - `./gradlew :mui-kotlin:compileKotlinJs :playground:compileKotlinJs`: 0 errors.
+  - Browser verification (Chrome DevTools MCP) on `:playground:jsViteDev` (port 5173):
+    - `#/baseui/separator`:
+      - All 3/3 checks PASS (`Separator component is loaded`, `Orientation.horizontal is distinct from vertical`, `dynamicOrientation initialized`).
+      - Horizontal separator renders `<div role="separator" data-orientation="horizontal" aria-orientation="horizontal" class="bui-separator bui-separator--horizontal">`.
+      - Vertical separator renders `<div role="separator" data-orientation="vertical" aria-orientation="vertical" class="bui-separator bui-separator--vertical">`.
+      - Interactive toggle button switches dynamic separator between horizontal and vertical, updating `data-orientation`, state-dependent classes and styles, and `StatusLine` (`orientation=vertical toggles=1`).
+      - Custom element rendering verified: `render { props, _ -> hr.create { +props } }` renders `<hr role="separator" data-orientation="horizontal" aria-orientation="horizontal" class="bui-separator-hr">`, forwarding accessibility attributes.
+    - `#/all`: all 37 samples mounted, settled summary `samples=37 checks=149/149` (all PASS, 0 failures).

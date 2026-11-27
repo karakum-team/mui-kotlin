@@ -8,6 +8,7 @@ import playground.samples.baseui.FieldSample
 import playground.samples.baseui.FieldsetSample
 import playground.samples.baseui.MenuSample
 import playground.samples.baseui.NumberFieldSample
+import playground.samples.baseui.SeparatorSample
 import playground.samples.baseui.SliderSample
 import playground.samples.baseui.SwitchSample
 import playground.samples.baseui.ToastSample
@@ -147,6 +148,7 @@ val samples: List<Sample> = listOf(
     AccordionSample,
     NumberFieldSample,
     ToastSample,
+    SeparatorSample,
 
     // pickers
     PickersClassesSample,
