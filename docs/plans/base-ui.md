@@ -14,7 +14,7 @@ Status refreshed from git history and generator code on **2026-11-27**.
   five direct export modules (`separator`, `button`, `csp-provider`, `checkbox-group`, and `menubar`).
   Resolved **simple named aliases/unions (gap 5 follow-up and gap 8)**, completely eliminating `mui.system.Union`
   from `package baseui` and strongly typing per-part unions (`MenuRootOrientation`) and inline unions (`SliderRootThumbCollisionBehavior`, `MenuPopupInstant`, etc.).
-- **Next task:** integrate `avatar`, `tabs`, and `collapsible`, one independently verifiable task at a time. See [group 2](#group-2--after-prerequisites-bounded-fixes-and-repeatable-batches).
+- **Next task:** integrate `tabs` and `collapsible`, one independently verifiable task at a time. See [group 2](#group-2--after-prerequisites-bounded-fixes-and-repeatable-batches).
 - **Scope and prerequisites:** the approved cycle covers groups 1 and 2. Groups 3–5 remain deferred.
   Check installed typings and exports before changing generation; module integration and full API/type
   coverage remain separate milestones.
@@ -29,8 +29,8 @@ filtering components (`FilterProvider`, `Input`, `List`, `Clear`, `Empty`) via `
 with generator adaptations and browser verification recorded below. The version remains pinned because Base UI
 has changed declaration shapes across 1.x.
 
-**Where this stands:** fourteen modules are in `BASE_UI_MODULES` in `Generator.kt`: `menu`, `slider`,
-`field`, `fieldset`, `switch`, `checkbox`, `accordion`, `number-field`, `toast`, `separator`, `button`, `csp-provider`, `checkbox-group`, and `menubar`. All have generated declarations, runtime namespace
+**Where this stands:** fifteen modules are in `BASE_UI_MODULES` in `Generator.kt`: `menu`, `slider`,
+`field`, `fieldset`, `switch`, `checkbox`, `accordion`, `number-field`, `toast`, `separator`, `button`, `csp-provider`, `checkbox-group`, `menubar`, and `avatar`. All have generated declarations, runtime namespace
 objects or direct component exports, and samples under `playground/src/jsMain/kotlin/playground/samples/baseui/`, registered in
 `playground/src/jsMain/kotlin/playground/shell/Registry.kt`. Inclusion does **not** mean full
 API or type coverage; the open gaps below affect existing modules as well as future additions.
@@ -767,9 +767,9 @@ dependencies are satisfied; this group does not require one large generator rewr
   - [x] `csp-provider` — direct component export `external val CSPProvider: FC<CSPProviderProps>` with `@file:JsModule("@base-ui/react/csp-provider")`, `CSPProviderSample.kt` covering nonce rotation, disableStyleElements toggle, verified interactive and in `#/all` (155/155 checks pass).
   - [x] `checkbox-group` — direct component export `external val CheckboxGroup: FC<CheckboxGroupProps>` with `@file:JsModule("@base-ui/react/checkbox-group")`, `CheckboxGroupSample.kt` covering parent/child checkboxes, indeterminate state, group disabled, and change events, verified interactive and in `#/all` (158/158 checks pass).
   - [x] `menubar` — direct component export `external val Menubar: FC<MenubarProps>` with `@file:JsModule("@base-ui/react/menubar")`, `MenubarSample.kt` coordinating menus within menubar, verified interactive and in `#/all` (161/161 checks pass).
-- [x] **Resolve simple named aliases/unions** (gap 5 follow-up and gap 8 implemented: `harvestBaseUiExportedTypes` for top-level `export type` aliases/unions, inline union properties added to `UNION_PROPERTIES`, `mui.system.Union` completely eliminated from `package baseui`). Next: `avatar`, `tabs`,
-  and `collapsible` — three modules. Avatar introduces `ImageLoadingStatus`; Tabs has per-part
-  aliases; Collapsible already has root/use-root declarations generated for Accordion. Its `Pick`
+- [x] **Resolve simple named aliases/unions** (gap 5 follow-up and gap 8 implemented: `harvestBaseUiExportedTypes` for top-level `export type` aliases/unions, inline union properties added to `UNION_PROPERTIES`, `mui.system.Union` completely eliminated from `package baseui`).
+  - [x] `avatar` — namespace `Avatar` (`Root`, `Image`, `Fallback`), `ImageLoadingStatus` (`idle`, `loading`, `loaded`, `error`) strongly typed, `AvatarSample.kt` covering dynamic loading status and fallback rendering, verified interactive and in `#/all` (166/166 checks pass).
+  - [ ] `tabs` and `collapsible` — two modules remaining in batch. Tabs has per-part aliases; Collapsible already has root/use-root declarations generated for Accordion. Its `Pick`
   member selection remains part of gap 19.
 - [ ] **Resolve concrete cross-module references** (the bounded part of gap 6), then `input` and
   `toolbar` — two modules. Input needs direct exports and `Field.Control.*`; Toolbar reuses

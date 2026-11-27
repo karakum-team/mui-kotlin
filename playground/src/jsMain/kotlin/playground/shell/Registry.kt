@@ -3,6 +3,7 @@ package playground.shell
 import playground.samples.base.RuntimeHooksSample
 import playground.samples.base.SliderStylingSample
 import playground.samples.baseui.AccordionSample
+import playground.samples.baseui.AvatarSample
 import playground.samples.baseui.ButtonSample
 import playground.samples.baseui.CSPProviderSample
 import playground.samples.baseui.CheckboxGroupSample
@@ -157,6 +158,7 @@ val samples: List<Sample> = listOf(
     CSPProviderSample,
     CheckboxGroupSample,
     MenubarSample,
+    AvatarSample,
 
     // pickers
     PickersClassesSample,

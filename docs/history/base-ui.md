@@ -5,12 +5,10 @@
 Group 1 was committed in `32dc8f4a` (2026-10-01); its human commit checkpoint has passed.
 Status checked against git history on 2026-11-27.
 The bounded prerequisites for Group 2 — **direct component exports (gap 21)** and **simple named aliases/unions (gap 5 follow-up and gap 8)** — have been implemented and verified.
-All five direct component export modules — `separator` (BUI-005), `button` (BUI-006), `csp-provider` (BUI-007),
-`checkbox-group` (BUI-008), and `menubar` (BUI-009) — are integrated, browser-verified (161/161 checks in `#/all`),
-and accepted.
+All five direct component export modules (`separator`, `button`, `csp-provider`, `checkbox-group`, and `menubar`) and `avatar` (BUI-010) are integrated, browser-verified (166/166 checks in `#/all`), and accepted.
 `mui.system.Union` has been completely eliminated from `package baseui`.
 Continue from the [live plan's Resume here block](../plans/base-ui.md#resume-here), proceeding to
-integrate the next Group 2 modules (`avatar`, `tabs`, and `collapsible`). The dated acceptance records below retain their original
+integrate the remaining Group 2 modules (`tabs` and `collapsible`). The dated acceptance records below retain their original
 pre-commit wording and test results.
 Append new work and verification records here.
 
@@ -324,3 +322,23 @@ remain explicit backlog items. No group 2 implementation has started.
   - Browser verification (Chrome DevTools MCP) on `:playground:jsViteDev` (port 5173):
     - `#/baseui/slider`: interactive slider with `thumbCollisionBehavior = SliderRootThumbCollisionBehavior.swap` verified working.
     - `#/all`: all 41 samples mounted, settled summary `samples=41 checks=161/161` (all PASS, 0 failures).
+
+## Group 2 — BUI-010: Avatar namespace & ImageLoadingStatus (2026-11-27)
+
+- **Status:** integrated, compiled, browser-verified, and accepted.
+- **Baseline:** clean working tree with Gap 5 follow-up and Gap 8 resolved.
+- **Scope:** add `"avatar"` to `BASE_UI_MODULES` in `Generator.kt`; emit namespace `external object Avatar` (`Root`, `Image`, `Fallback`); verify `ImageLoadingStatus` (`idle`, `loading`, `loaded`, `error`) is strongly typed in `AvatarRootState` and `AvatarImageProps.onLoadingStatusChange`; create interactive playground sample `AvatarSample.kt` with dynamic image loading status, fallback rendering on error, and standalone fallback; register route `#/baseui/avatar` in `Registry.kt`.
+- **Generated declarations:** `Avatar.kt`, `AvatarRoot.kt`, `AvatarImage.kt`, `AvatarFallback.kt`, and their `.ext.kt` files added under `baseui/`. Pre-existing 773 generated files remain byte-for-byte identical.
+- **Verification:**
+  - `./gradlew :mui-kotlin:formatDeclarations`: 0 errors; verified 11,187 runtime bindings.
+  - `./gradlew :mui-kotlin:clean build`: clean build passed, reproducing `mui-kotlin/src/jsMain/kotlin` byte-for-byte with zero uncommitted drift (`git diff --exit-code`).
+  - `./gradlew :buildSrc:test`: all unit tests passed.
+  - `./gradlew :mui-kotlin:compileKotlinJs :playground:compileKotlinJs`: 0 errors.
+  - Browser verification (Chrome DevTools MCP) on `:playground:jsViteDev` (port 5173):
+    - `#/baseui/avatar`:
+      - All 5/5 checks PASS (`Avatar namespace is loaded`, `Avatar.Root is loaded`, `Avatar.Image is loaded`, `Avatar.Fallback is loaded`, `ImageLoadingStatus values are distinct`).
+      - Valid image loads synchronously: status updates to `loaded`, `Avatar.Image` renders, fallback is hidden.
+      - Broken image simulation: clicking button switches to broken image, status transitions to `error`, `Avatar.Fallback` renders fallback initials ("JD").
+      - Restore valid image: status returns to `loaded`, image displays again.
+      - Standalone Fallback-only Avatar: renders initials ("AB") directly without Image component.
+    - `#/all`: all 42 samples mounted, settled summary `samples=42 checks=166/166` (all PASS, 0 failures).
