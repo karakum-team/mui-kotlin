@@ -1451,6 +1451,7 @@ private val BASE_UI_MODULES = setOf(
     "number-field",
     "toast",
     "separator",
+    "button",
 )
 
 /**

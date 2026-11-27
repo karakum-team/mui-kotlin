@@ -6,10 +6,10 @@ Group 1 was committed in `32dc8f4a` (2026-10-01); its human commit checkpoint ha
 Status checked against git history on 2026-11-27.
 The bounded prerequisite for Group 2 — **direct component exports (gap 21)** — has been implemented
 and verified.
-The first direct component export module — `separator` (BUI-005) — is integrated, browser-verified
-(149/149 checks in `#/all`), and accepted.
+The first two direct component export modules — `separator` (BUI-005) and `button` (BUI-006) — are integrated,
+browser-verified (152/152 checks in `#/all`), and accepted.
 Continue from the [live plan's Resume here block](../plans/base-ui.md#resume-here), proceeding to
-integrate the remaining Group 2 modules (`button`, `csp-provider`, `checkbox-group`, and `menubar`),
+integrate the remaining Group 2 modules (`csp-provider`, `checkbox-group`, and `menubar`),
 one independently verifiable task at a time. The dated acceptance records below retain their original
 pre-commit wording and test results.
 Append new work and verification records here.
@@ -216,3 +216,24 @@ remain explicit backlog items. No group 2 implementation has started.
       - Interactive toggle button switches dynamic separator between horizontal and vertical, updating `data-orientation`, state-dependent classes and styles, and `StatusLine` (`orientation=vertical toggles=1`).
       - Custom element rendering verified: `render { props, _ -> hr.create { +props } }` renders `<hr role="separator" data-orientation="horizontal" aria-orientation="horizontal" class="bui-separator-hr">`, forwarding accessibility attributes.
     - `#/all`: all 37 samples mounted, settled summary `samples=37 checks=149/149` (all PASS, 0 failures).
+
+## Group 2 — BUI-006: Button direct export (2026-11-27)
+
+- **Status:** integrated, compiled, browser-verified, and accepted.
+- **Baseline:** clean working tree with `separator` integrated.
+- **Scope:** add `"button"` to `BASE_UI_MODULES` in `Generator.kt`; emit `@file:JsModule("@base-ui/react/button")` and `external val Button: FC<ButtonProps>` with official JSDoc; generate `ButtonProps` (inheriting `NativeButtonProps`, `BaseUiButtonProps`), `ButtonState` (`disabled`), and `Button.ext.kt` (`className`, `style`, `render` helpers); verify runtime export bindings; create interactive playground sample `ButtonSample.kt` with clicks counter, disabled toggle, `focusableWhenDisabled` accessible disabled button check, state-typed `className`/`style` helpers, and custom element rendering via `render` with `nativeButton = false`; register route `#/baseui/button` in `Registry.kt`.
+- **Generated declarations:** `Button.kt` and `Button.ext.kt` added under `baseui/`. Pre-existing 759 generated files remain byte-for-byte identical.
+- **Verification:**
+  - `./gradlew :mui-kotlin:formatDeclarations`: 0 errors; verified 11,183 runtime bindings.
+  - `./gradlew :mui-kotlin:clean build`: clean build passed, reproducing `mui-kotlin/src/jsMain/kotlin` byte-for-byte with zero uncommitted drift (`git diff --exit-code`).
+  - `./gradlew :buildSrc:test`: all unit tests passed.
+  - `./gradlew :mui-kotlin:compileKotlinJs :playground:compileKotlinJs`: 0 errors.
+  - Browser verification (Chrome DevTools MCP) on `:playground:jsViteDev` (port 5173):
+    - `#/baseui/button`:
+      - All 3/3 checks PASS (`Button component is loaded`, `clicks state is non-negative`, `button disabled state is boolean`).
+      - Click interaction: clicks increment on primary button.
+      - Disabled interaction: primary button disables, sets `disabled` and `data-disabled` attributes, applies `.bui-btn--disabled` class via `state.disabled`.
+      - `focusableWhenDisabled`: renders `<button aria-disabled="true" data-disabled="" tabindex="0">` without native `disabled` attribute, remaining keyboard focusable while communicating disabled state.
+      - Custom element rendering: `render { props, state -> a.create { +props; href = "#custom-link" } }` with `nativeButton = false` renders `<a role="button" href="#custom-link" class="bui-btn bui-btn--link">` with 0 console warnings or errors.
+      - `StatusLine` (`clicks=1 disabled=false focusable=true`) updates reactively.
+    - `#/all`: all 38 samples mounted, settled summary `samples=38 checks=152/152` (all PASS, 0 failures).
