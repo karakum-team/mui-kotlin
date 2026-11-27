@@ -3,12 +3,12 @@
 ## Current handoff
 
 Group 1 was committed in `32dc8f4a` (2026-10-01); its human commit checkpoint has passed.
-Status checked against git history on 2026-11-27.
+Status checked against git history on 2026-11-28.
 The bounded prerequisites for Group 2 — **direct component exports (gap 21)**, **simple named aliases/unions (gap 5 follow-up and gap 8)**, and **concrete cross-module references (gap 6 bounded part)** — have been implemented and verified.
-All five direct component export modules, `avatar` (BUI-010), `tabs` (BUI-011), `collapsible` (BUI-012), and `input` (BUI-013) are integrated, browser-verified (179/179 checks in `#/all`), and accepted.
+All five direct component export modules, `avatar` (BUI-010), `tabs` (BUI-011), `collapsible` (BUI-012), `input` (BUI-013), and `toolbar` (BUI-014) are integrated, browser-verified (185/185 checks in `#/all`), and accepted.
 `mui.system.Union` has been completely eliminated from `package baseui`.
 Continue from the [live plan's Resume here block](../plans/base-ui.md#resume-here), proceeding to
-integrate the remaining Group 2 module (`toolbar`). The dated acceptance records below retain their original
+the next Group 2 milestone: **typed formatting callbacks (gap 17)**, then `meter` and `progress`. The dated acceptance records below retain their original
 pre-commit wording and test results.
 Append new work and verification records here.
 
@@ -414,3 +414,23 @@ remain explicit backlog items. No group 2 implementation has started.
       - Integration with `Field.Root`: renders with `Field.Label` and `Field.Description` with pre-filled default value `defaultValue="alex"`.
       - Disabled interaction: "Disable Input" sets `data-disabled` and disables input element.
     - `#/all`: all 45 samples mounted, settled summary `samples=45 checks=179/179` (all PASS, 0 failures).
+
+## Group 2 — BUI-014: Toolbar namespace & Separator reuse (2026-11-28)
+
+- **Status:** integrated, compiled, browser-verified, and accepted.
+- **Baseline:** clean working tree with `input` (BUI-013) integrated.
+- **Scope:** add `"toolbar"` to `BASE_UI_MODULES` in `Generator.kt`; emit namespace `external object Toolbar` (`Root`, `Button`, `Input`, `Link`, `Group`, `Separator`); verify `ToolbarSeparatorProps` extends `SeparatorProps` and `ToolbarSeparatorState` extends `SeparatorState`; verify `ToolbarRootProps.orientation: Orientation?` and `ToolbarRootState.orientation: Orientation`; create interactive playground sample `ToolbarSample.kt` with buttons, input, link, separators, orientation toggle, and disabled state; register route `#/baseui/toolbar` in `Registry.kt`.
+- **Generated declarations:** `Toolbar.kt`, `ToolbarRoot.kt`, `ToolbarButton.kt`, `ToolbarInput.kt`, `ToolbarLink.kt`, `ToolbarGroup.kt`, `ToolbarSeparator.kt`, and `.ext.kt` files added under `baseui/`. Pre-existing 787 generated files remain byte-for-byte identical.
+- **Verification:**
+  - `./gradlew :mui-kotlin:formatDeclarations`: 0 errors; verified 11,191 runtime bindings.
+  - `./gradlew :mui-kotlin:clean build`: clean build passed, reproducing `mui-kotlin/src/jsMain/kotlin` byte-for-byte with zero uncommitted drift (`git diff --exit-code`).
+  - `./gradlew :buildSrc:test`: all unit tests passed.
+  - `./gradlew :mui-kotlin:compileKotlinJs :playground:compileKotlinJs`: 0 errors.
+  - Browser verification (Chrome DevTools MCP) on `:playground:jsViteDev` (port 5173):
+    - `#/baseui/toolbar`:
+      - All 6/6 checks PASS (`Toolbar namespace is loaded`, `Toolbar.Root is loaded`, `Toolbar.Button is loaded`, `Toolbar.Input is loaded`, `Toolbar.Link is loaded`, `Toolbar.Separator is loaded`).
+      - Button interaction: clicking "Bold" updates action state (`activeAction=bold`).
+      - Orientation toggle: clicking "Toggle orientation" switches layout to vertical, updating `bui-toolbar-root--vertical` and `StatusLine` (`orientation=vertical`).
+      - Disabled interaction: "Disable Toolbar" propagates disabled state across toolbar items (`data-disabled`, `aria-disabled="true"`).
+      - Separators render properly in both horizontal and vertical modes.
+    - `#/all`: all 46 samples mounted, settled summary `samples=46 checks=185/185` (all PASS, 0 failures).

@@ -1459,6 +1459,7 @@ private val BASE_UI_MODULES = setOf(
     "tabs",
     "collapsible",
     "input",
+    "toolbar",
 )
 
 /**

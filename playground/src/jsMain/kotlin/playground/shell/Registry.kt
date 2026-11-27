@@ -20,6 +20,7 @@ import playground.samples.baseui.SliderSample
 import playground.samples.baseui.SwitchSample
 import playground.samples.baseui.TabsSample
 import playground.samples.baseui.ToastSample
+import playground.samples.baseui.ToolbarSample
 import playground.samples.dateio.DateIoUtilsSample
 import playground.samples.icons.IconsSample
 import playground.samples.lab.MasonrySample
@@ -165,6 +166,7 @@ val samples: List<Sample> = listOf(
     TabsSample,
     CollapsibleSample,
     InputSample,
+    ToolbarSample,
 
     // pickers
     PickersClassesSample,
