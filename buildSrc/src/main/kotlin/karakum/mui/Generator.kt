@@ -1457,6 +1457,7 @@ private val BASE_UI_MODULES = setOf(
     "menubar",
     "avatar",
     "tabs",
+    "collapsible",
 )
 
 /**
@@ -1487,7 +1488,6 @@ private val BASE_UI_EXTRA_FILES = setOf(
     "internals/useAnchorPositioning.d.ts",
     // Base UI uses UseCollapsibleRootParameters from useCollapsibleRoot in AccordionItem
     "collapsible/root/useCollapsibleRoot.d.ts",
-    "collapsible/root/CollapsibleRoot.d.ts",
     "number-field/utils/types.d.ts",
     "menu/filter-provider/MenuFilterProviderOptions.d.ts",
     "filter-dropdown/input/FilterDropdownInput.d.ts",

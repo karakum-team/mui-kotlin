@@ -5,10 +5,11 @@
 Group 1 was committed in `32dc8f4a` (2026-10-01); its human commit checkpoint has passed.
 Status checked against git history on 2026-11-27.
 The bounded prerequisites for Group 2 — **direct component exports (gap 21)** and **simple named aliases/unions (gap 5 follow-up and gap 8)** — have been implemented and verified.
-All five direct component export modules, `avatar` (BUI-010), and `tabs` (BUI-011) are integrated, browser-verified (172/172 checks in `#/all`), and accepted.
+All five direct component export modules, `avatar` (BUI-010), `tabs` (BUI-011), and `collapsible` (BUI-012) are integrated, browser-verified (177/177 checks in `#/all`), and accepted.
 `mui.system.Union` has been completely eliminated from `package baseui`.
 Continue from the [live plan's Resume here block](../plans/base-ui.md#resume-here), proceeding to
-integrate the remaining Group 2 module (`collapsible`). The dated acceptance records below retain their original
+the next Group 2 task: resolve concrete cross-module references (the bounded part of gap 6), then integrate
+`input` and `toolbar`. The dated acceptance records below retain their original
 pre-commit wording and test results.
 Append new work and verification records here.
 
@@ -362,3 +363,21 @@ remain explicit backlog items. No group 2 implementation has started.
       - Disabled tab: "Disable Settings Tab" sets `data-disabled` and `aria-disabled="true"` on Settings tab, preventing interaction.
       - `Tabs.Indicator` renders and follows active tab.
     - `#/all`: all 43 samples mounted, settled summary `samples=43 checks=172/172` (all PASS, 0 failures).
+
+## Group 2 — BUI-012: Collapsible namespace & Panel (2026-11-27)
+
+- **Status:** integrated, compiled, browser-verified, and accepted.
+- **Baseline:** clean working tree with `tabs` integrated.
+- **Scope:** add `"collapsible"` to `BASE_UI_MODULES` in `Generator.kt`; emit namespace `external object Collapsible` (`Root`, `Trigger`, `Panel`); generate `CollapsibleTriggerProps`, `CollapsibleTriggerState`, `CollapsiblePanelProps`, `CollapsiblePanelState` (`transitionStatus`), and their `.ext.kt` helpers; remove redundant `CollapsibleRoot.d.ts` from `BASE_UI_EXTRA_FILES` (retaining `useCollapsibleRoot.d.ts`); create interactive playground sample `CollapsibleSample.kt` covering interactive panel expansion/collapse, animated transition state, and disabled state; register route `#/baseui/collapsible` in `Registry.kt`.
+- **Generated declarations:** `Collapsible.kt`, `CollapsibleTrigger.kt`, `CollapsiblePanel.kt`, and their `.ext.kt` files added under `baseui/`. Pre-existing `CollapsibleRoot.kt` and 785 generated files remain byte-for-byte identical.
+- **Verification:**
+  - `./gradlew :mui-kotlin:formatDeclarations`: 0 errors; verified 11,189 runtime bindings.
+  - `./gradlew :mui-kotlin:clean build`: clean build passed, reproducing `mui-kotlin/src/jsMain/kotlin` byte-for-byte with zero uncommitted drift (`git diff --exit-code`).
+  - `./gradlew :buildSrc:test`: all unit tests passed.
+  - `./gradlew :mui-kotlin:compileKotlinJs :playground:compileKotlinJs`: 0 errors.
+  - Browser verification (Chrome DevTools MCP) on `:playground:jsViteDev` (port 5173):
+    - `#/baseui/collapsible`:
+      - All 5/5 checks PASS (`Collapsible namespace is loaded`, `Collapsible.Root is loaded`, `Collapsible.Trigger is loaded`, `Collapsible.Panel is loaded`, `open state is boolean`).
+      - Panel expansion: clicking trigger button expands panel, updates trigger text to "Collapse content ▲", and renders content smoothly.
+      - Disabled interaction: "Disable Collapsible" disables root and trigger (`data-disabled`, `aria-disabled="true"`).
+    - `#/all`: all 44 samples mounted, settled summary `samples=44 checks=177/177` (all PASS, 0 failures).

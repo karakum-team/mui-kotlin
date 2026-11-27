@@ -8,6 +8,7 @@ import playground.samples.baseui.ButtonSample
 import playground.samples.baseui.CSPProviderSample
 import playground.samples.baseui.CheckboxGroupSample
 import playground.samples.baseui.CheckboxSample
+import playground.samples.baseui.CollapsibleSample
 import playground.samples.baseui.FieldSample
 import playground.samples.baseui.FieldsetSample
 import playground.samples.baseui.MenuSample
@@ -161,6 +162,7 @@ val samples: List<Sample> = listOf(
     MenubarSample,
     AvatarSample,
     TabsSample,
+    CollapsibleSample,
 
     // pickers
     PickersClassesSample,
