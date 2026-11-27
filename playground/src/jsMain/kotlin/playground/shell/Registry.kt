@@ -16,6 +16,7 @@ import playground.samples.baseui.NumberFieldSample
 import playground.samples.baseui.SeparatorSample
 import playground.samples.baseui.SliderSample
 import playground.samples.baseui.SwitchSample
+import playground.samples.baseui.TabsSample
 import playground.samples.baseui.ToastSample
 import playground.samples.dateio.DateIoUtilsSample
 import playground.samples.icons.IconsSample
@@ -159,6 +160,7 @@ val samples: List<Sample> = listOf(
     CheckboxGroupSample,
     MenubarSample,
     AvatarSample,
+    TabsSample,
 
     // pickers
     PickersClassesSample,

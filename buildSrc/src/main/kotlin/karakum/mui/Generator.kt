@@ -1456,6 +1456,7 @@ private val BASE_UI_MODULES = setOf(
     "checkbox-group",
     "menubar",
     "avatar",
+    "tabs",
 )
 
 /**

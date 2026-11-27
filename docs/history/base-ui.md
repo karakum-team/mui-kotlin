@@ -5,10 +5,10 @@
 Group 1 was committed in `32dc8f4a` (2026-10-01); its human commit checkpoint has passed.
 Status checked against git history on 2026-11-27.
 The bounded prerequisites for Group 2 — **direct component exports (gap 21)** and **simple named aliases/unions (gap 5 follow-up and gap 8)** — have been implemented and verified.
-All five direct component export modules (`separator`, `button`, `csp-provider`, `checkbox-group`, and `menubar`) and `avatar` (BUI-010) are integrated, browser-verified (166/166 checks in `#/all`), and accepted.
+All five direct component export modules, `avatar` (BUI-010), and `tabs` (BUI-011) are integrated, browser-verified (172/172 checks in `#/all`), and accepted.
 `mui.system.Union` has been completely eliminated from `package baseui`.
 Continue from the [live plan's Resume here block](../plans/base-ui.md#resume-here), proceeding to
-integrate the remaining Group 2 modules (`tabs` and `collapsible`). The dated acceptance records below retain their original
+integrate the remaining Group 2 module (`collapsible`). The dated acceptance records below retain their original
 pre-commit wording and test results.
 Append new work and verification records here.
 
@@ -342,3 +342,23 @@ remain explicit backlog items. No group 2 implementation has started.
       - Restore valid image: status returns to `loaded`, image displays again.
       - Standalone Fallback-only Avatar: renders initials ("AB") directly without Image component.
     - `#/all`: all 42 samples mounted, settled summary `samples=42 checks=166/166` (all PASS, 0 failures).
+
+## Group 2 — BUI-011: Tabs namespace & ActivationDirection (2026-11-27)
+
+- **Status:** integrated, compiled, browser-verified, and accepted.
+- **Baseline:** clean working tree with `avatar` integrated.
+- **Scope:** add `"tabs"` to `BASE_UI_MODULES` in `Generator.kt`; emit namespace `external object Tabs` (`Root`, `List`, `Tab`, `Panel`, `Indicator`); verify `TabsRootOrientation` resolves to `Orientation` in `TabsRootProps` / `TabsRootState` / `TabsTabState` and `TabsTabActivationDirection` (`left`, `right`, `up`, `down`, `none`) is strongly typed in `TabsRootState` and `TabsTabState`; create interactive playground sample `TabsSample.kt` with tab switching, moving indicator, horizontal and vertical orientation, and disabled tab handling; register route `#/baseui/tabs` in `Registry.kt`.
+- **Generated declarations:** `Tabs.kt`, `TabsRoot.kt`, `TabsList.kt`, `TabsTab.kt`, `TabsPanel.kt`, `TabsIndicator.kt`, and their `.ext.kt` files added under `baseui/`. Pre-existing 780 generated files remain byte-for-byte identical.
+- **Verification:**
+  - `./gradlew :mui-kotlin:formatDeclarations`: 0 errors; verified 11,188 runtime bindings.
+  - `./gradlew :mui-kotlin:clean build`: clean build passed, reproducing `mui-kotlin/src/jsMain/kotlin` byte-for-byte with zero uncommitted drift (`git diff --exit-code`).
+  - `./gradlew :buildSrc:test`: all unit tests passed.
+  - `./gradlew :mui-kotlin:compileKotlinJs :playground:compileKotlinJs`: 0 errors.
+  - Browser verification (Chrome DevTools MCP) on `:playground:jsViteDev` (port 5173):
+    - `#/baseui/tabs`:
+      - All 6/6 checks PASS (`Tabs namespace is loaded`, `Tabs.Root is loaded`, `Tabs.List is loaded`, `Tabs.Tab is loaded`, `Tabs.Panel is loaded`, `TabsTabActivationDirection values distinct`).
+      - Tab switching interaction: clicking "Details" tab selects it, updates `StatusLine` (`activeTab=details`), and displays "Details" panel.
+      - Orientation toggle: clicking "Toggle orientation" switches layout to vertical, updating `Tabs.Root` and `Tabs.List` classes and `StatusLine` (`orientation=vertical`).
+      - Disabled tab: "Disable Settings Tab" sets `data-disabled` and `aria-disabled="true"` on Settings tab, preventing interaction.
+      - `Tabs.Indicator` renders and follows active tab.
+    - `#/all`: all 43 samples mounted, settled summary `samples=43 checks=172/172` (all PASS, 0 failures).
