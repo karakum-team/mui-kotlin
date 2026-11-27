@@ -14,8 +14,8 @@ Status refreshed from git history and generator code on **2026-11-27**.
   now generate usable runtime values at their public npm subpaths (`@base-ui/react/<module.id>`), extracting
   upstream JSDoc documentation, preserving outer export renames (`Provider as DirectionProvider`), and verifying
   via unit tests. The prerequisite is bounded and ready.
-- **Next task:** integrate `menubar`, one
-  independently verifiable task at a time. See [group 2](#group-2--after-prerequisites-bounded-fixes-and-repeatable-batches).
+- **Next task:** resolve simple named aliases/unions (gap 5 follow-up and gap 8), then integrate
+  `avatar`, `tabs`, and `collapsible`, one independently verifiable task at a time. See [group 2](#group-2--after-prerequisites-bounded-fixes-and-repeatable-batches).
 - **Scope and prerequisites:** the approved cycle covers groups 1 and 2. Groups 3–5 remain deferred.
   Check installed typings and exports before changing generation; module integration and full API/type
   coverage remain separate milestones.
@@ -30,8 +30,8 @@ filtering components (`FilterProvider`, `Input`, `List`, `Clear`, `Empty`) via `
 with generator adaptations and browser verification recorded below. The version remains pinned because Base UI
 has changed declaration shapes across 1.x.
 
-**Where this stands:** thirteen modules are in `BASE_UI_MODULES` in `Generator.kt`: `menu`, `slider`,
-`field`, `fieldset`, `switch`, `checkbox`, `accordion`, `number-field`, `toast`, `separator`, `button`, `csp-provider`, and `checkbox-group`. All have generated declarations, runtime namespace
+**Where this stands:** fourteen modules are in `BASE_UI_MODULES` in `Generator.kt`: `menu`, `slider`,
+`field`, `fieldset`, `switch`, `checkbox`, `accordion`, `number-field`, `toast`, `separator`, `button`, `csp-provider`, `checkbox-group`, and `menubar`. All have generated declarations, runtime namespace
 objects or direct component exports, and samples under `playground/src/jsMain/kotlin/playground/samples/baseui/`, registered in
 `playground/src/jsMain/kotlin/playground/shell/Registry.kt`. Inclusion does **not** mean full
 API or type coverage; the open gaps below affect existing modules as well as future additions.
@@ -774,7 +774,7 @@ dependencies are satisfied; this group does not require one large generator rewr
   - [x] `button` — direct component export `external val Button: FC<ButtonProps>` with `@file:JsModule("@base-ui/react/button")`, `ButtonSample.kt` covering focusableWhenDisabled, nativeButton, className/style/render helpers, verified interactive and in `#/all` (152/152 checks pass).
   - [x] `csp-provider` — direct component export `external val CSPProvider: FC<CSPProviderProps>` with `@file:JsModule("@base-ui/react/csp-provider")`, `CSPProviderSample.kt` covering nonce rotation, disableStyleElements toggle, verified interactive and in `#/all` (155/155 checks pass).
   - [x] `checkbox-group` — direct component export `external val CheckboxGroup: FC<CheckboxGroupProps>` with `@file:JsModule("@base-ui/react/checkbox-group")`, `CheckboxGroupSample.kt` covering parent/child checkboxes, indeterminate state, group disabled, and change events, verified interactive and in `#/all` (158/158 checks pass).
-  - [ ] `menubar` — one module remaining in batch. Check the exported value/subpath in a browser; exercise Menubar together with Menu.
+  - [x] `menubar` — direct component export `external val Menubar: FC<MenubarProps>` with `@file:JsModule("@base-ui/react/menubar")`, `MenubarSample.kt` coordinating menus within menubar, verified interactive and in `#/all` (161/161 checks pass).
 - [ ] **Resolve simple named aliases/unions** (gap 5 follow-up and gap 8), then `avatar`, `tabs`,
   and `collapsible` — three modules. Avatar introduces `ImageLoadingStatus`; Tabs has per-part
   aliases; Collapsible already has root/use-root declarations generated for Accordion. Its `Pick`

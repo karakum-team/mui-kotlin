@@ -6,11 +6,12 @@ Group 1 was committed in `32dc8f4a` (2026-10-01); its human commit checkpoint ha
 Status checked against git history on 2026-11-27.
 The bounded prerequisite for Group 2 — **direct component exports (gap 21)** — has been implemented
 and verified.
-The first four direct component export modules — `separator` (BUI-005), `button` (BUI-006), `csp-provider` (BUI-007), and `checkbox-group` (BUI-008) — are integrated,
-browser-verified (158/158 checks in `#/all`), and accepted.
+All five direct component export modules — `separator` (BUI-005), `button` (BUI-006), `csp-provider` (BUI-007),
+`checkbox-group` (BUI-008), and `menubar` (BUI-009) — are integrated, browser-verified (161/161 checks in `#/all`),
+and accepted.
 Continue from the [live plan's Resume here block](../plans/base-ui.md#resume-here), proceeding to
-integrate the remaining Group 2 module (`menubar`),
-one independently verifiable task at a time. The dated acceptance records below retain their original
+the next Group 2 task: resolve simple named aliases/unions (gap 5 follow-up and gap 8), then integrate
+`avatar`, `tabs`, and `collapsible`. The dated acceptance records below retain their original
 pre-commit wording and test results.
 Append new work and verification records here.
 
@@ -276,3 +277,23 @@ remain explicit backlog items. No group 2 implementation has started.
       - "Clear all" interaction: all fruits deselected, parent checkbox displays unchecked (`aria-checked="false"`).
       - "Toggle group disabled" interaction: sets `data-disabled` on both `CheckboxGroup` and child checkboxes.
     - `#/all`: all 40 samples mounted, settled summary `samples=40 checks=158/158` (all PASS, 0 failures).
+
+## Group 2 — BUI-009: Menubar direct export (2026-11-27)
+
+- **Status:** integrated, compiled, browser-verified, and accepted.
+- **Baseline:** clean working tree with `separator`, `button`, `csp-provider`, and `checkbox-group` integrated.
+- **Scope:** add `"menubar"` to `BASE_UI_MODULES` in `Generator.kt`; emit `@file:JsModule("@base-ui/react/menubar")` and `external val Menubar: FC<MenubarProps>` with official JSDoc; generate `MenubarProps` (inheriting `BaseUiDivProps`, with `disabled`, `modal`, `loopFocus`, `orientation`), `MenubarState` (`orientation`, `modal`, `hasSubmenuOpen`), and `Menubar.ext.kt` (`className`, `style`, `render` helpers); verify runtime export bindings; create interactive playground sample `MenubarSample.kt` coordinating File and Edit dropdown menus, menu item actions, and menubar-level disabled state; register route `#/baseui/menubar` in `Registry.kt`.
+- **Generated declarations:** `Menubar.kt` and `Menubar.ext.kt` added under `baseui/`. Pre-existing 764 generated files remain byte-for-byte identical.
+- **Verification:**
+  - `./gradlew :mui-kotlin:formatDeclarations`: 0 errors; verified 11,186 runtime bindings.
+  - `./gradlew :mui-kotlin:clean build`: clean build passed, reproducing `mui-kotlin/src/jsMain/kotlin` byte-for-byte with zero uncommitted drift (`git diff --exit-code`).
+  - `./gradlew :buildSrc:test`: all unit tests passed.
+  - `./gradlew :mui-kotlin:compileKotlinJs :playground:compileKotlinJs`: 0 errors.
+  - Browser verification (Chrome DevTools MCP) on `:playground:jsViteDev` (port 5173):
+    - `#/baseui/menubar`:
+      - All 3/3 checks PASS (`Menubar component is loaded`, `lastAction state is non-empty`, `menubar disabled is boolean`).
+      - Menubar mounts with `role="menubar"`, `aria-orientation="horizontal"`.
+      - File menu opens on trigger click, displaying "New File" and "Open File".
+      - Clicking "New File" updates `StatusLine` (`lastAction=New File disabled=false`).
+      - "Disable Menubar" sets `data-disabled` on triggers and disables menu interactions.
+    - `#/all`: all 41 samples mounted, settled summary `samples=41 checks=161/161` (all PASS, 0 failures).

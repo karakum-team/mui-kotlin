@@ -1454,6 +1454,7 @@ private val BASE_UI_MODULES = setOf(
     "button",
     "csp-provider",
     "checkbox-group",
+    "menubar",
 )
 
 /**
