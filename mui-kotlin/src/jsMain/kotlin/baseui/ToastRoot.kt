@@ -7,8 +7,6 @@
 
 package baseui
 
-import mui.system.Union
-
 external interface ToastRootProps :
     BaseUiDivProps {
     /**
@@ -20,7 +18,7 @@ external interface ToastRootProps :
      * Direction(s) in which the toast can be swiped to dismiss.
      * @default ['down', 'right']
      */
-    var swipeDirection: Union? /* 'up' | 'down' | 'left' | 'right' | ('up' | 'down' | 'left' | 'right')[] */
+    var swipeDirection: Any? /* ToastRootSwipeDirection | ReadonlyArray<ToastRootSwipeDirection> */
 }
 
 external interface ToastRootState {
@@ -52,5 +50,5 @@ external interface ToastRootState {
     /**
      * The direction the toast is being swiped.
      */
-    var swipeDirection: Union /* 'up' | 'down' | 'left' | 'right' */
+    var swipeDirection: ToastRootSwipeDirection
 }

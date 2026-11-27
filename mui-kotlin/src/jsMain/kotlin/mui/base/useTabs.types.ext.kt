@@ -5,12 +5,12 @@ package mui.base
 import seskar.js.JsValue
 
 sealed /* union */
-external interface useTabsDirection {
+external interface UseTabsDirection {
     companion object {
         @JsValue("ltr")
-        val ltr: useTabsDirection
+        val ltr: UseTabsDirection
 
         @JsValue("rtl")
-        val rtl: useTabsDirection
+        val rtl: UseTabsDirection
     }
 }

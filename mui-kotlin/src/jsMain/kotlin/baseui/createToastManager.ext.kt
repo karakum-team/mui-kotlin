@@ -5,18 +5,18 @@ package baseui
 import seskar.js.JsValue
 
 sealed /* union */
-external interface createToastManagerAction {
+external interface CreateToastManagerAction {
     companion object {
         @JsValue("add")
-        val add: createToastManagerAction
+        val add: CreateToastManagerAction
 
         @JsValue("close")
-        val close: createToastManagerAction
+        val close: CreateToastManagerAction
 
         @JsValue("update")
-        val update: createToastManagerAction
+        val update: CreateToastManagerAction
 
         @JsValue("promise")
-        val promise: createToastManagerAction
+        val promise: CreateToastManagerAction
     }
 }

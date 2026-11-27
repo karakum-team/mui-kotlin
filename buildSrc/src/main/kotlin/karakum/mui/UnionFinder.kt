@@ -48,6 +48,13 @@ internal val UNION_PROPERTIES = setOf(
     "touchEvent",
 
     "action",
+
+    // Base UI literal unions (gap 8)
+    "instant",
+    "thumbAlignment",
+    "thumbCollisionBehavior",
+    "positionMethod",
+    "priority",
 ) + TOP_UNION_PROPERTIES
 
 internal fun findDefaultUnions(
@@ -93,7 +100,7 @@ internal fun findDefaultUnions(
             }
 
             if ("P" !in property && property !in TOP_UNION_PROPERTIES)
-                className = name + className
+                className = name.replaceFirstChar(Char::titlecase) + className
 
             if (name == "usePagination" && property == "type")
                 className = "UsePaginationItemType"

@@ -40,3 +40,14 @@ external interface Align {
         val end: Align
     }
 }
+
+sealed /* union */
+external interface UseAnchorPositioningPositionMethod {
+    companion object {
+        @JsValue("absolute")
+        val absolute: UseAnchorPositioningPositionMethod
+
+        @JsValue("fixed")
+        val fixed: UseAnchorPositioningPositionMethod
+    }
+}

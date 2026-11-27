@@ -24,7 +24,7 @@ external interface ToastManager<Data> {
 }
 
 external interface ToastManagerEvent {
-    var action: createToastManagerAction
+    var action: CreateToastManagerAction
 
     var options: Any
 }

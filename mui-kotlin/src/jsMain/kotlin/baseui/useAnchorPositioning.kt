@@ -7,7 +7,6 @@
 
 package baseui
 
-import mui.system.Union
 import react.CSSProperties
 
 external interface UseAnchorPositioningSharedParameters {
@@ -21,7 +20,7 @@ external interface UseAnchorPositioningSharedParameters {
      * Determines which CSS `position` property to use.
      * @default 'absolute'
      */
-    var positionMethod: Union? /* 'absolute' | 'fixed' */
+    var positionMethod: UseAnchorPositioningPositionMethod?
 
     /**
      * Which side of the anchor element to align the popup against.

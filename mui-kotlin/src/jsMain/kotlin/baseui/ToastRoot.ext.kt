@@ -5,8 +5,26 @@ package baseui
 import react.CSSProperties
 import react.ReactElement
 import react.dom.html.HTMLAttributes
+import seskar.js.JsValue
 import web.cssom.ClassName
 import web.html.HTMLElement
+
+sealed /* union */
+external interface ToastRootSwipeDirection {
+    companion object {
+        @JsValue("up")
+        val up: ToastRootSwipeDirection
+
+        @JsValue("down")
+        val down: ToastRootSwipeDirection
+
+        @JsValue("left")
+        val left: ToastRootSwipeDirection
+
+        @JsValue("right")
+        val right: ToastRootSwipeDirection
+    }
+}
 
 /**
  * The state-dependent arm of `ToastRootProps.className`, upstream

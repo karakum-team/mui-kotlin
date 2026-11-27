@@ -4,6 +4,7 @@ import baseui.Orientation
 import baseui.Slider
 import baseui.SliderRootChangeEventDetails
 import baseui.SliderRootCommitEventDetails
+import baseui.SliderRootThumbCollisionBehavior
 import baseui.className
 import baseui.render
 import baseui.style
@@ -254,9 +255,8 @@ val SliderSample: Sample = Sample(
             minStepsBetweenValues = 10
             orientation = Orientation.vertical
 
-            // `mui.system.Union` is `String`: the string-literal unions Base UI declares inline are not
-            // sealed types yet, so the raw value is what a call site writes. See docs/plans/base-ui.md gap 8.
-            thumbCollisionBehavior = "swap"
+            // Typed sealed union (SliderRootThumbCollisionBehavior), resolving gap 8.
+            thumbCollisionBehavior = SliderRootThumbCollisionBehavior.swap
 
             // A range slider's value is a JS array, which reaches Kotlin as `Array<*>` through the widened
             // `Any?`. `toString()` on it would give `[...]`.

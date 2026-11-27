@@ -5,8 +5,37 @@ package baseui
 import react.CSSProperties
 import react.ReactElement
 import react.dom.html.HTMLAttributes
+import seskar.js.JsValue
 import web.cssom.ClassName
 import web.html.HTMLElement
+
+sealed /* union */
+external interface SliderRootThumbAlignment {
+    companion object {
+        @JsValue("center")
+        val center: SliderRootThumbAlignment
+
+        @JsValue("edge")
+        val edge: SliderRootThumbAlignment
+
+        @JsValue("edge-client-only")
+        val edgeClientOnly: SliderRootThumbAlignment
+    }
+}
+
+sealed /* union */
+external interface SliderRootThumbCollisionBehavior {
+    companion object {
+        @JsValue("push")
+        val push: SliderRootThumbCollisionBehavior
+
+        @JsValue("swap")
+        val swap: SliderRootThumbCollisionBehavior
+
+        @JsValue("none")
+        val none: SliderRootThumbCollisionBehavior
+    }
+}
 
 /**
  * The state-dependent arm of `SliderRootProps.className`, upstream

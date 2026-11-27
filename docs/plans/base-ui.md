@@ -10,12 +10,11 @@ Status refreshed from git history and generator code on **2026-11-27**.
 
 - **Completed:** group 1 (Fieldset, Switch, Checkbox, diagnostics) is committed in `32dc8f4a`
   (2026-10-01). The human commit checkpoint has passed.
-- **Completed prerequisite:** implemented **direct component exports (gap 21)**. Modules without a namespace object
-  now generate usable runtime values at their public npm subpaths (`@base-ui/react/<module.id>`), extracting
-  upstream JSDoc documentation, preserving outer export renames (`Provider as DirectionProvider`), and verifying
-  via unit tests. The prerequisite is bounded and ready.
-- **Next task:** resolve simple named aliases/unions (gap 5 follow-up and gap 8), then integrate
-  `avatar`, `tabs`, and `collapsible`, one independently verifiable task at a time. See [group 2](#group-2--after-prerequisites-bounded-fixes-and-repeatable-batches).
+- **Completed prerequisite:** implemented **direct component exports (gap 21)** and integrated all
+  five direct export modules (`separator`, `button`, `csp-provider`, `checkbox-group`, and `menubar`).
+  Resolved **simple named aliases/unions (gap 5 follow-up and gap 8)**, completely eliminating `mui.system.Union`
+  from `package baseui` and strongly typing per-part unions (`MenuRootOrientation`) and inline unions (`SliderRootThumbCollisionBehavior`, `MenuPopupInstant`, etc.).
+- **Next task:** integrate `avatar`, `tabs`, and `collapsible`, one independently verifiable task at a time. See [group 2](#group-2--after-prerequisites-bounded-fixes-and-repeatable-batches).
 - **Scope and prerequisites:** the approved cycle covers groups 1 and 2. Groups 3–5 remain deferred.
   Check installed typings and exports before changing generation; module integration and full API/type
   coverage remain separate milestones.
@@ -510,18 +509,11 @@ Gap 21 records the direct-export prerequisite identified while ordering the rema
    (`AriaCombobox`), so it is latent for now. Still unlogged: `unusedBaseUiStubs` only notices
    when a *known* stub stops being referenced, not when a namespace member is dropped in the first place,
    which is the failure that has to be found by hand today.
-8. **`instant` is typed `mui.system.Union`** (= `String`) in `MenuPopup` / `MenuViewport` — both a
-   `hard_rules` #6 violation (a string-literal union that should be sealed) and the only `mui.*`
-   dependency kind left in `baseui` (`import mui.system.Union`), which should not exist. Emit a
-   per-part sealed type instead. `slider` added two more: `SliderRootProps.thumbAlignment`
-   (`'center' | 'edge' | 'edge-client-only'`) and `.thumbCollisionBehavior` (`'push' | 'swap' | 'none'`),
-   so the sample has to write `thumbCollisionBehavior = "swap"` as a bare string. Anchor positioning
-   added `UseAnchorPositioningSharedParameters.positionMethod` (`'absolute' | 'fixed'`). Toast adds more,
-   including `ToastObject.priority` / `.transitionStatus`. The import now occurs in six files:
-   `MenuPopup`, `MenuViewport`, `SliderRoot`, `useAnchorPositioning`, `ToastRoot`, and `useToastManager`.
-   Note `MenuPositionerState.instant` comes out as plain
-   `String` and that is *correct*: upstream declares that one `string | undefined`, not as the literal
-   union — the two shapes differ in Base UI itself, so do not "fix" them into one.
+8. ~~**`instant` is typed `mui.system.Union`**~~ — done. Added inline literal union properties
+   (`instant`, `thumbAlignment`, `thumbCollisionBehavior`, `positionMethod`, `priority`, `swipeDirection`)
+   to `UNION_PROPERTIES` and implemented `harvestBaseUiExportedTypes`, generating per-part sealed
+   unions (`MenuPopupInstant`, `SliderRootThumbCollisionBehavior`, etc.) and completely eliminating
+   `import mui.system.Union` from `package baseui`. The browser confirms all samples pass.
 10. **`BaseUiDivProps['onClick']` indexed-access types stay `Any?`** (4 members, `MenuItem` /
    `MenuLinkItem`). Resolvable by substituting the parent member's type. Until then a call site has to
    annotate the parameter itself — the sample writes `onClick = { _: MouseEvent<*, *> -> … }`, which is
@@ -775,7 +767,7 @@ dependencies are satisfied; this group does not require one large generator rewr
   - [x] `csp-provider` — direct component export `external val CSPProvider: FC<CSPProviderProps>` with `@file:JsModule("@base-ui/react/csp-provider")`, `CSPProviderSample.kt` covering nonce rotation, disableStyleElements toggle, verified interactive and in `#/all` (155/155 checks pass).
   - [x] `checkbox-group` — direct component export `external val CheckboxGroup: FC<CheckboxGroupProps>` with `@file:JsModule("@base-ui/react/checkbox-group")`, `CheckboxGroupSample.kt` covering parent/child checkboxes, indeterminate state, group disabled, and change events, verified interactive and in `#/all` (158/158 checks pass).
   - [x] `menubar` — direct component export `external val Menubar: FC<MenubarProps>` with `@file:JsModule("@base-ui/react/menubar")`, `MenubarSample.kt` coordinating menus within menubar, verified interactive and in `#/all` (161/161 checks pass).
-- [ ] **Resolve simple named aliases/unions** (gap 5 follow-up and gap 8), then `avatar`, `tabs`,
+- [x] **Resolve simple named aliases/unions** (gap 5 follow-up and gap 8 implemented: `harvestBaseUiExportedTypes` for top-level `export type` aliases/unions, inline union properties added to `UNION_PROPERTIES`, `mui.system.Union` completely eliminated from `package baseui`). Next: `avatar`, `tabs`,
   and `collapsible` — three modules. Avatar introduces `ImageLoadingStatus`; Tabs has per-part
   aliases; Collapsible already has root/use-root declarations generated for Accordion. Its `Pick`
   member selection remains part of gap 19.

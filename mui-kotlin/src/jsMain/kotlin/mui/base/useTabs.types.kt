@@ -26,7 +26,7 @@ external interface UseTabsParameters {
      * The direction of the text.
      * @default 'ltr'
      */
-    var direction: useTabsDirection?
+    var direction: UseTabsDirection?
 
     /**
      * Callback invoked when new value is being set.

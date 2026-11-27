@@ -1704,6 +1704,8 @@ private fun RuntimeBindings.generateBaseUiDeclarations(
     // Built over the whole file set up front: namespace references cross files (`MenuSubmenuRoot.d.ts`
     // extends `MenuRoot.Props`), so a per-file map would leave those unresolved.
     val aliases = buildBaseUiAliases(files)
+    val harvestedTypes = harvestBaseUiExportedTypes(files)
+    val baseUiKnownTypes = BASE_UI_KNOWN_TYPES + harvestedTypes
     val reasonParts = typesDir.resolve("internals/reason-parts.d.ts").readText()
 
     val bodiesByFile = mutableMapOf<File, String>()
@@ -1713,8 +1715,9 @@ private fun RuntimeBindings.generateBaseUiDeclarations(
             targetDir = targetDir,
             pkg = Package.baseUi,
             typesOnly = true,
+            knownTypes = baseUiKnownTypes,
             preprocess = {
-                adaptBaseUiContent(resolveBaseUiDirectionalReasons(it, reasonParts), aliases, BASE_UI_KNOWN_TYPES)
+                adaptBaseUiContent(resolveBaseUiDirectionalReasons(it, reasonParts), aliases, baseUiKnownTypes)
             },
         )?.also { body ->
             bodiesByFile[file] = body
@@ -1874,6 +1877,7 @@ private fun RuntimeBindings.generate(
     // that emission in [generatePickersClasses] — the rule at the tail of this function cannot reach 16
     // of their 27 class objects and gets `dayCalendarClasses`' module subpath wrong.
     emitClasses: Boolean = true,
+    knownTypes: Map<String, String>? = null,
 ): String? {
     // MUI v6 sometimes ships only `<Component>/index.d.ts` (e.g. useMediaQuery, OverridableComponent).
     // Fall back to it when the standard `<Component>.d.ts` is missing.
@@ -1900,7 +1904,7 @@ private fun RuntimeBindings.generate(
         typesOnly = typesOnly,
         preprocess = preprocess,
         keepEmptyBodyParents = pkg == Package.baseUi,
-        knownTypes = when (pkg) {
+        knownTypes = knownTypes ?: when (pkg) {
             Package.baseUi -> BASE_UI_KNOWN_TYPES
             Package.treeView -> TREE_VIEW_KNOWN_TYPES
             else -> emptyMap()

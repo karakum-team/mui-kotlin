@@ -4,14 +4,13 @@
 
 Group 1 was committed in `32dc8f4a` (2026-10-01); its human commit checkpoint has passed.
 Status checked against git history on 2026-11-27.
-The bounded prerequisite for Group 2 — **direct component exports (gap 21)** — has been implemented
-and verified.
+The bounded prerequisites for Group 2 — **direct component exports (gap 21)** and **simple named aliases/unions (gap 5 follow-up and gap 8)** — have been implemented and verified.
 All five direct component export modules — `separator` (BUI-005), `button` (BUI-006), `csp-provider` (BUI-007),
 `checkbox-group` (BUI-008), and `menubar` (BUI-009) — are integrated, browser-verified (161/161 checks in `#/all`),
 and accepted.
+`mui.system.Union` has been completely eliminated from `package baseui`.
 Continue from the [live plan's Resume here block](../plans/base-ui.md#resume-here), proceeding to
-the next Group 2 task: resolve simple named aliases/unions (gap 5 follow-up and gap 8), then integrate
-`avatar`, `tabs`, and `collapsible`. The dated acceptance records below retain their original
+integrate the next Group 2 modules (`avatar`, `tabs`, and `collapsible`). The dated acceptance records below retain their original
 pre-commit wording and test results.
 Append new work and verification records here.
 
@@ -296,4 +295,32 @@ remain explicit backlog items. No group 2 implementation has started.
       - File menu opens on trigger click, displaying "New File" and "Open File".
       - Clicking "New File" updates `StatusLine` (`lastAction=New File disabled=false`).
       - "Disable Menubar" sets `data-disabled` on triggers and disables menu interactions.
+    - `#/all`: all 41 samples mounted, settled summary `samples=41 checks=161/161` (all PASS, 0 failures).
+
+## Group 2 — Gap 5 follow-up & Gap 8: Simple named aliases & literal unions (2026-11-27)
+
+- **Status:** implemented, compiled, browser-verified, and accepted.
+- **Baseline:** clean working tree with all five direct component export modules (`separator`, `button`, `csp-provider`, `checkbox-group`, and `menubar`) integrated.
+- **Scope:**
+  - In `BaseUi.kt`, implement `harvestBaseUiExportedTypes` to scan all active `.d.ts` files for top-level `export type` definitions and string-literal unions (`MenuRootOrientation`, `InputMode`, etc.), seeding them into `baseUiKnownTypes` in `Generator.kt`.
+  - In `UnionFinder.kt`, add Base UI literal union properties (`instant`, `thumbAlignment`, `thumbCollisionBehavior`, `positionMethod`, `priority`) to `UNION_PROPERTIES` and capitalize property prefixes for hook/utility containers.
+  - In `adaptBaseUiContent`, introduce `ToastRootSwipeDirection` and map `useToastManager` `transitionStatus` to `TransitionStatus`.
+  - Completely eliminate `import mui.system.Union` from `package baseui`.
+  - Update `SliderSample.kt` in playground to use typed `SliderRootThumbCollisionBehavior.swap`.
+- **Generated declarations:**
+  - `MenuRoot.kt` & `Menubar.kt`: `orientation` typed as `MenuRootOrientation?` (and `MenubarState.orientation` as `MenuRootOrientation`).
+  - `MenuPopup.kt` & `MenuViewport.kt`: `instant` typed as `MenuPopupInstant` / `MenuViewportInstant`.
+  - `SliderRoot.kt`: `thumbAlignment` typed as `SliderRootThumbAlignment?` and `thumbCollisionBehavior` as `SliderRootThumbCollisionBehavior?`.
+  - `useAnchorPositioning.kt`: `positionMethod` typed as `UseAnchorPositioningPositionMethod?`.
+  - `useToastManager.kt`: `priority` typed as `UseToastManagerPriority?` and `transitionStatus` typed as `TransitionStatus?`.
+  - `ToastRoot.kt`: `swipeDirection` typed as `ToastRootSwipeDirection` in state and `ToastRootSwipeDirection | ReadonlyArray<ToastRootSwipeDirection>` in props.
+  - Zero imports of `mui.system.Union` remain in `package baseui`.
+- **Verification:**
+  - `./gradlew :mui-kotlin:formatDeclarations`: 0 errors; verified 11,186 runtime bindings.
+  - `./gradlew :mui-kotlin:clean build`: clean build passed, reproducing `mui-kotlin/src/jsMain/kotlin` byte-for-byte with zero uncommitted drift (`git diff --exit-code`).
+  - `./gradlew :buildSrc:test`: all unit tests passed.
+  - `./gradlew :mui-kotlin:compileKotlinJs :playground:compileKotlinJs`: 0 errors.
+  - `./gradlew build`: full build successful.
+  - Browser verification (Chrome DevTools MCP) on `:playground:jsViteDev` (port 5173):
+    - `#/baseui/slider`: interactive slider with `thumbCollisionBehavior = SliderRootThumbCollisionBehavior.swap` verified working.
     - `#/all`: all 41 samples mounted, settled summary `samples=41 checks=161/161` (all PASS, 0 failures).

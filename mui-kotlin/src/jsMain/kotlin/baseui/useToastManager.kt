@@ -9,7 +9,6 @@ package baseui
 
 import js.array.ReadonlyArray
 import js.promise.Promise
-import mui.system.Union
 import react.Props
 import react.ReactNode
 import web.dom.ElementId
@@ -49,12 +48,12 @@ external interface ToastObject<Data> {
      * - `high` - The toast will be announced urgently.
      * @default 'low'
      */
-    var priority: Union? /* 'low' | 'high' */
+    var priority: UseToastManagerPriority?
 
     /**
      * The transition status of the toast.
      */
-    var transitionStatus: Union? /* 'starting' | 'ending' */
+    var transitionStatus: TransitionStatus?
 
     /**
      * A counter that increments whenever the toast is updated or upserted.

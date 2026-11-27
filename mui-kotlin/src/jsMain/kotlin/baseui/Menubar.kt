@@ -29,7 +29,7 @@ external interface MenubarProps :
      * The orientation of the menubar.
      * @default 'horizontal'
      */
-    var orientation: Any? /* MenuRootOrientation */
+    var orientation: MenuRootOrientation?
 
     /**
      * Whether to loop keyboard focus back to the first item
@@ -43,7 +43,7 @@ external interface MenubarState {
     /**
      * The orientation of the menubar.
      */
-    var orientation: Any? /* MenuRootOrientation */
+    var orientation: MenuRootOrientation
 
     /**
      * Whether the menubar is modal.

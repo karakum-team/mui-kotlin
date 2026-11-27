@@ -78,7 +78,7 @@ external interface MenuRootProps : PropsWithChildren {
      * Controls whether roving focus uses up/down or left/right arrow keys.
      * @default 'vertical'
      */
-    var orientation: Any? /* MenuRootOrientation */
+    var orientation: MenuRootOrientation?
 
     /**
      * Whether the component should ignore user interaction.

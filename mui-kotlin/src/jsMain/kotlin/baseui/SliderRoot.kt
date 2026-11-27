@@ -7,8 +7,6 @@
 
 package baseui
 
-import mui.system.Union
-
 external interface SliderRootProps :
     BaseUiDivProps {
     /**
@@ -93,7 +91,7 @@ external interface SliderRootProps :
      * - `edge-client-only`: Same as `edge` but renders after React hydration on the client, reducing bundle size in return
      * @default 'center'
      */
-    var thumbAlignment: Union? /* 'center' | 'edge' | 'edge-client-only' */
+    var thumbAlignment: SliderRootThumbAlignment?
 
     /**
      * Controls how thumbs behave when they collide during pointer interactions.
@@ -104,7 +102,7 @@ external interface SliderRootProps :
      *
      * @default 'push'
      */
-    var thumbCollisionBehavior: Union? /* 'push' | 'swap' | 'none' */
+    var thumbCollisionBehavior: SliderRootThumbCollisionBehavior?
 
     /**
      * The value of the slider.

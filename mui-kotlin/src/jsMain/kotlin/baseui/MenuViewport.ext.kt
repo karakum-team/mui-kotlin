@@ -5,8 +5,26 @@ package baseui
 import react.CSSProperties
 import react.ReactElement
 import react.dom.html.HTMLAttributes
+import seskar.js.JsValue
 import web.cssom.ClassName
 import web.html.HTMLElement
+
+sealed /* union */
+external interface MenuViewportInstant {
+    companion object {
+        @JsValue("dismiss")
+        val dismiss: MenuViewportInstant
+
+        @JsValue("click")
+        val click: MenuViewportInstant
+
+        @JsValue("group")
+        val group: MenuViewportInstant
+
+        @JsValue("trigger-change")
+        val triggerChange: MenuViewportInstant
+    }
+}
 
 /**
  * The state-dependent arm of `MenuViewportProps.className`, upstream

@@ -7,7 +7,6 @@
 
 package baseui
 
-import mui.system.Union
 import react.PropsWithChildren
 import react.ReactNode
 
@@ -34,5 +33,5 @@ external interface MenuViewportState {
     /**
      * Present if animations should be instant.
      */
-    var instant: Union /* 'dismiss' | 'click' | 'group' | 'trigger-change' */
+    var instant: MenuViewportInstant
 }

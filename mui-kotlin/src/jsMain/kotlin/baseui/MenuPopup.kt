@@ -7,7 +7,6 @@
 
 package baseui
 
-import mui.system.Union
 import react.PropsWithChildren
 import react.ReactNode
 import web.dom.ElementId
@@ -63,5 +62,5 @@ external interface MenuPopupState {
     /**
      * Whether transitions should be skipped.
      */
-    var instant: Union /* 'dismiss' | 'click' | 'group' | 'trigger-change' */
+    var instant: MenuPopupInstant
 }

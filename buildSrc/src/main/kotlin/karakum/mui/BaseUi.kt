@@ -523,6 +523,22 @@ internal fun adaptBaseUiContent(
         .replace("FilterDropdownRoot.ChangeEventDetails", "BaseUIChangeEventDetails")
         .interfaceStateAliases()
         .interfaceEventDetails()
+        .replace(
+            "export interface ToastRootState",
+            "export type ToastRootSwipeDirection = 'up' | 'down' | 'left' | 'right';\nexport interface ToastRootState",
+        )
+        .replace(
+            "swipeDirection: 'up' | 'down' | 'left' | 'right' | undefined;",
+            "swipeDirection: ToastRootSwipeDirection | undefined;",
+        )
+        .replace(
+            Regex("""swipeDirection\?:\s*'up'\s*\|\s*'down'\s*\|\s*'left'\s*\|\s*'right'\s*\|\s*\([^)]+\)\[\]\s*\|\s*undefined;"""),
+            "swipeDirection?: ToastRootSwipeDirection | ReadonlyArray<ToastRootSwipeDirection> | undefined;",
+        )
+        .replace(
+            Regex("""transitionStatus\?:\s*'starting'\s*\|\s*'ending'\s*\|\s*undefined;"""),
+            "transitionStatus?: TransitionStatus | undefined;",
+        )
         .resolveNamespaceStubs()
         .resolveComponentProps()
         .inlineForeignAliases()
@@ -1036,3 +1052,41 @@ private val NAMESPACE_BLOCK = Regex("""export declare namespace (\w+) \{\n(.*?)\
 // against `SliderLabel.State`.
 private val NAMESPACE_ALIAS =
     Regex("""(?:^|\n)\s*type (\w+)(?:<(?:[^<>]|<[^<>]*>)*>)?\s*=\s*([A-Za-z0-9_.]+)""")
+
+/**
+ * Scans Base UI `.d.ts` files for exported type aliases and string-literal unions so that per-part
+ * unions (`export type MenuRootOrientation = 'horizontal' | 'vertical'`) and simple aliases
+ * (`export type TabsRootOrientation = BaseOrientation`) resolve as known Kotlin types instead of
+ * widening to `Any? /* … */`. See gap 5 follow-up and gap 8.
+ */
+internal fun harvestBaseUiExportedTypes(
+    files: Iterable<File>,
+): Map<String, String> {
+    val knownTypes = mutableMapOf<String, String>()
+    val exportTypeRegex = Regex("""export (?:declare )?type (\w+)\s*=\s*([^;]+);""")
+
+    for (file in files) {
+        val content = file.readText()
+        for (match in exportTypeRegex.findAll(content)) {
+            val (name, rhsRaw) = match.destructured
+            val rhs = rhsRaw.trim()
+            when {
+                // String literal union: e.g. `'idle' | 'loading' | 'loaded' | 'error'`
+                rhs.startsWith("'") && rhs.endsWith("'") && !rhs.contains("\n") -> {
+                    knownTypes[name] = if (rhs.contains("undefined")) "$name?" else name
+                }
+                // Alias to BaseOrientation / Orientation
+                rhs == "BaseOrientation" || rhs == "Orientation" -> {
+                    knownTypes[name] = "Orientation"
+                }
+                // Alias to any | null
+                rhs == "any | null" -> {
+                    knownTypes[name] = "Any?"
+                }
+            }
+        }
+    }
+
+    return knownTypes
+}
+

@@ -5,8 +5,26 @@ package baseui
 import react.CSSProperties
 import react.ReactElement
 import react.dom.html.HTMLAttributes
+import seskar.js.JsValue
 import web.cssom.ClassName
 import web.html.HTMLElement
+
+sealed /* union */
+external interface MenuPopupInstant {
+    companion object {
+        @JsValue("dismiss")
+        val dismiss: MenuPopupInstant
+
+        @JsValue("click")
+        val click: MenuPopupInstant
+
+        @JsValue("group")
+        val group: MenuPopupInstant
+
+        @JsValue("trigger-change")
+        val triggerChange: MenuPopupInstant
+    }
+}
 
 /**
  * The state-dependent arm of `MenuPopupProps.className`, upstream
