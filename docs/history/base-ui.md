@@ -6,10 +6,10 @@ Group 1 was committed in `32dc8f4a` (2026-10-01); its human commit checkpoint ha
 Status checked against git history on 2026-11-27.
 The bounded prerequisite for Group 2 — **direct component exports (gap 21)** — has been implemented
 and verified.
-The first three direct component export modules — `separator` (BUI-005), `button` (BUI-006), and `csp-provider` (BUI-007) — are integrated,
-browser-verified (155/155 checks in `#/all`), and accepted.
+The first four direct component export modules — `separator` (BUI-005), `button` (BUI-006), `csp-provider` (BUI-007), and `checkbox-group` (BUI-008) — are integrated,
+browser-verified (158/158 checks in `#/all`), and accepted.
 Continue from the [live plan's Resume here block](../plans/base-ui.md#resume-here), proceeding to
-integrate the remaining Group 2 modules (`checkbox-group` and `menubar`),
+integrate the remaining Group 2 module (`menubar`),
 one independently verifiable task at a time. The dated acceptance records below retain their original
 pre-commit wording and test results.
 Append new work and verification records here.
@@ -256,3 +256,23 @@ remain explicit backlog items. No group 2 implementation has started.
       - Disable style elements toggle: clicking button updates `disableStyleElements` in `StatusLine` (`disableStyleElements=true`).
       - Provider wraps child content seamlessly without errors.
     - `#/all`: all 39 samples mounted, settled summary `samples=39 checks=155/155` (all PASS, 0 failures).
+
+## Group 2 — BUI-008: CheckboxGroup direct export (2026-11-27)
+
+- **Status:** integrated, compiled, browser-verified, and accepted.
+- **Baseline:** clean working tree with `separator`, `button`, and `csp-provider` integrated.
+- **Scope:** add `"checkbox-group"` to `BASE_UI_MODULES` in `Generator.kt`; emit `@file:JsModule("@base-ui/react/checkbox-group")` and `external val CheckboxGroup: FC<CheckboxGroupProps>` with official JSDoc; generate `CheckboxGroupProps` (inheriting `BaseUiDivProps`, with `value`, `defaultValue`, `onValueChange`, `allValues`, `disabled`), `CheckboxGroupState` (`FieldRootState`, `disabled`), and `CheckboxGroup.ext.kt` (`className`, `style`, `render` helpers); verify runtime export bindings; create interactive playground sample `CheckboxGroupSample.kt` with parent/child checkboxes, automatic indeterminate state, group-level disabled state, and select/clear controls; register route `#/baseui/checkbox-group` in `Registry.kt`.
+- **Generated declarations:** `CheckboxGroup.kt` and `CheckboxGroup.ext.kt` added under `baseui/`. Pre-existing 762 generated files remain byte-for-byte identical.
+- **Verification:**
+  - `./gradlew :mui-kotlin:formatDeclarations`: 0 errors; verified 11,185 runtime bindings.
+  - `./gradlew :mui-kotlin:clean build`: clean build passed, reproducing `mui-kotlin/src/jsMain/kotlin` byte-for-byte with zero uncommitted drift (`git diff --exit-code`).
+  - `./gradlew :buildSrc:test`: all unit tests passed.
+  - `./gradlew :mui-kotlin:compileKotlinJs :playground:compileKotlinJs`: 0 errors.
+  - Browser verification (Chrome DevTools MCP) on `:playground:jsViteDev` (port 5173):
+    - `#/baseui/checkbox-group`:
+      - All 3/3 checks PASS (`CheckboxGroup component is loaded`, `selected count is non-negative`, `group disabled is boolean`).
+      - Initial state: 1 fruit selected (`apple`), parent checkbox displays minus indicator (`aria-checked="mixed"`).
+      - "Select all" interaction: all 3 fruits selected, parent checkbox updates to checkmark (`aria-checked="true"`, `data-checked=""`), `StatusLine` shows `selected=apple,banana,orange count=3`.
+      - "Clear all" interaction: all fruits deselected, parent checkbox displays unchecked (`aria-checked="false"`).
+      - "Toggle group disabled" interaction: sets `data-disabled` on both `CheckboxGroup` and child checkboxes.
+    - `#/all`: all 40 samples mounted, settled summary `samples=40 checks=158/158` (all PASS, 0 failures).

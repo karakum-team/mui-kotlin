@@ -1453,6 +1453,7 @@ private val BASE_UI_MODULES = setOf(
     "separator",
     "button",
     "csp-provider",
+    "checkbox-group",
 )
 
 /**
